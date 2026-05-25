@@ -147,6 +147,39 @@
       text-decoration: underline;
     }
 
+    details {
+      margin-top: 6px;
+    }
+
+    details summary {
+      list-style: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #71717a;
+      padding: 6px 2px;
+      user-select: none;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    details summary .chevron {
+      font-size: 10px;
+      display: inline-block;
+      transition: transform 150ms;
+    }
+
+    details[open] summary .chevron {
+      transform: rotate(90deg);
+    }
+
+    details summary:hover {
+      color: #3f3f46;
+    }
+
     .arrow {
       color: #a1a1aa;
       font-size: 16px;
@@ -204,70 +237,76 @@
     <section>
       <p class="section-label">Batch 2 · CMS Content</p>
       <p class="figma-note">These wireframes are for reference only. Final designs are in <a href="https://www.figma.com/design/jw0Qp9G1ANd9zIOofeQ6yV/-CLIENT--SouthStar-Expanded-Markets-Redesign-2026?node-id=4-80&t=Q9qdPTbUHbmvQByC-1" target="_blank">Figma →</a></p>
-      <ul>
-        <li><a href="GeneralInformational_Wireframe.html" target="_blank">
-          <span class="link-name">General Informational</span>
-          <span class="link-desc">Interior page template</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="ContentPage_Wireframe.html" target="_blank">
-          <span class="link-name">Generic Content Page</span>
-          <span class="link-desc">Flexible content template</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="ContactFormUtility_Wireframe.html" target="_blank">
-          <span class="link-name">Contact &amp; Utility Directory</span>
-          <span class="link-desc">Contact page with LDC directory</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="LegalCompliance_Wireframe.html" target="_blank">
-          <span class="link-name">Legal / Compliance</span>
-          <span class="link-desc">Terms, disclosures, regulatory pages</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="PromoPage_Wireframe.html" target="_blank">
-          <span class="link-name">Promotional Page</span>
-          <span class="link-desc">Campaign / offer landing page</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="SearchResults_Wireframe.html" target="_blank">
-          <span class="link-name">Search Results</span>
-          <span class="link-desc">Site-wide search</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="FAQ_Wireframe.html" target="_blank">
-          <span class="link-name">FAQ <span class="badge badge-ref">Reference only</span></span>
-          <span class="link-desc">/faq/ 301s to /learning-center/ — retained for reference</span>
-          <span class="arrow">→</span>
-        </a></li>
-      </ul>
+      <details>
+        <summary><span class="chevron">▸</span> Show wireframes</summary>
+        <ul>
+          <li><a href="GeneralInformational_Wireframe.html" target="_blank">
+            <span class="link-name">General Informational</span>
+            <span class="link-desc">Interior page template</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="ContentPage_Wireframe.html" target="_blank">
+            <span class="link-name">Generic Content Page</span>
+            <span class="link-desc">Flexible content template</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="ContactFormUtility_Wireframe.html" target="_blank">
+            <span class="link-name">Contact &amp; Utility Directory</span>
+            <span class="link-desc">Contact page with LDC directory</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="LegalCompliance_Wireframe.html" target="_blank">
+            <span class="link-name">Legal / Compliance</span>
+            <span class="link-desc">Terms, disclosures, regulatory pages</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="PromoPage_Wireframe.html" target="_blank">
+            <span class="link-name">Promotional Page</span>
+            <span class="link-desc">Campaign / offer landing page</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="SearchResults_Wireframe.html" target="_blank">
+            <span class="link-name">Search Results</span>
+            <span class="link-desc">Site-wide search</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="FAQ_Wireframe.html" target="_blank">
+            <span class="link-name">FAQ <span class="badge badge-ref">Reference only</span></span>
+            <span class="link-desc">/faq/ 301s to /learning-center/ — retained for reference</span>
+            <span class="arrow">→</span>
+          </a></li>
+        </ul>
+      </details>
     </section>
 
     <section>
       <p class="section-label">Batch 1 · CMS Content</p>
       <p class="figma-note">These wireframes are for reference only. Final designs are in <a href="https://www.figma.com/design/jw0Qp9G1ANd9zIOofeQ6yV/-CLIENT--SouthStar-Expanded-Markets-Redesign-2026?node-id=4-80&t=Q9qdPTbUHbmvQByC-1" target="_blank">Figma →</a></p>
-      <ul>
-        <li><a href="Homepage_Wireframe.html" target="_blank">
-          <span class="link-name">Homepage</span>
-          <span class="link-desc">ohionaturalgas.com / market variants</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="ResidentialPlans_Wireframe.html" target="_blank">
-          <span class="link-name">Plans Listing</span>
-          <span class="link-desc">Fixed &amp; variable plan variants</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="CommercialPlans_Wireframe.html" target="_blank">
-          <span class="link-name">Commercial Plans Listing</span>
-          <span class="link-desc">B2B plans listing</span>
-          <span class="arrow">→</span>
-        </a></li>
-        <li><a href="LearningCenter_Wireframe.html" target="_blank">
-          <span class="link-name">Learning Center</span>
-          <span class="link-desc">Hub · Pillar Hub · Article</span>
-          <span class="arrow">→</span>
-        </a></li>
-      </ul>
+      <details>
+        <summary><span class="chevron">▸</span> Show wireframes</summary>
+        <ul>
+          <li><a href="Homepage_Wireframe.html" target="_blank">
+            <span class="link-name">Homepage</span>
+            <span class="link-desc">ohionaturalgas.com / market variants</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="ResidentialPlans_Wireframe.html" target="_blank">
+            <span class="link-name">Plans Listing</span>
+            <span class="link-desc">Fixed &amp; variable plan variants</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="CommercialPlans_Wireframe.html" target="_blank">
+            <span class="link-name">Commercial Plans Listing</span>
+            <span class="link-desc">B2B plans listing</span>
+            <span class="arrow">→</span>
+          </a></li>
+          <li><a href="LearningCenter_Wireframe.html" target="_blank">
+            <span class="link-name">Learning Center</span>
+            <span class="link-desc">Hub · Pillar Hub · Article</span>
+            <span class="arrow">→</span>
+          </a></li>
+        </ul>
+      </details>
     </section>
 
     <footer>
