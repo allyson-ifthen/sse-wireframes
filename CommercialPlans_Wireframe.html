@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commercial Plans — Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.market-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 26px 32px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-sm { background: #e8641a; color: #fff; border: none; padding: 5px 12px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-input { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 12px; color: #aaa; font-style: italic; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.metrics-bar { background: #1e3a5f; color: #fff; padding: 10px 24px; display: flex; gap: 20px; font-size: 11px; flex-wrap: wrap; }
+.m-val { font-size: 15px; font-weight: 900; color: #7ec8e3; }
+.m-lbl { color: #aac4d9; }
+.m-tgt { color: #a5d6a7; font-size: 10px; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 600px; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+.divider { height: 1px; background: #e8e8e4; margin: 0 24px; }
+.sec-divider { background: #e8e8e4; padding: 5px 24px; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .07em; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.badge-fixed { background: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; border-radius: 3px; padding: 2px 7px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.badge-variable { background: #f5f5f5; color: #666; border: 1px solid #ccc; border-radius: 3px; padding: 2px 7px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.badge-custom { background: #fff3e0; color: #e65100; border: 1px solid #ffcc02; border-radius: 3px; padding: 2px 7px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.badge-na { background: #f5f5f5; color: #aaa; border: 1px solid #ddd; border-radius: 3px; padding: 2px 7px; font-size: 9px; font-weight: 700; }
+
+/* ── COMMERCIAL SPECIFIC ── */
+.ldc-widget { background: #f0f6ff; border: 2px solid #7aabda; border-radius: 6px; padding: 20px 22px; }
+.ldc-widget-title { font-size: 15px; font-weight: 800; color: #1e3a5f; margin-bottom: 4px; }
+.ldc-widget-sub { font-size: 12px; color: #666; margin-bottom: 14px; }
+.ldc-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.ldc-btn { background: #fff; border: 2px solid #1e3a5f; color: #1e3a5f; padding: 10px 20px; font-size: 13px; font-weight: 700; border-radius: 4px; cursor: pointer; }
+.ldc-btn:hover, .ldc-btn.selected { background: #1e3a5f; color: #fff; }
+.comm-plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+
+/* ────────────────────────────────────────────────────────────
+   UNIFIED PLAN CARD COMPONENT (.pc · per PlanCard_Wireframe.html)
+   Replaces legacy .comm-plan-card chassis. Commercial conventions
+   per PC-D16. B3 propagation 2026-05-14.
+──────────────────────────────────────────────────────────── */
+.pc { border: 1.5px solid #d0cfc9; border-radius: 5px; overflow: hidden; background: #fff; position: relative; width: 100%; }
+.pc.featured { border-color: #e8641a; border-width: 2px; }
+
+.pc-head { padding: 12px 14px 10px; background: #f7f7f5; border-bottom: 1px solid #ebebeb; }
+.pc-badge-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 6px; }
+.pc-badge { border-radius: 3px; padding: 2px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; display: inline-block; }
+.badge-popular { background: #e8641a; color: #fff; border: 1px solid #e8641a; }
+
+.pc-name { font-size: 14px; font-weight: 800; color: #1e3a5f; line-height: 1.25; }
+
+.pc-body { padding: 12px 14px 4px; }
+.pc-rate-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+.pc-rate { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1; }
+.pc-rate-unit { font-size: 12px; color: #888; }
+.pc-rate-unit strong { color: #1e3a5f; font-weight: 700; }
+
+.pc-quote { text-align: center; background: #f0f5fb; border: 1.5px dashed #7aabda; padding: 10px 12px; border-radius: 3px; margin-bottom: 10px; }
+.pc-quote-label { font-size: 11px; color: #1e6fbd; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+.pc-quote-phone { font-size: 16px; font-weight: 800; color: #1e3a5f; }
+
+.pc-desc { font-size: 11.5px; color: #444; line-height: 1.5; margin: 8px 0 10px; }
+.pc-points { list-style: none; margin: 6px 0 8px; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.pc-points li { font-size: 11px; color: #444; padding-left: 14px; position: relative; line-height: 1.4; }
+.pc-points li::before { content: "•"; position: absolute; left: 0; color: #e8641a; font-weight: 900; }
+
+.pc-expand-link { font-size: 11px; color: #1e6fbd; cursor: pointer; text-decoration: underline; display: inline-block; margin: 2px 0 4px; }
+
+.pc-foot { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+.pc-cta { background: #e8641a; color: #fff; border: none; border-radius: 3px; padding: 10px 14px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; width: 100%; }
+.pc-cta.outline { background: #fff; color: #e8641a; border: 1.5px solid #e8641a; }
+.pc-rate-updated { font-size: 10px; color: #aaa; text-align: right; font-style: italic; }
+
+/* Market availability table */
+.avail-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.avail-table th { background: #f5f8fc; padding: 8px 12px; text-align: left; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #888; border-bottom: 2px solid #d0dce8; }
+.avail-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0ee; }
+.avail-table tr:last-child td { border-bottom: none; }
+.avail-yes { color: #2e7d32; font-weight: 700; }
+.avail-no { color: #aaa; }
+.avail-contact { color: #e8641a; font-weight: 700; }
+
+/* PA / IES — not available state */
+.not-available-overlay { background: #fafafa; border: 2px dashed #ccc; border-radius: 6px; padding: 28px 32px; text-align: center; }
+.na-icon { font-size: 32px; margin-bottom: 12px; }
+.na-title { font-size: 18px; font-weight: 800; color: #888; margin-bottom: 8px; }
+.na-body { font-size: 13px; color: #999; line-height: 1.6; max-width: 400px; margin: 0 auto 16px; }
+
+/* Rep CTA band */
+.rep-cta { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 24px 32px; }
+.rep-cta-grid { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+.rep-cta-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.rep-cta-sub { font-size: 12px; color: #aac4d9; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div>
+      <div class="toolbar-title">Commercial Plans — Wireframe Sketch</div>
+      <div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
+    </div>
+    <div>
+      <div class="vsw-label">Market</div>
+      <div class="market-switcher">
+        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <!-- NAV HEADER -->
+  <div class="section" style="position:relative; margin-bottom:5px;">
+    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
+    <div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav.</div>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">🔥</div>
+        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+        <span class="mkt" id="logo-il">Illinois Energy</span>
+        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+      </div>
+      <nav class="nav-links" style="display:flex;">
+        <a class="nav-link">For My Home</a>
+        <a class="nav-link active">For My Business</a>
+        <a class="nav-link">Learning Center</a>
+        <a class="nav-link">About</a>
+      </nav>
+      <div class="nav-right">
+        <a class="nav-account">👤 My Account</a>
+        <span style="font-size:16px; color:#888; cursor:pointer; padding:0 2px;">🔍</span>
+        <span style="font-size:10px; color:#555; border-left:1px solid #ddd; padding-left:10px; line-height:1.6; white-space:nowrap;">
+          <span style="display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:.05em;">Customer Service</span>
+          <span class="mkt on" id="nav-ph-ong" style="font-weight:700; display:inline;">1-800-XXX-XXXX</span>
+          <span class="mkt" id="nav-ph-pa" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt" id="nav-ph-gre" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt" id="nav-ph-il" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt" id="nav-ph-ies" style="font-weight:700;">1-800-XXX-XXXX</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="section" style="margin-bottom:10px;">
+    <div class="metrics-bar">
+      <div><div class="m-val">3 markets</div><div class="m-lbl">Commercial plans available: ONG, GRE, IL Energy</div><div class="m-tgt">PA and IES: no commercial plans — contact routing shown</div></div>
+      <div><div class="m-val">Same LDC</div><div class="m-lbl">LDC gating identical to Residential Plans template</div><div class="m-tgt">Solve-once-persist LDC logic reused from Homepage</div></div>
+      <div><div class="m-val">Rep path</div><div class="m-lbl">Large commercial accounts may require rep call, not self-serve</div><div class="m-tgt">CTA routes to contact form for rep-assisted enrollments</div></div>
+      <div><div class="m-val">PA built</div><div class="m-lbl">PA template structure built but disabled</div><div class="m-tgt">Routes to contact/inquiry CTA — no plan cards shown</div></div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <div class="oq-panel">
+    <h4>⚑ Open Questions — Commercial Plans</h4>
+    <ul class="oq-list">
+      <li><strong>#1 CRITICAL</strong> Commercial plan types: What plan types exist for commercial customers — fixed, variable, custom contract? Are commercial plans structured differently from residential (e.g., therms vs. MCF, contract length options)? Confirm with Lee Jackson.</li>
+      <li><strong>#2</strong> Commercial enrollment path: Does the commercial enrollment flow use the same PRIME-based path as residential, or does it involve a rep call for larger accounts? Wireframe shows a self-serve path for small commercial + rep CTA for larger accounts. Confirm with dev team.</li>
+      <li><strong>#3</strong> PA commercial contact routing: PA has no commercial plans. The page routes to a contact inquiry CTA. Confirm the correct contact destination — general contact form, dedicated business inquiry form, or phone number.</li>
+      <li><strong>#4</strong> IES commercial scope: IES is a residential-only product (Fixed Bill). Commercial is not applicable. Wireframe hides commercial tab for IES entirely and shows a "residential only" note.</li>
+      <li><strong>#5</strong> Commercial ETF: Does the commercial plan carry the same ETF structure as residential ($12.50/month for ONG)? Or is the commercial ETF different? Confirm per market.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1: PAGE HEADER -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">1</div><br>Page Header</div>
+    <div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span><a>For My Business</a><span style="color:#ddd; margin:0 4px;">›</span>Commercial Plans</div>
+
+    <!-- PA/IES: Not available state -->
+    <div class="mkt" id="na-pa">
+      <div class="p-lg" style="background:#fafafa;">
+        <div class="not-available-overlay">
+          <div class="na-icon">🏢</div>
+          <div class="na-title">Commercial Plans — Pennsylvania</div>
+          <div class="na-body">Commercial natural gas plans are not currently available from Pennsylvania Energy. For business inquiries, please contact us and a member of our team will assist you.</div>
+          <div class="wf-btn">Contact Us for Business Inquiries →</div>
+        </div>
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> PA commercial template is built but shows contact routing instead of plan cards — structure is in place for future activation</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #3: Confirm the correct contact destination for PA commercial inquiries</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IES: Not applicable -->
+    <div class="mkt" id="na-ies">
+      <div class="p-lg" style="background:#fafafa;">
+        <div class="not-available-overlay">
+          <div class="na-icon">💡</div>
+          <div class="na-title">Illinois Energy Solutions — Residential Only</div>
+          <div class="na-body">Illinois Energy Solutions offers the Fixed Bill plan for residential customers only. For business natural gas plans in Illinois, visit Illinois Energy.</div>
+          <div class="wf-btn-out">Illinois Energy — Business Plans →</div>
+        </div>
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> IES is a residential-only product — commercial section not applicable. Cross-link to IL Energy for business customers.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONG, GRE, IL: Available -->
+    <div class="mkt on" id="avail-ong">
+      <div class="p-lg">
+        <div class="h1">Natural Gas Plans for Your Business —
+          <span class="mkt-inline on">Ohio</span>
+        </div>
+        <div class="subhead">Fixed, variable, and custom rate options for small to mid-size commercial customers. Select your utility to see available plans.</div>
+        <div class="ann-row"><div class="ann ann-g"><i>✓</i> H1 is entity-specific — includes brand and state for AI search and SEO entity disambiguation</div></div>
+      </div>
+    </div>
+    <div class="mkt" id="avail-gre">
+      <div class="p-lg">
+        <div class="h1">Natural Gas Plans for Your Business — Michigan</div>
+        <div class="subhead">Fixed, variable, and custom rate options for small to mid-size commercial customers. Select your utility to see available plans.</div>
+      </div>
+    </div>
+    <div class="mkt" id="avail-il">
+      <div class="p-lg">
+        <div class="h1">Natural Gas Plans for Your Business — Illinois</div>
+        <div class="subhead">Fixed, variable, and custom rate options for commercial customers. Select your utility to see available plans.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: LDC GATING WIDGET -->
+  <div class="section" id="ldc-section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">2</div><br>LDC Gating<br>Widget</div>
+    <div class="p">
+      <div class="ldc-widget">
+        <div class="ldc-widget-title">Who is your natural gas utility?</div>
+        <div class="ldc-widget-sub">Select your utility — we'll show the commercial plans available for your address.</div>
+        <div class="mkt on" id="ldc-ong">
+          <div class="ldc-selector"><div class="ldc-btn selected">Columbia Gas</div><div class="ldc-btn">Dominion Energy Ohio</div></div>
+        </div>
+        <div class="mkt" id="ldc-gre">
+          <div class="ldc-selector"><div class="ldc-btn">DTE Energy</div><div class="ldc-btn">Consumers Energy</div></div>
+        </div>
+        <div class="mkt" id="ldc-il">
+          <div class="ldc-selector"><div class="ldc-btn">Nicor Gas</div><div class="ldc-btn">Peoples Gas</div><div class="ldc-btn">North Shore Gas</div></div>
+        </div>
+      </div>
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> LDC gating uses the same component as Residential Plans — solve-once-persist via URL parameter (?ldc=columbia-gas). LDC selection on Homepage carries through to this page.</div>
+        <div class="ann ann-g"><i>✓</i> PA and IES markets do not see this section — commercial plans not available for those brands</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: COMMERCIAL PLAN CARDS -->
+  <div class="section" id="plans-section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">3</div><br>Commercial<br>Plan Cards</div>
+    <div class="p">
+      <div class="comm-plan-grid">
+
+        <!-- Commercial Fixed (featured) — unified .pc component per PC-D16 -->
+        <div class="pc featured">
+          <div class="pc-head">
+            <div class="pc-badge-row">
+              <span class="pc-badge badge-fixed">● Fixed Rate</span>
+              <span class="pc-badge badge-popular">Most Popular</span>
+            </div>
+            <div class="pc-name mkt-inline on">ONG Commercial Fixed 12</div>
+            <div class="pc-name mkt-inline" id="cn-gre">GRE Commercial Fixed 12</div>
+            <div class="pc-name mkt-inline" id="cn-il">IL Commercial Fixed 12</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-rate-row">
+              <div class="pc-rate">$0.469</div>
+              <div class="pc-rate-unit">/ <strong>therm</strong></div>
+            </div>
+            <div class="pc-desc">Lock in your supply rate for 12 months and bring budget certainty to your operating costs — no surprises from market swings.</div>
+            <ul class="pc-points">
+              <li>Rate locked for 12 months</li>
+              <li>Budget certainty for your business</li>
+              <li>Early termination: [$ TBD]/month if cancelled early</li>
+              <li>Auto-renews at renewal terms</li>
+            </ul>
+            <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8 + commercial cancellation rights may differ from residential (Open Q #5).\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
+          </div>
+          <div class="pc-foot">
+            <button class="pc-cta">Start Enrollment →</button>
+            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+          </div>
+        </div>
+
+        <!-- Commercial Variable -->
+        <div class="pc">
+          <div class="pc-head">
+            <div class="pc-badge-row">
+              <span class="pc-badge badge-variable">Variable Rate</span>
+            </div>
+            <div class="pc-name">Commercial Variable</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-rate-row">
+              <div class="pc-rate">$0.512</div>
+              <div class="pc-rate-unit">/ <strong>therm</strong></div>
+            </div>
+            <div class="pc-desc">Month-to-month flexibility for businesses that want to follow the market and avoid term commitments.</div>
+            <ul class="pc-points">
+              <li>No contract term</li>
+              <li>No early termination fee</li>
+              <li>Rate changes monthly</li>
+              <li>Can switch or cancel anytime</li>
+            </ul>
+            <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
+          </div>
+          <div class="pc-foot">
+            <button class="pc-cta">Start Enrollment →</button>
+            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+          </div>
+        </div>
+
+        <!-- Large Commercial · quote-only state per PC-D9 + PC-D16 -->
+        <div class="pc">
+          <div class="pc-head">
+            <div class="pc-badge-row">
+              <span class="pc-badge badge-custom">Custom Rate</span>
+            </div>
+            <div class="pc-name">Large Commercial</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-quote">
+              <div class="pc-quote-label">Call for a custom quote</div>
+              <div class="pc-quote-phone">1-800-XXX-XXXX</div>
+            </div>
+            <div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
+            <ul class="pc-points">
+              <li>Custom contract terms</li>
+              <li>High-volume pricing available</li>
+              <li>Dedicated account support</li>
+              <li>Multi-location options</li>
+            </ul>
+            <span class="pc-expand-link" onclick="alert('Inline expand — 2-section variant per §14 matrix: \&quot;What\&#39;s in scope\&quot; + \&quot;Cancellation rights\&quot;.\n\nAnalytics: plan_details_expand · segment=commercial · card_state=quote_only')">▾ View Plan Terms &amp; Disclosures</span>
+          </div>
+          <div class="pc-foot">
+            <button class="pc-cta outline">Contact a Rep →</button>
+          </div>
+        </div>
+      </div>
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Cards use the unified <code>.pc</code> component per PlanCard_Wireframe.html. Description slot, "View Plan Terms &amp; Disclosures" expand, "Start Enrollment →" (Fixed/Variable) and "Contact a Rep →" (Custom) applied.</div>
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> "Contact a Rep →" routes to the dedicated <b>B2B Contact page</b> (per market sitemaps under "For My Business" → B2B Contact). Single national commercial-rep number sourced from <code>ContactFormUtility_Wireframe.html §B2B/Sales Inquiries</code>.</div>
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Self-serve vs. rep-assisted is plan-level — PRIME flags each plan SKU as <code>rate_resolved</code> (Fixed/Variable) or <code>quote_only</code> (Large Commercial). Resolves CommercialPlans Open Q #2.</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #1: Plan types and pricing are placeholders — confirm commercial plan options per market with Lee Jackson</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #5: Commercial ETF amounts — placeholder <code>[$ TBD]/month</code> in Fixed card bullet. Confirm with Lee Jackson whether commercial ETFs match residential ($12.50/month) or differ.</div>
+        <div class="ann ann-y"><i>⚑</i> "Most Popular" allowed on commercial but may lack enrollment data to support it — small proportion of total enrollments. CMS guidance: don't publish unless data clearly supports one plan. Wireframe demo retains badge for visual reference.</div>
+        <div class="ann ann-r"><i>⚑</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">new Open Q</span> Customer self-identification: how does a small business know whether they qualify for self-serve plans vs. needing custom quote? Options proposed in PlanCard_Wireframe.html §6 — flag for Lee Jackson / sales team alignment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: MARKET AVAILABILITY TABLE -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">4</div><br>Market<br>Availability</div>
+    <div class="p">
+      <div class="h3" style="margin-bottom:12px;">Commercial Plan Availability by Market</div>
+      <table class="avail-table">
+        <thead>
+          <tr><th>Market</th><th>Fixed Rate</th><th>Variable Rate</th><th>Custom / Rep</th><th>Self-Serve Enrollment</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ohio Natural Gas (ONG)</strong></td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-yes">✓ Confirmed</td>
+          </tr>
+          <tr>
+            <td><strong>Grand Rapids Energy (GRE)</strong></td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-contact">Contact for Quote</td>
+            <td class="avail-yes">✓ Confirmed</td>
+          </tr>
+          <tr>
+            <td><strong>Illinois Energy (IL)</strong></td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-yes">✓ Available</td>
+            <td class="avail-contact">Contact for Quote</td>
+            <td class="avail-yes">✓ Confirmed</td>
+          </tr>
+          <tr>
+            <td><strong>Pennsylvania Energy (PA)</strong></td>
+            <td class="avail-no">✗ Not available</td>
+            <td class="avail-no">✗ Not available</td>
+            <td class="avail-contact">Inquiry only</td>
+            <td class="avail-no">—</td>
+          </tr>
+          <tr>
+            <td><strong>Illinois Energy Solutions (IES)</strong></td>
+            <td class="avail-no">✗ Residential only</td>
+            <td class="avail-no">✗ Residential only</td>
+            <td class="avail-no">✗ N/A</td>
+            <td class="avail-no">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> Availability table documents the template decision logic — PA is built but disabled, IES is not applicable</div>
+        <div class="ann ann-y"><i>⚑</i> Plan availability and enrollment path per market to be confirmed with client — this table uses current working assumptions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: REP CTA BAND -->
+  <div class="section" id="rep-cta-section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">5</div><br>Rep CTA<br>Band</div>
+    <div class="rep-cta">
+      <div class="rep-cta-grid">
+        <div>
+          <div class="rep-cta-title">Have a larger business or need a custom rate?</div>
+          <div class="rep-cta-sub">Our commercial energy team can build a plan around your business's usage profile. Typical qualification: accounts using 500+ therms/month or multi-location businesses. Talk to a rep — no obligation.</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+          <div class="wf-btn" style="white-space:nowrap;">Contact a Rep →</div>
+          <div style="font-size:11px; color:#aac4d9; text-align:right;">
+            <span class="mkt-inline on">1-800-XXX-XXXX (ONG Business)</span>
+            <span class="mkt-inline" id="rp-gre">1-800-XXX-XXXX (GRE Business)</span>
+            <span class="mkt-inline" id="rp-il">1-800-XXX-XXXX (IL Business)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-sm">
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> Rep CTA differentiates self-serve small commercial from large/custom accounts — prevents over-burdening self-serve enrollment flow with complex commercial cases</div>
+        <div class="ann ann-y"><i>⚑</i> Usage threshold for "large commercial" (500+ therms) is a placeholder — confirm qualification criteria with Lee Jackson</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <div class="section">
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
+          <div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
+          <div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
+          <div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
+          <div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
+          <div class="footer-parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
+        </div>
+        <div><div class="footer-col-head">For My Business</div><div class="footer-col-links"><a>Commercial Plans</a><a>Contact a Rep</a></div></div>
+        <div><div class="footer-col-head">For My Home</div><div class="footer-col-links"><a>Residential Plans</a><a>Enroll</a></div></div>
+        <div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
+      </div>
+      <div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Commercial Plans — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026</div>
+</div>
+
+<script>
+function setMarket(m) {
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-flex').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll(`[id$="-${m}"]`).forEach(el => {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-inline') || el.classList.contains('mkt-flex')) el.classList.add('on');
+  });
+  // Show/hide sections for PA and IES
+  const ldcSec = document.getElementById('ldc-section');
+  const plansSec = document.getElementById('plans-section');
+  const repCta = document.getElementById('rep-cta-section');
+  const hideForPaIes = (m === 'pa' || m === 'ies');
+  if (ldcSec) ldcSec.style.display = hideForPaIes ? 'none' : 'block';
+  if (plansSec) plansSec.style.display = hideForPaIes ? 'none' : 'block';
+  if (repCta) repCta.style.display = hideForPaIes ? 'none' : 'block';
+  document.querySelectorAll('.btn-market').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

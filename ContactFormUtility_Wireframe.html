@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact &amp; Utility Directory — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.market-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.state-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-state { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-state:hover, .btn-state.active { background: #5a8cbf; border-color: #5a8cbf; color: #fff; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 26px 32px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-sm { background: #e8641a; color: #fff; border: none; padding: 5px 12px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-input { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 12px; color: #aaa; font-style: italic; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.metrics-bar { background: #1e3a5f; color: #fff; padding: 10px 24px; display: flex; gap: 20px; font-size: 11px; flex-wrap: wrap; }
+.m-val { font-size: 15px; font-weight: 900; color: #7ec8e3; }
+.m-lbl { color: #aac4d9; }
+.m-tgt { color: #a5d6a7; font-size: 10px; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.body-sm { font-size: 12px; color: #555; line-height: 1.6; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-account { font-size: 11px; font-weight: 700; color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.page-view { display: none; } .page-view.on { display: block; }
+.divider { height: 1px; background: #e8e8e4; margin: 0 24px; }
+.sec-divider { background: #e8e8e4; padding: 5px 24px; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .07em; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.breadcrumb .sep { color: #ddd; margin: 0 4px; }
+
+/* ── CONTACT PAGE SPECIFIC ── */
+.contact-layout { display: grid; grid-template-columns: 1fr 380px; gap: 0; }
+.contact-main { padding: 20px 24px; }
+.contact-sidebar { background: #f5f8fc; border-left: 1px solid #d0dce8; padding: 20px; }
+.contact-sidebar-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 14px; }
+
+/* Emergency band */
+.emergency-band { background: #fce4ec; border: 2px solid #e53935; border-radius: 4px; padding: 16px 20px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.emergency-icon { font-size: 24px; flex-shrink: 0; }
+.emergency-title { font-size: 14px; font-weight: 900; color: #c62828; margin-bottom: 6px; }
+.emergency-body { font-size: 12px; color: #880e4f; line-height: 1.5; }
+.emergency-number { font-size: 18px; font-weight: 900; color: #c62828; margin-top: 6px; display: block; }
+.emergency-ldc-row { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.emergency-ldc-item { background: #fff; border: 1px solid #f48fb1; border-radius: 3px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+.emergency-ldc-name { font-size: 12px; font-weight: 700; color: #880e4f; }
+.emergency-ldc-num { font-size: 13px; font-weight: 900; color: #c62828; }
+
+/* Contact info cards */
+.contact-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.contact-info-card { border: 1.5px solid #d0dce8; border-radius: 4px; padding: 14px 16px; background: #fff; }
+.contact-info-icon { font-size: 18px; margin-bottom: 8px; }
+.contact-info-title { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 4px; }
+.contact-info-val { font-size: 14px; font-weight: 700; color: #333; }
+.contact-info-sub { font-size: 10px; color: #999; margin-top: 3px; }
+
+/* Inquiry form */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 11px; font-weight: 700; color: #555; }
+.form-select { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 9px 12px; font-size: 12px; color: #555; width: 100%; }
+.form-textarea { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 9px 12px; font-size: 12px; color: #aaa; font-style: italic; min-height: 90px; width: 100%; resize: vertical; font-family: inherit; }
+.form-required { color: #e53935; }
+.topic-badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.topic-sse { background: #e3f2fd; color: #1565c0; }
+.topic-ldc { background: #fff3e0; color: #e65100; }
+
+/* Confirmation state */
+.confirm-state { background: #e8f5e9; border: 2px solid #4caf50; border-radius: 6px; padding: 28px 32px; text-align: center; }
+.confirm-icon { font-size: 40px; margin-bottom: 12px; }
+.confirm-title { font-size: 20px; font-weight: 900; color: #2e7d32; margin-bottom: 8px; }
+.confirm-body { font-size: 13px; color: #4a7a55; line-height: 1.6; max-width: 480px; margin: 0 auto 16px; }
+.confirm-ref { font-size: 11px; color: #888; }
+
+/* RAF standalone page */
+.raf-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 28px 32px; }
+.raf-hero-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.raf-hero-sub { font-size: 13px; color: #aac4d9; line-height: 1.5; margin-bottom: 18px; }
+.raf-reward-hero { display: flex; gap: 24px; flex-wrap: wrap; }
+.raf-reward-card { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 5px; padding: 14px 18px; min-width: 140px; }
+.raf-reward-val { font-size: 28px; font-weight: 900; color: #7ec8e3; }
+.raf-reward-label { font-size: 11px; color: #aac4d9; line-height: 1.4; margin-top: 4px; }
+.raf-ldc-select { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 18px; margin-bottom: 16px; }
+.raf-ldc-title { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 10px; }
+.raf-ldc-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.raf-ldc-btn { background: #fff; border: 2px solid #d0dce8; color: #555; padding: 9px 16px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; }
+.raf-ldc-btn.selected { border-color: #1e3a5f; color: #1e3a5f; background: #f0f4f9; }
+.raf-flow-steps { display: flex; gap: 0; margin-bottom: 20px; }
+.raf-step { flex: 1; text-align: center; padding: 10px 8px; font-size: 10px; color: #888; border-bottom: 3px solid #e0e0e0; position: relative; }
+.raf-step.active { color: #1e3a5f; font-weight: 700; border-bottom-color: #e8641a; }
+.raf-step-num { width: 20px; height: 20px; background: #e0e0e0; color: #888; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+.raf-step.active .raf-step-num { background: #e8641a; color: #fff; }
+.raf-email-module { border: 1.5px solid #d0dce8; border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
+.raf-email-head { background: #f7f7f5; padding: 8px 12px; font-size: 11px; font-weight: 700; color: #555; border-bottom: 1px solid #e0e0e0; }
+.raf-email-body { display: grid; grid-template-columns: 1fr 1fr; }
+.raf-email-compose { padding: 12px; border-right: 1px solid #e0e0e0; }
+.raf-email-preview { padding: 12px; background: #fafafa; }
+.raf-email-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #aaa; margin-bottom: 6px; }
+.raf-email-textarea { width: 100%; min-height: 70px; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px; font-size: 11px; color: #555; resize: none; font-family: inherit; background: #fff; }
+.raf-email-preview-box { background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 10px; font-size: 11px; color: #666; line-height: 1.5; min-height: 70px; }
+.raf-thank-you { background: #e8f5e9; border: 2px solid #4caf50; border-radius: 5px; padding: 20px 24px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div>
+      <div class="toolbar-title">Contact &amp; Utility Directory — Wireframe</div>
+      <div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
+    </div>
+    <div>
+      <div class="vsw-label">Market</div>
+      <div class="market-switcher">
+        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
+  </div>
+</div>
+
+<div class="canvas">
+  <!-- GLOBAL PROMOTIONAL PENCIL BANNER — suppressed on this page -->
+  <div style="background:#f7f7f5; border-bottom:1px dashed #d0dce8; padding:4px 24px;">
+    <div class="ann ann-y" style="font-size:10px; display:flex;">⚑ Global promotional pencil banner suppressed on this page — conflict with emergency banner (Contact), inappropriate sales context (Legal), or existing customer transactional flow (My Account / Plan Change Flow).</div>
+  </div>
+
+  <!-- NAV HEADER -->
+  <div class="section" style="position:relative; margin-bottom:5px;">
+    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
+    <div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav.</div>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">🔥</div>
+        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+        <span class="mkt" id="logo-il">Illinois Energy</span>
+        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+      </div>
+      <nav class="nav-links" style="display:flex;">
+        <a class="nav-link">For My Home</a>
+        <a class="nav-link">For My Business</a>
+        <a class="nav-link">Learning Center</a>
+        <a class="nav-link">About</a>
+      </nav>
+      <div class="nav-right">
+        <a class="nav-account">👤 My Account</a>
+        <span style="font-size:16px; color:#888; cursor:pointer; padding:0 2px;">🔍</span>
+        <span style="font-size:10px; color:#555; border-left:1px solid #ddd; padding-left:10px; line-height:1.6; white-space:nowrap;">
+          <span style="display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:.05em;">Customer Service</span>
+          <span class="mkt-inline on" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-ph-pa" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-ph-gre" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-ph-il" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-ph-ies" style="font-weight:700;">1-800-XXX-XXXX</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pencil Banner — Emergency Routing -->
+  <div style="background:#fff3e0; border-bottom:2px solid #e8641a; padding:8px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+    <div style="font-size:12px; color:#7a3800; font-weight:600;">🚨 <strong>Smell gas?</strong> This is a utility emergency — contact your gas utility immediately.</div>
+    <a href="#utility-directory" style="font-size:11px; color:#e8641a; font-weight:700; text-decoration:underline; cursor:pointer; white-space:nowrap;">View utility emergency contacts ↓</a>
+  </div>
+  <div class="ann-row" style="padding:4px 24px 6px; background:#fff8f2;">
+    <span class="ann ann-g" style="font-size:10px;">✓ Page-specific pencil banner replaces large emergency band. Call center data (OH Feb 2026): only 31 of 2,900 calls (1.1%) were wrong-number/misdirected — emergency routing is not a primary use case. Rationale documented in change log.</span>
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="section" style="margin-bottom:10px;">
+    <div class="metrics-bar">
+      <div><div class="m-val">No form</div><div class="m-lbl">No contact intake form — no monitored inbox</div><div class="m-tgt">Phone is the primary inbound channel</div></div>
+      <div><div class="m-val">Safety-critical</div><div class="m-lbl">Emergency LDC routing is the most important element</div><div class="m-tgt">Gas leak queries must reach the right utility immediately</div></div>
+      <div><div class="m-val">LDC routing</div><div class="m-lbl">Clear separation: SSE handles supply; LDC handles delivery</div><div class="m-tgt">Routing clarity reduces misdirected calls</div></div>
+      <div><div class="m-val">RAF → My Account</div><div class="m-lbl">Refer a Friend moved to authenticated My Account dashboard</div><div class="m-tgt">No standalone /refer page in this wireframe</div></div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <div class="oq-panel">
+    <h4>⚑ Open Questions — Contact &amp; Utility Directory</h4>
+    <ul class="oq-list">
+      <li><strong>#1 CRITICAL</strong> LDC emergency contact numbers: Who at the client side owns maintaining this content? Emergency contacts must route to the correct LDC — these numbers change and must be verified per market before launch. All numbers in this wireframe are placeholders that must be confirmed before publication.</li>
+      <li><strong>#2</strong> Full LDC contact directory: Beyond emergency numbers, should the page include general LDC customer service numbers (billing, meter reads, service calls)? Wireframe shows both emergency and general service numbers — confirm scope with client.</li>
+      <li><strong>#3</strong> Customer service hours: Phone hours for each market are currently TBD. Confirm with client before content authoring begins.</li>
+      <li><strong>#4</strong> IL / IES contact differentiation: IE and IES share overlapping LDCs (Nicor, Peoples Gas) but have different products and may have different customer service numbers. Confirm whether they have the same or distinct contact lines.</li>
+      <li><strong>#5</strong> Live chat: Should the page include a live chat option or chatbot escalation? Confirm with client whether chat is in scope and if so, which markets and what tool.</li>
+    </ul>
+  </div>
+
+
+  <!-- ══════════════ CONTACT PAGE VIEW ══════════════ -->
+  <div class="page-view on" id="view-contact">
+
+    <!-- SECTION 1: PAGE HEADER -->
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">1</div><br>Page Header</div>
+      <div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span>Contact Us</div>
+      <div class="p-lg">
+        <div class="h1">Contact
+          <span class="mkt-inline on">Ohio Natural Gas</span>
+          <span class="mkt-inline" id="ch-pa">Pennsylvania Energy</span>
+          <span class="mkt-inline" id="ch-gre">Grand Rapids Energy</span>
+          <span class="mkt-inline" id="ch-il">Illinois Energy</span>
+          <span class="mkt-inline" id="ch-ies">Illinois Energy Solutions</span>
+        </div>
+        <div style="font-size:14px; color:#555; line-height:1.55; max-width:600px;">We're here to help with questions about your plan, enrollment, and account. For gas emergencies, contact your utility directly — see below.</div>
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> "For gas emergencies, contact your utility" surfaced immediately in page header — before any other content</div>
+          <div class="ann ann-g"><i>✓</i> H1 includes brand name for AI and SEO entity disambiguation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: SSE CUSTOMER SERVICE -->
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">2</div><br>Customer<br>Service</div>
+      <div class="p">
+
+        <!-- SSE contact info — prominent, no form -->
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px;">
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📞</div>
+            <div class="contact-info-title">Call Us</div>
+            <div class="contact-info-val">
+              <span class="mkt-inline on">1-800-XXX-XXXX</span>
+              <span class="mkt-inline" id="sse-ph-pa">1-800-XXX-XXXX</span>
+              <span class="mkt-inline" id="sse-ph-gre">1-800-XXX-XXXX</span>
+              <span class="mkt-inline" id="sse-ph-il">1-800-XXX-XXXX</span>
+              <span class="mkt-inline" id="sse-ph-ies">1-800-XXX-XXXX</span>
+            </div>
+            <div class="contact-info-sub">[Hours TBD — Open Q #3]</div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📬</div>
+            <div class="contact-info-title">Mailing Address</div>
+            <div class="contact-info-val" style="font-size:11px; line-height:1.6;">
+              SouthStar Energy Services<br>
+              <span class="mkt-inline on">[ONG address TBD]</span>
+              <span class="mkt-inline" id="addr-pa">[PA address TBD]</span>
+              <span class="mkt-inline" id="addr-gre">[GRE address TBD]</span>
+              <span class="mkt-inline" id="addr-il">[IL address TBD]</span>
+              <span class="mkt-inline" id="addr-ies">[IES address TBD]</span>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">🧾</div>
+            <div class="contact-info-title">Account &amp; Plan Questions</div>
+            <div class="contact-info-val" style="font-size:11px; line-height:1.6; color:#555;">Plan enrollment, rate questions, promo codes, account changes, and cancellations. Log in to My Account or call us.</div>
+            <div style="margin-top:8px;"><a style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer;">View My Account →</a></div>
+            <div class="ann-row" style="margin-top:6px;">
+              <div class="ann ann-g" style="font-size:10px;"><i>✓</i> 'View My Account' retained as a low-hierarchy escape hatch — useful for customers who don't realize they can self-service account actions. De-prioritized visually per client direction; kept because account functionality is expanding.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B2B and Sales Agency -->
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid #e8e8e4;">
+          <div class="h3" style="margin-bottom:12px;">Commercial &amp; Sales Inquiries</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:600px;">
+            <div class="contact-info-card">
+              <div class="contact-info-icon">🏢</div>
+              <div class="contact-info-title">Business / B2B</div>
+              <div class="contact-info-val" style="font-size:12px; line-height:1.5;">[B2B contact — TBD from client]</div>
+            </div>
+            <div class="contact-info-card">
+              <div class="contact-info-icon">🤝</div>
+              <div class="contact-info-title">Sales Agency</div>
+              <div class="contact-info-val" style="font-size:12px; line-height:1.5;">[Sales agency contact — TBD from client]</div>
+            </div>
+          </div>
+          <div class="ann-row" style="margin-top:8px;">
+            <div class="ann ann-y"><i>⚑</i> B2B and sales agency contact details TBD — confirm with client before content authoring. Added per client feedback that this information is missing from the current wireframe.</div>
+          </div>
+        </div>
+
+        <!-- Who handles what -->
+        <div style="background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:4px; padding:16px 18px; margin-bottom:16px;">
+          <div class="h3" style="margin-bottom:10px;">Who handles what?</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div>
+              <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#1e3a5f; margin-bottom:8px;">Contact Us For:</div>
+              <div style="font-size:11px; color:#444; line-height:2.0;">✓ Plan enrollment or changes<br>✓ Your supply rate or contract<br>✓ Promo codes and offers<br>✓ Refer a Friend (via My Account)<br>✓ Account cancellation</div>
+            </div>
+            <div>
+              <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#c62828; margin-bottom:8px;">Contact Your Utility For:</div>
+              <div style="font-size:11px; color:#444; line-height:2.0;">🚨 Gas emergencies<br>⚡ Meter reads and service calls<br>⚡ Delivery disruptions or outages<br>⚡ Billing disputes (delivery charges)<br>⚡ Starting or stopping service</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ deflection -->
+        <div style="background:#fff3e0; border:1.5px solid #e8641a; border-radius:4px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div style="font-size:12px; color:#666; line-height:1.5;"><strong>Have a quick question?</strong> Most answers about billing, plans, and enrollment are in our Learning Center.</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div class="wf-btn-out" style="font-size:11px; padding:6px 14px; white-space:nowrap;">Browse Learning Center →</div>
+          </div>
+        </div>
+
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> No intake form — no monitored inbox. Phone is the primary inbound channel. Contact page is a routing and directory resource, not a form submission endpoint.</div>
+          <div class="ann ann-g"><i>✓</i> RAF removed from this page — Refer a Friend lives in the My Account dashboard. "Refer a Friend" link removed from "Contact Us For" list.</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #3: Customer service hours TBD — confirm per market with client before content authoring.</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #5: Live chat / chatbot — confirm with client whether in scope.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: FULL LDC CONTACT DIRECTORY -->
+    <div class="section" id="utility-directory" style="position:relative;">
+      <div class="section-label"><div class="sec-num">3</div><br>Utility<br>Directory</div>
+      <div class="p">
+        <div class="h2" style="margin-bottom:4px;">Your Utility Contacts</div>
+        <div style="font-size:13px; color:#666; margin-bottom:16px;">Your utility company manages gas delivery, emergencies, meter reads, and billing. Contact them directly for any delivery or service issue.</div>
+
+        <details style="background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:4px; padding:12px 16px; margin-top:12px;">
+          <summary style="font-size:12px; font-weight:700; color:#1e3a5f; cursor:pointer; list-style:none;">View utility contacts for your area ▾</summary>
+          <div style="margin-top:12px;">
+
+            <!-- ONG utilities -->
+            <div class="mkt on" id="ldc-dir-ong">
+              <div class="h3" style="margin-bottom:12px;">Ohio — Utility Contacts</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Columbia Gas of Ohio</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-344-4077</strong><br>🌐 columbiagasohio.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Dominion Energy Ohio</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-362-7557</strong><br>🌐 dominionenergy.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Duke Energy Ohio</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-544-6900</strong><br>🌐 duke-energy.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Enbridge Gas Ohio</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>[TBD]</strong><br>🌐 enbridgegas.com</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PA utilities -->
+            <div class="mkt" id="ldc-dir-pa">
+              <div class="h3" style="margin-bottom:12px;">Pennsylvania — Utility Contacts</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">UGI Utilities</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-276-2722</strong><br>🌐 ugi.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Natural Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-764-0111</strong><br>🌐 peoples-gas.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Philadelphia Gas Works</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>215-235-1000</strong><br>🌐 pgworks.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Columbia Gas of PA</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>[TBD]</strong><br>🌐 nisource.com</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- GRE utilities -->
+            <div class="mkt" id="ldc-dir-gre">
+              <div class="h3" style="margin-bottom:12px;">Michigan — Utility Contacts</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">DTE Energy</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-477-4747</strong><br>🌐 dteenergy.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Consumers Energy</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-477-5050</strong><br>🌐 consumersenergy.com</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- IL utilities -->
+            <div class="mkt" id="ldc-dir-il">
+              <div class="h3" style="margin-bottom:12px;">Illinois — Utility Contacts</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Nicor Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-888-642-6748</strong><br>🌐 nicorgas.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br>🌐 peoplesgasdelivery.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">North Shore Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br>🌐 northshoregas.com</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- IES utilities -->
+            <div class="mkt" id="ldc-dir-ies">
+              <div class="h3" style="margin-bottom:12px;">Illinois — Utility Contacts</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Nicor Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-888-642-6748</strong><br>🌐 nicorgas.com</div>
+                </div>
+                <div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
+                  <div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Gas</div>
+                  <div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br>🌐 peoplesgasdelivery.com</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <div class="ann-row" style="margin-top:8px;">
+          <div class="ann ann-g"><i>✓</i> Utility directory condensed to collapsible reference — reduces visual footprint on the page. Same information as footer utility links but with additional customer service and billing contacts. Wireframe proportions do not reflect final design scale per client note.</div>
+        </div>
+
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> Full LDC directory includes emergency and general customer service numbers — customers looking for billing, meter, or service help get the right contact without calling SouthStar</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #1 (CRITICAL): All LDC numbers must be verified with client before launch. Emergency numbers in particular must be accurate — incorrect numbers on a gas emergency are a safety issue.</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #2: Confirm whether general customer service numbers should be included alongside emergency numbers, or emergency only.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /contact view -->
+
+
+
+
+  <!-- RAF REMOVED: Refer a Friend is now in the My Account dashboard (see MyAccount_Wireframe.html).
+       No standalone /refer page is in scope for this template. -->
+  <div style="display:none;" id="view-raf">
+
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">R</div><br>RAF Hero<br>(/refer)</div>
+      <div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span>Refer a Friend</div>
+      <div class="raf-hero">
+        <div class="raf-hero-title">Refer a Friend — Earn Rewards</div>
+        <div class="raf-hero-sub">Share
+          <span class="mkt-inline on">Ohio Natural Gas</span>
+          <span class="mkt-inline" id="rh-pa">Pennsylvania Energy</span>
+          <span class="mkt-inline" id="rh-gre">Grand Rapids Energy</span>
+          <span class="mkt-inline" id="rh-il">Illinois Energy</span>
+          <span class="mkt-inline" id="rh-ies">Illinois Energy Solutions</span>
+          with a friend and both of you earn a reward when they enroll.
+        </div>
+        <div class="raf-reward-hero">
+          <div class="raf-reward-card">
+            <div class="raf-reward-val mkt-inline on">$25</div>
+            <div class="raf-reward-val mkt-inline" id="rv-pa">$25</div>
+            <div class="raf-reward-val mkt-inline" id="rv-gre">TBD</div>
+            <div class="raf-reward-val mkt-inline" id="rv-il">TBD</div>
+            <div class="raf-reward-val mkt-inline" id="rv-ies">TBD</div>
+            <div class="raf-reward-label">You get a Visa Reward Card when your friend enrolls</div>
+          </div>
+          <div class="raf-reward-card">
+            <div class="raf-reward-val mkt-inline on">$25</div>
+            <div class="raf-reward-val mkt-inline" id="rv2-pa">$25</div>
+            <div class="raf-reward-val mkt-inline" id="rv2-gre">TBD</div>
+            <div class="raf-reward-val mkt-inline" id="rv2-il">TBD</div>
+            <div class="raf-reward-val mkt-inline" id="rv2-ies">TBD</div>
+            <div class="raf-reward-label">Your friend gets a Visa Reward Card when they enroll</div>
+          </div>
+          <div class="raf-reward-card">
+            <div class="raf-reward-val mkt-inline on">$500</div>
+            <div class="raf-reward-val mkt-inline" id="rv3-gre">TBD</div>
+            <div class="raf-reward-val mkt-inline" id="rv3-il">TBD</div>
+            <div class="raf-reward-label">Max reward per calendar year per account (ONG)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">R2</div><br>RAF Flow<br>(Redesigned:<br>ONG + PA)</div>
+      <div class="p">
+        <!-- Redesigned/original variant indicator -->
+        <div style="background:#e3f2fd; border:1px solid #90caf9; border-radius:4px; padding:10px 14px; margin-bottom:16px; font-size:11px; color:#1565c0;">
+          ℹ️ <strong>ONG and Pennsylvania</strong> have the redesigned RAF experience shown below. <strong>GRE, IL, and IES</strong> use the original RAF design — front-end redesign not yet scoped for those markets.
+        </div>
+
+        <!-- Step progress -->
+        <div class="raf-flow-steps">
+          <div class="raf-step active"><div class="raf-step-num">1</div>Select Utility</div>
+          <div class="raf-step"><div class="raf-step-num">2</div>Log In</div>
+          <div class="raf-step"><div class="raf-step-num">3</div>Your Code</div>
+          <div class="raf-step"><div class="raf-step-num">4</div>Send Email</div>
+          <div class="raf-step"><div class="raf-step-num">5</div>Confirm</div>
+        </div>
+
+        <!-- Step 1: LDC select -->
+        <div class="raf-ldc-select">
+          <div class="raf-ldc-title">Step 1 — Select your natural gas utility</div>
+          <div class="raf-ldc-btns mkt on" id="raf-ldc-ong">
+            <div class="raf-ldc-btn selected">Columbia Gas</div>
+            <div class="raf-ldc-btn">Dominion Energy Ohio</div>
+          </div>
+          <div class="raf-ldc-btns mkt" id="raf-ldc-pa">
+            <div class="raf-ldc-btn">UGI Utilities</div>
+            <div class="raf-ldc-btn">Peoples Natural Gas</div>
+            <div class="raf-ldc-btn">PECO</div>
+          </div>
+          <div class="raf-ldc-btns mkt" id="raf-ldc-gre">
+            <div class="raf-ldc-btn">DTE Energy</div>
+            <div class="raf-ldc-btn">Consumers Energy</div>
+          </div>
+          <div class="raf-ldc-btns mkt" id="raf-ldc-il">
+            <div class="raf-ldc-btn">Nicor Gas</div>
+            <div class="raf-ldc-btn">Peoples Gas</div>
+            <div class="raf-ldc-btn">North Shore Gas</div>
+          </div>
+          <div style="margin-top:12px;"><div class="wf-btn">Continue →</div></div>
+        </div>
+
+        <!-- Step 3: Referral code (after login) -->
+        <div style="margin-top:16px; border:1.5px solid #d0dce8; border-radius:5px; overflow:hidden;">
+          <div style="background:#f0f4f9; padding:10px 16px; font-size:11px; font-weight:800; color:#1e3a5f; text-transform:uppercase; letter-spacing:.05em;">Step 3 — Your Referral Code</div>
+          <div style="padding:16px;">
+            <div style="background:#f5f8fc; border:2px dashed #7aabda; border-radius:4px; padding:14px 16px; text-align:center; margin-bottom:14px;">
+              <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Your Referral Code</div>
+              <div style="font-size:26px; font-weight:900; color:#1e3a5f; letter-spacing:.12em;">ONG-J4K2M9</div>
+              <a style="font-size:11px; color:#5a8cbf; font-weight:600; cursor:pointer; text-decoration:underline; margin-top:6px; display:inline-block;">📋 Copy code</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Email module with live preview -->
+        <div style="margin-top:12px;">
+          <div style="padding:0 0 8px; font-size:11px; font-weight:800; color:#1e3a5f; text-transform:uppercase; letter-spacing:.05em;">Step 4 — Send Email to Your Friends</div>
+          <div class="raf-email-module">
+            <div class="raf-email-head">📧 Add or Edit Your Message — preview updates live on the right</div>
+            <div class="raf-email-body">
+              <div class="raf-email-compose">
+                <div class="raf-email-label">Edit message</div>
+                <textarea class="raf-email-textarea">Hey! I use Ohio Natural Gas and I think you'd love it. Use my code ONG-J4K2M9 when you sign up — we'll both get a $25 Visa Reward Card!</textarea>
+                <div style="margin-top:10px;">
+                  <div class="raf-email-label">Friends' email addresses</div>
+                  <div class="wf-input" style="width:100%; margin-bottom:8px;">friend@email.com, another@email.com</div>
+                  <div class="wf-btn-sm">Refer My Friends →</div>
+                </div>
+              </div>
+              <div class="raf-email-preview">
+                <div class="raf-email-label">Live Preview</div>
+                <div class="raf-email-preview-box">
+                  <strong>Jane wants you to try Ohio Natural Gas</strong><br><br>
+                  Hey! I use Ohio Natural Gas and I think you'd love it. Use my code ONG-J4K2M9 when you sign up — we'll both get a $25 Visa Reward Card!<br><br>
+                  <span style="color:#e8641a; font-weight:700;">Enroll with code ONG-J4K2M9 →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Thank you -->
+        <div class="raf-thank-you" style="margin-top:12px;">
+          <div style="font-size:20px; margin-bottom:8px;">🎉</div>
+          <div style="font-size:16px; font-weight:800; color:#2e7d32; margin-bottom:6px;">Thank you! Your referrals have been sent.</div>
+          <div style="font-size:12px; color:#4a7a55; line-height:1.5;">Your friends will receive an email with your referral code. You'll earn your $25 reward card when each friend successfully enrolls.</div>
+        </div>
+
+        <div class="ann-row" style="margin-top:12px;">
+          <div class="ann ann-g"><i>✓</i> Live preview updates in real time as user edits message — confirmed from workflow testing notes (Cindy)</div>
+          <div class="ann ann-g"><i>✓</i> Standalone /refer URL preserved for campaign traffic and RAF25 promo code path</div>
+          <div class="ann ann-y"><i>⚑</i> Known bug: Referral emails not consistently delivering to recipient addresses — must be resolved before launch</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #3: RAF portal integration scope (integrate / replace / embed) must be confirmed with client</div>
+          <div class="ann ann-y"><i>⚑</i> GRE, IL, IES — original design, not yet redesigned. This redesigned flow is ONG + PA only.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /raf view -->
+
+  <!-- SITE FOOTER -->
+  <div class="section">
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
+          <div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
+          <div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
+          <div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
+          <div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
+          <div class="footer-parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
+        </div>
+        <div><div class="footer-col-head">Support</div><div class="footer-col-links"><a>FAQ</a><a>Contact Us</a><a>Refer a Friend</a></div></div>
+        <div><div class="footer-col-head">My Account</div><div class="footer-col-links"><a>Log In</a><a>Create Account</a></div></div>
+        <div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
+      </div>
+      <div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services. All rights reserved.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Contact &amp; Utility Directory — CMS Content Template · 4037-25 · IfThen Digital · April 2026<br>
+  No intake form (no monitored inbox). RAF removed — lives in My Account. Primary purpose: emergency routing, SSE customer service, full LDC contact directory.</div>
+</div>
+
+<script>
+function setMarket(m) {
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll(`[id$="-${m}"]`).forEach(el => {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-inline')) el.classList.add('on');
+  });
+  document.querySelectorAll('.btn-market').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

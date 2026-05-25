@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSE — My Account — Wireframe</title>
+<style>
+:root {
+  --bg: #f7f7f5;
+  --paper: #ffffff;
+  --ink: #1f2328;
+  --muted: #6a727b;
+  --line: #d8dbe0;
+  --line-soft: #ebedf0;
+  --accent: #2b5d8a;
+  --accent-soft: #e6eff7;
+  --good: #2e7d4f;
+  --warn: #c46a00;
+  --bad: #b3261e;
+
+  --ann-g-bg: #e7f3ec;  --ann-g-bd: #2e7d4f;
+  --ann-y-bg: #fff6e0;  --ann-y-bd: #c46a00;
+  --ann-r-bg: #fde8e7;  --ann-r-bd: #b3261e;
+  --ann-b-bg: #e6eef7;  --ann-b-bd: #2b5d8a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5; }
+
+/* ── WF META BAR (top, dark, removable for production) ── */
+.wf-meta {
+  background: #21262d; color: #e6edf3; padding: 10px 18px;
+  font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.wf-meta strong { color: #ffd866; }
+.wf-meta .row { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 2px; }
+
+/* ── WF CONTROL BAR (sticky, dark) ── */
+.wfctl {
+  position: sticky; top: 0; z-index: 50;
+  background: #2d3640;
+  font: 12px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  border-bottom: 2px solid #1a1f24;
+}
+.wfctl-bar {
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.wfctl-divider { width: 1px; height: 18px; background: #3d4a55; flex-shrink: 0; }
+.wfctl-spacer { flex: 1; min-width: 8px; }
+.wfctl .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl .group-lbl {
+  color: #5a6e7f; font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
+}
+.wfctl button {
+  background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.wfctl button.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl button:hover:not(.on) { background: #475a6b; color: #e6edf3; }
+.btn-ann {
+  background: transparent; border: 1px solid transparent; color: #5a6e7f;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
+.btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-legend-btn {
+  background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
+  padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
+}
+.wfctl-legend-btn:hover { border-color: #5a6e7f; color: #ccd6e0; }
+.wfctl-legend-btn.open { border-color: #4a90c2; color: #4a90c2; }
+.btn-present {
+  background: #e8641a; border: none; color: #fff;
+  padding: 4px 12px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-present:hover { background: #c8521a; }
+.legend-drawer {
+  display: none; flex-direction: column; gap: 8px;
+  background: #1e2830; border-top: 1px solid #3d4a55;
+  padding: 10px 16px 12px;
+}
+.legend-drawer.open { display: flex; }
+.scenario-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.scenario-legend .legend-item { display: inline-flex; gap: 5px; align-items: center; font-size: 10px; color: #8a9aaa; }
+.scenario-legend .legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; border: 1px solid; flex-shrink: 0; }
+
+/* ── LEGEND ── */
+.legend {
+  background: #fff; border-bottom: 1px solid var(--line);
+  padding: 8px 18px; display: flex; flex-wrap: wrap; gap: 18px;
+  font-size: 11px; color: var(--muted);
+}
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; border-left: 3px solid; display: inline-block; }
+
+/* ── MARKET TOGGLE PRIMITIVES ── */
+.mkt { display: none; }
+.mkt.on { display: block; }
+.mkt-inline { display: none; }
+.mkt-inline.on { display: inline; }
+.mkt-flex { display: none; }
+.mkt-flex.on { display: flex; }
+
+/* ── ANNOTATIONS (block) ── */
+.ann {
+  display: block; padding: 8px 12px; border-radius: 3px;
+  border-left: 3px solid; font-size: 12px; line-height: 1.45;
+  margin: 6px 0;
+}
+.ann-g { background: var(--ann-g-bg); border-color: var(--ann-g-bd); }
+.ann-y { background: var(--ann-y-bg); border-color: var(--ann-y-bd); }
+.ann-r { background: var(--ann-r-bg); border-color: var(--ann-r-bd); }
+.ann-b { background: var(--ann-b-bg); border-color: var(--ann-b-bd); }
+.ann strong { font-weight: 700; }
+.ann code { background: rgba(0,0,0,.06); padding: 1px 4px; border-radius: 2px; font-size: 11px; }
+
+/* ── ANNOTATIONS (inline chip) ── */
+.ann-inline {
+  display: inline-block; padding: 1px 8px; border-radius: 2px;
+  font-size: 11px; font-weight: 600; vertical-align: middle;
+  border-left: 3px solid;
+}
+.ann-inline.y { background: var(--ann-y-bg); border-color: var(--ann-y-bd); color: var(--warn); }
+.ann-inline.g { background: var(--ann-g-bg); border-color: var(--ann-g-bd); color: var(--good); }
+.ann-inline.b { background: var(--ann-b-bg); border-color: var(--ann-b-bd); color: var(--accent); }
+.ann-inline.r { background: var(--ann-r-bg); border-color: var(--ann-r-bd); color: var(--bad); }
+
+/* ── DEV NOTE ── */
+.dev-note {
+  margin: 12px 0; padding: 10px 14px;
+  background: var(--ann-b-bg); border-left: 3px solid var(--ann-b-bd);
+  border-radius: 3px; font-size: 12px; color: #475569;
+}
+.dev-note strong { color: var(--accent); }
+.dev-note code { background: rgba(0,0,0,.06); padding: 1px 4px; border-radius: 2px; }
+
+/* ── NAV HEADER (project convention — matches Homepage; MA-25) ── */
+.nav-header {
+  background: #fff; border-bottom: 2px solid #1e3a5f;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 54px; gap: 16px; flex-wrap: wrap;
+}
+.nav-logo {
+  font-size: 14px; font-weight: 900; color: #1e3a5f;
+  letter-spacing: -.02em; white-space: nowrap; flex-shrink: 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo-mark {
+  width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+}
+/* Display controlled by .mkt-flex/.mkt-flex.on — do not set display here (Pitfall-1 style collision) */
+.nav-links { align-items: center; gap: 0; flex: 1; justify-content: center; }
+.nav-link {
+  font-size: 12px; font-weight: 600; color: #444;
+  padding: 0 14px; height: 54px; display: inline-flex; align-items: center;
+  cursor: pointer; border-bottom: 3px solid transparent;
+  text-decoration: none; white-space: nowrap;
+}
+.nav-link:hover { color: #1e3a5f; border-bottom-color: #e8641a; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-account {
+  font-size: 11px; font-weight: 700; color: #5a8cbf;
+  text-decoration: underline; cursor: pointer; white-space: nowrap;
+}
+.nav-account.active {
+  font-weight: 800; color: #e8641a;
+  border-bottom: 2px solid #e8641a; padding-bottom: 2px;
+  text-decoration: none;
+}
+.nav-search-bar { position: relative; display: flex; align-items: center; }
+.nav-search-bar .icon {
+  position: absolute; left: 9px; font-size: 12px; color: #aaa; pointer-events: none;
+}
+.nav-search-bar input {
+  font-size: 12px; background: #f5f7f8; border: 1.5px solid #d0dce8;
+  border-radius: 14px; padding: 5px 14px 5px 28px; color: #555;
+  width: 180px; font-family: inherit; outline: none;
+}
+.nav-mobile-note {
+  font-size: 10px; color: #aaa; background: #f7f7f5;
+  padding: 5px 24px; border-bottom: 1px solid #ebebeb;
+}
+
+/* ── PAGE TITLE + BREADCRUMB ── */
+.page-title-wrap { background: var(--paper); padding: 14px 24px; border-bottom: 1px solid var(--line-soft); }
+.breadcrumb { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.breadcrumb a { color: var(--accent); text-decoration: none; }
+.page-title { font-size: 22px; font-weight: 800; color: var(--ink); }
+
+/* ── PENCIL BANNER SUPPRESSED NOTE (per MA-24) ── */
+.banner-suppressed {
+  background: #f3f4f6; border-bottom: 1px dashed var(--line);
+  padding: 6px 24px; font-size: 11px; color: var(--muted); font-style: italic;
+}
+
+/* ── OPEN QUESTIONS PANEL ── */
+.oq-panel {
+  background: var(--ann-y-bg); border: 1px solid var(--ann-y-bd); border-left: 3px solid var(--ann-y-bd);
+  border-radius: 3px; padding: 14px 18px; margin: 16px 24px;
+}
+.oq-panel h4 {
+  font-size: 11px; font-weight: 800; color: var(--warn); text-transform: uppercase;
+  letter-spacing: .05em; margin-bottom: 10px;
+}
+.oq-panel ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.oq-panel li { font-size: 12px; color: #5a4500; line-height: 1.5; padding-left: 18px; position: relative; }
+.oq-panel li::before { content: "⚑"; color: var(--warn); position: absolute; left: 0; top: 0; }
+.oq-panel li strong { color: var(--warn); }
+.oq-panel li.resolved { opacity: 0.7; }
+.oq-panel li.resolved::before { content: "✓"; color: var(--good); }
+.oq-panel li.resolved strong { color: var(--good); }
+
+/* ── STATE CONTAINER ── */
+.state { display: none; padding: 0; }
+.state.on { display: block; }
+
+.state-divider {
+  background: #2d3640; color: #e6edf3; padding: 8px 24px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+}
+.state-divider strong { color: #ffd866; }
+
+/* ── LAYOUT ── */
+.layout {
+  max-width: 1100px; margin: 0 auto; padding: 24px;
+}
+.layout-narrow {
+  max-width: 480px; margin: 0 auto; padding: 32px 24px;
+}
+
+/* ── AUTH CARD ── */
+.auth-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 28px 32px;
+}
+.auth-card h1 {
+  font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 6px;
+}
+.auth-card .auth-sub {
+  font-size: 13px; color: var(--muted); margin-bottom: 22px; line-height: 1.5;
+}
+.auth-card .auth-success {
+  background: var(--ann-g-bg); border-left: 3px solid var(--ann-g-bd);
+  padding: 12px 14px; border-radius: 3px; font-size: 12px; color: #1a4a30;
+  margin-bottom: 16px; line-height: 1.5;
+}
+
+/* ── FORM ── */
+.form-row { margin-bottom: 14px; }
+.form-label {
+  display: block; font-size: 12px; font-weight: 700; color: var(--ink);
+  margin-bottom: 5px;
+}
+.req { color: var(--bad); margin-right: 2px; }
+.req-lbl {
+  display: inline-block; background: var(--ann-r-bg); color: var(--bad);
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 2px;
+  margin-left: 6px; vertical-align: middle;
+}
+.opt-lbl {
+  display: inline-block; background: var(--line-soft); color: var(--muted);
+  font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 2px;
+  margin-left: 6px; vertical-align: middle;
+}
+.form-input {
+  width: 100%; padding: 9px 12px; font-size: 13px; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 3px; background: var(--paper);
+  font-family: inherit;
+}
+.form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.form-input::placeholder { color: #aab1b8; }
+.form-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.form-error { font-size: 11px; color: var(--bad); margin-top: 4px; display: none; }
+
+/* ── BUTTONS ── */
+.btn {
+  background: var(--accent); color: #fff; border: none;
+  padding: 11px 22px; font-size: 13px; font-weight: 700;
+  border-radius: 3px; cursor: pointer; font-family: inherit;
+  display: inline-block; text-decoration: none;
+}
+.btn:hover { background: #1f486d; }
+.btn:disabled { background: #b8c4d0; cursor: not-allowed; }
+.btn-full { width: 100%; text-align: center; }
+.btn-out {
+  background: transparent; color: var(--accent); border: 1.5px solid var(--accent);
+  padding: 9px 20px; font-size: 12px; font-weight: 700; border-radius: 3px;
+  cursor: pointer; font-family: inherit; display: inline-block;
+}
+.btn-out:hover { background: var(--accent-soft); }
+.btn-danger {
+  background: var(--bad); color: #fff; border: none;
+  padding: 9px 18px; font-size: 12px; font-weight: 700;
+  border-radius: 3px; cursor: pointer; font-family: inherit;
+}
+.btn-sm { padding: 6px 12px; font-size: 11px; }
+
+/* ── LINK ── */
+.link {
+  color: var(--accent); text-decoration: underline; cursor: pointer;
+  font-size: 12px; background: none; border: none; font-family: inherit;
+}
+.link:hover { color: #1f486d; }
+
+/* ── AUTH FOOTER LINKS ── */
+.auth-footer-links {
+  text-align: center; font-size: 12px; color: var(--muted); margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid var(--line-soft);
+}
+.auth-footer-links .link { margin: 0 8px; }
+
+/* ── STEP INDICATOR (within Existing-customer 2-step flow · MA-26) ── */
+.step-indicator {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin: 22px 0 12px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent-soft);
+}
+.step-indicator .step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  width: 22px; height: 22px; border-radius: 50%;
+  font-size: 11px; font-weight: 800;
+}
+.step-divider {
+  margin: 18px 0 4px; padding: 12px 14px;
+  background: var(--ann-g-bg); border: 1px dashed var(--ann-g-bd);
+  border-radius: 4px; font-size: 12px; color: #1a4a30;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.step-divider strong { color: var(--good); font-size: 14px; }
+
+/* ── TAB TOGGLE (sub-toggle within state) ── */
+.subtab-row {
+  display: flex; gap: 0; border-bottom: 1.5px solid var(--line); margin-bottom: 20px;
+}
+.subtab {
+  flex: 1; padding: 10px 14px; font-size: 12px; font-weight: 700;
+  color: var(--muted); cursor: pointer; background: transparent; border: none;
+  border-bottom: 3px solid transparent; margin-bottom: -1.5px; text-align: center;
+  font-family: inherit;
+}
+.subtab.on { color: var(--accent); border-bottom-color: var(--accent); }
+.subview { display: none; }
+.subview.on { display: block; }
+
+/* ── DASHBOARD HEADER ── */
+.acct-header {
+  background: var(--accent); color: #fff; padding: 18px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.acct-welcome { font-size: 18px; font-weight: 800; }
+.acct-sub { font-size: 12px; color: #c8d8e6; margin-top: 4px; }
+.acct-logout { font-size: 12px; color: #c8d8e6; text-decoration: underline; cursor: pointer; background: none; border: none; }
+
+/* ── DASHBOARD CARDS ── */
+.dash-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;
+}
+/* MA-30: markets with no right-slot card render the plan card full-width */
+body.is-mkt-ong .dash-grid,
+body.is-mkt-gre .dash-grid,
+body.is-mkt-ies .dash-grid { grid-template-columns: 1fr; }
+@media (max-width: 720px) { .dash-grid { grid-template-columns: 1fr; } }
+
+/* MA-30: Bill Pay card variant — purple branded head */
+.dash-card.bill-pay .dash-card-head {
+  background: #6a1b9a; color: #fff; border-color: #5a1486;
+}
+.dash-card.bill-pay .dash-card-title { color: #fff; }
+.dash-card.bill-pay .dash-card-sub { color: #ce93d8; font-size: 10px; margin-top: 2px; }
+.dash-card.bill-pay .bill-amount { font-size: 28px; font-weight: 900; color: #6a1b9a; line-height: 1; }
+.dash-card.bill-pay .btn-pay { background: #6a1b9a; }
+
+.dash-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  overflow: hidden;
+}
+.dash-card-head {
+  background: #f5f8fc; padding: 10px 16px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dash-card-title {
+  font-size: 11px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.dash-card-body { padding: 16px; }
+
+.status-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 10px; font-size: 10px; font-weight: 700;
+}
+.sc-active { background: var(--ann-g-bg); color: var(--good); border: 1px solid var(--ann-g-bd); }
+.sc-renewing { background: var(--ann-b-bg); color: var(--accent); border: 1px solid var(--ann-b-bd); }
+.sc-ending { background: var(--ann-y-bg); color: var(--warn); border: 1px solid var(--ann-y-bd); }
+
+/* ── PLAN SUMMARY ── */
+.plan-name { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+.plan-rate { font-size: 28px; font-weight: 900; color: var(--accent); line-height: 1; }
+.plan-unit { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.plan-meta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.plan-meta-item { font-size: 12px; }
+.plan-meta-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: block; margin-bottom: 2px; }
+.plan-meta-val { font-size: 12px; font-weight: 700; color: var(--ink); }
+.plan-action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ── PLAN-CARD RENEWAL LINE (inline · MA-29) ── */
+.plan-renewal-line {
+  background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
+  border-radius: 3px; padding: 10px 12px; margin: 12px 0;
+  font-size: 12px; color: #5a4500; line-height: 1.5;
+}
+.plan-renewal-line strong { color: var(--warn); }
+.plan-renewal-line .link { display: inline-block; margin-top: 2px; }
+
+/* ── PREFS ── */
+.pref-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--line-soft); gap: 12px;
+}
+.pref-row:last-child { border-bottom: none; }
+.pref-label { font-size: 13px; font-weight: 600; color: var(--ink); }
+.pref-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.toggle-on { background: var(--accent); color: #fff; border: none; padding: 5px 14px; font-size: 11px; font-weight: 700; border-radius: 10px; cursor: pointer; }
+.toggle-off { background: var(--line); color: var(--muted); border: none; padding: 5px 14px; font-size: 11px; font-weight: 700; border-radius: 10px; cursor: pointer; }
+
+/* ── PERSONAL INFO ── */
+.info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 700px;
+}
+@media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+.info-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 4px; }
+.info-val { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.5; }
+
+/* ── DOCUMENTS ── */
+.doc-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: #f5f8fc; border: 1px solid var(--line);
+  border-radius: 3px; margin-bottom: 8px;
+}
+.doc-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.doc-meta { font-size: 11px; color: var(--muted); }
+
+/* ── SECTION ── */
+.section-block {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 22px 24px; margin-top: 16px;
+}
+.section-h {
+  font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 14px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-soft);
+}
+
+/* ── PLAN CHANGE URL ARCHITECTURE BLOCK ── */
+.url-arch {
+  background: #f0f4f9; border: 1px solid #b6cce3; border-radius: 5px;
+  padding: 18px; margin-top: 12px;
+}
+.url-arch-h {
+  font-size: 11px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px;
+}
+.url-arch-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+}
+@media (max-width: 700px) { .url-arch-grid { grid-template-columns: 1fr; } }
+.url-arch-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 4px;
+  padding: 14px;
+}
+.url-arch-label {
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin-bottom: 6px;
+}
+.url-arch-desc { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+.url-arch-step { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 11px; margin-bottom: 6px; }
+.url-pill {
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  white-space: nowrap; font-family: ui-monospace, Menlo, monospace;
+}
+.url-pill.start { background: var(--accent); color: #fff; }
+.url-pill.mid { background: var(--ann-b-bg); border: 1px solid var(--ann-b-bd); color: var(--accent); }
+.url-pill.end { background: var(--ann-g-bg); border: 1px solid var(--ann-g-bd); color: var(--good); }
+.url-pill.cta { background: #d97706; color: #fff; }
+.url-arch-note { font-size: 11px; color: var(--muted); line-height: 1.5; margin-top: 6px; }
+.url-converge {
+  background: var(--paper); border: 1.5px solid var(--ann-g-bd); border-radius: 4px;
+  padding: 12px 14px; margin-bottom: 10px;
+}
+.url-converge-h {
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--good); margin-bottom: 8px;
+}
+
+/* ── BILL PAY (IL) ── */
+.bill-pay-card {
+  border: 1px solid #c5a3d8; border-radius: 5px; overflow: hidden; margin-top: 8px;
+}
+.bill-pay-head { background: #6a1b9a; color: #fff; padding: 12px 16px; }
+.bill-pay-title { font-size: 13px; font-weight: 800; }
+.bill-pay-sub { font-size: 10px; color: #ce93d8; margin-top: 2px; }
+.bill-pay-body {
+  padding: 16px; background: var(--paper);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.bill-amount { font-size: 28px; font-weight: 900; color: #6a1b9a; line-height: 1; }
+.bill-due { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* ── RAF SUMMARY CARD (on dashboard) ── */
+.raf-card {
+  border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin-top: 8px;
+}
+.raf-card-head {
+  background: var(--accent); color: #fff; padding: 12px 16px;
+}
+.raf-card-title { font-size: 13px; font-weight: 800; }
+.raf-card-sub { font-size: 11px; color: #c8d8e6; margin-top: 2px; }
+.raf-card-body {
+  background: var(--paper); padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.raf-code-display { font-size: 18px; font-weight: 900; color: var(--accent); letter-spacing: .08em; }
+.raf-code-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* ── RAF DASHBOARD (action-first · MA-31) ── */
+
+/* Hero: incentive + code on one row, code as supporting context */
+.raf-hero {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px;
+  align-items: center;
+  background: linear-gradient(135deg, var(--accent) 0%, #1f486d 100%);
+  color: #fff; border-radius: 6px; padding: 24px 28px; margin-bottom: 20px;
+}
+@media (max-width: 700px) { .raf-hero { grid-template-columns: 1fr; gap: 16px; } }
+.raf-incentive-amount { font-size: 26px; font-weight: 900; line-height: 1.1; margin-bottom: 6px; }
+.raf-incentive-sub { font-size: 13px; color: #c8d8e6; line-height: 1.4; max-width: 360px; }
+.raf-hero-code {
+  background: rgba(255,255,255,0.12); border: 1.5px dashed rgba(255,255,255,0.45);
+  border-radius: 5px; padding: 14px 18px; text-align: center; min-width: 220px;
+}
+.raf-hero-code .raf-code-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8d8e6; margin-bottom: 4px;
+}
+.raf-hero-code .raf-code-big {
+  font-size: 22px; font-weight: 900; color: #fff; letter-spacing: .14em;
+  margin-bottom: 4px;
+}
+.raf-hero-code button { color: #fff; font-size: 11px; }
+
+/* Primary action: Share by email */
+.raf-primary-action {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 22px 24px; margin-bottom: 16px;
+}
+.raf-section-h {
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  margin-bottom: 12px;
+}
+.raf-section-h .ann-inline { margin-left: 8px; }
+
+.raf-email-textarea {
+  width: 100%; min-height: 70px; border: 1px solid var(--line); border-radius: 3px;
+  padding: 9px 12px; font-size: 12px; font-family: inherit; resize: vertical;
+  background: var(--paper);
+}
+
+/* Secondary actions: social cluster */
+.raf-secondary {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 18px 24px; margin-bottom: 20px;
+}
+.raf-social-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.raf-social-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 3px; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: none; color: #fff; font-family: inherit;
+}
+.raf-fb { background: #1877f2; }
+.raf-x  { background: #000; }
+.raf-link { background: #475569; }
+
+/* Paired earnings + history */
+.raf-earnings-history {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  overflow: hidden; margin-bottom: 16px;
+}
+.raf-earnings-summary {
+  background: #f5f8fc; padding: 14px 24px;
+  display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+}
+.raf-earnings-amount { font-size: 22px; font-weight: 900; color: var(--good); }
+.raf-earnings-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.raf-earnings-pending { font-size: 13px; color: var(--ink); }
+
+.raf-history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.raf-history-table th {
+  background: #f7f7f5; padding: 10px 14px; text-align: left;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--muted); border-bottom: 1px solid var(--line);
+}
+.raf-history-table td { padding: 10px 14px; border-bottom: 1px solid var(--line-soft); color: var(--ink); }
+.raf-history-table tr:last-child td { border-bottom: none; }
+.raf-status-awarded { color: var(--good); font-weight: 700; }
+.raf-status-pending { color: var(--warn); font-weight: 700; }
+
+/* How it works (collapsible) */
+.raf-how {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 0; margin-bottom: 16px;
+}
+.raf-how summary {
+  padding: 14px 22px; font-size: 13px; font-weight: 700; color: var(--accent);
+  cursor: pointer; list-style: none; user-select: none;
+}
+.raf-how summary::before { content: "▸ "; color: var(--muted); }
+.raf-how[open] summary::before { content: "▾ "; }
+.raf-how-body {
+  padding: 0 22px 18px; font-size: 12px; color: var(--ink); line-height: 1.6;
+}
+.raf-how-body ol { padding-left: 20px; margin-bottom: 10px; }
+.raf-how-body ol li { margin-bottom: 4px; }
+.raf-how-caveat {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line-soft);
+  font-size: 11px; color: var(--muted);
+}
+
+/* ── SITE FOOTER (project convention — matches Homepage; MA-25) ── */
+.site-footer { background: #1a1a1a; color: #ccc; margin-top: 24px; }
+.footer-brand-strip {
+  padding: 28px 32px;
+  display: grid; grid-template-columns: 200px 1fr 1fr 220px;
+  gap: 32px; border-bottom: 1px solid #2a2a2a; align-items: start;
+}
+@media (max-width: 800px) { .footer-brand-strip { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .footer-brand-strip { grid-template-columns: 1fr; } }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #888; line-height: 1.5; }
+.footer-social { display: flex; gap: 8px; margin-top: 8px; }
+.footer-social-icon {
+  width: 24px; height: 24px; background: #2a2a2a; border: 1px solid #444;
+  border-radius: 3px; display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; cursor: pointer; color: #ccc;
+}
+.footer-col-head {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: #888; margin-bottom: 12px;
+}
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #aaa; text-decoration: none; cursor: pointer; }
+.footer-col-links a:hover { color: #fff; }
+.footer-phone-label {
+  font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .05em;
+  margin-bottom: 2px; font-weight: 700;
+}
+.footer-phone { font-size: 14px; font-weight: 700; color: #fff; }
+.footer-hours { font-size: 9px; color: #888; margin-top: 2px; margin-bottom: 10px; }
+.footer-license { font-size: 10px; color: #888; line-height: 1.5; margin-bottom: 12px; }
+.footer-emergency {
+  padding: 8px 12px; background: #2a2a2a; border-radius: 3px;
+  font-size: 10px; color: #aaa; line-height: 1.5;
+}
+.footer-emergency strong { color: #ccc; }
+.footer-bottom { background: #111; padding: 10px 32px; display: flex; flex-direction: column; gap: 6px; }
+.footer-bottom-row {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+}
+.footer-copyright { font-size: 10px; color: #777; }
+.footer-legal-links { display: flex; gap: 12px; flex-wrap: wrap; }
+.footer-legal-links a { font-size: 10px; color: #888; text-decoration: underline; cursor: pointer; }
+
+/* ── ANNOTATION VISIBILITY MODES (MA-32 · CLAUDE.md standard) ── */
+/* Default: ann-mode-all — every annotation visible */
+/* Open Qs only: hides green (confirmed) + blue (dev notes); keeps yellow + red */
+body.ann-mode-open .ann-g,
+body.ann-mode-open .ann-b,
+body.ann-mode-open .ann-inline.g,
+body.ann-mode-open .ann-inline.b,
+body.ann-mode-open .dev-note { display: none !important; }
+body.ann-mode-open .oq-panel li.resolved { display: none !important; }
+
+/* Clean: hides every annotation; wireframe chrome still visible */
+body.ann-mode-clean .ann,
+body.ann-mode-clean .ann-inline,
+body.ann-mode-clean .dev-note,
+body.ann-mode-clean .oq-panel,
+body.ann-mode-clean .banner-suppressed { display: none !important; }
+
+/* ── CHROME / PRESENTATION MODE (MA-33 · CLAUDE.md standard) ── */
+/* Hides ALL wireframe chrome + annotations; floating "Press Esc to exit" hint */
+body.chrome-hidden .wf-meta,
+body.chrome-hidden .wfctl,
+body.chrome-hidden .legend,
+body.chrome-hidden .oq-panel,
+body.chrome-hidden .banner-suppressed,
+body.chrome-hidden .state-divider,
+body.chrome-hidden .ann,
+body.chrome-hidden .ann-inline,
+body.chrome-hidden .dev-note { display: none !important; }
+
+body.chrome-hidden .presentation-hint {
+  display: block !important;
+}
+.presentation-hint {
+  display: none;
+  position: fixed; bottom: 18px; right: 18px;
+  background: rgba(17,22,28,0.88); color: #fff;
+  font-size: 11px; font-weight: 600;
+  padding: 8px 14px; border-radius: 4px;
+  z-index: 1000; pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: .02em;
+}
+.presentation-hint kbd {
+  background: rgba(255,255,255,0.18); padding: 1px 6px;
+  border-radius: 3px; font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px; margin: 0 2px;
+}
+
+/* ── PRINT ── */
+@media print {
+  .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline, .oq-panel, .state-divider, .banner-suppressed, .presentation-hint {
+    display: none !important;
+  }
+  .state { display: block !important; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     WIREFRAME-ONLY CONTROL PANEL
+═════════════════════════════════════ -->
+<div class="wfctl">
+
+  <!-- ── PRIMARY BAR — always visible ── -->
+  <div class="wfctl-bar">
+    <div class="group">
+      <span class="group-lbl">Market</span>
+      <button id="mkt-btn-ong" class="on" onclick="setMarket('ong')">ONG</button>
+      <button id="mkt-btn-pa"  onclick="setMarket('pa')">PA</button>
+      <button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+      <button id="mkt-btn-il"  onclick="setMarket('il')">IL</button>
+      <button id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
+    </div>
+    <div class="wfctl-divider"></div>
+    <div class="group">
+      <span class="group-lbl">State</span>
+      <button id="st-btn-login"     class="on" onclick="setState('login')">Login</button>
+      <button id="st-btn-create"    onclick="setState('create')">Create Account</button>
+      <button id="st-btn-forgot"    onclick="setState('forgot')">Forgot Password</button>
+      <button id="st-btn-reset"     onclick="setState('reset')">Reset Password</button>
+      <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
+      <button id="st-btn-raf"       onclick="setState('raf')">RAF Dashboard</button>
+    </div>
+    <div class="wfctl-spacer"></div>
+    <button id="ann-btn-all"   class="btn-ann on" onclick="setAnnMode('all')">All</button>
+    <button id="ann-btn-open"  class="btn-ann"    onclick="setAnnMode('open')">Open Qs</button>
+    <button id="ann-btn-clean" class="btn-ann"    onclick="setAnnMode('clean')">Clean</button>
+    <div class="wfctl-divider"></div>
+    <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend ▾</button>
+    <div class="wfctl-divider"></div>
+    <button class="btn-present" onclick="setChrome('hide')">▶ Present</button>
+  </div>
+
+  <!-- ── LEGEND DRAWER ── -->
+  <div class="legend-drawer" id="legend-drawer">
+    <div class="scenario-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--ann-g-bg); border-color:var(--ann-g-bd);"></span> Confirmed</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--ann-y-bg); border-color:var(--ann-y-bd);"></span> Open / pending</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--ann-r-bg); border-color:var(--ann-r-bd);"></span> Blocker / warning</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--ann-b-bg); border-color:var(--ann-b-bd);"></span> Shared component / dev note</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════
+     PENCIL BANNER (suppressed per MA-24)
+═════════════════════════════════════ -->
+<div class="banner-suppressed">
+  ⚑ Global promotional pencil banner suppressed on all MyAccount states (MA-24) — flow-style application screen, not a CMS content page.
+</div>
+
+<!-- ════════════════════════════════════
+     NAV HEADER (project convention — Homepage pattern · MA-25)
+     Standard 4-item nav · IES 3-item exception
+     Phone lives in footer only per HP-1
+═════════════════════════════════════ -->
+<div class="nav-mobile-note">⚑ Mobile: 👤 My Account icon persists in the header alongside the hamburger. Nav links + search field collapse into the hamburger drawer.</div>
+
+<div class="nav-header">
+
+  <!-- Logo -->
+  <div class="nav-logo">
+    <div class="nav-logo-mark">🔥</div>
+    <span class="mkt mkt-ong on">Ohio Natural Gas</span>
+    <span class="mkt mkt-pa">Pennsylvania Energy</span>
+    <span class="mkt mkt-gre">Grand Rapids Energy</span>
+    <span class="mkt mkt-il">Illinois Energy</span>
+    <span class="mkt mkt-ies">Illinois Energy Solutions</span>
+  </div>
+
+  <!-- Standard 4-item nav (ONG/PA/GRE/IL) -->
+  <nav class="nav-links mkt-flex on" id="nav-standard" aria-label="Main">
+    <a class="nav-link" href="#">For My Home</a>
+    <a class="nav-link" href="#">For My Business</a>
+    <a class="nav-link" href="#">Learning Center</a>
+    <a class="nav-link" href="#">About</a>
+  </nav>
+
+  <!-- IES 3-item nav (simplified per CLAUDE.md) -->
+  <nav class="nav-links mkt-flex" id="nav-ies" aria-label="Main">
+    <a class="nav-link" href="#">Fixed Bill Plan</a>
+    <a class="nav-link" href="#">Learning Center</a>
+    <a class="nav-link" href="#">About</a>
+  </nav>
+
+  <!-- Right: My Account (active) + persistent search bar -->
+  <div class="nav-right">
+    <a class="nav-account active" href="#">👤 My Account</a>
+    <div class="nav-search-bar">
+      <span class="icon">🔍</span>
+      <input type="text" placeholder="Search…">
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE TITLE + BREADCRUMB
+═════════════════════════════════════ -->
+<div class="page-title-wrap">
+  <div class="breadcrumb"><a href="#">Home</a> &rsaquo; My Account</div>
+  <div class="page-title">My Account</div>
+</div>
+
+<!-- ════════════════════════════════════
+     OPEN QUESTIONS PANEL
+═════════════════════════════════════ -->
+<div class="oq-panel">
+  <h4>Open Questions — My Account</h4>
+  <ul>
+    <li class="resolved"><strong>#1 RESOLVED · MA-16:</strong> Auth model direction — client aligned 2026-05-19 on exploring email/password uniformly across all 5 markets. <strong>PRIME implementation details remain open:</strong> (a) account-linking mechanism for existing customers, (b) password storage, (c) IL Part 512 identity-code overlay. Reframed as B-N items for dev meeting.</li>
+    <li><strong>#2 · MA-20:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-based auth (not PRIME). When RAF moves into My Account, does the redesign (a) replace it, (b) embed it as iframe, or (c) re-platform onto PRIME auth? Owner: Dev + RAF system owner client-side.</li>
+    <li><strong>#3:</strong> Non-auto-renew renewal flow — for plans that do not auto-renew, full renewal flow must be defined with client. Wireframe shows auto-renew majority path; renewal action variant TBD.</li>
+    <li class="resolved"><strong>#4 RESOLVED · MA-28:</strong> Communication preferences beyond paperless — per client direction 2026-05-19, SMS Alerts removed from scope. Preferences card surfaces only Paperless Billing (PA) and Email Notifications (PA); non-PA markets show the regulatory-notice statement.</li>
+    <li><strong>#5:</strong> Greener Life plan switching from My Account vs. routing through enrollment flow. Owner: Dev.</li>
+    <li class="resolved"><strong>#6 RESOLVED (UPDATED 2026-05-20):</strong> Plan-change architecture confirmed. Two entry points (dashboard "Switch Plan" + promo deep-link), both converging on the market-appropriate existing-customer enrollment pre-flow — per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-89 + ENRIL-35 / ENRIL-76</strong> (IL/IES). Modal-based plan changes remain deprecated. The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> has been retired per MA-13 / MA-14.</li>
+    <li><strong>#7:</strong> Paperless email verification UX — PRIME shows "not signed up" until customer clicks the email verification link. Confirm exact timing/copy with dev.</li>
+    <li><strong>#8 · MA-18 / MA-23 (NEW):</strong> Account-linking mechanism — does PRIME need a new field to associate email→account, or use existing account-number lookup at every login? Working assumption: one-time link at account creation, not every login. Owner: Dev (Girish).</li>
+    <li><strong>#9 · MA-19 (NEW):</strong> Password reset policy — TTL (recommend 15 min), retry limit, lockout duration, "Resend" issues new token. Owner: Legal + Engineering (cross-ref Enrollment dev meeting Q17/Q18).</li>
+    <li><strong>#10 · MA-22 (NEW):</strong> IL Part 512 identity-code overlay — does Part 512 require identity-code re-verification at login, or only at enrollment? Cross-ref Enrollment dev meeting Q30.</li>
+  </ul>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: LOGIN
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state on" id="state-login">
+  <div class="state-divider"><strong>State A</strong> — Unauthenticated · Login</div>
+
+  <div class="layout-narrow">
+    <div class="auth-card">
+      <h1>Log in to your account</h1>
+      <div class="auth-sub">Enter your email and password to view your plan, manage your account, and access your Refer a Friend dashboard.</div>
+
+      <div class="form-row">
+        <label class="form-label" for="login-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
+        <input id="login-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="login-pw"><span class="req">*</span>Password <span class="req-lbl">Required</span></label>
+        <input id="login-pw" class="form-input" type="password" placeholder="••••••••••" aria-required="true">
+        <div class="form-hint"><button class="link" type="button" onclick="setState('forgot')">Forgot password?</button></div>
+      </div>
+
+      <button class="btn btn-full" id="login-submit" disabled>Log In →</button>
+
+      <div class="auth-footer-links">
+        New customer? <button class="link" type="button" onclick="setState('create')">Create account</button>
+        <br>
+        <span style="display:inline-block; margin-top:8px;">
+          Not a customer yet? <a class="link" href="#">View plans →</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="ann ann-g"><strong>MA-16 · Auth direction confirmed:</strong> Email + password is the client-aligned auth model (2026-05-19) across all 5 markets. Replaces the current production model (LDC selector + account number + last name + ZIP).</div>
+    <div class="ann ann-g"><strong>MA-23:</strong> Account number is captured once at account creation / first-time link — not at every login. Subsequent logins use email + password only.</div>
+    <div class="ann ann-y"><strong>MA-16 · Open #8 (PRIME):</strong> Account-linking mechanism — does PRIME associate email→account via a new field, or use existing account-number lookup at every login? Owner: Dev (Girish).</div>
+    <div class="ann ann-y"><strong>MA-22 · Open #10 (IL):</strong> Part 512 identity-code overlay — does login in IL require identity-code re-verification, or only at enrollment? Cross-ref Enrollment Q30. Owner: Legal + Engineering.</div>
+    <div class="ann ann-b"><strong>Existing customers:</strong> Reach Create Account → "Existing customer — set up online access" tab to one-time link their PRIME account (account # + last name + ZIP) to a new email + password.</div>
+
+    <div class="dev-note"><strong>Analytics:</strong> <code>login_attempt</code> on submit, <code>login_success</code> / <code>login_failure</code> on response. <code>login_forgot_password_click</code> + <code>login_create_account_click</code> for affordance taps.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: CREATE ACCOUNT (combined screen with sub-toggle)
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-create">
+  <div class="state-divider"><strong>State B</strong> — Create Account · New customer OR existing-customer first-time link</div>
+
+  <div class="layout-narrow">
+    <div class="auth-card">
+      <h1>Create your account</h1>
+      <div class="auth-sub">Choose the option that fits your situation. New customers create an account with email + password. Existing SouthStar customers verify their account once to set up online access.</div>
+
+      <div class="subtab-row">
+        <button class="subtab on" id="sub-new-btn" onclick="setCreateSub('new')">New customer</button>
+        <button class="subtab" id="sub-existing-btn" onclick="setCreateSub('existing')">Existing customer<br>(set up online access)</button>
+      </div>
+
+      <!-- SUB-VIEW: NEW CUSTOMER -->
+      <div class="subview on" id="sub-new">
+        <div class="form-row">
+          <label class="form-label" for="new-first"><span class="req">*</span>First name <span class="req-lbl">Required</span></label>
+          <input id="new-first" class="form-input" type="text" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="new-last"><span class="req">*</span>Last name <span class="req-lbl">Required</span></label>
+          <input id="new-last" class="form-input" type="text" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="new-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
+          <input id="new-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="new-pw"><span class="req">*</span>Password <span class="req-lbl">Required</span></label>
+          <input id="new-pw" class="form-input" type="password" aria-required="true">
+          <div class="form-hint">Minimum 8 characters · mix of letters, numbers, and a symbol recommended</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="new-pw2"><span class="req">*</span>Confirm password <span class="req-lbl">Required</span></label>
+          <input id="new-pw2" class="form-input" type="password" aria-required="true">
+        </div>
+        <button class="btn btn-full" disabled>Create account →</button>
+
+        <div class="ann ann-b" style="margin-top:14px;"><strong>New customer path:</strong> Typically reached from enrollment confirmation or "Create account" link on Login. Customer hasn't yet enrolled in a plan, OR is mid-enrollment.</div>
+        <div class="ann ann-y"><strong>MA-18 · ENR-15 cross-ref:</strong> "Email already in use" recovery — copy + CTAs already specced in Enrollment (ENR-15). Apply same pattern here: surface "Log in instead" + "Use different email" affordances on email collision.</div>
+      </div>
+
+      <!-- SUB-VIEW: EXISTING CUSTOMER (first-time link) — 2-step flow per MA-26 -->
+      <div class="subview" id="sub-existing">
+        <div class="auth-success" style="background:var(--ann-b-bg); border-color:var(--ann-b-bd); color:#1a3a5f;">
+          <strong>Setting up online access for the first time?</strong><br>
+          Two quick steps: verify your existing SouthStar account, then choose an email + password for future logins. You'll only need to do this once.
+        </div>
+
+        <!-- ─── STEP 1: VERIFY ACCOUNT ─── -->
+        <div class="step-indicator"><span class="step-num">1</span> Step 1 of 2 · Verify your account</div>
+
+        <div class="form-row">
+          <label class="form-label" for="link-ldc"><span class="req">*</span>Your natural gas utility <span class="req-lbl">Required</span></label>
+          <select id="link-ldc" class="form-input" aria-required="true">
+            <option>Select your utility…</option>
+            <!-- ONG LDCs -->
+            <option class="mkt mkt-ong on">CenterPoint Energy</option>
+            <option class="mkt mkt-ong on">Columbia Gas of Ohio</option>
+            <option class="mkt mkt-ong on">Duke Energy Ohio</option>
+            <option class="mkt mkt-ong on">Enbridge Gas Ohio</option>
+            <!-- PA -->
+            <option class="mkt mkt-pa">Peoples Natural Gas</option>
+            <option class="mkt mkt-pa">UGI Utilities</option>
+            <option class="mkt mkt-pa">Philadelphia Gas Works (PGW)</option>
+            <option class="mkt mkt-pa">Columbia Gas of Pennsylvania</option>
+            <!-- GRE -->
+            <option class="mkt mkt-gre">DTE Energy</option>
+            <option class="mkt mkt-gre">Consumers Energy</option>
+            <!-- IL / IES -->
+            <option class="mkt mkt-il">Nicor Gas</option>
+            <option class="mkt mkt-il">Peoples Gas</option>
+            <option class="mkt mkt-il">North Shore Gas</option>
+            <option class="mkt mkt-ies">Nicor Gas</option>
+            <option class="mkt mkt-ies">Peoples Gas</option>
+          </select>
+          <div class="form-hint">Your utility determines the account number format used for verification.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="link-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
+          <input id="link-acct" class="form-input" type="text" placeholder="Per-LDC mask applies" aria-required="true">
+          <div class="form-hint">Find this on your utility bill · <a class="link" href="#">Show me on my bill ↓</a></div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="link-last"><span class="req">*</span>Last name on account <span class="req-lbl">Required</span></label>
+          <input id="link-last" class="form-input" type="text" aria-required="true">
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="link-zip"><span class="req">*</span>ZIP code <span class="req-lbl">Required</span></label>
+          <input id="link-zip" class="form-input" type="text" maxlength="10" aria-required="true">
+        </div>
+
+        <button class="btn btn-full" disabled>Verify account →</button>
+
+        <div class="ann ann-b" style="margin-top:12px;"><strong>MA-26 · Step 1 of 2:</strong> Read-only PRIME lookup. On success, server issues a short-lived token and unlocks Step 2 below. No credential write at this step.</div>
+
+        <!-- ─── STEP TRANSITION (verified state, illustrative) ─── -->
+        <div class="step-divider">
+          <strong>✓ Account verified</strong>
+          <span>Jane Smith · Columbia Gas of Ohio · Account #ONG-00123456 · Step 2 unlocks below</span>
+        </div>
+
+        <!-- ─── STEP 2: CREATE LOGIN CREDENTIALS ─── -->
+        <div class="step-indicator"><span class="step-num">2</span> Step 2 of 2 · Create your login</div>
+
+        <div class="form-row">
+          <label class="form-label" for="link-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
+          <input id="link-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="link-pw"><span class="req">*</span>Password <span class="req-lbl">Required</span></label>
+          <input id="link-pw" class="form-input" type="password" aria-required="true">
+          <div class="form-hint">Minimum 8 characters · mix of letters, numbers, and a symbol recommended</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="link-pw2"><span class="req">*</span>Confirm password <span class="req-lbl">Required</span></label>
+          <input id="link-pw2" class="form-input" type="password" aria-required="true">
+        </div>
+
+        <button class="btn btn-full" disabled>Create login →</button>
+
+        <div style="text-align:center; margin-top:10px;">
+          <button class="link" type="button">← Back to Step 1 (re-verify)</button>
+        </div>
+
+        <div class="ann ann-g" style="margin-top:14px;"><strong>MA-26 · Step 2 of 2:</strong> Credential creation. Server validates the short-lived verification token from Step 1 before writing email + password to the PRIME account record.</div>
+        <div class="ann ann-g"><strong>MA-18(b) · Migration UX:</strong> Existing PRIME customers (today: LDC selector + account number only) transition by verifying once with account # + last name + ZIP, then setting an email + password. Subsequent logins use email + password only.</div>
+        <div class="ann ann-y"><strong>MA-26 · Open #11 (NEW):</strong> Step 1 → Step 2 token TTL — working assumption 10 min (shorter than password-reset TTL since user is mid-flow). Owner: Engineering.</div>
+        <div class="ann ann-y"><strong>MA-18 · Open #8 (PRIME):</strong> Does PRIME need a new field to associate email→account, or use existing account-number lookup at every login? Working assumption: one-time link at creation writes email to account record. Owner: Dev (Girish).</div>
+        <div class="ann ann-y"><strong>Per-LDC account-number masks · Enrollment Q25:</strong> Validation regex/mask per LDC still needs to be extracted from Cindy's source PDF (IL/ONG/PA/GRE LDCs). Reuse same field component as Enrollment Step 1.</div>
+        <div class="ann ann-r"><strong>Anti-slamming check:</strong> Step 1 is read-only PRIME lookup. Step 2 writes credentials only — no plan changes, no consents. MA-26 split makes this boundary explicit.</div>
+        <div class="dev-note"><strong>Analytics:</strong> <code>account_link_step1_attempt</code> / <code>_success</code> / <code>_failure</code> (sub-reasons: ldc_mismatch / acct_not_found / name_mismatch / zip_mismatch). <code>account_link_step2_attempt</code> / <code>_success</code> / <code>_token_expired</code>. Step-1 failure routes to "We couldn't verify your account — call customer service"; Step-2 token expiry routes back to Step 1.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: FORGOT PASSWORD
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-forgot">
+  <div class="state-divider"><strong>State C</strong> — Forgot Password · Request reset link</div>
+
+  <div class="layout-narrow">
+    <div class="auth-card">
+      <h1>Reset your password</h1>
+      <div class="auth-sub">Enter the email address associated with your account. We'll send you a link to reset your password.</div>
+
+      <div class="form-row">
+        <label class="form-label" for="fp-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
+        <input id="fp-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
+      </div>
+
+      <button class="btn btn-full" disabled>Send reset link →</button>
+
+      <div class="auth-footer-links">
+        Remember your password? <button class="link" type="button" onclick="setState('login')">Back to log in</button>
+      </div>
+    </div>
+
+    <!-- Post-submit success state (illustrative — would replace card in production) -->
+    <div class="auth-card" style="margin-top:18px;">
+      <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Post-submit · Sent</div>
+      <div class="auth-success">
+        <strong>Check your inbox.</strong> If an account exists for the email you entered, we've sent a password reset link. The link expires in 15 minutes.
+      </div>
+      <div class="auth-footer-links">
+        Didn't receive it? <button class="link" type="button">Resend link</button>
+      </div>
+    </div>
+
+    <div class="ann ann-g"><strong>MA-19:</strong> Standard email-link reset flow. Working assumption: token TTL 15 minutes, single-use, "Resend" issues a new token and invalidates the prior.</div>
+    <div class="ann ann-g"><strong>Privacy:</strong> Success message does not confirm whether the entered email exists in the system — prevents account enumeration.</div>
+    <div class="ann ann-y"><strong>MA-19 · Open #9:</strong> Exact TTL, retry limit, lockout duration pending Legal + Engineering. Cross-ref Enrollment dev meeting Q17/Q18 (auth-code TTL recommendations).</div>
+    <div class="dev-note"><strong>Analytics:</strong> <code>forgot_password_submit</code>, <code>forgot_password_resend</code>. Server logs failed-attempt rate-limiting separately (do not expose count to client).</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: RESET PASSWORD
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-reset">
+  <div class="state-divider"><strong>State D</strong> — Reset Password · From email link</div>
+
+  <div class="layout-narrow">
+    <div class="auth-card">
+      <h1>Set a new password</h1>
+      <div class="auth-sub">Choose a new password for <strong>jane@email.com</strong>. After saving, you'll be returned to the login page.</div>
+
+      <div class="form-row">
+        <label class="form-label" for="rp-pw"><span class="req">*</span>New password <span class="req-lbl">Required</span></label>
+        <input id="rp-pw" class="form-input" type="password" aria-required="true">
+        <div class="form-hint">Minimum 8 characters · mix of letters, numbers, and a symbol recommended</div>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="rp-pw2"><span class="req">*</span>Confirm new password <span class="req-lbl">Required</span></label>
+        <input id="rp-pw2" class="form-input" type="password" aria-required="true">
+      </div>
+
+      <button class="btn btn-full" disabled>Reset password →</button>
+    </div>
+
+    <!-- Expired token state — MA-27: inline new-link request + CS phone fallback -->
+    <div class="auth-card" style="margin-top:18px;">
+      <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Error state · Token expired</div>
+      <div class="auth-success" style="background:var(--ann-r-bg); border-color:var(--ann-r-bd); color:#5a1d18;">
+        <strong>This reset link has expired.</strong> Reset links are valid for 15 minutes. We'll send a new one to the email on file.
+      </div>
+
+      <!-- Inline new-link request — read-only email from token -->
+      <div class="form-row">
+        <label class="form-label" for="rp-expired-email">Reset link will be sent to</label>
+        <input id="rp-expired-email" class="form-input" type="email" value="jane@email.com" readonly style="background:#f5f7f8; color:var(--ink); cursor:not-allowed;">
+        <div class="form-hint">Email is pulled from the expired link — to use a different address, log in and update your email.</div>
+      </div>
+
+      <button class="btn btn-full" type="button">Send me a new link →</button>
+
+      <!-- Confirmation state (illustrative — would render after tap) -->
+      <div class="auth-success" style="margin-top:12px;">
+        <strong>New link sent.</strong> Check your inbox at jane@email.com. The new link expires in 15 minutes.
+      </div>
+
+      <!-- Customer service phone fallback -->
+      <div class="auth-footer-links" style="margin-top:14px;">
+        Still having trouble?
+        <strong style="color:var(--accent);">
+          <span class="mkt-inline mkt-ong on">Call 1-800-XXX-OHIO</span>
+          <span class="mkt-inline mkt-pa">Call 1-800-XXX-PENN</span>
+          <span class="mkt-inline mkt-gre">Call 1-800-XXX-GRMI</span>
+          <span class="mkt-inline mkt-il">Call 1-800-XXX-ILGS</span>
+          <span class="mkt-inline mkt-ies">Call 1-800-XXX-IESL</span>
+        </strong>
+        <br>
+        <span style="font-size:11px;">Customer service can verify your identity and reset your password manually if email delivery is failing or you no longer have access to the address on file.</span>
+      </div>
+    </div>
+
+    <div class="ann ann-g"><strong>MA-27 · Expired-token UX:</strong> Inline new-link request instead of redirecting to Forgot Password. Email field is read-only (pulled from the expired token's encoded email) so a forwarded link can't be used to spam unrelated addresses. Single-tap to resend.</div>
+    <div class="ann ann-g"><strong>MA-27 · CS phone fallback:</strong> Customer service phone provided for cases where the email-based path is failing (no inbox access, persistent delivery issues, customer no longer recognizes the address). Per-market phone from MA-25 footer copy.</div>
+    <div class="ann ann-g"><strong>MA-19 · Reset state:</strong> Token-based reset. Single-use. Expires per TTL (working: 15 min).</div>
+    <div class="ann ann-g"><strong>Password complexity:</strong> 8+ chars matches MA-18 and Enrollment ENR-18 spec. Standardized across all auth touchpoints.</div>
+    <div class="ann ann-y"><strong>MA-19 · Open #9:</strong> Final password policy (length, complexity, special-character rules, prohibited common passwords) pending Legal + Engineering.</div>
+    <div class="dev-note"><strong>Analytics:</strong> <code>reset_password_submit</code>, <code>reset_password_success</code>, <code>reset_password_token_expired</code>.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: DASHBOARD (logged in)
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-dashboard">
+  <div class="state-divider"><strong>State E</strong> — Authenticated · Dashboard</div>
+
+  <div class="acct-header">
+    <div>
+      <div class="acct-welcome">Welcome back, Jane</div>
+      <div class="acct-sub">
+        <span class="mkt-inline mkt-ong on">Columbia Gas of Ohio customer</span>
+        <span class="mkt-inline mkt-pa">UGI Utilities customer</span>
+        <span class="mkt-inline mkt-gre">DTE Energy customer</span>
+        <span class="mkt-inline mkt-il">Nicor Gas customer</span>
+        <span class="mkt-inline mkt-ies">Nicor Gas customer</span>
+        &nbsp;· Account #ONG-00123456
+      </div>
+    </div>
+    <button class="acct-logout">Log out</button>
+  </div>
+
+  <div class="layout">
+    <!-- Standalone renewal banner removed per MA-29. Renewal state moved into the plan card below
+         (.sc-renewing chip + .plan-renewal-line callout). -->
+
+    <!-- Dashboard cards -->
+    <div class="dash-grid">
+
+      <!-- Current Plan — chip + inline renewal-window line replace standalone banner (MA-29) -->
+      <div class="dash-card">
+        <div class="dash-card-head">
+          <span class="dash-card-title">Current Plan</span>
+          <!-- Status chip variants: .sc-active (default), .sc-renewing (within window), .sc-ending (non-auto-renew expiring) -->
+          <span class="status-chip sc-renewing">● Renewing in 42 days</span>
+        </div>
+        <div class="dash-card-body">
+          <div class="plan-name">
+            <span class="mkt-inline mkt-ong on">ONG Fixed 12</span>
+            <span class="mkt-inline mkt-pa">PA Fixed 12</span>
+            <span class="mkt-inline mkt-gre">GRE Fixed 12</span>
+            <span class="mkt-inline mkt-il">IL Fixed 12</span>
+            <span class="mkt-inline mkt-ies">IES Fixed Bill Plan</span>
+          </div>
+          <div class="plan-rate">$0.489</div>
+          <div class="plan-unit">
+            <span class="mkt-inline mkt-ong on">per Mcf (fixed rate)</span>
+            <span class="mkt-inline mkt-pa">per therm (fixed rate)</span>
+            <span class="mkt-inline mkt-gre">per Mcf (fixed rate)</span>
+            <span class="mkt-inline mkt-il">per therm (fixed rate)</span>
+            <span class="mkt-inline mkt-ies">custom monthly amount (fixed bill)</span>
+          </div>
+
+          <!-- Inline renewal-window line — conditional, replaces standalone banner (MA-29) -->
+          <div class="plan-renewal-line">
+            <strong>⚐ Within renewal window — no ETF to switch.</strong><br>
+            Your auto-renew rate will roll on June 30. <a class="link" href="#">View renewal terms →</a>
+          </div>
+
+          <div class="plan-meta-row">
+            <div class="plan-meta-item">
+              <span class="plan-meta-label">Contract Ends</span>
+              <span class="plan-meta-val">June 30, 2026</span>
+            </div>
+            <div class="plan-meta-item">
+              <span class="plan-meta-label">Renewal</span>
+              <span class="plan-meta-val">Auto-renew</span>
+            </div>
+            <div class="plan-meta-item">
+              <span class="plan-meta-label">ETF</span>
+              <span class="plan-meta-val">$12.50/month remaining</span>
+            </div>
+          </div>
+          <div class="plan-action-row">
+            <a class="btn-out btn-sm" href="#">Switch Plan</a>
+            <a class="btn-out btn-sm" href="#" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PA only: Communication Preferences (right-slot card · MA-30) -->
+      <div class="dash-card mkt mkt-pa">
+        <div class="dash-card-head">
+          <span class="dash-card-title">Communication Preferences</span>
+        </div>
+        <div class="dash-card-body">
+          <div class="pref-row">
+            <div>
+              <div class="pref-label">Paperless Billing</div>
+              <div class="pref-sub">Receive bills via email instead of mail</div>
+            </div>
+            <button class="toggle-on">ON</button>
+          </div>
+          <div class="pref-row">
+            <div>
+              <div class="pref-label">Email Notifications</div>
+              <div class="pref-sub">Rate changes, renewal reminders</div>
+            </div>
+            <button class="toggle-on">ON</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- IL only: Bill Pay (right-slot card · MA-30, moved up from buried position) -->
+      <div class="dash-card bill-pay mkt mkt-il">
+        <div class="dash-card-head">
+          <div>
+            <span class="dash-card-title">💳 Bill Pay</span>
+            <div class="dash-card-sub">Illinois Energy · Billing managed by SouthStar</div>
+          </div>
+        </div>
+        <div class="dash-card-body">
+          <div class="info-label">Amount Due</div>
+          <div class="bill-amount">$84.50</div>
+          <div style="font-size:11px; color:var(--muted); margin:4px 0 14px;">Due May 15, 2026 · Last payment: $82.10 (Apr 3)</div>
+          <a class="btn btn-pay" href="#" style="background:#6a1b9a;">Pay Now →</a>
+          <div style="margin-top:10px;"><a class="link" href="#">View billing history →</a></div>
+        </div>
+      </div>
+
+    </div><!-- /dash-grid -->
+
+    <div class="ann ann-g"><strong>MA-30 · Market-driven right slot:</strong> PA = Communication Preferences (Paperless + Email). IL = Bill Pay (moved up from buried position). ONG / GRE / IES = no right-slot card; plan card spans full width via <code>body.is-mkt-{m} .dash-grid { grid-template-columns: 1fr; }</code>. Mailed-notice statement (formerly shown for non-PA markets) is no longer surfaced in UI.</div>
+    <div class="ann ann-g"><strong>MA-29 · Renewal moved into plan card:</strong> Standalone renewal banner removed. Status chip + inline <code>.plan-renewal-line</code> carry the no-ETF window message. Chip variants: <code>.sc-active</code> (default), <code>.sc-renewing</code> (within window), <code>.sc-ending</code> (non-auto-renew expiring).</div>
+    <div class="ann ann-g"><strong>MA-21 · Plan-change routing (UPDATED 2026-05-20 per MA-35):</strong> "Switch Plan" routes to the market's existing-customer enrollment pre-flow. <strong>OPG markets</strong> (ONG / PA / GRE) → <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> PF-1 (Sign in) per <strong>ENR-42</strong>. <strong>IL / IES Non-GB</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen B pre-flow per <strong>ENRIL-35 / ENRIL-76</strong>. <strong>IL / IES Guaranteed Bill</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen D pre-flow. Promo deep-link → market-appropriate pre-flow Select-plan screen with the deep-linked plan pre-selected (ENR-42 PF-3 / ENRIL-89). Two-entry-point architecture preserved; modal-based plan changes still deprecated. Supersedes the prior reference to the retired <code>PlanChangeFlow_Wireframe.html</code>.</div>
+    <div class="ann ann-g"><strong>MA-28 · Open #4 RESOLVED:</strong> SMS Alerts removed from scope per client direction 2026-05-19.</div>
+    <div class="ann ann-g"><strong>MA-8 · IL Bill Pay:</strong> Compact summary card — full payment experience (payment method, autopay, complete history) at <code>/my-account/billing/</code> child page.</div>
+    <div class="ann ann-y"><strong>Open #3:</strong> Non-auto-renew renewal flow still TBD with client — chip becomes <code>.sc-ending</code> in that scenario with action-required copy on the inline line.</div>
+
+    <!-- Personal information -->
+    <div class="section-block">
+      <div class="section-h">Personal Information</div>
+      <div class="info-grid">
+        <div>
+          <div class="info-label">Email address</div>
+          <div class="info-val">jane@email.com</div>
+          <a class="link" href="#">Update email</a>
+        </div>
+        <div>
+          <div class="info-label">Phone number</div>
+          <div class="info-val">(614) 555-0172</div>
+          <a class="link" href="#">Update phone</a>
+        </div>
+        <div>
+          <div class="info-label">Mailing address</div>
+          <div class="info-val">123 Main Street<br>Columbus, OH 43215</div>
+          <a class="link" href="#">Update address</a>
+        </div>
+        <div>
+          <div class="info-label">Password</div>
+          <div class="info-val" style="letter-spacing:.15em; color:var(--muted);">••••••••••</div>
+          <a class="link" href="#">Change password</a>
+        </div>
+      </div>
+      <div class="ann ann-g" style="margin-top:14px;"><strong>MA-1 (Done):</strong> Personal information section — email, phone, mailing address, password change. Standard authenticated-app expectation; reduces call-center contacts for self-service updates.</div>
+      <div class="ann ann-y"><strong>Open:</strong> Confirm with Dev/PRIME which fields are stored and updatable directly. Email and password tie to the auth layer; phone and mailing address tie to PRIME account record.</div>
+    </div>
+
+    <!-- My Documents -->
+    <div class="section-block">
+      <div class="section-h">My Documents</div>
+      <div class="doc-row">
+        <div>
+          <div class="doc-title">📄 Enrollment Confirmation</div>
+          <div class="doc-meta">ONG Fixed 12 · Enrolled March 15, 2026</div>
+        </div>
+        <a class="link" href="#"><strong>↓ Download PDF</strong></a>
+      </div>
+      <div class="doc-row">
+        <div>
+          <div class="doc-title">📋 Plan Contract</div>
+          <div class="doc-meta">ONG Fixed 12 · 12-Month Fixed Rate · Effective March 2026</div>
+        </div>
+        <a class="link" href="#"><strong>↓ Download PDF</strong></a>
+      </div>
+      <div class="doc-row">
+        <div>
+          <div class="doc-title">⚖️ Terms &amp; Conditions</div>
+          <div class="doc-meta">Current version</div>
+        </div>
+        <a class="link" href="#"><strong>↓ Download PDF</strong></a>
+      </div>
+      <div class="ann ann-y" style="margin-top:12px;"><strong>MA-12:</strong> My Documents is a proposed future capability requiring PRIME development. Today, documents are provided at enrollment (via confirmation email/mail) and during renewal (via mail). Owner: Dev.</div>
+      <div class="ann ann-g"><strong>MA-2 (Done):</strong> Customers frequently need enrollment confirmation for landlords, disputes, or personal records. Reduces call-center contacts for document requests.</div>
+    </div>
+
+    <!-- Plan-change Flow URL Architecture (reference) — UPDATED 2026-05-20 per MA-35 -->
+    <div class="section-block">
+      <div class="section-h">Plan-change Flow — URL Architecture (reference)</div>
+      <div class="url-arch">
+        <div class="url-arch-h">Two entry points · Both converge on the market-appropriate enrollment pre-flow</div>
+
+        <div class="url-arch-grid">
+          <!-- Entry A -->
+          <div class="url-arch-card">
+            <div class="url-arch-label">Entry A — Dashboard "Switch Plan"</div>
+            <div class="url-arch-desc">Customer taps "Switch Plan" from their account page (already authenticated)</div>
+            <div class="url-arch-step">
+              <span class="url-pill start">/my-account/</span>
+              <span style="color:var(--muted);">→</span>
+              <span class="url-pill mid">/enroll/?from=my-account</span>
+              <span style="color:var(--muted); font-size:11px;">(OPG)</span>
+            </div>
+            <div class="url-arch-step">
+              <span class="url-pill start">/my-account/</span>
+              <span style="color:var(--muted);">→</span>
+              <span class="url-pill mid">/enroll/il/?from=my-account</span>
+              <span style="color:var(--muted); font-size:11px;">(IL / IES)</span>
+            </div>
+            <div class="url-arch-note"><strong>Logged-in customers skip Sign in (PF-1 / preflow1)</strong> — the dashboard already established identity. They land on <strong>Confirm current plan</strong> (OPG PF-2 / IL Pre-flow 2) and proceed: Confirm current plan → Select new plan → Confirm switch → enrollment Details / Review. Per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-35 / ENRIL-76 / ENRIL-89</strong> (IL/IES). Both Enrollment wireframes expose this via the wfctl "Entry state" toggle.</div>
+          </div>
+
+          <!-- Entry B -->
+          <div class="url-arch-card">
+            <div class="url-arch-label">Entry B — Promo / plan-card deep-link</div>
+            <div class="url-arch-desc">Customer taps "Switch to This Plan" from a promo or plan card</div>
+            <div class="url-arch-step">
+              <span class="url-pill cta">Plan card / Promo</span>
+              <span style="color:var(--muted);">→</span>
+              <span class="url-pill end">/enroll/?from=my-account&amp;plan=fixed-24</span>
+            </div>
+            <div class="url-arch-note"><strong>Logged-in customers skip ahead to Select new plan</strong> (OPG PF-3 / IL Select-plan screen) with the deep-linked plan visually pre-selected (radio checked / accent border). Customer still sees current-plan context + full alternatives before committing. Not-yet-signed-in customers land on Sign in first, then carry the plan slug through after authentication.</div>
+          </div>
+        </div>
+
+        <div class="url-converge">
+          <div class="url-converge-h">Both entry points converge into the existing-customer pre-flow →</div>
+          <div class="url-arch-step">
+            <span class="url-pill mid">Sign in</span>
+            <span style="color:var(--muted);">→</span>
+            <span class="url-pill mid">Confirm current plan</span>
+            <span style="color:var(--muted);">→</span>
+            <span class="url-pill mid">Select new plan</span>
+            <span style="color:var(--muted);">→</span>
+            <span class="url-pill mid">Confirm switch</span>
+            <span style="color:var(--muted);">→</span>
+            <span class="url-pill end">Enrollment Details / Review / Confirmation</span>
+          </div>
+          <div class="url-arch-note">"Keep current plan" CTA is available at every step of the pre-flow per <strong>ENRIL-78</strong> — customer can back out without committing until they submit. Final URL convention to be confirmed with engineering.</div>
+        </div>
+
+        <div class="ann ann-r"><strong>Edge case:</strong> deep-link with retired/legacy <code>?plan=</code> slug must render the Select-plan screen with a graceful "this plan is no longer available — choose from the plans below" empty state — never render an empty review.</div>
+        <div class="ann ann-g"><strong>MA-21 · OQ #6 RESOLVED (UPDATED 2026-05-20):</strong> Two-entry-point architecture confirmed; ETF-state changes route through the existing-customer pre-flow's Confirm-switch step. Modal-based plan changes remain deprecated.</div>
+        <div class="ann ann-b"><strong>Cross-ref (UPDATED 2026-05-20 per MA-35):</strong> Full flow lives in <strong>Enrollment_ONG-PA-GRE_Wireframe.html</strong> (OPG pre-flow per ENR-42) and <strong>Enrollment_IL-IES_Wireframe.html</strong> (IL/IES Scen B/D per ENRIL-35 / ENRIL-76 / ENRIL-89). The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> was retired per MA-13 / MA-14.</div>
+        <div class="ann ann-y"><strong>Engineering follow-up:</strong> URL convention shown above (<code>/enroll/?from=my-account&amp;plan=…</code>) is illustrative — actual path / param names to be settled with engineering.</div>
+      </div>
+    </div>
+
+    <!-- Standalone Bill Pay section removed per MA-30; Bill Pay now lives in the dashboard right slot (IL only). -->
+
+    <!-- RAF Summary Card (links to RAF Dashboard state) -->
+    <div class="section-block">
+      <div class="section-h">Refer a Friend</div>
+      <div class="raf-card">
+        <div class="raf-card-head">
+          <div class="raf-card-title">🎁 Refer a Friend</div>
+          <div class="raf-card-sub">
+            <span class="mkt-inline mkt-ong on">Earn $25 for you and your friend</span>
+            <span class="mkt-inline mkt-pa">Earn $25 for you and your friend</span>
+            <span class="mkt-inline mkt-gre">Refer a friend to Grand Rapids Energy</span>
+            <span class="mkt-inline mkt-il">Refer a friend to Illinois Energy</span>
+            <span class="mkt-inline mkt-ies">Refer a friend to Illinois Energy Solutions</span>
+          </div>
+        </div>
+        <div class="raf-card-body">
+          <div>
+            <div class="info-label">Your referral code</div>
+            <div class="raf-code-display">ONG-J4K2M9</div>
+            <div class="raf-code-meta">2 pending · $25 earned to date</div>
+          </div>
+          <button class="btn-out btn-sm" onclick="setState('raf')">Refer a Friend →</button>
+        </div>
+      </div>
+      <div class="ann ann-g" style="margin-top:10px;"><strong>MA-3 (Done):</strong> Compact RAF card on dashboard — full experience at <code>/my-account/refer/</code> child page. Click "Refer a Friend →" to view the full RAF dashboard.</div>
+      <div class="ann ann-g"><strong>MA-20:</strong> RAF Dashboard now lives as a separate state in this wireframe (toggle via control bar). Mirrors the full <code>/my-account/refer/</code> page.</div>
+      <div class="ann ann-y"><strong>Open #2:</strong> RAF portal integration with PRIME — replace, embed, or re-platform? Owner: Dev + RAF system owner client-side.</div>
+    </div>
+
+  </div><!-- /layout -->
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: RAF DASHBOARD (full /my-account/refer/ view)
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-raf">
+  <div class="state-divider"><strong>State F</strong> — Authenticated · Refer a Friend Dashboard <span style="opacity:0.7; font-weight:400;">· /my-account/refer/</span></div>
+
+  <div class="acct-header" style="background:#1a3a5f;">
+    <div>
+      <div class="acct-welcome">Refer a Friend</div>
+      <div class="acct-sub">
+        <span class="mkt-inline mkt-ong on">Refer friends to Ohio Natural Gas</span>
+        <span class="mkt-inline mkt-pa">Refer friends to Pennsylvania Energy</span>
+        <span class="mkt-inline mkt-gre">Refer friends to Grand Rapids Energy</span>
+        <span class="mkt-inline mkt-il">Refer friends to Illinois Energy</span>
+        <span class="mkt-inline mkt-ies">Refer friends to Illinois Energy Solutions</span>
+      </div>
+    </div>
+    <button class="acct-logout" onclick="setState('dashboard')">← Back to dashboard</button>
+  </div>
+
+  <div class="layout">
+
+    <!-- ─── HERO: incentive + code (MA-31) ─── -->
+    <div class="raf-hero">
+      <div>
+        <div class="raf-incentive-amount">
+          <span class="mkt-inline mkt-ong on">$25 for you · $25 for them</span>
+          <span class="mkt-inline mkt-pa">$25 for you · $25 for them</span>
+          <span class="mkt-inline mkt-gre">$25 for you · $25 for them</span>
+          <span class="mkt-inline mkt-il">$25 for you · $25 for them</span>
+          <span class="mkt-inline mkt-ies">$25 for you · $25 for them</span>
+        </div>
+        <div class="raf-incentive-sub">When friends enroll using your code, you both get a bill credit when their service starts.</div>
+      </div>
+      <div class="raf-hero-code">
+        <div class="raf-code-label">Your code</div>
+        <div class="raf-code-big">ONG-J4K2M9</div>
+        <button class="link" type="button">📋 Copy code</button>
+      </div>
+    </div>
+
+    <!-- ─── PRIMARY ACTION: Share by email ─── -->
+    <div class="raf-primary-action">
+      <div class="raf-section-h">Share by email <span class="ann-inline g">Primary action</span></div>
+      <div class="form-row">
+        <label class="form-label" for="raf-to">Recipient email(s) <span class="opt-lbl">Comma-separated</span></label>
+        <input id="raf-to" class="form-input" type="text" placeholder="friend@email.com, another@email.com">
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="raf-msg">Personal note <span class="opt-lbl">Optional · pre-filled</span></label>
+        <textarea id="raf-msg" class="raf-email-textarea" placeholder="Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.">Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.</textarea>
+      </div>
+      <button class="btn">Send invitation →</button>
+    </div>
+
+    <!-- ─── SECONDARY ACTIONS: social cluster ─── -->
+    <div class="raf-secondary">
+      <div class="raf-section-h">Or share another way</div>
+      <div class="raf-social-row">
+        <button class="raf-social-btn raf-fb">📘 Facebook</button>
+        <button class="raf-social-btn raf-x">𝕏 Post on X</button>
+        <button class="raf-social-btn raf-link">🔗 Copy link</button>
+      </div>
+    </div>
+
+    <!-- ─── PAIRED EARNINGS + HISTORY ─── -->
+    <div class="raf-earnings-history">
+      <div class="raf-earnings-summary">
+        <div>
+          <div class="raf-earnings-label">Earned to date</div>
+          <div class="raf-earnings-amount">$25</div>
+        </div>
+        <div class="raf-earnings-pending">+ 2 referrals pending enrollment</div>
+        <div style="margin-left:auto;">
+          <select style="font-size:11px; border:1px solid var(--line); padding:4px 8px; border-radius:3px;">
+            <option>2026</option>
+            <option>2025</option>
+          </select>
+        </div>
+      </div>
+      <table class="raf-history-table">
+        <thead>
+          <tr>
+            <th>Friend</th>
+            <th>Date sent</th>
+            <th>Status</th>
+            <th>Reward</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>j.doe@email.com</td>
+            <td>Apr 12, 2026</td>
+            <td class="raf-status-awarded">● Awarded</td>
+            <td>$25.00</td>
+          </tr>
+          <tr>
+            <td>k.smith@email.com</td>
+            <td>Apr 28, 2026</td>
+            <td class="raf-status-pending">● Pending enrollment</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>m.lee@email.com</td>
+            <td>May 5, 2026</td>
+            <td class="raf-status-pending">● Pending enrollment</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── HOW IT WORKS (collapsible) ─── -->
+    <details class="raf-how">
+      <summary>How it works</summary>
+      <div class="raf-how-body">
+        <ol>
+          <li>Share your code with friends and family.</li>
+          <li>They enroll using your code at checkout.</li>
+          <li>You both receive a $25 bill credit when their service starts.</li>
+        </ol>
+        <div class="raf-how-caveat">Reward type and amount may vary by market and promotion period.</div>
+      </div>
+    </details>
+
+    <div class="ann ann-g" style="margin-top:14px;"><strong>MA-31 · Action-first hierarchy:</strong> Hero (incentive + code) → primary share-by-email → secondary social cluster → paired earnings + history → "How it works" collapsed. Code displayed for reference but no longer visually dominant; primary action elevated; status info reads with the history that produced it.</div>
+    <div class="ann ann-g"><strong>MA-20:</strong> Full RAF Dashboard mirrors <code>/my-account/refer/</code>. Dashboard's MA-3 summary card is preserved as the entry point — clicking "Refer a Friend →" lands here.</div>
+    <div class="ann ann-y"><strong>MA-20 · Open #2:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-only auth (not PRIME). Does the redesign replace it, embed as iframe, or re-platform onto PRIME auth? Owner: Dev + RAF system owner.</div>
+    <div class="ann ann-y"><strong>ENRIL-53 cross-ref:</strong> RAF confirmed NOT in IL per David. PA participation TBD. This wireframe shows the full UI for ONG/GRE; IL/IES variants may suppress or replace this state entirely.</div>
+    <div class="dev-note"><strong>Analytics:</strong> <code>raf_email_send</code> (primary; with recipient_count), <code>raf_share_facebook</code> / <code>raf_share_x</code> / <code>raf_share_copy_link</code>, <code>raf_code_copy</code>, <code>raf_how_it_works_expand</code>. Reward-awarded events fire server-side when friend's enrollment passes LDC validation.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     SITE FOOTER (project convention · MA-25)
+     4-column brand strip · Customer Service phone here (not header) per HP-1
+═════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-brand-strip">
+
+    <!-- Col 1: Brand -->
+    <div>
+      <div class="footer-logo">
+        <span class="mkt mkt-ong on">Ohio Natural Gas</span>
+        <span class="mkt mkt-pa">Pennsylvania Energy</span>
+        <span class="mkt mkt-gre">Grand Rapids Energy</span>
+        <span class="mkt mkt-il">Illinois Energy</span>
+        <span class="mkt mkt-ies">Illinois Energy Solutions</span>
+      </div>
+      <div class="footer-parent">
+        A SouthStar Energy company · SouthStar Energy is a subsidiary of Southern Company Gas
+      </div>
+      <div class="footer-social">
+        <div class="footer-social-icon" title="Facebook">f</div>
+        <div class="footer-social-icon" title="LinkedIn">in</div>
+        <div class="footer-social-icon" title="X">𝕏</div>
+      </div>
+    </div>
+
+    <!-- Col 2: Products & Plans -->
+    <div>
+      <div class="footer-col-head">Products &amp; Plans</div>
+      <div class="footer-col-links">
+        <a class="mkt mkt-ong on" href="#">Residential Gas Plans</a>
+        <a class="mkt mkt-pa" href="#">Residential Gas Plans</a>
+        <a class="mkt mkt-gre" href="#">Residential Gas Plans</a>
+        <a class="mkt mkt-il" href="#">Residential Gas Plans</a>
+        <a class="mkt mkt-ies" href="#">Fixed Bill Plan</a>
+        <a class="mkt mkt-ong" href="#">Commercial Plans</a>
+        <a class="mkt mkt-gre" href="#">Commercial Plans</a>
+        <a class="mkt mkt-il" href="#">Commercial Plans</a>
+        <a class="mkt mkt-ong" href="#">Greener Life™ Plans</a>
+      </div>
+    </div>
+
+    <!-- Col 3: Help & Account -->
+    <div>
+      <div class="footer-col-head">Help &amp; Account</div>
+      <div class="footer-col-links">
+        <a href="#">My Account</a>
+        <a class="mkt mkt-il" href="#">Pay My Bill</a>
+        <a href="#">FAQ</a>
+        <a href="#">Refer a Friend</a>
+        <a href="#">Contact Us</a>
+        <a href="#">About</a>
+      </div>
+    </div>
+
+    <!-- Col 4: Support — Customer Service phone (HP-1) + License + Emergency -->
+    <div>
+      <div class="footer-col-head">Support</div>
+      <div class="footer-phone-label">Customer Service</div>
+      <div class="footer-phone">
+        <span class="mkt-inline mkt-ong on">1-800-XXX-OHIO</span>
+        <span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
+        <span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
+        <span class="mkt-inline mkt-il">1-800-XXX-ILGS</span>
+        <span class="mkt-inline mkt-ies">1-800-XXX-IESL</span>
+      </div>
+      <div class="footer-hours">Mon–Fri [hours] · ⚑ confirm hours/market</div>
+
+      <div class="footer-license">
+        <span class="mkt mkt-ong on">PUCO Certified Supplier · License [#]</span>
+        <span class="mkt mkt-pa">PA PUC Licensed · License [#]</span>
+        <span class="mkt mkt-gre">MPSC Licensed Supplier · License [#]</span>
+        <span class="mkt mkt-il">ICC Certified Supplier · License [#]</span>
+        <span class="mkt mkt-ies">ICC Certified Supplier · License [#]</span>
+      </div>
+
+      <div class="footer-emergency">
+        <strong>Gas emergency?</strong> Call your utility — not us.<br>
+        <span class="mkt-inline mkt-ong on">Columbia Gas: 1-800-[xxx] · Dominion: 1-800-[xxx]</span>
+        <span class="mkt-inline mkt-pa">UGI: 1-800-[xxx] · Peoples: 1-800-[xxx]</span>
+        <span class="mkt-inline mkt-gre">Consumers: 1-800-[xxx] · SEMCO: 1-800-[xxx]</span>
+        <span class="mkt-inline mkt-il">Nicor: 1-888-[xxx] · Peoples Gas: 1-866-[xxx]</span>
+        <span class="mkt-inline mkt-ies">Nicor: 1-888-[xxx] · Peoples Gas: 1-866-[xxx]</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom-row">
+      <div class="footer-copyright">
+        © 2026
+        <span class="mkt-inline mkt-ong on">Ohio Natural Gas LLC.</span>
+        <span class="mkt-inline mkt-pa">Pennsylvania Energy LLC.</span>
+        <span class="mkt-inline mkt-gre">Grand Rapids Energy LLC.</span>
+        <span class="mkt-inline mkt-il">Illinois Energy LLC.</span>
+        <span class="mkt-inline mkt-ies">Illinois Energy Solutions LLC.</span>
+        All rights reserved.
+      </div>
+      <div class="footer-legal-links">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating presentation-mode hint (only shows when body.chrome-hidden) -->
+<div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
+
+<script>
+/* ────────────────────────────────────
+   Market switcher
+   ────────────────────────────────────
+   Per playbook §7: every market-conditional element has BOTH
+   the generic .mkt (or .mkt-inline / .mkt-flex) class AND a
+   market-suffix class .mkt-ong / .mkt-pa / etc. JS toggles .on.
+*/
+var MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+
+function setMarket(m) {
+  // Body modifier — prefix with is- to avoid Pitfall 1 collision
+  document.body.classList.remove(
+    'is-mkt-ong', 'is-mkt-pa', 'is-mkt-gre', 'is-mkt-il', 'is-mkt-ies'
+  );
+  document.body.classList.add('is-mkt-' + m);
+
+  // Toggle .on across .mkt, .mkt-inline, .mkt-flex
+  document.querySelectorAll('.mkt, .mkt-inline, .mkt-flex').forEach(function(el) {
+    var on = false;
+    MARKETS.forEach(function(k) {
+      if (el.classList.contains('mkt-' + k) && k === m) on = true;
+    });
+    el.classList.toggle('on', on);
+  });
+
+  // IES nav exception — show IES nav, hide standard
+  var navStd = document.getElementById('nav-standard');
+  var navIes = document.getElementById('nav-ies');
+  if (navStd && navIes) {
+    navStd.classList.toggle('on', m !== 'ies');
+    navIes.classList.toggle('on', m === 'ies');
+  }
+
+  // Control panel button states
+  MARKETS.forEach(function(k) {
+    var b = document.getElementById('mkt-btn-' + k);
+    if (b) b.classList.toggle('on', k === m);
+  });
+}
+
+/* ────────────────────────────────────
+   Auth state switcher
+*/
+var STATES = ['login', 'create', 'forgot', 'reset', 'dashboard', 'raf'];
+
+function setState(s) {
+  document.querySelectorAll('.state').forEach(function(el) {
+    el.classList.remove('on');
+  });
+  var target = document.getElementById('state-' + s);
+  if (target) target.classList.add('on');
+
+  STATES.forEach(function(k) {
+    var b = document.getElementById('st-btn-' + k);
+    if (b) b.classList.toggle('on', k === s);
+  });
+
+  // Scroll to top of state for visibility
+  window.scrollTo({ top: document.querySelector('.legend').offsetTop, behavior: 'instant' });
+}
+
+/* ────────────────────────────────────
+   Create Account sub-toggle (new customer vs existing)
+*/
+function setCreateSub(sub) {
+  document.getElementById('sub-new').classList.toggle('on', sub === 'new');
+  document.getElementById('sub-existing').classList.toggle('on', sub === 'existing');
+  document.getElementById('sub-new-btn').classList.toggle('on', sub === 'new');
+  document.getElementById('sub-existing-btn').classList.toggle('on', sub === 'existing');
+}
+
+/* ────────────────────────────────────
+   Required-field validation (disables submit until filled)
+   Per playbook §7 + Pitfall 5
+*/
+function isFilled(el) {
+  return el && el.value && el.value.trim().length > 0;
+}
+
+function validateForm(formIds, btnId) {
+  var allFilled = formIds.every(function(id) {
+    return isFilled(document.getElementById(id));
+  });
+  var btn = document.getElementById(btnId);
+  if (btn) btn.disabled = !allFilled;
+}
+
+document.addEventListener('input', function(e) {
+  // Login
+  if (e.target.id === 'login-email' || e.target.id === 'login-pw') {
+    validateForm(['login-email', 'login-pw'], 'login-submit');
+  }
+});
+
+/* ────────────────────────────────────
+   Annotation visibility mode (MA-32)
+*/
+var ANN_MODES = ['all', 'open', 'clean'];
+function setAnnMode(mode) {
+  ANN_MODES.forEach(function(k) {
+    document.body.classList.toggle('ann-mode-' + k, k === mode);
+    var btn = document.getElementById('ann-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === mode);
+  });
+}
+
+/* ────────────────────────────────────
+   Chrome / Presentation mode (MA-33)
+*/
+function setChrome(mode) {
+  var hidden = (mode === 'hide');
+  document.body.classList.toggle('chrome-hidden', hidden);
+}
+
+// Esc exits presentation mode
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) {
+    setChrome('show');
+  }
+});
+
+/* ────────────────────────────────────
+   Init
+*/
+setMarket('ong');
+setState('login');
+setCreateSub('new');
+setAnnMode('all');
+setChrome('show');
+validateForm(['login-email', 'login-pw'], 'login-submit');
+
+// ---------- Legend drawer toggle ----------
+function toggleLegend(e) {
+  if (e) e.stopPropagation();
+  var drawer = document.getElementById('legend-drawer');
+  var btn    = document.getElementById('legend-toggle');
+  if (!drawer || !btn) return;
+  var isOpen = drawer.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.textContent = isOpen ? 'Legend ▴' : 'Legend ▾';
+}
+document.addEventListener('click', function(e) {
+  var drawer = document.getElementById('legend-drawer');
+  var btn    = document.getElementById('legend-toggle');
+  if (drawer && drawer.classList.contains('open')) {
+    if (!drawer.contains(e.target) && !btn.contains(e.target)) {
+      drawer.classList.remove('open');
+      btn.classList.remove('open');
+      btn.textContent = 'Legend ▾';
+    }
+  }
+});
+</script>
+</body>
+</html>

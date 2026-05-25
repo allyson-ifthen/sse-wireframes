@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.toolbar-meta { color: #aaa; white-space: nowrap; }
+.market-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; }
+.p-sm { padding: 12px 24px; }
+.p-lg { padding: 26px 32px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-input { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 12px; color: #aaa; font-style: italic; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.metrics-bar { background: #1e3a5f; color: #fff; padding: 10px 24px; display: flex; gap: 20px; font-size: 11px; flex-wrap: wrap; }
+.m-val { font-size: 15px; font-weight: 900; color: #7ec8e3; }
+.m-lbl { color: #aac4d9; }
+.m-tgt { color: #a5d6a7; font-size: 10px; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 600px; }
+.body-sm { font-size: 12px; color: #555; line-height: 1.6; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; flex-wrap: wrap; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; letter-spacing: -.02em; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; gap: 0; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-account { font-size: 11px; font-weight: 700; color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; align-items: start; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; flex-wrap: wrap; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; }
+.mkt.on { display: block; }
+.mkt-inline { display: none; }
+.mkt-inline.on { display: inline; }
+.divider { height: 1px; background: #e8e8e4; margin: 0 24px; }
+.sec-divider { background: #e8e8e4; padding: 5px 24px; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .07em; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.breadcrumb .sep { color: #ddd; margin: 0 4px; }
+
+/* ── FAQ SPECIFIC ── */
+.faq-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 28px 32px; }
+.faq-hero-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.faq-hero-sub { font-size: 13px; color: #aac4d9; margin-bottom: 18px; line-height: 1.5; }
+.faq-search-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.faq-search-input { flex: 1; min-width: 220px; background: #fff; border: none; border-radius: 4px; padding: 12px 16px; font-size: 14px; color: #333; font-family: inherit; }
+.faq-search-btn { background: #e8641a; color: #fff; border: none; padding: 12px 22px; font-weight: 700; font-size: 13px; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+.faq-result-count { font-size: 11px; color: #7ec8e3; margin-top: 10px; }
+
+/* Category tabs */
+.faq-cat-tabs { display: flex; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; background: #f7f7f5; padding: 0 24px; }
+.faq-cat-tab { padding: 12px 16px; font-size: 12px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.faq-cat-tab:hover { color: #1e3a5f; }
+.faq-cat-tab.active { color: #1e3a5f; border-bottom-color: #e8641a; }
+.faq-cat-count { display: inline-block; background: #e8e8e4; color: #888; border-radius: 8px; padding: 1px 6px; font-size: 9px; font-weight: 700; margin-left: 4px; }
+.faq-cat-tab.active .faq-cat-count { background: #e8641a; color: #fff; }
+
+/* FAQ list */
+.faq-layout { display: grid; grid-template-columns: 220px 1fr; gap: 0; }
+.faq-sidebar { background: #f7f7f5; border-right: 1px solid #e0e0e0; padding: 16px; }
+.faq-sidebar-head { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #888; margin-bottom: 10px; }
+.faq-sidebar-link { display: block; font-size: 12px; color: #555; padding: 6px 8px; border-radius: 3px; cursor: pointer; font-weight: 600; margin-bottom: 2px; }
+.faq-sidebar-link:hover, .faq-sidebar-link.active { background: #e8f0f9; color: #1e3a5f; }
+.faq-sidebar-link.active { font-weight: 700; }
+.faq-main { padding: 0; }
+.faq-category-head { padding: 14px 20px; background: #f0f4f9; border-bottom: 1px solid #d0dce8; display: flex; align-items: center; gap: 8px; }
+.faq-category-icon { font-size: 16px; }
+.faq-category-title { font-size: 14px; font-weight: 800; color: #1e3a5f; }
+.faq-category-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+/* Accordion items */
+.faq-item { border-bottom: 1px solid #f0f0ee; }
+.faq-item:last-child { border-bottom: none; }
+.faq-question { padding: 14px 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; cursor: pointer; }
+.faq-question:hover { background: #fafafa; }
+.faq-q-text { font-size: 13px; font-weight: 700; color: #1e3a5f; line-height: 1.4; flex: 1; }
+.faq-q-icon { font-size: 16px; color: #aaa; flex-shrink: 0; margin-top: 1px; font-weight: 300; }
+.faq-answer { padding: 0 20px 14px 20px; display: none; }
+.faq-answer.open { display: block; }
+.faq-answer-text { font-size: 12px; color: #555; line-height: 1.65; max-width: 640px; }
+.faq-answer-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.faq-answer-link { font-size: 11px; color: #5a8cbf; text-decoration: underline; cursor: pointer; font-weight: 600; }
+.faq-schema-badge { display: inline-block; background: #e3f2fd; border: 1px solid #90caf9; color: #1565c0; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
+
+/* Market-specific variant indicator */
+.mkt-variant-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
+.mv-ong { background: #e8f0ff; color: #1e3a5f; }
+.mv-il { background: #f3e5f5; color: #6a1b9a; }
+.mv-gre { background: #e8f5e9; color: #2e7d32; }
+.mv-all { background: #f5f5f5; color: #888; }
+
+/* Contact escape hatch */
+.faq-contact-band { background: #f0f4f9; border-top: 2px solid #1e3a5f; padding: 20px 24px; }
+.faq-contact-grid { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+.faq-contact-title { font-size: 16px; font-weight: 800; color: #1e3a5f; margin-bottom: 6px; }
+.faq-contact-sub { font-size: 12px; color: #666; line-height: 1.5; }
+.faq-contact-actions { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+
+/* LC cross-link band */
+.lc-crosslink { background: #fff3e0; border: 1.5px solid #e8641a; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.lc-crosslink-icon { font-size: 24px; flex-shrink: 0; }
+.lc-crosslink-text { flex: 1; }
+.lc-crosslink-title { font-size: 13px; font-weight: 800; color: #e8641a; margin-bottom: 4px; }
+.lc-crosslink-sub { font-size: 11px; color: #666; line-height: 1.5; }
+.pillar-badge { display: inline-block; background: #1e3a5f; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.pillar-badge.p2 { background: #2e7d32; }
+.pillar-badge.p3 { background: #b84800; }
+.pillar-badge.p4 { background: #6a1b9a; }
+</style>
+</head>
+<body>
+
+<!-- ══ TOOLBAR ══ -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div>
+      <div class="toolbar-title">FAQ — Wireframe Sketch</div>
+      <div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
+    </div>
+    <div>
+      <div class="vsw-label">Market</div>
+      <div class="market-switcher">
+        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <!-- DEPRECATED NOTICE -->
+  <div style="background:#c62828; color:#fff; border-radius:4px; padding:14px 18px; margin-bottom:10px; display:flex; align-items:flex-start; gap:12px;">
+    <div style="font-size:20px; flex-shrink:0;">⛔</div>
+    <div>
+      <div style="font-size:12px; font-weight:800; margin-bottom:4px; text-transform:uppercase; letter-spacing:.05em;">Template Removed from Scope</div>
+      <div style="font-size:11px; line-height:1.6; color:rgba(255,255,255,.85);">The standalone FAQ page has been eliminated. Contextual FAQ schema sections are already embedded in LC articles at the point of relevance — a separate FAQ page duplicates that content and creates a parallel maintenance burden. <strong>/faq/ → 301 redirect to /learning-center/</strong>. FAQ content is distributed into LC article FAQ schema sections. This file is retained for reference only.</div>
+    </div>
+  </div>
+
+  <!-- NAV HEADER -->
+  <div class="section" style="position:relative; margin-bottom:5px;">
+    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
+    <div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav. Logo + Enroll remain visible.</div>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">🔥</div>
+        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+        <span class="mkt" id="logo-il">Illinois Energy</span>
+        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+      </div>
+      <nav class="nav-links" style="display:flex;">
+        <a class="nav-link">For My Home</a>
+        <a class="nav-link">For My Business</a>
+        <a class="nav-link">My Account</a>
+        <a class="nav-link">Learning Center</a>
+        <a class="nav-link">About</a>
+      </nav>
+      <div class="nav-right">
+        <a class="nav-account">👤 My Account</a>
+        <div class="nav-enroll-btn">Enroll →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="section" style="margin-bottom:10px;">
+    <div class="metrics-bar">
+      <div><div class="m-val">Call deflection</div><div class="m-lbl">Primary KPI — reduce repeat support calls</div><div class="m-tgt">FAQ + LC together = self-service resolution path</div></div>
+      <div><div class="m-val">FAQ schema</div><div class="m-lbl">All Q&A eligible for FAQ rich results in Google</div><div class="m-tgt">Structured markup on every question-answer pair</div></div>
+      <div><div class="m-val">Grade 8</div><div class="m-lbl">Target reading level for all FAQ answers</div><div class="m-tgt">Plain language reduces re-read rate and calls</div></div>
+      <div><div class="m-val">5 topic</div><div class="m-lbl">Category groups with market-specific Q variants</div><div class="m-tgt">Enrollment / Billing / Plans / Account / About Us</div></div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <div class="oq-panel">
+    <h4>⚑ Open Questions — FAQ</h4>
+    <ul class="oq-list">
+      <li><strong>#1</strong> How many FAQ items per category? Wireframe shows representative sample (3–5 per category). Final count driven by call center analysis and content team. Call center data from OH (2,900 calls, Feb 2026) is the primary input for ONG FAQ prioritization.</li>
+      <li><strong>#2</strong> IES FAQ treatment: IES has a highly simplified product (Fixed Bill only, ICC compliance, no LDC-rate comparison). Should IES FAQ be a subset of the IL template, a standalone simplified page, or a dedicated IES-specific template?</li>
+      <li><strong>#3</strong> FAQ search: Should in-page search filter the visible FAQ list in real time (client-side JS), or route through global site search? Wireframe shows in-page filtering as the recommended approach — confirm with dev.</li>
+      <li><strong>#4</strong> Learning Center crosslink strategy: FAQ answers that have a corresponding LC article should link to it. Does the content team have a mapping of FAQ → LC article? This is required before FAQ copy is finalized.</li>
+      <li><strong>#5</strong> IL / IES FAQ overlap: Illinois Energy and Illinois Energy Solutions share some FAQ content (ICC, enrollment steps) but diverge on billing (IES = Fixed Bill, no rate exposure). Confirm whether they share a FAQ template or have separate pages.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1: PAGE HERO -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">1</div><br>FAQ Hero<br>+ Search</div>
+    <div class="breadcrumb"><a>Home</a><span class="sep">›</span>FAQ</div>
+    <div class="faq-hero">
+      <div class="faq-hero-title">
+        <span class="mkt on" id="h-ong">Frequently Asked Questions — Ohio Natural Gas</span>
+        <span class="mkt" id="h-pa">Frequently Asked Questions — Pennsylvania Energy</span>
+        <span class="mkt" id="h-gre">Frequently Asked Questions — Grand Rapids Energy</span>
+        <span class="mkt" id="h-il">Frequently Asked Questions — Illinois Energy</span>
+        <span class="mkt" id="h-ies">Frequently Asked Questions — Illinois Energy Solutions</span>
+      </div>
+      <div class="faq-hero-sub">Find answers about enrollment, billing, your plan, and your utility. Can't find what you need? Contact us — we're here to help.</div>
+      <div class="faq-search-row">
+        <input class="faq-search-input" type="text" placeholder="Search questions — e.g. 'how do I cancel my plan?' or 'what is an ETF?'">
+        <button class="faq-search-btn">Search FAQ</button>
+      </div>
+      <div class="faq-result-count">Showing 24 questions across 5 topics</div>
+    </div>
+    <div class="p-sm">
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> H1 includes brand name + "FAQ" for entity-specific AI and SEO indexing</div>
+        <div class="ann ann-g"><i>✓</i> In-page search filters the FAQ list — reduces scroll burden on mobile</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #3: In-page JS filter vs. global site search routing — confirm with dev</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: CATEGORY TABS + LAYOUT -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">2</div><br>Category<br>Nav +<br>Accordion</div>
+
+    <!-- Category tabs (mobile: horizontal scroll; desktop: visible row) -->
+    <div class="faq-cat-tabs">
+      <div class="faq-cat-tab active">Enrollment &amp; Signing Up <span class="faq-cat-count">6</span></div>
+      <div class="faq-cat-tab">Billing &amp; Payments <span class="faq-cat-count">5</span></div>
+      <div class="faq-cat-tab">My Plan &amp; Rates <span class="faq-cat-count">6</span></div>
+      <div class="faq-cat-tab">My Account <span class="faq-cat-count">4</span></div>
+      <div class="faq-cat-tab">About Us &amp; Your Utility <span class="faq-cat-count">3</span></div>
+    </div>
+
+    <div class="faq-layout">
+
+      <!-- Sidebar -->
+      <div class="faq-sidebar">
+        <div class="faq-sidebar-head">Enrollment &amp; Signing Up</div>
+        <a class="faq-sidebar-link active">How do I enroll?</a>
+        <a class="faq-sidebar-link">What information do I need?</a>
+        <a class="faq-sidebar-link">How long does enrollment take?</a>
+        <a class="faq-sidebar-link">Can I enroll if I'm moving?</a>
+        <a class="faq-sidebar-link">Is there a cancellation period?</a>
+        <a class="faq-sidebar-link mkt on" id="sb-ong">What is ONG's rescission policy?</a>
+        <a class="faq-sidebar-link mkt" id="sb-pa">What is PA's 3-day rescission right?</a>
+        <a class="faq-sidebar-link mkt" id="sb-gre">What is MPSC's slamming rule?</a>
+        <a class="faq-sidebar-link mkt" id="sb-il">What is the Illinois enrollment verification call?</a>
+        <a class="faq-sidebar-link mkt" id="sb-ies">What is the IES Fixed Bill plan?</a>
+      </div>
+
+      <!-- Main FAQ list -->
+      <div class="faq-main">
+
+        <div class="faq-category-head">
+          <div class="faq-category-icon">✏️</div>
+          <div>
+            <div class="faq-category-title">Enrollment &amp; Signing Up</div>
+            <div class="faq-category-sub">How to get started, what to expect, and your rights as a customer</div>
+          </div>
+        </div>
+
+        <!-- Q1: How do I enroll? (open state shown) -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">How do I enroll with
+              <span class="mkt-inline on" id="qb-ong">Ohio Natural Gas</span>
+              <span class="mkt-inline" id="qb-pa">Pennsylvania Energy</span>
+              <span class="mkt-inline" id="qb-gre">Grand Rapids Energy</span>
+              <span class="mkt-inline" id="qb-il">Illinois Energy</span>
+              <span class="mkt-inline" id="qb-ies">Illinois Energy Solutions</span>?
+              <span class="faq-schema-badge">FAQ Schema</span>
+            </div>
+            <div class="faq-q-icon">−</div>
+          </div>
+          <div class="faq-answer open">
+            <div class="faq-answer-text">
+              Enrolling is easy and done entirely online. You'll need your utility account number, your address, and a valid email address. Start by selecting your utility on our plans page — we'll show you the plans available for your address and walk you through the enrollment steps.
+              <br><br>
+              <span class="mkt-inline on">Your utility is either Columbia Gas or Dominion Energy Ohio. If you're unsure which utility serves your address, you can enter your zip code on the plans page or call us.</span>
+              <span class="mkt-inline" id="qans-pa">Your utility is UGI Utilities, Peoples Natural Gas, or PECO. Select your utility on the plans page to see available plans.</span>
+              <span class="mkt-inline" id="qans-gre">Your utility is DTE Energy or Consumers Energy. Select your utility on the plans page to see available plans.</span>
+              <span class="mkt-inline" id="qans-il">Illinois requires a 100% sales verification call after enrollment to confirm your switch. Our team will contact you to complete this step.</span>
+              <span class="mkt-inline" id="qans-ies">Illinois Energy Solutions offers a single Fixed Bill plan — a predictable monthly charge with no commodity rate exposure. Enrollment is completed online.</span>
+            </div>
+            <div class="faq-answer-links">
+              <a class="faq-answer-link">→ View plans and enroll</a>
+              <a class="faq-answer-link">→ Learning Center: How to Switch</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">What do I need to enroll? <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">You'll need: your 10–12 digit utility account number (found on your current gas bill), your service address, and a valid email. Enrollment is completed entirely online.</div>
+            <div class="faq-answer-links"><a class="faq-answer-link">→ Where to find your account number</a></div>
+          </div>
+        </div>
+
+        <!-- Q3: ETF/Cancellation -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">Is there a fee to cancel? <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">
+              Fixed-rate plans have an early termination fee (ETF) if cancelled before the contract end date.
+              <span class="mkt-inline on">Ohio Natural Gas fixed plans carry a $12.50/month ETF for each remaining month on the contract.</span>
+              <span class="mkt-inline" id="etf-pa">Pennsylvania Energy fixed plans carry a $10.00/month ETF for each remaining month on the contract.</span>
+              <span class="mkt-inline" id="etf-gre">Grand Rapids Energy fixed plans carry a $20.00/month ETF for each remaining month on the contract.</span>
+              <span class="mkt-inline" id="etf-il">Illinois Energy ETF amount — confirm with client.</span>
+              <span class="mkt-inline" id="etf-ies">Illinois Energy Solutions ETF amount — confirm with client.</span>
+              Variable-rate plans and plans within their renewal window can be cancelled without an ETF.
+            </div>
+            <div class="faq-answer-links"><a class="faq-answer-link">→ Understanding your contract terms</a></div>
+          </div>
+        </div>
+
+        <!-- Q4: Market-specific IL verification call -->
+        <div class="faq-item mkt" id="q-il">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">Why do I need a verification call to complete enrollment? <span class="mkt-variant-badge mv-il">IL only</span> <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">Illinois requires 100% sales verification for all natural gas supplier switches. After you complete enrollment online, our team will call you (or you'll receive a recorded verification) to confirm your switch. This is an Illinois Commerce Commission (ICC) requirement, not a sales call.</div>
+          </div>
+        </div>
+
+        <!-- Q5: Market-specific PA rescission -->
+        <div class="faq-item mkt" id="q-pa">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">What is the 3-day rescission right? <span class="mkt-variant-badge" style="background:#fce4ec; color:#880e4f;">PA only</span> <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">Pennsylvania law gives you the right to cancel your enrollment within 3 business days without penalty. This is your right under the PA Public Utility Commission. You can cancel by calling us or by written notice within 3 business days of enrollment.</div>
+          </div>
+        </div>
+
+        <!-- Q6: Billing section preview -->
+        <div class="sec-divider" style="margin:0;">Billing &amp; Payments</div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">Who do I pay my gas bill to? <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">
+              <span class="mkt-inline on">You continue to pay your bill directly to your utility (Columbia Gas or Dominion Energy Ohio). Ohio Natural Gas does not issue a separate bill — your gas supply charge from us appears as a line item on your existing utility bill.</span>
+              <span class="mkt-inline" id="bill-pa">You continue to pay your bill directly to your utility (UGI, Peoples, or PECO). Pennsylvania Energy appears as a supplier line item on your existing utility bill.</span>
+              <span class="mkt-inline" id="bill-gre">You continue to pay your bill directly to your utility (DTE or Consumers Energy). Grand Rapids Energy appears as a supplier line item on your existing utility bill.</span>
+              <span class="mkt-inline" id="bill-il">Illinois Energy issues a separate bill for your gas supply. You will receive two bills: one from your utility for delivery, and one from Illinois Energy for supply.</span>
+              <span class="mkt-inline" id="bill-ies">Illinois Energy Solutions issues a separate bill (Fixed Bill). You will receive two bills: one from your utility for delivery, and one from IES for your fixed monthly supply charge.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">Why do I see two charges on my bill? <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">Your gas bill has two components: (1) <strong>Delivery charge</strong> — paid to your utility for maintaining the pipes and infrastructure. (2) <strong>Supply charge</strong> — the cost of the natural gas itself, billed at your plan rate. When you enroll with us, we supply your gas at the rate you chose. Your utility still delivers it.</div>
+            <div class="faq-answer-links"><a class="faq-answer-link">→ Learning Center: Understanding Your Gas Bill</a></div>
+          </div>
+        </div>
+
+        <!-- My Plan & Rates -->
+        <div class="sec-divider" style="margin:0;">My Plan &amp; Rates</div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">What's the difference between a fixed and variable rate? <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">A <strong>fixed rate</strong> locks in a set price per therm (or MCF) for the duration of your contract — typically 6–24 months. Your rate won't change even if market prices rise. A <strong>variable rate</strong> follows the monthly market index and can go up or down. Variable rates have no contract term or early termination fee.</div>
+            <div class="faq-answer-links">
+              <a class="faq-answer-link">→ Learning Center: Fixed vs. Variable Rates</a>
+              <a class="faq-answer-link">→ View current plans</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item mkt on" id="q-greener-ong" style="display:block;">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="faq-q-text">What is the Greener Life plan? <span class="mkt-variant-badge mv-ong">ONG + GRE</span> <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="faq-q-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-text">Greener Life is a separate plan type (not an add-on) that offsets the carbon emissions associated with your natural gas usage through certified renewable natural gas (RNG) or carbon offsets. You pay a slightly higher rate in exchange for a carbon-neutral energy supply. It is available as a fixed or variable plan.</div>
+            <div class="faq-answer-links"><a class="faq-answer-link">→ Learning Center: Greener Life &amp; Sustainability</a></div>
+          </div>
+        </div>
+
+      </div><!-- /faq-main -->
+    </div><!-- /faq-layout -->
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> FAQ schema markup applied to every Q&A pair — eligible for Google FAQ rich results and AI Overview extraction</div>
+        <div class="ann ann-g"><i>✓</i> Sidebar navigation provides anchored links to jump to specific questions — critical for mobile usability</div>
+        <div class="ann ann-g"><i>✓</i> Market-specific questions shown/hidden via market switcher — one template, all five markets</div>
+        <div class="ann ann-g"><i>✓</i> Grade 8 reading level target — answers written in plain language, no jargon</div>
+        <div class="ann ann-g"><i>✓</i> Every answer cross-links to the relevant Learning Center article — drives engagement and reduces contact form submissions</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #4: FAQ → LC article mapping must be completed by content team before FAQ copy is finalized</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: LC CROSS-LINK BAND -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">3</div><br>Learning<br>Center Links</div>
+    <div class="p">
+      <div class="lc-crosslink">
+        <div class="lc-crosslink-icon">📚</div>
+        <div class="lc-crosslink-text">
+          <div class="lc-crosslink-title">Looking for a deeper explanation?</div>
+          <div class="lc-crosslink-sub">Our Learning Center has in-depth articles on gas rates, switching, your account, and more — written to help you make confident decisions.</div>
+        </div>
+        <div class="wf-btn-out">Browse the Learning Center →</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="pillar-badge">Gas Rates</span>
+        <span class="pillar-badge p2">Service Area</span>
+        <span class="pillar-badge p3">How to Switch</span>
+        <span class="pillar-badge p4">Account &amp; Bills</span>
+      </div>
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> Learning Center cross-link placed after FAQ accordions — users who didn't find their answer in FAQ are directed to longer-form content before reaching the Contact page</div>
+        <div class="ann ann-g"><i>✓</i> Pillar badges shown as visual entry points — each badge links to the corresponding pillar hub in the Learning Center</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: CONTACT ESCAPE HATCH -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">4</div><br>Contact<br>Escape Hatch</div>
+    <div class="faq-contact-band">
+      <div class="faq-contact-grid">
+        <div>
+          <div class="faq-contact-title">Still have a question?</div>
+          <div class="faq-contact-sub">Our support team is available
+            <span class="mkt-inline on">Monday–Friday, 8am–6pm ET (Ohio Natural Gas).</span>
+            <span class="mkt-inline" id="hours-pa">Monday–Friday, 8am–6pm ET (Pennsylvania Energy).</span>
+            <span class="mkt-inline" id="hours-gre">Monday–Friday, 8am–5pm CT (Grand Rapids Energy).</span>
+            <span class="mkt-inline" id="hours-il">Monday–Friday, 8am–5pm CT (Illinois Energy).</span>
+            <span class="mkt-inline" id="hours-ies">Monday–Friday, 8am–5pm CT (Illinois Energy Solutions).</span>
+          </div>
+        </div>
+        <div class="faq-contact-actions">
+          <div class="wf-btn">Contact Us →</div>
+          <div style="font-size:11px; color:#888; text-align:right;">
+            <span class="mkt-inline on">1-800-XXX-XXXX (ONG)</span>
+            <span class="mkt-inline" id="phone-pa">1-800-XXX-XXXX (PA)</span>
+            <span class="mkt-inline" id="phone-gre">1-800-XXX-XXXX (GRE)</span>
+            <span class="mkt-inline" id="phone-il">1-800-XXX-XXXX (IL)</span>
+            <span class="mkt-inline" id="phone-ies">1-800-XXX-XXXX (IES)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-sm">
+      <div class="ann-row">
+        <div class="ann ann-g"><i>✓</i> Contact CTA is the last element on the page — FAQ and LC cross-link come first. Contact is the endpoint of last resort per call deflection strategy.</div>
+        <div class="ann ann-g"><i>✓</i> Phone number shown here as a fallback — full contact details live on the Contact page</div>
+        <div class="ann ann-y"><i>⚑</i> Phone numbers TBD — confirm market-specific numbers with client</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <div class="section">
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
+          <div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
+          <div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
+          <div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
+          <div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
+          <div class="footer-parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
+        </div>
+        <div>
+          <div class="footer-col-head">Support</div>
+          <div class="footer-col-links"><a>FAQ</a><a>Contact Us</a><a>Learning Center</a></div>
+        </div>
+        <div>
+          <div class="footer-col-head">My Account</div>
+          <div class="footer-col-links"><a>Log In</a><a>Create Account</a><a>Refer a Friend</a></div>
+        </div>
+        <div>
+          <div class="footer-col-head">Legal</div>
+          <div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-row">
+          <div class="footer-copyright">© 2026 SouthStar Energy Services. All rights reserved.</div>
+          <div class="footer-legal-links"><a>Terms</a><a>Privacy</a><a>Sitemap</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">FAQ — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026<br>
+  ⛔ DEPRECATED — FAQ template removed. /faq/ redirects to /learning-center/. Q&amp;A content distributed into LC article FAQ schema sections.</div>
+
+</div>
+
+<script>
+function setMarket(m) {
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll(`[id$="-${m}"]`).forEach(el => {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-inline')) el.classList.add('on');
+  });
+  // Greener Life question visible for ONG and GRE
+  const glQ = document.getElementById('q-greener-ong');
+  if (glQ) glQ.style.display = (m === 'ong' || m === 'gre') ? 'block' : 'none';
+  document.querySelectorAll('.btn-market').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  const icon = el.querySelector('.faq-q-icon');
+  if (answer.classList.contains('open')) {
+    answer.classList.remove('open');
+    icon.textContent = '+';
+  } else {
+    answer.classList.add('open');
+    icon.textContent = '−';
+  }
+}
+</script>
+</body>
+</html>

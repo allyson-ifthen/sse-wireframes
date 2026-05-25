@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results — Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.market-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.state-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-state { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-state:hover, .btn-state.active { background: #5a8cbf; border-color: #5a8cbf; color: #fff; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 26px 32px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-input { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 12px; color: #aaa; font-style: italic; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.metrics-bar { background: #1e3a5f; color: #fff; padding: 10px 24px; display: flex; gap: 20px; font-size: 11px; flex-wrap: wrap; }
+.m-val { font-size: 15px; font-weight: 900; color: #7ec8e3; }
+.m-lbl { color: #aac4d9; }
+.m-tgt { color: #a5d6a7; font-size: 10px; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-account { font-size: 11px; font-weight: 700; color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.page-view { display: none; } .page-view.on { display: block; }
+.divider { height: 1px; background: #e8e8e4; margin: 0 24px; }
+.sec-divider { background: #e8e8e4; padding: 5px 24px; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .07em; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.pillar-badge { display: inline-block; background: #1e3a5f; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: .05em; }
+.pillar-badge.p2 { background: #2e7d32; }
+.pillar-badge.p3 { background: #b84800; }
+.pillar-badge.p4 { background: #6a1b9a; }
+
+/* ── SEARCH SPECIFIC ── */
+.search-bar-section { background: #f5f8fc; border-bottom: 2px solid #d0dce8; padding: 16px 24px; }
+.search-bar-row { display: flex; gap: 10px; align-items: center; }
+.search-bar-input { flex: 1; background: #fff; border: 2px solid #1e3a5f; border-radius: 4px; padding: 11px 16px; font-size: 15px; color: #333; font-family: inherit; }
+.search-bar-btn { background: #1e3a5f; color: #fff; border: none; padding: 12px 22px; font-weight: 700; font-size: 13px; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+.search-bar-clear { font-size: 11px; color: #5a8cbf; text-decoration: underline; cursor: pointer; margin-left: 4px; }
+.search-meta { font-size: 11px; color: #888; margin-top: 8px; }
+.search-meta strong { color: #1e3a5f; }
+
+/* LDC context bar */
+.ldc-context-bar { background: #e8f0f9; border: 1px solid #d0dce8; padding: 8px 24px; font-size: 11px; color: #1e3a5f; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.ldc-context-text { display: flex; align-items: center; gap: 6px; }
+.ldc-context-change { color: #5a8cbf; text-decoration: underline; cursor: pointer; font-weight: 600; }
+
+/* Filter row */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 24px; border-bottom: 1px solid #e0e0e0; background: #fafafa; }
+.filter-chip { background: #fff; border: 1.5px solid #d0dce8; color: #666; padding: 5px 12px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 600; }
+.filter-chip:hover { border-color: #1e3a5f; color: #1e3a5f; }
+.filter-chip.active { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
+
+/* Search layout */
+.search-layout { display: grid; grid-template-columns: 1fr 260px; gap: 0; }
+.search-results-main { padding: 16px 24px; }
+.search-sidebar { background: #f7f7f5; border-left: 1px solid #e0e0e0; padding: 16px; }
+.search-sidebar-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #888; margin-bottom: 10px; }
+
+/* Result types */
+.result-item { padding: 14px 0; border-bottom: 1px solid #f0f0ee; }
+.result-item:last-child { border-bottom: none; }
+.result-type-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+.rt-plan { background: #e3f2fd; color: #1565c0; }
+.rt-article { background: #e8f5e9; color: #2e7d32; }
+.rt-faq { background: #fff3e0; color: #e65100; }
+.rt-utility { background: #fce4ec; color: #880e4f; }
+.rt-legal { background: #f3e5f5; color: #6a1b9a; }
+.result-title { font-size: 15px; font-weight: 700; color: #1e3a5f; line-height: 1.3; margin-bottom: 4px; cursor: pointer; }
+.result-title:hover { text-decoration: underline; }
+.result-url { font-size: 11px; color: #888; margin-bottom: 6px; }
+.result-snippet { font-size: 12px; color: #555; line-height: 1.6; }
+.result-snippet mark { background: #fff3cd; color: #333; padding: 0 2px; border-radius: 2px; }
+.result-ldc-badge { display: inline-block; background: #e8f0f9; border: 1px solid #d0dce8; color: #1e3a5f; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; margin-top: 6px; }
+
+/* Featured result (plan callout) */
+.featured-result { background: #f0f6ff; border: 2px solid #7aabda; border-radius: 5px; padding: 14px 18px; margin-bottom: 16px; }
+.featured-result-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #5a8cbf; margin-bottom: 6px; }
+.featured-result-title { font-size: 16px; font-weight: 800; color: #1e3a5f; margin-bottom: 6px; }
+.featured-plan-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.featured-plan-card { background: #fff; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 10px 14px; min-width: 120px; }
+.fpc-name { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 2px; }
+.fpc-rate { font-size: 20px; font-weight: 900; color: #e8641a; }
+.fpc-unit { font-size: 10px; color: #888; }
+
+/* Skeleton loading */
+.skeleton { background: linear-gradient(90deg, #e0e0e0 25%, #f0f0ee 50%, #e0e0e0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 3px; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.skel-line { height: 12px; margin-bottom: 8px; }
+.skel-title { height: 18px; width: 70%; margin-bottom: 6px; }
+.skel-short { width: 40%; }
+
+/* Plans promotional banner */
+.plans-promo-banner { background: linear-gradient(135deg, #1e3a5f 0%, #2a5280 100%); border-radius: 5px; padding: 16px 20px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.plans-promo-left { flex: 1; min-width: 200px; }
+.plans-promo-eyebrow { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: #7ec8e3; margin-bottom: 5px; }
+.plans-promo-title { font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 5px; line-height: 1.2; }
+.plans-promo-sub { font-size: 11px; color: #aac4d9; line-height: 1.5; }
+.plans-promo-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+
+/* LDC selector buttons (unset state) */
+.ldc-select-btn { background:#fff; border:1.5px solid #d0dce8; color:#555; padding:7px 10px; font-size:11px; font-weight:700; border-radius:3px; cursor:pointer; display:block; width:100%; margin-bottom:5px; text-align:left; }
+.ldc-select-btn:hover { border-color:#1e3a5f; color:#1e3a5f; background:#f5f8fc; }
+
+/* Residential / Commercial differentiator badges */
+.res-badge { display:inline-block; background:#e8f5e9; border:1px solid #a5d6a7; color:#2e7d32; font-size:9px; font-weight:800; padding:2px 6px; border-radius:3px; margin-left:4px; text-transform:uppercase; letter-spacing:.03em; }
+.com-badge { display:inline-block; background:#e0f2f1; border:1px solid #80cbc4; color:#00695c; font-size:9px; font-weight:800; padding:2px 6px; border-radius:3px; margin-left:4px; text-transform:uppercase; letter-spacing:.03em; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 48px 32px; }
+.empty-icon { font-size: 40px; margin-bottom: 14px; }
+.empty-title { font-size: 18px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.empty-sub { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
+.empty-suggestions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.empty-suggestion-chip { background: #f5f8fc; border: 1.5px solid #d0dce8; color: #1e3a5f; padding: 6px 14px; border-radius: 3px; font-size: 11px; font-weight: 700; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div>
+      <div class="toolbar-title">Search Results — Wireframe Sketch</div>
+      <div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
+    </div>
+    <div>
+      <div class="vsw-label">Market</div>
+      <div class="market-switcher">
+        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+      </div>
+    </div>
+    <div>
+      <div class="vsw-label">Search State</div>
+      <div class="state-switcher">
+        <button class="btn-state active" onclick="setPage('populated')">Results Found</button>
+        <button class="btn-state" onclick="setPage('empty')">No Results</button>
+        <button class="btn-state" onclick="setPage('loading')">Loading</button>
+        <button class="btn-state" onclick="setPage('noutility')">No Utility Selected</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
+  </div>
+</div>
+
+<div class="canvas">
+  <!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component -->
+  <div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+    <div class="ann ann-b" style="font-size:10px; display:flex;">◈ Global promotional pencil banner appears here — shared component (see Homepage wireframe for full implementation). Suppressed on Contact, Legal, My Account, and Plan Change Flow. CMS-managed copy per active promotion.</div>
+  </div>
+
+  <!-- NAV HEADER -->
+  <div class="section" style="position:relative; margin-bottom:5px;">
+    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
+    <div class="nav-mobile-note">⚑ Mobile: search icon in nav expands full-width input.</div>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">🔥</div>
+        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+        <span class="mkt" id="logo-il">Illinois Energy</span>
+        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+      </div>
+      <nav class="nav-links" style="display:flex;">
+        <a class="nav-link">For My Home</a>
+        <a class="nav-link">For My Business</a>
+        <a class="nav-link">Learning Center</a>
+        <a class="nav-link">About</a>
+      </nav>
+      <div class="nav-right">
+        <a class="nav-account">👤 My Account</a>
+        <span style="font-size:16px; color:#e8641a; cursor:pointer; padding:0 2px; border-bottom:2px solid #e8641a;" title="Search (active)">🔍</span>
+        <span style="font-size:10px; color:#555; border-left:1px solid #ddd; padding-left:10px; line-height:1.6; white-space:nowrap;">
+          <span style="display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:.05em;">Customer Service</span>
+          <span class="mkt-inline on" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-phone-pa" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-phone-gre" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-phone-il" style="font-weight:700;">1-800-XXX-XXXX</span>
+          <span class="mkt-inline" id="nav-phone-ies" style="font-weight:700;">1-800-XXX-XXXX</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="section" style="margin-bottom:10px;">
+    <div class="metrics-bar">
+      <div><div class="m-val">LDC-aware</div><div class="m-lbl">Results filtered by user's confirmed LDC when set</div><div class="m-tgt">Plans, rates, and utility contacts match market context</div></div>
+      <div><div class="m-val">6 categories</div><div class="m-lbl">LC pillar taxonomy + Plans + Utility Contact + Legal</div><div class="m-tgt">Same vocabulary as LC nav, article badges, and search filters</div></div>
+      <div><div class="m-val">CMS input</div><div class="m-lbl">Search results inform CMS evaluation decision</div><div class="m-tgt">Native CMS search vs. dedicated search tool TBD</div></div>
+      <div><div class="m-val">3 states</div><div class="m-lbl">Populated / Empty / Loading</div><div class="m-tgt">All three states wireframed — see state switcher above</div></div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <div class="oq-panel">
+    <h4>⚑ Open Questions — Search Results</h4>
+    <ul class="oq-list">
+      <li><strong>#1 CRITICAL</strong> CMS search capability: Does the selected CMS support native site search with result-type differentiation, or is a dedicated search tool (Algolia, Typesense, Elasticsearch) required? Wireframe defines the UX regardless — but implementation complexity depends heavily on this decision. Confirm during CMS evaluation.</li>
+      <li><strong>#2 RESOLVED</strong> LDC filter: LDC selection is now a sidebar filter, pre-populated from site context (which market the user is on). It is visible and changeable — not applied silently. Implementation still requires dev team to confirm whether CMS search supports LDC-aware filtering natively or via a custom layer.</li>
+      <li><strong>#3 RESOLVED</strong> Filter taxonomy: Category filters use the LC pillar taxonomy (Understanding Gas Rates, Service Area &amp; Setup, How to Switch, Managing Account &amp; Bill, Carbon Neutral Gas for ONG/GRE) + Plans + Utility Contact + Legal. FAQ-format content routes to LC articles — no standalone FAQ result type in search. Residential/Commercial differentiated via inline badges on plan results.</li>
+      <li><strong>#4</strong> Utility contact results: For queries like "Columbia Gas phone number", should the search surface the LDC emergency contact from the Contact page directly in search results? Wireframe shows a "Utility Contact" result type for this use case.</li>
+    </ul>
+  </div>
+
+  <!-- SEARCH BAR (persistent across all states) -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">1</div><br>Search Bar</div>
+    <div class="search-bar-section">
+      <div class="search-bar-row">
+        <input class="search-bar-input" type="text" value="fixed rate natural gas plan">
+        <button class="search-bar-btn">🔍 Search</button>
+        <a class="search-bar-clear">Clear</a>
+      </div>
+      <div class="search-meta page-view on" id="meta-populated">Showing <strong>6 results</strong> for <strong>"fixed rate natural gas plan"</strong></div>
+      <div class="search-meta page-view" id="meta-empty">No results for <strong>"aggregation contract override"</strong></div>
+      <div class="search-meta page-view" id="meta-loading">Searching...</div>
+      <div class="search-meta page-view" id="meta-noutility">Showing <strong>6 results</strong> for <strong>"fixed rate natural gas plan"</strong></div>
+    </div>
+    <div class="ann-row" style="padding: 8px 24px;">
+      <div class="ann ann-g"><i>✓</i> Search bar persists at top of results page — users can refine without navigating back</div>
+      <div class="ann ann-g"><i>✓</i> Result count and active LDC filter shown inline for transparency</div>
+    </div>
+  </div>
+
+  <!-- FILTER ROW + RESULTS (populated state) -->
+  <div class="page-view on" id="state-populated">
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">3</div><br>Filter Row +<br>Results</div>
+
+      <!-- Filter chips — LC pillar taxonomy + Plans + Utility/Legal -->
+      <div class="filter-row" style="justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div class="filter-chip active">All (6)</div>
+          <div class="filter-chip">Residential Plans (1)</div>
+          <div class="filter-chip">Understanding Gas Rates (2)</div>
+          <div class="filter-chip">How to Switch (1)</div>
+          <div class="filter-chip">Utility Contact (1)</div>
+          <div class="filter-chip">Legal (1)</div>
+        </div>
+        <div style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap; flex-shrink:0; padding-left:12px;">Clear all filters</div>
+      </div>
+
+      <div class="search-layout">
+        <div class="search-results-main">
+
+          <!-- Sort control -->
+          <div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid #f0f0ee;">
+            <label style="font-size:11px; color:#888; margin-right:6px;">Sort:</label>
+            <select style="font-size:11px; color:#1e3a5f; font-weight:700; border:1.5px solid #d0dce8; border-radius:3px; padding:4px 8px; background:#fff; cursor:pointer; font-family:inherit;">
+              <option selected>Relevance</option>
+              <option>Newest</option>
+            </select>
+          </div>
+
+          <div class="ann-row" style="margin-bottom:14px; margin-top:-4px;">
+            <div class="ann ann-g"><i>✓</i> Two sort options only: <strong>Relevance</strong> (default) and <strong>Newest</strong>. Newest is useful for LC articles and regulatory/legal pages where recency matters.</div>
+            <div class="ann ann-g"><i>✓</i> Plans promo banner is editorial — no rate data or PRIME integration required. Banner is always pinned above sorted results regardless of sort selection.</div>
+            <div class="ann ann-y"><i>⚑</i> "Newest" sort requires publish date metadata on all indexed pages — confirm CMS search layer supports date-based sorting before committing to this option.</div>
+          </div>
+
+          <!-- Plans promotional banner -->
+          <div class="plans-promo-banner">
+            <div class="plans-promo-left">
+              <div class="plans-promo-eyebrow">Looking for plans?</div>
+              <div class="plans-promo-title">
+                <span class="mkt-inline on" id="pb-ong">Ohio Natural Gas</span>
+                <span class="mkt-inline" id="pb-pa">Pennsylvania Energy</span>
+                <span class="mkt-inline" id="pb-gre">Grand Rapids Energy</span>
+                <span class="mkt-inline" id="pb-il">Illinois Energy</span>
+                <span class="mkt-inline" id="pb-ies">Illinois Energy Solutions</span>
+                Residential Gas Plans
+              </div>
+              <div class="plans-promo-sub">Compare fixed and variable rate plans available in your area — enroll easily online.</div>
+            </div>
+            <div class="plans-promo-right">
+              <div class="wf-btn" style="font-size:11px; padding:8px 18px; white-space:nowrap;">View Residential Plans →</div>
+              <div style="font-size:10px; color:#7ec8e3; text-decoration:underline; cursor:pointer; white-space:nowrap;">Or view Commercial Plans →</div>
+            </div>
+          </div>
+
+          <!-- Result 1: LC Article — Understanding Gas Rates pillar -->
+          <div class="result-item">
+            <div><span class="pillar-badge">Understanding Gas Rates</span></div>
+            <div class="result-title">Fixed vs. Variable Natural Gas Rates — Which Is Right for You?</div>
+            <div class="result-url">ohionaturalgas.com/learning-center/understanding-gas-rates/fixed-vs-variable-rates/</div>
+            <div class="result-snippet">A <mark>fixed rate</mark> locks in your price per therm for the full contract term — typically 6, 12, or 24 months — so your rate stays the same even if market prices rise. A variable <mark>rate</mark> follows the monthly market index and can go up or down...</div>
+          </div>
+
+          <!-- Result 2: Residential Plans page -->
+          <div class="result-item">
+            <div><span class="result-type-badge rt-plan">Residential Plans</span></div>
+            <div class="result-title">Ohio Natural Gas Residential Plans — Fixed &amp; Variable Rate Options</div>
+            <div class="result-url">ohionaturalgas.com/residential-plans/</div>
+            <div class="result-snippet">Choose from <mark>fixed rate</mark> and variable rate <mark>natural gas plans</mark> for your Ohio home. Select your utility below to see the plans available in your area and enroll easily online...</div>
+          </div>
+
+          <!-- Result 3: LC Article — How to Switch pillar -->
+          <div class="result-item">
+            <div><span class="pillar-badge p3">How to Switch</span></div>
+            <div class="result-title">How to Switch Your Natural Gas Supplier in Ohio</div>
+            <div class="result-url">ohionaturalgas.com/learning-center/how-to-switch/switching-natural-gas-supplier-ohio/</div>
+            <div class="result-snippet">Switching to a new <mark>natural gas plan</mark> in Ohio is easy to do online. You'll need your utility account number and service address. Your current utility continues to deliver gas — only the supplier changes...</div>
+          </div>
+
+          <!-- Result 4: LC Article — Understanding Gas Rates pillar -->
+          <div class="result-item">
+            <div><span class="pillar-badge">Understanding Gas Rates</span></div>
+            <div class="result-title">What Is an Early Termination Fee (ETF)?</div>
+            <div class="result-url">ohionaturalgas.com/learning-center/understanding-gas-rates/early-termination-fee/</div>
+            <div class="result-snippet">An early termination fee applies if you cancel a <mark>fixed rate plan</mark> before the contract end date. For Ohio Natural Gas, the ETF is $12.50 for each remaining month on your contract. Variable <mark>rate plans</mark> have no ETF...</div>
+          </div>
+
+          <!-- Result 5: Utility Contact -->
+          <div class="result-item">
+            <div><span class="result-type-badge rt-utility">Utility Contact</span></div>
+            <div class="result-title">Contact Your Utility — Gas Delivery, Emergencies &amp; Meter Service</div>
+            <div class="result-url">ohionaturalgas.com/contact/</div>
+            <div class="result-snippet">Your natural gas utility handles delivery, emergencies, meter reads, and billing. Ohio Natural Gas manages your supply <mark>rate</mark> and <mark>plan</mark> — for delivery issues, contact your utility directly. Emergency contacts listed by utility below...</div>
+          </div>
+
+          <!-- Result 6: Legal -->
+          <div class="result-item">
+            <div><span class="result-type-badge rt-legal">Legal / Compliance</span></div>
+            <div class="result-title">Ohio Natural Gas — Terms &amp; Conditions of Service</div>
+            <div class="result-url">ohionaturalgas.com/legal/terms-and-conditions/</div>
+            <div class="result-snippet">Terms governing enrollment, <mark>fixed rate plan</mark> pricing, early termination fees, and PUCO-required disclosures for Ohio Natural Gas residential customers. Review before enrolling...</div>
+          </div>
+
+        </div><!-- /search-results-main -->
+
+        <!-- Sidebar -->
+        <div class="search-sidebar">
+          <div class="search-sidebar-title">Refine Results</div>
+          <!-- LDC Filter -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:6px;">Your Utility</div>
+            <div style="background:#e8f0f9; border:1px solid #d0dce8; border-radius:4px; padding:8px 10px; margin-bottom:6px;">
+              <div style="font-size:11px; font-weight:700; color:#1e3a5f;">
+                <span class="mkt-inline on">Columbia Gas (ONG)</span>
+                <span class="mkt-inline" id="ldcsb-pa">UGI Utilities (PA)</span>
+                <span class="mkt-inline" id="ldcsb-gre">DTE Energy (GRE)</span>
+                <span class="mkt-inline" id="ldcsb-il">Nicor Gas (IL)</span>
+                <span class="mkt-inline" id="ldcsb-ies">Nicor Gas (IES)</span>
+              </div>
+              <div style="font-size:10px; color:#5a8cbf; text-decoration:underline; cursor:pointer; margin-top:4px;">Change utility</div>
+            </div>
+            <div class="ann ann-g" style="display:flex; font-size:10px; padding:4px 7px;"><i>✓</i> Pre-populated from site context — results already scoped to market</div>
+          </div>
+
+          <!-- Category Filter — matches LC pillar taxonomy -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888;">Category</div>
+              <div style="font-size:10px; color:#5a8cbf; text-decoration:underline; cursor:pointer;">Clear all</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px; font-size:11px; color:#555;">
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> Residential Plans (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> Understanding Gas Rates (2)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> How to Switch (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Utility Contact (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Legal (1)</label>
+            </div>
+          </div>
+
+          <!-- Customer Type -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:6px;">Customer Type</div>
+            <div style="display:flex; gap:6px;">
+              <label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#1e3a5f; border:1.5px solid #1e3a5f; border-radius:3px; padding:4px 10px; color:#fff; font-weight:700;"><input type="radio" name="custype" checked style="accent-color:#fff;"> Residential</label>
+              <label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#fff; border:1.5px solid #d0dce8; border-radius:3px; padding:4px 10px; color:#888;"><input type="radio" name="custype"> Commercial</label>
+            </div>
+          </div>
+          <div style="padding-top:12px; border-top:1px dashed #e0e0e0;">
+            <div class="ann ann-y" style="display:flex; font-size:10px; padding:5px 8px; margin-bottom:12px;"><i>⚑</i> "Popular searches" omitted — no site search currently exists on any market, so there is no query data to draw from. Revisit post-launch once real search volume is available.</div>
+            <div style="font-size:11px; font-weight:700; color:#1e3a5f; margin-bottom:6px;">Need more help?</div>
+            <div style="font-size:11px; color:#666; margin-bottom:8px; line-height:1.5;">Can't find what you're looking for? Browse the Learning Center or contact us directly.</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div class="wf-btn" style="font-size:11px; padding:7px 12px; text-align:center;">Browse Learning Center</div>
+              <div class="wf-btn-out" style="font-size:11px; padding:6px 12px; text-align:center;">Contact Us</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /search-layout -->
+
+      <div class="p-sm">
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> One label per result — pillar badge for LC articles, type badge for Plans/Legal/Utility Contact. "Learning Center" removed as a label; it describes a location, not the content. Additional tagging taxonomies (content type, market, priority, etc.) can be added to the search index without surfacing in the result card.</div>
+          <div class="ann ann-g"><i>✓</i> FAQ-format Q&amp;A content routes to Learning Center articles, not a standalone FAQ page — richer context, related articles, and pillar navigation at the destination</div>
+          <div class="ann ann-g"><i>✓</i> Residential/Commercial inline badges differentiate plan results without requiring separate tabs — avoids near-empty Commercial tab</div>
+          <div class="ann ann-g"><i>✓</i> Plans promo banner replaces inline plan cards — no PRIME integration, no rate data dependency, no LDC requirement. Routes to /residential-plans/ or /commercial-plans/ where the full selection experience already exists</div>
+          <div class="ann ann-g"><i>✓</i> LDC filter pre-populated from site context and surfaced in sidebar — transparent and changeable, not applied silently</div>
+          <div class="ann ann-g"><i>✓</i> Carbon Neutral Gas filter chip shown only for ONG and GRE — hidden for PA, IL, IES</div>
+          <div class="ann ann-y"><i>⚑</i> Open Q #1: CMS search capability must be confirmed — category filter taxonomy requires structured content tagging in the CMS for all LC articles and plan pages</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /populated state -->
+
+  <!-- EMPTY STATE -->
+  <div class="page-view" id="state-empty">
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">3</div><br>Empty State</div>
+      <div class="p-lg">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">No results for "aggregation contract override"</div>
+          <div class="empty-sub">We couldn't find anything matching that search. Try different keywords, or browse the sections below to find what you need.</div>
+          <div class="empty-suggestions">
+            <div class="empty-suggestion-chip">View Plans</div>
+            <div class="empty-suggestion-chip">Learning Center</div>
+            <div class="empty-suggestion-chip">FAQ</div>
+            <div class="empty-suggestion-chip">Contact Us</div>
+          </div>
+        </div>
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> Empty state avoids a blank page — offers structured navigation options so user doesn't dead-end</div>
+          <div class="ann ann-g"><i>✓</i> Suggestion chips link to the top-level navigation destinations most likely to contain the answer</div>
+          <div class="ann ann-g"><i>✓</i> "Contact Us" is the last suggestion — consistent with call deflection hierarchy</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /empty state -->
+
+  <!-- LOADING STATE -->
+  <div class="page-view" id="state-loading">
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">3</div><br>Loading State</div>
+      <div class="filter-row" style="opacity:.4;">
+        <div class="filter-chip active">All</div>
+        <div class="filter-chip">Plans</div>
+        <div class="filter-chip">Understanding Gas Rates</div>
+        <div class="filter-chip">How to Switch</div>
+        <div class="filter-chip">Managing Account &amp; Bill</div>
+      </div>
+      <div style="padding:16px 24px;">
+        <div style="margin-bottom:20px;">
+          <div class="skeleton skel-title" style="margin-bottom:8px;"></div>
+          <div class="skeleton skel-line" style="width:30%; margin-bottom:10px;"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skel-line skel-short"></div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <div class="skeleton skel-title" style="margin-bottom:8px;"></div>
+          <div class="skeleton skel-line" style="width:35%; margin-bottom:10px;"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skel-line skel-short"></div>
+        </div>
+        <div>
+          <div class="skeleton skel-title" style="margin-bottom:8px;"></div>
+          <div class="skeleton skel-line" style="width:25%; margin-bottom:10px;"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skel-line skel-short"></div>
+        </div>
+      </div>
+      <div class="p-sm">
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> Skeleton loading state prevents layout shift — page structure is visible while results load</div>
+          <div class="ann ann-g"><i>✓</i> Filter chips shown at reduced opacity — indicates structure is present but not yet interactive</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /loading state -->
+
+  <!-- NO UTILITY SELECTED STATE -->
+  <div class="page-view" id="state-noutility">
+    <div class="section" style="position:relative;">
+      <div class="section-label"><div class="sec-num">2</div><br>No Utility<br>Selected</div>
+
+      <div class="filter-row" style="justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div class="filter-chip active">All (6)</div>
+          <div class="filter-chip">Residential Plans (1)</div>
+          <div class="filter-chip">Understanding Gas Rates (2)</div>
+          <div class="filter-chip">How to Switch (1)</div>
+          <div class="filter-chip">Utility Contact (1)</div>
+          <div class="filter-chip">Legal (1)</div>
+        </div>
+        <div style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap; flex-shrink:0; padding-left:12px;">Clear all filters</div>
+      </div>
+
+      <div class="search-layout">
+        <div class="search-results-main">
+
+          <!-- Sort -->
+          <div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid #f0f0ee;">
+            <label style="font-size:11px; color:#888; margin-right:6px;">Sort:</label>
+            <select style="font-size:11px; color:#1e3a5f; font-weight:700; border:1.5px solid #d0dce8; border-radius:3px; padding:4px 8px; background:#fff; cursor:pointer; font-family:inherit;">
+              <option selected>Relevance</option>
+              <option>Newest</option>
+            </select>
+          </div>
+
+          <!-- Plans promotional banner — same treatment regardless of LDC state -->
+          <div class="plans-promo-banner">
+            <div class="plans-promo-left">
+              <div class="plans-promo-eyebrow">Looking for plans?</div>
+              <div class="plans-promo-title">
+                <span class="mkt-inline on" id="pb2-ong">Ohio Natural Gas</span>
+                <span class="mkt-inline" id="pb2-pa">Pennsylvania Energy</span>
+                <span class="mkt-inline" id="pb2-gre">Grand Rapids Energy</span>
+                <span class="mkt-inline" id="pb2-il">Illinois Energy</span>
+                <span class="mkt-inline" id="pb2-ies">Illinois Energy Solutions</span>
+                Residential Gas Plans
+              </div>
+              <div class="plans-promo-sub">Compare fixed and variable rate plans available in your area — enroll easily online.</div>
+            </div>
+            <div class="plans-promo-right">
+              <div class="wf-btn" style="font-size:11px; padding:8px 18px; white-space:nowrap;">View Residential Plans →</div>
+              <div style="font-size:10px; color:#7ec8e3; text-decoration:underline; cursor:pointer; white-space:nowrap;">Or view Commercial Plans →</div>
+            </div>
+          </div>
+
+          <!-- Results load regardless of utility selection — content is market-level, not LDC-specific -->
+          <div class="result-item">
+            <div><span class="pillar-badge">Understanding Gas Rates</span></div>
+            <div class="result-title">Fixed vs. Variable Natural Gas Rates — Which Is Right for You?</div>
+            <div class="result-url">ohionaturalgas.com/learning-center/understanding-gas-rates/fixed-vs-variable-rates/</div>
+            <div class="result-snippet">A <mark>fixed rate</mark> locks in your price per therm for the full contract term — typically 6, 12, or 24 months — so your rate stays the same even if market prices rise. A variable <mark>rate</mark> follows the monthly market index...</div>
+          </div>
+
+          <div class="result-item">
+            <div><span class="pillar-badge p3">How to Switch</span></div>
+            <div class="result-title">How to Switch Your Natural Gas Supplier in Ohio</div>
+            <div class="result-url">ohionaturalgas.com/learning-center/how-to-switch/switching-natural-gas-supplier-ohio/</div>
+            <div class="result-snippet">Switching to a new <mark>natural gas plan</mark> in Ohio is easy to do online. You'll need your utility account number and service address. Your current utility continues to deliver gas — only the supplier changes...</div>
+          </div>
+
+          <div class="result-item">
+            <div><span class="result-type-badge rt-legal">Legal / Compliance</span></div>
+            <div class="result-title">Ohio Natural Gas — Terms &amp; Conditions of Service</div>
+            <div class="result-url">ohionaturalgas.com/legal/terms-and-conditions/</div>
+            <div class="result-snippet">Terms governing enrollment, <mark>fixed rate plan</mark> pricing, early termination fees, and PUCO-required disclosures for Ohio Natural Gas residential customers...</div>
+          </div>
+
+          <div class="ann-row" style="margin-top:12px;">
+            <div class="ann ann-g"><i>✓</i> Same plans promo banner shown regardless of LDC state — banner has no data dependency so it always renders correctly</div>
+            <div class="ann ann-g"><i>✓</i> Non-plan content loads immediately — LDC selection is never a blocker for search results</div>
+            <div class="ann ann-g"><i>✓</i> Residential Plans page handles LDC selection natively — no need to solve it twice in search</div>
+          </div>
+
+        </div><!-- /search-results-main -->
+
+        <!-- Sidebar — LDC unset -->
+        <div class="search-sidebar">
+          <div class="search-sidebar-title">Refine Results</div>
+
+          <!-- LDC selector — expanded/unset -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#1e3a5f; margin-bottom:4px;">Select Your Utility</div>
+            <div style="font-size:11px; color:#666; margin-bottom:10px; line-height:1.5;">Choose your natural gas utility to see plans and rates in your area.</div>
+
+            <div class="mkt on" id="ldc-sel-ong">
+              <div class="ldc-select-btn">Columbia Gas of Ohio</div>
+              <div class="ldc-select-btn">Dominion Energy Ohio</div>
+            </div>
+            <div class="mkt" id="ldc-sel-pa">
+              <div class="ldc-select-btn">UGI Utilities</div>
+              <div class="ldc-select-btn">Peoples Natural Gas</div>
+              <div class="ldc-select-btn">Philadelphia Gas Works</div>
+              <div class="ldc-select-btn">Columbia Gas of PA</div>
+            </div>
+            <div class="mkt" id="ldc-sel-gre">
+              <div class="ldc-select-btn">DTE Energy</div>
+              <div class="ldc-select-btn">Consumers Energy</div>
+            </div>
+            <div class="mkt" id="ldc-sel-il">
+              <div class="ldc-select-btn">Nicor Gas</div>
+              <div class="ldc-select-btn">Peoples Gas</div>
+              <div class="ldc-select-btn">North Shore Gas</div>
+            </div>
+            <div class="mkt" id="ldc-sel-ies">
+              <div class="ldc-select-btn">Nicor Gas</div>
+              <div class="ldc-select-btn">Peoples Gas</div>
+            </div>
+
+            <div class="ann ann-y" style="display:flex; font-size:10px; padding:4px 7px; margin-top:8px;"><i>⚑</i> On selection: sidebar collapses to the pre-populated compact state (see "Results Found"), plan results load, and LDC is stored in session to avoid re-selection on subsequent pages.</div>
+          </div>
+
+          <!-- Category Filter -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888;">Category</div>
+              <div style="font-size:10px; color:#5a8cbf; text-decoration:underline; cursor:pointer;">Clear all</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px; font-size:11px; color:#555;">
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> Plans (3)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> Understanding Gas Rates (2)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" checked> How to Switch (2)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Service Area &amp; Setup (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Managing Account &amp; Bill (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Utility Contact (1)</label>
+              <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"> Legal (1)</label>
+            </div>
+          </div>
+
+          <!-- Customer Type -->
+          <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:6px;">Customer Type</div>
+            <div style="display:flex; gap:6px;">
+              <label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#1e3a5f; border:1.5px solid #1e3a5f; border-radius:3px; padding:4px 10px; color:#fff; font-weight:700;"><input type="radio" name="custype3" checked style="accent-color:#fff;"> Residential</label>
+              <label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#fff; border:1.5px solid #d0dce8; border-radius:3px; padding:4px 10px; color:#888;"><input type="radio" name="custype3"> Commercial</label>
+            </div>
+          </div>
+
+          <!-- Need help -->
+          <div style="padding-top:12px; border-top:1px dashed #e0e0e0;">
+            <div style="font-size:11px; font-weight:700; color:#1e3a5f; margin-bottom:6px;">Need more help?</div>
+            <div style="font-size:11px; color:#666; margin-bottom:8px; line-height:1.5;">Can't find what you're looking for? Browse the Learning Center or contact us directly.</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div class="wf-btn" style="font-size:11px; padding:7px 12px; text-align:center;">Browse Learning Center</div>
+              <div class="wf-btn-out" style="font-size:11px; padding:6px 12px; text-align:center;">Contact Us</div>
+            </div>
+          </div>
+        </div><!-- /sidebar -->
+
+      </div><!-- /search-layout -->
+    </div>
+  </div><!-- /no utility state -->
+
+  <!-- SITE FOOTER -->
+  <div class="section">
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
+          <div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
+          <div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
+          <div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
+          <div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
+          <div class="footer-parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
+        </div>
+        <div><div class="footer-col-head">Support</div><div class="footer-col-links"><a>FAQ</a><a>Contact Us</a><a>Learning Center</a></div></div>
+        <div><div class="footer-col-head">My Account</div><div class="footer-col-links"><a>Log In</a><a>Enroll</a></div></div>
+        <div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
+      </div>
+      <div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Search Results — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026</div>
+</div>
+
+<script>
+function setMarket(m) {
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll(`[id$="-${m}"]`).forEach(el => {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-inline')) el.classList.add('on');
+  });
+  // Carbon Neutral Gas filter chips: visible only for ONG and GRE
+  ['chip-cng-ong','chip-cng-gre','chip2-cng-ong','chip2-cng-gre','filter-cng-ong','filter-cng-gre'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (m === 'ong' || m === 'gre') ? (el.tagName === 'LABEL' ? 'flex' : 'inline-block') : 'none';
+  });
+  document.querySelectorAll('.btn-market').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+function setPage(p) {
+  document.querySelectorAll('.page-view').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id^="meta-"]').forEach(el => el.classList.remove('on'));
+  const meta = document.getElementById('meta-' + p);
+  if (meta) meta.classList.add('on');
+  document.getElementById('state-' + p).classList.add('on');
+  document.querySelectorAll('.btn-state').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+document.getElementById('meta-empty').classList.remove('on');
+document.getElementById('meta-loading').classList.remove('on');
+// Init Carbon Neutral Gas chips — visible for ONG (default market)
+['chip-cng-ong','chip2-cng-ong','filter-cng-ong'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('on'); el.style.display = el.tagName === 'LABEL' ? 'flex' : 'inline-block'; }
+});
+['chip-cng-gre','chip2-cng-gre','filter-cng-gre'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+});
+</script>
+</body>
+</html>

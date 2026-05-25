@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Page Template — Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+
+/* ── TOOLBAR ── */
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.market-switcher, .variant-switcher, .subpage-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.btn-variant { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-variant:hover, .btn-variant.active { background: #1e3a5f; border-color: #4a7aaf; color: #fff; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+
+/* ── CANVAS ── */
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+
+/* ── SECTIONS ── */
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 28px 36px; }
+
+/* ── WF PRIMITIVES ── */
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-sm { background: #e8641a; color: #fff; border: none; padding: 5px 12px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+
+/* ── ANNOTATIONS ── */
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+
+/* ── OQ PANEL ── */
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+
+/* ── METRICS BAR ── */
+.metrics-bar { background: #1e3a5f; color: #fff; padding: 10px 24px; display: flex; gap: 20px; font-size: 11px; flex-wrap: wrap; }
+.m-val { font-size: 15px; font-weight: 900; color: #7ec8e3; }
+.m-lbl { color: #aac4d9; }
+.m-tgt { color: #a5d6a7; font-size: 10px; }
+
+/* ── NAV HEADER ── */
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+
+/* ── FOOTER ── */
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+
+/* ── MARKET VISIBILITY ── */
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+
+/* ── VARIANT VISIBILITY ── */
+.variant { display: none; } .variant.on { display: block; }
+
+/* ── SHARED LAYOUT ── */
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.content-layout { display: grid; grid-template-columns: 210px 1fr; gap: 0; }
+.content-sidebar { padding: 20px 0 20px 20px; border-right: 1px solid #e8e8e4; }
+.sidebar-sticky { position: sticky; top: 72px; }
+.sidebar-head { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #888; margin-bottom: 10px; padding: 0 4px; }
+.content-main { padding: 20px 24px; min-height: 400px; }
+.divider { height: 1px; background: #e8e8e4; margin: 0 24px; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ── TYPE SCALE ── */
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 600px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+
+/* ── SIDEBAR NAV ── (shared across variants, role differs) */
+.sidebar-nav-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.sidebar-nav-list li a { display: block; font-size: 11px; color: #555; padding: 6px 8px; border-left: 3px solid transparent; line-height: 1.35; cursor: pointer; border-radius: 0 3px 3px 0; }
+.sidebar-nav-list li a:hover, .sidebar-nav-list li a.active { border-left-color: #e8641a; color: #1e3a5f; background: #fff8f4; font-weight: 600; }
+.sidebar-nav-list .nav-sub a { font-size: 10px; padding-left: 18px; color: #888; }
+.sidebar-section-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #bbb; padding: 10px 8px 4px; }
+
+/* ── VARIANT BADGES ── (annotation chips in toolbar area) */
+.variant-badge { display: inline-flex; align-items: center; gap: 5px; background: #1e3a5f; color: #fff; border-radius: 3px; padding: 3px 9px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.variant-diff-panel { background: #e8f0fe; border: 1.5px solid #4a7adf; border-radius: 4px; padding: 12px 16px; margin-bottom: 10px; font-size: 11px; color: #1a3a8f; }
+.variant-diff-panel h4 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; color: #1a3a8f; }
+.variant-diff-row { display: grid; grid-template-columns: 100px 1fr 1fr 1fr; gap: 6px; font-size: 10px; margin-bottom: 4px; align-items: start; }
+.vdr-label { font-weight: 700; color: #1a3a8f; }
+.vdr-val { background: #fff; border: 1px solid #b0c4ef; border-radius: 3px; padding: 3px 7px; color: #333; }
+.vdr-val.highlight { border-color: #e8641a; background: #fff8f4; color: #c04000; font-weight: 600; }
+
+/* ════════════════════════════════
+   VARIANT 1 — GENERAL INFORMATIONAL
+   ════════════════════════════════ */
+.gi-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 32px 36px; }
+.gi-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.gi-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 560px; }
+
+/* Sub-page nav inside sidebar */
+.spn-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
+.spn-list li a { display: block; font-size: 12px; font-weight: 600; color: #555; padding: 8px 10px; border-left: 3px solid transparent; cursor: pointer; line-height: 1.3; }
+.spn-list li a:hover, .spn-list li a.spn-active { border-left-color: #e8641a; color: #1e3a5f; background: #fff8f4; }
+
+/* Entity hierarchy */
+.entity-hierarchy { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 20px; margin-bottom: 16px; }
+.entity-tier { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+.entity-tier:last-child { margin-bottom: 0; }
+.entity-dot { width: 12px; height: 12px; border-radius: 50%; background: #1e3a5f; flex-shrink: 0; margin-top: 4px; }
+.entity-line-wrap { display: flex; flex-direction: column; align-items: center; width: 12px; flex-shrink: 0; }
+.entity-v-line { width: 2px; height: 20px; background: #d0dce8; }
+.entity-box { flex: 1; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 10px 14px; background: #fff; }
+.entity-box.primary { border-color: #e8641a; background: #fff8f5; }
+.entity-name { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 3px; }
+.entity-role { font-size: 11px; color: #888; line-height: 1.4; }
+.entity-tier-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #aaa; white-space: nowrap; width: 58px; text-align: right; padding-top: 4px; flex-shrink: 0; }
+
+/* Trust signals */
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+.trust-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 16px 14px; text-align: center; }
+.trust-val { font-size: 22px; font-weight: 900; color: #1e3a5f; line-height: 1.1; margin-bottom: 4px; }
+.trust-lbl { font-size: 10px; color: #888; line-height: 1.4; }
+
+/* Rep risk banner (internal, not shown to users) */
+.rep-risk-banner { background: #fdecea; border: 1.5px solid #e53935; border-radius: 4px; padding: 10px 14px; margin-bottom: 12px; }
+.rep-risk-banner p { font-size: 11px; color: #7a0000; line-height: 1.5; }
+.rep-risk-banner strong { font-size: 11px; color: #b71c1c; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #d0dce8; }
+.timeline-item { position: relative; margin-bottom: 20px; }
+.timeline-dot { width: 14px; height: 14px; background: #1e3a5f; border-radius: 50%; position: absolute; left: -20px; top: 3px; }
+.timeline-year { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #e8641a; margin-bottom: 3px; }
+.timeline-text { font-size: 12px; color: #555; line-height: 1.6; }
+.timeline-text strong { color: #333; }
+
+/* Why Choose Us cards */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.why-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 18px 16px; }
+.why-icon { font-size: 26px; margin-bottom: 8px; }
+.why-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.why-copy { font-size: 11px; color: #666; line-height: 1.55; }
+
+/* Trust rebuttal */
+.rebuttal-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 14px; }
+.rebuttal-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #e8641a; margin-bottom: 5px; }
+.rebuttal-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; line-height: 1.3; }
+.rebuttal-a { font-size: 12px; color: #555; line-height: 1.6; }
+.rebuttal-icon { font-size: 28px; flex-shrink: 0; }
+
+/* Enroll CTA band */
+.enroll-band { background: linear-gradient(135deg, #e8641a, #c04000); color: #fff; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.enroll-band h3 { font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+.enroll-band p { font-size: 13px; color: rgba(255,255,255,.8); }
+.enroll-band-btn { background: #fff; color: #c04000; border: none; padding: 12px 24px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+
+/* Sub-page content panels */
+.gi-subpage { display: none; }
+.gi-subpage.on { display: block; }
+
+/* ════════════════════════════════
+   VARIANT 2 — LC PILLAR HUB
+   ════════════════════════════════ */
+.pillar-hero { padding: 22px 24px; border-bottom: 1px solid #e8e8e4; }
+.pillar-badge { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+.pb-p1 { background: #1e3a5f; }
+.pb-p2 { background: #2e7d32; }
+.pb-p3 { background: #b84800; }
+.pb-p4 { background: #6a1b9a; }
+.pb-p5 { background: #1b6e2e; }
+.pillar-article-count { font-size: 11px; color: #aaa; margin-top: 5px; }
+
+/* Pillar sidebar — list of all pillars */
+.pillar-nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.pillar-nav-list li a { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #555; padding: 6px 8px; border-left: 3px solid transparent; cursor: pointer; border-radius: 0 3px 3px 0; line-height: 1.3; }
+.pillar-nav-list li a:hover { color: #1e3a5f; background: #f5f8fc; }
+.pillar-nav-list li a.active { border-left-color: #e8641a; color: #1e3a5f; background: #fff8f4; font-weight: 600; }
+.pillar-nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.pnd-1 { background: #1e3a5f; }
+.pnd-2 { background: #2e7d32; }
+.pnd-3 { background: #b84800; }
+.pnd-4 { background: #6a1b9a; }
+.pnd-5 { background: #1b6e2e; }
+
+/* Article card grid */
+.article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ac { border: 1.5px solid #e0e0e0; border-radius: 5px; background: #fff; display: flex; flex-direction: column; overflow: hidden; transition: border-color .15s, box-shadow .15s; cursor: pointer; }
+.ac:hover { border-color: #7aabda; box-shadow: 0 2px 6px rgba(30,58,95,.08); }
+.ac-top { background: #f7f7f5; padding: 10px 12px; border-bottom: 1px solid #ebebeb; }
+.ac-num { display: inline-block; background: #1e3a5f; color: #fff; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 2px; margin-bottom: 6px; }
+.ac-title { font-size: 13px; font-weight: 700; color: #1e3a5f; line-height: 1.3; }
+.ac-body { padding: 10px 12px; flex: 1; }
+.ac-body p { font-size: 11px; color: #666; line-height: 1.5; margin-bottom: 6px; }
+.ac-market-tag { display: inline-block; background: #fff3e0; border: 1px solid #ffcc80; color: #7a4000; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 2px; }
+.ac-footer { padding: 8px 12px; background: #f9f9f8; border-top: 1px solid #f0f0ed; display: flex; justify-content: space-between; align-items: center; }
+.ac-read-time { font-size: 10px; color: #aaa; }
+.ac-read-link { font-size: 11px; color: #e8641a; font-weight: 700; cursor: pointer; }
+
+/* Related pillars row */
+.related-pillars-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.rp { border: 1.5px solid #e0e0e0; border-radius: 5px; padding: 12px 14px; background: #fff; cursor: pointer; transition: border-color .15s; }
+.rp:hover { border-color: #7aabda; background: #f5f8fc; }
+.rp-icon { font-size: 20px; margin-bottom: 5px; }
+.rp-name { font-size: 11px; font-weight: 700; color: #1e3a5f; line-height: 1.3; margin-bottom: 2px; }
+.rp-count { font-size: 10px; color: #aaa; }
+
+/* ════════════════════════════════
+   VARIANT 3 — LC ARTICLE
+   ════════════════════════════════ */
+
+/* Article header */
+.article-header { padding: 16px 24px 14px; border-bottom: 1px solid #e8e8e4; }
+.article-meta-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; font-size: 10px; color: #888; }
+.article-h1 { font-size: 24px; font-weight: 900; color: #1e3a5f; line-height: 1.2; margin-bottom: 6px; }
+.article-sub { font-size: 13px; color: #666; line-height: 1.55; max-width: 560px; }
+
+/* Reading progress bar (sticky, optional) */
+.progress-bar-wrap { height: 3px; background: #e8e8e4; position: relative; margin-bottom: 0; }
+.progress-bar-fill { height: 3px; background: #e8641a; width: 0%; transition: width .2s; }
+
+/* Article sidebar — anchor nav + related */
+.article-anchor-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; }
+.article-anchor-list li a { display: block; font-size: 11px; color: #5a8cbf; padding: 4px 8px; border-left: 2px solid transparent; line-height: 1.35; cursor: pointer; }
+.article-anchor-list li a:hover, .article-anchor-list li a.active { border-left-color: #e8641a; color: #e8641a; background: #fff8f4; }
+
+/* Article body elements */
+.article-section { padding: 14px 24px; border-bottom: 1px solid #f0ede8; }
+.article-section:last-child { border-bottom: none; }
+.article-section-h2 { font-size: 15px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+
+/* AI extract box */
+.ai-extract-box { background: #e8f0fe; border-left: 4px solid #4a7adf; padding: 10px 14px; margin-bottom: 12px; border-radius: 0 4px 4px 0; }
+.ai-extract-label { font-size: 9px; font-weight: 700; color: #4a7adf; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.ai-extract-text { font-size: 12px; color: #333; line-height: 1.55; font-style: italic; }
+
+/* Market-specific content block */
+.market-block { border: 1.5px dashed #e8641a; border-radius: 3px; padding: 9px 12px; margin: 8px 0; font-size: 11px; color: #333; background: #fff8f5; }
+.market-block-label { font-size: 9px; font-weight: 700; color: #e8641a; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+
+/* FAQ schema section */
+.faq-schema-section { border-top: 1px solid #e8e8e4; padding-top: 14px; margin-top: 4px; }
+.faq-schema-badge { display: inline-flex; align-items: center; gap: 4px; background: #e8f0fe; border: 1px solid #4a7adf; border-radius: 3px; padding: 2px 7px; font-size: 9px; font-weight: 800; color: #1a3a8f; text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; vertical-align: middle; }
+.faq-item { border: 1px solid #e8e8e4; border-radius: 4px; margin-bottom: 5px; overflow: hidden; }
+.faq-q { padding: 10px 14px; font-size: 12px; font-weight: 700; color: #1e3a5f; background: #f9f9f8; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.faq-q-toggle { font-size: 16px; color: #aaa; flex-shrink: 0; margin-left: 8px; }
+.faq-a { padding: 9px 14px; font-size: 11px; color: #555; border-top: 1px solid #ebebeb; line-height: 1.65; display: none; }
+.faq-a.open { display: block; }
+.schema-note { font-size: 10px; color: #aaa; font-style: italic; margin-top: 4px; }
+
+/* Mid-article CTA */
+.mid-cta { background: linear-gradient(135deg, #1e3a5f, #2a5f8f); color: #fff; padding: 14px 18px; border-radius: 4px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.mid-cta p { font-size: 13px; font-weight: 700; }
+.mid-cta small { font-size: 11px; color: #aac4d9; display: block; margin-top: 2px; }
+
+/* Related articles */
+.related-articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ra-card { border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; font-size: 11px; color: #1e3a5f; font-weight: 600; line-height: 1.4; cursor: pointer; background: #fff; transition: background .1s; }
+.ra-card:hover { background: #f0f6ff; }
+.ra-card small { font-weight: 400; color: #aaa; display: block; margin-top: 3px; font-size: 10px; }
+.ra-card .pillar-badge { margin-top: 6px; font-size: 8px; padding: 1px 5px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOOLBAR
+     ═══════════════════════════════════════════ -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+    <span class="toolbar-meta">Content Page Template</span>
+    <div>
+      <div class="vsw-label">Market</div>
+      <div class="market-switcher">
+        <button class="btn-market active" onclick="setMarket('ong',event)">ONG</button>
+        <button class="btn-market" onclick="setMarket('pa',event)">PA</button>
+        <button class="btn-market" onclick="setMarket('gre',event)">GRE</button>
+        <button class="btn-market" onclick="setMarket('il',event)">IL</button>
+        <button class="btn-market" onclick="setMarket('ies',event)">IES</button>
+      </div>
+    </div>
+    <div>
+      <div class="vsw-label">Page Variant</div>
+      <div class="variant-switcher">
+        <button class="btn-variant active" onclick="setVariant('gi',event)">General Informational</button>
+        <button class="btn-variant" onclick="setVariant('pillar',event)">LC Pillar Hub</button>
+        <button class="btn-variant" onclick="setVariant('article',event)">LC Article</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+    <span class="legend-item"><span class="dot dot-y"></span> Open Question</span>
+    <span class="legend-item"><span class="dot" style="background:#4a7adf;border-radius:2px;"></span> Variant Diff</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CANVAS
+     ═══════════════════════════════════════════ -->
+<div class="canvas">
+
+  <!-- VARIANT DIFF PANEL -->
+  <div class="variant-diff-panel">
+    <h4>📐 Template Variant Comparison — What Changes Between Variants</h4>
+    <div class="variant-diff-row" style="font-weight:700;font-size:10px;color:#1a3a8f;border-bottom:1px solid #c0d0f0;padding-bottom:4px;margin-bottom:6px;">
+      <span>Component</span>
+      <span>General Informational</span>
+      <span>LC Pillar Hub</span>
+      <span>LC Article</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">Hero</span>
+      <span class="vdr-val highlight">Dark blue gradient, marketing copy, entity-specific H1</span>
+      <span class="vdr-val">Pillar color band, badge + title, article count</span>
+      <span class="vdr-val">Simple header band, pillar badge, article H1 + meta bar</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">Sidebar role</span>
+      <span class="vdr-val highlight">Sub-page navigation (About / History / Why Choose Us)</span>
+      <span class="vdr-val">All-pillars nav list (current highlighted)</span>
+      <span class="vdr-val" style="color:#888; font-style:italic;">None — full-width layout. Related articles in bottom band.</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">Content body</span>
+      <span class="vdr-val highlight">Marketing blocks: entity hierarchy, trust grid, timeline, value props, rebuttals</span>
+      <span class="vdr-val">Intro para + 3-col article card grid + related pillars row</span>
+      <span class="vdr-val">AI extract box, prose sections, market blocks, mid-article CTA, FAQ schema</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">CTA treatment</span>
+      <span class="vdr-val highlight">Full enroll band (orange gradient) at bottom</span>
+      <span class="vdr-val">No hard CTA — "Explore more" links within article cards</span>
+      <span class="vdr-val">Mid-article inline CTA + related articles band + soft enroll nudge</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">Schema / SEO</span>
+      <span class="vdr-val">Standard page — E-E-A-T signals, entity disambiguation</span>
+      <span class="vdr-val">BreadcrumbList schema, pillar hub structured data</span>
+      <span class="vdr-val highlight">FAQ schema on Q&A pairs, Article schema, AI extract optimization</span>
+    </div>
+    <div class="variant-diff-row">
+      <span class="vdr-label">noindex</span>
+      <span class="vdr-val">index (marketing pages)</span>
+      <span class="vdr-val">index (LC hub)</span>
+      <span class="vdr-val">index (educational content)</span>
+    </div>
+  </div>
+
+  <!-- OQ PANEL -->
+  <div class="oq-panel">
+    <h4>⚑ Open Questions — Content Page Template</h4>
+    <ul class="oq-list">
+      <li>Trust signals (years in market, customers served, satisfaction score) — all values TBD; must be verified by client before any About Us page can be finalized.</li>
+      <li>Company History milestone dates — market entry, commercial expansion, SouthStar acquisition, Greener Life launch, 2026 relaunch; all dates TBD.</li>
+      <li>Greener Life availability in PA — confirm before carbon-neutral pillar is scoped for Pennsylvania.</li>
+      <li>ONG Carbon Neutral Gas hub: 5th pillar unique to ONG — confirm whether GRE also gets this pillar (Greener Life available in GRE).</li>
+      <li>AI extract box: confirm preferred summary length and format for AI search optimization per market.</li>
+    </ul>
+  </div>
+
+  <!-- ─── NAV HEADER (shared) ─── -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">1</span>Nav Header</span>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">S</div>
+        <span class="mkt-inline on" id="nl-ong">Ohio Natural Gas</span>
+        <span class="mkt-inline" id="nl-pa">Pennsylvania Energy</span>
+        <span class="mkt-inline" id="nl-gre">Grand Rapids Energy</span>
+        <span class="mkt-inline" id="nl-il">Illinois Energy</span>
+        <span class="mkt-inline" id="nl-ies">Illinois Energy Solutions</span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link">Plans &amp; Pricing</span>
+        <span class="nav-link active" id="nav-active-gi">About Us</span>
+        <span class="nav-link active" id="nav-active-lc" style="display:none;">Learning Center</span>
+        <span class="nav-link">My Account</span>
+        <span class="nav-link">Help</span>
+      </div>
+      <div class="nav-right">
+        <span class="nav-link" style="font-size:11px;color:#888;">Sign In</span>
+        <button class="nav-enroll-btn">Enroll Now</button>
+      </div>
+    </div>
+    <div class="nav-mobile-note">Mobile: hamburger menu. Active nav item reflects current section.</div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-g">✓ Nav active state: About Us (GI variant) or Learning Center (LC variants)</span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       VARIANT 1 — GENERAL INFORMATIONAL
+       ═══════════════════════════════════════════ -->
+  <div class="variant on" id="v-gi">
+
+    <!-- Rep risk banners (internal only) -->
+    <div class="mkt" id="reprisk-ies">
+      <div style="padding: 10px 0 0;">
+        <div class="rep-risk-banner"><strong>⛔ IES Reputational Risk — Internal Only:</strong> <p>Do not feature BBB badge or star rating for IES. Known BBB complaint volume creates brand risk. Use Southern Company / SouthStar affiliation as primary trust signal instead.</p></div>
+      </div>
+    </div>
+    <div class="mkt" id="reprisk-pa">
+      <div style="padding: 10px 0 0;">
+        <div class="rep-risk-banner"><strong>⛔ PA Reputational Risk — Internal Only:</strong> <p>PA has -43 AI sentiment score and brand confusion with PAG&amp;E. Avoid any copy that could be confused with PG&amp;E. Trust rebuttal section is especially important for this market.</p></div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+      <div class="breadcrumb p-sm">
+        <a>Home</a> ›
+        <span id="gi-bc-label">About Us</span>
+      </div>
+    </div>
+
+    <!-- GI Hero -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">3</span>Page Hero</span>
+      <div class="gi-hero">
+        <div class="gi-hero-title">
+          <span class="mkt-inline on" id="gi-h1-ong">Ohio Natural Gas</span>
+          <span class="mkt-inline" id="gi-h1-pa">Pennsylvania Energy</span>
+          <span class="mkt-inline" id="gi-h1-gre">Grand Rapids Energy</span>
+          <span class="mkt-inline" id="gi-h1-il">Illinois Energy</span>
+          <span class="mkt-inline" id="gi-h1-ies">Illinois Energy Solutions</span>
+          — <span id="gi-hero-subtitle">About Us</span>
+        </div>
+        <div class="gi-hero-sub">
+          <span class="mkt-inline on" id="gi-sub-ong">Natural gas supply you can trust — backed by SouthStar Energy Services and Southern Company (NYSE: SO).</span>
+          <span class="mkt-inline" id="gi-sub-pa">Competitive natural gas supply for Pennsylvania homes and businesses — backed by SouthStar Energy Services.</span>
+          <span class="mkt-inline" id="gi-sub-gre">Natural gas supply for Michigan homes — backed by SouthStar Energy Services and Southern Company.</span>
+          <span class="mkt-inline" id="gi-sub-il">Illinois natural gas supply with fixed-rate and variable options — backed by SouthStar Energy Services.</span>
+          <span class="mkt-inline" id="gi-sub-ies">Fixed Bill natural gas supply for Illinois homes — predictable monthly costs, ICC-regulated, backed by SouthStar Energy Services.</span>
+        </div>
+      </div>
+      <div class="ann-row" style="padding: 0 24px 10px;">
+        <span class="ann ann-g">✓ H1 includes brand name + state + product type for E-E-A-T / entity disambiguation</span>
+        <span class="ann ann-y">⚑ Hero copy TBD — placeholder per market</span>
+      </div>
+    </div>
+
+    <!-- GI Two-Column Layout -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
+      <div class="content-layout">
+
+        <!-- SIDEBAR — Sub-page nav -->
+        <div class="content-sidebar">
+          <div class="sidebar-sticky">
+            <div class="sidebar-head">In This Section</div>
+            <ul class="spn-list">
+              <li><a class="spn-active" id="spn-about" onclick="setGiSubpage('about')">About Us</a></li>
+              <li><a id="spn-history" onclick="setGiSubpage('history')">Company History</a></li>
+              <li><a id="spn-why" onclick="setGiSubpage('why')">Why Choose Us</a></li>
+            </ul>
+            <div class="ann-row" style="margin-top:12px;padding-right:8px;">
+              <span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = sub-page nav (GI only)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN CONTENT — Sub-pages -->
+        <div class="content-main">
+
+          <!-- SUB-PAGE: ABOUT US -->
+          <div class="gi-subpage on" id="gsp-about">
+            <div class="h2" style="margin-bottom:14px;">About
+              <span class="mkt-inline on" id="ab-nm-ong"> Ohio Natural Gas</span>
+              <span class="mkt-inline" id="ab-nm-pa"> Pennsylvania Energy</span>
+              <span class="mkt-inline" id="ab-nm-gre"> Grand Rapids Energy</span>
+              <span class="mkt-inline" id="ab-nm-il"> Illinois Energy</span>
+              <span class="mkt-inline" id="ab-nm-ies"> Illinois Energy Solutions</span>
+            </div>
+
+            <div class="body-para">
+              <span class="mkt-inline on" id="ab-p-ong">Ohio Natural Gas is a competitive natural gas supplier licensed to operate in Ohio. We provide residential and commercial customers with fixed-rate and variable-rate natural gas supply plans — including the Greener Life® carbon-neutral option.</span>
+              <span class="mkt-inline" id="ab-p-pa">Pennsylvania Energy is a competitive natural gas supplier licensed by the Pennsylvania Public Utility Commission (PA PUC). We serve residential and commercial customers across participating utility service areas in Pennsylvania.</span>
+              <span class="mkt-inline" id="ab-p-gre">Grand Rapids Energy is a competitive natural gas supplier serving residential and commercial customers in Michigan. We're licensed by the Michigan Public Service Commission (MPSC).</span>
+              <span class="mkt-inline" id="ab-p-il">Illinois Energy is a competitive natural gas supplier licensed by the Illinois Commerce Commission (ICC). We serve residential and commercial customers across Nicor Gas and Peoples Gas service territories.</span>
+              <span class="mkt-inline" id="ab-p-ies">Illinois Energy Solutions is a fixed bill natural gas supplier serving residential customers in Illinois, regulated by the Illinois Commerce Commission (ICC).</span>
+            </div>
+
+            <!-- Entity Hierarchy -->
+            <div class="h3" style="margin:16px 0 10px;">Who We Are</div>
+            <div class="entity-hierarchy">
+              <div class="entity-tier">
+                <div class="entity-tier-label">Parent Co.</div>
+                <div>
+                  <div class="entity-dot"></div>
+                </div>
+                <div class="entity-box">
+                  <div class="entity-name">Southern Company (NYSE: SO)</div>
+                  <div class="entity-role">Fortune 500 energy company. One of the largest producers of electricity and natural gas in the US. Headquartered in Atlanta, GA.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
+                <div class="entity-v-line" style="margin-left:0;"></div>
+              </div>
+              <div class="entity-tier">
+                <div class="entity-tier-label">Subsidiary</div>
+                <div><div class="entity-dot"></div></div>
+                <div class="entity-box">
+                  <div class="entity-name">SouthStar Energy Services LLC</div>
+                  <div class="entity-role">Natural gas marketing subsidiary of Southern Company. Operates competitive retail gas supply brands across multiple states.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
+                <div class="entity-v-line"></div>
+              </div>
+              <div class="entity-tier">
+                <div class="entity-tier-label">Market Brand</div>
+                <div><div class="entity-dot" style="background:#e8641a;"></div></div>
+                <div class="entity-box primary">
+                  <div class="entity-name">
+                    <span class="mkt-inline on" id="eh-brand-ong">Ohio Natural Gas</span>
+                    <span class="mkt-inline" id="eh-brand-pa">Pennsylvania Energy</span>
+                    <span class="mkt-inline" id="eh-brand-gre">Grand Rapids Energy</span>
+                    <span class="mkt-inline" id="eh-brand-il">Illinois Energy</span>
+                    <span class="mkt-inline" id="eh-brand-ies">Illinois Energy Solutions</span>
+                  </div>
+                  <div class="entity-role">State-level competitive retail gas supply brand. Licensed and regulated by
+                    <span class="mkt-inline on" id="eh-reg-ong">PUCO / OCC (Ohio).</span>
+                    <span class="mkt-inline" id="eh-reg-pa">PA PUC (Pennsylvania).</span>
+                    <span class="mkt-inline" id="eh-reg-gre">MPSC (Michigan).</span>
+                    <span class="mkt-inline" id="eh-reg-il">ICC (Illinois).</span>
+                    <span class="mkt-inline" id="eh-reg-ies">ICC (Illinois).</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ann-row">
+              <span class="ann ann-g">✓ Entity hierarchy confirmed: state brand → SouthStar → Southern Company (NYSE: SO)</span>
+            </div>
+
+            <!-- Trust signals -->
+            <div class="h3" style="margin:20px 0 10px;">By the Numbers</div>
+            <div class="trust-grid">
+              <div class="trust-card"><div class="trust-val">[X]+</div><div class="trust-lbl">Years serving customers</div></div>
+              <div class="trust-card"><div class="trust-val">[X]K+</div><div class="trust-lbl">Active customers</div></div>
+              <div class="trust-card"><div class="trust-val">[X]%</div><div class="trust-lbl">Customer satisfaction score</div></div>
+              <div class="trust-card mkt on" id="trust-ong"><div class="trust-val">4</div><div class="trust-lbl">Ohio LDCs served</div></div>
+              <div class="trust-card mkt" id="trust-pa"><div class="trust-val">2</div><div class="trust-lbl">PA LDCs served</div></div>
+              <div class="trust-card mkt" id="trust-gre"><div class="trust-val">2</div><div class="trust-lbl">Michigan LDCs served</div></div>
+              <div class="trust-card mkt" id="trust-il"><div class="trust-val">2</div><div class="trust-lbl">Illinois LDCs served</div></div>
+              <div class="trust-card mkt" id="trust-ies"><div class="trust-val">1</div><div class="trust-lbl">Product offered</div></div>
+            </div>
+            <div class="ann-row">
+              <span class="ann ann-y">⚑ All trust signal values TBD — client must confirm before page can be finalized</span>
+              <span class="ann ann-r">⛔ IES + PA: do not include BBB badge — see reputational risk note above</span>
+            </div>
+          </div><!-- /gsp-about -->
+
+          <!-- SUB-PAGE: COMPANY HISTORY -->
+          <div class="gi-subpage" id="gsp-history">
+            <div class="h2" style="margin-bottom:14px;">Company History</div>
+            <div class="body-para">
+              <span class="mkt-inline on" id="hist-intro-ong">Ohio Natural Gas has been serving Ohio homeowners and businesses since [YEAR TBD], growing from a regional supplier into one of Ohio's most trusted competitive gas marketers.</span>
+              <span class="mkt-inline" id="hist-intro-pa">Pennsylvania Energy has served PA customers since [YEAR TBD].</span>
+              <span class="mkt-inline" id="hist-intro-gre">Grand Rapids Energy has served Michigan customers since [YEAR TBD].</span>
+              <span class="mkt-inline" id="hist-intro-il">Illinois Energy has served Illinois customers since [YEAR TBD].</span>
+              <span class="mkt-inline" id="hist-intro-ies">Illinois Energy Solutions launched to offer Illinois homeowners a unique fixed-bill approach to natural gas budgeting.</span>
+            </div>
+
+            <div class="timeline" style="margin-top:16px;">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">[YEAR TBD]</div>
+                <div class="timeline-text"><strong>Market entry.</strong> <span class="mkt-inline on" id="hist-1-ong">Ohio Natural Gas launches as a competitive gas supplier in Ohio.</span><span class="mkt-inline" id="hist-1-pa">Pennsylvania Energy launches in PA.</span><span class="mkt-inline" id="hist-1-gre">Grand Rapids Energy launches in Michigan.</span><span class="mkt-inline" id="hist-1-il">Illinois Energy launches in Illinois.</span><span class="mkt-inline" id="hist-1-ies">Illinois Energy Solutions launches with Fixed Bill product.</span></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">[YEAR TBD]</div>
+                <div class="timeline-text"><strong>Commercial expansion.</strong> Service extended to business customers. [Milestone copy TBD — confirm with client]</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">[YEAR TBD]</div>
+                <div class="timeline-text"><strong>SouthStar acquisition.</strong> Brand becomes part of the SouthStar Energy Services family — a Southern Company (NYSE: SO) subsidiary.</div>
+              </div>
+              <div class="timeline-item mkt on" id="hist-gl-ong">
+                <div class="timeline-dot" style="background:#1b6e2e;"></div>
+                <div class="timeline-year">[YEAR TBD]</div>
+                <div class="timeline-text"><strong>Greener Life® launches.</strong> Carbon-neutral natural gas option introduced for Ohio customers.</div>
+              </div>
+              <div class="timeline-item mkt" id="hist-gl-gre">
+                <div class="timeline-dot" style="background:#1b6e2e;"></div>
+                <div class="timeline-year">[YEAR TBD]</div>
+                <div class="timeline-text"><strong>Greener Life® launches in Michigan.</strong> Carbon-neutral natural gas option introduced for Grand Rapids Energy customers.</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background:#e8641a;"></div>
+                <div class="timeline-year">2026</div>
+                <div class="timeline-text"><strong>Website relaunch.</strong> New site with AI-optimized content, improved Learning Center, and streamlined enrollment experience.</div>
+              </div>
+            </div>
+            <div class="ann-row" style="margin-top:12px;">
+              <span class="ann ann-y">⚑ All history dates TBD — client to confirm all milestone years</span>
+              <span class="ann ann-y">⚑ Greener Life timeline item: ONG + GRE only</span>
+            </div>
+
+            <!-- SouthStar context -->
+            <div style="background:#f5f8fc;border:1.5px solid #d0dce8;border-radius:5px;padding:16px 18px;margin-top:20px;">
+              <div class="h3" style="margin-bottom:8px;">Part of a Larger Family</div>
+              <div class="body-para">SouthStar Energy Services LLC is a wholly-owned subsidiary of Southern Company (NYSE: SO) — one of the largest producers of electricity and natural gas in the United States, with over a century of energy experience.</div>
+            </div>
+          </div><!-- /gsp-history -->
+
+          <!-- SUB-PAGE: WHY CHOOSE US -->
+          <div class="gi-subpage" id="gsp-why">
+            <div class="h2" style="margin-bottom:14px;">Why Choose
+              <span class="mkt-inline on" id="why-nm-ong"> Ohio Natural Gas?</span>
+              <span class="mkt-inline" id="why-nm-pa"> Pennsylvania Energy?</span>
+              <span class="mkt-inline" id="why-nm-gre"> Grand Rapids Energy?</span>
+              <span class="mkt-inline" id="why-nm-il"> Illinois Energy?</span>
+              <span class="mkt-inline" id="why-nm-ies"> Illinois Energy Solutions?</span>
+            </div>
+
+            <div class="why-grid" style="margin-bottom:20px;">
+              <div class="why-card"><div class="why-icon">💰</div><div class="why-title">Rates Shown Up Front</div><div class="why-copy">No hidden fees. See exactly what you'll pay before you enroll — our rates are published clearly on every plan page.</div></div>
+              <div class="why-card"><div class="why-icon">🔒</div><div class="why-title">Lock In Your Rate</div><div class="why-copy">Fixed-rate plans protect you from market volatility. Your rate stays the same for the duration of your contract term.</div></div>
+              <div class="why-card mkt on" id="why-gl-ong"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Go carbon-neutral with our Greener Life® plan. 100% of your gas usage is offset with certified carbon credits.</div></div>
+              <div class="why-card mkt" id="why-gl-gre"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Michigan customers can go carbon-neutral with our Greener Life® plan.</div></div>
+              <div class="why-card mkt" id="why-ies-fb"><div class="why-icon">📋</div><div class="why-title">One Fixed Monthly Bill</div><div class="why-copy">Illinois Energy Solutions' Fixed Bill plan means your gas supply cost is the same every month — no surprises, no rate exposure.</div></div>
+              <div class="why-card"><div class="why-icon">🏛️</div><div class="why-title">Southern Company Backing</div><div class="why-copy">We're backed by Southern Company (NYSE: SO) — a Fortune 500 energy company with decades of experience in energy markets.</div></div>
+              <div class="why-card"><div class="why-icon">📞</div><div class="why-title">US-Based Support</div><div class="why-copy">Our customer support team is based in the US. Reach us by phone, email, or through your online account.</div></div>
+              <div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Easy to Switch</div><div class="why-copy">Enrollment takes minutes. We handle the switch — your utility still delivers your gas and handles emergencies.</div></div>
+            </div>
+            <div class="ann-row" style="margin-bottom:16px;">
+              <span class="ann ann-g">✓ Greener Life card: ONG + GRE only; Fixed Bill card: IES only</span>
+            </div>
+
+            <!-- Trust rebuttals -->
+            <div class="h3" style="margin-bottom:12px;">Addressing Common Questions</div>
+            <div class="rebuttal-card">
+              <div class="rebuttal-icon">🤔</div>
+              <div>
+                <div class="rebuttal-label">Common Concern</div>
+                <div class="rebuttal-q">Is a third-party supplier actually safe? What happens if the company goes away?</div>
+                <div class="rebuttal-a">Your local utility always remains responsible for delivering gas to your home and responding to emergencies — that never changes when you switch suppliers. Your utility distribution service is separate from gas supply. We source the gas; they deliver it. Even if your supplier changes, your service does not get interrupted.</div>
+              </div>
+            </div>
+            <div class="rebuttal-card">
+              <div class="rebuttal-icon">💵</div>
+              <div>
+                <div class="rebuttal-label">Common Concern</div>
+                <div class="rebuttal-q">Am I really saving money, or is this just a gimmick?</div>
+                <div class="rebuttal-a">A fixed-rate plan isn't primarily about saving money — it's about predictability and protection from market spikes. When gas prices rise, your rate stays the same. The value is in stability and peace of mind, not a guaranteed bill reduction.</div>
+              </div>
+            </div>
+            <div class="rebuttal-card mkt" id="rb-ies">
+              <div class="rebuttal-icon">📋</div>
+              <div>
+                <div class="rebuttal-label">IES Specific</div>
+                <div class="rebuttal-q">What is a Fixed Bill plan, and how is it different from a fixed rate?</div>
+                <div class="rebuttal-a">A fixed-rate plan locks in your price per therm but your bill still varies based on how much gas you use. A Fixed Bill plan locks in your total monthly charge — so the amount you pay is the same every month regardless of usage or price changes, up to your plan's usage threshold.</div>
+              </div>
+            </div>
+          </div><!-- /gsp-why -->
+
+        </div><!-- /content-main -->
+      </div><!-- /content-layout -->
+    </div><!-- /section -->
+
+    <!-- Enroll CTA Band -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">5</span>Enroll CTA</span>
+      <div class="enroll-band">
+        <div>
+          <h3>Ready to get started?</h3>
+          <p>See plans and rates for your area and enroll easily online.</p>
+        </div>
+        <button class="enroll-band-btn">View Plans &amp; Enroll</button>
+      </div>
+      <div class="ann-row" style="padding:0 24px 10px;">
+        <span class="ann ann-b">Variant diff: full enroll band present on GI only; LC variants use softer CTAs</span>
+        <span class="ann ann-g">✓ CTA routes to Residential Plans / plan selector with LDC pre-populated if known</span>
+      </div>
+    </div>
+
+  </div><!-- /v-gi -->
+
+
+  <!-- ═══════════════════════════════════════════
+       VARIANT 2 — LC PILLAR HUB
+       ═══════════════════════════════════════════ -->
+  <div class="variant" id="v-pillar">
+
+    <!-- Breadcrumb -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+      <div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › Understanding Your Gas Rates</div>
+    </div>
+
+    <!-- Pillar Hero -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">3</span>Pillar Hero</span>
+      <div class="pillar-hero" style="background:#f0f4fa;border-bottom:3px solid #1e3a5f;">
+        <span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+        <div class="h1">
+          <span class="mkt-inline on" id="ph-ong">Ohio Natural Gas:</span>
+          <span class="mkt-inline" id="ph-pa">Pennsylvania Energy:</span>
+          <span class="mkt-inline" id="ph-gre">Grand Rapids Energy:</span>
+          <span class="mkt-inline" id="ph-il">Illinois Energy:</span>
+          <span class="mkt-inline" id="ph-ies">Illinois Energy Solutions:</span>
+          Understanding Your Gas Rates
+        </div>
+        <div class="subhead" style="margin-top:6px;">Everything you need to know about how natural gas is priced, billed, and compared — in plain language.</div>
+        <div class="pillar-article-count" style="margin-top:8px;">6 articles · Pillar 1 of
+          <span class="mkt-inline on" id="pa-ct-ong">5</span>
+          <span class="mkt-inline" id="pa-ct-pa">4</span>
+          <span class="mkt-inline" id="pa-ct-gre">5</span>
+          <span class="mkt-inline" id="pa-ct-il">4</span>
+          <span class="mkt-inline" id="pa-ct-ies">4</span>
+        </div>
+      </div>
+      <div class="ann-row" style="padding:0 24px 10px;">
+        <span class="ann ann-g">✓ Pillar badge color system: P1 navy, P2 green, P3 rust, P4 purple, P5 dark green</span>
+        <span class="ann ann-b">Variant diff: hero = pillar color band (not marketing gradient)</span>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
+      <div class="content-layout">
+        <div class="content-sidebar">
+          <div class="sidebar-sticky">
+            <div class="sidebar-head">All Pillars</div>
+            <ul class="pillar-nav-list">
+              <li><a class="active"><span class="pillar-nav-dot pnd-1"></span>Understanding Gas Rates</a></li>
+              <li><a><span class="pillar-nav-dot pnd-2"></span>Service Area &amp; Setup</a></li>
+              <li><a><span class="pillar-nav-dot pnd-3"></span>How to Switch or Sign Up</a></li>
+              <li><a><span class="pillar-nav-dot pnd-4"></span>Managing Your Account &amp; Bill</a></li>
+              <li class="mkt on" id="pnav-gl-ong"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
+              <li class="mkt" id="pnav-gl-gre"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
+            </ul>
+            <div class="ann-row" style="margin-top:12px;padding-right:8px;">
+              <span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = all-pillars nav list</span>
+              <span class="ann ann-y" style="font-size:10px;margin-top:4px;">⚑ P5 Carbon Neutral Gas: ONG + GRE only</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-main">
+          <div class="body-para">These articles cover how natural gas is priced, why your bill changes, and how to compare supplier rates in your area. Start with the basics or jump to the topic most relevant to you.</div>
+
+          <!-- Article card grid -->
+          <div class="article-grid" style="margin-top:14px;">
+            <div class="ac">
+              <div class="ac-top"><div class="ac-num">01</div><div class="ac-title">What You're Paying For: Therms Explained</div></div>
+              <div class="ac-body"><p>Understand the unit your gas bill uses — and why it matters for comparing plans.</p></div>
+              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+            <div class="ac">
+              <div class="ac-top"><div class="ac-num">02</div><div class="ac-title">Current Rate vs. Utility Default</div></div>
+              <div class="ac-body"><p>See how our current rate compares to your utility's default supply rate — updated regularly.</p></div>
+              <div class="ac-footer"><span class="ac-read-time">3 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+            <div class="ac">
+              <div class="ac-top"><div class="ac-num">03</div><div class="ac-title">Fixed Rate vs. Variable Rate: Which Is Right for You?</div></div>
+              <div class="ac-body"><p>The difference between fixed and variable — and how to choose based on your usage and risk tolerance.</p></div>
+              <div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+            <div class="ac">
+              <div class="ac-top"><div class="ac-num">04</div><div class="ac-title">Why Gas Prices Change Throughout the Year</div></div>
+              <div class="ac-body"><p>Seasonal demand, storage levels, and weather events all affect gas prices. Here's how.</p></div>
+              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+            <div class="ac">
+              <div class="ac-top"><div class="ac-num">05</div><div class="ac-title">Understanding Gas Plans on a Fixed Income</div></div>
+              <div class="ac-body"><p>How fixed-rate and fixed-bill plans can help households that need predictable monthly costs.</p></div>
+              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+            <div class="ac">
+              <div class="ac-top">
+                <div class="ac-num">06</div>
+                <div class="ac-title">How to Compare Supplier Rates in
+                  <span class="mkt-inline on" id="ac-state-ong"> Ohio</span>
+                  <span class="mkt-inline" id="ac-state-pa"> Pennsylvania</span>
+                  <span class="mkt-inline" id="ac-state-gre"> Michigan</span>
+                  <span class="mkt-inline" id="ac-state-il"> Illinois</span>
+                  <span class="mkt-inline" id="ac-state-ies"> Illinois</span>
+                </div>
+              </div>
+              <div class="ac-body"><p>A plain-language guide to reading and comparing supplier rate offers in your state.</p><span class="ac-market-tag" id="ac-mt-ong">Ohio specific</span><span class="ac-market-tag" id="ac-mt-pa" style="display:none;">PA specific</span></div>
+              <div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
+            </div>
+          </div>
+          <div class="ann-row" style="margin-top:10px;">
+            <span class="ann ann-b">Variant diff: content = article card grid (not marketing copy blocks)</span>
+            <span class="ann ann-y">⚑ Article count per pillar varies by market — confirm final article list per market</span>
+          </div>
+
+          <!-- Related Pillars -->
+          <div class="h3" style="margin:24px 0 10px;">Explore Other Topics</div>
+          <div class="related-pillars-row">
+            <div class="rp"><div class="rp-icon">🏠</div><div class="rp-name">Service Area &amp; Setup</div><div class="rp-count">5 articles</div></div>
+            <div class="rp"><div class="rp-icon">↩️</div><div class="rp-name">How to Switch or Sign Up</div><div class="rp-count">5 articles</div></div>
+            <div class="rp"><div class="rp-icon">📄</div><div class="rp-name">Managing Your Account &amp; Bill</div><div class="rp-count">5 articles</div></div>
+            <div class="rp mkt on" id="rp-gl-ong"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">5 articles</div></div>
+            <div class="rp mkt" id="rp-gl-gre"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">4 articles</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics bar -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">5</span>SEO / Metrics</span>
+      <div class="metrics-bar">
+        <div><div class="m-val">BreadcrumbList</div><div class="m-lbl">Schema markup</div><div class="m-tgt">Pillar hub + articles</div></div>
+        <div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
+        <div><div class="m-val">4–5</div><div class="m-lbl">Pillars per market</div><div class="m-tgt">P5 = ONG + GRE only</div></div>
+      </div>
+    </div>
+
+  </div><!-- /v-pillar -->
+
+
+  <!-- ═══════════════════════════════════════════
+       VARIANT 3 — LC ARTICLE
+       ═══════════════════════════════════════════ -->
+  <div class="variant" id="v-article">
+
+    <!-- Breadcrumb -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+      <div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › <a>Understanding Gas Rates</a> › Fixed Rate vs. Variable Rate</div>
+    </div>
+
+    <!-- Reading progress bar -->
+    <div style="height:3px;background:#e8641a;width:35%;"></div>
+
+    <!-- Article Header -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">3</span>Article Header</span>
+      <div class="article-header">
+        <div class="article-meta-bar">
+          <span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+          <span>5 min read</span>
+          <span>Updated April 2026</span>
+          <span class="mkt-inline on" id="art-mkt-ong" style="background:#e8f5e9;border:1px solid #4caf50;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#2e7d32;">Ohio</span>
+          <span class="mkt-inline" id="art-mkt-pa" style="background:#e3f2fd;border:1px solid #1565c0;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#0d47a1;">Pennsylvania</span>
+          <span class="mkt-inline" id="art-mkt-gre" style="background:#f3e5f5;border:1px solid #8e24aa;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#6a1b9a;">Michigan</span>
+          <span class="mkt-inline" id="art-mkt-il" style="background:#fff3e0;border:1px solid #ef6c00;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#e65100;">Illinois</span>
+          <span class="mkt-inline" id="art-mkt-ies" style="background:#fce4ec;border:1px solid #c2185b;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#880e4f;">IES</span>
+        </div>
+        <div class="article-h1">Fixed Rate vs. Variable Rate: Which Natural Gas Plan Is Right for You?</div>
+        <div class="article-sub">Understand the key difference between fixed and variable gas supply rates — and how to choose the right plan for your household.</div>
+      </div>
+      <div class="ann-row" style="padding:0 24px 10px;">
+        <span class="ann ann-b">Variant diff: article H1 + meta bar (not marketing hero)</span>
+        <span class="ann ann-g">✓ Article H1 must include brand name + state + topic for E-E-A-T</span>
+        <span class="ann ann-g">✓ Reading progress bar: sticky, updates on scroll</span>
+      </div>
+    </div>
+
+    <!-- Full-width content (no sidebar) -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">4</span>Article Content</span>
+      <div class="ann-row" style="padding:8px 24px 4px;">
+        <span class="ann ann-g" style="font-size:10px;">✓ Sidebar removed — LC articles are concise enough that anchor navigation adds no value and narrows the content column unnecessarily. Related articles surface in the "Keep Reading" band below.</span>
+        <span class="ann ann-b" style="font-size:10px;">Variant diff: full-width article body (no sidebar). GI and Pillar Hub variants retain their sidebars.</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr;">
+        <div class="content-main">
+
+          <!-- AI Extract Box -->
+          <div class="ai-extract-box">
+            <div class="ai-extract-label">✦ AI Search Extract</div>
+            <div class="ai-extract-text">"A fixed-rate natural gas plan locks in a set price per therm for the duration of your contract, protecting you from market price increases. A variable-rate plan fluctuates monthly based on market conditions and may be lower or higher than the fixed rate in any given month. Fixed-rate plans typically include an Early Termination Fee if cancelled before the contract end date."</div>
+          </div>
+          <div class="ann-row">
+            <span class="ann ann-b">Variant diff: AI extract box present on LC Articles only — optimizes for AI-mediated search (Google SGE, Perplexity, etc.)</span>
+            <span class="ann ann-y">⚑ AI extract copy — review per article before publish</span>
+          </div>
+
+          <!-- Article Sections -->
+          <div class="article-section">
+            <div class="article-section-h2">What Is a Fixed Rate?</div>
+            <p class="body-para">A fixed-rate natural gas plan locks in a set price per therm for the length of your contract. Your supply rate will not change even if the wholesale price of gas increases.</p>
+            <p class="body-para">[ARTICLE BODY COPY PLACEHOLDER — key points: rate stability, contract term length, good for risk-averse customers]</p>
+          </div>
+
+          <div class="article-section">
+            <div class="article-section-h2">What Is a Variable Rate?</div>
+            <p class="body-para">A variable-rate plan adjusts monthly based on market conditions. Your rate may be lower than a fixed rate some months — but it can also be significantly higher during periods of high demand or supply disruption.</p>
+          </div>
+
+          <!-- Mid-article CTA -->
+          <div class="article-section">
+            <div class="mid-cta">
+              <div>
+                <p>See current fixed rates in your area</p>
+                <small>Enter your ZIP code to view available plans for your area</small>
+              </div>
+              <button class="wf-btn-sm" style="background:#fff;color:#c04000;">View Plans</button>
+            </div>
+            <div class="ann-row" style="margin-top:8px;">
+              <span class="ann ann-b">Variant diff: mid-article CTA inline within content (not a full enroll band)</span>
+            </div>
+          </div>
+
+          <div class="article-section">
+            <div class="article-section-h2">Early Termination — What Applies to You</div>
+            <div class="market-block mkt on" id="art-etf-ong">
+              <div class="market-block-label">Ohio Natural Gas</div>
+              Fixed-rate plans carry an Early Termination Fee of <strong>$12.50 per remaining month</strong> if you cancel before your contract end date.
+            </div>
+            <div class="market-block mkt" id="art-etf-pa">
+              <div class="market-block-label">Pennsylvania Energy</div>
+              Fixed-rate plans carry an Early Termination Fee of <strong>$10.00 per remaining month</strong> if you cancel before your contract end date.
+            </div>
+            <div class="market-block mkt" id="art-etf-gre">
+              <div class="market-block-label">Grand Rapids Energy</div>
+              Early Termination Fee applies — amount TBD, pending client confirmation.
+            </div>
+            <div class="market-block mkt" id="art-etf-il">
+              <div class="market-block-label">Illinois Energy</div>
+              Early Termination Fee applies — amount TBD. Note: ICC SB651/Part 512 compliance required; ETF must be disclosed at enrollment.
+            </div>
+            <div class="market-block mkt" id="art-etf-ies">
+              <div class="market-block-label">Illinois Energy Solutions</div>
+              Fixed Bill plan ETF — amount TBD, pending client confirmation.
+            </div>
+            <div class="ann-row" style="margin-top:8px;">
+              <span class="ann ann-g">✓ Market-specific ETF blocks shown/hidden per active market</span>
+            </div>
+          </div>
+
+          <!-- FAQ Schema Section -->
+          <div class="article-section faq-schema-section">
+            <div class="article-section-h2">Common Questions <span class="faq-schema-badge">FAQ Schema</span></div>
+            <div class="ann-row" style="margin-bottom:10px;">
+              <span class="ann ann-b">Variant diff: FAQ schema markup present on LC Articles — eligible for Google FAQ rich results and AI overviews</span>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+                Can I switch from a variable rate to a fixed rate at any time? <span class="faq-q-toggle">+</span>
+              </div>
+              <div class="faq-a">Yes, you can enroll in a fixed-rate plan at any time. If you're already on a fixed-rate plan and want to change to a different plan, Early Termination Fee rules may apply depending on your contract state.</div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+                Is a fixed-rate plan guaranteed to be cheaper than my utility's rate? <span class="faq-q-toggle">+</span>
+              </div>
+              <div class="faq-a">No — a fixed-rate plan is about stability, not guaranteed savings. During periods of low market prices your utility's rate may be lower. The benefit of a fixed rate is predictability and protection against price spikes.</div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+                What happens when my fixed-rate contract ends? <span class="faq-q-toggle">+</span>
+              </div>
+              <div class="faq-a">[Answer content TBD — covers auto-renewal, rollover to variable, renewal notice timeline. Confirm per market.]</div>
+            </div>
+          </div>
+
+        </div><!-- /content-main -->
+      </div><!-- /article-grid -->
+    </div>
+
+    <!-- Related Articles Band -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">5</span>Related Articles</span>
+      <div class="p">
+        <div class="h3" style="margin-bottom:12px;">Keep Reading</div>
+        <div class="related-articles-grid">
+          <div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates · 4 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+          <div class="ra-card">Early Termination: What It Is and When It Applies<small>How to Switch or Sign Up · 5 min read</small><span class="pillar-badge pb-p3" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
+          <div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates · 3 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+        </div>
+        <div class="ann-row" style="margin-top:10px;">
+          <span class="ann ann-b">Variant diff: related articles band instead of enroll band; enroll nudge below if article is plan-adjacent</span>
+          <span class="ann ann-g">✓ Related article recommendations: same pillar priority, cross-pillar secondary</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics bar -->
+    <div class="section">
+      <span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
+      <div class="metrics-bar">
+        <div><div class="m-val">FAQ Schema</div><div class="m-lbl">Rich result eligible</div><div class="m-tgt">Every Q&amp;A pair</div></div>
+        <div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
+        <div><div class="m-val">AI Extract</div><div class="m-lbl">SGE / AI overview</div><div class="m-tgt">Frontloaded summary</div></div>
+        <div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
+        <div><div class="m-val">4–5 min</div><div class="m-lbl">Target read time</div></div>
+      </div>
+    </div>
+
+  </div><!-- /v-article -->
+
+
+  <!-- ─── FOOTER (shared across all variants) ─── -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">—</span>Footer</span>
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo">
+            <span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline" id="ft-il">Illinois Energy</span>
+            <span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+          </div>
+          <div class="footer-parent">A SouthStar Energy Services company<br>A subsidiary of Southern Company (NYSE: SO)</div>
+        </div>
+        <div>
+          <div class="footer-col-head">Plans</div>
+          <div class="footer-col-links">
+            <a>Residential Plans</a>
+            <a class="mkt on" id="ftgl-ong">Greener Life® Plans</a>
+            <a class="mkt" id="ftgl-gre">Greener Life® Plans</a>
+            <a>Commercial Plans</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">Learn</div>
+          <div class="footer-col-links">
+            <a>Learning Center</a>
+            <a>FAQ</a>
+            <a>About Us</a>
+            <a>Contact Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">Legal</div>
+          <div class="footer-col-links">
+            <a>Privacy Policy</a>
+            <a>Terms of Use</a>
+            <a>Enrollment Disclosures</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-row">
+          <span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+          <div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    4037-25 · SouthStar Expanded Markets Redesign · Content Page Template (General Informational + LC Pillar Hub + LC Article) · IfThen Digital · April 2026<br>
+    ⛔ SUPERSEDED — This consolidated file has been split into two purpose-built template wireframes: (1) LearningCenter_Wireframe.html — LC Hub, LC Pillar Hub, and LC Article; (2) GeneralInformational_Wireframe.html — GI/About pages with Organization schema, service area, and regulatory licensing sections. This file is retained for reference only and should not be used as the source of truth.
+  </div>
+
+</div><!-- /canvas -->
+
+<script>
+var curMarket = 'ong';
+var curVariant = 'gi';
+var curGiSubpage = 'about';
+
+function setMarket(m, e) {
+  curMarket = m;
+  document.querySelectorAll('.btn-market').forEach(b => b.classList.remove('active'));
+  if (e) e.target.classList.add('active');
+
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(el => {
+    if (el.classList.contains('mkt')) el.classList.add('on');
+  });
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
+
+  // Article market tags — show only active
+  ['ong','pa','gre','il','ies'].forEach(mk => {
+    var el = document.getElementById('ac-mt-' + mk);
+    if (el) el.style.display = (mk === m) ? 'inline-block' : 'none';
+  });
+}
+
+function setVariant(v, e) {
+  curVariant = v;
+  document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+  if (e) e.target.classList.add('active');
+  document.querySelectorAll('.variant').forEach(el => el.classList.remove('on'));
+  var vEl = document.getElementById('v-' + v);
+  if (vEl) vEl.classList.add('on');
+
+  // Update nav active state
+  var navGi = document.getElementById('nav-active-gi');
+  var navLc = document.getElementById('nav-active-lc');
+  if (v === 'gi') {
+    if (navGi) navGi.style.display = 'inline-flex';
+    if (navLc) navLc.style.display = 'none';
+  } else {
+    if (navGi) navGi.style.display = 'none';
+    if (navLc) navLc.style.display = 'inline-flex';
+  }
+}
+
+function setGiSubpage(sp) {
+  curGiSubpage = sp;
+  document.querySelectorAll('.gi-subpage').forEach(el => el.classList.remove('on'));
+  var el = document.getElementById('gsp-' + sp);
+  if (el) el.classList.add('on');
+  document.querySelectorAll('.spn-list li a').forEach(a => a.classList.remove('spn-active'));
+  var spnEl = document.getElementById('spn-' + sp);
+  if (spnEl) spnEl.classList.add('spn-active');
+
+  // Update breadcrumb label
+  var labels = { about: 'About Us', history: 'Company History', why: 'Why Choose Us' };
+  var bc = document.getElementById('gi-bc-label');
+  if (bc) bc.textContent = labels[sp] || 'About Us';
+  var heroSub = document.getElementById('gi-hero-subtitle');
+  if (heroSub) heroSub.textContent = labels[sp] || 'About Us';
+}
+
+// Init
+(function() {
+  setVariant('gi', null);
+  document.querySelector('.btn-variant').classList.add('active');
+  // Article market tag init
+  ['ong','pa','gre','il','ies'].forEach(mk => {
+    var el = document.getElementById('ac-mt-' + mk);
+    if (el) el.style.display = (mk === 'ong') ? 'inline-block' : 'none';
+  });
+})();
+</script>
+</body>
+</html>

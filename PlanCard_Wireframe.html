@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Card Component — Wireframe Sketch | 4037-25</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f0f0ed;
+    color: #1a1a1a;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .toolbar-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .toolbar-title { font-weight: 700; font-size: 14px; letter-spacing: 0.02em; }
+  .toolbar-meta { color: #aaa; }
+  .market-switcher { display: flex; gap: 6px; }
+  .market-btn {
+    background: #333;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 5px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .market-btn:hover, .market-btn.active {
+    background: #e8641a;
+    border-color: #e8641a;
+    color: #fff;
+  }
+  .legend { display: flex; gap: 14px; align-items: center; font-size: 11px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .dot-approved { background: #4caf50; }
+  .dot-open { background: #f5c842; }
+  .dot-component { background: #c7d9f0; border: 1px solid #7aabda; }
+
+  /* ── PAGE CANVAS ── */
+  .canvas {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 24px 80px;
+  }
+
+  .canvas-intro {
+    background: #fffbea;
+    border: 1.5px solid #e5d28a;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #5e4a00;
+  }
+  .canvas-intro h1 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e3a5f;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .canvas-intro p { margin-bottom: 6px; }
+  .canvas-intro .decision-chip {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #c9a544;
+    color: #7a5a00;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 1px 2px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    background: #fff;
+    border: 1.5px solid #d0cfc9;
+    margin-bottom: 24px;
+    position: relative;
+    padding: 22px 28px 24px;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #d0cfc9;
+  }
+  .section-num {
+    display: inline-flex;
+    background: #1e3a5f;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e3a5f;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    font-size: 11px;
+    color: #777;
+    font-weight: 500;
+    margin-left: auto;
+    text-align: right;
+  }
+  .section-body { padding-top: 14px; }
+  .demo-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .demo-card-col { flex: 0 0 320px; }
+  .demo-notes-col { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px; }
+  .demo-row.wide .demo-card-col { flex: 0 0 360px; }
+
+  /* ── ANNOTATIONS ── */
+  .ann {
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 6px 9px;
+    border-radius: 3px;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .ann i {
+    font-style: normal;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+  .ann-g i { color: #4caf50; }
+  .ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+  .ann-y i { color: #c9a544; }
+  .ann-r { background: #ffebee; border: 1.5px solid #e57373; color: #b71c1c; }
+  .ann-r i { color: #e57373; }
+  .ann-b { background: #e3f2fd; border: 1.5px solid #7aabda; color: #1565c0; }
+  .ann-b i { color: #1e6fbd; }
+
+  .ann .ref {
+    background: #fff;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* ─────────────────────────────────────────────────────────
+     PLAN CARD COMPONENT — the actual component being specified
+     Vertical stack: Header → Body → Footer
+     (PC-D1: vertical stack chassis preserved)
+  ─────────────────────────────────────────────────────────── */
+  .pc {
+    border: 1.5px solid #d0cfc9;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    width: 320px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .pc.featured { border-color: #e8641a; border-width: 2px; }
+  .pc.greener { border-color: #4caf50; border-width: 1.5px; }
+  .pc.promo { border-color: #e8641a; border-width: 2px; box-shadow: 0 2px 6px rgba(232,100,26,0.12); }
+
+  /* Header */
+  .pc-head {
+    padding: 12px 14px 10px;
+    background: #f7f7f5;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .pc.greener .pc-head { background: #f1f8e9; border-bottom-color: #d6e8c5; }
+  .pc.promo .pc-head { background: #fff7ee; border-bottom-color: #ffd9b8; }
+
+  .pc-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .pc-badge {
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: inline-block;
+  }
+  .badge-fixed { background: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; }
+  .badge-variable { background: #f5f5f5; color: #666; border: 1px solid #ccc; }
+  .badge-custom { background: #ede7f6; color: #4527a0; border: 1px solid #7e57c2; }
+  .badge-fixedbill { background: #e1f5fe; color: #0277bd; border: 1px solid #4fc3f7; }
+  .badge-popular { background: #e8641a; color: #fff; border: 1px solid #e8641a; }
+  .badge-greener { background: #c8e6c9; color: #2e7d32; border: 1px solid #4caf50; }
+  .badge-promo { background: #e8641a; color: #fff; border: 1px solid #e8641a; }
+  .badge-term { background: #fff; color: #555; border: 1px solid #ccc; font-weight: 700; }
+
+  .pc-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e3a5f;
+    line-height: 1.25;
+  }
+
+  /* Body */
+  .pc-body { padding: 12px 14px 4px; }
+
+  .pc-rate-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+  .pc-rate {
+    font-size: 26px;
+    font-weight: 900;
+    color: #1e3a5f;
+    line-height: 1;
+  }
+  .pc.greener .pc-rate { color: #2e7d32; }
+  .pc-rate-unit {
+    font-size: 12px;
+    color: #888;
+  }
+  .pc-rate-unit strong { color: #1e3a5f; font-weight: 700; }
+  .pc-rate-was {
+    font-size: 12px;
+    color: #888;
+    text-decoration: line-through;
+    margin-left: auto;
+  }
+
+  .pc-rate-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .pc-rate-secondary {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin-bottom: 2px;
+  }
+  .pc-rate-secondary .qual {
+    font-size: 10px;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: 1px;
+  }
+  /* Equal-weight stacked rates — used by TruBalance where both rates contribute
+     equally to the customer's total. Neither rate is visually primary. */
+  .pc-rate-equal-row {
+    background: #f9f9f7;
+    border-left: 3px solid #1e3a5f;
+    border-radius: 0 3px 3px 0;
+    padding: 6px 10px;
+  }
+  .pc-rate-equal-qual {
+    font-size: 10px;
+    color: #888;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .pc-rate-equal-line {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  /* Dynamic LDC token — visually flags content that will resolve from session context. */
+  .dyn-ldc {
+    background: #e3f2fd;
+    border-radius: 2px;
+    padding: 0 4px;
+    font-style: italic;
+    color: #1565c0;
+    border-bottom: 1px dotted #7aabda;
+  }
+
+  .pc-fee {
+    font-size: 11px;
+    color: #5a8cbf;
+    background: #f0f5fb;
+    border-left: 3px solid #5a8cbf;
+    padding: 5px 8px;
+    margin: 8px 0;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .pc-rate-pending {
+    font-size: 13px;
+    color: #b58300;
+    background: #fffbea;
+    border: 1.5px dashed #f5c842;
+    padding: 8px 10px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .pc-rate-pending strong { display: block; font-size: 14px; margin-bottom: 2px; color: #7a6000; }
+
+  .pc-quote {
+    text-align: center;
+    background: #f0f5fb;
+    border: 1.5px dashed #7aabda;
+    padding: 10px 12px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .pc-quote-label {
+    font-size: 11px;
+    color: #1e6fbd;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+  .pc-quote-phone {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e3a5f;
+  }
+
+  .pc-promo-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .pc-promo-code {
+    font-size: 10px;
+    font-weight: 800;
+    color: #e8641a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pc-promo-code .code {
+    background: #fff3e0;
+    border: 1px solid #e8641a;
+    border-radius: 3px;
+    padding: 1px 8px;
+    margin-left: 4px;
+  }
+  .pc-expiry {
+    font-size: 10px;
+    color: #b58300;
+    background: #fffbea;
+    border: 1px solid #f5c842;
+    border-radius: 3px;
+    padding: 3px 7px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+
+  .pc-desc {
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.5;
+    margin: 8px 0 10px;
+  }
+
+  .pc-greener-note {
+    background: #f1f8e9;
+    border: 1px solid #aed581;
+    border-radius: 3px;
+    padding: 6px 8px;
+    font-size: 10.5px;
+    color: #558b2f;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+  }
+  .pc-greener-note::before { content: "🌱"; flex-shrink: 0; }
+
+  .pc-points {
+    list-style: none;
+    margin: 6px 0 8px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .pc-points li {
+    font-size: 11px;
+    color: #444;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .pc-points li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #e8641a;
+    font-weight: 900;
+  }
+
+  .pc-expand-link {
+    font-size: 11px;
+    color: #1e6fbd;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    margin: 2px 0 4px;
+  }
+  .pc-acr-link {
+    font-size: 10.5px;
+    color: #1e6fbd;
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+    margin-bottom: 4px;
+  }
+  /* Slot K — Required disclosure line. Optional on every variant, required when
+     promo state is active. Renders below bullets, above the expand toggle. Small
+     italic muted text + inline anchor that points to a page-level legal block. */
+  .pc-disclosure-line {
+    font-size: 10.5px;
+    color: #666;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 8px 0 6px;
+    padding: 6px 0 0;
+    border-top: 1px dashed #e0dfd9;
+  }
+  .pc-disclosure-line::before {
+    content: "* ";
+    color: #888;
+    font-weight: 700;
+  }
+  .pc-disclosure-line a {
+    color: #1e6fbd;
+    text-decoration: underline;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* Inline expanded state */
+  .pc-expanded {
+    background: #fafaf7;
+    border-top: 1px dashed #d0cfc9;
+    border-bottom: 1px dashed #d0cfc9;
+    margin: 8px -14px 0;
+    padding: 10px 14px;
+    font-size: 10.5px;
+    color: #555;
+    line-height: 1.55;
+  }
+  .pc-expanded h5 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    font-weight: 800;
+    margin: 6px 0 3px;
+  }
+  .pc-expanded h5:first-child { margin-top: 0; }
+  .pc-expanded p { margin-bottom: 5px; }
+  .pc-expanded a { color: #1e6fbd; text-decoration: underline; }
+
+  /* Footer */
+  .pc-foot {
+    padding: 10px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pc-cta {
+    background: #e8641a;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+  }
+  .pc-cta.outline {
+    background: #fff;
+    color: #e8641a;
+    border: 1.5px solid #e8641a;
+  }
+  /* Disabled neutral — used when the CTA slot must occupy the same space as a live
+     CTA (so card layout stays consistent before/after rate resolution) but the
+     button is not yet actionable. Reads as inert rather than dimmed-clickable. */
+  .pc-cta.disabled-neutral {
+    background: #e0dfd9;
+    color: #888;
+    border: 1.5px solid #d0cfc9;
+    cursor: not-allowed;
+  }
+  .pc-rate-updated {
+    font-size: 10px;
+    color: #aaa;
+    text-align: right;
+    font-style: italic;
+  }
+
+  /* ── ANATOMY DIAGRAM ── */
+  .anatomy-wrap {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-top: 14px;
+  }
+  .anatomy-card { flex: 0 0 320px; position: relative; }
+  .anatomy-callouts {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11.5px;
+    color: #333;
+    line-height: 1.5;
+  }
+  .anatomy-cb {
+    padding: 8px 10px;
+    background: #f7f7f5;
+    border-left: 3px solid #5a8cbf;
+    border-radius: 0 3px 3px 0;
+  }
+  .anatomy-cb b {
+    color: #1e3a5f;
+    font-weight: 800;
+    font-size: 12px;
+  }
+  .anatomy-cb .slot {
+    display: inline-block;
+    background: #1e3a5f;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    margin-right: 6px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .anatomy-cb .ref {
+    background: #fff;
+    border: 1px solid #c9a544;
+    color: #7a6000;
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-left: 4px;
+  }
+
+  /* ── MOBILE FRAMES ── */
+  .mobile-frame {
+    width: 320px;
+    border: 8px solid #1a1a1a;
+    border-radius: 24px;
+    background: #fff;
+    padding: 14px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .mobile-frame::before {
+    content: '';
+    width: 50px;
+    height: 4px;
+    background: #444;
+    border-radius: 2px;
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .mobile-frame .pc { width: 100%; }
+  .mobile-label {
+    font-size: 10px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  /* ── DECISION TABLE ── */
+  .dec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+    margin-top: 8px;
+  }
+  .dec-table th, .dec-table td {
+    border: 1px solid #d0cfc9;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .dec-table th {
+    background: #1e3a5f;
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .dec-table tr:nth-child(even) td { background: #f9f9f7; }
+  .dec-table .dec-id {
+    font-weight: 800;
+    color: #1e3a5f;
+    white-space: nowrap;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+  }
+
+  /* ── SLOT MAP TABLE ── */
+  .slot-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+    margin-top: 8px;
+  }
+  .slot-table th, .slot-table td {
+    border: 1px solid #d0cfc9;
+    padding: 7px 9px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .slot-table th {
+    background: #f0f0ed;
+    color: #1e3a5f;
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .slot-table .slot-name {
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: #1e3a5f;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .slot-table .req-yes { color: #2e7d32; font-weight: 700; }
+  .slot-table .req-opt { color: #888; }
+  .slot-table .req-state { color: #1e6fbd; font-weight: 700; }
+
+  /* Misc */
+  .col-2 { display: flex; gap: 20px; flex-wrap: wrap; }
+  .col-2 > * { flex: 1; min-width: 280px; }
+  .col-3 { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .col-3 > * { flex: 0 0 320px; }
+
+  .state-pill {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-right: 6px;
+  }
+  .state-pill-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; }
+  .state-pill-pending { background: #fffbea; color: #7a6000; border: 1px solid #c9a544; }
+  .state-pill-error { background: #ffebee; color: #b71c1c; border: 1px solid #e57373; }
+  .state-pill-info { background: #e3f2fd; color: #1565c0; border: 1px solid #7aabda; }
+
+  hr.soft { border: none; border-top: 1px dashed #d0cfc9; margin: 18px 0; }
+</style>
+</head>
+
+<body>
+
+<!-- ────────────────────────── TOOLBAR ────────────────────────── -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="toolbar-title">Plan Card Component — Wireframe Sketch</span>
+    <span class="toolbar-meta">4037-25 · SouthStar Expanded Markets · v1.0 · 2026-05-14</span>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot dot-approved"></span> Decision locked</div>
+    <div class="legend-item"><span class="legend-dot dot-open"></span> Open / dependency</div>
+    <div class="legend-item"><span class="legend-dot dot-component"></span> Shared / dev note</div>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <!-- ───────────────────── INTRO ───────────────────── -->
+  <div class="canvas-intro">
+    <h1>Plan Card — unified component spec</h1>
+    <p>Single source of truth for the plan card used on <b>Residential Plans</b>, <b>Commercial Plans</b>, <b>Promo Pages</b>, and the new <b>IES Fixed Bill</b> page. Replaces three legacy class systems (<code>.plan-card</code>, <code>.offer-card</code>, <code>.comm-plan-card</code>) with one component that exposes variants and states.</p>
+    <p>Decisions logged in <code>Wireframe_ChangeLog.md</code> §A.GLOBAL — Plan Card Component:
+      <span class="decision-chip">PC-D1 vertical stack</span>
+      <span class="decision-chip">PC-D2 "Start Enrollment →"</span>
+      <span class="decision-chip">PC-D3 inline enroll all markets</span>
+      <span class="decision-chip">PC-D4 multi-rate body</span>
+      <span class="decision-chip">PC-D5 Greener Life = variant</span>
+      <span class="decision-chip">PC-D6 description slot</span>
+      <span class="decision-chip">PC-D7 rev 2 Terms &amp; Disclosures + ACR contextual</span>
+      <span class="decision-chip">PC-D8 rate-updated everywhere (no PRIME)</span>
+      <span class="decision-chip">PC-D9 IES inline enroll from launch</span>
+      <span class="decision-chip">PC-D10 promo = state (dedup pass)</span>
+      <span class="decision-chip">PC-D11 rate-pending state (Promo only)</span>
+      <span class="decision-chip">PC-D12 mobile single accordion</span>
+      <span class="decision-chip">PC-D13 new Slot K — disclosure line</span>
+      <span class="decision-chip">PC-D14 new rate-label = multi-rate only</span>
+      <span class="decision-chip">PC-D15 new plan-name + badge convention · disabled-neutral CTA · commercial single phone</span>
+    </p>
+    <p>Source audit: <code>PlanCard_Audit_2026-05-14.md</code>. Build: this file. Propagation into ResidentialPlans, PromoPage, CommercialPlans wireframes follows as Batch B.</p>
+  </div>
+
+  <!-- ───────────────────── SECTION 1: ANATOMY ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">1</span>
+      <span class="section-title">Anatomy — what's in the card</span>
+      <span class="section-sub">Vertical stack · Header → Body → Footer · PC-D1</span>
+    </div>
+    <div class="section-body">
+      <div class="anatomy-wrap">
+        <div class="anatomy-card">
+          <div class="pc featured">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-popular">Most Popular</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+                <li>We'll mail 1–2 renewal notices before your contract expires</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anatomy-callouts">
+          <div class="anatomy-cb"><span class="slot">A</span> <b>Type badges</b><span class="ref">PC-D5 PC-D10</span><br>Fixed Rate · Variable Rate · Custom Rate · Greener Life · Promo · Fixed Bill. Most Popular surfaces in the same row (CMS-configurable, max 1 per grid).</div>
+          <div class="anatomy-cb"><span class="slot">B</span> <b>Plan name</b><br>Pulled from PRIME plan catalog. Per-market labels supported via <code>.mkt-inline</code>.</div>
+          <div class="anatomy-cb"><span class="slot">C</span> <b>Rate row</b> <span class="ref">PC-D4 PC-D11</span><br>Primary rate ($X.XXX + unit). Supports a struck-through was-price (Promo state) and a secondary rate row + product-fee row (PriceCap, TruBalance). Replaced by rate-pending or call-for-quote states when no numeric rate is available.</div>
+          <div class="anatomy-cb"><span class="slot">D</span> <b>Promo line</b> <span class="ref">PC-D10</span><br>Surfaces only in promo state: promo code chip + expiration date.</div>
+          <div class="anatomy-cb"><span class="slot">E</span> <b>Description paragraph</b> <span class="ref">PC-D6</span><br>1–2 sentence peace-of-mind / explanation lead-in. Required.</div>
+          <div class="anatomy-cb"><span class="slot">F</span> <b>Key-point bullets</b><br>3–5 short bullets. Includes ETF line on fixed plans, "No ETF" on variable plans. Renewal-notice bullet on every fixed plan.</div>
+          <div class="anatomy-cb"><span class="slot">G</span> <b>"View Plan Terms &amp; Disclosures" (inline expand)</b> <span class="ref">PC-D7 PC-D12</span><br>Single accordion. 4 base sections — Billing start timeline · Cancellation rights · Auto-renewal · Contract &amp; disclosures. Plan-type-specific sections layer on top per the §14 matrix (e.g., "How your rate is set" on variable plans, "Promo eligibility &amp; terms" on promo state). Hard ceiling: ≤180 words total across all sections.</div>
+          <div class="anatomy-cb"><span class="slot">H</span> <b>ACR info link — contextual, inside Auto-renewal section</b> <span class="ref">PC-D7 rev 2</span><br>Rendered as an inline anchor within the Auto-renewal paragraph of the expand, parallel to the Plan Contract PDF link's placement within Contract &amp; disclosures. No dedicated bordered row. Still tracked as its own slot for analytics (<code>acr_link_click</code>).</div>
+          <div class="anatomy-cb"><span class="slot">K</span> <b>Required disclosure line</b> <span class="ref">PC-D13 new</span><br>Brief italic legal cue below the bullets and above the expand toggle. Optional on every variant; <b>required</b> when promo state is active. Format: small italic muted text with leading <code>*</code>, ending in an inline anchor that points to the page-level Promo Disclosure block (bottom of Promo Page · parallel position on Plans Listing pinned-promo). Available to non-promo cards when legal mandates an on-card cue that won't fit elsewhere (e.g., IES if ICC escalates beyond bullet).</div>
+          <div class="anatomy-cb"><span class="slot">I</span> <b>Primary CTA</b> <span class="ref">PC-D2 PC-D3</span><br>"Start Enrollment →" across every variant and every market. IL and IES inherit it once online enrollment ships.</div>
+          <div class="anatomy-cb"><span class="slot">J</span> <b>Rate-last-updated micro</b> <span class="ref">PC-D8</span><br>"Rate last updated: [Mon YYYY]." Required on every numeric-rate state. Suppressed on rate-pending and call-for-quote states.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 2: STANDARD ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">2</span>
+      <span class="section-title">Standard residential — default, featured, Greener Life variant</span>
+      <span class="section-sub">Single-rate numeric plans · PC-D1 PC-D5 PC-D6 PC-D8</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- Default -->
+        <div>
+          <div class="mobile-label">Default · Variable plan</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-variable">Variable Rate</span>
+              </div>
+              <div class="pc-name">Variable Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$4.990</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
+              <ul class="pc-points">
+                <li>No sign-up fees</li>
+                <li>No early termination charges — cancel anytime</li>
+                <li>Rate may change month to month</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured -->
+        <div>
+          <div class="mobile-label">Featured · Most Popular</div>
+          <div class="pc featured">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-popular">Most Popular</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+                <li>We'll mail 1–2 renewal notices before your contract expires</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Greener Life -->
+        <div>
+          <div class="mobile-label">Variant · Greener Life</div>
+          <div class="pc greener">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-greener">🌱 Greener Life</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan with Greener Life</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <div class="pc-desc">Lock in your price for 12 months and we'll retire carbon offsets matching your usage — so your gas service is 100% carbon-neutral.</div>
+              <div class="pc-greener-note">Offsets cover combustion at point of consumption only — not lifecycle emissions from extraction, production, or delivery.</div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <hr class="soft">
+      <div class="col-2">
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D1</span> Vertical stack chassis preserved. No horizontal two-pane treatment — familiar to the existing customer base.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D5</span> Greener Life is a variant: green border + green rate color + 🌱 badge + optional environmental-disclosure line above bullets. NOT a separate plan archetype.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D6</span> Description slot above bullets is required on every card. Matches live-site lead-in pattern.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D8</span> Rate-last-updated micro shows on every numeric-rate state, every market.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span>Unit label per LDC — confirm Mcf vs therm per LDC during PRIME barrel walkthrough. Live ONG (Enbridge Gas Ohio) uses Mcf; requirements doc said therms.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span>"Most Popular" criteria — CMS-configurable field. Enrollment-volume threshold per market is undefined. Flag to confirm with Aimee.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 3: MULTI-RATE ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">3</span>
+      <span class="section-title">Multi-rate plans — PriceCap (dual + fee) and TruBalance (split)</span>
+      <span class="section-sub">Same chassis, two rate rows + optional fee · PC-D4</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- PriceCap -->
+        <div>
+          <div class="mobile-label">PriceCap · variable + cap + fee</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-variable">Variable Rate</span>
+                <span class="pc-badge badge-term">12-Month Cap</span>
+              </div>
+              <div class="pc-name">PriceCap Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$0.452</div>
+                <div class="pc-rate-unit">/ <strong>therm</strong></div>
+              </div>
+              <div class="pc-rate-label">Current variable rate per therm</div>
+              <div class="pc-rate-secondary">
+                <span class="qual">Never pay more than</span>
+                $0.829 <span style="font-size:11px; color:#888; font-weight:500;">/ therm (capped)</span>
+              </div>
+              <div class="pc-fee">+ $1.99 monthly product fee</div>
+              <div class="pc-desc">Get protection if rates spike, with the flexibility to pay less when market prices fall. Your rate floats month to month but never goes above your cap.</div>
+              <ul class="pc-points">
+                <li>Variable rate, capped for 12 months</li>
+                <li>Maximum rate locked for full 12 months</li>
+                <li>No enrollment fee</li>
+                <li>Includes $1.99 monthly product fee</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: May 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TruBalance -->
+        <div>
+          <div class="mobile-label">TruBalance · half fixed + half variable</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-variable">+ Variable</span>
+              </div>
+              <div class="pc-name">TruBalance Plan</div>
+            </div>
+            <div class="pc-body">
+              <!-- TruBalance: equal-weight stacked rates per walkthrough rev 2026-05-14.
+                   Both rates contribute equally to the customer's total, so neither
+                   is rendered as the visual primary. -->
+              <div class="pc-rate-equal-row">
+                <div class="pc-rate-equal-qual">50% Fixed</div>
+                <div class="pc-rate-equal-line">
+                  <div class="pc-rate" style="font-size:22px;">$0.829</div>
+                  <div class="pc-rate-unit">/ <strong>therm</strong></div>
+                </div>
+              </div>
+              <div class="pc-rate-equal-row" style="margin-top:6px;">
+                <div class="pc-rate-equal-qual">50% Variable</div>
+                <div class="pc-rate-equal-line">
+                  <div class="pc-rate" style="font-size:22px;">$0.452</div>
+                  <div class="pc-rate-unit">/ <strong>therm</strong></div>
+                </div>
+              </div>
+              <div class="pc-desc">Half of your usage is billed at a locked fixed rate; the other half follows the market. Both rates contribute equally to your monthly total — certainty on half, flexibility on half.</div>
+              <ul class="pc-points">
+                <li>50% of usage billed at fixed rate · 50% at variable</li>
+                <li>Single line item on your <span class="dyn-ldc">Nicor Gas</span> bill</li>
+                <li>No enrollment fee</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: May 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D4</span> Body supports up to <b>two rate rows</b> plus one optional <b>product-fee row</b>. Two presentation modes: <b>primary + secondary</b> (PriceCap — one rate visually primary, the other smaller as a qualifier/cap) and <b>equal-weight stacked</b> (TruBalance — both rates rendered at equal size because they contribute equally to the customer's total).</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Index-rate citation (NGI Chicago Citygate FOM) <b>moved into the expand</b> — lives in "How your rate is calculated" section per §14, not on the card surface. Matches live IL behavior. Card bullets stay plain-language.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> TruBalance restructured to equal-weight stacked rates with "50% Fixed" and "50% Variable" qualifiers. Previous primary/secondary layout was misleading — both rates contribute equally to the customer's bill.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">dynamic LDC</span> "Single line item on your <span class="dyn-ldc">Nicor Gas</span> bill" — the highlighted token resolves from the confirmed LDC context in the customer session. Authoring model: bullet copy uses an LDC token; PRIME/CMS resolves at render. Wireframe shows "Nicor Gas" as the demo value; production picks up the actual confirmed LDC.</span></div>
+          <div class="ann ann-r"><i>⚑</i><span><span class="ref">constraint</span> Multi-rate cards are a <b>legacy product pattern</b> (PriceCap + TruBalance, IL only) and are <b>scheduled to sunset</b>. They do NOT combine with: Greener Life variant · Most Popular badge · Promo state · rate-pending state. No new product launches use the multi-rate pattern.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: model as <code>{ rate, rate_unit, rate_secondary?, rate_secondary_qual?, rate_mode: "primary_secondary" | "equal_weight", product_fee?, product_fee_label? }</code>. <code>rate_secondary</code> presence collapses the slot if absent; <code>rate_mode</code> drives layout. Single <code>rate_updated_at</code> covers all rates on the card (one PRIME refresh cadence). <code>product_fee</code> is fixed for plan lifetime — no per-period change anticipated.</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 4: SPECIAL STATES ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">4</span>
+      <span class="section-title">Rate-pending state · Call-for-quote state</span>
+      <span class="section-sub">When no numeric rate is renderable · PC-D11 PC-D9</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- Rate Pending -->
+        <div>
+          <div class="mobile-label">Rate pending · Promo LDC-required</div>
+          <div class="pc promo">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-promo">Promo SAVE25</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-pending">
+                <strong>Rate varies by utility</strong>
+                Select your gas utility above to see your confirmed promotional rate.
+              </div>
+              <div class="pc-expiry">⏱ Offer expires 06/30/2026 at 11:59 PM ET</div>
+              <div class="pc-desc">A 12-month locked rate, exclusive to this promotion. Confirm your utility to see your exact rate and complete enrollment.</div>
+              <ul class="pc-points">
+                <li>Rate locked for full 12-month term</li>
+                <li>No enrollment fee</li>
+                <li>$12.50/month early termination fee if cancelled early</li>
+              </ul>
+              <!-- Slot K · Required disclosure line (promo state) -->
+              <div class="pc-disclosure-line">
+                Eligibility, restrictions, and full promo terms apply. <a>See full offer terms ↓</a>
+              </div>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta disabled-neutral" disabled>Start Enrollment →</button>
+              <div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call for Quote · Commercial Custom -->
+        <div>
+          <div class="mobile-label">Call-for-quote · Commercial Custom</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-custom">Custom Rate</span>
+              </div>
+              <div class="pc-name">Large Commercial Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-quote">
+                <div class="pc-quote-label">Call for a custom quote</div>
+                <div class="pc-quote-phone">1-800-XXX-XXXX</div>
+              </div>
+              <div class="pc-desc">Negotiated terms for high-volume and multi-location accounts. A dedicated rep will tailor pricing to your usage profile.</div>
+              <ul class="pc-points">
+                <li>Custom contract terms</li>
+                <li>High-volume pricing available</li>
+                <li>Dedicated account support</li>
+                <li>Multi-location options</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta outline">Contact a Rep →</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D11</span> Rate-pending state lives only on the Promo Page LDC-required flow. <b>Plans Listing does not render any cards pre-LDC</b> — LDC-first gate preserved.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Disabled CTA uses <b>neutral gray</b> (<code>.pc-cta.disabled-neutral</code>) — not dimmed-orange. Reads as inert rather than "almost clickable." Slot stays the same size so the card layout doesn't reflow when the CTA enables after LDC selection.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Plan name and badge dedup: badges now <b>"● Fixed Rate · Promo SAVE25"</b> (Term badge dropped). Plan name <b>"12-Month Fixed Plan"</b> carries the term — no need to duplicate via a Term badge or via a "Promotional Rate" suffix on the name. Rule: <em>term + plan type live in the plan name; badges carry state (Promo) and overrides (Most Popular, Greener Life).</em></span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D9</span> Call-for-quote state replaces rate row with phone block. CTA stays "Contact a Rep →" (not "Request a Quote") — destination is general contact information on the Contact page, not a lead-gen form. Used for Commercial Custom today; generic across any plan PRIME flags as quote-only.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D8</span> Rate-last-updated micro is suppressed on both states (no rate to timestamp).</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Commercial rep phone is a <b>single national number</b> across markets — not per-market like the residential customer-service line. Same person handles inquiries for all five brands. Source: ContactFormUtility_Wireframe.html §B2B/Sales Inquiries (placeholder pending client confirmation).</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">quote-only generalization</span> The quote-only state is component-generic — any plan PRIME flags with <code>card_state: "quote_only"</code> inherits the same chassis (phone block in place of rate row + "Contact a Rep →" CTA). Today: Commercial Custom only. Available to other plans if regulatory or sales conditions require it.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: same component, drive states via <code>card_state: "rate_resolved" | "rate_pending" | "quote_only"</code>. CTA + rate row + footer micro all key off this single field.</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 5: PROMO STATE ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">5</span>
+      <span class="section-title">Promo state — was-price · code · expiration</span>
+      <span class="section-sub">Promo collapses to a state of the standard card · PC-D10</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- Promo resolved -->
+        <div>
+          <div class="mobile-label">Promo · rate resolved</div>
+          <div class="pc promo">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-promo">Promo SAVE25</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$0.599</div>
+                <div class="pc-rate-unit">/ <strong>therm</strong></div>
+                <div class="pc-rate-was">was $0.799</div>
+              </div>
+              <div class="pc-expiry">⏱ Offer expires 06/30/2026 at 11:59 PM ET</div>
+              <div class="pc-desc">A 12-month locked rate at a promotional price, exclusive to this offer. Once enrolled, your rate holds for the full term.</div>
+              <ul class="pc-points">
+                <li>Rate locked for full 12-month term</li>
+                <li>No enrollment fee</li>
+                <li>$12.50/month early termination fee if cancelled early</li>
+              </ul>
+              <!-- Slot K · Required disclosure line (promo state) -->
+              <div class="pc-disclosure-line">
+                Eligibility and restrictions apply. Savings vs. standard rate. <a>See full offer terms ↓</a>
+              </div>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variable with Discount (intro-rate, not full promo) -->
+        <div>
+          <div class="mobile-label">Variable with Discount · intro-rate state</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-variable">Variable Rate</span>
+                <span class="pc-badge badge-promo">Intro Discount</span>
+              </div>
+              <div class="pc-name">Variable Plan with Discount</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$3.990</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                <div class="pc-rate-was">was $4.990</div>
+              </div>
+              <div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
+              <ul class="pc-points">
+                <li>20%+ off variable rate for first 2 months (new customers only)</li>
+                <li>No sign-up fees</li>
+                <li>No early termination charges</li>
+                <li>After intro period, rate moves to standard variable</li>
+              </ul>
+              <!-- Slot K · Required disclosure line (intro-rate / savings claim) -->
+              <div class="pc-disclosure-line">
+                New residential customers only. Savings calculated against published standard variable rate. <a>See full offer terms ↓</a>
+              </div>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D10</span> Promo is a state, not a separate class. Same component instance renders on the Promo Page, on Plans Listing pinned-promo (see §5.b below), and on any standard listing where an intro-rate plan appears — no duplicate authoring.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> <b>Promo state covers two scenarios:</b> (a) <b>True promos</b> with promo_code + expiration, gated via the Promo Page LDC-required flow (Promo SAVE25 example); (b) <b>Intro-rate plans</b> with was-price + savings claim but no code or expiration, surfaced on the standard Plans Listing alongside other plans (Variable with Discount example). Visual treatment is the same — was-price, Slot K disclosure, "promo" or "intro" badge — but placement and lifecycle differ.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Promo state surfaces two additions in fixed order: <b>was-price</b> (top-right of rate row, struck-through) and <b>expiration line</b> (⏱ glyph above description). Promo code carried by the header badge ("Promo SAVE25"). Expiration format: <code>MM/DD/YYYY at HH:MM PM/AM ET</code> — date alone is insufficient for promotions that legally end at a specific moment.</span></div>
+          <div class="ann ann-r"><i>⚑</i><span><span class="ref">regulatory</span> <b>Was-price MUST reference the actually-published standard rate</b> for the same plan term and market — not an inflated "MSRP" anchor. Strikethrough is a strong ecommerce signal but it implies a real, verifiable savings claim. CMS authoring must pull was-price from the canonical standard-rate field, not from a separate authored value. Variable with Discount: was-price must equal the published variable rate at the moment the intro rate is offered.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">Slot K</span> Required disclosure line lives below the bullets, above the expand toggle. Anchor points to a page-level Promo Disclosure block (bottom of Promo Page · parallel position on Plans Listing pinned-promo). Full legal text never lives on the card.</span></div>
+          <div class="ann ann-r"><i>⚑</i><span><span class="ref">combinatorics</span> <b>Promo state × Most Popular badge — NOT allowed.</b> Promos are time-limited offers; "Most Popular" is a volume-derived signal for the standing plan catalog. The two would compete for badge real estate and confuse the customer about what's actually being promoted.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">combinatorics</span> <b>Promo state × Greener Life variant — allowed but unobserved today.</b> Greener Life is new in these markets, no Greener Life promo has been run. If introduced, the visual treatment is: Greener Life green border + green rate color (variant wins visual hierarchy), badges read "● Fixed Rate · 🌱 Greener Life · Promo [CODE]," strikethrough was-price colored to match the green rate, Slot K disclosure covers BOTH the savings claim AND the environmental-disclosure pointer. Multi-rate × promo remains forbidden per PC-D4.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>OQ-P5 (carried from PromoPage wireframe): expiration date — CMS field or PRIME API field? Resolve before launch authoring.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>Disclosure copy for promo plans — content/legal team to confirm minimum required language before publishing. Where it lands: page-level Promo Disclosure block (Slot K anchor target).</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: pinned-promo on Plans Listing rendered by the same component, with <code>pinned: true</code> driving an outer wrapper for above-the-grid placement. Card body markup is identical. See §5.b.</span></div>
+        </div>
+
+      </div>
+
+      <!-- ───────── 5.b · Pinned-promo placement on Plans Listing ───────── -->
+      <hr class="soft">
+      <div style="font-size:12px; font-weight:800; color:#1e3a5f; text-transform:uppercase; letter-spacing:0.04em; margin: 14px 0 10px;">§5.b · Pinned-promo placement on Plans Listing</div>
+
+      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+        <!-- Structural diagram of Plans Listing -->
+        <div style="flex:0 0 340px; background:#f7f7f5; border:1px dashed #c0bfb9; border-radius:5px; padding:14px;">
+          <div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Plans Listing · structural placement</div>
+
+          <div style="background:#e8f5e9; border:1px solid #4caf50; padding:5px 9px; border-radius:3px; font-size:10.5px; color:#2e7d32; margin-bottom:6px;">✓ Enbridge Gas Ohio service area</div>
+
+          <!-- Pinned zone -->
+          <div style="background:#fff3e0; border:1.5px solid #e8641a; border-radius:5px; padding:9px 10px; margin-bottom:10px;">
+            <div style="font-size:9px; font-weight:800; color:#7a4500; text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px;">📌 Featured offer · pinned-promo zone</div>
+            <div style="background:#fff; border:1.5px solid #e8641a; padding:8px 10px; border-radius:3px; font-size:10px; color:#666; line-height:1.5;">
+              [<b>Promo card renders here</b> — same PC component instance, <code>pinned: true</code> wrapper]
+              <div style="font-size:9.5px; color:#888; margin-top:3px;">Was-price · ⏱ expiration · Slot K disclosure · Start Enrollment →</div>
+            </div>
+          </div>
+
+          <!-- Filter bar -->
+          <div style="background:#fff; border:1px solid #d0cfc9; padding:6px 9px; border-radius:3px; font-size:10px; color:#666; margin-bottom:10px;">Filters: All · Fixed · Variable · Greener Life</div>
+
+          <!-- Standard plans grid -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; margin-bottom:10px;">
+            <div style="background:#fff; border:1px solid #d0cfc9; padding:8px 4px; font-size:9.5px; color:#666; text-align:center; border-radius:3px;">Plan card</div>
+            <div style="background:#fff; border:1px solid #d0cfc9; padding:8px 4px; font-size:9.5px; color:#666; text-align:center; border-radius:3px;">Plan card</div>
+            <div style="background:#fff; border:1px solid #d0cfc9; padding:8px 4px; font-size:9.5px; color:#666; text-align:center; border-radius:3px;">Plan card</div>
+          </div>
+
+          <!-- Page-level promo disclosure block (Slot K target) -->
+          <div style="background:#fffbea; border:1px solid #f5c842; border-radius:3px; padding:8px 10px; font-size:9.5px; color:#7a6000; line-height:1.5;">
+            <b>Page-level Promo Disclosure block</b><br>(Slot K anchor target · full legal language renders here · LDC-aware where required)
+          </div>
+        </div>
+
+        <!-- Annotation column -->
+        <div style="flex:1; min-width:260px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D10</span> Pinned-promo on Plans Listing reuses the same Plan Card component instance. The card markup is identical to its Promo Page rendering; a <code>pinned: true</code> flag drives an outer wrapper for above-the-grid placement.</span></div>
+          <div class="ann ann-g"><i>✓</i><span>Pinned zone renders <b>above the filter bar</b> so the promo stays visible while customers scroll filters. Allows comparison-mode browsing without losing the promotional anchor.</span></div>
+          <div class="ann ann-g"><i>✓</i><span>Page-level Promo Disclosure block (orange-flagged in the diagram) renders <b>below the standard plan grid</b>. Both the pinned card's Slot K anchor and any in-grid promo card's Slot K anchor point to this same block. For LDC-required promos with utility-varying legal language, the block is LDC-aware (renders content keyed to the customer's confirmed LDC).</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>Open from earlier work: confirm with Prime whether the promo plan entry is <b>suppressed from the filterable grid</b> when pinned, or <b>appears in both locations</b>. Audit recommendation: suppress from grid to avoid duplication. (Carried from RP-6 supersede.)</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: the pinned wrapper component lives in <code>ResidentialPlans_Wireframe.html</code> — not part of the Plan Card component. Plan Card stays unaware of its placement context. Wrapper props: <code>pinned: boolean</code> · <code>pinned_label</code> (default: "📌 Featured offer for your area") · <code>disclosure_block_anchor</code>.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Analytics: pinned-promo impression and click events include a <code>placement</code> param — <code>"pinned" | "in_grid" | "promo_page"</code> — so we can measure whether the pinned zone outperforms in-grid placement.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 6: COMMERCIAL ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">6</span>
+      <span class="section-title">Commercial — Fixed, Variable, Custom (quote-only)</span>
+      <span class="section-sub">Same chassis · Custom uses quote-only state · PC-D2 PC-D3 PC-D6</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- Commercial Fixed -->
+        <div>
+          <div class="mobile-label">Commercial · Fixed</div>
+          <div class="pc featured">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-popular">Most Popular</span>
+              </div>
+              <div class="pc-name">Commercial Fixed 12</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$0.469</div>
+                <div class="pc-rate-unit">/ <strong>therm</strong></div>
+              </div>
+              <div class="pc-desc">Lock in your supply rate for 12 months and bring budget certainty to your operating costs — no surprises from market swings.</div>
+              <ul class="pc-points">
+                <li>Rate locked for 12 months</li>
+                <li>Budget certainty for your business</li>
+                <li>Early termination: [$ TBD]/month if cancelled early</li>
+                <li>Auto-renews at renewal terms</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commercial Variable -->
+        <div>
+          <div class="mobile-label">Commercial · Variable</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-variable">Variable Rate</span>
+              </div>
+              <div class="pc-name">Commercial Variable</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$0.512</div>
+                <div class="pc-rate-unit">/ <strong>therm</strong></div>
+              </div>
+              <div class="pc-desc">Month-to-month flexibility for businesses that want to follow the market and avoid term commitments.</div>
+              <ul class="pc-points">
+                <li>No contract term</li>
+                <li>No early termination fee</li>
+                <li>Rate changes monthly</li>
+                <li>Switch or cancel anytime</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commercial Custom (Quote-only) -->
+        <div>
+          <div class="mobile-label">Commercial · Custom (quote-only)</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-custom">Custom Rate</span>
+              </div>
+              <div class="pc-name">Large Commercial</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-quote">
+                <div class="pc-quote-label">Call for a custom quote</div>
+                <div class="pc-quote-phone">1-800-XXX-XXXX</div>
+              </div>
+              <div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
+              <ul class="pc-points">
+                <li>Custom contract terms</li>
+                <li>High-volume pricing available</li>
+                <li>Dedicated account support</li>
+                <li>Multi-location options</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta outline">Contact a Rep →</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <hr class="soft">
+      <div class="col-2">
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D2 PC-D3</span> Commercial Fixed and Variable use "Start Enrollment →" — assume inline enrollment via the unified flow.</span></div>
+        <div class="ann ann-g"><i>✓</i><span>Commercial Custom uses the quote-only state with phone block. CTA "Contact a Rep →" routes to the dedicated <b>B2B Contact page</b> (per ONG/PE/GRE/IE/IES sitemaps under "For My Business" → B2B Contact) — not the general Contact Us page. Intent is to talk to the commercial rep, not start a checkout.</span></div>
+        <div class="ann ann-g"><i>✓</i><span>Description slot added to all three (closes a gap vs. current CommercialPlans wireframe, which has none).</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Self-serve vs. rep-assisted routing is <b>plan-level</b> today — PRIME flags each plan SKU's <code>card_state</code> as <code>rate_resolved</code> (self-serve, e.g., Commercial Fixed/Variable) or <code>quote_only</code> (custom, e.g., Large Commercial). Account-level dynamic routing is not in scope today because SouthStar's commercial book is mostly small/mid businesses ("mom and pop," not enterprise). Resolves CommercialPlans Open Q #2.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Commercial × Greener Life: <b>not offered today, allowed in spec for future use.</b> If introduced, treatment mirrors residential Greener Life — green border + green rate color + 🌱 badge + environmental disclosure line above bullets. Same posture as Promo × Greener Life (§5 combinatorics).</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> "Most Popular" allowed on commercial cards but may lack the enrollment data to support it today — commercial is a small proportion of SouthStar's overall book, and per-plan enrollment counts may not be statistically meaningful. CMS guidance: don't publish "Most Popular" on commercial unless enrollment data clearly supports one plan over the others. Wireframe demo retains the badge on Commercial Fixed for visual reference only.</span></div>
+        <div class="ann ann-r"><i>⚑</i><span><span class="ref">new Open Q</span> <b>How does a small-business customer self-identify whether they qualify for one of the self-serve commercial plans vs. needing to call for a custom quote?</b> "Mom and pop" customers may not know whether they're "large enough" for Large Commercial or "small enough" for Commercial Fixed/Variable. Options to consider: (a) descriptive copy on Large Commercial card ("For multi-location or high-volume accounts"); (b) usage-threshold guidance above the plan grid ("If your business uses fewer than X therms/year, our self-serve plans apply; for larger accounts, see Large Commercial"); (c) brief self-identification prompt on Commercial Plans page before showing the grid. Flag for Lee Jackson / sales team alignment before propagation.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">CommercialPlans Open Q #5</span> Commercial ETF amounts per market — placeholder <code>[$ TBD]</code> in the wireframe. Confirm with Lee Jackson whether commercial ETFs match residential ($12.50/month) or differ. Card-surface bullet and expand "Cancellation rights" section both use the same value.</span></div>
+        <div class="ann ann-b"><i>↳</i><span>Per-market commercial availability matrix lives in CommercialPlans_Wireframe.html §4. The component is uniform across markets — availability filtering happens at the page level.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 7: IES FIXED BILL ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">7</span>
+      <span class="section-title">IES Fixed Bill — new card (does not exist today)</span>
+      <span class="section-sub">Same chassis, custom-quote state · PC-D9</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- IES Fixed Bill -->
+        <div>
+          <div class="mobile-label">IES · Fixed Bill Plan</div>
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixedbill">● Fixed Bill</span>
+              </div>
+              <div class="pc-name">Fixed Bill Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-quote">
+                <div class="pc-quote-label">Custom monthly amount</div>
+                <div class="pc-quote-phone" style="font-size:14px; font-weight:700;">Calculated from your usage</div>
+                <div style="font-size:10px; color:#888; margin-top:3px;">Your exact amount is confirmed during enrollment</div>
+              </div>
+              <div class="pc-desc">Pay the same flat amount every month for 12 months — your bill doesn't move with weather or market prices. Your Nicor Gas delivery doesn't change; the Fixed Bill amount appears as a line on your existing Nicor Gas statement.</div>
+              <ul class="pc-points">
+                <li>Same monthly amount for 12 months</li>
+                <li>Protects against weather and price spikes</li>
+                <li>Appears on your existing Nicor Gas bill</li>
+                <li>Total may be higher than utility default — not guaranteed savings</li>
+              </ul>
+              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D9</span> IES Fixed Bill adopts the same vertical-stack chassis — not a special template. The quote-only state suppresses the numeric-rate row in favor of a phone block; everything else (header, description, bullets, expand, ACR link) is the same component.</span></div>
+          <div class="ann ann-g"><i>✓</i><span>Fixed Bill badge is its own type (badge-fixedbill, blue) to distinguish from Fixed Rate (green).</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D6</span> Description leads with the budget-certainty value prop and immediately surfaces the "appears on Nicor Gas bill" mechanics — replicates the current live page lead-in.</span></div>
+          <div class="ann ann-g"><i>✓</i><span>"Total may be higher than utility default" bullet is the ICC-required "may not save money" disclosure surfaced on the card. Heavy regulatory text remains in the expand + above the card grid.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D9 resolved</span> CTA is "Start Enrollment →" (solid, matching every other variant) — online enrollment for IES will be live by ship date. <em>Phone fallback link below the CTA dropped in round 8 — per-market customer service phone in the nav (CLAUDE.md standard) carries the call channel.</em></span></div>
+          <div class="ann ann-g"><i>✓</i><span>Rate row framing: "Custom monthly amount · Calculated from your usage · Your exact amount is confirmed during enrollment." Replaces the prior "Call for a custom quote · [phone]" framing.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span><span class="ref">copy direction needed</span> Current quote-block copy is functional but may under-explain the custom-amount mechanic. Leaving for client to react to and provide direction before final authoring. Possible enhancements include "Based on your home's past 12 months of natural gas usage" or "We use your usage history to set a flat monthly amount" — flag for content review.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span><span class="ref">future enhancement</span> Customer can't see their personal Fixed Bill amount until they're partway through enrollment — friction for comparison-shoppers weighing Fixed Bill against staying on Nicor's standard rate. IES is a legacy product likely being phased out, so new pre-enrollment lookup flows are not in scope. <b>If PRIME exposes usage-band data, surfacing an estimated range on the card ("Typically $XXX–$YYY/month for similar homes") would meaningfully reduce friction</b> — flag as future enhancement, not a launch requirement.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Plan name <b>"Fixed Bill Plan"</b> — service mark ℠ stripped (not surfaced on live site; brand-protection signal lives in page-level disclosures, not card-surface labels).</span></div>
+          <div class="ann ann-r"><i>⚑</i><span><span class="ref">Commercial IES Open Q</span> Commercial IES Fixed Bill customers <b>likely still need to call</b> — Commercial would render in quote-only state with phone block + "Contact a Rep →" CTA (routes to B2B Contact per sitemap, same as Commercial Custom). Confirm with client whether: (a) commercial IES enrollment moves online with residential at launch, or (b) stays phone-only indefinitely. Affects which `card_state` the Commercial IES card uses.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">IL/IES page-level</span> ICC regulatory copy renders <b>above the card grid</b>, not on the card surface. Carries forward the ResidentialPlans treatment: utility-rate-comparison callout under the filter ("For comparison: current default gas supply cost — [rate]. Illinois Energy's plans are shown below.") plus an inline "View rate and plan disclosures ▾" accordion that expands the full ICC/SB651 disclosure. No card-level disclosure slot — the card stays clean.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: IES Fixed Bill card is rendered by the same component as everything else. <code>plan_type: "fixed_bill"</code> drives badge + quote-only state. When online enrollment launches, the only field change is <code>card_state: "rate_resolved"</code> + populated rate.</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 8: EXPANDED STATE ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">8</span>
+      <span class="section-title">Expanded state — "View Plan Terms &amp; Disclosures" inline accordion</span>
+      <span class="section-sub">Single accordion, same on desktop + mobile · PC-D7 PC-D12</span>
+    </div>
+    <div class="section-body">
+      <div class="anatomy-wrap">
+
+        <div class="anatomy-card">
+          <div class="pc featured">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-popular">Most Popular</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate.</div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+                <li>We'll mail 1–2 renewal notices before your contract expires</li>
+              </ul>
+              <span class="pc-expand-link">▴ Hide Plan Terms &amp; Disclosures</span>
+
+              <div class="pc-expanded">
+                <h5>Billing start timeline</h5>
+                <p>Your new rate begins on the meter-read date following the utility's processing of your enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+
+                <h5>Cancellation rights</h5>
+                <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies — example: cancelling with 6 months left = $75.</p>
+
+                <h5>Auto-renewal</h5>
+                <p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a>Automatic Contract Renewal info →</a> <span style="color:#999; font-size:9px; font-style:italic;">(Slot H — contextual link)</span></p>
+
+                <h5>Contract &amp; disclosures</h5>
+                <p>Full plan contract: <a>Plan Contract (PDF) →</a>. State consumer-protection resources are linked inside the contract.</p>
+              </div>
+
+            </div>
+            <div class="pc-foot">
+              <button class="pc-cta">Start Enrollment →</button>
+              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anatomy-callouts">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D7</span> Single inline accordion replaces the four overlapping affordances live sites and wireframes have tried (modal alert, "View Plan Details", "Click to view Plan Contract", separate stub page). Everything that isn't on the card surface lives here.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Toggle renamed: <b>"View Plan Terms &amp; Disclosures"</b> (was "View Full Plan Details"). The new label names what's actually in the accordion — terms, cancellation, renewal, disclosures — and pairs naturally with the renamed section headings.</span></div>
+          <div class="ann ann-g"><i>✓</i><span>4 base sections — <b>Billing start timeline · Cancellation rights · Auto-renewal · Contract &amp; disclosures</b>. Plan-type-specific sections layer on top per the §14 matrix.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D7 rev 2</span> Slot H (ACR info link) renders as a <b>contextual inline anchor within the Auto-renewal section paragraph</b> — parallel to the Plan Contract PDF link's placement within Contract &amp; disclosures. No dedicated bordered row. Still tracked as its own slot for analytics (<code>acr_link_click</code>).</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D12</span> Mobile behavior is identical — same accordion expands inline. Mobile expand content is verbatim from desktop (no abbreviation).</span></div>
+          <div class="ann ann-g"><i>✓</i><span>Contract PDF link folded into the "Contract &amp; disclosures" section paragraph — preserves the affordance the live IL/IES sites surface, without giving it card-surface real estate.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>Rescission window (days) is per-market regulatory — confirm values per market with Susan Hodge / legal review.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>Confirm during PRIME barrel walkthrough which expand fields are PRIME API vs CMS-authored. Most expand content is plan-template-level, not per-rate-period, so CMS feels right.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: only one expand open at a time per card. Use <code>aria-expanded</code> + animated max-height. Analytics event: <code>plan_details_expand</code> with <code>plan_name</code>, <code>plan_type</code>, <code>market</code>.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 9: MOBILE STATES ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">9</span>
+      <span class="section-title">Mobile — collapsed and expanded states</span>
+      <span class="section-sub">~375px viewport · PC-D12</span>
+    </div>
+    <div class="section-body">
+      <div class="col-3">
+
+        <!-- Mobile collapsed -->
+        <div>
+          <div class="mobile-label">Mobile · Collapsed (default)</div>
+          <div class="mobile-frame">
+            <div class="pc featured">
+              <div class="pc-head">
+                <div class="pc-badge-row">
+                  <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                  <span class="pc-badge badge-popular">Most Popular</span>
+                </div>
+                <div class="pc-name">12-Month Fixed Plan</div>
+              </div>
+              <div class="pc-body">
+                <div class="pc-rate-row">
+                  <div class="pc-rate">$5.570</div>
+                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                </div>
+                  <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+                <ul class="pc-points">
+                  <li>Your price won't change for 12 months</li>
+                  <li>No sign-up fees</li>
+                  <li>Early termination: $12.50/month if cancelled early</li>
+                  <li>We'll mail 1–2 renewal notices before your contract expires</li>
+                </ul>
+                <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+                </div>
+              <div class="pc-foot">
+                <button class="pc-cta">Start Enrollment →</button>
+                <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile expanded -->
+        <div>
+          <div class="mobile-label">Mobile · Expanded (inline)</div>
+          <div class="mobile-frame">
+            <div class="pc featured">
+              <div class="pc-head">
+                <div class="pc-badge-row">
+                  <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                  <span class="pc-badge badge-popular">Most Popular</span>
+                </div>
+                <div class="pc-name">12-Month Fixed Plan</div>
+              </div>
+              <div class="pc-body">
+                <div class="pc-rate-row">
+                  <div class="pc-rate">$5.570</div>
+                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                </div>
+                  <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+                <ul class="pc-points">
+                  <li>Your price won't change for 12 months</li>
+                  <li>No sign-up fees</li>
+                  <li>Early termination: $12.50/month if cancelled early</li>
+                  <li>We'll mail 1–2 renewal notices before your contract expires</li>
+                </ul>
+                <span class="pc-expand-link">▴ Hide Plan Terms &amp; Disclosures</span>
+
+                <div class="pc-expanded">
+                  <h5>Billing start timeline</h5>
+                  <p>Your new rate begins on the meter-read date following the utility's processing of your enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+
+                  <h5>Cancellation rights</h5>
+                  <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies — example: cancelling with 6 months left = $75.</p>
+
+                  <h5>Auto-renewal</h5>
+                  <p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a>Automatic Contract Renewal info →</a> <span style="color:#999; font-size:9px; font-style:italic;">(Slot H)</span></p>
+
+                  <h5>Contract &amp; disclosures</h5>
+                  <p>Full plan contract: <a>Plan Contract (PDF) →</a>. State consumer-protection resources are linked inside the contract.</p>
+                </div>
+
+                </div>
+              <div class="pc-foot">
+                <button class="pc-cta">Start Enrollment →</button>
+                <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:8px;">
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D12</span> Mobile uses a single inline accordion — same component as desktop. No modals, no second sheet, no navigation.</span></div>
+          <div class="ann ann-g"><i>✓</i><span><span class="ref">walkthrough rev</span> Mobile copy is IDENTICAL to desktop — same description text, same bullet count, same expand content, same rate-updated string. No mobile-specific abbreviation. Keeps marketing authoring single-source (one rate description per plan, not two).</span></div>
+          <div class="ann ann-b"><i>↳</i><span>To enforce parity, marketing copy is authored against the per-slot max lengths in §13. If a description or bullet fits desktop but breaks mobile layout, the fix is to shorten the source content — not to introduce a mobile-only variant.</span></div>
+          <div class="ann ann-y"><i>⚑</i><span>Confirm whether the page-level filter bar collapses to a bottom sheet on mobile (separate from the card). Out of scope for this component spec.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Dev: card max-width is 100% in mobile layouts; min-width is 280px. Single-column stack regardless of grid width.</span></div>
+          <div class="ann ann-b"><i>↳</i><span>Accessibility: expand uses <code>&lt;button aria-expanded&gt;</code> not a plain <code>span</code> — present markup uses span only because the wireframe is non-functional.</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 10: SLOT MAP ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Slot map — data fields the component consumes</span>
+      <span class="section-sub">For PRIME barrel walkthrough · dev reference</span>
+    </div>
+    <div class="section-body">
+      <table class="slot-table">
+        <thead>
+          <tr>
+            <th style="width:18%;">Slot</th>
+            <th style="width:14%;">Required?</th>
+            <th style="width:22%;">Source</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="slot-name">plan_type</td><td class="req-yes">Required</td><td>PRIME / plan catalog</td><td>One of: fixed, variable, custom, fixed_bill. Drives badge + default copy patterns.</td></tr>
+          <tr><td class="slot-name">plan_name</td><td class="req-yes">Required</td><td>PRIME</td><td>Per-market via market switcher where applicable. <b>Service marks (℠, ®, ™) are stripped from card-surface plan names</b> — brand-protection signals live in page-level disclosures, not the card. Authoring rule applies regardless of PRIME's stored value.</td></tr>
+          <tr><td class="slot-name">market</td><td class="req-yes">Required</td><td>Context</td><td>ong · pa · gre · il · ies. Drives unit label + per-market copy.</td></tr>
+          <tr><td class="slot-name">card_state</td><td class="req-yes">Required</td><td>Resolved at render</td><td>rate_resolved · rate_pending · quote_only. Drives rate row + CTA enablement.</td></tr>
+          <tr><td class="slot-name">rate</td><td class="req-state">Required when card_state = rate_resolved</td><td>PRIME API</td><td>Numeric. Rendered as $X.XXX.</td></tr>
+          <tr><td class="slot-name">rate_unit</td><td class="req-state">Required when rate present</td><td>PRIME / LDC</td><td>therm · Mcf.</td></tr>
+          <tr><td class="slot-name">rate_label</td><td class="req-opt">Optional — multi-rate only</td><td>CMS</td><td>Disambiguates the primary rate when a card displays more than one rate (PriceCap: "Current variable rate per therm"; TruBalance: "Half at fixed rate · per therm"). <b>Suppressed on single-rate cards</b> (walkthrough rev — was redundant with plan_name + inline unit).</td></tr>
+          <tr><td class="slot-name">rate_was</td><td class="req-opt">Optional</td><td>CMS / PRIME promo</td><td>Surfaces struck-through "was $X.XX" — promo and intro-discount states.</td></tr>
+          <tr><td class="slot-name">rate_secondary</td><td class="req-opt">Optional</td><td>PRIME</td><td>For PriceCap (cap rate) and TruBalance (variable half). Numeric + unit + qualifier.</td></tr>
+          <tr><td class="slot-name">rate_secondary_qual</td><td class="req-state">Required when rate_secondary present</td><td>CMS</td><td>"Never pay more than" / "50% Variable" / etc.</td></tr>
+          <tr><td class="slot-name">rate_mode</td><td class="req-state">Required when rate_secondary present</td><td>Plan catalog</td><td>One of: <code>primary_secondary</code> (PriceCap — one rate visually primary, the other smaller as a qualifier/cap) or <code>equal_weight</code> (TruBalance — both rates rendered at equal size because they contribute equally to the customer's total). Drives the two presentation modes of the multi-rate body.</td></tr>
+          <tr><td class="slot-name">product_fee</td><td class="req-opt">Optional</td><td>PRIME</td><td>Monthly product fee row (PriceCap $1.99). <b>Fixed for plan lifetime</b> — no per-period change anticipated.</td></tr>
+          <tr><td class="slot-name">promo_code</td><td class="req-opt">Optional</td><td>PRIME promo catalog</td><td>Surfaces promo chip and triggers promo state styling.</td></tr>
+          <tr><td class="slot-name">promo_expiration</td><td class="req-opt">Optional</td><td>PRIME / CMS — OQ-P5</td><td>Datetime + TZ. Renders as <code>⏱ Offer expires MM/DD/YYYY at HH:MM PM/AM ET</code>. Date alone insufficient — promos legally end at a specific moment, and customers need to know the cutoff. NOT also rendered as a bullet (walkthrough rev — duplication removed).</td></tr>
+          <tr><td class="slot-name">disclosure_line (Slot K)</td><td class="req-state">Required when promo state active; optional elsewhere</td><td>CMS</td><td>Italic legal cue with leading <code>*</code> + inline anchor to page-level Promo Disclosure block. Used for promo eligibility, savings claims, and any case where full legal language exceeds the card's capacity. Pairs with a page-level disclosure block (parent-wireframe concern — specified during Batch B).</td></tr>
+          <tr><td class="slot-name">disclosure_anchor_target</td><td class="req-state">Required when disclosure_line present</td><td>CMS (in-page anchor or URL)</td><td>Anchor ID or URL for the page-bottom legal block. Promo Page uses an in-page anchor; Plans Listing pinned-promo may use a separate route or a parallel-position collapsible.</td></tr>
+          <tr><td class="slot-name">badges</td><td class="req-opt">Optional</td><td>CMS</td><td>Most Popular (boolean, max 1 per grid) · Greener Life (boolean, drives variant).</td></tr>
+          <tr><td class="slot-name">description</td><td class="req-yes">Required</td><td>CMS</td><td>1–2 sentence peace-of-mind / explanation lead-in.</td></tr>
+          <tr><td class="slot-name">greener_disclosure</td><td class="req-state">Required when greener_life = true</td><td>CMS / template</td><td>Environmental-disclosure line above bullets.</td></tr>
+          <tr><td class="slot-name">key_points[]</td><td class="req-yes">Required</td><td>CMS</td><td>3–5 bullets. Includes ETF line on fixed plans, "No ETF" on variable, renewal-notice bullet on fixed.</td></tr>
+          <tr><td class="slot-name">expand_content</td><td class="req-yes">Required</td><td>CMS</td><td>Sectioned: rate-mechanics · billing start · ETF · rescission · auto-renewal · disclosures + contract PDF link.</td></tr>
+          <tr><td class="slot-name">acr_link</td><td class="req-yes">Required</td><td>Sitemap</td><td>Routes to ACR disclosure stub.</td></tr>
+          <tr><td class="slot-name">cta_label</td><td class="req-yes">Required</td><td>State-driven</td><td>"Start Enrollment →" (rate_resolved AND IES custom-amount) · disabled (rate_pending Promo only) · "Contact a Rep →" (quote_only commercial).</td></tr>
+          <tr><td class="slot-name">cta_target</td><td class="req-yes">Required</td><td>State-driven · sitemap-routed</td><td>Routes vary by <code>card_state</code> + segment: <code>rate_resolved</code> → enrollment flow (plan_id + LDC + promo_code as params); <code>quote_only</code> commercial → dedicated <b>B2B Contact page</b> (per market sitemaps under "For My Business" → B2B Contact), not the general Contact Us page; <code>quote_only</code> IES (pre-launch) → tel: link as fallback.</td></tr>
+          <tr><td class="slot-name">rate_updated_at</td><td class="req-state">Required when rate present</td><td>PRIME (internal)</td><td>Month-year string. Renders the footer micro-line as "Rate last updated: [Mon YYYY]." Source system (PRIME) is NOT shown on the card — internal-only. <b>Single timestamp covers all rates on a multi-rate card</b> (PRIME refreshes rates together — no per-rate freshness signal).</td></tr>
+          <tr><td class="slot-name">contact_phone</td><td class="req-state">Required when card_state = quote_only</td><td>CMS — varies by plan_type</td><td>Phone number rendered in the quote block + CTA. <b>Commercial Custom uses a single national commercial-rep number</b> (same across all five markets — sourced from <code>ContactFormUtility_Wireframe.html §B2B/Sales Inquiries</code>). Other quote-only scenarios may use the per-market customer service line — confirm per plan_type during CMS authoring.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 11: DECISION PROVENANCE ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <span class="section-title">Decision provenance — PC-D1 through PC-D12</span>
+      <span class="section-sub">Cross-reference to change log</span>
+    </div>
+    <div class="section-body">
+      <table class="dec-table">
+        <thead>
+          <tr>
+            <th style="width:11%;">Decision</th>
+            <th>Locked outcome (Allyson 2026-05-14)</th>
+            <th style="width:24%;">Where it shows in this file</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="dec-id">PC-D1</td><td>Vertical stack chassis (Header → Body → Footer). No horizontal two-pane.</td><td>§1 Anatomy · §2 all variants</td></tr>
+          <tr><td class="dec-id">PC-D2</td><td>"Start Enrollment →" across all variants.</td><td>§2 · §3 · §5 · §6 · §8 footer</td></tr>
+          <tr><td class="dec-id">PC-D3</td><td>Inline enrollment CTA on every numeric-rate card across all markets. IL/IES included once online enrollment ships.</td><td>§6 Commercial · §7 IES (pre-launch caveat)</td></tr>
+          <tr><td class="dec-id">PC-D4 <span style="font-size:9px; background:#fff3e0; color:#7a4500; border:1px solid #e8641a; border-radius:2px; padding:0 4px; margin-left:2px;">rev</span></td><td>Multi-rate display supported in body — up to 2 rate rows + 1 product-fee row. Two presentation modes: <b>primary + secondary</b> (PriceCap) and <b>equal-weight stacked</b> (TruBalance, where both rates contribute equally to the total). <em>Multi-rate is a legacy pattern (IL only, sunset planned) and does NOT combine with Greener Life, Most Popular, Promo state, or rate-pending state. Index-rate citation moved into the expand. LDC name in bullets is dynamic (resolves from session context).</em></td><td>§3 PriceCap (primary+secondary) · TruBalance (equal-weight) · §14 matrix</td></tr>
+          <tr><td class="dec-id">PC-D5</td><td>Greener Life is a variant of the standard card (green color + 🌱 badge + env-disclosure line).</td><td>§2 Greener Life card</td></tr>
+          <tr><td class="dec-id">PC-D6</td><td>Description-paragraph slot above bullets — required.</td><td>Every card in every section</td></tr>
+          <tr><td class="dec-id">PC-D7 <span style="font-size:9px; background:#fff3e0; color:#7a4500; border:1px solid #e8641a; border-radius:2px; padding:0 4px; margin-left:2px;">rev 2</span></td><td>"View Plan Terms &amp; Disclosures" inline expand (Slot G). Slot H (ACR info link) is rendered as a contextual inline anchor within the Auto-renewal section paragraph, parallel to the Plan Contract PDF link's placement within Contract &amp; disclosures. No bordered Slot H row. Expand tightened to 4 base sections + plan-type-specific layered sections per §14 matrix. <em>Revised twice 2026-05-14 during walkthrough.</em></td><td>§1 Anatomy slots G + H · §8 expanded state · §9 mobile expanded · §14 matrix</td></tr>
+          <tr><td class="dec-id">PC-D8 <span style="font-size:9px; background:#fff3e0; color:#7a4500; border:1px solid #e8641a; border-radius:2px; padding:0 4px; margin-left:2px;">rev</span></td><td>"Rate last updated: [Mon YYYY]" on every numeric-rate variant. <em>Revised 2026-05-14: "· Source: PRIME" removed — PRIME is an internal system, not customer-facing.</em></td><td>§2 · §3 · §5 · §6 footers</td></tr>
+          <tr><td class="dec-id">PC-D9 <span style="font-size:9px; background:#fff3e0; color:#7a4500; border:1px solid #e8641a; border-radius:2px; padding:0 4px; margin-left:2px;">rev 2</span></td><td>IES Fixed Bill uses the same vertical-stack chassis. "Start Enrollment →" is the canonical CTA from launch. Rate row reframed: "Custom monthly amount · Calculated from your usage." <b>Round 8 revisions:</b> phone fallback link dropped (nav phone is sufficient); plan name stripped to "Fixed Bill Plan" (no ℠); new "Eligibility" section in expand covers LIHEAP/PIPP restrictions; Commercial IES likely remains quote-only — flagged as client question; usage-range estimate flagged as future enhancement.</td><td>§7 IES Fixed Bill card · §14 matrix</td></tr>
+          <tr><td class="dec-id">PC-D10 <span style="font-size:9px; background:#fff3e0; color:#7a4500; border:1px solid #e8641a; border-radius:2px; padding:0 4px; margin-left:2px;">rev 2</span></td><td>Promo card collapses to a state of the standard card. <b>Promo state covers two scenarios:</b> (a) true promos with code + expiration via Promo Page; (b) intro-rate plans (was-price + savings claim, no code/expiration) surfaced on standard Plans Listing. Was-price MUST reference actually-published standard rate (regulatory). Expiration format: <code>MM/DD/YYYY at HH:MM PM/AM ET</code>. Pinned-promo on Plans Listing reuses same component with <code>pinned: true</code> wrapper (§5.b). <b>Combinatorics:</b> Promo × Most Popular forbidden; Promo × Greener Life allowed (visual treatment specified); Promo × multi-rate forbidden per PC-D4.</td><td>§5 Promo · Variable with Discount · §5.b pinned placement · §14 matrix</td></tr>
+          <tr><td class="dec-id">PC-D11</td><td>Rate-pending state exists on the unified card but is used only on the Promo LDC-required flow. Plans Listing keeps its LDC-first gate — no cards rendered pre-LDC.</td><td>§4 rate-pending state</td></tr>
+          <tr><td class="dec-id">PC-D12</td><td>Mobile expansion = single inline accordion. Identical to desktop.</td><td>§8 expanded state · §9 mobile states</td></tr>
+          <tr><td class="dec-id">PC-D13 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>New Slot K — Required disclosure line. Optional on every variant; required when promo state is active. Italic legal cue below bullets + above expand toggle, with an inline anchor to a page-level Promo Disclosure block. Full legal text lives at page bottom, not on the card. <em>Added 2026-05-14 from walkthrough — handles legal language too long for the card.</em></td><td>§1 Anatomy slot K · §4 rate-pending · §5 promo cards · §10 slot map</td></tr>
+          <tr><td class="dec-id">PC-D14 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>Rate-label (the qualifier line below the rate row) is <b>optional, multi-rate only</b>. Single-rate cards never render it — was redundant with plan_name and inline rate unit. Multi-rate cards (PriceCap, TruBalance) keep it to disambiguate the primary rate. <em>Added 2026-05-14 from walkthrough.</em></td><td>§3 multi-rate (kept) · §2 §5 §6 §7 (removed) · §10 slot map</td></tr>
+          <tr><td class="dec-id">PC-D15 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>Plan-name + badge naming convention: <b>term + plan type live in the plan name; badges carry state and overrides only</b>. Term badge is omitted when plan name states the term. Promo/state/variant context lives in badges, never in the plan name (no "Promotional Rate" suffix). Max 3 badges per card. Disabled CTAs use neutral gray, not dimmed-orange. Commercial Custom phone is a single national commercial-rep number (per Contact Us wireframe), not per-market. <em>Added 2026-05-14 from §4 walkthrough.</em></td><td>§4 rate-pending + commercial custom · §5 promo cards (dedup applied) · §13 authoring guide</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 12: OPEN DEPENDENCIES ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <span class="section-title">Open dependencies — what's still TBD before propagation</span>
+      <span class="section-sub">Carries forward to Batch B propagation + PRIME barrel walkthrough</span>
+    </div>
+    <div class="section-body">
+      <div class="col-2">
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">PRIME</span> Confirm slot-map data sources during the May 12 PRIME barrel walkthrough. Highest-leverage: rate_updated_at cadence, promo_expiration field origin (OQ-P5), rate_secondary support for PriceCap/TruBalance.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">Unit</span> ONG/Enbridge Gas Ohio uses Mcf on the live site; requirements doc says therms. Resolve per-LDC unit mapping before propagation.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">Legal</span> Rescission window per market (days) — Susan Hodge / legal review. Used in the expand.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">Legal</span> Promo disclosure minimum copy — content + legal team. Lives inside the expand for promo state.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">Auth</span> "Most Popular" badge criteria — confirm enrollment-volume threshold per market with Aimee. CMS-configurable.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">IES</span> Confirm IES online enrollment launch month is locked in before ship. PC-D9 assumes inline "Start Enrollment →" is live by the time this batch ships — if the date slips, fall back to a phone-only CTA on the IES card only (other markets unaffected).</span></div>
+        <div class="ann ann-r"><i>⚑</i><span><span class="ref">Commercial IES new Open Q</span> Does Commercial IES Fixed Bill enrollment move online with residential at launch, or stay phone-only indefinitely? Affects `card_state` for the Commercial IES card. Flag for client confirmation before propagation.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">IES copy</span> Custom-amount quote-block copy needs client direction. Current placeholder ("Custom monthly amount · Calculated from your usage · Your exact amount is confirmed during enrollment") is functional but may under-explain — possible enhancements include "Based on your home's past 12 months of natural gas usage."</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">IES future</span> If PRIME exposes usage-band data, show an estimated range on the IES card ("Typically $XXX–$YYY/month for similar homes"). Not in scope for current build — flag as future enhancement.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">Comm Open Q #2 — resolved</span> Self-serve vs. rep-assisted is plan-level (PRIME flags <code>card_state</code> per plan SKU). Account-level routing not in scope — SouthStar's commercial book is small/mid business, not enterprise. (Resolved 2026-05-14 §6 walkthrough.)</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">Comm Open Q #5</span> Per-market ETF amounts — wireframe uses placeholder <code>[$ TBD]</code>. Confirm with Lee Jackson whether commercial ETFs match residential ($12.50/month) or differ.</span></div>
+        <div class="ann ann-r"><i>⚑</i><span><span class="ref">Comm new Open Q</span> Customer self-identification: how does a small business know whether they qualify for self-serve commercial vs. needing to call for a custom quote? Options proposed in §6 — confirm with Lee Jackson / sales team before propagation.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">Batch B</span> Propagation: replace <code>.plan-card</code> / <code>.offer-card</code> / <code>.comm-plan-card</code> classes across ResidentialPlans, PromoPage, CommercialPlans wireframes. Add IES card to ResidentialPlans #cards-ies section. Each propagation logged as a separate change-log entry.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">Analytics</span> Card-level events to wire on propagation: <code>plan_select</code> (CTA click) · <code>plan_details_expand</code> · <code>acr_link_click</code> · <code>promo_code_view</code> (when promo state renders). Params include plan_name, plan_type, market, card_state, cta_location.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">a11y</span> All interactive elements need proper roles + <code>aria-expanded</code> on the accordion. Color-only state differentiation (Greener Life green border) must be accompanied by the 🌱 Greener Life badge for non-color users.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">CMS</span> Author-facing model: plan_type drives default badges, default copy patterns, and which slots are required. Authors should not be able to publish a card with card_state = rate_resolved and a null rate.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">IL/IES disclosure</span> ICC regulatory copy is a <b>page-level</b> concern, not a card-level slot. Treatment carried forward from ResidentialPlans_Wireframe.html: utility-rate-comparison callout below the filter section + inline "View rate and plan disclosures ▾" accordion. Same treatment applies to the new IES Fixed Bill page. Confirms: no eleventh card slot needed.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 13: COPY LENGTH GUIDANCE ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <span class="section-title">Copy length guidance for marketing teams</span>
+      <span class="section-sub">Hand to anyone authoring per-plan content · enforces mobile-desktop parity</span>
+    </div>
+    <div class="section-body">
+      <p style="font-size:12px; color:#555; line-height:1.6; margin-bottom:14px;">Mobile and desktop render the same copy (walkthrough rev 2026-05-14). To keep cards from breaking layout at ~320px mobile width, marketing copy for each slot must respect a hard ceiling. These ceilings are calibrated against the wireframe — if any per-plan copy exceeds the ceiling, shorten the source content rather than introducing a mobile-only variant.</p>
+
+      <table class="slot-table">
+        <thead>
+          <tr>
+            <th style="width:18%;">Slot</th>
+            <th style="width:14%;">Max length</th>
+            <th style="width:18%;">Format</th>
+            <th>Authoring guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="slot-name">plan_name</td><td>≤ 32 chars / 4 words</td><td>Title Case</td><td><b>Term + plan type live in the plan name</b>, e.g., "12-Month Fixed Plan" · "Variable Plan with Greener Life" · "Fixed Bill Plan." Avoid trademark-only names customers can't decode (e.g., "PriceGuard 12" should pair with the descriptive type — "12-Month PriceGuard Plan"). <b>Do NOT include promo or state context in the plan name</b> — that's what badges are for. Bad: "Fixed 12 — Promotional Rate." Good: "12-Month Fixed Plan" (with Promo badge carrying the state).</td></tr>
+          <tr><td class="slot-name">badges (Term, Promo, Most Popular, Greener Life)</td><td>≤ 14 chars per badge</td><td>UPPERCASE or Title Case</td><td><b>Badge usage rule:</b> badges carry information that's NOT already in the plan name. Term badge ("12-Month") is omitted when the plan name already states the term ("12-Month Fixed Plan"). Promo badge carries state ("Promo SAVE25"); Most Popular is volume-derived; Greener Life is variant-driven. Maximum 3 badges per card to avoid header crowding.</td></tr>
+          <tr><td class="slot-name">rate_label</td><td>≤ 32 chars</td><td>"Per [unit] · [Plan descriptor]"</td><td>Always shows the unit explicitly. Descriptor mirrors plan_name. Example: "Per Mcf · 12-Month Fixed Plan."</td></tr>
+          <tr><td class="slot-name">rate_secondary_qual</td><td>≤ 22 chars</td><td>Short prefix label</td><td>"Never pay more than" · "Half at variable rate" · "Intro rate · first 2 months." Reads as a qualifier above the secondary number.</td></tr>
+          <tr><td class="slot-name">rate_was (struck-through)</td><td>≤ 14 chars</td><td>"was $X.XXX"</td><td>Lowercase "was" intentional — less shouty than "WAS." Use only in promo or intro-discount states.</td></tr>
+          <tr><td class="slot-name">promo_code</td><td>≤ 14 chars</td><td>UPPERCASE</td><td>Short and memorable. Example: SAVE25 · SPRING26. Avoid codes longer than 10 characters where possible.</td></tr>
+          <tr><td class="slot-name">promo_expiration</td><td>1 line · ≤ 50 chars</td><td>"⏱ Offer expires MM/DD/YYYY at HH:MM PM/AM ET"</td><td>Datetime + timezone. Date-only is insufficient for promos that legally end at a specific moment. ⏱ glyph is required to differentiate from contract end date.</td></tr>
+          <tr><td class="slot-name">description (Slot E)</td><td><b>20–35 words</b> / 150–220 chars</td><td>1–2 sentences</td><td>Lead with the value prop ("Lock in your price for the next 12 months..."), close with a peace-of-mind clause ("...Peace of mind, plain and simple."). No jargon. No metric units in descriptions — keep those in the rate row and bullets.</td></tr>
+          <tr><td class="slot-name">greener_disclosure</td><td>≤ 25 words / 140 chars</td><td>1 sentence</td><td>Required when Greener Life variant is enabled. Example: "Offsets cover combustion at point of consumption only — not lifecycle emissions from extraction, production, or delivery."</td></tr>
+          <tr><td class="slot-name">key_points[] item (Slot F)</td><td><b>≤ 10 words / 60 chars per bullet</b></td><td>3–5 bullets, sentence fragments OK</td><td>Each bullet must fit one line at 320px width. "Early termination: $12.50/month if cancelled early" = 53 chars ✓. Use parallel structure across plan types. Always include an ETF bullet (or "No early termination charges" for variable), always include a renewal-notice bullet on fixed plans.</td></tr>
+          <tr><td class="slot-name">cta_label</td><td>1 line · ≤ 20 chars</td><td>"Start Enrollment →"</td><td>Constant across all rate-resolved cards per PC-D2. Variants: "Contact a Rep →" (quote-only commercial), disabled state shows label dim'd (rate-pending).</td></tr>
+          <tr><td class="slot-name">expand h5 section heading</td><td>≤ 24 chars</td><td>Title Case</td><td>One per expand section. Examples: "How the rate works" · "Billing start timeline" · "Early termination" · "Auto-renewal."</td></tr>
+          <tr><td class="slot-name">expand section body</td><td><b>≤ 45 words per section</b></td><td>Plain-language paragraph</td><td>Each section answers one question the customer would ask. Avoid stacking multiple disclosures in one paragraph. If a section needs to exceed 45 words, split it into two h5 sections.</td></tr>
+          <tr><td class="slot-name">expand total (all sections combined)</td><td><b>≤ 180 words</b> across the full accordion</td><td>4 base sections + plan-type-specific</td><td>Hard ceiling on the whole expand to keep mobile reading bearable. Base 4 sections (Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures) run ~100 words; the +80 budget covers one plan-type-specific section per §14 matrix (e.g., "How your rate is set" on variable plans; "Promo eligibility &amp; terms" on promo state). Cards needing two plan-type-specific sections must trim the base sections.</td></tr>
+          <tr><td class="slot-name">disclosure_line (Slot K)</td><td>≤ 20 words / 140 chars</td><td>1 sentence + inline anchor</td><td>"* [Plain-language summary of restrictions]. <a>See full offer terms ↓</a>" Lead with restrictions (eligibility, savings basis, geo limits) — not legal jargon. Anchor text should be unambiguous about destination ("See full offer terms," "Read promo disclosure"). Full legal lives at page bottom; this line is the conspicuous-disclosure pointer.</td></tr>
+          <tr><td class="slot-name">rate_updated_at</td><td>1 line</td><td>"Rate last updated: [Mon YYYY]"</td><td>Same string desktop + mobile. Driven by PRIME field but the customer-facing string never names PRIME (walkthrough rev 2026-05-14).</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="soft">
+
+      <div class="col-2">
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">authoring</span> The ceilings above are the wireframe baseline. Real-world plan copy that crowds the ceiling should be tightened in source — that's why this table is sized in words/chars, not pixels. Two plans with the same character count will render at the same height regardless of viewport.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">QA</span> Recommend a CMS-side character counter on every authoring slot, with a soft warning at 90% of the ceiling and a hard error at 100%. Prevents publishing copy that breaks layout.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><span class="ref">PRIME</span> If a slot is fed from PRIME (plan_name, rate_label) rather than authored in the CMS, the ceiling must be enforced at PRIME-side authoring or as a render-time guard. Confirm during barrel walkthrough.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><span class="ref">i18n</span> If the brand ever offers Spanish-language cards (not in current scope), recalibrate ceilings — Spanish runs ~20–30% longer than English for equivalent meaning, especially in descriptions and bullets.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────── SECTION 14: EXPAND SECTION COVERAGE MATRIX ───────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      <span class="section-title">Expand section coverage matrix — which sections apply to which variant</span>
+      <span class="section-sub">4 base sections universal · plan-type-specific sections layer on top · PC-D7 rev 2</span>
+    </div>
+    <div class="section-body">
+      <p style="font-size:12px; color:#555; line-height:1.6; margin-bottom:14px;">The 4 base sections (Billing start timeline · Cancellation rights · Auto-renewal · Contract &amp; disclosures) cover the common case. Some plan types and states need additional sections layered on top. Total expand stays ≤180 words across all sections combined.</p>
+
+      <table class="slot-table">
+        <thead>
+          <tr>
+            <th style="width:22%;">Variant / state</th>
+            <th style="width:30%;">Base sections (always)</th>
+            <th>Plan-type-specific sections (additional)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Standard fixed plans</b><br><span style="color:#888; font-size:10.5px;">12-Month · 18-Month · 24-Month · 6-Month</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><em>None.</em> 4 base sections only.</td>
+          </tr>
+          <tr>
+            <td><b>Variable plans</b><br><span style="color:#888; font-size:10.5px;">ONG Variable · IL FlexPlan · IL Variable</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><b>"How your rate is set"</b> — explains the index basis (e.g., NGI Chicago Citygate FOM) and that the rate recalculates monthly. Lives between Billing start and Cancellation rights.</td>
+          </tr>
+          <tr>
+            <td><b>Variable with Discount</b><br><span style="color:#888; font-size:10.5px;">Intro-rate · Plans Listing placement (not Promo Page)</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><b>"How your rate is set"</b> + <b>"After the intro period"</b> — what the discount ends, transition to standard variable rate, and how the customer is notified. May exceed 180-word ceiling — trim Cancellation rights paragraph to compensate. Renders in promo state (was-price, Slot K, intro badge) but lives on the <b>standard Plans Listing</b> alongside other variable plans — not gated by a Promo Page.</td>
+          </tr>
+          <tr>
+            <td><b>Multi-rate — PriceCap</b><br><span style="color:#b71c1c; font-size:10.5px;">Legacy · IL only · sunset planned</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><b>"How your rate is calculated"</b> — when the variable applies vs. when the cap kicks in; index basis (NGI Chicago Citygate FOM); how the $1.99 monthly product fee is billed. Lives between Billing start and Cancellation rights. Index citation lives here, not on card surface. <em>Does NOT combine with Greener Life, Most Popular, Promo state, or rate-pending state.</em></td>
+          </tr>
+          <tr>
+            <td><b>Multi-rate — TruBalance</b><br><span style="color:#b71c1c; font-size:10.5px;">Legacy · IL only · sunset planned</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><b>"How your rate is calculated"</b> — how usage is split 50/50 between the fixed and variable halves; index basis for the variable half; how the two amounts appear on a single utility bill. Index citation lives here, not on card surface. <em>Does NOT combine with Greener Life, Most Popular, Promo state, or rate-pending state.</em></td>
+          </tr>
+          <tr>
+            <td><b>Promo state (true promo)</b><br><span style="color:#888; font-size:10.5px;">Promo Page · Plans Listing pinned-promo zone (§5.b)</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><b>"Promo eligibility &amp; terms"</b> — new-customer eligibility, promo period length, what happens at promo end, anchor to page-level Promo Disclosure block (parallel to Slot K's anchor). Lives at the top of the expand so it's the first section a promo customer reads. <b>Promo × Most Popular: forbidden.</b> Promo × Greener Life: allowed (per §5 combinatorics annotation). Promo × multi-rate: forbidden (per PC-D4).</td>
+          </tr>
+          <tr>
+            <td><b>Greener Life variant</b></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td><em>Optional:</em> <b>"Carbon offset details"</b> — only if legal requires more than the on-card greener_disclosure line. Default: not added; card-surface line is sufficient.</td>
+          </tr>
+          <tr>
+            <td><b>Commercial Fixed / Variable</b></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td>Same as residential equivalents. Variable adds "How your rate is set." Cancellation rights may use different ETF/rescission values per commercial regulation — flag with Lee Jackson.</td>
+          </tr>
+          <tr>
+            <td><b>Commercial Custom</b><br><span style="color:#888; font-size:10.5px;">Quote-only state</span></td>
+            <td><em>Different base.</em> 2 sections only: <b>"What's in scope"</b> + <b>Cancellation rights</b>.</td>
+            <td>Most base sections don't apply pre-quote — there's no rate to time, no auto-renewal until enrolled. Contract &amp; disclosures folds into Cancellation rights or "What's in scope."</td>
+          </tr>
+          <tr>
+            <td><b>IES Fixed Bill</b></td>
+            <td>Cancellation rights · Auto-renewal · Contract &amp; disclosures<br><span style="color:#888; font-size:10.5px;">(Billing start replaced)</span></td>
+            <td><b>"How your monthly amount is calculated"</b> replaces Billing start timeline — Fixed Bill is custom-quoted from usage. Plus a new <b>"Eligibility"</b> section covering LIHEAP/PIPP restrictions (customers receiving LIHEAP financial assistance in the previous 12 months, or currently on PIPP, are not eligible for Fixed Bill per ICC). Brief ICC "may not save money" caveat remains inside Contract &amp; disclosures (long-form lives in the page-level disclosure block per §7 IL/IES treatment).</td>
+          </tr>
+          <tr>
+            <td><b>Rate-pending state</b><br><span style="color:#888; font-size:10.5px;">Promo LDC-required pre-LDC</span></td>
+            <td>Billing start · Cancellation rights · Auto-renewal · Contract &amp; disclosures</td>
+            <td>Same as Promo state. <b>"Promo eligibility &amp; terms"</b> applies. Rate-specific copy uses general language ("when your rate is confirmed") since the numeric rate is pending.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="soft">
+      <div class="col-2">
+        <div class="ann ann-g"><i>✓</i><span><span class="ref">PC-D7 rev 2</span> 4 base sections universal; plan-type-specific sections layer on top. Section count per card stays ≤6, total expand stays ≤180 words.</span></div>
+        <div class="ann ann-g"><i>✓</i><span>The "Promo eligibility &amp; terms" section is the bridge between the on-card Slot K line and the page-level Promo Disclosure block. Customer who opens the expand sees the eligibility summary inline; customer who clicks the Slot K anchor (or the section's own anchor) gets the full text.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span>IL FlexPlan / Variable plans — confirm "How your rate is set" copy with Susan Hodge before publishing; index citation language is regulatory-sensitive.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span>Commercial cancellation rights — confirm whether commercial ETFs differ from residential per market (Open Q #5 in CommercialPlans).</span></div>
+        <div class="ann ann-b"><i>↳</i><span>Dev: each section is a CMS-authored block keyed to plan_type. Authors don't pick sections à la carte — section presence is determined by plan_type + state. Authors only edit copy inside each section.</span></div>
+        <div class="ann ann-b"><i>↳</i><span>Analytics: expand section impressions logged via <code>plan_details_section_view</code> with <code>section_name</code> param so we can measure which sections customers actually scroll to.</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Minimal interactivity — expand toggle for demo purposes.
+  document.querySelectorAll('.pc-expand-link').forEach(function(el){
+    el.addEventListener('click', function(){
+      var card = el.closest('.pc');
+      var expanded = card.querySelector('.pc-expanded');
+      if(!expanded) return;
+      // Simple show/hide; replaces text label
+      if(expanded.style.display === 'none'){
+        expanded.style.display = '';
+        el.innerHTML = '▴ Hide Plan Terms &amp; Disclosures';
+      } else {
+        expanded.style.display = 'none';
+        el.innerHTML = '▾ View Plan Terms &amp; Disclosures';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
