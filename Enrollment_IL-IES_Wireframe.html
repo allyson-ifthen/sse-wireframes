@@ -143,10 +143,31 @@
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid; }
 
   /* -- Standard nav header (CLAUDE.md). Pencil banner SUPPRESSED on enrollment. ----- */
+  /* -- Nav header (ENRIL-98: simplified funnel nav by default) ----------- */
   .topbar {
     background: var(--paper); border-bottom: 1px solid var(--line);
-    padding: 14px 24px; display: flex; align-items: center; gap: 28px;
+    padding: 14px 24px; position: relative; align-items: center; gap: 28px;
   }
+  .topbar-simplified { display: flex; }
+  .topbar-full       { display: none; }
+  body.nav-full .topbar-simplified { display: none; }
+  body.nav-full .topbar-full       { display: flex; }
+  .brand-clickable {
+    background: var(--accent); color: #fff; border-radius: 3px;
+    font-weight: 700; font-size: 16px; padding: 8px 12px;
+    border: none; cursor: pointer; font: inherit;
+  }
+  .brand-clickable:hover { filter: brightness(1.08); }
+  .topbar-simplified .nav-right { margin-left: auto; }
+  .topbar-simplified .phone strong { color: var(--bad); font-weight: 700; }
+  @media (max-width: 600px) {
+    .topbar-simplified { flex-wrap: wrap; gap: 10px; }
+    .topbar-simplified .phone { font-size: 12px; line-height: 1.4; }
+  }
+  /* Leave-flow + resume modals (ENRIL-98) */
+  .leave-flow-modal { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .leave-flow-modal[hidden] { display: none; }
+  .leave-flow-modal__card { background: var(--paper); border-radius: 6px; padding: 24px 28px; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
   .brand {
     font-weight: 700; font-size: 16px; padding: 8px 12px;
     background: var(--accent); color: #fff; border-radius: 3px;
@@ -172,6 +193,9 @@
   .breadcrumb a { color: var(--muted); }
   .page-title { font-size: 22px; font-weight: 700; }
   .page-title small { color: var(--muted); font-weight: 400; font-size: 14px; }
+  /* ENRIL-103: "Enroll as" confirmation pill */
+  .enroll-as { margin-top: 6px; font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--accent-soft); border-radius: 999px; }
+  .enroll-as strong { color: var(--ink); font-weight: 600; }
 
   /* -- Sign-in affordance for new customers ------------------------------- */
   .signin-link-row {
@@ -296,17 +320,15 @@
     text-transform: uppercase; letter-spacing: 0.06em;
   }
 
-  /* -- "What to expect" panel (Step 1 Quote) ----------------------------- */
-  .what-to-expect { display: grid; gap: 10px; margin-top: 4px; }
-  .what-to-expect .wte-item {
-    display: grid; grid-template-columns: 150px 1fr; gap: 12px;
-    padding: 12px 14px; background: var(--accent-soft); border-radius: 4px;
-    font-size: 13px; align-items: start; line-height: 1.4;
-  }
-  .what-to-expect .wte-item strong { color: var(--accent); }
-  @media (max-width: 640px) {
-    .what-to-expect .wte-item { grid-template-columns: 1fr; gap: 4px; }
-  }
+  /* -- "What to expect" panel (Step 1 Quote) — ENRIL-99: ONG icon-grid pattern ---- */
+  .what-to-expect { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 4px; padding: 16px 18px; margin-bottom: 22px; }
+  .wte-title { margin: 0 0 10px; font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+  .wte-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  @media (max-width: 720px) { .wte-grid { grid-template-columns: 1fr; gap: 10px; } }
+  .wte-row { display: flex; gap: 10px; align-items: flex-start; }
+  .wte-icon { flex: 0 0 28px; height: 28px; width: 28px; display: inline-flex; align-items: center; justify-content: center; background: #fff; color: var(--accent); border: 1px solid var(--accent); border-radius: 50%; font-size: 14px; }
+  .wte-label { font-weight: 600; font-size: 13px; line-height: 1.3; }
+  .wte-desc { font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
 
   /* -- Form patterns ------------------------------------------------------ */
   .fieldset { margin-bottom: 22px; }
@@ -629,13 +651,13 @@
     background: #fafbfc; font-size: 13px;
   }
   .plan-switch-compare .plan-switch-compare-col.to {
-    background: var(--ann-g-bg); border-color: var(--ann-g-bd);
+    background: var(--accent-soft); border-color: var(--accent);  /* ENRIL-101 */
   }
   .plan-switch-compare .plan-switch-compare-col .plan-switch-compare-label {
     font-size: 11px; color: var(--muted); text-transform: uppercase;
     letter-spacing: 0.04em; margin-bottom: 6px;
   }
-  .plan-switch-compare .plan-switch-compare-col.to .plan-switch-compare-label { color: var(--good); }
+  .plan-switch-compare .plan-switch-compare-col.to .plan-switch-compare-label { color: var(--accent); }  /* ENRIL-101 */
   .plan-switch-compare .plan-switch-compare-col h4 { font-size: 14px; margin: 0 0 6px; }
   .plan-switch-compare .plan-switch-compare-col dl { margin: 6px 0 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; font-size: 12px; }
   .plan-switch-compare .plan-switch-compare-col dt { color: var(--muted); }
@@ -690,7 +712,9 @@
   .plan-pick-card .pp-etf-callout {
     background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
     border-radius: 3px; padding: 8px 10px; font-size: 11px; margin-top: 4px;
+    display: none;  /* ENRIL-100: hidden unless current plan is fixed-term */
   }
+  body.is-fixed-plan .plan-pick-card .pp-etf-callout { display: block; }  /* ENRIL-100 */
   .plan-pick-card .btn { margin-top: 8px; }
   .plan-pick-card .selected-badge {
     display: none; align-self: flex-start; padding: 2px 8px;
@@ -897,6 +921,11 @@
       <button id="ctype-btn-com" onclick="setCustomerType('commercial')">Commercial</button>
     </div>
     <div class="scenario-drop-row">
+      <span class="scenario-drop-lbl">Current plan</span>
+      <button id="fixedplan-btn-var" class="on" onclick="setIsFixedPlan(false)">Variable (no ETF)</button>
+      <button id="fixedplan-btn-fix" onclick="setIsFixedPlan(true)">Fixed (ETF applies)</button>
+    </div>
+    <div class="scenario-drop-row">
       <span class="scenario-drop-lbl">Error mode</span>
       <button id="err-btn-none" class="on" onclick="setError('none')">None</button>
       <button id="err-btn-language-decline" onclick="setError('language-decline')">Lang decline</button>
@@ -924,9 +953,28 @@
 <div class="presentation-exit-hint" aria-hidden="true">Press Esc to exit presentation mode</div>
 
 <!-- =========================================================================
-     Standard nav header. IES uses simplified 3-item nav (ENRIL-14).
+     ENRIL-98 (2026-05-26): Simplified funnel nav — brand mark + CS phone only.
+     Mirrors ONG ENR-36/ENR-37. Brand mark triggers leave-flow confirmation modal.
+     Legacy full nav below is kept for side-by-side comparison (body.nav-full reveals it).
      ========================================================================== -->
-<header class="topbar">
+<header class="topbar topbar-simplified">
+  <button type="button" class="brand brand-clickable" onclick="brandClickInFunnel(event)" aria-label="Return to site home (will warn before leaving enrollment)">
+    <span class="mkt mkt-il on">Illinois Energy</span>
+    <span class="mkt mkt-ies">Illinois Energy Solutions</span>
+  </button>
+  <div class="nav-right">
+    <span class="phone">
+      <strong>Contact Us</strong> ·
+      <span class="mkt mkt-il on">1-800-XXX-ILGAS</span>
+      <span class="mkt mkt-ies">1-800-XXX-IESFB</span>
+      · 8 a.m. – 5 p.m. CT, Monday – Friday
+    </span>
+  </div>
+  <div class="ann ann-b" style="position:absolute; top:8px; right:8px; font-size:10px; padding:4px 8px;">ENRIL-98 simplified nav</div>
+</header>
+
+<!-- Legacy full nav (hidden by default — body.nav-full reveals it for comparison) -->
+<header class="topbar topbar-full" aria-hidden="true">
   <div class="brand">
     <span class="mkt mkt-il on">Illinois Energy</span>
     <span class="mkt mkt-ies">Illinois Energy Solutions</span>
@@ -946,7 +994,33 @@
       <span class="mkt mkt-ies">1-800-XXX-IESFB</span>
     </span>
   </div>
+  <div class="ann ann-y" style="position:absolute; top:8px; right:8px; font-size:10px; padding:4px 8px;">Legacy full nav (compare only)</div>
 </header>
+
+<!-- ENRIL-98: Brand-click confirmation modal (ENR-37 / ENR-40 copy) -->
+<div id="leave-flow-modal" class="leave-flow-modal" role="dialog" aria-modal="true" aria-labelledby="lfm-title" hidden>
+  <div class="leave-flow-modal__card">
+    <h3 id="lfm-title" style="margin:0 0 10px;">Leave enrollment?</h3>
+    <p style="margin:0 0 18px;">You may lose your enrollment progress. We'll save your place in this browser for the next 30 minutes — but if you close the browser or wait longer, you'll need to start over.</p>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button class="btn btn-tertiary" onclick="closeLeaveFlowModal()">Stay in enrollment</button>
+      <button class="btn btn-secondary" onclick="leaveFlow()">Leave enrollment</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENRIL-102: Welcome-back resume modal -->
+<div id="resume-modal" class="leave-flow-modal" role="dialog" aria-modal="true" aria-labelledby="rm-title" hidden>
+  <div class="leave-flow-modal__card">
+    <h3 id="rm-title" style="margin:0 0 10px;">Welcome back</h3>
+    <p style="margin:0 0 12px;">We saved your progress from <strong id="resume-step-label">Step 1 — Price quote</strong> a few minutes ago. Pick up where you left off?</p>
+    <div class="ann ann-b" style="margin-bottom:14px; font-size:11px;"><strong>ENRIL-102 / ENR-39:</strong> Tier 1 session persistence — browser sessionStorage, 30-min idle timeout. IL OTP constraint: if OTP TTL has expired on resume, OTP step surfaces inline "code expired" state. Tier 2 (email recovery, cross-device) deferred per ENR-41.</div>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button class="btn btn-tertiary" onclick="startOver()">Start over</button>
+      <button class="btn" onclick="resumeSession()">Resume enrollment</button>
+    </div>
+  </div>
+</div>
 
 <!-- Sign-in link affordance (Scen A/C only) -->
 <div class="signin-link-row">
@@ -967,6 +1041,13 @@
     <span class="scen-only-c-inline">Guaranteed Bill — quote and enrollment</span>
     <span class="scen-only-d-inline">Change your Guaranteed Bill plan</span>
     <small>· Illinois Part 512 enrollment</small>
+  </div>
+  <!-- ENRIL-103: "Enroll as" confirmation pill (mirrors ONG ENR-43) -->
+  <div class="enroll-as">
+    You're enrolling in: <strong>
+      <span class="scen-only-a-inline scen-only-b-inline">Residential service</span><span class="scen-only-c-inline scen-only-d-inline">Guaranteed Bill plan</span>
+    </strong>
+    <a href="#" onclick="event.preventDefault(); alert('Production: route back to plans listing.');" style="font-size:13px; margin-left:8px;">Change →</a>
   </div>
   <div class="ann ann-g" style="margin-top:10px;"><strong>ENRIL-94 (2026-05-25):</strong> Site-IA breadcrumb dropped. Canonical URL pattern: <code>/enroll/{plan-slug}/?market={il|ies}&amp;scenario={a|b|c|d}</code>. Four entry points (Scen A from <code>/illinois-plans/</code>, Scen B from <code>/my-account/change-plan/</code>, Scen C from <code>/guaranteed-bill/</code> quote CTA, Scen D from <code>/my-account/change-guaranteed-bill-plan/</code>) converge on the same enrollment app namespace. IES variant (Fixed Bill) namespace TBD with Engineering (separate path vs. <code>?market=ies</code> query param). Pre-flow screens (M-1, M-2 per ENRIL-35) sit in <code>/my-account/</code>; handoff to <code>/enroll/</code> at "Initiate price plan change" CTA. Process-indicator <code>.scen-breadcrumb</code> below is RETAINED — different mechanism (process aid for Scen B/D existing-customer journey, not site-tree position).</div>
 </div>
@@ -1370,22 +1451,34 @@
 
       <div class="fieldset">
         <h3>What to expect</h3>
+        <!-- ENRIL-99 (2026-05-26): ONG icon-grid pattern replaces .wte-item rows -->
         <div class="what-to-expect">
-          <div class="wte-item">
-            <strong>About 5 minutes</strong>
-            <span>to complete your enrollment.</span>
-          </div>
-          <div class="wte-item">
-            <strong>Have ready</strong>
-            <span>your gas account number (find it in the upper-right of your gas bill) and access to the email inbox where we'll send your verification code.</span>
-          </div>
-          <div class="wte-item">
-            <strong>What's next</strong>
-            <span>
-              <span class="scen-only-a-inline">Review your documents → Quick lookup → Verify your email → Connect your gas account → Review and submit.</span>
-              <span class="scen-only-b-inline">Review your documents → Confirm your info → Verify your email → Confirm your account → Review and submit.</span>
-              <span class="scen-only-gb">Verify your email → Connect your gas account → See your quote → Review your documents → Your info → Review and submit.</span>
-            </span>
+          <div class="wte-grid">
+            <div class="wte-row">
+              <span class="wte-icon">⏱</span>
+              <div>
+                <div class="wte-label">About 5 minutes</div>
+                <div class="wte-desc">to complete your enrollment.</div>
+              </div>
+            </div>
+            <div class="wte-row">
+              <span class="wte-icon">📋</span>
+              <div>
+                <div class="wte-label">Have ready</div>
+                <div class="wte-desc">your gas account number and access to your email inbox for a verification code.</div>
+              </div>
+            </div>
+            <div class="wte-row">
+              <span class="wte-icon">→</span>
+              <div>
+                <div class="wte-label">What's next</div>
+                <div class="wte-desc">
+                  <span class="scen-only-a-inline">Documents → Look up → Verify → Account → Review → Submit.</span>
+                  <span class="scen-only-b-inline">Documents → Verify → Account → Review → Submit.</span>
+                  <span class="scen-only-gb">Verify → Account → Quote → Documents → Review → Submit.</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2534,6 +2627,122 @@
         btn.textContent = 'Scenario ▾';
       }
     }
+  });
+
+  // ---------- ENRIL-98: Leave-flow modal (brand-click in simplified nav) ----------
+  function brandClickInFunnel(e) {
+    e.preventDefault();
+    var modal = document.getElementById('leave-flow-modal');
+    if (modal) { modal.hidden = false; var firstBtn = modal.querySelector('button'); if (firstBtn) firstBtn.focus(); }
+  }
+  function closeLeaveFlowModal() {
+    var modal = document.getElementById('leave-flow-modal');
+    if (modal) modal.hidden = true;
+  }
+  function leaveFlow() {
+    closeLeaveFlowModal();
+    alert('Production behavior: navigate to homepage (wireframe demo only).');
+  }
+
+  // ---------- ENRIL-100: Current-plan-type toggle (gates ETF callout in Select plan) ----------
+  function setIsFixedPlan(fixed) {
+    document.body.classList.toggle('is-fixed-plan', fixed);
+    var vb = document.getElementById('fixedplan-btn-var');
+    var fb = document.getElementById('fixedplan-btn-fix');
+    if (vb) vb.classList.toggle('on', !fixed);
+    if (fb) fb.classList.toggle('on',  fixed);
+  }
+
+  // ---------- ENRIL-102: Session persistence (ENR-39 equivalent for IL) ----------
+  var SESSION_KEY_IL = 'sse-enrollment-state-il';
+  var SESSION_TIMEOUT_MS_IL = 30 * 60 * 1000;  // 30 minutes
+  var saveDebounceTimerIL = null;
+
+  function getCurrentScenario() {
+    if (document.body.classList.contains('scen-b')) return 'b';
+    if (document.body.classList.contains('scen-c')) return 'c';
+    if (document.body.classList.contains('scen-d')) return 'd';
+    return 'a';
+  }
+  function collectFieldValuesIL() {
+    var vals = {};
+    document.querySelectorAll('input, select, textarea').forEach(function(el){
+      if (el.id && el.closest('.step')) {
+        if (el.type === 'checkbox') vals[el.id] = el.checked;
+        else if (el.value) vals[el.id] = el.value;
+      }
+    });
+    return vals;
+  }
+  function saveSessionIL() {
+    try {
+      var state = {
+        market: document.body.classList.contains('mkt-ies') ? 'ies' : 'il',
+        scenario: getCurrentScenario(),
+        step: currentStep,
+        fields: collectFieldValuesIL(),
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem(SESSION_KEY_IL, JSON.stringify(state));
+    } catch(e) { /* sessionStorage unavailable */ }
+  }
+  function saveSessionDebounced() {
+    if (saveDebounceTimerIL) clearTimeout(saveDebounceTimerIL);
+    saveDebounceTimerIL = setTimeout(saveSessionIL, 400);
+  }
+  function loadSessionIL() {
+    try {
+      var raw = sessionStorage.getItem(SESSION_KEY_IL);
+      if (!raw) return null;
+      var state = JSON.parse(raw);
+      if (Date.now() - state.timestamp > SESSION_TIMEOUT_MS_IL) {
+        sessionStorage.removeItem(SESSION_KEY_IL);
+        return null;
+      }
+      return state;
+    } catch(e) { return null; }
+  }
+  function clearSessionIL() {
+    try { sessionStorage.removeItem(SESSION_KEY_IL); } catch(e) {}
+  }
+  function showResumeModal(state) {
+    var stepLabels = {
+      quote:'Step 1 — Price quote', bundle:'Step 2 — Documents',
+      lookup:'Step 3 — Look up', otp:'Step 4 — Verify',
+      account:'Step 5 — Account #', standing:'Step 6 — Standing',
+      review:'Step 7 — Review', confirmation:'Step 8 — Confirm'
+    };
+    var label = document.getElementById('resume-step-label');
+    if (label) label.textContent = stepLabels[state.step] || ('Step — ' + state.step);
+    var modal = document.getElementById('resume-modal');
+    if (modal) modal.hidden = false;
+  }
+  function resumeSession() {
+    var state = loadSessionIL();
+    var modal = document.getElementById('resume-modal');
+    if (modal) modal.hidden = true;
+    if (!state) return;
+    setMarket(state.market);
+    setScenario(state.scenario);
+    Object.keys(state.fields).forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = !!state.fields[id];
+      else el.value = state.fields[id];
+    });
+    setStep(state.step);
+  }
+  function startOver() {
+    var modal = document.getElementById('resume-modal');
+    if (modal) modal.hidden = true;
+    clearSessionIL();
+  }
+  document.addEventListener('input',  saveSessionDebounced);
+  document.addEventListener('change', saveSessionDebounced);
+  // Check for saved session on load
+  document.addEventListener('DOMContentLoaded', function() {
+    var saved = loadSessionIL();
+    if (saved) showResumeModal(saved);
   });
 
   // ---------- Annotation visibility modes ----------

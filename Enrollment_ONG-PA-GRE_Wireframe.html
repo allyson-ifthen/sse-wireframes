@@ -461,15 +461,21 @@
   body.flow-step-pf1 .plan-summary,
   body.flow-step-pf2 .plan-summary { display: none; }
 
-  /* -- ENR-42 · Current contract panel (PF-2) ----------------------------- */
+  /* -- ENR-54 / ENR-42 · Current contract panel (PF-2) — green checkmark treatment (aligned to IL/IES per ENR-54) -- */
   .current-contract-panel {
-    border: 1px solid var(--line); border-radius: 6px;
+    border: 1px solid var(--good); border-radius: 6px;
     padding: 18px 20px; margin: 8px 0 18px;
-    background: #fafbfc;
+    background: #fff;
   }
   .current-contract-panel h4 {
-    margin: 0 0 12px; font-size: 14px; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 0.04em;
+    margin: 0 0 12px; font-size: 14px; color: var(--good);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .current-contract-panel h4::before {
+    content: "✓"; display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--good); color: #fff; font-size: 13px;
+    flex-shrink: 0;
   }
   .current-contract-panel dl {
     margin: 0; display: grid; grid-template-columns: 200px 1fr; gap: 8px 16px;
@@ -477,6 +483,10 @@
   }
   .current-contract-panel dt { color: var(--muted); }
   .current-contract-panel dd { margin: 0; }
+
+  /* ENR-54 (from IL ENRIL-87): skipped stepper chip state */
+  .step-chip.skipped { opacity: 0.35; cursor: not-allowed; }
+  .step-chip.skipped .num { background: var(--line-soft); color: var(--muted); }
 
   /* -- ENR-42 · PF-1 auth tabs (mirrors IL/IES ENRIL-77 pattern) --------- */
   .auth-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--line); margin: 12px 0 18px; }
@@ -1026,7 +1036,7 @@
       <!-- Dual-auth tabs (ENR-42 / ENR-35 / ENRIL-77) -->
       <div class="auth-tabs">
         <button class="auth-tab on" data-auth-tab="email" onclick="setAuthTab('email')">Email + Password</button>
-        <button class="auth-tab" data-auth-tab="acct" onclick="setAuthTab('acct')">Account # + Last name + ZIP</button>
+        <button class="auth-tab" data-auth-tab="acct" onclick="setAuthTab('acct')">Account number</button>
       </div>
 
       <div class="auth-panel on" id="auth-panel-email">
@@ -1069,7 +1079,7 @@
         </div>
       </div>
 
-      <div class="ann ann-g"><strong>ENR-42 / ENR-35 / ENRIL-77 · Dual auth tabs.</strong> Default: Email + Password (modern auth — customers who set up a My Account at enrollment). Alternative: Account # + Last name + ZIP (legacy PRIME auth — customers who haven't created a My Account or who don't remember their password). Bill image expander stays on the account-number tab.</div>
+      <div class="ann ann-g"><strong>ENR-42 / ENR-35 / ENRIL-77 · Dual auth tabs.</strong> Default: Email + Password (modern auth — customers who set up a My Account at enrollment). Alternative: Account number (legacy PRIME auth — customers who haven't created a My Account or who don't remember their password). Bill image expander stays on the account-number tab.</div>
 
       <div class="ann ann-g"><strong>ENR-37 / ENR-40 · Brand mark in simplified header is clickable</strong> — triggers "You may lose your plan-change progress. Are you sure?" modal. Same pattern as new-customer enrollment funnel.</div>
 
