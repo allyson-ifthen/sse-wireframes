@@ -435,6 +435,51 @@ body.is-mkt-ies .dash-grid { grid-template-columns: 1fr; }
 .plan-meta-val { font-size: 12px; font-weight: 700; color: var(--ink); }
 .plan-action-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* ── DASHBOARD ACTIVE / PENDING ENROLLMENT SUB-STATE (MA-42) ── */
+.dash-active-view { display: block; }
+.dash-pending-view { display: none; }
+body.dash-sub-pending .dash-active-view { display: none; }
+body.dash-sub-pending .dash-pending-view { display: block; }
+
+.sc-pending { background: var(--ann-y-bg); color: var(--warn); border: 1px solid var(--ann-y-bd); }
+
+.enrollment-meta {
+  margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+.enrollment-timeline {
+  display: flex; flex-direction: column; gap: 0; margin: 12px 0;
+}
+.timeline-stage {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 8px 0 12px; position: relative;
+}
+.timeline-stage:not(:last-child)::before {
+  content: ""; position: absolute; left: 13px; top: 32px; bottom: 0;
+  width: 2px; background: var(--line);
+}
+.timeline-stage.done::before { background: var(--good); }
+.stage-marker {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.timeline-stage.done .stage-marker { background: var(--good); color: #fff; }
+.timeline-stage.current .stage-marker { background: var(--warn); color: #fff; }
+.timeline-stage.upcoming .stage-marker { background: var(--line-soft); color: var(--muted); border: 1px solid var(--line); }
+.stage-content { flex: 1; padding-top: 4px; }
+.stage-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.timeline-stage.upcoming .stage-title { color: var(--muted); }
+.stage-subtext { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+.enrollment-notify {
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: 10px 14px; border-radius: 3px; font-size: 12px; color: var(--ink);
+  margin-top: 12px;
+}
+.enrollment-notify strong { font-family: ui-monospace, Menlo, monospace; letter-spacing: .02em; }
+
 /* ── PLAN-CARD RENEWAL LINE (inline · MA-29) ── */
 .plan-renewal-line {
   background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
@@ -638,7 +683,60 @@ body.is-mkt-ies .dash-grid { grid-template-columns: 1fr; }
 .raf-status-awarded { color: var(--good); font-weight: 700; }
 .raf-status-pending { color: var(--warn); font-weight: 700; }
 
-/* How it works (collapsible) */
+/* MA-43: Side-by-side share row (Email primary 60% · Social secondary 40%) */
+.raf-share-row {
+  display: grid; grid-template-columns: 3fr 2fr; gap: 16px; margin-bottom: 16px;
+}
+@media (max-width: 760px) { .raf-share-row { grid-template-columns: 1fr; } }
+.raf-share-row > .raf-primary-action,
+.raf-share-row > .raf-secondary { margin-bottom: 0; }
+
+/* MA-43: How it works as always-visible section (replaces collapsible <details>) */
+.raf-how-visible {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 18px 22px; margin-bottom: 16px;
+}
+.raf-how-visible .raf-section-h { margin-bottom: 10px; }
+.raf-how-visible ol { padding-left: 20px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
+.raf-how-visible ol li { margin-bottom: 4px; }
+
+/* MA-43: Contextual FAQs accordion */
+.raf-faqs {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
+  padding: 18px 22px; margin-bottom: 16px;
+}
+.raf-faqs .raf-section-h { margin-bottom: 12px; }
+.raf-faq-item { border-top: 1px solid var(--line-soft); }
+.raf-faq-item:first-of-type { border-top: none; }
+.raf-faq-item summary {
+  padding: 12px 0; font-size: 13px; font-weight: 600; color: var(--ink);
+  cursor: pointer; list-style: none; user-select: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.raf-faq-item summary::-webkit-details-marker { display: none; }
+.raf-faq-item summary::after { content: "+"; color: var(--muted); font-size: 18px; font-weight: 300; flex-shrink: 0; }
+.raf-faq-item[open] summary::after { content: "−"; }
+.raf-faq-item summary:hover { color: var(--accent); }
+.raf-faq-body { padding: 4px 0 14px; font-size: 12px; color: var(--ink); line-height: 1.6; }
+.raf-faqs-footer {
+  margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--line-soft);
+  font-size: 12px;
+}
+
+/* MA-43: RAF Legal placeholder */
+.raf-legal {
+  background: var(--bg); border: 1px dashed var(--line); border-radius: 5px;
+  padding: 18px 22px; margin-bottom: 16px;
+}
+.raf-legal .raf-section-h { color: var(--muted); margin-bottom: 8px; }
+.raf-legal-placeholder-note {
+  background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
+  padding: 8px 12px; margin-bottom: 12px; border-radius: 3px;
+  font-size: 11px; color: #5a4500;
+}
+.raf-legal-body { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+/* How it works (collapsible · legacy, kept for backward compatibility) */
 .raf-how {
   background: var(--paper); border: 1px solid var(--line); border-radius: 5px;
   padding: 0; margin-bottom: 16px;
@@ -794,6 +892,11 @@ body.chrome-hidden .presentation-hint {
       <button onclick="setLoginTab('email')">LI · Email</button>
       <button onclick="setLoginTab('acct')">LI · Account #</button>
     </div>
+    <div class="group" id="dash-substep-group" style="display:none;">
+      <span class="group-lbl">Dashboard</span>
+      <button id="dash-btn-active" class="on" onclick="setDashSub('active')">D · Active</button>
+      <button id="dash-btn-pending" onclick="setDashSub('pending')">D · Pending validation</button>
+    </div>
     <div class="group" id="ca-substep-group" style="display:none;">
       <span class="group-lbl">CA Sub-step</span>
       <button onclick="setCreateStep(1)">CA · Step 1</button>
@@ -893,6 +996,8 @@ body.chrome-hidden .presentation-hint {
     <li class="resolved"><strong>#4 RESOLVED · MA-28:</strong> Communication preferences beyond paperless — per client direction 2026-05-19, SMS Alerts removed from scope. Preferences card surfaces only Paperless Billing (PA) and Email Notifications (PA); non-PA markets show the regulatory-notice statement.</li>
     <li><strong>#5:</strong> Greener Life plan switching from My Account vs. routing through enrollment flow. Owner: Dev.</li>
     <li class="resolved"><strong>#6 RESOLVED (UPDATED 2026-05-20):</strong> Plan-change architecture confirmed. Two entry points (dashboard "Switch Plan" + promo deep-link), both converging on the market-appropriate existing-customer enrollment pre-flow — per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-89 + ENRIL-35 / ENRIL-76</strong> (IL/IES). Modal-based plan changes remain deprecated. The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> has been retired per MA-13 / MA-14.</li>
+    <li><strong>#11 · MA-40 (NEW):</strong> Plan-change routing destinations from MyAccount — dashboard <code>Switch Plan</code> + promo deep-links route to the market-appropriate existing-customer enrollment pre-flow. <strong>OPG markets</strong> → <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> PF-1 (ENR-42). <strong>IL / IES Non-GB</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen B pre-flow (ENRIL-35 / ENRIL-76). <strong>IL / IES Guaranteed Bill</strong> → Scen D pre-flow (ENRIL-89). Detailed URL architecture diagram retired from the dashboard body 2026-05-26 — pending final URL convention from engineering before re-surfacing. Working URLs (illustrative): <code>/enroll/?from=my-account[&amp;plan=…]</code> (OPG); <code>/enroll/il/?from=my-account[&amp;plan=…]</code> (IL/IES). Final paths owned by engineering.</li>
+    <li><strong>#12 · MA-42 (NEW):</strong> Dashboard enrollment-status sub-state visibility decisions — (i) at what point does the pending timeline transition to a known "Switch date" (immediately on LDC validation, or later)? (ii) does RAF expose for already-eligible referrals during the pending window, or hold until activation? (iii) Bill Pay (IL) + Communication Preferences (PA) rendering during the async window. Owner: Dev (Girish).</li>
     <li><strong>#7:</strong> Paperless email verification UX — PRIME shows "not signed up" until customer clicks the email verification link. Confirm exact timing/copy with dev.</li>
     <li><strong>#8 · MA-18 / MA-23 (NEW):</strong> Account-linking mechanism — does PRIME need a new field to associate email→account, or use existing account-number lookup at every login? Working assumption: one-time link at account creation, not every login. Owner: Dev (Girish).</li>
     <li><strong>#9 · MA-19 (NEW):</strong> Password reset policy — TTL (recommend 15 min), retry limit, lockout duration, "Resend" issues new token. Owner: Legal + Engineering (cross-ref Enrollment dev meeting Q17/Q18).</li>
@@ -1244,53 +1349,106 @@ body.chrome-hidden .presentation-hint {
     <!-- Dashboard cards -->
     <div class="dash-grid">
 
-      <!-- Current Plan — chip + inline renewal-window line replace standalone banner (MA-29) -->
-      <div class="dash-card">
-        <div class="dash-card-head">
-          <span class="dash-card-title">Current Plan</span>
-          <!-- Status chip variants: .sc-active (default), .sc-renewing (within window), .sc-ending (non-auto-renew expiring) -->
-          <span class="status-chip sc-renewing">● Renewing in 42 days</span>
+      <!-- ACTIVE PLAN VIEW (MA-42 default) — wraps the existing Current Plan card -->
+      <div class="dash-active-view">
+        <!-- Current Plan — chip + inline renewal-window line replace standalone banner (MA-29) -->
+        <div class="dash-card">
+          <div class="dash-card-head">
+            <span class="dash-card-title">Current Plan</span>
+            <!-- Status chip variants: .sc-active (default), .sc-renewing (within window), .sc-ending (non-auto-renew expiring) -->
+            <span class="status-chip sc-renewing">● Renewing in 42 days</span>
+          </div>
+          <div class="dash-card-body">
+            <div class="plan-name">
+              <span class="mkt-inline mkt-ong on">ONG Fixed 12</span>
+              <span class="mkt-inline mkt-pa">PA Fixed 12</span>
+              <span class="mkt-inline mkt-gre">GRE Fixed 12</span>
+              <span class="mkt-inline mkt-il">IL Fixed 12</span>
+              <span class="mkt-inline mkt-ies">IES Fixed Bill Plan</span>
+            </div>
+            <div class="plan-rate">$0.489</div>
+            <div class="plan-unit">
+              <span class="mkt-inline mkt-ong on">per Mcf (fixed rate)</span>
+              <span class="mkt-inline mkt-pa">per therm (fixed rate)</span>
+              <span class="mkt-inline mkt-gre">per Mcf (fixed rate)</span>
+              <span class="mkt-inline mkt-il">per therm (fixed rate)</span>
+              <span class="mkt-inline mkt-ies">custom monthly amount (fixed bill)</span>
+            </div>
+
+            <!-- Inline renewal-window line — conditional, replaces standalone banner (MA-29) -->
+            <div class="plan-renewal-line">
+              <strong>⚐ Within renewal window — no ETC to switch.</strong><br>
+              Your auto-renew rate will roll on June 30. <a class="link" href="#">View renewal terms →</a>
+            </div>
+
+            <div class="plan-meta-row">
+              <div class="plan-meta-item">
+                <span class="plan-meta-label">Contract Ends</span>
+                <span class="plan-meta-val">June 30, 2026</span>
+              </div>
+              <div class="plan-meta-item">
+                <span class="plan-meta-label">Renewal</span>
+                <span class="plan-meta-val">Auto-renew</span>
+              </div>
+              <div class="plan-meta-item">
+                <span class="plan-meta-label">ETC</span>
+                <span class="plan-meta-val">$12.50/month remaining</span>
+              </div>
+            </div>
+            <div class="plan-action-row">
+              <a class="btn-out btn-sm" href="#">Switch Plan</a>
+              <a class="btn-out btn-sm" href="#" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</a>
+            </div>
+          </div>
         </div>
-        <div class="dash-card-body">
-          <div class="plan-name">
-            <span class="mkt-inline mkt-ong on">ONG Fixed 12</span>
-            <span class="mkt-inline mkt-pa">PA Fixed 12</span>
-            <span class="mkt-inline mkt-gre">GRE Fixed 12</span>
-            <span class="mkt-inline mkt-il">IL Fixed 12</span>
-            <span class="mkt-inline mkt-ies">IES Fixed Bill Plan</span>
-          </div>
-          <div class="plan-rate">$0.489</div>
-          <div class="plan-unit">
-            <span class="mkt-inline mkt-ong on">per Mcf (fixed rate)</span>
-            <span class="mkt-inline mkt-pa">per therm (fixed rate)</span>
-            <span class="mkt-inline mkt-gre">per Mcf (fixed rate)</span>
-            <span class="mkt-inline mkt-il">per therm (fixed rate)</span>
-            <span class="mkt-inline mkt-ies">custom monthly amount (fixed bill)</span>
-          </div>
+      </div>
 
-          <!-- Inline renewal-window line — conditional, replaces standalone banner (MA-29) -->
-          <div class="plan-renewal-line">
-            <strong>⚐ Within renewal window — no ETF to switch.</strong><br>
-            Your auto-renew rate will roll on June 30. <a class="link" href="#">View renewal terms →</a>
+      <!-- PENDING VALIDATION VIEW (MA-42) — replaces plan card during the async LDC validation window (1–2 business days post-submit per ENR-5) -->
+      <div class="dash-pending-view">
+        <div class="dash-card">
+          <div class="dash-card-head">
+            <span class="dash-card-title">Enrollment in progress</span>
+            <span class="status-chip sc-pending">● Pending validation</span>
           </div>
+          <div class="dash-card-body">
+            <div class="enrollment-meta">
+              <div>
+                <div class="info-label">Submitted</div>
+                <div class="info-val">May 25, 2026 · 2:14 PM</div>
+              </div>
+              <div>
+                <div class="info-label">Confirmation #</div>
+                <div class="info-val" style="font-family:ui-monospace,Menlo,monospace; letter-spacing:.02em;">ENR-2026-A8K2M9</div>
+              </div>
+            </div>
 
-          <div class="plan-meta-row">
-            <div class="plan-meta-item">
-              <span class="plan-meta-label">Contract Ends</span>
-              <span class="plan-meta-val">June 30, 2026</span>
+            <div class="enrollment-timeline">
+              <div class="timeline-stage done">
+                <div class="stage-marker">✓</div>
+                <div class="stage-content">
+                  <div class="stage-title">Received</div>
+                  <div class="stage-subtext">May 25, 2026 · 2:14 PM · Confirmation sent to your email</div>
+                </div>
+              </div>
+              <div class="timeline-stage current">
+                <div class="stage-marker">●</div>
+                <div class="stage-content">
+                  <div class="stage-title">Utility validation</div>
+                  <div class="stage-subtext">In progress · typically 1–2 business days · We're confirming your account with your local utility.</div>
+                </div>
+              </div>
+              <div class="timeline-stage upcoming">
+                <div class="stage-marker">○</div>
+                <div class="stage-content">
+                  <div class="stage-title">Switch date</div>
+                  <div class="stage-subtext">Pending · varies by utility · will be confirmed once validation completes.</div>
+                </div>
+              </div>
             </div>
-            <div class="plan-meta-item">
-              <span class="plan-meta-label">Renewal</span>
-              <span class="plan-meta-val">Auto-renew</span>
+
+            <div class="enrollment-notify">
+              We'll email you at <strong>j****@e****.com</strong> when your enrollment is confirmed.
             </div>
-            <div class="plan-meta-item">
-              <span class="plan-meta-label">ETF</span>
-              <span class="plan-meta-val">$12.50/month remaining</span>
-            </div>
-          </div>
-          <div class="plan-action-row">
-            <a class="btn-out btn-sm" href="#">Switch Plan</a>
-            <a class="btn-out btn-sm" href="#" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</a>
           </div>
         </div>
       </div>
@@ -1338,8 +1496,10 @@ body.chrome-hidden .presentation-hint {
     </div><!-- /dash-grid -->
 
     <div class="ann ann-g"><strong>MA-30 · Market-driven right slot:</strong> PA = Communication Preferences (Paperless + Email). IL = Bill Pay (moved up from buried position). ONG / GRE / IES = no right-slot card; plan card spans full width via <code>body.is-mkt-{m} .dash-grid { grid-template-columns: 1fr; }</code>. Mailed-notice statement (formerly shown for non-PA markets) is no longer surfaced in UI.</div>
-    <div class="ann ann-g"><strong>MA-29 · Renewal moved into plan card:</strong> Standalone renewal banner removed. Status chip + inline <code>.plan-renewal-line</code> carry the no-ETF window message. Chip variants: <code>.sc-active</code> (default), <code>.sc-renewing</code> (within window), <code>.sc-ending</code> (non-auto-renew expiring).</div>
-    <div class="ann ann-g"><strong>MA-21 · Plan-change routing (UPDATED 2026-05-20 per MA-35):</strong> "Switch Plan" routes to the market's existing-customer enrollment pre-flow. <strong>OPG markets</strong> (ONG / PA / GRE) → <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> PF-1 (Sign in) per <strong>ENR-42</strong>. <strong>IL / IES Non-GB</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen B pre-flow per <strong>ENRIL-35 / ENRIL-76</strong>. <strong>IL / IES Guaranteed Bill</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen D pre-flow. Promo deep-link → market-appropriate pre-flow Select-plan screen with the deep-linked plan pre-selected (ENR-42 PF-3 / ENRIL-89). Two-entry-point architecture preserved; modal-based plan changes still deprecated. Supersedes the prior reference to the retired <code>PlanChangeFlow_Wireframe.html</code>.</div>
+    <div class="ann ann-g"><strong>MA-29 · Renewal moved into plan card:</strong> Standalone renewal banner removed. Status chip + inline <code>.plan-renewal-line</code> carry the no-ETC window message. Chip variants: <code>.sc-active</code> (default), <code>.sc-renewing</code> (within window), <code>.sc-ending</code> (non-auto-renew expiring).</div>
+    <div class="ann ann-g"><strong>MA-41 · ETF → ETC:</strong> Terminology updated 2026-05-26 — "ETF" / "Early Termination Fee" replaced with "ETC" / "Early Termination Charge" project-wide. Aligns with Enrollment per ENR-12. Cross-template sweep pending (PlanCard / PromoPage / CommercialPlans / Homepage likely need same update via a GLB-ETC entry).</div>
+    <div class="ann ann-g"><strong>MA-42 · Active / Pending sub-state:</strong> Use the wfctl <code>Dashboard</code> sub-toggle to swap between Active (default) and Pending validation. Pending replaces the plan card with a 3-stage timeline (Received ✓ → Utility validation [in progress] → Switch date [pending]) mirroring ENR-5's async-validation framing. Personal Information, My Documents, Bill Pay (IL), Communication Preferences (PA), and RAF summary continue to render during pending — see Open Q #12 for visibility decisions during the async window.</div>
+    <div class="ann ann-y"><strong>MA-21 · Plan-change routing:</strong> <code>Switch Plan</code> and <code>Cancel Plan</code> CTAs are rendered as affordances; final destinations route to the market-appropriate existing-customer enrollment pre-flow. See <strong>Open Q #11</strong> in the OQ panel for the full routing matrix + URL working assumptions. (Detailed URL architecture diagram removed from the dashboard body 2026-05-26 per MA-40 — re-surface after engineering confirms final URL conventions.)</div>
     <div class="ann ann-g"><strong>MA-28 · Open #4 RESOLVED:</strong> SMS Alerts removed from scope per client direction 2026-05-19.</div>
     <div class="ann ann-g"><strong>MA-8 · IL Bill Pay:</strong> Compact summary card — full payment experience (payment method, autopay, complete history) at <code>/my-account/billing/</code> child page.</div>
     <div class="ann ann-y"><strong>Open #3:</strong> Non-auto-renew renewal flow still TBD with client — chip becomes <code>.sc-ending</code> in that scenario with action-required copy on the inline line.</div>
@@ -1401,67 +1561,7 @@ body.chrome-hidden .presentation-hint {
       <div class="ann ann-g"><strong>MA-2 (Done):</strong> Customers frequently need enrollment confirmation for landlords, disputes, or personal records. Reduces call-center contacts for document requests.</div>
     </div>
 
-    <!-- Plan-change Flow URL Architecture (reference) — UPDATED 2026-05-20 per MA-35 -->
-    <div class="section-block">
-      <div class="section-h">Plan-change Flow — URL Architecture (reference)</div>
-      <div class="url-arch">
-        <div class="url-arch-h">Two entry points · Both converge on the market-appropriate enrollment pre-flow</div>
-
-        <div class="url-arch-grid">
-          <!-- Entry A -->
-          <div class="url-arch-card">
-            <div class="url-arch-label">Entry A — Dashboard "Switch Plan"</div>
-            <div class="url-arch-desc">Customer taps "Switch Plan" from their account page (already authenticated)</div>
-            <div class="url-arch-step">
-              <span class="url-pill start">/my-account/</span>
-              <span style="color:var(--muted);">→</span>
-              <span class="url-pill mid">/enroll/?from=my-account</span>
-              <span style="color:var(--muted); font-size:11px;">(OPG)</span>
-            </div>
-            <div class="url-arch-step">
-              <span class="url-pill start">/my-account/</span>
-              <span style="color:var(--muted);">→</span>
-              <span class="url-pill mid">/enroll/il/?from=my-account</span>
-              <span style="color:var(--muted); font-size:11px;">(IL / IES)</span>
-            </div>
-            <div class="url-arch-note"><strong>Logged-in customers skip Sign in (PF-1 / preflow1)</strong> — the dashboard already established identity. They land on <strong>Confirm current plan</strong> (OPG PF-2 / IL Pre-flow 2) and proceed: Confirm current plan → Select new plan → Confirm switch → enrollment Details / Review. Per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-35 / ENRIL-76 / ENRIL-89</strong> (IL/IES). Both Enrollment wireframes expose this via the wfctl "Entry state" toggle.</div>
-          </div>
-
-          <!-- Entry B -->
-          <div class="url-arch-card">
-            <div class="url-arch-label">Entry B — Promo / plan-card deep-link</div>
-            <div class="url-arch-desc">Customer taps "Switch to This Plan" from a promo or plan card</div>
-            <div class="url-arch-step">
-              <span class="url-pill cta">Plan card / Promo</span>
-              <span style="color:var(--muted);">→</span>
-              <span class="url-pill end">/enroll/?from=my-account&amp;plan=fixed-24</span>
-            </div>
-            <div class="url-arch-note"><strong>Logged-in customers skip ahead to Select new plan</strong> (OPG PF-3 / IL Select-plan screen) with the deep-linked plan visually pre-selected (radio checked / accent border). Customer still sees current-plan context + full alternatives before committing. Not-yet-signed-in customers land on Sign in first, then carry the plan slug through after authentication.</div>
-          </div>
-        </div>
-
-        <div class="url-converge">
-          <div class="url-converge-h">Both entry points converge into the existing-customer pre-flow →</div>
-          <div class="url-arch-step">
-            <span class="url-pill mid">Sign in</span>
-            <span style="color:var(--muted);">→</span>
-            <span class="url-pill mid">Confirm current plan</span>
-            <span style="color:var(--muted);">→</span>
-            <span class="url-pill mid">Select new plan</span>
-            <span style="color:var(--muted);">→</span>
-            <span class="url-pill mid">Confirm switch</span>
-            <span style="color:var(--muted);">→</span>
-            <span class="url-pill end">Enrollment Details / Review / Confirmation</span>
-          </div>
-          <div class="url-arch-note">"Keep current plan" CTA is available at every step of the pre-flow per <strong>ENRIL-78</strong> — customer can back out without committing until they submit. Final URL convention to be confirmed with engineering.</div>
-        </div>
-
-        <div class="ann ann-r"><strong>Edge case:</strong> deep-link with retired/legacy <code>?plan=</code> slug must render the Select-plan screen with a graceful "this plan is no longer available — choose from the plans below" empty state — never render an empty review.</div>
-        <div class="ann ann-g"><strong>MA-21 · OQ #6 RESOLVED (UPDATED 2026-05-20):</strong> Two-entry-point architecture confirmed; ETF-state changes route through the existing-customer pre-flow's Confirm-switch step. Modal-based plan changes remain deprecated.</div>
-        <div class="ann ann-b"><strong>Cross-ref (UPDATED 2026-05-20 per MA-35):</strong> Full flow lives in <strong>Enrollment_ONG-PA-GRE_Wireframe.html</strong> (OPG pre-flow per ENR-42) and <strong>Enrollment_IL-IES_Wireframe.html</strong> (IL/IES Scen B/D per ENRIL-35 / ENRIL-76 / ENRIL-89). The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> was retired per MA-13 / MA-14.</div>
-        <div class="ann ann-y"><strong>Engineering follow-up:</strong> URL convention shown above (<code>/enroll/?from=my-account&amp;plan=…</code>) is illustrative — actual path / param names to be settled with engineering.</div>
-      </div>
-    </div>
+    <!-- Plan-change URL architecture diagram removed 2026-05-26 per MA-40. Routing surfaces as Open Q #11 in the OQ panel; will be re-introduced once engineering confirms final URL conventions. -->
 
     <!-- Standalone Bill Pay section removed per MA-30; Bill Pay now lives in the dashboard right slot (IL only). -->
 
@@ -1800,11 +1900,13 @@ function setState(s) {
     if (b) b.classList.toggle('on', k === s);
   });
 
-  // Show/hide wfctl context sub-groups (MA-39)
+  // Show/hide wfctl context sub-groups (MA-39 · MA-42)
   var loginGrp = document.getElementById('login-subtab-group');
   var caGrp    = document.getElementById('ca-substep-group');
-  if (loginGrp) loginGrp.style.display = (s === 'login')  ? '' : 'none';
-  if (caGrp)    caGrp.style.display    = (s === 'create') ? '' : 'none';
+  var dashGrp  = document.getElementById('dash-substep-group');
+  if (loginGrp) loginGrp.style.display = (s === 'login')     ? '' : 'none';
+  if (caGrp)    caGrp.style.display    = (s === 'create')    ? '' : 'none';
+  if (dashGrp)  dashGrp.style.display  = (s === 'dashboard') ? '' : 'none';
 
   // Scroll to top of state for visibility
   window.scrollTo({ top: document.querySelector('.legend').offsetTop, behavior: 'instant' });
@@ -1826,6 +1928,17 @@ function setLoginTab(tab) {
   aa.style.borderBottomColor = tab === 'acct' ? 'var(--accent)' : 'transparent';
   aa.style.color = tab === 'acct' ? 'var(--accent)' : 'var(--muted)';
   aa.style.fontWeight = tab === 'acct' ? '600' : 'normal';
+}
+
+/* ────────────────────────────────────
+   Dashboard Active / Pending Validation sub-toggle (MA-42)
+*/
+function setDashSub(sub) {
+  document.body.classList.toggle('dash-sub-pending', sub === 'pending');
+  var aBtn = document.getElementById('dash-btn-active');
+  var pBtn = document.getElementById('dash-btn-pending');
+  if (aBtn) aBtn.classList.toggle('on', sub === 'active');
+  if (pBtn) pBtn.classList.toggle('on', sub === 'pending');
 }
 
 /* ────────────────────────────────────
@@ -1900,6 +2013,7 @@ setMarket('ong');
 setState('login');
 setCreateStep(1);        // MA-36: default to Step 1 of the existing-customer flow
 setLoginTab('email');    // MA-39: default to Email & Password tab
+setDashSub('active');    // MA-42: default to Active plan view
 setAnnMode('clean');     // default to clean view for presentations
 setChrome('show');
 validateForm(['login-email', 'login-pw'], 'login-submit');

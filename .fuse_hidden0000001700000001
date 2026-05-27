@@ -8,7 +8,7 @@
   /* ========================================================================
      SSE Enrollment Flow Wireframe — ONG / PA / GRE (IL on separate Part 512)
      File: Enrollment_ONG-PA-GRE_Wireframe.html
-     Logged: Wireframe_ChangeLog.md §11 (ENR-1 through ENR-61)
+     Logged: Wireframe_ChangeLog.md §11 (ENR-1 through ENR-24)
      Source spec: Enrollment_WireframeRequirements.md §2.2, §3.1–§3.8
      ======================================================================== */
 
@@ -209,7 +209,7 @@
     padding: 8px 14px; min-height: 44px;
     background: transparent; border: 1px solid transparent;
     color: var(--muted); border-radius: 999px;
-    cursor: pointer; font: inherit;
+    cursor: default; font: inherit;
   }
   .step-chip .num {
     width: 26px; height: 26px; border-radius: 50%;
@@ -432,7 +432,7 @@
      body.flow-existing: existing-customer plan-change flow
      (PF1 Sign in → PF2 Confirm current → PF3 Select new plan → PF4 Confirm switch → Step 2 → Step 3 → Confirm).
      Step 1 (Verify your service) is SKIPPED for the existing-customer path —
-     Gas Utility Company + account # already on file via My Account. */
+     LDC + account # already on file via My Account. */
   .stepper-existing { display: none; }
   body.flow-existing .stepper-new { display: none; }
   body.flow-existing .stepper-existing { display: flex; }
@@ -986,24 +986,35 @@
   </button>
 </div>
 <div class="dev-note"><strong>ENR-56 (2026-05-26):</strong> All step chips freely clickable regardless of field completion — reviewers and stakeholders navigate freely. Production may enforce forward validation; wireframe never gates chip navigation.</div>
-<!-- Variant B: Existing-customer plan change (ENR-42 / ENR-67) — 4 chips.
-     PF-1 and PF-2 removed from this stepper per ENR-67 (routes to regular My Account login, not in-flow sign-in).
-     Entry point is now PF-3 (Confirm Plan). Step 1 (Verify your service) SKIPPED — account on file post-auth. -->
+<!-- Variant B: Existing-customer plan change (ENR-42) — 7 chips.
+     Step 1 (Verify your service) SKIPPED — LDC + account # on file via My Account. -->
 <div class="stepper stepper-existing" role="navigation" aria-label="Enrollment progress — existing customer (plan change)">
-  <button id="chip-pf3" class="step-chip current" data-step="pf3" onclick="setStep('pf3')" aria-label="Confirm your plan (current)">
-    <span class="num">1</span> Confirm Plan
+  <button id="chip-pf1" class="step-chip current" data-step="pf1" onclick="setStep('pf1')" aria-label="Pre-flow 1: Sign in (current)">
+    <span class="num">1</span> Sign in
+  </button>
+  <span class="step-divider" aria-hidden="true"></span>
+  <button id="chip-pf2" class="step-chip upcoming" data-step="pf2" onclick="setStep('pf2')" aria-label="Pre-flow 2: Confirm current plan">
+    <span class="num">2</span> Confirm current
+  </button>
+  <span class="step-divider" aria-hidden="true"></span>
+  <button id="chip-pf3" class="step-chip upcoming" data-step="pf3" onclick="setStep('pf3')" aria-label="Pre-flow 3: Select new plan">
+    <span class="num">3</span> Select new plan
+  </button>
+  <span class="step-divider" aria-hidden="true"></span>
+  <button id="chip-pf4" class="step-chip upcoming" data-step="pf4" onclick="setStep('pf4')" aria-label="Pre-flow 4: Confirm switch">
+    <span class="num">4</span> Confirm switch
   </button>
   <span class="step-divider" aria-hidden="true"></span>
   <button id="chip-2-ex" class="step-chip upcoming" data-step="2" onclick="setStep(2)" aria-label="Step 2: Your details">
-    <span class="num">2</span> Your details
+    <span class="num">5</span> Your details
   </button>
   <span class="step-divider" aria-hidden="true"></span>
   <button id="chip-3-ex" class="step-chip upcoming" data-step="3" onclick="setStep(3)" aria-label="Step 3: Review &amp; confirm">
-    <span class="num">3</span> Review
+    <span class="num">6</span> Review
   </button>
   <span class="step-divider" aria-hidden="true"></span>
   <button id="chip-conf-ex" class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')" aria-label="Confirmation">
-    <span class="num">4</span> Confirm
+    <span class="num">7</span> Confirm
   </button>
 </div>
 
@@ -1017,11 +1028,9 @@
     <!-- ====== ENR-42 · PF-1 — Sign in (existing-customer plan change) === -->
     <section id="step-pf1" class="step" aria-labelledby="pf1-title">
       <h2 id="pf1-title">Sign in to change your plan</h2>
-      <p class="step-intro">Customer type, Gas Utility Company, and account number are already on file from your My Account record — we won't ask for them again.</p>
+      <p class="step-intro">Customer type, LDC, and account number are already on file from your My Account record — we won't ask for them again.</p>
 
-      <span class="ann ann-r">ENR-67 — PF-1 REMOVED from enrollment-from-plans-page path. Remains in My Account plan-change pre-flow (ENR-42) only. Remove from this flow's stepper and step content.</span>
-
-      <div class="ann ann-g"><strong>ENR-42 · PF-1 entry · Existing-customer path.</strong> Stepper renders 7 chips (PF-1 Sign in · PF-2 Confirm · PF-3 Select plan · PF-4 Switch · Step 2 Details · Step 3 Review · Confirm). Step 1 Verify Service is suppressed since Gas Utility Company + account # are on file via My Account.</div>
+      <div class="ann ann-g"><strong>ENR-42 · PF-1 entry · Existing-customer path.</strong> Stepper renders 7 chips (PF-1 Sign in · PF-2 Confirm · PF-3 Select plan · PF-4 Switch · Step 2 Details · Step 3 Review · Confirm). Step 1 Verify Service is suppressed since LDC + account # are on file via My Account.</div>
 
       <div class="ann ann-b"><strong>PF-1 renders only for customers who arrive WITHOUT a valid session.</strong> The dominant entry path — tapping "Switch Plan" from the My Account dashboard — skips this screen entirely (the customer's session is already authenticated; re-asking would be redundant friction). Promo deep-link entries also skip PF-1 if the customer is already signed in (landing on PF-3 with the deep-linked plan pre-selected per MA-21). Toggle the wfctl <em>"Entry state"</em> group to demo each landing point.</div>
 
@@ -1090,8 +1099,6 @@
       <h2 id="pf2-title">Review your current plan</h2>
       <p class="step-intro">Welcome back. Here's the plan you're currently enrolled in. You can keep it or initiate a change.</p>
 
-      <span class="ann ann-r">ENR-67 — PF-2 REMOVED from enrollment-from-plans-page path. Remains in My Account plan-change pre-flow (ENR-42) only. Remove from this flow's stepper and step content.</span>
-
       <!-- Current contract panel -->
       <div class="current-contract-panel">
         <h4>Currently enrolled · <span class="plan-fixed-inline">12-Month PriceGuard Plan</span><span class="plan-variable-inline">Variable Rate Plan</span></h4>
@@ -1106,11 +1113,11 @@
         </dl>
       </div>
 
-      <div class="ann ann-g"><strong>ENR-42 / ENRIL-79 · Current-contract panel detail level.</strong> Plan type + rate + effective date + expiration date + ETC + auto-renewal status. NO comparative pricing or savings calculation here — adding that would lobby the customer toward plan change, contradicting the "Keep current = primary" intent (ENRIL-78).</div>
+      <div class="ann ann-g"><strong>ENR-42 / ENRIL-79 · Current-contract panel detail level.</strong> Plan type + rate + effective date + expiration date + ETF + auto-renewal status. NO comparative pricing or savings calculation here — adding that would lobby the customer toward plan change, contradicting the "Keep current = primary" intent (ENRIL-78).</div>
 
-      <div class="ann ann-g"><strong>ENR-11 · ETC amounts displayed per-market.</strong> ONG: $12.50/mo remaining. PA: $10.00/mo remaining. GRE: <span class="ann-inline y">TBD-yellow</span>. Only shown when current plan is fixed within term.</div>
+      <div class="ann ann-g"><strong>ENR-11 · ETF amounts displayed per-market.</strong> ONG: $12.50/mo remaining. PA: $10.00/mo remaining. GRE: <span class="ann-inline y">TBD-yellow</span>. Only shown when current plan is fixed within term.</div>
 
-      <div class="ann ann-y"><strong>GRE ETC amount still pending</strong> — placeholder rendered for GRE market. Owner: PM.</div>
+      <div class="ann ann-y"><strong>GRE ETF amount still pending</strong> — placeholder rendered for GRE market. Owner: PM.</div>
 
       <div class="ann ann-y"><strong>Pre-checked consents for existing customers</strong> (parallels IL §A.12 still-open item). Legal review needed: does OPG need email-consent re-acknowledgment at plan change, or is the My Account consent sufficient? Owner: Legal.</div>
 
@@ -1125,16 +1132,12 @@
       <div class="ann ann-g" style="margin-top: 8px;"><strong>ENR-42 / ENRIL-78 · CTA hierarchy.</strong> Keep current plan = primary (filled accent). Change my plan = secondary (outline). Don't encourage existing customers to break their contract.</div>
     </section>
 
-    <!-- ====== ENR-42 · PF-3 — Confirm / Change your plan (ENR-67: now first chip in existing-customer stepper) === -->
+    <!-- ====== ENR-42 · PF-3 — Select your new plan ⭐ THE MISSING PAGE === -->
     <section id="step-pf3" class="step" aria-labelledby="pf3-title">
-      <h2 id="pf3-title">Confirm / Change your plan</h2>
-      <p class="step-intro">Review the plan you're enrolling in. If you'd like a different plan, choose from the options below. Your current plan stays in place until your new enrollment is confirmed.</p>
+      <h2 id="pf3-title">Choose your new plan</h2>
+      <p class="step-intro">Pick the plan you'd like to switch to. Your current plan stays in place — and you can keep it — until you finish enrolling in the new one.</p>
 
-      <span class="ann ann-g">ENR-67 — PF-3 is now the first chip in the existing-customer enrollment stepper (Confirm Plan → Details → Review → Confirm). PF-1 and PF-2 removed from this flow path.</span>
-
-      <span class="ann ann-y">ENR-67 — PF-3 error state: if selected plan is ineligible, show eligibility error and display eligible plans only. Engineering to confirm PRIME eligibility-check mechanism post-auth.</span>
-
-      <div class="ann ann-g"><strong>ENR-42 · Closes the gap surfaced 2026-05-20:</strong> existing customers tapping "Switch Plan" from My Account had no surface for picking the new plan. Previously bounced to public <code>/residential-plans/</code> which doesn't know about the customer's current plan or ETC context.</div>
+      <div class="ann ann-g"><strong>ENR-42 · Closes the gap surfaced 2026-05-20:</strong> existing customers tapping "Switch Plan" from My Account had no surface for picking the new plan. Previously bounced to public <code>/residential-plans/</code> which doesn't know about the customer's current plan or ETF context.</div>
 
       <!-- Current plan card — pinned at top with persistent Keep-current CTA -->
       <div class="plan-pick-current">
@@ -1153,7 +1156,7 @@
       <div class="ann ann-g"><strong>Current-plan card pinned at top</strong>, read-only, marked "This is your current plan." Persistent "Keep current plan" CTA preserved per ENRIL-78 — customer can back out at any point in the flow.</div>
 
       <h3 style="margin-top: 22px;">Plans available to switch to</h3>
-      <p style="font-size: 13px; color: var(--muted); margin: -8px 0 12px;">Filtered to your market (<span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>) and Gas Utility Company (<span class="mkt-inline mkt-ong on">CenterPoint Energy</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy</span>).</p>
+      <p style="font-size: 13px; color: var(--muted); margin: -8px 0 12px;">Filtered to your market (<span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>) and LDC (<span class="mkt-inline mkt-ong on">CenterPoint Energy</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy</span>).</p>
 
       <div class="plan-pick-grid">
         <!-- Alternative plan card 1 (preselected from deep-link by default for demo) -->
@@ -1195,9 +1198,9 @@
         </div>
       </div>
 
-      <div class="ann ann-b" style="margin-top: 14px;"><strong>Plan card component:</strong> Production should use the standard <code>PlanCard_Wireframe.html</code> component (residential, fixed/variable variants). Filtered to customer's market + Gas Utility Company. Current plan filtered from the alternatives list. Inline markup here is wireframe-only placeholder.</div>
+      <div class="ann ann-b" style="margin-top: 14px;"><strong>Plan card component:</strong> Production should use the standard <code>PlanCard_Wireframe.html</code> component (residential, fixed/variable variants). Filtered to customer's market + LDC. Current plan filtered from the alternatives list. Inline markup here is wireframe-only placeholder.</div>
 
-      <div class="ann ann-g"><strong>ETC callout</strong> · When current plan is fixed within term, inline badge surfaces on each alternative-plan card. Per-market ETC amount per ENR-11.</div>
+      <div class="ann ann-g"><strong>ETF callout</strong> · When current plan is fixed within term, inline badge surfaces on each alternative-plan card. Per-market ETF amount per ENR-11.</div>
 
       <div class="ann ann-g"><strong>Deep-link behavior</strong> · When entry URL includes <code>?plan=plan-slug</code> (promo deep-link path from MA-21), the deep-linked plan renders visually pre-selected (radio checked / accent border — see <em>24-Month PriceGuard</em> demo card above). Customer still sees current-plan context + full alternatives list before committing. Reinforces transparency without forcing a re-pick.</div>
 
@@ -1243,19 +1246,19 @@
         </div>
       </div>
 
-      <div class="ann ann-g"><strong>ENR-42 / ENR-46 / ENRIL-83 / ENRIL-91 · Side-by-side plan switch compare component (shared).</strong> Class names: <code>.plan-switch-compare</code> / <code>-col</code> / <code>-arrow</code> / <code>-label</code> / <code>-etf</code>. Unified field set: Plan name (<code>&lt;h4&gt;</code>) · Type · Rate · Term (with "Term ends" on current / "Effective" on new) · Auto-renewal. ETC callout between columns when current plan is fixed within term. Same treatment used on IL/IES Review Scen B/D — see ENRIL-91. Mobile: stacks vertically with rotated "→" divider.</div>
+      <div class="ann ann-g"><strong>ENR-42 / ENR-46 / ENRIL-83 / ENRIL-91 · Side-by-side plan switch compare component (shared).</strong> Class names: <code>.plan-switch-compare</code> / <code>-col</code> / <code>-arrow</code> / <code>-label</code> / <code>-etf</code>. Unified field set: Plan name (<code>&lt;h4&gt;</code>) · Type · Rate · Term (with "Term ends" on current / "Effective" on new) · Auto-renewal. ETF callout between columns when current plan is fixed within term. Same treatment used on IL/IES Review Scen B/D — see ENRIL-91. Mobile: stacks vertically with rotated "→" divider.</div>
 
-      <!-- ETC callout — only renders when current plan is fixed within term -->
+      <!-- ETF callout — only renders when current plan is fixed within term -->
       <div class="plan-switch-compare-etf plan-fixed">
         <strong>Early-termination fee applies.</strong> Switching from your current fixed plan before the term ends incurs a fee of
         <strong><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre">$X.XX/mo (GRE TBD)</span></strong>
-        for each month remaining (<span class="mkt-inline mkt-ong on">11 months × $12.50 = $137.50</span><span class="mkt-inline mkt-pa">11 months × $10.00 = $110.00</span><span class="mkt-inline mkt-gre">amount TBD</span>). This is applied to your final bill from your current Gas Utility Company.
+        for each month remaining (<span class="mkt-inline mkt-ong on">11 months × $12.50 = $137.50</span><span class="mkt-inline mkt-pa">11 months × $10.00 = $110.00</span><span class="mkt-inline mkt-gre">amount TBD</span>). This is applied to your final bill from your current LDC.
       </div>
 
       <div class="fieldset plan-fixed" style="margin-top: 14px;">
         <div class="checkbox-row">
           <input type="checkbox" id="pf4-etf-ack">
-          <label for="pf4-etf-ack"><strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. <span class="ann-inline g">ENR-42 · mandatory when ETC applies</span></label>
+          <label for="pf4-etf-ack"><strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. <span class="ann-inline g">ENR-42 · mandatory when ETF applies</span></label>
         </div>
       </div>
 
@@ -1263,7 +1266,7 @@
 
       <div class="ann ann-g"><strong>Effective switch date</strong> · "Effective on your utility's next meter-read after [date estimate]" — same async-validation framing as ENR-5 / ENRIL-9 confirmation timeline.</div>
 
-      <div class="ann ann-g"><strong>ETC acknowledgment checkbox</strong> · Renders only when ETC applies (current plan is fixed within term). Required to enable "Continue to enrollment details →" primary CTA. "Keep current plan" secondary affordance still available.</div>
+      <div class="ann ann-g"><strong>ETF acknowledgment checkbox</strong> · Renders only when ETF applies (current plan is fixed within term). Required to enable "Continue to enrollment details →" primary CTA. "Keep current plan" secondary affordance still available.</div>
 
       <div class="ann ann-g"><strong>Flow handoff</strong> · Continue → drops into existing OPG Step 2 (Details) with name + email + phone + service address pre-filled from My Account record + plan slug carried. Step 1 (Verify your service) stays skipped for this path.</div>
 
@@ -1318,23 +1321,18 @@
       <div class="fieldset">
         <h3>Your utility</h3>
         <div class="field">
-          <label>Gas Utility Company</label>
+          <label>Local Distribution Company (LDC)</label>
           <div style="padding:10px 12px; background:#fafbfc; border:1px solid var(--line); border-radius:3px; display:flex; justify-content:space-between; align-items:center;">
             <span>
               <span class="mkt mkt-ong on">CenterPoint Energy Ohio</span>
               <span class="mkt mkt-pa">Peoples Natural Gas</span>
               <span class="mkt mkt-gre">Consumers Energy (MI)</span>
             </span>
-            <a href="#" onclick="event.preventDefault(); alert('Modal: Change Gas Utility Company will restart your enrollment. Continue? (Sourced from §2.4: change-Gas Utility Company modal confirms because it discards plan/promo selection.)')">Change Gas Utility Company</a>
+            <a href="#" onclick="event.preventDefault(); alert('Modal: Change LDC will restart your enrollment. Continue? (Sourced from §2.4: change-LDC modal confirms because it discards plan/promo selection.)')">Change LDC</a>
           </div>
+          <div class="field-help"><span class="ann-inline g">CONFIRMED</span> LDC persists across session (cookie + state). Changing LDC restarts enrollment (April 21 decision).</div>
         </div>
-        <!-- ENR-62 (2026-05-27): Existing-customer self-identification link — moved here from below CTA per ENR-62 -->
-        <div style="margin-top:8px; font-size:13px; color:var(--muted);">
-          Already a SouthStar customer?
-          <button class="link" type="button" onclick="window.location.href='/my-account/login';" style="font-size:13px; color:var(--accent); background:transparent; border:none; cursor:pointer; padding:0; text-decoration:underline;">Existing customer? Log in →</button>
-          <span class="ann ann-b">ENR-67 — Routes to regular Log In screen (MyAccount_Wireframe.html login state), outside enrollment flow. Returns to PF-3 post-auth.</span>
-        </div>
-        <div class="dev-note"><strong>ENR-42:</strong> ZIP code field REMOVED from Step 1 (2026-05-13 client review). ZIP is collected once on Step 2 as part of the service address (ENR-29). Prior wireframe pre-filled ZIP "from Gas Utility Company selection" — that derivation is invalid because ZIPs can span multiple Gas Utility Companies.</div>
+        <div class="dev-note"><strong>ENR-42:</strong> ZIP code field REMOVED from Step 1 (2026-05-13 client review). ZIP is collected once on Step 2 as part of the service address (ENR-29). Prior wireframe pre-filled ZIP "from LDC selection" — that derivation is invalid because ZIPs can span multiple LDCs.</div>
       </div>
 
       <div class="fieldset">
@@ -1342,7 +1340,7 @@
 
         <!-- ONG: account number entered TWICE (ENR-3 confirmed by ENR-25) -->
         <div class="mkt mkt-ong on">
-          <div class="ann ann-g"><strong>ENR-3 · B3 CLOSED 2026-05-13:</strong> Confirmed — all 4 OH Gas Utility Companies (CenterPoint, Columbia OH, Duke OH, Enbridge OH) require account-number entry twice. (Logged as ENR-25.)</div>
+          <div class="ann ann-g"><strong>ENR-3 · B3 CLOSED 2026-05-13:</strong> Confirmed — all 4 OH LDCs (CenterPoint, Columbia OH, Duke OH, Enbridge OH) require account-number entry twice. (Logged as ENR-25.)</div>
           <div class="field-row">
             <div class="field">
               <label for="acct1-ong"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
@@ -1363,8 +1361,8 @@
             <label for="acct-pa"><span class="req">*</span>Account number / Service Point ID <span class="req-lbl">Required</span></label>
             <input id="acct-pa" type="text" placeholder="XXXXXXXXX (PNG / UGI / PGW / Columbia PA)" aria-required="true" />
             <div class="field-help">
-              UGI customers: enter your Service Point ID (SPID) instead of account number. Mask varies by Gas Utility Company — see help link below.
-              <br><span class="ann-inline y">ENR-16 — exact per-Gas Utility Company mask regex TBD (Cindy)</span>
+              UGI customers: enter your Service Point ID (SPID) instead of account number. Mask varies by LDC — see help link below.
+              <br><span class="ann-inline y">ENR-16 — exact per-LDC mask regex TBD (Cindy)</span>
             </div>
           </div>
         </div>
@@ -1386,7 +1384,7 @@
         <div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px;">
           <p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
           <p style="margin:0 0 10px;">
-            Still can't find it? Call your Gas Utility Company:
+            Still can't find it? Call your LDC:
             <strong>
               <span class="mkt mkt-ong on">CenterPoint Energy: 1-800-227-1376</span>
               <span class="mkt mkt-pa">Peoples Natural Gas: 1-800-764-0111</span>
@@ -1395,10 +1393,10 @@
           </p>
           <details class="field-expander" style="margin-top:6px;">
             <summary>Show me on my bill ↓</summary>
-            <span class="placeholder-img">[Gas Utility Company-specific bill image — account number field highlighted. Per-Gas Utility Company asset.]</span>
+            <span class="placeholder-img">[LDC-specific bill image — account number field highlighted. Per-LDC asset.]</span>
           </details>
         </div>
-        <div class="dev-note"><strong>ENR-26:</strong> Help text + Gas Utility Company phone exposed by default (addresses the known Gas Utility Company/account-number call-volume blocker — 55 OH call outcomes Feb 2026). Bill image is in an expander so it doesn't flood the layout on mobile.</div>
+        <div class="dev-note"><strong>ENR-26:</strong> Help text + LDC phone exposed by default (addresses the known LDC/account-number call-volume blocker — 55 OH call outcomes Feb 2026). Bill image is in an expander so it doesn't flood the layout on mobile.</div>
       </div>
 
       <!-- ENR-43: Account type toggle REMOVED. The customer's path (Residential Plans
@@ -1413,16 +1411,7 @@
            Per the nightly batch ingest, the website doesn't know if an account is valid
            until after the customer has left. Rejection notifications now anticipated in
            the confirmation copy (§3.5). -->
-      <div class="dev-note"><strong>ENR-33 (no in-flow account error):</strong> The website cannot show "Account not found" during the flow — utility validation happens in a nightly batch after enrollment is submitted. If the Gas Utility Company rejects the customer, they're contacted via email/call from the Gas Utility Company. Confirmation copy (§3.5) anticipates this.</div>
-
-      <!-- ENR-67B (2026-05-27): Existing-account inline error state — shown when PRIME detects account already exists -->
-      <div id="err-existing-account" style="display:none; padding:14px 16px; margin-bottom:16px; background:var(--ann-r-bg); border-left:4px solid var(--ann-r-bd); border-radius:3px;">
-        <strong style="color:var(--bad);">An account already exists for this gas utility account.</strong> Would you like to log in and change your plan?
-        <div style="margin-top:8px;">
-          <a href="/my-account/login" class="btn btn-secondary" style="font-size:13px; padding:6px 12px;">Log In</a>
-        </div>
-        <span class="ann ann-y">ENR-67 — Existing account inline error. Log In CTA → regular Log In screen → returns to PF-3 post-auth.</span>
-      </div>
+      <div class="dev-note"><strong>ENR-33 (no in-flow account error):</strong> The website cannot show "Account not found" during the flow — utility validation happens in a nightly batch after enrollment is submitted. If the LDC rejects the customer, they're contacted via email/call from the LDC. Confirmation copy (§3.5) anticipates this.</div>
 
       <div class="btn-row">
         <a href="#" class="btn btn-tertiary">&larr; Back to Plans</a>
@@ -1430,7 +1419,11 @@
           <button id="s1-continue" class="btn" onclick="setStep(2)" disabled>Continue to Your Details &rarr;</button>
         </div>
       </div>
-      <!-- ENR-55 (2026-05-26) / ENR-62 (2026-05-27): Existing-customer link moved above to under LDC field per ENR-62 -->
+      <!-- ENR-55 (2026-05-26): Existing-customer self-identification link -->
+      <div style="text-align:center; margin-top:12px; font-size:13px; color:var(--muted);">
+        Already a SouthStar customer?
+        <button class="link" type="button" onclick="setFlow('existing'); setStep('pf1');">Existing customer? Log in →</button>
+      </div>
       <div class="ann ann-g"><strong>ENR-55 (2026-05-26):</strong> "Existing Customer? Log In" secondary link on Step 1. Clicking routes to PF-1 Sign In (existing-customer pre-flow per ENR-42). After successful login, customer lands on PF-3 Select Plan — service address + account details pre-populated from PRIME record. Stepper chip set for this path: Sign In → Select Plan → Details → Review → Confirm (5 chips; Step 1 shown as .step-chip.skipped per ENR-54). The prior auto-detection modal (triggered when an entered account number matched an existing PRIME record) is retired — self-identification via this explicit link replaces mid-entry detection. Full plan-change pre-flow (ENR-42 via My Account "Switch Plan" CTA) is unaffected.</div>
       <div class="dev-note"><strong>ENR-28:</strong> Continue is disabled until all required fields on this step pass real-time validation (mask conformance for account number, ZIP format, account-type selected, ONG: both account-number fields match). Validation runs on blur for format and on input for required-field presence.</div>
 
@@ -1447,8 +1440,6 @@
 
       <h2 id="s2-title">Your details</h2>
       <p class="step-intro">Tell us a bit about you. We'll use this information to set up your enrollment.</p>
-
-      <span class="ann ann-b">ENR-68 — Existing customer path: all fields pre-populated from PRIME record (name, service address, contact info). Fields remain editable. Engineering to confirm available PRIME fields and service-address edit/re-validation rules.</span>
 
       <!-- Email already in use error -->
       <div id="err-email" class="error-banner">
@@ -1480,7 +1471,7 @@
         <div class="field">
           <label for="phone"><span class="req">*</span>Phone <span class="req-lbl">Required</span></label>
           <input id="phone" type="tel" placeholder="(XXX) XXX-XXXX" aria-required="true" />
-          <div class="field-help">Used for customer service communication.</div>
+          <div class="field-help">For SMS notifications and PRIME records.</div>
         </div>
       </div>
 
@@ -1532,15 +1523,15 @@
       </div>
 
       <!-- ENR-58 (2026-05-26): Optional RAF promo code field -->
-      <div class="mkt mkt-ong on" id="raf-promo-ong">
+      <div class="mkt mkt-ong on">
         <div class="fieldset">
-          <h3>Refer a Friend promo code <span class="opt-lbl">Optional</span></h3>
+          <h3>Refer a Friend code <span class="opt-lbl">Optional</span></h3>
           <div class="field">
-            <label for="raf-promo-code">Refer a Friend promo code (optional)</label>
+            <label for="raf-promo-code">Referral code <span class="opt-lbl">Optional</span></label>
             <input id="raf-promo-code" type="text" placeholder="e.g. JORDAN-ONG-25" autocomplete="off" />
             <div class="field-help">If a friend referred you to Ohio Natural Gas, enter their code here. This field is optional and does not affect your enrollment.</div>
           </div>
-          <span class="ann ann-y">ENR-58 — RAF promo code. ONG confirmed; PA/GRE TBD. PRIME API feasibility: see ENR-4.</span>
+          <div class="ann ann-y"><strong>ENR-58 (2026-05-26):</strong> Optional RAF promo code at Step 2 Details. ONG confirmed; PA and GRE TBD (per 2026-05-13 walkthrough note on RAF market coverage) — field visibility gated on ONG market toggle until PA/GRE confirmed. PRIME API handling for RAF code at enrollment submission pending Girish (cross-ref ENR-4, which flags PRIME RAF API feasibility as open).</div>
         </div>
       </div>
 
@@ -1555,7 +1546,7 @@
             <label for="paperless"><strong>Sign up for paperless billing</strong> <span class="opt-lbl">Optional</span><br>
               Receive your bills by email instead of mail. You'll need to verify via the email link we send after enrollment.</label>
           </div>
-          <div class="ann ann-y"><strong>ENR-9 / ENR-10 / B2 / B9:</strong> Default state is UNCHECKED per redesign rule (no pre-checked consents). Paperless is PA-only V1 — section hidden for ONG/GRE per Barrel walkthrough (Lee: outside PA, SSE doesn't generate regular bills, only ETC bills). Confirm storage location (PRIME vs. email vendor) with Joshua Smith. Confirm with Legal whether paperless opt-in is required pre-checked or can default OFF.</div>
+          <div class="ann ann-y"><strong>ENR-9 / ENR-10 / B2 / B9:</strong> Default state is UNCHECKED per redesign rule (no pre-checked consents). Paperless is PA-only V1 — section hidden for ONG/GRE per Barrel walkthrough (Lee: outside PA, SSE doesn't generate regular bills, only ETF bills). Confirm storage location (PRIME vs. email vendor) with Joshua Smith. Confirm with Legal whether paperless opt-in is required pre-checked or can default OFF.</div>
         </div>
         <div class="mkt mkt-ong on">
           <div class="dev-note"><strong>Paperless billing:</strong> Section suppressed for ONG. PA-only V1 per ENR-10 and Barrel walkthrough. Mailed billing notifications applied per regulation.</div>
@@ -1570,15 +1561,19 @@
           <label for="consent-call">I consent to receive calls from SouthStar regarding my account and service. <span class="opt-lbl">Optional</span></label>
         </div>
 
+        <!-- Marketing consent (ENR-9 — default OFF, never pre-checked) -->
+        <div class="checkbox-row">
+          <input id="consent-marketing" type="checkbox" />
+          <label for="consent-marketing">Send me occasional emails about new plans, promotions, and energy-saving tips. <span class="opt-lbl">Optional</span></label>
+        </div>
         <div class="ann ann-y"><strong>ENR-9 · B2 open:</strong> No consents pre-checked at render. Current production sites pre-check 'consent to call' and 'legal authorization' inconsistently across markets — redesign explicitly corrects this. Pending Legal confirmation on whether any consent is legally required to be pre-checked (B2 — Mollie/Josh).</div>
-        <!-- ENR-65 (2026-05-27): "Send me occasional emails" marketing opt-in removed from Details step -->
 
         <!-- ENR-57 (2026-05-26): Required authorized-person attestation -->
         <div class="checkbox-row" style="margin-top:14px;">
-          <input id="consent-authorized-person" type="checkbox" required />
-          <label for="consent-authorized-person"><span class="req">*</span>I am the utility account holder or a person that has legal authorization to make decisions for this account. <span class="req-lbl">Required</span></label>
+          <input id="consent-authorized" type="checkbox" required />
+          <label for="consent-authorized"><span class="req">*</span><strong>I am the utility account holder</strong> or a person with legal authorization to make decisions for this account. <span class="req-lbl">Required</span></label>
         </div>
-        <span class="ann ann-y">ENR-57 — Required authorized-person consent. Legal to confirm copy.</span>
+        <div class="ann ann-y"><strong>ENR-57 (2026-05-26):</strong> Required authorized-person attestation. Checkbox is required — Continue CTA disabled until checked. Legal to confirm: (a) required vs. optional status, (b) whether copy needs market-specific variation for PA or GRE. Yellow pending Legal.</div>
       </div>
 
       <!-- FTC disclosure removed from Step 2 per ENR-50 — subsumed by Step 3 etc-ack + T&C/LOA acceptance -->
@@ -1618,8 +1613,8 @@
       </div>
 
       <!-- ENR-45: inline "Your plan" review-section removed. Sticky sidebar (right rail)
-           already carries Plan name · Rate · Term · ETC · Monthly customer charge ·
-           Gas Utility Company + Change link. "Change plan →" affordance absorbed onto sidebar via
+           already carries Plan name · Rate · Term · ETF · Monthly customer charge ·
+           LDC + Change link. "Change plan →" affordance absorbed onto sidebar via
            .plan-name-row. "Expected start date" already conveyed by Confirmation
            "What happens next" timeline (Switch date stage). Step 3 now starts with
            the first genuinely editable section: Service & account. -->
@@ -1628,7 +1623,7 @@
       <div class="review-section">
         <header><h4>Service &amp; account</h4><a href="#" onclick="event.preventDefault(); openEditFor('service-account');">Edit →</a></header>
         <dl>
-          <dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
+          <dt>LDC</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
           <dt>Account number</dt><dd>XXXX-XXX-1234 (masked)</dd>
         </dl>
       </div>
@@ -1677,7 +1672,7 @@
           </div>
           <div style="max-height:240px; overflow-y:auto; padding:16px; font-size:13px; line-height:1.55;">
             <h4 style="margin:0 0 8px; font-size:13px;">1. Uniform Disclosure Statement</h4>
-            <p style="margin:0 0 12px;"><strong>Plan:</strong> PriceGuard 12<sup>®</sup> · <strong>Rate:</strong> $0.749 / Ccf · <strong>Term:</strong> 12 months · <strong>Monthly customer charge:</strong> $X.XX (Gas Utility Company-set, passes through) · <strong>Early Termination Fee:</strong>
+            <p style="margin:0 0 12px;"><strong>Plan:</strong> PriceGuard 12<sup>®</sup> · <strong>Rate:</strong> $0.749 / Ccf · <strong>Term:</strong> 12 months · <strong>Monthly customer charge:</strong> $X.XX (LDC-set, passes through) · <strong>Early Termination Fee:</strong>
               <span class="mkt-inline mkt-ong on">$12.50 per month remaining</span><span class="mkt-inline mkt-pa">$10.00 per month remaining</span><span class="mkt-inline mkt-gre"><span class="ann-inline y">$XX TBD</span></span>.</p>
             <p style="margin:0 0 12px;">[CMS placeholder: full state-prescribed UDS disclosure copy. Legal owner.]</p>
 
@@ -1685,7 +1680,7 @@
             <p style="margin:0 0 12px;">[CMS placeholder: the full plan contract text including rate, term, billing, switch process, customer rights and obligations, dispute resolution, governing law. Pulled from PRIME's tilde-delimited plan content per §3.14.]</p>
 
             <h4 style="margin:14px 0 8px; font-size:13px;">3. Automatic Contract Renewal Disclosure (ACR)</h4>
-            <p style="margin:0 0 12px;">At the end of your initial 12-month term, your plan will automatically renew at the then-current rate and term unless you opt out. SouthStar will send you a renewal notice at least 30 days before your term ends with renewal terms (rate, length, ETC). To opt out of renewal, log in to My Account or call us.</p>
+            <p style="margin:0 0 12px;">At the end of your initial 12-month term, your plan will automatically renew at the then-current rate and term unless you opt out. SouthStar will send you a renewal notice at least 30 days before your term ends with renewal terms (rate, length, ETF). To opt out of renewal, log in to My Account or call us.</p>
             <p style="margin:0 0 12px;">[CMS placeholder: full ACR copy per regulator format.]</p>
 
             <h4 style="margin:14px 0 8px; font-size:13px;">4. Letter of Agency (LOA)</h4>
@@ -1712,21 +1707,6 @@
             per month remaining will apply if I cancel before the end of my 12-month term. <span class="req-lbl">Required</span></label>
         </div>
         <div class="dev-note plan-fixed"><strong>ENR-12:</strong> ETC acknowledgement is a SEPARATE checkbox in addition to the general T&amp;Cs. Renders only for fixed plans. Variable plans show only the standard T&amp;Cs checkbox. (Source: 2026-05-11 walkthrough — Adam confirmed fixed plans surface an additional ETC checkbox.)</div>
-
-        <!-- ENR-60 (2026-05-26): Per-market supplier authorization + rescission rights -->
-        <div class="mkt mkt-ong on" id="supplier-auth-ong">
-          <div class="checkbox-row" style="margin-top:10px;">
-            <input id="consent-supplier-auth" type="checkbox" required />
-            <label for="consent-supplier-auth"><span class="req">*</span>I authorize Ohio Natural Gas to be my natural gas supplier and to process with my natural gas company this request to enroll in a new contract with Ohio Natural Gas. If I am a new ONG customer, I understand that my gas company will be sending me a confirmation notice of the transfer of service. I also understand that I may rescind my enrollment without penalty within 7 business days of the postmark date of that confirmation notice by contacting my natural gas company. <span class="req-lbl">Required</span></label>
-          </div>
-        </div>
-        <div class="mkt mkt-pa">
-          <span class="ann ann-y">ENR-60 — PA market-specific authorization copy required — pending Legal.</span>
-        </div>
-        <div class="mkt mkt-gre">
-          <span class="ann ann-y">ENR-60 — GRE market-specific authorization copy required — pending Legal.</span>
-        </div>
-        <div class="ann ann-g"><strong>ENR-60 (2026-05-26):</strong> Per-market supplier authorization + rescission rights consent. ONG copy confirmed per SSE regulatory language. PA + GRE market equivalents (market name, rescission window, regulatory language) pending client / Legal before those markets can render. Field gated on ONG market toggle until PA/GRE copy confirmed.</div>
 
         <div class="ann ann-g"><strong>ENR-49 (2026-05-25):</strong> Duplicate marketing-opt-in checkbox removed from Step 3. Marketing opt-in is captured once on Step 2 "Your preferences" (`consent-marketing`). Removes consent fatigue at the regulatory-acknowledgment moment.</div>
       </div>
@@ -1779,7 +1759,7 @@
           <div class="stage-dot"></div>
           <div class="stage-when">1–2 business days</div>
           <div class="stage-title">Utility validation</div>
-          <div class="stage-desc">Your Gas Utility Company will verify your account through our nightly batch. <strong>If anything blocks the switch — wrong account number, account in arrears, no flowing gas — we'll email or call you with next steps.</strong></div>
+          <div class="stage-desc">Your LDC will verify your account through our nightly batch. <strong>If anything blocks the switch — wrong account number, account in arrears, no flowing gas — we'll email or call you with next steps.</strong></div>
         </div>
         <div class="timeline-stage" role="listitem">
           <div class="stage-dot"></div>
@@ -1790,7 +1770,7 @@
       </div>
 
       <!-- ENR-51 (2026-05-25): "Your enrollment" inline plan card removed from Confirmation.
-           Sticky plan summary sidebar (right rail) carries plan name, rate, term, ETC, customer charge.
+           Sticky plan summary sidebar (right rail) carries plan name, rate, term, ETF, customer charge.
            Doc bundle (LOA + Plan Contract + ACR) below the hero is canonical for plan-specific contract terms.
            Confirmation moment of attention = confirmation number + downloadable contract, not a duplicated card. -->
       <div class="ann ann-g" style="margin-top:10px;"><strong>ENR-51 (2026-05-25):</strong> Inline "Your enrollment" plan card removed — sidebar (right rail) carries plan summary; doc bundle below carries canonical contract terms. Same pattern as ENR-45 applied to Confirmation.</div>
@@ -1830,31 +1810,6 @@
         <div class="ann ann-g" style="margin-top: 8px;"><strong>ENR-52 · Magic-link backup:</strong> Transactional email (SagePath equivalent — confirm with Girish) carries a "Set your password" link with 7-day expiry. After expiry, sign-in's "Forgot password?" affordance reissues the link. Falls under CAN-SPAM transactional carve-out (yellow flag pending Legal sanity check).</div>
       </div>
 
-      <!-- ENR-61 (2026-05-26): Welcome Letter + Contract document section -->
-      <div style="margin:24px 0; padding:18px; background:#fff; border:1px solid var(--line); border-radius:6px;">
-        <h3 style="margin:0 0 6px;">Your welcome letter &amp; contract</h3>
-        <p style="font-size:13px; color:var(--note); margin:0 0 14px;">Your personalized enrollment documents are ready. Download or print a copy for your records.</p>
-        <div style="border:1px solid var(--line-soft); border-radius:4px; overflow:hidden; margin-bottom:12px;">
-          <div style="padding:10px 14px; background:#fafbfc; border-bottom:1px solid var(--line-soft); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; align-items:center;">
-            <span><strong>Welcome Letter &amp; Plan Contract</strong> — <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span></span>
-            <span style="font-size:11px;">Personalized to your enrollment</span>
-          </div>
-          <div style="padding:16px; font-size:13px; line-height:1.6; color:var(--note);">
-            <p style="margin:0 0 8px;"><strong>Welcome to SouthStar Energy Services.</strong> Your enrollment confirmation is below.</p>
-            <p style="margin:0 0 8px;"><strong>Confirmation #:</strong> <code style="background:#f1f3f5; padding:2px 6px; border-radius:3px;">199987</code></p>
-            <p style="margin:0;">[Full welcome letter + plan contract body — personalized LOA generated by PRIME <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>. CMS placeholder.]</p>
-          </div>
-          <div style="padding:10px 14px; background:#fafbfc; border-top:1px solid var(--line-soft); display:flex; gap:10px; align-items:center;">
-            <button type="button" class="btn btn-secondary" style="font-size:12px; padding:6px 12px;">⬇ Download PDF</button>
-            <button type="button" class="btn btn-secondary" style="font-size:12px; padding:6px 12px;" onclick="window.print()">🖨 Print</button>
-          </div>
-        </div>
-        <div class="mkt mkt-pa">
-          <div class="ann ann-y"><strong>ENR-7 · ENR-61 · PA Gas Utility Company variant:</strong> Two PA Gas Utility Companies (names TBD with Stephanie/Adam) SUPPRESS the welcome letter PDF. For those Gas Utility Companies, the document section replaces the welcome-letter content with Gas Utility Company-specific disclaimer copy. Confirm Gas Utility Company names before launch.</div>
-        </div>
-        <div class="ann ann-y"><strong>ENR-61 (2026-05-26):</strong> Engineering flag — confirm whether PRIME returns welcome letter + contract as a PDF byte array (like ENRIL-49 for IL) or as live HTML. OPG retains live-HTML intent per ENR-31; if PRIME delivers PDF, switch to embedded-PDF viewer + Download + Print pattern (matching IL ENRIL-49 treatment).</div>
-      </div>
-
       <!-- RAF section: PA-only V1 (ENR-4) -->
       <div class="mkt mkt-pa">
         <div class="raf-block">
@@ -1876,6 +1831,11 @@
         <div class="dev-note"><strong>RAF:</strong> Section suppressed for GRE. PA-only V1 per ENR-4.</div>
       </div>
 
+      <!-- PA two-new-LDCs variant: welcome letter suppression -->
+      <div class="mkt mkt-pa">
+        <div class="ann ann-y"><strong>ENR-7 · Per-LDC variant (PA):</strong> Two new PA LDCs (names TBD with Stephanie/Adam) SUPPRESS the welcome-letter PDF on this screen and substitute disclaimer copy. Layout must accommodate variant without breaking. Working pattern: replace the "Download PDF" affordance with an LDC-specific notice block. Confirm LDC names before launch.</div>
+      </div>
+
       <!-- Help -->
       <div style="margin-top:24px; padding:18px; background: #fafbfc; border-radius:4px;">
         <strong>Need help?</strong> Call us:
@@ -1888,7 +1848,7 @@
       <div class="btn-row">
         <a href="#" class="btn btn-tertiary">← Back to home</a>
         <div class="btn-row-right">
-          <a href="/" class="btn">Return to Homepage →</a>
+          <a href="#" class="btn">Go to My Account →</a>
         </div>
       </div>
 
@@ -1915,7 +1875,7 @@
       <dt>Term</dt><dd><span class="plan-fixed-inline">12 months</span><span class="plan-variable-inline">Month-to-month</span></dd>
       <dt>Rate type</dt><dd><span class="plan-fixed-inline">Fixed</span><span class="plan-variable-inline">Variable</span></dd>
       <dt>Customer charge</dt><dd>$X.XX / mo</dd>
-      <dt class="plan-fixed-row">ETC</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"><span class="ann-inline y">TBD</span></span></dd>
+      <dt class="plan-fixed-row">ETF</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"><span class="ann-inline y">TBD</span></span></dd>
     </dl>
     <div class="ldc-row">
       <span>
@@ -1923,7 +1883,7 @@
         <span class="mkt-inline mkt-pa">Peoples Natural Gas</span>
         <span class="mkt-inline mkt-gre">Consumers Energy</span>
       </span>
-      <a href="#" onclick="event.preventDefault(); alert('Changing Gas Utility Company will restart enrollment.');">Change</a>
+      <a href="#" onclick="event.preventDefault(); alert('Changing LDC will restart enrollment.');">Change</a>
     </div>
     <div class="ftc-callout plan-fixed">
       <strong>Fixed-term plan.</strong> Early Termination Fee applies if you cancel before the 12-month term ends.
@@ -2015,9 +1975,9 @@
     // Jump to the entry step of the selected flow. For flow-existing, the
     // entry-state toggle determines the landing PF screen (default: 'unauth' → PF-1).
     if (mode === 'existing') {
-      // ENR-67: Existing-customer entry defaults to PF-3 (Confirm Plan).
-      // PF-1/PF-2 are no longer in the enrollment-from-plans-page path.
-      setStep('pf3');
+      var state = currentEntryState || 'unauth';
+      // Reset entry-state UI to default unless explicitly set elsewhere
+      setEntryState(state);
     } else {
       setStep(1);
     }
@@ -2066,9 +2026,7 @@
 
   // Step ordering per flow mode — used to compute chip current/done/upcoming
   var STEP_ORDER_NEW      = [1, 2, 3, 'confirmation'];
-  // ENR-67: PF-1 and PF-2 removed from enrollment-from-plans-page path; PF-3 is now the entry point.
-  // PF-4 (Confirm switch) retained as an optional intermediate step accessible via the existing flow.
-  var STEP_ORDER_EXISTING = ['pf3', 2, 3, 'confirmation'];
+  var STEP_ORDER_EXISTING = ['pf1', 'pf2', 'pf3', 'pf4', 2, 3, 'confirmation'];
 
   function getFlowMode() {
     return document.body.classList.contains('flow-existing') ? 'existing' : 'new';
@@ -2093,9 +2051,9 @@
       console.warn('Preflow step requested outside existing-customer flow:', target);
       return;
     }
-    // In existing-customer flow, Step 1 (Verify Service) is skipped — redirect to PF-3 (ENR-67: entry point)
+    // In existing-customer flow, Step 1 (Verify Service) is skipped — redirect to PF-4
     if (target === 1 && getFlowMode() === 'existing') {
-      target = 'pf3';
+      target = 'pf4';
     }
 
     // hide all step sections
@@ -2133,13 +2091,14 @@
         }
         if (chipStep && /^[0-9]+$/.test(chipStep)) chipStep = Number(chipStep);
         chip.classList.remove('current','done','upcoming');
-        chip.disabled = false; // ENR-56: all chips always clickable
+        chip.disabled = false;
         if (chipStep === target) {
           chip.classList.add('current');
         } else if (completedSteps.indexOf(chipStep) >= 0) {
           chip.classList.add('done'); // visited previously — stays clickable to revisit
         } else {
-          chip.classList.add('upcoming'); // ENR-56: forward chips remain enabled for free navigation
+          chip.classList.add('upcoming');
+          chip.disabled = true; // not yet reached — forward-jump locked (ENR-1)
         }
       });
     }
