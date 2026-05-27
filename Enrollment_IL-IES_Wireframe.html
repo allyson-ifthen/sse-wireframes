@@ -120,6 +120,7 @@
   body.ann-mode-clean .ann,
   body.ann-mode-clean .ann-inline,
   body.ann-mode-clean .dev-note { display: none; }
+  /* ENRIL-110 (2026-05-26): Annotation visibility verified — all .ann-y blocks including ENRIL-39 correctly hidden in ann-mode-clean. No override CSS found. */
 
   /* Presentation mode */
   body.presentation-mode .wfctl,
@@ -1447,11 +1448,20 @@
       </h2>
       <p class="step-intro">Review the pricing for the plan you selected. You'll need to confirm two things before continuing.</p>
 
+      <!-- ENRIL-95 (2026-05-24): Back-to-plans affordance -->
+      <div style="margin-top:-4px; margin-bottom:10px; font-size:13px;">
+        <span class="scen-only-a-inline"><a href="#" onclick="event.preventDefault(); alert('Route back to Illinois plans listing page.');">← Back to plans</a></span>
+        <span class="scen-only-b-inline scen-only-d-inline"><a href="#" onclick="event.preventDefault(); setStep('selectplan');">← Back to plan selection</a></span>
+      </div>
+      <div class="ann ann-g"><strong>ENRIL-95 (2026-05-24):</strong> Inline back affordance on Quote step. Scen A: "← Back to plans" routes to IL plans listing. Scen B/D: "← Back to plan selection" routes to Select-plan screen (ENRIL-89). Sidebar "Change plan →" affordance is retained as secondary path. Scen C: no change (← Plans stub already present on Customer Lookup step).</div>
+
       <div class="ann ann-g"><strong>ENRIL-27 · IL functional spec / N-GBP Step 1 + GBP Step 7:</strong> Price Quote with two mandatory checkboxes. Replaces the v1 Step 1 contract gate. Plan details live in the sidebar; main content surfaces "What to expect" so the customer can scope the rest of the enrollment.</div>
 
       <div class="fieldset">
         <h3>What to expect</h3>
         <!-- ENRIL-99 (2026-05-26): ONG icon-grid pattern replaces .wte-item rows -->
+        <!-- ENRIL-109 annotation below -->
+        <div class="ann ann-g"><strong>ENRIL-109 (2026-05-26):</strong> "What to expect" panel — for Scen C/D (GB), this panel appears on the Customer Lookup step (first step). The GB-scenario wte-desc "What's next" row above confirms the adjusted flow. English attestation checkbox moved to Customer Lookup step per ENRIL-52 (already implemented). For Scen A/B (N-GBP), the panel stays on Quote step as the entry point.</div>
         <div class="what-to-expect">
           <div class="wte-grid">
             <div class="wte-row">
@@ -1521,6 +1531,11 @@
         </div>
       </div>
 
+      <!-- ENRIL-104 (2026-05-26): Existing customer login entry -->
+      <div class="scen-only-a-inline scen-only-b-inline" style="text-align:center; margin-top:10px; font-size:13px; color:var(--muted);">
+        Already a customer? <a href="#" onclick="event.preventDefault(); setStep('preflow1');">Existing customer? Log in →</a>
+      </div>
+
       <div class="dev-note"><strong>Analytics (§3.7):</strong> <code>il_quote_displayed</code>, <code>il_quote_continue_checked</code>, <code>il_quote_language_yes</code>, <code>il_quote_language_no</code>, <code>il_quote_continue_clicked</code>.</div>
     </section>
 
@@ -1559,17 +1574,17 @@
             <h4>1. Letter of Agency (LOA) — sample</h4>
             <p class="doc-placeholder">Sample LOA template. Your personalized version (at Confirmation) will include your name, enrollment timestamp, and authentication code. Per Prime design doc · Non-Customer Specific LOA Generation.</p>
             <p>By signing electronically at the Review step, you will authorize [SouthStar Energy Services / Illinois Energy / Illinois Energy Solutions] to act as your natural gas supplier and to coordinate with your local distribution company on your behalf as of the contract effective date.</p>
-            <p class="doc-placeholder">[Full Part 512–compliant LOA copy authored by Alicia / Legal.]</p>
+            <p class="doc-placeholder">[Full Part 512–compliant LOA copy. Final regulatory copy per Legal.]</p>
           </div>
           <div class="doc-section" id="doc-plan-contract-sample">
             <h4>2. Plan Contract</h4>
             <p>Plan-specific terms based on the representative product for this plan category. Your personalized version (generated at enrollment by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>) will include your actual contract start and end dates and the ETF amount applicable to your plan.</p>
-            <p class="doc-placeholder">[Plan Contract body — sample-product representative copy. Final copy authored by Alicia / Legal.]</p>
+            <p class="doc-placeholder">[Plan Contract body — sample-product representative copy. Final copy per Legal.]</p>
           </div>
           <div class="doc-section" id="doc-acr-sample">
             <h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
             <p><strong>Your plan renews automatically.</strong> Your plan continues at the end of its term unless you opt out. You'll receive a renewal notice in advance so you can review or change your options. This applies to all Illinois plans, including variable plans (per ENRIL-15).</p>
-            <p class="doc-placeholder">[Part 512 ACR disclosure body — final copy authored by Alicia / Legal.]</p>
+            <p class="doc-placeholder">[Part 512 ACR disclosure body — final copy per Legal · §3.10.5.]</p>
           </div>
         </div>
       </div>
@@ -1605,6 +1620,25 @@
       <div class="ann ann-g"><strong>ENRIL-63 / ENRIL-84:</strong> Heading aligned across scenarios. For Scen C/D the supporting copy sets the PII-before-contract expectation upfront — provides customer transparency about the sequence and strengthens Part 512 defense (customer was informed).</div>
 
       <div class="ann ann-g"><strong>ENRIL-88 · note:</strong> Scen B/D (existing customers) have a separate simplified path — Customer Lookup is dropped from B/D steppers. This screen renders only for Scen A (Non-GB New) and Scen C (GB New).</div>
+
+      <!-- ENRIL-109: WTE panel for GBP entry (Scen C/D) -->
+      <div class="scen-only-c scen-only-d fieldset" style="margin-bottom:16px;">
+        <h3>What to expect</h3>
+        <div class="wte-grid">
+          <div class="wte-row">
+            <span class="wte-icon">⏱</span>
+            <div><div class="wte-label">About 10 minutes</div><div class="wte-desc">to complete your Guaranteed Bill enrollment.</div></div>
+          </div>
+          <div class="wte-row">
+            <span class="wte-icon">📋</span>
+            <div><div class="wte-label">Have ready</div><div class="wte-desc">your gas account number and access to your email inbox for a verification code.</div></div>
+          </div>
+          <div class="wte-row">
+            <span class="wte-icon">→</span>
+            <div><div class="wte-label">What's next</div><div class="wte-desc">Verify → Account → Quote → Documents → Review → Submit.</div></div>
+          </div>
+        </div>
+      </div>
 
       <!-- Critical-path yellow for GBP -->
       <div class="ann ann-r scen-only-gb">
@@ -1665,6 +1699,47 @@
         <div class="ann ann-g" style="margin-top: 8px;"><strong>ENRIL-13 inventory:</strong> What Counts email-service down (extends ENR-14 timeout pattern). Vendor per ENRIL-41.</div>
       </div>
 
+      <!-- ENRIL-105 (2026-05-26): Additional fields consolidated from Step 5 into Lookup for N-GBP -->
+      <div class="scen-only-a scen-only-b" style="margin-top:16px; border-top:1px solid var(--line-soft); padding-top:14px;">
+        <h3 style="font-size:14px; margin-bottom:14px;">Your contact &amp; service information</h3>
+        <div class="field">
+          <label for="lu-phone"><span class="req">*</span>Phone number <span class="req-lbl">Required</span></label>
+          <input id="lu-phone" type="tel" placeholder="(XXX) XXX-XXXX" aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="lu-addr"><span class="req">*</span>Service address <span class="req-lbl">Required</span></label>
+          <input id="lu-addr" type="text" placeholder="Street address" aria-required="true" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="lu-city"><span class="req">*</span>City <span class="req-lbl">Required</span></label>
+            <input id="lu-city" type="text" aria-required="true" />
+          </div>
+          <div class="field" style="max-width:90px;">
+            <label for="lu-state">State</label>
+            <input id="lu-state" type="text" value="IL" readonly style="background:#f5f7f8; color:var(--ink);" />
+            <div class="field-help" style="font-size:11px;">Pre-filled · Illinois</div>
+          </div>
+          <div class="field" style="max-width:110px;">
+            <label for="lu-zip2"><span class="req">*</span>ZIP <span class="req-lbl">Required</span></label>
+            <input id="lu-zip2" type="text" inputmode="numeric" maxlength="5" aria-required="true" />
+          </div>
+        </div>
+        <div class="checkbox-row" style="margin-top:6px;">
+          <input id="lu-same-mailing" type="checkbox" checked />
+          <label for="lu-same-mailing">Mailing address same as service address</label>
+        </div>
+        <div class="checkbox-row" style="margin-top:12px;">
+          <input id="lu-consent-call" type="checkbox" />
+          <label for="lu-consent-call">I consent to receive calls about my account. <span class="opt-lbl">Optional</span></label>
+        </div>
+        <div class="checkbox-row" style="margin-top:8px;">
+          <input id="lu-authorized" type="checkbox" required />
+          <label for="lu-authorized"><span class="req">*</span><strong>I am authorized to make changes to this account.</strong> <span class="req-lbl">Required</span></label>
+        </div>
+        <div class="ann ann-g"><strong>ENRIL-105 (2026-05-26):</strong> N-GBP Scen A/B step consolidation — phone, service address, mailing-address-same checkbox, consent-to-call, and authorized-person attestation folded into the Lookup step. Reduces N-GBP flow from 7 to 6 customer-facing steps. Subsequent steps re-number: Quote (Step 4), Review (Step 5), Confirmation (Step 6). All collected fields still surface on Review for confirmation. State field is IL-only, pre-filled read-only.</div>
+      </div>
+
       <div class="btn-row">
         <button class="btn btn-tertiary scen-only-a" onclick="setStep('bundle')">&larr; Back</button>
         <button class="btn btn-tertiary scen-only-c" onclick="alert('Scenario C entry point — no back')">&larr; Plans</button>
@@ -1672,6 +1747,12 @@
           <button id="lookup-request-code-btn" class="btn" onclick="setStep('otp')" disabled>Send verification code &rarr;</button>
         </div>
       </div>
+
+      <!-- ENRIL-104 (2026-05-26): Existing customer login entry for GBP -->
+      <div class="scen-only-c-inline scen-only-d-inline" style="text-align:center; margin-top:10px; font-size:13px; color:var(--muted);">
+        Already a customer? <a href="#" onclick="event.preventDefault(); setStep('preflow1');">Existing customer? Log in →</a>
+      </div>
+
       <div class="ann ann-g" style="margin-top: 8px;"><strong>ENRIL-63 / ENRIL-84:</strong> CTA "Send verification code" replaces "Request authentication code" (warmer, less technical).</div>
 
       <div class="dev-note"><strong>ENRIL-30 / Prime design doc:</strong> Clicking "Send verification code" invokes <code>GetWebSiteAuthenticationCode</code> with the website's session ID, first name (if available), last name, email. Returns 6-digit code emailed to the customer via What Counts.</div>
@@ -1797,28 +1878,17 @@
       <!-- Confirm Account Information — runs after SearchCustomers (Scen A + Scen C) -->
       <div class="scen-only-a">
         <div class="subflow-stage">
-          <h4><span class="stage-num">2</span> Confirm your account information</h4>
-          <div class="readonly-display">
-            <div class="label-row">Returned by <code>SearchCustomers</code> · please confirm</div>
-            <strong>Jane Doe</strong><br>
-            Account ending ····3829<br>
-            123 Maple Street, Chicago IL 60601<br>
-            <span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span>
-          </div>
+          <h4><span class="stage-num">2</span> Account verification</h4>
+          <div class="auth-success"><strong>Account verified.</strong> Proceeding to check your account standing.</div>
           <div class="ann ann-b"><strong>ENRIL-31 · spec Step 4:</strong> Multi-address case → multi-address modal (rendered as error mode). Modal flattened to inline.</div>
           <div class="ann ann-y"><strong>ENRIL-7 / walkthrough 3.3 open:</strong> One-call-vs-two metadata return from PRIME pending Girish.</div>
+          <div class="ann ann-g"><strong>ENRIL-111 (2026-05-26):</strong> SearchCustomers account-detail display removed. PRIME does not return account holder details (name, address) on SearchCustomers — all customer details are user-provided during the flow per ENRIL-105. Account # step now shows only the input field + simple "Account verified" confirmation state. Prevents false expectation of "we already have your info."</div>
         </div>
       </div>
       <div class="scen-only-c">
         <div class="subflow-stage">
-          <h4><span class="stage-num">2</span> Confirm your account information</h4>
-          <div class="readonly-display">
-            <div class="label-row">Returned by <code>SearchCustomers</code> · please confirm</div>
-            <strong>Jane Doe</strong><br>
-            Account ending ····3829<br>
-            123 Maple Street, Chicago IL 60601<br>
-            <span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span>
-          </div>
+          <h4><span class="stage-num">2</span> Account verification</h4>
+          <div class="auth-success"><strong>Account verified.</strong> Proceeding to check your account standing.</div>
         </div>
       </div>
 
@@ -2079,6 +2149,7 @@
         <dl>
           <dt>Authentication code</dt><dd>Validated · persisted in PRIME (<code>ctrct_event</code>) for CIR Tool audit</dd>
         </dl>
+        <div class="dev-note"><strong>ENRIL-106 (2026-05-26):</strong> Identity-verification display field confirmed absent from Review — PRIME internal metadata not surfaced to customer. Marketing opt-in removed from Review per ENRIL-97 (moved to "Your preferences" block). Personalized contract documents rendered on Confirmation per ENRIL-49 — Review maintains the existing document bundle viewer.</div>
       </div>
 
       <div class="review-section">
@@ -2091,7 +2162,16 @@
       </div>
 
       <div class="fieldset">
-        <h3>Required disclosures</h3>
+        <h3>Disclosures &amp; preferences</h3>
+
+        <h4 style="font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin: 0 0 10px;">Your preferences</h4>
+        <div class="checkbox-row">
+          <input type="checkbox" id="r-marketing">
+          <label for="r-marketing">I'd like to receive occasional offers and news from [SouthStar / IE / IES]. <span class="ann-inline g">Optional · never pre-checked</span></label>
+        </div>
+        <div class="ann ann-g"><strong>ENRIL-36 · §3.10.4 Step 5:</strong> "Consent to Call" and "Preferred Contact" disclosures are NOT displayed at all for IE/IES per the IL functional spec. Only the email consent (captured at Customer Lookup) and the marketing opt-in (here, optional) appear in the IL flow.</div>
+
+        <h4 style="font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin: 16px 0 10px; padding-top:14px; border-top:1px solid var(--line-soft);">Required acknowledgments</h4>
         <div class="checkbox-row">
           <input type="checkbox" id="r-disc-1" onchange="validateReview()">
           <label for="r-disc-1"><strong>I am authorized to make changes</strong> on this gas utility account. <span class="ann-inline g">ENRIL-32 · mandatory</span></label>
@@ -2106,6 +2186,8 @@
         </div>
 
         <div class="ann ann-y"><strong>ENRIL-57 / Friday open:</strong> Same disclosures were checkbox-acknowledged on the Document Bundle step (ENRIL-50). Pending Stephanie + David: can the two consent moments be combined or de-duplicated? Both currently required for Part 512. Owner: Stephanie + David + IfThen UX.</div>
+
+        <div class="ann ann-g"><strong>ENRIL-97 (2026-05-24):</strong> Review step disclosures visually split into "Your preferences" (optional marketing opt-in) and "Required acknowledgments" (Part 512 authorization checkboxes). Categorical separation mirrors ENR-50 intent — preferences (low-stakes, optional) flow to regulatory (required, high-stakes). No consent copy changes — visual re-categorization only. Legal sanity check: visual separation doesn't imply marketing opt-in has bearing on regulatory acknowledgments below it.</div>
       </div>
 
       <div class="fieldset">
@@ -2114,15 +2196,6 @@
           <input type="checkbox" id="r-authorize" onchange="validateReview()">
           <label for="r-authorize"><strong>I am ready to submit this enrollment</strong> and authorize [SouthStar / IE / IES] to begin the contract switch with my utility. <span class="ann-inline g">ENRIL-32 · final mandatory</span></label>
         </div>
-      </div>
-
-      <div class="fieldset">
-        <h3>Optional</h3>
-        <div class="checkbox-row">
-          <input type="checkbox" id="r-marketing">
-          <label for="r-marketing">I'd like to receive occasional offers and news from [SouthStar / IE / IES]. <span class="ann-inline g">Optional · never pre-checked</span></label>
-        </div>
-        <div class="ann ann-g"><strong>ENRIL-36 · §3.10.4 Step 5:</strong> "Consent to Call" and "Preferred Contact" disclosures are NOT displayed at all for IE/IES per the IL functional spec. Only the email consent (captured at Customer Lookup) and the marketing opt-in (here, optional) appear in the IL flow.</div>
       </div>
 
       <!-- ENRIL-93 (2026-05-25): Step 6 in-flow account-creation block removed.
@@ -2156,8 +2229,10 @@
         <p>Thank you for choosing <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. We'll email a copy of your personalized contract to <strong>jane.doe@example.com</strong>.</p>
         <div class="conf-num">
           <small>Confirmation number</small>
-          # 199987 · February 14, 2025 · 1:22 p.m. CT
+          <span style="font-size:1.4em; font-family:monospace; letter-spacing:0.04em;"># 199987</span>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Confirmed on February 14, 2025 at 1:22 p.m. CT</div>
         </div>
+        <div class="ann ann-g"><strong>ENRIL-107 (2026-05-26):</strong> Confirmation number is the focal point — aligned to ONG pattern. Date + time rendered as micro-copy below the number (not co-equal display). Format: confirmation number large/monospace + "Confirmed on [date at time TZ]" muted below.</div>
         <div class="conf-actions">
           <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
           <button class="btn btn-secondary">💾 Save</button>
@@ -2324,7 +2399,7 @@
      IL regulatory footer band (ENRIL-20 · §3.10.5)
      ========================================================================== -->
 <div class="il-reg-footer">
-  <strong>Illinois regulatory disclosure (placeholder).</strong> [SouthStar Energy Services / Illinois Energy / Illinois Energy Solutions] is certified by the Illinois Commerce Commission to provide retail natural gas supply service. Your local distribution company (Nicor Gas, North Shore Gas, or Peoples Gas) will continue to deliver your gas and remains responsible for service emergencies and disputes. [Final regulatory copy authored by Alicia / Legal · §3.10.5.]
+  <strong>Illinois regulatory disclosure (placeholder).</strong> [SouthStar Energy Services / Illinois Energy / Illinois Energy Solutions] is certified by the Illinois Commerce Commission to provide retail natural gas supply service. Your local distribution company (Nicor Gas, North Shore Gas, or Peoples Gas) will continue to deliver your gas and remains responsible for service emergencies and disputes. [Final regulatory copy per Legal · §3.10.5.]
 </div>
 
 <!-- =========================================================================

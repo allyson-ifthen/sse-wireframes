@@ -336,6 +336,30 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 
 }
 .step-divider strong { color: var(--good); font-size: 14px; }
 
+/* ── STEPPER CHIPS (MA-36 — reuses enrollment .step-chip convention) ── */
+.step-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; min-height: 40px;
+  background: transparent; border: 1px solid transparent;
+  color: var(--muted); border-radius: 999px;
+  cursor: default; font: inherit; font-size: 13px;
+}
+.step-chip .num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--line); color: var(--muted);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.step-chip.current { color: var(--ink); font-weight: 600; cursor: default; }
+.step-chip.current .num { background: var(--accent); color: #fff; }
+.step-chip.done { color: var(--good); cursor: pointer; }
+.step-chip.done .num { background: var(--good); color: #fff; }
+.step-chip.done:hover { background: var(--ann-g-bg); }
+.step-chip.upcoming { cursor: pointer; }
+.step-chip.upcoming .num { background: var(--line-soft); color: var(--muted); }
+.step-connector { flex: 0 1 40px; height: 2px; background: var(--line); margin: 0 4px; }
+.stepper { display: flex; align-items: center; gap: 0; }
+
 /* ── TAB TOGGLE (sub-toggle within state) ── */
 .subtab-row {
   display: flex; gap: 0; border-bottom: 1.5px solid var(--line); margin-bottom: 20px;
@@ -764,6 +788,17 @@ body.chrome-hidden .presentation-hint {
       <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
       <button id="st-btn-raf"       onclick="setState('raf')">RAF Dashboard</button>
     </div>
+    <div class="wfctl-divider"></div>
+    <div class="group" id="login-subtab-group" style="display:none;">
+      <span class="group-lbl">Login Tab</span>
+      <button onclick="setLoginTab('email')">LI · Email</button>
+      <button onclick="setLoginTab('acct')">LI · Account #</button>
+    </div>
+    <div class="group" id="ca-substep-group" style="display:none;">
+      <span class="group-lbl">CA Sub-step</span>
+      <button onclick="setCreateStep(1)">CA · Step 1</button>
+      <button onclick="setCreateStep(2)">CA · Step 2</button>
+    </div>
     <div class="wfctl-spacer"></div>
     <button id="ann-btn-all"   class="btn-ann on" onclick="setAnnMode('all')">All</button>
     <button id="ann-btn-open"  class="btn-ann"    onclick="setAnnMode('open')">Open Qs</button>
@@ -877,6 +912,15 @@ body.chrome-hidden .presentation-hint {
       <h1>Log in to your account</h1>
       <div class="auth-sub">Enter your email and password to view your plan, manage your account, and access your Refer a Friend dashboard.</div>
 
+      <!-- MA-39 (2026-05-26): Dual-tab login — Email & Password (default) + Account number (legacy) -->
+      <div class="auth-tabs" style="display:flex; border-bottom:2px solid var(--line-soft); margin-bottom:18px; gap:0;">
+        <button id="login-tab-email" class="auth-tab on" onclick="setLoginTab('email')" style="flex:1; padding:10px 8px; background:none; border:none; border-bottom:2px solid var(--accent); color:var(--accent); font-weight:600; font-size:13px; cursor:pointer; margin-bottom:-2px;">Email &amp; password</button>
+        <button id="login-tab-acct" class="auth-tab" onclick="setLoginTab('acct')" style="flex:1; padding:10px 8px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:13px; cursor:pointer; margin-bottom:-2px;">Account number <span style="font-size:10px; color:var(--warn); font-weight:600; margin-left:4px;">Legacy</span></button>
+      </div>
+
+      <!-- TAB 1: Email + Password (default, modern auth) -->
+      <div id="login-panel-email">
+
       <div class="form-row">
         <label class="form-label" for="login-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
         <input id="login-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
@@ -890,8 +934,34 @@ body.chrome-hidden .presentation-hint {
 
       <button class="btn btn-full" id="login-submit" disabled>Log In →</button>
 
+      </div><!-- /login-panel-email -->
+
+      <!-- TAB 2: Account number (legacy path) -->
+      <div id="login-panel-acct" style="display:none;">
+        <!-- Deprecation warning -->
+        <div style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; padding:12px 14px; margin-bottom:16px; font-size:13px;">
+          <strong>Heads up:</strong> Online account access is changing on <strong>[Cutover date — TBD]</strong>. After this date, you'll need an email and password to sign in.
+          <div style="margin-top:8px;"><button class="link" type="button" onclick="setState('create')">Set up your email login →</button></div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="login-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
+          <input id="login-acct" class="form-input" type="text" placeholder="Your utility account number" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="login-lname"><span class="req">*</span>Last name <span class="req-lbl">Required</span></label>
+          <input id="login-lname" class="form-input" type="text" aria-required="true">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="login-zip"><span class="req">*</span>ZIP code <span class="req-lbl">Required</span></label>
+          <input id="login-zip" class="form-input" type="text" maxlength="10" aria-required="true">
+        </div>
+
+        <button class="btn btn-full" disabled>Sign in →</button>
+      </div><!-- /login-panel-acct -->
+
       <div class="auth-footer-links">
-        New customer? <button class="link" type="button" onclick="setState('create')">Create account</button>
+        Already a customer? <button class="link" type="button" onclick="setState('create')">Set up your email login →</button>
         <br>
         <span style="display:inline-block; margin-top:8px;">
           Not a customer yet? <a class="link" href="#">View plans →</a>
@@ -903,67 +973,45 @@ body.chrome-hidden .presentation-hint {
     <div class="ann ann-g"><strong>MA-23:</strong> Account number is captured once at account creation / first-time link — not at every login. Subsequent logins use email + password only.</div>
     <div class="ann ann-y"><strong>MA-16 · Open #8 (PRIME):</strong> Account-linking mechanism — does PRIME associate email→account via a new field, or use existing account-number lookup at every login? Owner: Dev (Girish).</div>
     <div class="ann ann-y"><strong>MA-22 · Open #10 (IL):</strong> Part 512 identity-code overlay — does login in IL require identity-code re-verification, or only at enrollment? Cross-ref Enrollment Q30. Owner: Legal + Engineering.</div>
-    <div class="ann ann-b"><strong>Existing customers:</strong> Reach Create Account → "Existing customer — set up online access" tab to one-time link their PRIME account (account # + last name + ZIP) to a new email + password.</div>
+    <div class="ann ann-b"><strong>Existing customers:</strong> Use "Already a customer? Set up your email login →" to one-time link their PRIME account (account # + last name + ZIP) to a new email + password.</div>
+    <div class="ann ann-g"><strong>MA-39 (2026-05-26):</strong> Login screen gains a two-tab toggle: "Email &amp; password" (default, modern auth) and "Account number" (legacy PRIME auth for customers who haven't migrated). Deprecation warning renders inside the legacy tab only — yellow/info callout with cutover date placeholder (TBD / client decision) + "Set up your email login →" CTA. Future-state: once cutover date passes, account-number tab removed entirely. wfctl exposes LI·Email and LI·Account# sub-tab jump buttons when Login state is active. Cross-ref MA-18 / MA-26 / MA-36 / MA-38 (existing-customer flow path); MA-23 (long-term account-number role); MA-37 (mask treatment on email field).</div>
 
-    <div class="dev-note"><strong>Analytics:</strong> <code>login_attempt</code> on submit, <code>login_success</code> / <code>login_failure</code> on response. <code>login_forgot_password_click</code> + <code>login_create_account_click</code> for affordance taps.</div>
+    <div class="dev-note"><strong>Analytics:</strong> <code>login_attempt</code> on submit, <code>login_success</code> / <code>login_failure</code> on response. <code>login_forgot_password_click</code> + <code>login_create_account_click</code> for affordance taps. <code>login_tab_switch</code> (email / acct) for migration tracking.</div>
   </div>
 </div>
 
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     STATE: CREATE ACCOUNT (combined screen with sub-toggle)
+     STATE: SET UP EMAIL LOGIN (formerly "Create Account") — MA-38
 ═════════════════════════════════════════════════════════════════════════════ -->
 <div class="state" id="state-create">
-  <div class="state-divider"><strong>State B</strong> — Create Account · New customer OR existing-customer first-time link</div>
+  <div class="state-divider"><strong>State B</strong> — Set up email login · Existing customers only</div>
 
   <div class="layout-narrow">
     <div class="auth-card">
-      <h1>Create your account</h1>
-      <div class="auth-sub">Choose the option that fits your situation. New customers create an account with email + password. Existing SouthStar customers verify their account once to set up online access.</div>
+      <h1>Set up your email login</h1>
+      <div class="ann ann-g"><strong>MA-38 (2026-05-26):</strong> New Customer sub-flow removed. Create Account state is now single-purpose: existing PRIME customers setting up email/password login for the first time. Rationale: SSE customers must enroll in a plan first (which captures account # from the LDC) — no business path where someone creates a login before having an account. "Not a customer yet? View plans →" link on Login screen routes prospects to enrollment. Login screen affordance updated from "New customer? Create account" to "Already a customer? Set up your email login →" per MA-38. MA-36 sequential stepper applies to the now-single existing-customer flow.</div>
+      <div class="auth-sub">Verify your existing SouthStar account to set up online access with your email and password.</div>
 
-      <div class="subtab-row">
-        <button class="subtab on" id="sub-new-btn" onclick="setCreateSub('new')">New customer</button>
-        <button class="subtab" id="sub-existing-btn" onclick="setCreateSub('existing')">Existing customer<br>(set up online access)</button>
-      </div>
-
-      <!-- SUB-VIEW: NEW CUSTOMER -->
-      <div class="subview on" id="sub-new">
-        <div class="form-row">
-          <label class="form-label" for="new-first"><span class="req">*</span>First name <span class="req-lbl">Required</span></label>
-          <input id="new-first" class="form-input" type="text" aria-required="true">
-        </div>
-        <div class="form-row">
-          <label class="form-label" for="new-last"><span class="req">*</span>Last name <span class="req-lbl">Required</span></label>
-          <input id="new-last" class="form-input" type="text" aria-required="true">
-        </div>
-        <div class="form-row">
-          <label class="form-label" for="new-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
-          <input id="new-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
-        </div>
-        <div class="form-row">
-          <label class="form-label" for="new-pw"><span class="req">*</span>Password <span class="req-lbl">Required</span></label>
-          <input id="new-pw" class="form-input" type="password" aria-required="true">
-          <div class="form-hint">Minimum 8 characters · mix of letters, numbers, and a symbol recommended</div>
-        </div>
-        <div class="form-row">
-          <label class="form-label" for="new-pw2"><span class="req">*</span>Confirm password <span class="req-lbl">Required</span></label>
-          <input id="new-pw2" class="form-input" type="password" aria-required="true">
-        </div>
-        <button class="btn btn-full" disabled>Create account →</button>
-
-        <div class="ann ann-b" style="margin-top:14px;"><strong>New customer path:</strong> Typically reached from enrollment confirmation or "Create account" link on Login. Customer hasn't yet enrolled in a plan, OR is mid-enrollment.</div>
-        <div class="ann ann-y"><strong>MA-18 · ENR-15 cross-ref:</strong> "Email already in use" recovery — copy + CTAs already specced in Enrollment (ENR-15). Apply same pattern here: surface "Log in instead" + "Use different email" affordances on email collision.</div>
-      </div>
-
-      <!-- SUB-VIEW: EXISTING CUSTOMER (first-time link) — 2-step flow per MA-26 -->
-      <div class="subview" id="sub-existing">
         <div class="auth-success" style="background:var(--ann-b-bg); border-color:var(--ann-b-bd); color:#1a3a5f;">
           <strong>Setting up online access for the first time?</strong><br>
           Two quick steps: verify your existing SouthStar account, then choose an email + password for future logins. You'll only need to do this once.
         </div>
 
+        <!-- MA-36 (2026-05-26): Sequential 2-step stepper for existing-customer account setup -->
+        <div class="stepper" style="margin-bottom:20px;" role="navigation" aria-label="Account setup progress">
+          <button id="ca-chip-1" class="step-chip current" onclick="setCreateStep(1)" aria-label="Step 1: Verify your account (current)">
+            <span class="num">1</span> Verify account
+          </button>
+          <span class="step-connector" aria-hidden="true"></span>
+          <button id="ca-chip-2" class="step-chip upcoming" onclick="setCreateStep(2)" aria-label="Step 2: Set your login">
+            <span class="num">2</span> Set your login
+          </button>
+        </div>
+        <div class="ann ann-g"><strong>MA-36 (2026-05-26):</strong> Existing-customer first-time link is now a sequential 2-step stepper. Step 1 (verify account) shows first; advancing to Step 2 requires successful verification. Step 2 includes ← Back to re-verify. New customer sub-view removed per MA-38. wfctl exposes CA·Step1 / CA·Step2 sub-step jump buttons when Create Account state is active (Existing-customer path). Stepper CSS reuses enrollment .step-chip convention for cross-template consistency.</div>
+
         <!-- ─── STEP 1: VERIFY ACCOUNT ─── -->
-        <div class="step-indicator"><span class="step-num">1</span> Step 1 of 2 · Verify your account</div>
+        <div id="ca-step-1">
 
         <div class="form-row">
           <label class="form-label" for="link-ldc"><span class="req">*</span>Your natural gas utility <span class="req-lbl">Required</span></label>
@@ -1011,15 +1059,16 @@ body.chrome-hidden .presentation-hint {
         <button class="btn btn-full" disabled>Verify account →</button>
 
         <div class="ann ann-b" style="margin-top:12px;"><strong>MA-26 · Step 1 of 2:</strong> Read-only PRIME lookup. On success, server issues a short-lived token and unlocks Step 2 below. No credential write at this step.</div>
+        </div><!-- /ca-step-1 -->
 
-        <!-- ─── STEP TRANSITION (verified state, illustrative) ─── -->
+        <!-- ─── STEP 2: SET YOUR LOGIN (MA-36) ─── -->
+        <div id="ca-step-2" style="display:none;">
+
+        <!-- STEP TRANSITION (verified state, illustrative) -->
         <div class="step-divider">
           <strong>✓ Account verified</strong>
           <span>Jane Smith · Columbia Gas of Ohio · Account #ONG-00123456 · Step 2 unlocks below</span>
         </div>
-
-        <!-- ─── STEP 2: CREATE LOGIN CREDENTIALS ─── -->
-        <div class="step-indicator"><span class="step-num">2</span> Step 2 of 2 · Create your login</div>
 
         <div class="form-row">
           <label class="form-label" for="link-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
@@ -1038,7 +1087,7 @@ body.chrome-hidden .presentation-hint {
         <button class="btn btn-full" disabled>Create login →</button>
 
         <div style="text-align:center; margin-top:10px;">
-          <button class="link" type="button">← Back to Step 1 (re-verify)</button>
+          <button class="link" type="button" onclick="setCreateStep(1)">← Back to Step 1 (re-verify)</button>
         </div>
 
         <div class="ann ann-g" style="margin-top:14px;"><strong>MA-26 · Step 2 of 2:</strong> Credential creation. Server validates the short-lived verification token from Step 1 before writing email + password to the PRIME account record.</div>
@@ -1048,7 +1097,7 @@ body.chrome-hidden .presentation-hint {
         <div class="ann ann-y"><strong>Per-LDC account-number masks · Enrollment Q25:</strong> Validation regex/mask per LDC still needs to be extracted from Cindy's source PDF (IL/ONG/PA/GRE LDCs). Reuse same field component as Enrollment Step 1.</div>
         <div class="ann ann-r"><strong>Anti-slamming check:</strong> Step 1 is read-only PRIME lookup. Step 2 writes credentials only — no plan changes, no consents. MA-26 split makes this boundary explicit.</div>
         <div class="dev-note"><strong>Analytics:</strong> <code>account_link_step1_attempt</code> / <code>_success</code> / <code>_failure</code> (sub-reasons: ldc_mismatch / acct_not_found / name_mismatch / zip_mismatch). <code>account_link_step2_attempt</code> / <code>_success</code> / <code>_token_expired</code>. Step-1 failure routes to "We couldn't verify your account — call customer service"; Step-2 token expiry routes back to Step 1.</div>
-      </div>
+        </div><!-- /ca-step-2 -->
     </div>
   </div>
 </div>
@@ -1127,18 +1176,19 @@ body.chrome-hidden .presentation-hint {
         <strong>This reset link has expired.</strong> Reset links are valid for 15 minutes. We'll send a new one to the email on file.
       </div>
 
-      <!-- Inline new-link request — read-only email from token -->
+      <!-- Inline new-link request — read-only masked email from token (MA-37) -->
       <div class="form-row">
-        <label class="form-label" for="rp-expired-email">Reset link will be sent to</label>
-        <input id="rp-expired-email" class="form-input" type="email" value="jane@email.com" readonly style="background:#f5f7f8; color:var(--ink); cursor:not-allowed;">
-        <div class="form-hint">Email is pulled from the expired link — to use a different address, log in and update your email.</div>
+        <label class="form-label" for="rp-expired-email">Reset link will be sent to (masked for your privacy)</label>
+        <input id="rp-expired-email" class="form-input" type="email" value="j****@e****.com" readonly style="background:#f5f7f8; color:var(--ink); cursor:not-allowed;">
+        <div class="form-hint">We'll send the new link to the email on file — masked here for your privacy. If you don't recognize this address, call customer service.</div>
       </div>
+      <div class="ann ann-g"><strong>MA-37 (2026-05-26):</strong> Expired-token read-only email field now renders masked — first char of local part + 4 asterisks + @ + first char of domain + 4 asterisks + literal TLD (j****@e****.com pattern). Preserves confirmation value ("yes, this is the right address") without exposing full PII to shoulder-surfers. Matches Gmail / Apple / Amazon / bank reset flows. Recovery path for "I don't recognize this address" = call customer service (phone fallback MA-27 #4 already present below). Implementation: masking happens client-side at render from token-decoded email; token remains server-side source of truth.</div>
 
       <button class="btn btn-full" type="button">Send me a new link →</button>
 
       <!-- Confirmation state (illustrative — would render after tap) -->
       <div class="auth-success" style="margin-top:12px;">
-        <strong>New link sent.</strong> Check your inbox at jane@email.com. The new link expires in 15 minutes.
+        <strong>New link sent.</strong> Check your inbox — we've sent the link to the email on file. The new link expires in 15 minutes.
       </div>
 
       <!-- Customer service phone fallback -->
@@ -1750,18 +1800,47 @@ function setState(s) {
     if (b) b.classList.toggle('on', k === s);
   });
 
+  // Show/hide wfctl context sub-groups (MA-39)
+  var loginGrp = document.getElementById('login-subtab-group');
+  var caGrp    = document.getElementById('ca-substep-group');
+  if (loginGrp) loginGrp.style.display = (s === 'login')  ? '' : 'none';
+  if (caGrp)    caGrp.style.display    = (s === 'create') ? '' : 'none';
+
   // Scroll to top of state for visibility
   window.scrollTo({ top: document.querySelector('.legend').offsetTop, behavior: 'instant' });
 }
 
 /* ────────────────────────────────────
-   Create Account sub-toggle (new customer vs existing)
+   Login tab toggle (MA-39)
 */
-function setCreateSub(sub) {
-  document.getElementById('sub-new').classList.toggle('on', sub === 'new');
-  document.getElementById('sub-existing').classList.toggle('on', sub === 'existing');
-  document.getElementById('sub-new-btn').classList.toggle('on', sub === 'new');
-  document.getElementById('sub-existing-btn').classList.toggle('on', sub === 'existing');
+function setLoginTab(tab) {
+  document.getElementById('login-panel-email').style.display = tab === 'email' ? '' : 'none';
+  document.getElementById('login-panel-acct').style.display = tab === 'acct' ? '' : 'none';
+  document.getElementById('login-tab-email').classList.toggle('on', tab === 'email');
+  document.getElementById('login-tab-acct').classList.toggle('on', tab === 'acct');
+  var ea = document.getElementById('login-tab-email');
+  var aa = document.getElementById('login-tab-acct');
+  ea.style.borderBottomColor = tab === 'email' ? 'var(--accent)' : 'transparent';
+  ea.style.color = tab === 'email' ? 'var(--accent)' : 'var(--muted)';
+  ea.style.fontWeight = tab === 'email' ? '600' : 'normal';
+  aa.style.borderBottomColor = tab === 'acct' ? 'var(--accent)' : 'transparent';
+  aa.style.color = tab === 'acct' ? 'var(--accent)' : 'var(--muted)';
+  aa.style.fontWeight = tab === 'acct' ? '600' : 'normal';
+}
+
+/* ────────────────────────────────────
+   Create Account sequential stepper (MA-36)
+*/
+function setCreateStep(n) {
+  var s1 = document.getElementById('ca-step-1');
+  var s2 = document.getElementById('ca-step-2');
+  var c1 = document.getElementById('ca-chip-1');
+  var c2 = document.getElementById('ca-chip-2');
+  if (!s1 || !s2) return;
+  s1.style.display = n === 1 ? '' : 'none';
+  s2.style.display = n === 2 ? '' : 'none';
+  if (c1) { c1.className = 'step-chip ' + (n === 1 ? 'current' : 'done'); }
+  if (c2) { c2.className = 'step-chip ' + (n === 2 ? 'current' : 'upcoming'); }
 }
 
 /* ────────────────────────────────────
@@ -1819,7 +1898,8 @@ document.addEventListener('keydown', function(e) {
 */
 setMarket('ong');
 setState('login');
-setCreateSub('new');
+setCreateStep(1);        // MA-36: default to Step 1 of the existing-customer flow
+setLoginTab('email');    // MA-39: default to Email & Password tab
 setAnnMode('clean');     // default to clean view for presentations
 setChrome('show');
 validateForm(['login-email', 'login-pw'], 'login-submit');
