@@ -1638,27 +1638,30 @@ body.chrome-hidden .presentation-hint {
       </div>
     </div>
 
-    <!-- ─── PRIMARY ACTION: Share by email ─── -->
-    <div class="raf-primary-action">
-      <div class="raf-section-h">Share by email <span class="ann-inline g">Primary action</span></div>
-      <div class="form-row">
-        <label class="form-label" for="raf-to">Recipient email(s) <span class="opt-lbl">Comma-separated</span></label>
-        <input id="raf-to" class="form-input" type="text" placeholder="friend@email.com, another@email.com">
+    <!-- ─── SIDE-BY-SIDE SHARE ROW (MA-43): 60% Email primary + 40% Social secondary ─── -->
+    <div class="raf-share-row">
+      <!-- PRIMARY: Email -->
+      <div class="raf-primary-action">
+        <div class="raf-section-h">Share by email <span class="ann-inline g">Primary action</span></div>
+        <div class="form-row">
+          <label class="form-label" for="raf-to">Recipient email(s) <span class="opt-lbl">Comma-separated</span></label>
+          <input id="raf-to" class="form-input" type="text" placeholder="friend@email.com, another@email.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="raf-msg">Personal note <span class="opt-lbl">Optional · pre-filled</span></label>
+          <textarea id="raf-msg" class="raf-email-textarea" placeholder="Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.">Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.</textarea>
+        </div>
+        <button class="btn">Send invitation →</button>
       </div>
-      <div class="form-row">
-        <label class="form-label" for="raf-msg">Personal note <span class="opt-lbl">Optional · pre-filled</span></label>
-        <textarea id="raf-msg" class="raf-email-textarea" placeholder="Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.">Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.</textarea>
-      </div>
-      <button class="btn">Send invitation →</button>
-    </div>
 
-    <!-- ─── SECONDARY ACTIONS: social cluster ─── -->
-    <div class="raf-secondary">
-      <div class="raf-section-h">Or share another way</div>
-      <div class="raf-social-row">
-        <button class="raf-social-btn raf-fb">📘 Facebook</button>
-        <button class="raf-social-btn raf-x">𝕏 Post on X</button>
-        <button class="raf-social-btn raf-link">🔗 Copy link</button>
+      <!-- SECONDARY: Social cluster -->
+      <div class="raf-secondary">
+        <div class="raf-section-h">Or share another way</div>
+        <div class="raf-social-row" style="flex-direction:column; gap:8px;">
+          <button class="raf-social-btn raf-fb" style="justify-content:flex-start;">📘 Facebook</button>
+          <button class="raf-social-btn raf-x" style="justify-content:flex-start;">𝕏 Post on X</button>
+          <button class="raf-social-btn raf-link" style="justify-content:flex-start;">🔗 Copy link</button>
+        </div>
       </div>
     </div>
 
@@ -1709,24 +1712,61 @@ body.chrome-hidden .presentation-hint {
       </table>
     </div>
 
-    <!-- ─── HOW IT WORKS (collapsible) ─── -->
-    <details class="raf-how">
-      <summary>How it works</summary>
-      <div class="raf-how-body">
-        <ol>
-          <li>Share your code with friends and family.</li>
-          <li>They enroll using your code at checkout.</li>
-          <li>You both receive a $25 bill credit when their service starts.</li>
-        </ol>
-        <div class="raf-how-caveat">Reward type and amount may vary by market and promotion period.</div>
-      </div>
-    </details>
+    <!-- ─── HOW IT WORKS (MA-43: always-visible; replaces collapsible <details>) ─── -->
+    <div class="raf-how-visible">
+      <div class="raf-section-h">How it works</div>
+      <ol>
+        <li>Share your code with friends and family.</li>
+        <li>They enroll using your code at checkout.</li>
+        <li>You both receive a $25 bill credit when their service starts.</li>
+      </ol>
+      <div class="raf-how-caveat" style="font-size:11px; color:var(--muted); padding-top:8px; border-top:1px solid var(--line-soft);">Reward type and amount may vary by market and promotion period.</div>
+    </div>
 
-    <div class="ann ann-g" style="margin-top:14px;"><strong>MA-31 · Action-first hierarchy:</strong> Hero (incentive + code) → primary share-by-email → secondary social cluster → paired earnings + history → "How it works" collapsed. Code displayed for reference but no longer visually dominant; primary action elevated; status info reads with the history that produced it.</div>
+    <!-- ─── CONTEXTUAL FAQs (MA-43: new) ─── -->
+    <div class="raf-faqs">
+      <div class="raf-section-h">Refer a Friend FAQs</div>
+      <details class="raf-faq-item">
+        <summary>When will I get my reward?</summary>
+        <div class="raf-faq-body">Your $25 bill credit posts after your friend's enrollment passes utility validation and their service start date — typically 1–2 business days after they enroll, sometimes longer depending on the local utility.</div>
+      </details>
+      <details class="raf-faq-item">
+        <summary>What happens if my friend doesn't enroll?</summary>
+        <div class="raf-faq-body">Nothing — your referral code stays active and you can share it with someone else. There's no penalty for unredeemed referrals.</div>
+      </details>
+      <details class="raf-faq-item">
+        <summary>Can I refer myself with a second account?</summary>
+        <div class="raf-faq-body">No — self-referrals are not eligible. Each referral must be a new customer at a different service address.</div>
+      </details>
+      <details class="raf-faq-item">
+        <summary>How long does my code stay active?</summary>
+        <div class="raf-faq-body">Your code is active as long as you remain an active customer. If you cancel service, the code stops accepting new referrals but any pending referrals already in flight will still count.</div>
+      </details>
+      <details class="raf-faq-item">
+        <summary>Is there a limit on how many people I can refer?</summary>
+        <div class="raf-faq-body">Reward caps and program limits may apply — see the program terms below for the full eligibility rules.</div>
+      </details>
+      <div class="raf-faqs-footer">
+        <a class="link" href="#">More on Learning Center →</a>
+      </div>
+    </div>
+
+    <!-- ─── LEGAL PLACEHOLDER (MA-43: new — content TBD, Legal owner) ─── -->
+    <div class="raf-legal">
+      <div class="raf-section-h">Refer a Friend Program Terms</div>
+      <div class="raf-legal-placeholder-note">⚐ Placeholder — Legal owner (Mollie/Josh). Final RAF program terms / eligibility / fine print TBD.</div>
+      <div class="raf-legal-body">
+        Program terms, eligibility requirements, reward calculation rules, customer-state restrictions (e.g., must be an active customer in good standing), referral limits, payout timing, regulatory disclosures per market, and any change-of-terms language will live here. Per-market variants may apply — see ENRIL-53 cross-reference for IL/IES suppression.
+      </div>
+    </div>
+
+    <div class="ann ann-g" style="margin-top:14px;"><strong>MA-43 · Action-first hierarchy + RAF expansion:</strong> Hero (incentive + code) → <strong>side-by-side Email + Social</strong> (60/40) → paired Earnings + History → <strong>How it works (now visible)</strong> → <strong>contextual FAQs (new)</strong> → <strong>Legal placeholder (new, content TBD)</strong>. Section order revised per Allyson walkthrough Round 2: status reads immediately after action; education + fine print live in the footer zone. Code displayed for reference but no longer visually dominant; primary action elevated.</div>
     <div class="ann ann-g"><strong>MA-20:</strong> Full RAF Dashboard mirrors <code>/my-account/refer/</code>. Dashboard's MA-3 summary card is preserved as the entry point — clicking "Refer a Friend →" lands here.</div>
+    <div class="ann ann-y"><strong>MA-43 · FAQ copy:</strong> Working placeholder questions + answers — final copy TBD with content team.</div>
+    <div class="ann ann-y"><strong>MA-43 · Legal placeholder:</strong> Content TBD — Legal owner (Mollie/Josh). Final RAF program terms required before launch.</div>
     <div class="ann ann-y"><strong>MA-20 · Open #2:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-only auth (not PRIME). Does the redesign replace it, embed as iframe, or re-platform onto PRIME auth? Owner: Dev + RAF system owner.</div>
     <div class="ann ann-y"><strong>ENRIL-53 cross-ref:</strong> RAF confirmed NOT in IL per David. PA participation TBD. This wireframe shows the full UI for ONG/GRE; IL/IES variants may suppress or replace this state entirely.</div>
-    <div class="dev-note"><strong>Analytics:</strong> <code>raf_email_send</code> (primary; with recipient_count), <code>raf_share_facebook</code> / <code>raf_share_x</code> / <code>raf_share_copy_link</code>, <code>raf_code_copy</code>, <code>raf_how_it_works_expand</code>. Reward-awarded events fire server-side when friend's enrollment passes LDC validation.</div>
+    <div class="dev-note"><strong>Analytics:</strong> <code>raf_email_send</code> (primary; with recipient_count), <code>raf_share_facebook</code> / <code>raf_share_x</code> / <code>raf_share_copy_link</code>, <code>raf_code_copy</code>, <code>raf_faq_expand</code> (with faq_id), <code>raf_learning_center_click</code>. Reward-awarded events fire server-side when friend's enrollment passes LDC validation.</div>
   </div>
 </div>
 
@@ -1909,7 +1949,11 @@ function setState(s) {
   if (dashGrp)  dashGrp.style.display  = (s === 'dashboard') ? '' : 'none';
 
   // Scroll to top of state for visibility
-  window.scrollTo({ top: document.querySelector('.legend').offsetTop, behavior: 'instant' });
+  // Scroll to top of state for visibility — fall back gracefully if anchors don't exist
+  var anchor = document.querySelector('.legend-drawer') || document.querySelector('.wfctl') || document.body;
+  if (anchor && anchor.offsetTop !== undefined) {
+    window.scrollTo({ top: anchor.offsetTop, behavior: 'instant' });
+  }
 }
 
 /* ────────────────────────────────────
