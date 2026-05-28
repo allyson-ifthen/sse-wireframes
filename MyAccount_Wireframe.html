@@ -850,6 +850,83 @@ body.chrome-hidden .presentation-hint {
   font-size: 10px; margin: 0 2px;
 }
 
+/* ── CANCEL PLAN FLOW (MA-47) ── */
+.cancel-flow-container { display: none; }
+.cancel-flow-container.active { display: block; }
+
+.cancel-step { display: none; }
+.cancel-step.active { display: block; }
+
+.cancel-modal-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+  padding: 32px; max-width: 560px; margin: 40px auto;
+}
+
+.cancel-modal-title { font-size: 24px; font-weight: 800; color: var(--ink); margin-bottom: 12px; }
+.cancel-modal-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+.cancel-retention-item {
+  display: flex; gap: 12px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line-soft);
+}
+.cancel-retention-item:last-child { border-bottom: none; }
+.cancel-retention-icon { font-size: 20px; flex-shrink: 0; }
+.cancel-retention-content { flex: 1; }
+.cancel-retention-label { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.cancel-retention-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.cancel-action-row { display: flex; gap: 10px; margin-top: 28px; }
+
+.cancel-plan-summary {
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: 14px; border-radius: 3px; margin-bottom: 24px;
+}
+.cancel-plan-summary-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+.cancel-plan-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cancel-plan-meta-item { font-size: 12px; }
+.cancel-plan-meta-label { font-size: 9px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 2px; }
+.cancel-plan-meta-val { font-size: 13px; font-weight: 700; color: var(--ink); }
+
+.cancel-ldc-return {
+  background: #fff3cd; border-left: 3px solid #e0a800;
+  padding: 12px; border-radius: 3px; margin: 20px 0; font-size: 12px; line-height: 1.6;
+}
+.cancel-ldc-return strong { color: #856404; }
+
+.cancel-etc-warning {
+  background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
+  padding: 12px; border-radius: 3px; margin: 20px 0; font-size: 12px; color: #5a4500; line-height: 1.6;
+}
+.cancel-etc-warning strong { color: var(--warn); }
+.cancel-etc-disclaimer { font-size: 11px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+.cancel-confirmation-detail {
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: 14px; border-radius: 3px; margin-bottom: 16px;
+}
+.cancel-confirmation-label { font-size: 9px; color: var(--accent); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.cancel-confirmation-val { font-size: 16px; font-weight: 700; color: var(--accent); font-family: ui-monospace, Menlo, monospace; letter-spacing: .02em; }
+
+.cancel-confirmation-item {
+  padding: 12px 0; border-bottom: 1px solid var(--line-soft);
+}
+.cancel-confirmation-item:last-child { border-bottom: none; }
+.cancel-confirmation-label-sm { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.cancel-confirmation-val-sm { font-size: 14px; color: var(--ink); font-weight: 600; }
+
+.cancel-notification-banner {
+  background: var(--ann-g-bg); border-left: 3px solid var(--good);
+  padding: 12px; border-radius: 3px; margin-bottom: 16px; font-size: 12px;
+}
+.cancel-raf-notice {
+  background: var(--ann-b-bg); border-left: 3px solid var(--accent);
+  padding: 12px; border-radius: 3px; font-size: 12px;
+}
+
+/* ── CANCEL FLOW STATE VISIBILITY ── */
+body.dash-sub-cancel .dash-active-view { display: none; }
+body.dash-sub-cancel .dash-pending-view { display: none; }
+body.dash-sub-cancel .cancel-flow-container { display: block; }
+
 /* ── PRINT ── */
 @media print {
   .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline, .oq-panel, .state-divider, .banner-suppressed, .presentation-hint {
@@ -901,6 +978,13 @@ body.chrome-hidden .presentation-hint {
       <span class="group-lbl">CA Sub-step</span>
       <button onclick="setCreateStep(1)">CA · Step 1</button>
       <button onclick="setCreateStep(2)">CA · Step 2</button>
+    </div>
+    <div class="group" id="cx-substep-group" style="display:none;">
+      <span class="group-lbl">Cancel Flow</span>
+      <button id="cx-btn-step1" class="on" onclick="setCancelStep(1)">CX · Step 1 (Retention)</button>
+      <button id="cx-btn-step2v" onclick="setCancelStep(2, 'variable')">CX · Step 2 (Variable)</button>
+      <button id="cx-btn-step2f" onclick="setCancelStep(2, 'fixed')">CX · Step 2 (Fixed)</button>
+      <button id="cx-btn-step3" onclick="setCancelStep(3)">CX · Step 3 (Confirm)</button>
     </div>
     <div class="wfctl-spacer"></div>
     <button id="ann-btn-all"   class="btn-ann on" onclick="setAnnMode('all')">All</button>
@@ -998,6 +1082,8 @@ body.chrome-hidden .presentation-hint {
     <li class="resolved"><strong>#6 RESOLVED (UPDATED 2026-05-20):</strong> Plan-change architecture confirmed. Two entry points (dashboard "Switch Plan" + promo deep-link), both converging on the market-appropriate existing-customer enrollment pre-flow — per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-89 + ENRIL-35 / ENRIL-76</strong> (IL/IES). Modal-based plan changes remain deprecated. The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> has been retired per MA-13 / MA-14.</li>
     <li><strong>#11 · MA-40 (NEW):</strong> Plan-change routing destinations from MyAccount — dashboard <code>Switch Plan</code> + promo deep-links route to the market-appropriate existing-customer enrollment pre-flow. <strong>OPG markets</strong> → <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> PF-1 (ENR-42). <strong>IL / IES Non-GB</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen B pre-flow (ENRIL-35 / ENRIL-76). <strong>IL / IES Guaranteed Bill</strong> → Scen D pre-flow (ENRIL-89). Detailed URL architecture diagram retired from the dashboard body 2026-05-26 — pending final URL convention from engineering before re-surfacing. Working URLs (illustrative): <code>/enroll/?from=my-account[&amp;plan=…]</code> (OPG); <code>/enroll/il/?from=my-account[&amp;plan=…]</code> (IL/IES). Final paths owned by engineering.</li>
     <li><strong>#12 · MA-42 (NEW):</strong> Dashboard enrollment-status sub-state visibility decisions — (i) at what point does the pending timeline transition to a known "Switch date" (immediately on LDC validation, or later)? (ii) does RAF expose for already-eligible referrals during the pending window, or hold until activation? (iii) Bill Pay (IL) + Communication Preferences (PA) rendering during the async window. Owner: Dev (Girish).</li>
+    <li><strong>#13 · MA-47 (NEW):</strong> IL / IES cancellation — does Illinois Part 512 impose specific cancellation notice periods, required disclosure language, or written confirmation requirements for customers cancelling a competitive gas supply contract online? The cancellation flow is specified for all five markets; IL/IES market-specific obligations are unknown and may require additional steps or copy. Owner: Legal / Ariel.</li>
+    <li><strong>#14 · MA-47 (NEW):</strong> Cancellation reason field — two parts: (i) confirm PRIME can accept an enumerated reason value written to the cancellation record (values: Moving out of the area / Switching to a different provider / Cost / No longer need the service / Other); (ii) confirm analytics event spec with engineering — reason should fire as an event on cancellation submission so it is queryable alongside session-level behavioral data without requiring a PRIME data export. Owner: Dev (Girish / David).</li>
     <li><strong>#7:</strong> Paperless email verification UX — PRIME shows "not signed up" until customer clicks the email verification link. Confirm exact timing/copy with dev.</li>
     <li><strong>#8 · MA-18 / MA-23 (NEW):</strong> Account-linking mechanism — does PRIME need a new field to associate email→account, or use existing account-number lookup at every login? Working assumption: one-time link at account creation, not every login. Owner: Dev (Girish).</li>
     <li><strong>#9 · MA-19 (NEW):</strong> Password reset policy — TTL (recommend 15 min), retry limit, lockout duration, "Resend" issues new token. Owner: Legal + Engineering (cross-ref Enrollment dev meeting Q17/Q18).</li>
@@ -1593,6 +1679,230 @@ body.chrome-hidden .presentation-hint {
       <div class="ann ann-y"><strong>Open #2:</strong> RAF portal integration with PRIME — replace, embed, or re-platform? Owner: Dev + RAF system owner client-side.</div>
     </div>
 
+    <!-- ─────────────────────────────────────────────────────
+         CANCEL PLAN FLOW (MA-47 · 3-step modal cascade)
+         ──────────────────────────────────────────────────── -->
+    <div id="cancel-flow-container" class="cancel-flow-container">
+
+      <!-- ─── STEP 1: RETENTION ("Before you go") ─── -->
+      <div id="cx-step-1" class="cancel-step active">
+        <div class="cancel-modal-card">
+          <div class="cancel-modal-title">Before you go</div>
+          <div class="cancel-modal-subtitle">We'd hate to see you leave. Here are a few reasons to stay:</div>
+
+          <div class="cancel-retention-item">
+            <div class="cancel-retention-icon">⚡</div>
+            <div class="cancel-retention-content">
+              <div class="cancel-retention-label">Lock in your rate</div>
+              <div class="cancel-retention-desc">Our plans offer competitive rates with no surprises. Switch to a different plan instead of leaving entirely.</div>
+            </div>
+          </div>
+
+          <div class="cancel-retention-item">
+            <div class="cancel-retention-icon">💙</div>
+            <div class="cancel-retention-content">
+              <div class="cancel-retention-label">Refer a friend, earn $25</div>
+              <div class="cancel-retention-desc">Your referral code is still active. Share it to earn rewards even before you leave.</div>
+            </div>
+          </div>
+
+          <div class="cancel-retention-item">
+            <div class="cancel-retention-icon">🤝</div>
+            <div class="cancel-retention-content">
+              <div class="cancel-retention-label">Talk to our team</div>
+              <div class="cancel-retention-desc">We're here to help. Call <span class="mkt-inline mkt-ong on">1-800-XXX-OHIO</span><span class="mkt-inline mkt-pa">1-800-XXX-PENN</span><span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span><span class="mkt-inline mkt-il">1-800-XXX-ILGS</span><span class="mkt-inline mkt-ies">1-800-XXX-IESL</span> to explore options.</div>
+            </div>
+          </div>
+
+          <div class="cancel-action-row">
+            <button class="btn btn-outline" onclick="exitCancelFlow()">← Stay on dashboard</button>
+            <button class="btn" onclick="setCancelStep(2, 'variable')">Continue with cancellation →</button>
+          </div>
+
+          <div style="margin-top:20px;">
+            <button class="link" type="button" onclick="setCancelStep(2, 'variable')">Switch Plan instead →</button>
+          </div>
+        </div>
+
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Done (2026-05-27):</strong> Full 3-step Cancel Plan flow implemented with per-plan-type Step 2 variants (variable/fixed), conditional ETC disclosure + acknowledgment (fixed only), RAF deactivation notice (conditional), email confirmation, and routing back to dashboard. wfctl exposes Cancel step jump buttons (Step 1 Retention / Step 2v Variable / Step 2f Fixed / Step 3 Confirm) when Dashboard state active. Plan-type detection logic TBD in engineering (queries current account plan to route to correct Step 2 variant on entry).</div>
+        <div class="ann ann-g" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 1 — Retention interstitial:</strong> Upfront appeal before cancellation. "Switch Plan" button routes to Enrollment per MA-21. "Continue with cancellation" proceeds to Step 2 with plan-type detection (variable → Step 2v; fixed → Step 2f).</div>
+      </div>
+
+      <!-- ─── STEP 2: CANCELLATION DETAILS (variable variant) ─── -->
+      <div id="cx-step-2v" class="cancel-step">
+        <div class="cancel-modal-card">
+          <div class="cancel-modal-title">Confirm cancellation</div>
+          <div class="cancel-modal-subtitle">
+            <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
+            <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline mkt-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline mkt-il">Illinois Energy</span>
+            <span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>
+          </div>
+
+          <div class="cancel-plan-summary">
+            <div class="cancel-plan-summary-title">Current plan</div>
+            <div class="cancel-plan-meta">
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">Plan</span>
+                <span class="cancel-plan-meta-val">ONG Variable 12</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">Rate</span>
+                <span class="cancel-plan-meta-val">$0.489/Mcf</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">End date</span>
+                <span class="cancel-plan-meta-val">June 30, 2026</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">ETC</span>
+                <span class="cancel-plan-meta-val">$0 (none)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cancel-ldc-return">
+            <strong>⚠ Your local utility will resume service:</strong> On your cancellation effective date, <span class="mkt-inline mkt-ong on">Columbia Gas</span><span class="mkt-inline mkt-pa">UGI Utilities</span><span class="mkt-inline mkt-gre">DTE Energy</span><span class="mkt-inline mkt-il">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span> will manage your gas supply. You will receive a separate bill from them.
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="cancel-reason">Why are you cancelling? <span class="opt-lbl">Optional</span></label>
+            <select id="cancel-reason" class="form-input">
+              <option>Select a reason…</option>
+              <option>Moving out of the area</option>
+              <option>Switching to a different provider</option>
+              <option>Cost</option>
+              <option>No longer need the service</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="cancel-action-row">
+            <button class="btn btn-outline" onclick="setCancelStep(1)">← Back</button>
+            <button class="btn" onclick="setCancelStep(3)">Review cancellation →</button>
+          </div>
+        </div>
+
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 2v — Variable plan:</strong> Plan summary, LDC return notice, optional cancellation reason. No ETC disclosure (variable plans have $0 ETC). Reason field is optional but fires analytics event on submission.</div>
+        <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Open #13 (ENRIL-53 cross-ref):</strong> IL/IES specific cancellation notice periods, disclosure language, and written-confirmation requirements per Part 512 — unknown and may require additional steps/copy. Owner: Legal/Ariel.</div>
+      </div>
+
+      <!-- ─── STEP 2: CANCELLATION DETAILS (fixed variant) ─── -->
+      <div id="cx-step-2f" class="cancel-step">
+        <div class="cancel-modal-card">
+          <div class="cancel-modal-title">Confirm cancellation</div>
+          <div class="cancel-modal-subtitle">
+            <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
+            <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline mkt-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline mkt-il">Illinois Energy</span>
+            <span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>
+          </div>
+
+          <div class="cancel-plan-summary">
+            <div class="cancel-plan-summary-title">Current plan</div>
+            <div class="cancel-plan-meta">
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">Plan</span>
+                <span class="cancel-plan-meta-val">ONG Fixed 12</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">Rate</span>
+                <span class="cancel-plan-meta-val">$0.489/Mcf (fixed)</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">End date</span>
+                <span class="cancel-plan-meta-val">June 30, 2026</span>
+              </div>
+              <div class="cancel-plan-meta-item">
+                <span class="cancel-plan-meta-label">ETC</span>
+                <span class="cancel-plan-meta-val">$12.50/mo remaining</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cancel-etc-warning">
+            <strong>⚠ Early Termination Charge (ETC):</strong> Cancelling before your contract end date will trigger an ETC. You have <strong>$300 remaining</strong> in ETC obligations. This will be billed to your account.
+            <div class="cancel-etc-disclaimer">The ETC is based on your contract terms. See your plan contract for details on how the charge is calculated.</div>
+          </div>
+
+          <div class="cancel-ldc-return">
+            <strong>⚠ Your local utility will resume service:</strong> On your cancellation effective date, <span class="mkt-inline mkt-ong on">Columbia Gas</span><span class="mkt-inline mkt-pa">UGI Utilities</span><span class="mkt-inline mkt-gre">DTE Energy</span><span class="mkt-inline mkt-il">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span> will manage your gas supply. You will receive a separate bill from them.
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="cancel-reason-f">Why are you cancelling? <span class="opt-lbl">Optional</span></label>
+            <select id="cancel-reason-f" class="form-input">
+              <option>Select a reason…</option>
+              <option>Moving out of the area</option>
+              <option>Switching to a different provider</option>
+              <option>Cost</option>
+              <option>No longer need the service</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label style="display:flex; gap:8px; align-items:flex-start; cursor:pointer;">
+              <input type="checkbox" style="margin-top:2px;">
+              <span>I acknowledge that I understand the <strong>$300 Early Termination Charge</strong> and accept this cost. <a class="link" href="#">View plan contract →</a></span>
+            </label>
+          </div>
+
+          <div class="cancel-action-row">
+            <button class="btn btn-outline" onclick="setCancelStep(1)">← Back</button>
+            <button class="btn" onclick="setCancelStep(3)">Review cancellation →</button>
+          </div>
+        </div>
+
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 2f — Fixed plan:</strong> Plan summary, ETC warning (conditional), LDC return notice, optional cancellation reason, ETC acknowledgment checkbox (required). Checkbox must be checked to proceed. ETC amount is dynamic (placeholder shown).</div>
+        <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Open #14 (NEW):</strong> Cancellation reason field — (i) confirm PRIME can accept enumerated reason (Moving / Switching / Cost / Not needed / Other); (ii) confirm analytics event spec with engineering. Owner: Dev (Girish/David).</div>
+      </div>
+
+      <!-- ─── STEP 3: CONFIRMATION ─── -->
+      <div id="cx-step-3" class="cancel-step">
+        <div class="cancel-modal-card">
+          <div class="cancel-modal-title">✓ Cancellation confirmed</div>
+
+          <div class="cancel-confirmation-detail">
+            <span class="cancel-confirmation-label">Confirmation #</span>
+            <span class="cancel-confirmation-val">CXL-2026-M9K2A8</span>
+          </div>
+
+          <div class="cancel-confirmation-item">
+            <span class="cancel-confirmation-label-sm">Plan</span>
+            <span class="cancel-confirmation-val-sm">ONG Fixed 12 · $0.489/Mcf</span>
+          </div>
+
+          <div class="cancel-confirmation-item">
+            <span class="cancel-confirmation-label-sm">Effective date</span>
+            <span class="cancel-confirmation-val-sm">July 1, 2026</span>
+          </div>
+
+          <div class="cancel-confirmation-item">
+            <span class="cancel-confirmation-label-sm">Reason</span>
+            <span class="cancel-confirmation-val-sm">Cost</span>
+          </div>
+
+          <div class="cancel-notification-banner">
+            <strong>📧 Confirmation email:</strong> We've sent a cancellation confirmation email to <strong>jane@email.com</strong>. Save this for your records.
+          </div>
+
+          <div class="cancel-raf-notice">
+            <strong>⚠ Refer-a-Friend notice:</strong> Your referral code (ONG-J4K2M9) is now inactive. You will not earn rewards for new referrals after your cancellation is complete. Pending referrals will be forfeited.
+          </div>
+
+          <div style="margin-top:28px; text-align:center;">
+            <button class="btn" onclick="exitCancelFlow()">← Back to my account</button>
+          </div>
+        </div>
+
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 3 — Confirmation:</strong> Confirmation # (generated server-side), plan summary, effective date, cancellation reason, email notification notice, RAF deactivation notice (conditional — only if RAF account is active). "Back to my account" CTA routes back to dashboard.</div>
+      </div>
+
+    </div><!-- /cancel-flow-container -->
+
   </div><!-- /layout -->
 </div>
 
@@ -1644,6 +1954,10 @@ body.chrome-hidden .presentation-hint {
       <div class="raf-primary-action">
         <div class="raf-section-h">Share by email <span class="ann-inline g">Primary action</span></div>
         <div class="form-row">
+          <label class="form-label" for="raf-subject">Subject line <span class="opt-lbl">Pre-filled</span></label>
+          <input id="raf-subject" class="form-input" type="text" value="Enroll with Ohio Natural Gas and we could both get $25" readonly style="background: var(--chip); cursor: default;">
+        </div>
+        <div class="form-row">
           <label class="form-label" for="raf-to">Recipient email(s) <span class="opt-lbl">Comma-separated</span></label>
           <input id="raf-to" class="form-input" type="text" placeholder="friend@email.com, another@email.com">
         </div>
@@ -1652,6 +1966,7 @@ body.chrome-hidden .presentation-hint {
           <textarea id="raf-msg" class="raf-email-textarea" placeholder="Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.">Hey — I've been with Ohio Natural Gas and wanted to share my referral code with you. Use ONG-J4K2M9 at sign-up to save $25 on your first bill.</textarea>
         </div>
         <button class="btn">Send invitation →</button>
+        <div class="ann ann-g" style="margin-top:10px; font-size:12px;"><strong>MA-44 (2026-05-27):</strong> Subject line field added — non-editable, pre-populated with dynamic market-specific text. Text resolves per market switcher: "Enroll with [SSE Marketer] and we could both get $25" (e.g., "Enroll with Ohio Natural Gas..." when ONG active). Subject line anchors the email template and is not editable by the user.</div>
       </div>
 
       <!-- SECONDARY: Social cluster -->
@@ -1723,28 +2038,28 @@ body.chrome-hidden .presentation-hint {
       <div class="raf-how-caveat" style="font-size:11px; color:var(--muted); padding-top:8px; border-top:1px solid var(--line-soft);">Reward type and amount may vary by market and promotion period.</div>
     </div>
 
-    <!-- ─── CONTEXTUAL FAQs (MA-43: new) ─── -->
+    <!-- ─── CONTEXTUAL FAQs (MA-43: new; MA-45 content from live PA site) ─── -->
     <div class="raf-faqs">
       <div class="raf-section-h">Refer a Friend FAQs</div>
       <details class="raf-faq-item">
-        <summary>When will I get my reward?</summary>
-        <div class="raf-faq-body">Your $25 bill credit posts after your friend's enrollment passes utility validation and their service start date — typically 1–2 business days after they enroll, sometimes longer depending on the local utility.</div>
+        <summary>What is your Refer-a-Friend Program?</summary>
+        <div class="raf-faq-body">The <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>® Refer-a-Friend Program allows current and new <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> customers to earn Visa Reward Cards when existing <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> customers refer friends who enroll with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</div>
       </details>
       <details class="raf-faq-item">
-        <summary>What happens if my friend doesn't enroll?</summary>
-        <div class="raf-faq-body">Nothing — your referral code stays active and you can share it with someone else. There's no penalty for unredeemed referrals.</div>
+        <summary>How much can I earn?</summary>
+        <div class="raf-faq-body">You can earn up to $500 in Visa Reward Cards per calendar year, every year! See <a href="#raf-program-terms">Refer-a-Friend Program Terms and Conditions</a> for additional information.</div>
       </details>
       <details class="raf-faq-item">
-        <summary>Can I refer myself with a second account?</summary>
-        <div class="raf-faq-body">No — self-referrals are not eligible. Each referral must be a new customer at a different service address.</div>
+        <summary>How do I get rewarded for referring my friends?</summary>
+        <div class="raf-faq-body">Referring your friends is easy! First, get your unique Referral Code <a href="#">here</a>, and then share it with your friends. Each time a friend signs up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> on an eligible price plan, provides your Referral Code during their enrollment, and then begins burning gas on that eligible price plan, you'll earn rewards. See <a href="#raf-program-terms">Refer-a-Friend Program Terms and Conditions</a> for additional requirements. Some exclusions apply.</div>
       </details>
       <details class="raf-faq-item">
-        <summary>How long does my code stay active?</summary>
-        <div class="raf-faq-body">Your code is active as long as you remain an active customer. If you cancel service, the code stops accepting new referrals but any pending referrals already in flight will still count.</div>
+        <summary>How do I get my personal Referral Code?</summary>
+        <div class="raf-faq-body">Your referral code is available online. Log in <a href="#">here</a> and view your Referral Code. You can also use our easy sharing tools to begin referring friends today.</div>
       </details>
       <details class="raf-faq-item">
-        <summary>Is there a limit on how many people I can refer?</summary>
-        <div class="raf-faq-body">Reward caps and program limits may apply — see the program terms below for the full eligibility rules.</div>
+        <summary>How do I share my Referral Code?</summary>
+        <div class="raf-faq-body">Sharing your personal Referral Code is easy. We've even built some easy-to-use tools to help you. Log in <a href="#">here</a> and access the following tools: <strong>1. Share by Email:</strong> Simply input your friends' email addresses, and we'll send them a custom email with all the information they need to easily sign up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. <strong>2. Share Socially:</strong> Use Facebook and X to share your Referral Code with your friends. Just click on the social media icon in your Refer-a-Friend account here to post a customized message to your feeds.</div>
       </details>
       <div class="raf-faqs-footer">
         <a class="link" href="#">More on Learning Center →</a>
@@ -1752,7 +2067,7 @@ body.chrome-hidden .presentation-hint {
     </div>
 
     <!-- ─── LEGAL PLACEHOLDER (MA-43: new — content TBD, Legal owner) ─── -->
-    <div class="raf-legal">
+    <div class="raf-legal" id="raf-program-terms">
       <div class="raf-section-h">Refer a Friend Program Terms</div>
       <div class="raf-legal-placeholder-note">⚐ Placeholder — Legal owner (Mollie/Josh). Final RAF program terms / eligibility / fine print TBD.</div>
       <div class="raf-legal-body">
@@ -1762,6 +2077,7 @@ body.chrome-hidden .presentation-hint {
 
     <div class="ann ann-g" style="margin-top:14px;"><strong>MA-43 · Action-first hierarchy + RAF expansion:</strong> Hero (incentive + code) → <strong>side-by-side Email + Social</strong> (60/40) → paired Earnings + History → <strong>How it works (now visible)</strong> → <strong>contextual FAQs (new)</strong> → <strong>Legal placeholder (new, content TBD)</strong>. Section order revised per Allyson walkthrough Round 2: status reads immediately after action; education + fine print live in the footer zone. Code displayed for reference but no longer visually dominant; primary action elevated.</div>
     <div class="ann ann-g"><strong>MA-20:</strong> Full RAF Dashboard mirrors <code>/my-account/refer/</code>. Dashboard's MA-3 summary card is preserved as the entry point — clicking "Refer a Friend →" lands here.</div>
+    <div class="ann ann-g"><strong>MA-46 · RAF Program Terms hyperlinks:</strong> Added <code>id="raf-program-terms"</code> anchor to Legal section; fragment links in FAQs (lines 1742, 1746) now resolve to inline Program Terms & Conditions. "Here" login links in FAQs (lines 1746, 1750, 1754) remain as placeholder <code>#</code> pending PRIME referral-code-mgmt URL discovery.</div>
     <div class="ann ann-y"><strong>MA-43 · FAQ copy:</strong> Working placeholder questions + answers — final copy TBD with content team.</div>
     <div class="ann ann-y"><strong>MA-43 · Legal placeholder:</strong> Content TBD — Legal owner (Mollie/Josh). Final RAF program terms required before launch.</div>
     <div class="ann ann-y"><strong>MA-20 · Open #2:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-only auth (not PRIME). Does the redesign replace it, embed as iframe, or re-platform onto PRIME auth? Owner: Dev + RAF system owner.</div>
@@ -1940,13 +2256,15 @@ function setState(s) {
     if (b) b.classList.toggle('on', k === s);
   });
 
-  // Show/hide wfctl context sub-groups (MA-39 · MA-42)
+  // Show/hide wfctl context sub-groups (MA-39 · MA-42 · MA-47)
   var loginGrp = document.getElementById('login-subtab-group');
   var caGrp    = document.getElementById('ca-substep-group');
   var dashGrp  = document.getElementById('dash-substep-group');
+  var cxGrp    = document.getElementById('cx-substep-group');
   if (loginGrp) loginGrp.style.display = (s === 'login')     ? '' : 'none';
   if (caGrp)    caGrp.style.display    = (s === 'create')    ? '' : 'none';
   if (dashGrp)  dashGrp.style.display  = (s === 'dashboard') ? '' : 'none';
+  if (cxGrp)    cxGrp.style.display    = (s === 'dashboard') ? '' : 'none';
 
   // Scroll to top of state for visibility
   // Scroll to top of state for visibility — fall back gracefully if anchors don't exist
@@ -1998,6 +2316,64 @@ function setCreateStep(n) {
   s2.style.display = n === 2 ? '' : 'none';
   if (c1) { c1.className = 'step-chip ' + (n === 1 ? 'current' : 'done'); }
   if (c2) { c2.className = 'step-chip ' + (n === 2 ? 'current' : 'upcoming'); }
+}
+
+/* ────────────────────────────────────
+   Cancel Plan flow (MA-47)
+*/
+function setCancelStep(step, variant) {
+  // Toggle cancel flow visibility
+  var container = document.getElementById('cancel-flow-container');
+  if (!container) return;
+
+  // Hide active/pending dashboard views
+  document.body.classList.add('dash-sub-cancel');
+  container.classList.add('active');
+
+  // Hide all steps first
+  ['cx-step-1', 'cx-step-2v', 'cx-step-2f', 'cx-step-3'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+
+  // Show the selected step
+  if (step === 1) {
+    var s1 = document.getElementById('cx-step-1');
+    if (s1) s1.classList.add('active');
+  } else if (step === 2) {
+    var s2 = variant === 'fixed' ? 'cx-step-2f' : 'cx-step-2v';
+    var el = document.getElementById(s2);
+    if (el) el.classList.add('active');
+  } else if (step === 3) {
+    var s3 = document.getElementById('cx-step-3');
+    if (s3) s3.classList.add('active');
+  }
+
+  // Update button states
+  ['cx-btn-step1', 'cx-btn-step2v', 'cx-btn-step2f', 'cx-btn-step3'].forEach(function(id) {
+    var btn = document.getElementById(id);
+    if (btn) btn.classList.remove('on');
+  });
+
+  if (step === 1) {
+    var b1 = document.getElementById('cx-btn-step1');
+    if (b1) b1.classList.add('on');
+  } else if (step === 2) {
+    var bv = variant === 'fixed' ? 'cx-btn-step2f' : 'cx-btn-step2v';
+    var btn = document.getElementById(bv);
+    if (btn) btn.classList.add('on');
+  } else if (step === 3) {
+    var b3 = document.getElementById('cx-btn-step3');
+    if (b3) b3.classList.add('on');
+  }
+}
+
+function exitCancelFlow() {
+  document.body.classList.remove('dash-sub-cancel');
+  var container = document.getElementById('cancel-flow-container');
+  if (container) container.classList.remove('active');
+  // Reset to dashboard active view
+  setDashSub('active');
 }
 
 /* ────────────────────────────────────
