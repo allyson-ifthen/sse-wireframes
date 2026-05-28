@@ -850,7 +850,14 @@ body.chrome-hidden .presentation-hint {
   font-size: 10px; margin: 0 2px;
 }
 
-/* ── CANCEL PLAN FLOW (MA-47) ── */
+/* ── CANCEL PLAN FLOW (MA-48: Step 1 modal + Steps 2–3 routed page) ── */
+.cancel-step-1-modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6); display: none; z-index: 100;
+  align-items: center; justify-content: center;
+}
+.cancel-step-1-modal.active { display: flex; }
+
 .cancel-flow-container { display: none; }
 .cancel-flow-container.active { display: block; }
 
@@ -1483,7 +1490,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
             </div>
             <div class="plan-action-row">
               <a class="btn-out btn-sm" href="#">Switch Plan</a>
-              <a class="btn-out btn-sm" href="#" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</a>
+              <button class="btn-out btn-sm" onclick="openCancelModal()" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</button>
             </div>
           </div>
         </div>
@@ -1680,11 +1687,11 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
     </div>
 
     <!-- ─────────────────────────────────────────────────────
-         CANCEL PLAN FLOW (MA-47 · 3-step modal cascade)
+         CANCEL PLAN FLOW (MA-48: Step 1 modal / Steps 2–3 routed page)
          ──────────────────────────────────────────────────── -->
-    <div id="cancel-flow-container" class="cancel-flow-container">
 
-      <!-- ─── STEP 1: RETENTION ("Before you go") ─── -->
+    <!-- STEP 1: RETENTION MODAL (MA-48) · Overlay (fixed position) · overlays dashboard state -->
+    <div id="cancel-step-1-modal" class="cancel-step-1-modal">
       <div id="cx-step-1" class="cancel-step active">
         <div class="cancel-modal-card">
           <div class="cancel-modal-title">Before you go</div>
@@ -1715,23 +1722,52 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           </div>
 
           <div class="cancel-action-row">
-            <button class="btn btn-outline" onclick="exitCancelFlow()">← Stay on dashboard</button>
-            <button class="btn" onclick="setCancelStep(2, 'variable')">Continue with cancellation →</button>
+            <button class="btn btn-outline" onclick="closeCancelModal()">← Stay on dashboard</button>
+            <button class="btn" onclick="openCancelPage()">Continue with cancellation →</button>
           </div>
 
           <div style="margin-top:20px;">
-            <button class="link" type="button" onclick="setCancelStep(2, 'variable')">Switch Plan instead →</button>
+            <button class="link" type="button" onclick="switchPlanFromCancel()">Switch Plan instead →</button>
           </div>
         </div>
 
-        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Done (2026-05-27):</strong> Full 3-step Cancel Plan flow implemented with per-plan-type Step 2 variants (variable/fixed), conditional ETC disclosure + acknowledgment (fixed only), RAF deactivation notice (conditional), email confirmation, and routing back to dashboard. wfctl exposes Cancel step jump buttons (Step 1 Retention / Step 2v Variable / Step 2f Fixed / Step 3 Confirm) when Dashboard state active. Plan-type detection logic TBD in engineering (queries current account plan to route to correct Step 2 variant on entry).</div>
-        <div class="ann ann-g" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 1 — Retention interstitial:</strong> Upfront appeal before cancellation. "Switch Plan" button routes to Enrollment per MA-21. "Continue with cancellation" proceeds to Step 2 with plan-type detection (variable → Step 2v; fixed → Step 2f).</div>
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-48 · Step 1 — Retention modal (architecture change):</strong> True modal overlay with backdrop. "Stay on dashboard" closes modal. "Continue with cancellation" opens Step 2 page. "Switch Plan instead" dismisses modal and navigates to Enrollment (intent exit per MA-21).</div>
       </div>
+    </div><!-- /cancel-step-1-modal -->
+
+  </div><!-- /layout: main dashboard -->
+</div><!-- /state: dashboard -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: CANCEL PLAN (full /my-account/cancel/ routed page)
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-cancel">
+  <div class="state-divider"><strong>State G</strong> — Authenticated · Cancel Plan Flow <span style="opacity:0.7; font-weight:400;">· /my-account/cancel/</span></div>
+
+  <div class="acct-header" style="background:#8b4645;">
+    <div>
+      <div class="acct-welcome">Cancel your plan</div>
+      <div class="acct-sub">
+        <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
+        <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
+        <span class="mkt-inline mkt-gre">Grand Rapids Energy</span>
+        <span class="mkt-inline mkt-il">Illinois Energy</span>
+        <span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>
+      </div>
+    </div>
+    <button class="acct-logout" onclick="setState('dashboard')">← Back to dashboard</button>
+  </div>
+
+  <div class="layout">
+
+    <!-- STEPS 2–3: CANCELLATION PAGE (MA-48: routed to /my-account/cancel/) -->
+    <div id="cancel-flow-container" class="cancel-flow-container">
 
       <!-- ─── STEP 2: CANCELLATION DETAILS (variable variant) ─── -->
       <div id="cx-step-2v" class="cancel-step">
         <div class="cancel-modal-card">
-          <div class="cancel-modal-title">Confirm cancellation</div>
+          <div class="cancel-modal-title">Review cancellation</div>
           <div class="cancel-modal-subtitle">
             <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
             <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
@@ -1779,19 +1815,19 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           </div>
 
           <div class="cancel-action-row">
-            <button class="btn btn-outline" onclick="setCancelStep(1)">← Back</button>
-            <button class="btn" onclick="setCancelStep(3)">Review cancellation →</button>
+            <button class="btn btn-outline" onclick="window.location.href='/my-account/'">← Back to my account</button>
+            <button class="btn" onclick="setCancelStep(3)">Confirm cancellation →</button>
           </div>
         </div>
 
-        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 2v — Variable plan:</strong> Plan summary, LDC return notice, optional cancellation reason. No ETC disclosure (variable plans have $0 ETC). Reason field is optional but fires analytics event on submission.</div>
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-52 · Step 2v title/CTA updated:</strong> Card title renamed to "Review cancellation" and primary CTA to "Confirm cancellation →" to establish Review → Confirm → Confirmed pattern. MA-55: "Back" button navigates to `/my-account/` dashboard (not to Step 1 modal).</div>
         <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Open #13 (ENRIL-53 cross-ref):</strong> IL/IES specific cancellation notice periods, disclosure language, and written-confirmation requirements per Part 512 — unknown and may require additional steps/copy. Owner: Legal/Ariel.</div>
       </div>
 
       <!-- ─── STEP 2: CANCELLATION DETAILS (fixed variant) ─── -->
       <div id="cx-step-2f" class="cancel-step">
         <div class="cancel-modal-card">
-          <div class="cancel-modal-title">Confirm cancellation</div>
+          <div class="cancel-modal-title">Review cancellation</div>
           <div class="cancel-modal-subtitle">
             <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
             <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
@@ -1817,13 +1853,13 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
               </div>
               <div class="cancel-plan-meta-item">
                 <span class="cancel-plan-meta-label">ETC</span>
-                <span class="cancel-plan-meta-val">$12.50/mo remaining</span>
+                <span class="cancel-plan-meta-val">$300 remaining</span>
               </div>
             </div>
           </div>
 
           <div class="cancel-etc-warning">
-            <strong>⚠ Early Termination Charge (ETC):</strong> Cancelling before your contract end date will trigger an ETC. You have <strong>$300 remaining</strong> in ETC obligations. This will be billed to your account.
+            <strong>⚠ Early Termination Charge (ETC):</strong> Your remaining obligation is <strong>$300 ($12.50/mo × 24 remaining months)</strong>. This will be billed to your account.
             <div class="cancel-etc-disclaimer">The ETC is based on your contract terms. See your plan contract for details on how the charge is calculated.</div>
           </div>
 
@@ -1845,19 +1881,19 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 
           <div class="form-row">
             <label style="display:flex; gap:8px; align-items:flex-start; cursor:pointer;">
-              <input type="checkbox" style="margin-top:2px;">
-              <span>I acknowledge that I understand the <strong>$300 Early Termination Charge</strong> and accept this cost. <a class="link" href="#">View plan contract →</a></span>
+              <input id="etc-acknowledge-checkbox" type="checkbox" style="margin-top:2px;">
+              <span>I acknowledge the <strong>$300 Early Termination Charge</strong> and accept this cost. <a class="link" href="#">View plan contract →</a></span>
             </label>
           </div>
 
           <div class="cancel-action-row">
-            <button class="btn btn-outline" onclick="setCancelStep(1)">← Back</button>
-            <button class="btn" onclick="setCancelStep(3)">Review cancellation →</button>
+            <button class="btn btn-outline" onclick="window.location.href='/my-account/'">← Back to my account</button>
+            <button id="confirm-cancel-btn" class="btn" onclick="confirmCancellation()" disabled>Confirm cancellation →</button>
           </div>
         </div>
 
-        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 2f — Fixed plan:</strong> Plan summary, ETC warning (conditional), LDC return notice, optional cancellation reason, ETC acknowledgment checkbox (required). Checkbox must be checked to proceed. ETC amount is dynamic (placeholder shown).</div>
-        <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Open #14 (NEW):</strong> Cancellation reason field — (i) confirm PRIME can accept enumerated reason (Moving / Switching / Cost / Not needed / Other); (ii) confirm analytics event spec with engineering. Owner: Dev (Girish/David).</div>
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-53/MA-54/MA-55 · Step 2f — Fixed plan:</strong> MA-53: ETC display shows total ($300 remaining) with inline calculation ($12.50/mo × 24 months) in warning banner. MA-54: Checkbox must be checked to enable "Confirm cancellation →" button (disabled by default). MA-55: "Back" button routes to `/my-account/` dashboard (not modal).</div>
+        <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>Open #13:</strong> IL/IES specific cancellation notice periods, disclosure language, and written-confirmation requirements per Part 512. Owner: Legal/Ariel.</div>
       </div>
 
       <!-- ─── STEP 3: CONFIRMATION ─── -->
@@ -1898,13 +1934,13 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           </div>
         </div>
 
-        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-47 · Step 3 — Confirmation:</strong> Confirmation # (generated server-side), plan summary, effective date, cancellation reason, email notification notice, RAF deactivation notice (conditional — only if RAF account is active). "Back to my account" CTA routes back to dashboard.</div>
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-48 · Step 3 — Confirmation:</strong> Confirmation # (generated server-side), plan summary, effective date, cancellation reason, email notification notice, RAF deactivation notice (conditional — only if RAF account is active). "Back to my account" CTA routes back to dashboard. Step 3 is part of the routed `/my-account/cancel/` page (not the modal).</div>
       </div>
 
     </div><!-- /cancel-flow-container -->
 
-  </div><!-- /layout -->
-</div>
+  </div><!-- /layout: cancel state -->
+</div><!-- /state: cancel -->
 
 
 <!-- ════════════════════════════════════════════════════════════════════════════
@@ -2242,7 +2278,7 @@ function setMarket(m) {
 /* ────────────────────────────────────
    Auth state switcher
 */
-var STATES = ['login', 'create', 'forgot', 'reset', 'dashboard', 'raf'];
+var STATES = ['login', 'create', 'forgot', 'reset', 'dashboard', 'cancel', 'raf'];
 
 function setState(s) {
   document.querySelectorAll('.state').forEach(function(el) {
@@ -2256,7 +2292,7 @@ function setState(s) {
     if (b) b.classList.toggle('on', k === s);
   });
 
-  // Show/hide wfctl context sub-groups (MA-39 · MA-42 · MA-47)
+  // Show/hide wfctl context sub-groups (MA-39 · MA-42 · MA-47 · MA-48 arch fix)
   var loginGrp = document.getElementById('login-subtab-group');
   var caGrp    = document.getElementById('ca-substep-group');
   var dashGrp  = document.getElementById('dash-substep-group');
@@ -2264,7 +2300,7 @@ function setState(s) {
   if (loginGrp) loginGrp.style.display = (s === 'login')     ? '' : 'none';
   if (caGrp)    caGrp.style.display    = (s === 'create')    ? '' : 'none';
   if (dashGrp)  dashGrp.style.display  = (s === 'dashboard') ? '' : 'none';
-  if (cxGrp)    cxGrp.style.display    = (s === 'dashboard') ? '' : 'none';
+  if (cxGrp)    cxGrp.style.display    = (s === 'dashboard' || s === 'cancel') ? '' : 'none';
 
   // Scroll to top of state for visibility
   // Scroll to top of state for visibility — fall back gracefully if anchors don't exist
@@ -2319,46 +2355,75 @@ function setCreateStep(n) {
 }
 
 /* ────────────────────────────────────
-   Cancel Plan flow (MA-47)
+   Cancel Plan flow (MA-48: modal + routed page architecture)
 */
-function setCancelStep(step, variant) {
-  // Toggle cancel flow visibility
+
+// MA-49: Open Step 1 retention modal
+function openCancelModal() {
+  var modal = document.getElementById('cancel-step-1-modal');
+  if (modal) modal.classList.add('active');
+  // Focus trap for Esc key
+  document.addEventListener('keydown', handleModalEsc);
+}
+
+// MA-49: Close Step 1 modal
+function closeCancelModal() {
+  var modal = document.getElementById('cancel-step-1-modal');
+  if (modal) modal.classList.remove('active');
+  document.removeEventListener('keydown', handleModalEsc);
+}
+
+function handleModalEsc(e) {
+  if (e.key === 'Escape') {
+    closeCancelModal();
+  }
+}
+
+// MA-50: Switch Plan from cancel modal (dismiss modal + navigate to enrollment)
+function switchPlanFromCancel() {
+  closeCancelModal();
+  // In production, route to enrollment flow per MA-21
+  console.log('Route to: Enrollment flow (MA-21)');
+  alert('In production, this would navigate to Enrollment flow.');
+}
+
+// MA-51: Continue with cancellation — open routed page (Step 2)
+function openCancelPage() {
+  closeCancelModal();
+  // MA-48 arch fix: Route to cancel state instead of showing container overlay
+  setState('cancel');
+  // Show the cancel-flow-container (CSS requires .active class for visibility)
   var container = document.getElementById('cancel-flow-container');
-  if (!container) return;
+  if (container) container.classList.add('active');
+  // In production: navigate to /my-account/cancel/ and detect plan type
+  // Wireframe: show Step 2v by default (plan-type detection is engineering concern)
+  setCancelStep(2, 'variable');
+}
 
-  // Hide active/pending dashboard views
-  document.body.classList.add('dash-sub-cancel');
-  container.classList.add('active');
-
-  // Hide all steps first
-  ['cx-step-1', 'cx-step-2v', 'cx-step-2f', 'cx-step-3'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.classList.remove('active');
+// MA-52/MA-55: Navigate between cancel flow steps
+function setCancelStep(step, variant) {
+  var steps = document.querySelectorAll('.cancel-step');
+  steps.forEach(function(s) {
+    s.classList.remove('active');
   });
 
-  // Show the selected step
-  if (step === 1) {
-    var s1 = document.getElementById('cx-step-1');
-    if (s1) s1.classList.add('active');
-  } else if (step === 2) {
-    var s2 = variant === 'fixed' ? 'cx-step-2f' : 'cx-step-2v';
-    var el = document.getElementById(s2);
-    if (el) el.classList.add('active');
+  if (step === 2 && variant === 'variable') {
+    document.getElementById('cx-step-2v').classList.add('active');
+    attachEtcCheckboxListener();
+  } else if (step === 2 && variant === 'fixed') {
+    document.getElementById('cx-step-2f').classList.add('active');
+    attachEtcCheckboxListener();
   } else if (step === 3) {
-    var s3 = document.getElementById('cx-step-3');
-    if (s3) s3.classList.add('active');
+    document.getElementById('cx-step-3').classList.add('active');
   }
 
-  // Update button states
+  // Update button states for wfctl
   ['cx-btn-step1', 'cx-btn-step2v', 'cx-btn-step2f', 'cx-btn-step3'].forEach(function(id) {
     var btn = document.getElementById(id);
     if (btn) btn.classList.remove('on');
   });
 
-  if (step === 1) {
-    var b1 = document.getElementById('cx-btn-step1');
-    if (b1) b1.classList.add('on');
-  } else if (step === 2) {
+  if (step === 2) {
     var bv = variant === 'fixed' ? 'cx-btn-step2f' : 'cx-btn-step2v';
     var btn = document.getElementById(bv);
     if (btn) btn.classList.add('on');
@@ -2368,8 +2433,36 @@ function setCancelStep(step, variant) {
   }
 }
 
+// MA-54: Enforce ETC checkbox before proceeding
+function attachEtcCheckboxListener() {
+  var checkbox = document.getElementById('etc-acknowledge-checkbox');
+  var btn = document.getElementById('confirm-cancel-btn');
+
+  if (checkbox && btn) {
+    // Set initial state
+    btn.disabled = !checkbox.checked;
+
+    // Listen for changes
+    checkbox.addEventListener('change', function() {
+      btn.disabled = !checkbox.checked;
+    });
+  }
+}
+
+// MA-54: Confirm cancellation (only if ETC checkbox is checked)
+function confirmCancellation() {
+  var checkbox = document.getElementById('etc-acknowledge-checkbox');
+  if (!checkbox || !checkbox.checked) {
+    alert('Please acknowledge the Early Termination Charge to proceed.');
+    return;
+  }
+  setCancelStep(3);
+}
+
 function exitCancelFlow() {
-  document.body.classList.remove('dash-sub-cancel');
+  // MA-48 arch fix: Return to dashboard state instead of just hiding container
+  setState('dashboard');
+  // Hide the cancel-flow-container (CSS requires .active class for visibility)
   var container = document.getElementById('cancel-flow-container');
   if (container) container.classList.remove('active');
   // Reset to dashboard active view

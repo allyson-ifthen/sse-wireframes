@@ -443,6 +443,8 @@
   /* Show when scenario is C OR D (any GB) */
   .scen-only-gb { display: none; }
   body.scen-c .scen-only-gb, body.scen-d .scen-only-gb { display: block; }
+  /* Hide for GB scenarios (Scen C/D) — used for WTE + attestation on step-quote (ENRIL-127) */
+  body.scen-c .scen-hide-gb, body.scen-d .scen-hide-gb { display: none; }
   /* Show when scenario is B OR D (any Existing — pre-flow markets) */
   .scen-only-existing { display: none; }
   body.scen-b .scen-only-existing, body.scen-d .scen-only-existing { display: block; }
@@ -1444,6 +1446,42 @@
       </h2>
       <p class="step-intro">Review the pricing for the plan you selected. You'll need to confirm two things before continuing.</p>
 
+      <!-- ENRIL-127: WTE hidden for GB (Scen C/D) — already present on step-lookup per ENRIL-123 -->
+      <div class="scen-hide-gb">
+        <div class="fieldset">
+          <h3>What to expect</h3>
+          <!-- ENRIL-99 (2026-05-26): ONG icon-grid pattern replaces .wte-item rows -->
+          <div class="what-to-expect">
+            <div class="wte-grid">
+              <div class="wte-row">
+                <span class="wte-icon">⏱</span>
+                <div>
+                  <div class="wte-label">About 5 minutes</div>
+                  <div class="wte-desc">to complete your enrollment.</div>
+                </div>
+              </div>
+              <div class="wte-row">
+                <span class="wte-icon">📋</span>
+                <div>
+                  <div class="wte-label">Have ready</div>
+                  <div class="wte-desc">your gas account number and access to your email inbox for a verification code.</div>
+                </div>
+              </div>
+              <div class="wte-row">
+                <span class="wte-icon">→</span>
+                <div>
+                  <div class="wte-label">What's next</div>
+                  <div class="wte-desc">
+                    <span class="scen-only-a-inline">Documents → Look up → Verify → Account → Review → Submit.</span>
+                    <span class="scen-only-b-inline">Documents → Verify → Account → Review → Submit.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="ann ann-g"><strong>ENRIL-27 · IL functional spec / N-GBP Step 1 + GBP Step 7:</strong> Price Quote with two mandatory checkboxes. Replaces the v1 Step 1 contract gate. Plan details live in the sidebar; main content surfaces "What to expect" so the customer can scope the rest of the enrollment.</div>
 
       <!-- ENRIL-133: Account number field for Scen A early existing-customer detection -->
@@ -1458,40 +1496,6 @@
         <div class="ann ann-g"><strong>ENRIL-133:</strong> Account number input on Quote step (Scen A only). If the number is recognized as already enrolled in PRIME, surface "Already a customer? Sign in →" redirect prompt. Prevents new customers from advancing further before realizing they should use plan-change flow.</div>
       </div>
 
-      <div class="fieldset">
-        <h3>What to expect</h3>
-        <!-- ENRIL-99 (2026-05-26): ONG icon-grid pattern replaces .wte-item rows -->
-        <div class="what-to-expect">
-          <div class="wte-grid">
-            <div class="wte-row">
-              <span class="wte-icon">⏱</span>
-              <div>
-                <div class="wte-label">About 5 minutes</div>
-                <div class="wte-desc">to complete your enrollment.</div>
-              </div>
-            </div>
-            <div class="wte-row">
-              <span class="wte-icon">📋</span>
-              <div>
-                <div class="wte-label">Have ready</div>
-                <div class="wte-desc">your gas account number and access to your email inbox for a verification code.</div>
-              </div>
-            </div>
-            <div class="wte-row">
-              <span class="wte-icon">→</span>
-              <div>
-                <div class="wte-label">What's next</div>
-                <div class="wte-desc">
-                  <span class="scen-only-a-inline">Documents → Look up → Verify → Account → Review → Submit.</span>
-                  <span class="scen-only-b-inline">Documents → Verify → Account → Review → Submit.</span>
-                  <span class="scen-only-gb">Verify → Account → Quote → Documents → Review → Submit.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Mandatory checkboxes -->
       <div class="fieldset">
         <h3>Before you continue</h3>
@@ -1501,24 +1505,18 @@
           <label for="q-continue"><strong>I want to continue with my enrollment</strong> using the plan and pricing shown above. <span class="ann-inline g">ENRIL-27 · mandatory</span></label>
         </div>
 
-        <!-- ENRIL-40 / ENRIL-52 unified: Language attestation as radio button group per Alicia's testing -->
-        <fieldset style="margin-bottom: 14px; border: none; padding: 0;">
-          <legend style="font-weight: 600; font-size: 14px; margin-bottom: 12px;">I understand and agree:</legend>
-          <div class="radio-row">
-            <input type="radio" id="q-language-yes" name="language-attest" value="yes" onchange="validateQuote()">
-            <label for="q-language-yes">I attest that I understand this disclosure is in English and I am requesting service in English.</label>
+        <!-- ENRIL-127: Attestation hidden for GB (Scen C/D) — relocated to step-lookup per ENRIL-124 -->
+        <div class="scen-hide-gb">
+          <!-- ENRIL-40: Checkbox confirmed (Legal approved single-checkbox form element) -->
+          <div class="checkbox-row" style="margin-bottom: 14px;">
+            <input type="checkbox" id="q-language-attest" onchange="validateQuote()">
+            <label for="q-language-attest"><strong>I attest that I understand this disclosure is in English</strong> and I am requesting service in English. <span class="req">*</span> <span class="ann-inline g">ENRIL-40 · mandatory</span></label>
           </div>
-          <div class="radio-row">
-            <input type="radio" id="q-language-no" name="language-attest" value="no" onchange="validateQuote()">
-            <label for="q-language-no">I do not attest (cannot proceed)</label>
-          </div>
-        </fieldset>
 
-        <div class="ann ann-y"><strong>ENRIL-40 · IfThen recommended form element:</strong> Radio button group replaces checkbox per Alicia's comprehension testing (§3.10.4). Two-option design makes the attestation explicit: "yes I understand English" vs. "no I cannot proceed." Flagged for Legal confirmation vs. spec's original checkbox. Owner: Alicia + Legal.</div>
+          <div class="ann ann-g"><strong>ENRIL-40 · confirmed (2026-05-28):</strong> Single checkbox replaces two-option radio group. Legal confirmed single-checkbox form element is sufficient per IL Part 512. Removed "I do not attest" option — decline is handled by the error mode (error-language-decline). Owner: Legal + Alicia.</div>
 
-        <div class="ann ann-y"><strong>ENRIL-52 · attestation placement unification:</strong> IfThen recommends moving attestation to Step 1 (Customer Lookup) for Scen C/D (currently Step 4 of GBP for Scen C/D). This places the attestation before document bundle, unifies it across all scenarios (A/B/C/D), and simplifies the Quote step. Flagged for Legal sanity-check on Part 512 compliance. Owner: Legal + Susan.</div>
-
-        <div class="ann ann-y scen-only-gb"><strong>ENRIL-52 / Friday meeting open:</strong> For GBP (Scenarios C/D), the Language Confirmation appears here (Step 4 of stepper) which is mid-flow relative to Customer Lookup (Step 1). All three reviewers at Part 2 walkthrough flagged this as awkward. Working assumption: place Language Confirmation at Step 1 (Customer Lookup) for both N-GBP and GBP. <strong>Pending 2026-05-15 client meeting + Susan / Legal regulatory check on whether Part 512 permits earlier placement on GBP.</strong> Owner: Susan + Alicia + Legal.</div>
+          <div class="ann ann-y"><strong>ENRIL-52 · attestation placement resolved for Scen C/D:</strong> English language attestation now appears at Step 1 (Customer Lookup) for Scen C/D (ENRIL-124) and is hidden here for GB scenarios. For Scen A/B (Non-GB) attestation remains at Step 1 Quote. Pending Legal confirmation that placement is acceptable for both flow types. Owner: Legal + Susan.</div>
+        </div>
       </div>
 
       <!-- Language declined stop screen -->
@@ -1622,6 +1620,39 @@
         <span class="scen-only-gb">To generate your quote we need your contact info. You'll see your full contract before completing your enrollment.</span>
       </p>
 
+      <!-- ENRIL-123: WTE panel for GB (Scen C/D) — colored fieldset treatment matching Non-GB flow -->
+      <div class="scen-only-gb">
+        <div class="fieldset">
+          <h3>What to expect</h3>
+          <div class="what-to-expect">
+            <div class="wte-grid">
+              <div class="wte-row">
+                <span class="wte-icon">⏱</span>
+                <div>
+                  <div class="wte-label">About 10 minutes</div>
+                  <div class="wte-desc">to complete your Guaranteed Bill enrollment — we'll generate your personalized monthly amount.</div>
+                </div>
+              </div>
+              <div class="wte-row">
+                <span class="wte-icon">📋</span>
+                <div>
+                  <div class="wte-label">Have ready</div>
+                  <div class="wte-desc">your gas account number, email inbox (for a verification code), and a few minutes to review your personalized contract.</div>
+                </div>
+              </div>
+              <div class="wte-row">
+                <span class="wte-icon">→</span>
+                <div>
+                  <div class="wte-label">What's next</div>
+                  <div class="wte-desc">Verify → Account → Standing → Quote → Documents → Your Info → Review → Submit.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ann ann-g"><strong>ENRIL-123:</strong> WTE panel added to Lookup (Step 1 GBP) with .fieldset colored-background styling matching Non-GB Quote step WTE. GB-specific copy reflects the longer flow and personalized quote generation. Scen C/D only.</div>
+        </div>
+      </div>
+
       <div class="ann ann-g"><strong>ENRIL-63 / ENRIL-84:</strong> Heading aligned across scenarios. For Scen C/D the supporting copy sets the PII-before-contract expectation upfront — provides customer transparency about the sequence and strengthens Part 512 defense (customer was informed).</div>
 
       <div class="ann ann-y"><strong>ENRIL-39 · PII-before-Document-Bundle · CRITICAL PATH:</strong> For Guaranteed Bill (Scenarios C/D), Customer Lookup at Step 1 collects PII BEFORE the Document Bundle (Step 6) is shown. IfThen recommends collecting PII at Step 1 to generate personalized GB quote. This satisfies quote-generation before contract-signing sequence. <strong>Flagged for Legal confirmation of Part 512 compliance (customer informed upfront per Scen intro copy).</strong> Owner: Legal + Susan.</div>
@@ -1676,7 +1707,13 @@
           <label for="l-disc-email"><strong>I consent to receive email</strong> from [SouthStar / IE / IES] about my service and account, <strong>including the authentication code required to verify my identity</strong>. <span class="ann-inline g">ENRIL-29 · mandatory</span></label>
         </div>
 
-        <div class="ann ann-g"><strong>ENRIL-36 / ENRIL-62:</strong> "Consent to Call" + "Preferred Contact" disclosures NOT displayed for IE/IES. GBPQ disclosure hidden for Scen A (Non-GB) — only shown for Scen C (GB New). For existing customers (B/D) consents move to pre-flow Confirm screen per ENRIL-88.</div>
+        <!-- ENRIL-124: English language attestation for GB (Scen C/D) relocated to Lookup Step 1 -->
+        <div class="checkbox-row scen-only-gb">
+          <input type="checkbox" id="l-disc-language-attest" onchange="validateLookup()">
+          <label for="l-disc-language-attest"><span class="req">*</span> <strong>I attest that I understand this disclosure is in English</strong> and I am requesting service in English. <span class="req-lbl">Required</span> <span class="ann-inline g">ENRIL-124 · GB-only · mandatory · relocated from Step 5 per ENRIL-52</span></label>
+        </div>
+
+        <div class="ann ann-g"><strong>ENRIL-36 / ENRIL-62 / ENRIL-124:</strong> "Consent to Call" + "Preferred Contact" disclosures NOT displayed for IE/IES. GBPQ disclosure hidden for Scen A (Non-GB) — only shown for Scen C (GB New). English language attestation added for Scen C/D at Step 1 per ENRIL-124 (relocated from Step 5 Quote). For existing customers (B/D) consents move to pre-flow Confirm screen per ENRIL-88.</div>
       </div>
 
       <!-- Email-down error -->
@@ -1840,16 +1877,21 @@
           <div class="ann ann-y"><strong>ENRIL-7 / walkthrough 3.3 open:</strong> One-call-vs-two metadata return from PRIME pending Girish.</div>
         </div>
       </div>
+      <!-- ENRIL-126: Scen C — compact status banner + credit check required consent checkbox -->
       <div class="scen-only-c">
-        <div class="subflow-stage">
-          <h4><span class="stage-num">2</span> Confirm your account information</h4>
-          <div class="readonly-display">
-            <div class="label-row">Returned by <code>SearchCustomers</code> · please confirm</div>
-            <strong>Jane Doe</strong><br>
-            Account ending ····3829<br>
-            123 Maple Street, Chicago IL 60601<br>
-            <span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span>
+        <div style="background: var(--ann-g-bg); border-left: 4px solid var(--ann-g-bd); border-radius: 4px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 16px; color: var(--good); flex-shrink: 0;">✓</span>
+          <div>
+            <strong>Account verified.</strong> We confirmed your account in our system. A standing check will run on the next step to confirm eligibility.
           </div>
+        </div>
+        <div class="fieldset">
+          <h3>Credit check consent <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(required for Guaranteed Bill)</span></h3>
+          <div class="checkbox-row">
+            <input type="checkbox" id="c-credit-consent" aria-required="true">
+            <label for="c-credit-consent"><span class="req">*</span> <strong>I consent to a credit check</strong> as required to determine my eligibility for the Guaranteed Bill Plan. This is a soft check and will not affect my credit score. <span class="req-lbl">Required</span> <span class="ann-inline g">ENRIL-126 · required · Scen C only</span></label>
+          </div>
+          <div class="ann ann-g"><strong>ENRIL-126:</strong> Compact status banner replaces the SearchCustomers readonly-display (PRIME does not return account holder details per ENRIL-111; that copy was misleading). Credit check consent moved here as a required step before Standing — GB applicants must consent before eligibility check runs. Scen C only.</div>
         </div>
       </div>
 
@@ -1893,39 +1935,91 @@
          ENRIL-66 · ENRIL-67 · ENRIL-69 · ENRIL-71 (result reveals here) · ENRIL-47
          ==================================================================== -->
     <section class="step residential-only" id="step-standing">
-      <h2>Account standing &amp; credit check</h2>
-      <p class="step-intro">We've checked your account standing. Here's the result.</p>
+      <h2>Account standing</h2>
+      <p class="step-intro scen-hide-gb">Your account has been verified. Confirm your information and review the disclosures below.</p>
+      <p class="step-intro scen-only-gb">Your account standing has been confirmed. Continue to your personalized quote.</p>
 
-      <div class="ann ann-g"><strong>ENRIL-71 · result-reveal:</strong> 5B leads with the standing-check outcome (stage 1 below), then surfaces credit consent only if PRIME asked, then ETC if applicable.</div>
+      <div class="ann ann-g"><strong>ENRIL-71 / ENRIL-117:</strong> 5B leads with compact status banner. For N-GBP (Scen A/B) contact/service fields + consolidated disclosures follow the banner (ENRIL-117). For GBP (Scen C/D) original stage layout preserved — credit consent + ETC stages then route to Quote.</div>
 
-      <!-- Stage 1: Outcome -->
-      <div class="subflow-stage">
-        <h4><span class="stage-num">1</span> Standing check outcome</h4>
-        <div class="readonly-display">
-          <div class="label-row">Status</div>
-          <span class="ann-inline g">✓ Passed</span> — your account is eligible for this plan.
-        </div>
-        <div class="ann ann-b" style="margin-top: 10px;"><strong>ENRIL-69 · wireframe-mode:</strong> This pill only renders after PRIME returns the credit-check response in production. Shown here for reviewer reference.</div>
-        <div class="ann ann-b"><strong>ENRIL-47 · Prime design doc:</strong> Uses existing <code>GetQuotes</code> web service. <code>MsgLevel="Stop"</code> halts; <code>MsgLevel="Warning"</code> displays but allows continuation.</div>
-      </div>
-
-      <!-- Stage 2: Credit consent (conditional) -->
-      <div class="subflow-stage">
-        <h4><span class="stage-num">2</span> Credit consent <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if PRIME returns "Credit Check Required")</span></h4>
-        <div class="checkbox-row">
-          <input type="checkbox" id="a-credit-consent">
-          <label for="a-credit-consent">I consent to a soft credit check (if required by this plan). This will not affect my credit score. <span class="ann-inline g">ENRIL-67 · not pre-checked · only renders if requested</span></label>
+      <!-- Compact status banner — all scenarios -->
+      <div style="background: var(--ann-g-bg); border-left: 4px solid var(--ann-g-bd); border-radius: 4px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;">
+        <span style="font-size: 16px; color: var(--good); flex-shrink: 0;">✓</span>
+        <div>
+          <strong>Standing confirmed.</strong> Your account is in good standing and eligible for this plan.
+          <div class="ann ann-b" style="margin-top: 8px;"><strong>ENRIL-69 · wireframe-mode:</strong> This status renders after PRIME returns the credit-check response in production. Shown here for reviewer reference.</div>
+          <div class="ann ann-b"><strong>ENRIL-47 · Prime design doc:</strong> Uses existing <code>GetQuotes</code> web service. <code>MsgLevel="Stop"</code> halts; <code>MsgLevel="Warning"</code> displays but allows continuation.</div>
         </div>
       </div>
 
-      <!-- Stage 3: ETC / Renewal window (conditional — applies to B/D existing customers only) -->
-      <div class="subflow-stage">
-        <h4><span class="stage-num">3</span> Early termination <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if your current contract has an ETF)</span></h4>
-        <p class="scen-only-a">Not applicable — you're enrolling in a new plan, no existing contract.</p>
-        <p class="scen-only-c">Not applicable — you're enrolling in a new plan, no existing contract.</p>
-        <p class="scen-only-existing">If your current contract has an Early Termination Charge, we'll show it here. By continuing, you acknowledge any charges that may apply.</p>
-        <div class="ann ann-g"><strong>ENRIL-69 · wireframe-mode:</strong> Stage renders only when PRIME flags ETF or renewal-window restrictions. Production: hidden unless triggered.</div>
-        <div class="ann ann-g"><strong>ENRIL-81 · §6.2 #11 CLOSED:</strong> Customers can change plans any time; plan-type determines ETF, not renewal-window state. ETF info is informational here; doesn't gate the change.</div>
+      <!-- N-GBP only (Scen A/B): Contact/service fields + consolidated disclosures (ENRIL-117 / ENRIL-116) -->
+      <div class="scen-hide-gb">
+        <div class="fieldset">
+          <h3>Your information</h3>
+          <div class="ann ann-g"><strong>ENRIL-116 / ENRIL-117:</strong> Contact and service fields relocated from Step 3 (Customer Lookup) to Step 5 (Standing). Pre-filled from prior steps; service address is read-only per IL spec.</div>
+          <div class="field-row">
+            <div class="field">
+              <label>First name</label>
+              <input type="text" placeholder="[Pre-filled from SearchCustomers]" readonly>
+            </div>
+            <div class="field">
+              <label>Last name</label>
+              <input type="text" placeholder="[Pre-filled from Customer Lookup]" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label>Service address <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(read-only per IL spec)</span></label>
+            <div class="readonly-display">
+              <strong>123 Maple Street</strong><br>
+              Chicago, IL 60601
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="s-phone"><span class="req">*</span>Phone <span class="req-lbl">Required</span></label>
+              <input type="tel" id="s-phone" aria-required="true">
+            </div>
+            <div class="field">
+              <label for="s-email"><span class="req">*</span>Email <span class="req-lbl">Required · editable</span></label>
+              <input type="email" id="s-email" value="jane.doe@example.com">
+              <div class="ann-inline g" style="margin-top: 4px;">Pre-filled from Customer Lookup · editable</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consolidated disclosures for N-GBP (ENRIL-117) -->
+        <div class="fieldset">
+          <h3>Disclosures</h3>
+          <div class="checkbox-row">
+            <input type="checkbox" id="s-credit-consent">
+            <label for="s-credit-consent">I consent to a soft credit check (if required by this plan). This will not affect my credit score. <span class="ann-inline g">ENRIL-67 · conditional · only shown if PRIME requests</span></label>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="s-etc-consent">
+            <label for="s-etc-consent">I acknowledge any Early Termination Charge that may apply if I am switching from an existing contract. <span class="ann-inline g">ENRIL-69 · conditional · only shown for Scen B with active ETF</span></label>
+          </div>
+          <div class="ann ann-g"><strong>ENRIL-117 / ENRIL-81:</strong> Credit check consent + ETC consolidated into single disclosures block for N-GBP. Both are conditional — shown only when PRIME flags them. Customers can change plans any time; ETF info is informational only (§6.2 #11).</div>
+        </div>
+      </div>
+
+      <!-- GBP only (Scen C/D): Preserve original credit consent + ETC stages (routes to Quote next) -->
+      <div class="scen-only-gb">
+        <!-- Stage 2: Credit consent (conditional) -->
+        <div class="subflow-stage">
+          <h4><span class="stage-num">2</span> Credit consent <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if PRIME returns "Credit Check Required")</span></h4>
+          <div class="checkbox-row">
+            <input type="checkbox" id="a-credit-consent">
+            <label for="a-credit-consent">I consent to a soft credit check (if required by this plan). This will not affect my credit score. <span class="ann-inline g">ENRIL-67 · not pre-checked · only renders if requested</span></label>
+          </div>
+        </div>
+
+        <!-- Stage 3: ETC / Renewal window (conditional) -->
+        <div class="subflow-stage">
+          <h4><span class="stage-num">3</span> Early termination <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if your current contract has an ETF)</span></h4>
+          <p class="scen-only-c">Not applicable — you're enrolling in a new plan, no existing contract.</p>
+          <p class="scen-only-d">If your current contract has an Early Termination Charge, we'll show it here. By continuing, you acknowledge any charges that may apply.</p>
+          <div class="ann ann-g"><strong>ENRIL-69 · wireframe-mode:</strong> Stage renders only when PRIME flags ETF or renewal-window restrictions. Production: hidden unless triggered.</div>
+          <div class="ann ann-g"><strong>ENRIL-81 · §6.2 #11 CLOSED:</strong> Customers can change plans any time; plan-type determines ETF, not renewal-window state. ETF info is informational here; doesn't gate the change.</div>
+        </div>
       </div>
 
       <!-- Error overlays -->
@@ -1991,7 +2085,6 @@
       <div class="fieldset">
         <h3>Service address <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(read-only per IL spec)</span></h3>
         <div class="readonly-display">
-          <div class="label-row">Pre-filled from SearchCustomers · read-only in IL</div>
           <strong>123 Maple Street</strong><br>
           Chicago, IL 60601
         </div>
@@ -2340,7 +2433,7 @@
     <div class="plan-rate">
       <span class="scen-only-a-inline">$0.74 <small>/ therm</small></span>
       <span class="scen-only-b-inline">$0.74 <small>/ therm</small></span>
-      <span class="scen-only-gb">$XXX <small>/ month</small></span>
+      <span class="scen-only-gb">$97 <small>/ month</small></span>
     </div>
     <dl>
       <dt>Term</dt><dd>12 months</dd>
@@ -2600,11 +2693,14 @@
   // ---------- Validators ----------
   function validateQuote() {
     var c1 = document.getElementById('q-continue');
-    var langYes = document.getElementById('q-language-yes');
+    var langAttest = document.getElementById('q-language-attest');
     var btn = document.getElementById('q-continue-btn');
-    // Both must be checked: continue checkbox + language attestation "yes" radio
-    if (btn) btn.disabled = !(c1 && c1.checked && langYes && langYes.checked);
-    // If Language Confirmation "no" is selected, show error. For wireframe, use error-mode toggle.
+    // For GB (Scen C/D), attestation is on step-lookup — not required here.
+    // For Non-GB (Scen A/B), checkbox must be checked.
+    var isGB = document.body.classList.contains('scen-c') || document.body.classList.contains('scen-d');
+    var attestOk = isGB || (langAttest && langAttest.checked);
+    if (btn) btn.disabled = !(c1 && c1.checked && attestOk);
+    // Language decline error: handled via error-mode toggle (ENRIL-13).
   }
   function validateBundle() {
     var ack = document.getElementById('bundle-ack');
@@ -2624,7 +2720,11 @@
     }
     var d1 = document.getElementById('l-disc-gbpq');
     var d2 = document.getElementById('l-disc-email');
-    ok = ok && d1 && d1.checked && d2 && d2.checked;
+    var d3 = document.getElementById('l-disc-language-attest');
+    // GBPQ + email consent required for all; for GB also require language attestation (ENRIL-124)
+    var isGB = document.body.classList.contains('scen-c') || document.body.classList.contains('scen-d');
+    ok = ok && d2 && d2.checked;
+    if (isGB) ok = ok && d1 && d1.checked && d3 && d3.checked;
     var btn = document.getElementById('lookup-request-code-btn');
     if (btn) btn.disabled = !ok;
   }
