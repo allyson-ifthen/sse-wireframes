@@ -968,6 +968,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <button id="st-btn-forgot"    onclick="setState('forgot')">Forgot Password</button>
       <button id="st-btn-reset"     onclick="setState('reset')">Reset Password</button>
       <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
+      <button id="st-btn-cancel"    onclick="goCancelStep(2, 'variable')">Cancel Flow</button>
       <button id="st-btn-raf"       onclick="setState('raf')">RAF Dashboard</button>
     </div>
     <div class="wfctl-divider"></div>
@@ -988,10 +989,10 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
     </div>
     <div class="group" id="cx-substep-group" style="display:none;">
       <span class="group-lbl">Cancel Flow</span>
-      <button id="cx-btn-step1" class="on" onclick="setCancelStep(1)">CX · Step 1 (Retention)</button>
-      <button id="cx-btn-step2v" onclick="setCancelStep(2, 'variable')">CX · Step 2 (Variable)</button>
-      <button id="cx-btn-step2f" onclick="setCancelStep(2, 'fixed')">CX · Step 2 (Fixed)</button>
-      <button id="cx-btn-step3" onclick="setCancelStep(3)">CX · Step 3 (Confirm)</button>
+      <button id="cx-btn-step1" class="on" onclick="openCancelModal()">CX · Step 1 (Retention)</button>
+      <button id="cx-btn-step2v" onclick="goCancelStep(2, 'variable')">CX · Step 2 (Variable)</button>
+      <button id="cx-btn-step2f" onclick="goCancelStep(2, 'fixed')">CX · Step 2 (Fixed)</button>
+      <button id="cx-btn-step3" onclick="goCancelStep(3)">CX · Step 3 (Confirm)</button>
     </div>
     <div class="wfctl-spacer"></div>
     <button id="ann-btn-all"   class="btn-ann on" onclick="setAnnMode('all')">All</button>
@@ -1081,14 +1082,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 <div class="oq-panel">
   <h4>Open Questions — My Account</h4>
   <ul>
-    <li class="resolved"><strong>#1 RESOLVED · MA-16:</strong> Auth model direction — client aligned 2026-05-19 on exploring email/password uniformly across all 5 markets. <strong>PRIME implementation details remain open:</strong> (a) account-linking mechanism for existing customers, (b) password storage, (c) IL Part 512 identity-code overlay. Reframed as B-N items for dev meeting.</li>
-    <li><strong>#2 · MA-20:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-based auth (not PRIME). When RAF moves into My Account, does the redesign (a) replace it, (b) embed it as iframe, or (c) re-platform onto PRIME auth? Owner: Dev + RAF system owner client-side.</li>
     <li><strong>#3:</strong> Non-auto-renew renewal flow — for plans that do not auto-renew, full renewal flow must be defined with client. Wireframe shows auto-renew majority path; renewal action variant TBD.</li>
-    <li class="resolved"><strong>#4 RESOLVED · MA-28:</strong> Communication preferences beyond paperless — per client direction 2026-05-19, SMS Alerts removed from scope. Preferences card surfaces only Paperless Billing (PA) and Email Notifications (PA); non-PA markets show the regulatory-notice statement.</li>
-    <li><strong>#5:</strong> Greener Life plan switching from My Account vs. routing through enrollment flow. Owner: Dev.</li>
-    <li class="resolved"><strong>#6 RESOLVED (UPDATED 2026-05-20):</strong> Plan-change architecture confirmed. Two entry points (dashboard "Switch Plan" + promo deep-link), both converging on the market-appropriate existing-customer enrollment pre-flow — per <strong>ENR-42</strong> (OPG) and <strong>ENRIL-89 + ENRIL-35 / ENRIL-76</strong> (IL/IES). Modal-based plan changes remain deprecated. The previously-referenced <code>PlanChangeFlow_Wireframe.html</code> has been retired per MA-13 / MA-14.</li>
-    <li><strong>#11 · MA-40 (NEW):</strong> Plan-change routing destinations from MyAccount — dashboard <code>Switch Plan</code> + promo deep-links route to the market-appropriate existing-customer enrollment pre-flow. <strong>OPG markets</strong> → <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> PF-1 (ENR-42). <strong>IL / IES Non-GB</strong> → <code>Enrollment_IL-IES_Wireframe.html</code> Scen B pre-flow (ENRIL-35 / ENRIL-76). <strong>IL / IES Guaranteed Bill</strong> → Scen D pre-flow (ENRIL-89). Detailed URL architecture diagram retired from the dashboard body 2026-05-26 — pending final URL convention from engineering before re-surfacing. Working URLs (illustrative): <code>/enroll/?from=my-account[&amp;plan=…]</code> (OPG); <code>/enroll/il/?from=my-account[&amp;plan=…]</code> (IL/IES). Final paths owned by engineering.</li>
-    <li><strong>#12 · MA-42 (NEW):</strong> Dashboard enrollment-status sub-state visibility decisions — (i) at what point does the pending timeline transition to a known "Switch date" (immediately on LDC validation, or later)? (ii) does RAF expose for already-eligible referrals during the pending window, or hold until activation? (iii) Bill Pay (IL) + Communication Preferences (PA) rendering during the async window. Owner: Dev (Girish).</li>
     <li><strong>#13 · MA-47 (NEW):</strong> IL / IES cancellation — does Illinois Part 512 impose specific cancellation notice periods, required disclosure language, or written confirmation requirements for customers cancelling a competitive gas supply contract online? The cancellation flow is specified for all five markets; IL/IES market-specific obligations are unknown and may require additional steps or copy. Owner: Legal / Ariel.</li>
     <li><strong>#14 · MA-47 (NEW):</strong> Cancellation reason field — two parts: (i) confirm PRIME can accept an enumerated reason value written to the cancellation record (values: Moving out of the area / Switching to a different provider / Cost / No longer need the service / Other); (ii) confirm analytics event spec with engineering — reason should fire as an event on cancellation submission so it is queryable alongside session-level behavioral data without requiring a PRIME data export. Owner: Dev (Girish / David).</li>
     <li><strong>#7:</strong> Paperless email verification UX — PRIME shows "not signed up" until customer clicks the email verification link. Confirm exact timing/copy with dev.</li>
@@ -2390,14 +2384,21 @@ function switchPlanFromCancel() {
 // MA-51: Continue with cancellation — open routed page (Step 2)
 function openCancelPage() {
   closeCancelModal();
-  // MA-48 arch fix: Route to cancel state instead of showing container overlay
-  setState('cancel');
-  // Show the cancel-flow-container (CSS requires .active class for visibility)
-  var container = document.getElementById('cancel-flow-container');
-  if (container) container.classList.add('active');
   // In production: navigate to /my-account/cancel/ and detect plan type
   // Wireframe: show Step 2v by default (plan-type detection is engineering concern)
-  setCancelStep(2, 'variable');
+  goCancelStep(2, 'variable');
+}
+
+// MA-48 navigation helper: Switch to cancel state and navigate to specific step
+// Called from both modal CTA buttons and control bar step buttons
+function goCancelStep(step, variant) {
+  // Switch to cancel page state (if not already there)
+  setState('cancel');
+  // Show the cancel-flow-container
+  var container = document.getElementById('cancel-flow-container');
+  if (container) container.classList.add('active');
+  // Display the requested step
+  setCancelStep(step, variant);
 }
 
 // MA-52/MA-55: Navigate between cancel flow steps
@@ -2456,7 +2457,8 @@ function confirmCancellation() {
     alert('Please acknowledge the Early Termination Charge to proceed.');
     return;
   }
-  setCancelStep(3);
+  // Use goCancelStep to ensure state consistency
+  goCancelStep(3);
 }
 
 function exitCancelFlow() {

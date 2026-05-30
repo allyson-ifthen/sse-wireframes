@@ -453,6 +453,21 @@
   body.is-commercial .commercial-only { display: block; }
   body.is-commercial .residential-only { display: none; }
 
+  /* ENRIL-85: GB rate hidden in sidebar until Quote step (Scen C/D).
+     Rate is unknown until PRIME runs GetQuotes at the Quote step.
+     Shows on Quote step and all subsequent steps (rate is then known). */
+  body.scen-c .plan-rate, body.scen-d .plan-rate { display: none; }
+  body.scen-c.flow-step-quote .plan-rate,
+  body.scen-d.flow-step-quote .plan-rate,
+  body.scen-c.flow-step-bundle .plan-rate,
+  body.scen-d.flow-step-bundle .plan-rate,
+  body.scen-c.flow-step-info .plan-rate,
+  body.scen-d.flow-step-info .plan-rate,
+  body.scen-c.flow-step-review .plan-rate,
+  body.scen-d.flow-step-review .plan-rate,
+  body.scen-c.flow-step-confirmation .plan-rate,
+  body.scen-d.flow-step-confirmation .plan-rate { display: block; }
+
   /* -- Error overlays (ENRIL-13) ----------------------------------------- */
   .error-banner {
     display: none; padding: 14px 16px; margin-bottom: 22px;
@@ -886,8 +901,8 @@
     <div class="wfctl-divider"></div>
     <div class="group">
       <span class="group-lbl">Step</span>
-      <button id="step-btn-preflow1" onclick="setStep('preflow1')">Pre-flow 1</button>
-      <button id="step-btn-preflow2" onclick="setStep('preflow2')">Pre-flow 2</button>
+      <button id="step-btn-preflow1" onclick="setStep('preflow1')">Pre-flow 1 (removed · ENRIL-76)</button>
+      <button id="step-btn-preflow2" onclick="setStep('preflow2')">Pre-flow 2 (entry point)</button>
       <button id="step-btn-selectplan" onclick="setStep('selectplan')">Select plan (ENRIL-89)</button>
       <button id="step-btn-quote" class="on" onclick="setStep('quote')">Quote</button>
       <button id="step-btn-bundle" onclick="setStep('bundle')">Documents</button>
@@ -913,8 +928,8 @@
   <div class="scenario-drawer" id="scenario-drawer">
     <div class="scenario-drop-row">
       <span class="scenario-drop-lbl">Entry state</span>
-      <button id="entry-btn-unauth" class="on" onclick="setEntryState('unauth')">Not signed in → preflow1</button>
-      <button id="entry-btn-signedin" onclick="setEntryState('signedin')">Signed in → preflow2</button>
+      <button id="entry-btn-unauth" onclick="setEntryState('unauth')">Not signed in → preflow1 (ENRIL-76: removed path)</button>
+      <button id="entry-btn-signedin" class="on" onclick="setEntryState('signedin')">Signed in → preflow2 (default · ENRIL-76)</button>
       <button id="entry-btn-deeplink" onclick="setEntryState('deeplink')">Promo deep-link → selectplan</button>
     </div>
     <div class="scenario-drop-row">
@@ -1079,27 +1094,26 @@
   <span class="step-divider"></span>
   <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">8</span><span>Confirm</span></button>
 </div>
-<!-- Scenario B: 10 chips (Pre-flow 1 · Pre-flow 2 · Select plan · Quote · Documents · OTP · Account # · Standing · Review · Confirm). Lookup dropped per ENRIL-88. Select plan inserted per ENRIL-89. -->
+<!-- Scenario B: 9 chips (Confirm · Select plan · Quote · Documents · Verify · Account # · Standing · Review · Confirm). Sign In chip removed per ENRIL-76. Lookup chip removed per ENRIL-88 (PRIME already has customer data from auth). Select plan inserted per ENRIL-89. -->
+<!-- ENRIL-88 stepper update · Scen B = 9 chips (no Sign In, no Lookup). Email consent collected at Confirm (pre-flow 2). -->
 <div class="stepper stepper-b" aria-label="Enrollment progress (Scenario B — Non-GB Existing)">
-  <button class="step-chip current" data-step="preflow1" onclick="setStep('preflow1')"><span class="num">1</span><span>Sign in</span></button>
+  <button class="step-chip current" data-step="preflow2" onclick="setStep('preflow2')"><span class="num">1</span><span>Confirm</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="preflow2" onclick="setStep('preflow2')"><span class="num">2</span><span>Confirm</span></button>
+  <button class="step-chip upcoming" data-step="selectplan" onclick="setStep('selectplan')"><span class="num">2</span><span>Select plan</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="selectplan" onclick="setStep('selectplan')"><span class="num">3</span><span>Select plan</span></button>
+  <button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">3</span><span>Quote</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">4</span><span>Quote</span></button>
+  <button class="step-chip upcoming" data-step="bundle" onclick="setStep('bundle')"><span class="num">4</span><span>Documents</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="bundle" onclick="setStep('bundle')"><span class="num">5</span><span>Documents</span></button>
+  <button class="step-chip upcoming" data-step="otp" onclick="setStep('otp')"><span class="num">5</span><span>Verify</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="otp" onclick="setStep('otp')"><span class="num">6</span><span>Verify</span></button>
+  <button class="step-chip upcoming" data-step="account" onclick="setStep('account')"><span class="num">6</span><span>Account #</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="account" onclick="setStep('account')"><span class="num">7</span><span>Account #</span></button>
+  <button class="step-chip upcoming" data-step="standing" onclick="setStep('standing')"><span class="num">7</span><span>Standing</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="standing" onclick="setStep('standing')"><span class="num">8</span><span>Standing</span></button>
+  <button class="step-chip upcoming" data-step="review" onclick="setStep('review')"><span class="num">8</span><span>Review</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="review" onclick="setStep('review')"><span class="num">9</span><span>Review</span></button>
-  <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">10</span><span>Confirm</span></button>
+  <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">9</span><span>Confirm</span></button>
 </div>
 <!-- Scenario C: 9 chips (Lookup · Verify · Account # · Standing · Quote · Documents · Info · Review · Confirm). Info chip rendered with .skipped state via JS when SearchCustomers returns complete data -->
 <div class="stepper stepper-c" aria-label="Enrollment progress (Scenario C — GB New)">
@@ -1121,25 +1135,24 @@
   <span class="step-divider"></span>
   <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">9</span><span>Confirm</span></button>
 </div>
-<!-- Scenario D: 9 chips (Pre-flow 1 · Pre-flow 2 · Select plan · OTP · Standing · Quote · Documents · Review · Confirm). Lookup + Account # dropped per ENRIL-88. Info skipped conditionally per ENRIL-87 (when SearchCustomers returns complete data; chip dimmed). Select plan inserted per ENRIL-89. -->
+<!-- Scenario D: 8 chips (Confirm · Select plan · Verify · Standing · Quote · Documents · Review · Confirm). Sign In chip removed per ENRIL-76. Lookup + Account # chips removed per ENRIL-88 (PRIME has customer data from auth; GB existing customer account confirmed at pre-flow). Info step always renders per ENRIL-87 (not skipped). Select plan inserted per ENRIL-89. -->
+<!-- ENRIL-88 stepper update · Scen D = 8 chips (no Sign In, no Lookup, no Account #). GBPQ disclosure + email consent at Confirm (pre-flow 2) for Scen D. -->
 <div class="stepper stepper-d" aria-label="Enrollment progress (Scenario D — GB Existing)">
-  <button class="step-chip current" data-step="preflow1" onclick="setStep('preflow1')"><span class="num">1</span><span>Sign in</span></button>
+  <button class="step-chip current" data-step="preflow2" onclick="setStep('preflow2')"><span class="num">1</span><span>Confirm</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="preflow2" onclick="setStep('preflow2')"><span class="num">2</span><span>Confirm</span></button>
+  <button class="step-chip upcoming" data-step="selectplan" onclick="setStep('selectplan')"><span class="num">2</span><span>Select plan</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="selectplan" onclick="setStep('selectplan')"><span class="num">3</span><span>Select plan</span></button>
+  <button class="step-chip upcoming" data-step="otp" onclick="setStep('otp')"><span class="num">3</span><span>Verify</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="otp" onclick="setStep('otp')"><span class="num">4</span><span>Verify</span></button>
+  <button class="step-chip upcoming" data-step="standing" onclick="setStep('standing')"><span class="num">4</span><span>Standing</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="standing" onclick="setStep('standing')"><span class="num">5</span><span>Standing</span></button>
+  <button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">5</span><span>Quote</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">6</span><span>Quote</span></button>
+  <button class="step-chip upcoming" data-step="bundle" onclick="setStep('bundle')"><span class="num">6</span><span>Documents</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="bundle" onclick="setStep('bundle')"><span class="num">7</span><span>Documents</span></button>
+  <button class="step-chip upcoming" data-step="review" onclick="setStep('review')"><span class="num">7</span><span>Review</span></button>
   <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="review" onclick="setStep('review')"><span class="num">8</span><span>Review</span></button>
-  <span class="step-divider"></span>
-  <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">9</span><span>Confirm</span></button>
+  <button class="step-chip upcoming" data-step="confirmation" onclick="setStep('confirmation')"><span class="num">8</span><span>Confirm</span></button>
 </div>
 
 <!-- =========================================================================
@@ -1249,6 +1262,8 @@
       </h2>
       <p class="step-intro">Welcome back. Here's the plan you're currently enrolled in. You can keep it or initiate a change.</p>
 
+      <div class="ann ann-g"><strong>ENRIL-76 · Pre-flow entry point (Scen B/D):</strong> This is the first screen in the enrollment flow for existing customers. The customer is authenticated at My Account and redirected here — Sign In is no longer embedded in the enrollment funnel. The sign-in screen (step-preflow1) is retained for reviewer reference only via the control panel "Pre-flow 1 (removed)" button.</div>
+
       <!-- Current contract panel -->
       <div class="current-contract-panel">
         <h4>
@@ -1292,7 +1307,7 @@
 
       <!-- Keep current = primary, Change = secondary (ENRIL-78) -->
       <div class="btn-row">
-        <button class="btn btn-tertiary" onclick="setStep('preflow1')">&larr; Back</button>
+        <button class="btn btn-tertiary" onclick="alert('Return to My Account — Sign In no longer in enrollment funnel per ENRIL-76')">&larr; My Account</button>
         <div class="btn-row-right" style="flex-direction: row-reverse;">
           <button class="btn" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
           <button class="btn btn-secondary scen-only-b-inline" onclick="setStep('selectplan')">Initiate plan change</button>
@@ -1420,7 +1435,8 @@
       <div class="ann ann-g"><strong>ENRIL-89 · Stepper update.</strong> Scen B: 9 → 10 chips. Scen D: 8 → 9 chips. New chip "Select plan" inserted between Pre-flow Confirm and Quote. Scen A and Scen C steppers unchanged (those customers arrive from the public Plans page with a plan already chosen).</div>
 
       <!-- ENRIL-134: Re-entry confirmation -->
-      <div class="ann ann-g"><strong>ENRIL-134:</strong> When an existing customer is detected via ENRIL-133 on Scen A Quote and redirected to sign in, they re-enter the flow at this Select Plan screen (Scen B) after successful authentication. This becomes their effective Step 1, matching ONG/PA/GRE existing-customer pattern.</div>
+      <div class="ann ann-g"><strong>ENRIL-134:</strong> Re-entry point for existing customers detected at Quote step (ENRIL-133). After signing in at My Account, customer redirects back here at Select Plan (Scen B) with PII pre-filled. This becomes their effective Step 1, matching ONG/PA/GRE existing-customer pattern.</div>
+      <div class="ann ann-y"><strong>ENRIL-134 / ENRIL-135 open:</strong> PRIME must carry the plan context through the auth redirect — feasibility TBD. If the customer was looking at a specific plan on Scen A Quote before being redirected to sign in, that plan selection should survive the auth round-trip and pre-select on this screen. Parallel concern for Scen C/D re-entry via ENRIL-135. Owner: Engineering (PRIME plan-carry feasibility) + IfThen UX.</div>
 
       <div class="dev-note"><strong>ENRIL-89 · Flow handoff:</strong> Continue carries the selected plan slug into the next step. Scen B → <code>step-quote</code> (personalized pricing for chosen plan via <code>GetQuotes</code>). Scen D → <code>step-otp</code> per ENRIL-88 (Lookup + Account # chips stay dropped). Quote-step page title remains "Your new plan and pricing" for Scen B / "Your Guaranteed Bill quote" for Scen D.</div>
 
@@ -1492,6 +1508,17 @@
           <label for="q-acct-check"><span class="req">*</span>Gas account number <span class="req-lbl">Required</span></label>
           <input type="text" id="q-acct-check" placeholder="Enter account number" aria-required="true" onchange="checkExistingCustomer()">
           <div class="field-help" style="font-size: 12px; color: var(--muted);">If you're already a customer, you'll be directed to sign in instead.</div>
+          <div class="field-help">
+            <details class="field-expander">
+              <summary>Where do I find my account number?</summary>
+              <p>Your account number is in the upper-right of your gas bill, near the account holder name.</p>
+              <details class="field-expander">
+                <summary>Show me on my bill ↓</summary>
+                <div class="placeholder-img">[ Bill image with account-number area highlighted ]</div>
+              </details>
+            </details>
+          </div>
+          <div class="ann ann-g"><strong>ENRIL-133 · Bill-image helper added to match step-account treatment.</strong> Consistent collapsible bill-screenshot helper for customers who can't locate their account number. Same <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> pattern as step-account (Scen A and C). Flagged for client approval + provision of IL/IES redacted bill samples per LDC.</div>
         </div>
         <div class="ann ann-g"><strong>ENRIL-133:</strong> Account number input on Quote step (Scen A only). If the number is recognized as already enrolled in PRIME, surface "Already a customer? Sign in →" redirect prompt. Prevents new customers from advancing further before realizing they should use plan-change flow.</div>
       </div>
@@ -1500,9 +1527,13 @@
       <div class="fieldset">
         <h3>Before you continue</h3>
 
-        <div class="checkbox-row">
+        <div class="checkbox-row scen-hide-gb">
           <input type="checkbox" id="q-continue" onchange="validateQuote()">
-          <label for="q-continue"><strong>I want to continue with my enrollment</strong> using the plan and pricing shown above. <span class="ann-inline g">ENRIL-27 · mandatory</span></label>
+          <label for="q-continue"><strong>I want to continue with my enrollment</strong> using the plan and pricing shown above. <span class="ann-inline g">ENRIL-27 · mandatory · Non-GB copy</span></label>
+        </div>
+        <div class="checkbox-row scen-only-gb">
+          <input type="checkbox" id="q-continue-gb" onchange="validateQuote()">
+          <label for="q-continue-gb"><strong>I accept this quoted Guaranteed Bill amount and want to proceed with my enrollment.</strong> I understand this quote is personalized to my account and constitutes a binding offer once I submit at Review. <span class="ann-inline g">ENRIL-86 · GB copy reframed to quote-acceptance semantics</span></label>
         </div>
 
         <!-- ENRIL-127: Attestation hidden for GB (Scen C/D) — relocated to step-lookup per ENRIL-124 -->
@@ -1802,17 +1833,24 @@
 
       <div class="ann ann-g"><strong>ENRIL-66 / ENRIL-71:</strong> Step 5 split into 5A (Account # entry + Confirm) and 5B (Standing — credit + ETC). 5A surfaces "next we'll run a standing check" forward-looking copy; 5B leads with the result.</div>
 
-      <!-- Scen B existing-customer pre-filled collapsed display (ENRIL-68) -->
-      <div class="scen-only-b">
-        <div class="current-contract-panel">
-          <h4>Welcome back, [Customer Name] — confirm your account</h4>
-          <dl>
-            <dt>Account number</dt><dd>···· ···· 3829</dd>
-            <dt>LDC</dt><dd><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span></dd>
-          </dl>
-          <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">Pre-filled from your My Account record. We'll run a standing check on the next step.</p>
+      <!-- Scen B/D existing-customer pre-filled collapsed display (ENRIL-68) -->
+      <div class="scen-only-existing">
+        <div class="fieldset">
+          <h3>Confirm your account</h3>
+          <p class="step-intro" style="margin-bottom: 14px;">Your account number is on file from when you signed in. Please confirm before we run the good-standing check.</p>
+          <div class="readonly-display">
+            <div class="label-row">Gas account number</div>
+            <strong>Account ending ····3829</strong><br>
+            <span style="font-size: 12px; color: var(--muted);"><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span> · Pre-filled from your My Account record</span>
+          </div>
+          <div class="ann ann-g" style="margin-top: 10px;"><strong>ENRIL-68 · Scen B/D:</strong> Account entry collapses to read-only confirm for existing customers. Customer already supplied account at My Account sign-in; PRIME has the data. Scen D reaches this step only if navigated directly by reviewer — it is not in the production Scen D step order (Scen D skips Account # per ENRIL-88).</div>
         </div>
-        <div class="ann ann-g"><strong>ENRIL-68:</strong> For Scen B (Non-GB Existing) the account-# form collapses to this pre-filled read-only display. The customer doesn't re-enter what PRIME already has from My Account auth.</div>
+        <div class="btn-row" style="margin-top: 0; padding-top: 14px; border-top: 1px solid var(--line-soft);">
+          <span></span>
+          <div class="btn-row-right">
+            <button class="btn" onclick="setStep('standing')">Confirm and continue &rarr;</button>
+          </div>
+        </div>
       </div>
 
       <!-- Account # entry — Scen A + Scen C only -->
@@ -1946,8 +1984,8 @@
         <span style="font-size: 16px; color: var(--good); flex-shrink: 0;">✓</span>
         <div>
           <strong>Standing confirmed.</strong> Your account is in good standing and eligible for this plan.
-          <div class="ann ann-b" style="margin-top: 8px;"><strong>ENRIL-69 · wireframe-mode:</strong> This status renders after PRIME returns the credit-check response in production. Shown here for reviewer reference.</div>
-          <div class="ann ann-b"><strong>ENRIL-47 · Prime design doc:</strong> Uses existing <code>GetQuotes</code> web service. <code>MsgLevel="Stop"</code> halts; <code>MsgLevel="Warning"</code> displays but allows continuation.</div>
+          <div class="ann ann-b" style="margin-top: 8px;"><strong>ENRIL-69 · wireframe-mode:</strong> The "Passed" / "Standing confirmed" state only renders after PRIME returns the credit-check response in production. This is a reviewer preview showing the success state — in production the UI shows a loading indicator while the PRIME standing check runs.</div>
+          <div class="ann ann-b"><strong>ENRIL-47 · Prime design doc:</strong> Uses existing <code>GetQuotes</code> web service. <code>MsgLevel="Stop"</code> halts (shows error-banner); <code>MsgLevel="Warning"</code> displays but allows continuation.</div>
         </div>
       </div>
 
@@ -1990,6 +2028,10 @@
         <div class="fieldset">
           <h3>Disclosures</h3>
           <div class="checkbox-row">
+            <input type="checkbox" id="s-authorized" aria-required="true">
+            <label for="s-authorized"><span class="req">*</span> <strong>I am authorized to make account changes</strong> for this gas utility account. <span class="req-lbl">Required</span> <span class="ann-inline g">ENRIL-119 · reinstated — required for Part 512</span></label>
+          </div>
+          <div class="checkbox-row">
             <input type="checkbox" id="s-credit-consent">
             <label for="s-credit-consent">I consent to a soft credit check (if required by this plan). This will not affect my credit score. <span class="ann-inline g">ENRIL-67 · conditional · only shown if PRIME requests</span></label>
           </div>
@@ -1998,11 +2040,21 @@
             <label for="s-etc-consent">I acknowledge any Early Termination Charge that may apply if I am switching from an existing contract. <span class="ann-inline g">ENRIL-69 · conditional · only shown for Scen B with active ETF</span></label>
           </div>
           <div class="ann ann-g"><strong>ENRIL-117 / ENRIL-81:</strong> Credit check consent + ETC consolidated into single disclosures block for N-GBP. Both are conditional — shown only when PRIME flags them. Customers can change plans any time; ETF info is informational only (§6.2 #11).</div>
+          <div class="ann ann-g"><strong>ENRIL-119:</strong> "I am authorized to make account changes" reinstated — was accidentally removed; required for Part 512 compliance.</div>
         </div>
       </div>
 
       <!-- GBP only (Scen C/D): Preserve original credit consent + ETC stages (routes to Quote next) -->
       <div class="scen-only-gb">
+        <!-- Stage 1: Authorization consent (GB) -->
+        <div class="subflow-stage">
+          <h4><span class="stage-num">1</span> Account authorization</h4>
+          <div class="checkbox-row">
+            <input type="checkbox" id="s-authorized-gb" aria-required="true">
+            <label for="s-authorized-gb"><span class="req">*</span> <strong>I am authorized to make account changes</strong> for this gas utility account. <span class="req-lbl">Required</span> <span class="ann-inline g">ENRIL-119 · reinstated · required for Part 512 · GB path</span></label>
+          </div>
+        </div>
+
         <!-- Stage 2: Credit consent (conditional) -->
         <div class="subflow-stage">
           <h4><span class="stage-num">2</span> Credit consent <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if PRIME returns "Credit Check Required")</span></h4>
@@ -2017,7 +2069,7 @@
           <h4><span class="stage-num">3</span> Early termination <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if your current contract has an ETF)</span></h4>
           <p class="scen-only-c">Not applicable — you're enrolling in a new plan, no existing contract.</p>
           <p class="scen-only-d">If your current contract has an Early Termination Charge, we'll show it here. By continuing, you acknowledge any charges that may apply.</p>
-          <div class="ann ann-g"><strong>ENRIL-69 · wireframe-mode:</strong> Stage renders only when PRIME flags ETF or renewal-window restrictions. Production: hidden unless triggered.</div>
+          <div class="ann ann-b"><strong>ENRIL-69 · wireframe-mode:</strong> This Early termination / renewal-window stage is conditional — it only renders when PRIME flags ETC or renewal-window restrictions in the standing-check response. Hidden in production unless triggered by PRIME data. The wireframe shows it as a persistent stage for reviewer reference only.</div>
           <div class="ann ann-g"><strong>ENRIL-81 · §6.2 #11 CLOSED:</strong> Customers can change plans any time; plan-type determines ETF, not renewal-window state. ETF info is informational here; doesn't gate the change.</div>
         </div>
       </div>
@@ -2063,9 +2115,9 @@
       <h2>Your information</h2>
       <p class="step-intro">Confirm your contact details. We use this to set up your account and reach you about your service.</p>
 
-      <div class="ann ann-g"><strong>ENRIL-34 · GBP Step 7 (Scen C only):</strong> This step renders ONLY for Guaranteed Bill flows. N-GBP collects nothing beyond Customer Lookup (Step 3) + Account # (Step 5) — full PII is pre-filled from <code>SearchCustomers</code>. For GBP, customer profile is captured here in Scen C (Non-GB New).</div>
+      <div class="ann ann-g"><strong>ENRIL-34 · GBP Step 7 (Scen C/D):</strong> This step renders for Guaranteed Bill flows (Scen C and D). N-GBP collects nothing beyond Customer Lookup (Step 3) + Account # (Step 5) — full PII is pre-filled from <code>SearchCustomers</code>. For GBP, customer profile is confirmed here. Service address is read-only per IL spec; billing address is editable.</div>
 
-      <div class="ann ann-y"><strong>ENRIL-87 · Conditional skip (Scen D):</strong> For Scenario D (GB Existing), Step 7 "Your Information" is skipped when <code>SearchCustomers</code> returns complete enrollment-required fields (name, service address, phone, email pre-populated from existing account). Stepper chip is dimmed (opacity 0.5) when skipped. Flagged for Engineering JS implementation (conditional step skip + chip dimming logic via <code>body.scen-d .step-chip[data-step="info"].skipped</code>). Owner: Engineering.</div>
+      <div class="ann ann-g"><strong>ENRIL-87 · Step always renders for Scen C/D:</strong> Both Scen C (GB New) and Scen D (GB Existing) render this step. Service address is read-only (pre-filled from PRIME account record for Scen D; from <code>SearchCustomers</code> for Scen C). Billing address is editable and defaults to same as service. The stepper chip for "Your info" is not dimmed for either GB scenario.</div>
 
       <div class="fieldset">
         <h3>Your name</h3>
@@ -2195,12 +2247,15 @@
         <!-- ENRIL-118: Name, email, phone, billing address now editable (removed utility-source provenance copy) -->
         <dl>
           <dt>Name</dt><dd><input type="text" value="Jane Doe" style="width: 100%; max-width: 300px;"></dd>
-          <dt>Email</dt><dd><input type="email" value="jane.doe@example.com" readonly style="width: 100%; max-width: 300px; background: var(--line-soft);"> <span class="status-pill">Verified</span></dd>
+          <dt>Email</dt><dd>
+            <span class="scen-hide-gb"><input type="email" value="jane.doe@example.com" style="width: 100%; max-width: 300px;"> <span class="ann-inline g" style="font-size:10px;">Editable — OTP-verified earlier in Non-GB flow</span></span>
+            <span class="scen-only-gb"><input type="email" value="jane.doe@example.com" readonly style="width: 100%; max-width: 300px; background: var(--line-soft);"> <span class="status-pill">Verified</span> <span class="ann-inline g" style="font-size:10px;">ENRIL-130 · Read-only for GB — verified via OTP at Customer Lookup</span></span>
+          </dd>
           <dt>Phone</dt><dd><input type="tel" value="(312) 555-0123" style="width: 100%; max-width: 300px;"></dd>
           <dt>Service address</dt><dd><span style="color: var(--muted);">123 Maple Street, Chicago IL 60601</span> <span class="ann-inline g">read-only per verification</span></dd>
           <dt>Billing address</dt><dd>Same as service</dd>
         </dl>
-        <div class="ann ann-g"><strong>ENRIL-118:</strong> Name, email (read-only / verified), and phone are editable. Service address remains read-only (OTP-verified during account lookup). Email is read-only because it was verified via OTP earlier in the flow (ENRIL-130 pattern).</div>
+        <div class="ann ann-g"><strong>ENRIL-118 / ENRIL-130:</strong> Name and phone are editable. Service address remains read-only (pre-filled from verified account data). Email: read-only for GB scenarios (Scen C/D) — verified via OTP at Customer Lookup and cannot be changed at Review without re-verifying (ENRIL-130). Email is editable for Non-GB scenarios (Scen A/B) where the OTP-verified email was collected earlier but customer may need to correct it.</div>
       </div>
 
       <div class="review-section">
@@ -2217,6 +2272,39 @@
           <dt>Utility (LDC)</dt><dd><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span></dd>
           <dt>Good-standing check</dt><dd><span class="status-pill">Passed</span></dd>
         </dl>
+      </div>
+
+      <!-- ENRIL-120: Personalized contract documents component — same as Confirmation step -->
+      <h3 style="margin-top: 28px;">Your personalized contract documents</h3>
+      <div class="ann ann-y"><strong>ENRIL-120 · Personalized contract documents appear here on Review.</strong> Same component as on Confirmation. <strong>Engineering to confirm document availability timing at Review vs. Confirmation</strong> — PRIME generates the personalized LOA via <code>EnrollCustomer</code> at submit; documents may not be available until after submit. If unavailable at Review, this section should show a placeholder message ("Your personalized documents will be ready after submission"). Owner: IfThen UX + Engineering (Ariel / Girish PRIME).</div>
+      <div class="doc-bundle" style="margin-bottom: 24px;">
+        <div class="doc-bundle-header">
+          <span class="lbl">Your personalized enrollment documents · pre-submission preview</span>
+          <button onclick="alert('Download personalized contract (PDF) — available after submission per ENRIL-120 pending engineering confirmation')">📥 Download (PDF)</button>
+          <button onclick="alert('Print')">🖨 Print</button>
+        </div>
+        <div class="doc-bundle-toc">
+          <strong>In this bundle:</strong>
+          <a href="#doc-loa-review">1. Letter of Agency (personalized)</a> ·
+          <a href="#doc-plan-contract-review">2. Plan Contract</a> ·
+          <a href="#doc-acr-review">3. Auto-Renewal Disclosure</a>
+        </div>
+        <div class="doc-bundle-body">
+          <div class="doc-section" id="doc-loa-review">
+            <h4>1. Letter of Agency · personalized</h4>
+            <p class="doc-meta"><strong>Customer:</strong> Jane Doe &nbsp;·&nbsp; <strong>Auth code:</strong> 847291 &nbsp;·&nbsp; <strong>Pending submission timestamp</strong></p>
+            <p>I, Jane Doe, authorize [SouthStar Energy Services] to act as my natural gas supplier and to coordinate with my local distribution company on my behalf as of the enrollment timestamp.</p>
+            <p class="doc-placeholder">[Full personalized LOA body — same as Confirmation step. Personalization values: name, timestamp (pending), authentication code.]</p>
+          </div>
+          <div class="doc-section" id="doc-plan-contract-review">
+            <h4>2. Plan Contract</h4>
+            <p class="doc-placeholder">[Plan-specific contract terms with customer-specific dates. Same as Confirmation step.]</p>
+          </div>
+          <div class="doc-section" id="doc-acr-review">
+            <h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
+            <p><strong>Your plan renews automatically.</strong> Your plan continues at the end of its term unless you opt out. You'll receive a renewal notice in advance.</p>
+          </div>
+        </div>
       </div>
 
       <div class="fieldset">
@@ -2251,19 +2339,19 @@
            Step 7 Confirmation surfaces a single-field "Set your password" inline section. -->
       <div class="ann ann-g"><strong>ENRIL-93 (2026-05-25):</strong> In-flow account-creation block removed from Step 6 (formerly ENRIL-74). At submit, PRIME silently scaffolds a passwordless My Account (status = "pending password setup") tied to the OTP-verified email. Set-password is a single-field inline section on Step 7 Confirmation; magic-link via What Counts (ENRIL-41) is the backup. Engineering deliverable shared with OPG ENR-52 (single PRIME passwordless-scaffold + magic-link endpoint, market-specific email template wiring). Yellow flags: (a) Legal/CAN-SPAM sanity check (Part 512 doesn't restrict); (b) per-market funnel telemetry (OPG vs IL/IES set-rates); (c) dual-auth at sign-in (ENRIL-77) retained for customers who never set a password.</div>
 
-      <!-- ENRIL-121: Disclosures agreed to summary section with Edit link -->
+      <!-- ENRIL-121: Disclosures agreed to summary section with Edit link — styled to match other review sections -->
       <div class="review-section" style="background: var(--accent-soft); border-color: var(--accent);">
         <header>
           <h4>Disclosures agreed to</h4>
           <a href="#" onclick="event.preventDefault(); openEditFor('standing');">Edit →</a>
         </header>
-        <ul style="margin: 0; padding-left: 20px; font-size: 13px;">
-          <li>English language attestation</li>
-          <li>Consent to receive communications</li>
-          <li>Authorization to make account changes</li>
-          <li>Credit authorization</li>
-        </ul>
-        <div class="ann ann-g" style="margin-top: 10px;"><strong>ENRIL-121:</strong> Summary of disclosures already agreed to earlier in the flow (from Step 5), with Edit link routing back to the disclosures step for review/modification.</div>
+        <dl>
+          <dt>English language attestation</dt><dd><span class="status-pill">Agreed</span></dd>
+          <dt>Consent to receive communications</dt><dd><span class="status-pill">Agreed</span></dd>
+          <dt>Authorization to make account changes</dt><dd><span class="status-pill">Agreed</span></dd>
+          <dt>Credit authorization</dt><dd><span class="status-pill">Agreed</span></dd>
+        </dl>
+        <div class="ann ann-g" style="margin-top: 10px;"><strong>ENRIL-121 · styled to match other review sections:</strong> Summary of disclosures agreed to earlier in the flow (Steps 3/5 per scenario), using standard dl/dt/dd label–value pattern with status pills. Edit link routes back to the disclosures step for review/modification.</div>
       </div>
 
       <div class="ann ann-b"><strong>ENRIL-8 / Alicia · loading state:</strong> Clicking Submit triggers a non-spinning, time-bounded loading state with the headline <strong>"Your contract is being processed"</strong> (per Alicia §3.10.4 / walkthrough 3.6). Time-bounded with reference ID + recovery copy on timeout. Wireframe-only: clicking Submit jumps directly to Confirmation.</div>
@@ -2435,6 +2523,7 @@
       <span class="scen-only-b-inline">$0.74 <small>/ therm</small></span>
       <span class="scen-only-gb">$97 <small>/ month</small></span>
     </div>
+    <div class="ann ann-b scen-only-gb" style="font-size:11px; padding:6px 8px; margin-bottom:8px;">ENRIL-85 · GB rate hidden until Quote step — unknown until PRIME runs <code>GetQuotes</code>. Rate reveals here on Quote step and remains visible through Review and Confirmation.</div>
     <dl>
       <dt>Term</dt><dd>12 months</dd>
       <dt>Type</dt><dd>
@@ -2529,10 +2618,13 @@
     // Determine the default starting step for each scenario.
     // For existing-customer scenarios (B/D), honor the current entry-state toggle
     // so a reviewer can demo the dashboard-skip and deep-link landing variants.
+    // ENRIL-76: Sign In screen removed from pre-flow; default entry state is now 'signedin'
+    // (customer authenticated at My Account and redirected here). 'unauth' still navigates to
+    // preflow1 for reviewer reference, but is no longer the expected production entry path.
     if (s === 'a') setStep('quote');         // N-GBP New starts at Quote
     else if (s === 'b' || s === 'd') {
-      var state = currentEntryState || 'unauth';
-      var landing = { unauth: 'preflow1', signedin: 'preflow2', deeplink: 'selectplan' }[state] || 'preflow1';
+      var state = currentEntryState || 'signedin';
+      var landing = { unauth: 'preflow1', signedin: 'preflow2', deeplink: 'selectplan' }[state] || 'preflow2';
       setStep(landing);
     }
     else if (s === 'c') setStep('lookup');   // GBP New starts at Lookup
@@ -2544,7 +2636,7 @@
   // 'deeplink' — customer taps a promo deep-link while signed in → selectplan
   //              (with deep-linked plan pre-selected)
   // Only meaningful for Scen B/D; clicking it auto-switches to Scen B if currently on A or C.
-  var currentEntryState = 'unauth';
+  var currentEntryState = 'signedin';  // ENRIL-76: default is signed-in (no Sign In screen in pre-flow)
   function setEntryState(state) {
     currentEntryState = state;
     // Update button states
@@ -2560,7 +2652,7 @@
       setScenario(newScen); // will re-enter setStep with the right landing per state
       return;
     }
-    var landing = { unauth: 'preflow1', signedin: 'preflow2', deeplink: 'selectplan' }[state] || 'preflow1';
+    var landing = { unauth: 'preflow1', signedin: 'preflow2', deeplink: 'selectplan' }[state] || 'preflow2';
     setStep(landing);
   }
 
@@ -2572,10 +2664,11 @@
   var currentStep = 'quote';
   var stepOrderByScenario = {
     a: ['quote','bundle','lookup','otp','account','standing','review','confirmation'],
-    // Scen B + D include 'selectplan' between 'preflow2' and the next step (ENRIL-89).
-    b: ['preflow1','preflow2','selectplan','quote','bundle','otp','account','standing','review','confirmation'],
+    // Scen B + D: Sign In (preflow1) removed per ENRIL-76. Entry point is now preflow2.
+    // 'selectplan' inserted between 'preflow2' and the next step (ENRIL-89).
+    b: ['preflow2','selectplan','quote','bundle','otp','account','standing','review','confirmation'],
     c: ['lookup','otp','account','standing','quote','bundle','info','review','confirmation'],
-    d: ['preflow1','preflow2','selectplan','otp','standing','quote','bundle','review','confirmation']
+    d: ['preflow2','selectplan','otp','standing','quote','bundle','review','confirmation']
   };
 
   function getScenario() {
@@ -2693,13 +2786,15 @@
   // ---------- Validators ----------
   function validateQuote() {
     var c1 = document.getElementById('q-continue');
+    var c1gb = document.getElementById('q-continue-gb');
     var langAttest = document.getElementById('q-language-attest');
     var btn = document.getElementById('q-continue-btn');
-    // For GB (Scen C/D), attestation is on step-lookup — not required here.
-    // For Non-GB (Scen A/B), checkbox must be checked.
+    // ENRIL-86: For GB (Scen C/D), use the GB-variant checkbox (q-continue-gb); attestation is on step-lookup.
+    // For Non-GB (Scen A/B), use q-continue checkbox + language attestation.
     var isGB = document.body.classList.contains('scen-c') || document.body.classList.contains('scen-d');
+    var continueChecked = isGB ? (c1gb && c1gb.checked) : (c1 && c1.checked);
     var attestOk = isGB || (langAttest && langAttest.checked);
-    if (btn) btn.disabled = !(c1 && c1.checked && attestOk);
+    if (btn) btn.disabled = !(continueChecked && attestOk);
     // Language decline error: handled via error-mode toggle (ENRIL-13).
   }
   function validateBundle() {
