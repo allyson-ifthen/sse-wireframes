@@ -929,6 +929,40 @@ body.chrome-hidden .presentation-hint {
   padding: 12px; border-radius: 3px; font-size: 12px;
 }
 
+/* ── AUTO-RENEWAL OPT-OUT (MA-82 / MA-83) ── */
+.autorenew-notice {
+  background: #e8f4fd; border: 1px solid #b3d7f2; border-left: 3px solid #2b8dc8;
+  border-radius: 4px; padding: 12px 14px; margin-top: 14px;
+  font-size: 13px; color: var(--ink); line-height: 1.5;
+}
+.autorenew-notice a { color: var(--accent); font-weight: 600; }
+
+.autorenew-variable-card {
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 18px; margin-bottom: 20px; display: flex;
+  align-items: center; gap: 18px;
+}
+.autorenew-rate-box {
+  background: var(--accent); color: #fff; border-radius: 4px;
+  padding: 12px 18px; text-align: center; flex-shrink: 0; min-width: 90px;
+}
+.autorenew-rate-val { font-size: 22px; font-weight: 800; line-height: 1.1; }
+.autorenew-rate-unit { font-size: 11px; opacity: .85; margin-top: 2px; }
+.autorenew-plan-body { flex: 1; }
+.autorenew-plan-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.autorenew-plan-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.autorenew-retention {
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  border-radius: 3px; padding: 12px 14px; margin-bottom: 20px; font-size: 13px;
+  line-height: 1.6;
+}
+.autorenew-retention strong { color: var(--accent); }
+.autorenew-divider {
+  text-align: center; font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .08em;
+  border-top: 1px solid var(--line); padding-top: 14px; margin-bottom: 14px;
+}
+
 /* ── CANCEL FLOW STATE VISIBILITY ── */
 body.dash-sub-cancel .dash-active-view { display: none; }
 body.dash-sub-cancel .dash-pending-view { display: none; }
@@ -985,6 +1019,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <button id="st-btn-forgot"    onclick="setState('forgot')">Forgot Password</button>
       <button id="st-btn-reset"     onclick="setState('reset')">Reset Password</button>
       <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
+      <button id="st-btn-autorenew" onclick="setState('autorenew')">Auto-Renew Opt-Out</button>
       <button id="st-btn-cancel"    onclick="goCancelStep(2, 'variable')">Cancel Flow</button>
       <button id="st-btn-raf"       onclick="setState('raf')">RAF Dashboard</button>
     </div>
@@ -1657,6 +1692,11 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
               Your auto-renew rate will roll on June 30.
             </div>
 
+            <!-- Auto-renewal opt-out notice (MA-82 · FTC mandate · all 5 markets) -->
+            <div class="autorenew-notice">
+              Your contract is set to auto-renew on or around <strong>June 30, 2026</strong>. If you do not want to auto-renew, <a href="#" onclick="setState('autorenew'); return false;">click here for available options</a>.
+            </div>
+
             <div class="plan-meta-row">
               <div class="plan-meta-item">
                 <span class="plan-meta-label">Contract Ends</span>
@@ -1928,6 +1968,110 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     STATE H: AUTO-RENEWAL OPT-OUT — Available Options (/my-account/auto-renew/)
+     MA-83 · FTC mandate · all 5 markets · market-conditional Variable Plan card
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-autorenew">
+  <div class="state-divider"><strong>State H</strong> — Authenticated · Auto-Renewal Opt-Out <span style="opacity:0.7; font-weight:400;">· /my-account/auto-renew/</span></div>
+
+  <div class="acct-header" style="background:#2b5d8a;">
+    <div>
+      <div class="acct-welcome">Your renewal options</div>
+      <div class="acct-sub">
+        <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span>
+        <span class="mkt-inline mkt-pa">Pennsylvania Energy</span>
+        <span class="mkt-inline mkt-gre">Grand Rapids Energy</span>
+        <span class="mkt-inline mkt-il">Illinois Energy</span>
+        <span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>
+      </div>
+    </div>
+    <button class="acct-logout" onclick="setState('dashboard')">← Back to dashboard</button>
+  </div>
+
+  <div class="layout">
+    <div class="cancel-modal-card">
+
+      <!-- Current contract summary -->
+      <div class="cancel-plan-summary">
+        <div class="cancel-plan-summary-title">Your current contract</div>
+        <div class="cancel-plan-meta">
+          <div class="cancel-plan-meta-item">
+            <span class="cancel-plan-meta-label">Plan</span>
+            <span class="cancel-plan-meta-val">
+              <span class="mkt-inline mkt-ong on">ONG Fixed 12</span>
+              <span class="mkt-inline mkt-pa">PA Fixed 12</span>
+              <span class="mkt-inline mkt-gre">GRE Fixed 12</span>
+              <span class="mkt-inline mkt-il">IL Fixed 12</span>
+              <span class="mkt-inline mkt-ies">IES Fixed Bill Plan</span>
+            </span>
+          </div>
+          <div class="cancel-plan-meta-item">
+            <span class="cancel-plan-meta-label">Rate</span>
+            <span class="cancel-plan-meta-val">$0.489/Mcf (fixed)</span>
+          </div>
+          <div class="cancel-plan-meta-item">
+            <span class="cancel-plan-meta-label">Expiration date</span>
+            <span class="cancel-plan-meta-val">June 30, 2026</span>
+          </div>
+          <div class="cancel-plan-meta-item">
+            <span class="cancel-plan-meta-label">Auto-renews</span>
+            <span class="cancel-plan-meta-val">On or around June 30, 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LDC return notice -->
+      <div class="cancel-ldc-return" style="margin-top:16px;">
+        <strong>⚠ Cancelling returns service to your utility:</strong> If you choose not to renew or switch plans, your natural gas service will return to
+        <span class="mkt-inline mkt-ong on">Columbia Gas of Ohio</span><span class="mkt-inline mkt-pa">UGI Utilities</span><span class="mkt-inline mkt-gre">DTE Energy</span><span class="mkt-inline mkt-il">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span>
+        at your contract's expiration date.
+      </div>
+
+      <!-- Retention copy -->
+      <div class="autorenew-retention" style="margin-top:20px;">
+        <strong>Before you go — </strong> you don't have to leave entirely. Our Variable Plan has no long-term commitment and no Early Termination Charge. Switch now and keep the flexibility to change your mind at any time.
+      </div>
+
+      <!-- Variable Plan card — OH and PA only (MA-83) -->
+      <div class="mkt mkt-ong mkt-pa">
+        <div style="font-size:12px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">Available plan</div>
+        <div class="autorenew-variable-card">
+          <div class="autorenew-rate-box">
+            <div class="autorenew-rate-val">$0.599</div>
+            <div class="autorenew-rate-unit">
+              <span class="mkt-inline mkt-ong on">per Mcf</span>
+              <span class="mkt-inline mkt-pa">per therm</span>
+            </div>
+          </div>
+          <div class="autorenew-plan-body">
+            <div class="autorenew-plan-name">Variable Plan</div>
+            <div class="autorenew-plan-desc">Month-to-month rate — no long-term commitment, no Early Termination Charge. Rate may vary each month.</div>
+            <button class="btn btn-sm" style="font-size:12px;">Select this plan →</button>
+          </div>
+        </div>
+
+        <div class="autorenew-divider">or</div>
+      </div>
+
+      <!-- Cancel CTA — all markets -->
+      <div style="text-align:center; margin-bottom:8px;">
+        <button class="btn btn-outline" style="color:var(--bad); border-color:var(--bad);" onclick="goCancelStep(2, 'fixed')">Cancel my current contract →</button>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn-out btn-sm" onclick="setState('dashboard')" style="font-size:12px; border:none; color:var(--muted);">← Back to dashboard</button>
+      </div>
+
+    </div><!-- /cancel-modal-card -->
+
+    <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-83 · State H — Auto-Renewal Opt-Out (Available Options):</strong> Reachable only via the auto-renewal notice link on the dashboard ("click here for available options") — NOT via the "Cancel Plan" button. Variable Plan card shown for ONG and PA only (market conditional); suppressed for GRE, IL, IES. "Cancel my current contract" routes into existing Step 2 cancel flow (State G). "Back to dashboard" returns to State E without any action taken. FTC mandate: all 5 markets must offer an opt-out path from auto-renewal. URL: /my-account/auto-renew/.</div>
+    <div class="ann ann-y" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>MA-CX-1 (Open):</strong> Post-cancellation account lifecycle — does PRIME login remain active after opt-out/cancellation? Affects confirmation CTA. Owner: Dev/PRIME (David/Girish). See Batch2_OpenQuestions.md.</div>
+    <div class="ann ann-b" style="margin-top:10px; margin-left:32px; margin-right:32px;"><strong>Dev note — "Select this plan →" routing:</strong> Routes to the existing-customer enrollment pre-flow for the Variable Plan (same as "Switch Plan" from the dashboard). PII should be pre-filled from the authenticated session. Cross-ref MA-21 / ENR-42.</div>
+
+  </div><!-- /layout -->
+</div><!-- /state: autorenew -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      STATE: CANCEL PLAN (full /my-account/cancel/ routed page)
 ═════════════════════════════════════════════════════════════════════════════ -->
 <div class="state" id="state-cancel">
@@ -2110,10 +2254,16 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           </div>
 
           <div class="cancel-notification-banner">
-            <strong>📧 Confirmation email:</strong> We've sent a cancellation confirmation email to <strong>jane@email.com</strong>. Save this for your records.
+            We are currently processing your cancellation request with
+            <strong><span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong>.
+            Please keep your cancellation number for your records.
           </div>
 
-          <div class="cancel-raf-notice">
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px;">
+            We're sorry to see you go. However, please keep us in mind if your natural gas needs should change. Thank you.
+          </div>
+
+          <div class="cancel-raf-notice mkt mkt-ong mkt-pa mkt-gre">
             <strong>⚠ Refer-a-Friend notice:</strong> Your referral code (ONG-J4K2M9) is now inactive. You will not earn rewards for new referrals after your cancellation is complete. Pending referrals will be forfeited.
           </div>
 
@@ -2122,7 +2272,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           </div>
         </div>
 
-        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-48 · Step 3 — Confirmation:</strong> Confirmation # (generated server-side), plan summary, effective date, cancellation reason, email notification notice, RAF deactivation notice (conditional — only if RAF account is active). "Back to my account" CTA routes back to dashboard. Step 3 is part of the routed `/my-account/cancel/` page (not the modal).</div>
+        <div class="ann ann-g" style="margin-top:20px; margin-left:32px; margin-right:32px;"><strong>MA-48 · MA-85 · Step 3 — Confirmation:</strong> Confirmation # (generated server-side), plan summary, effective date, cancellation reason. MA-85: confirmation copy updated to match production language ("We are currently processing your cancellation request…"). RAF deactivation notice conditional — shown for ONG/PA/GRE only (RAF not available for IL/IES per MA-79). "Back to my account" CTA routes back to dashboard; pending MA-CX-1 resolution (post-cancellation account lifecycle). Step 3 shared by both the direct cancel path and the auto-renewal opt-out path (both issue a cancellation number via PRIME).</div>
       </div>
 
     </div><!-- /cancel-flow-container -->
@@ -2468,7 +2618,7 @@ function setMarket(m) {
 /* ────────────────────────────────────
    Auth state switcher
 */
-var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'dashboard', 'cancel', 'raf', 'mover'];
+var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'dashboard', 'autorenew', 'cancel', 'raf', 'mover'];
 
 function setState(s) {
   document.querySelectorAll('.state').forEach(function(el) {
@@ -2490,7 +2640,7 @@ function setState(s) {
   if (loginGrp) loginGrp.style.display = (s === 'login')     ? '' : 'none';
   if (caGrp)    caGrp.style.display    = (s === 'create')    ? '' : 'none';
   if (dashGrp)  dashGrp.style.display  = (s === 'dashboard') ? '' : 'none';
-  if (cxGrp)    cxGrp.style.display    = (s === 'dashboard' || s === 'cancel') ? '' : 'none';
+  if (cxGrp)    cxGrp.style.display    = (s === 'dashboard' || s === 'cancel' || s === 'autorenew') ? '' : 'none';
 
   // Scroll to top of state for visibility
   // Scroll to top of state for visibility — fall back gracefully if anchors don't exist
