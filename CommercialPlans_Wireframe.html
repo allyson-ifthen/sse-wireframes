@@ -147,6 +147,29 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .rep-cta-grid { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
 .rep-cta-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px; }
 .rep-cta-sub { font-size: 12px; color: #aac4d9; line-height: 1.5; }
+
+/* ── HERO BAND (CP-1) ── */
+.hero-band { padding: 26px 32px 24px; background: #f7f8fb; }
+.hero-trust { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid #dde6f0; }
+.hero-trust-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #555; font-weight: 600; }
+.hero-trust-icon { font-size: 13px; }
+
+/* ── ZIP FALLBACK (CP-2) ── */
+.ldc-zip-fallback { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #bcd5f0; font-size: 11px; color: #666; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ldc-zip-input { border: 1.5px solid #7aabda; border-radius: 3px; padding: 6px 10px; font-size: 12px; width: 120px; color: #aaa; font-style: italic; background: #fff; }
+.ldc-zip-submit { background: #1e3a5f; color: #fff; border: none; padding: 6px 14px; border-radius: 3px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+/* ── FAQ SECTION (CP-3) ── */
+.faq-section { padding: 24px 32px; }
+.faq-section h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 16px; }
+.faq-item { border-bottom: 1px solid #eee; padding: 12px 0; }
+.faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+.faq-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; }
+.faq-a { font-size: 12px; color: #555; line-height: 1.6; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility a:hover { color: #1e3a5f; }
+.nav-utility-phone { color: #666; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -181,6 +204,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
   <div class="section" style="position:relative; margin-bottom:5px;">
     <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
     <div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav.</div>
+    <!-- Utility Row -->
+    <div class="nav-utility">
+      <a>Contact Us</a>
+      <span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+    </div>
     <div class="nav-header">
       <div class="nav-logo">
         <div class="nav-logo-mark">🔥</div>
@@ -233,9 +265,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
     </ul>
   </div>
 
-  <!-- SECTION 1: PAGE HEADER -->
+  <!-- SECTION 1: HERO BAND (CP-1 — added 2026-06-09) -->
   <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">1</div><br>Page Header</div>
+    <div class="section-label"><div class="sec-num">1</div><br>Hero Band</div>
     <div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span><a>For My Business</a><span style="color:#ddd; margin:0 4px;">›</span>Commercial Plans</div>
 
     <!-- PA/IES: Not available state -->
@@ -269,26 +301,45 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
       </div>
     </div>
 
-    <!-- ONG, GRE, IL: Available -->
+    <!-- ONG: Hero Band -->
     <div class="mkt on" id="avail-ong">
-      <div class="p-lg">
-        <div class="h1">Natural Gas Plans for Your Business —
-          <span class="mkt-inline on">Ohio</span>
+      <div class="hero-band">
+        <div class="h1">Commercial Natural Gas Plans — Ohio</div>
+        <div class="subhead">Fixed and variable rate options for small to mid-size Ohio businesses. Select your utility to see available plans.</div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by PUCO</div>
+          <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
+          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Ohio Businesses Since [Year — TBD]</div>
         </div>
-        <div class="subhead">Fixed, variable, and custom rate options for small to mid-size commercial customers. Select your utility to see available plans.</div>
-        <div class="ann-row"><div class="ann ann-g"><i>✓</i> H1 is entity-specific — includes brand and state for AI search and SEO entity disambiguation</div></div>
+        <div class="ann-row">
+          <div class="ann ann-g"><i>✓</i> CP-1 — Hero band added for consistency with Residential Plans. H1 entity-specific for AI search / SEO disambiguation.</div>
+          <div class="ann ann-y"><i>⚑</i> Trust strip content (years serving, BBB accreditation) requires client confirmation per market before copy handoff.</div>
+        </div>
       </div>
     </div>
+
+    <!-- GRE: Hero Band -->
     <div class="mkt" id="avail-gre">
-      <div class="p-lg">
-        <div class="h1">Natural Gas Plans for Your Business — Michigan</div>
-        <div class="subhead">Fixed, variable, and custom rate options for small to mid-size commercial customers. Select your utility to see available plans.</div>
+      <div class="hero-band">
+        <div class="h1">Commercial Natural Gas Plans — Michigan</div>
+        <div class="subhead">Fixed and variable rate options for small to mid-size Michigan businesses. Select your utility to see available plans.</div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by MPSC</div>
+          <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
+          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Michigan Businesses Since [Year — TBD]</div>
+        </div>
       </div>
     </div>
+
+    <!-- IL: Hero Band -->
     <div class="mkt" id="avail-il">
-      <div class="p-lg">
-        <div class="h1">Natural Gas Plans for Your Business — Illinois</div>
-        <div class="subhead">Fixed, variable, and custom rate options for commercial customers. Select your utility to see available plans.</div>
+      <div class="hero-band">
+        <div class="h1">Commercial Natural Gas Plans — Illinois</div>
+        <div class="subhead">Fixed and variable rate options for Illinois commercial customers. Select your utility to see available plans.</div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by ICC</div>
+          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Illinois Businesses Since [Year — TBD]</div>
+        </div>
       </div>
     </div>
   </div>
@@ -309,9 +360,16 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
         <div class="mkt" id="ldc-il">
           <div class="ldc-selector"><div class="ldc-btn">Nicor Gas</div><div class="ldc-btn">Peoples Gas</div><div class="ldc-btn">North Shore Gas</div></div>
         </div>
+        <!-- ZIP Fallback (CP-2 — added 2026-06-09) -->
+        <div class="ldc-zip-fallback">
+          <span>Don't know your utility?</span>
+          <input class="ldc-zip-input" type="text" placeholder="Enter ZIP code" />
+          <button class="ldc-zip-submit">Look up →</button>
+        </div>
       </div>
       <div class="ann-row">
         <div class="ann ann-g"><i>✓</i> LDC gating uses the same component as Residential Plans — solve-once-persist via URL parameter (?ldc=columbia-gas). LDC selection on Homepage carries through to this page.</div>
+        <div class="ann ann-g"><i>✓</i> CP-2 — ZIP fallback added; mirrors Residential Plans pattern. Commercial customers have no more LDC knowledge than residential customers.</div>
         <div class="ann ann-g"><i>✓</i> PA and IES markets do not see this section — commercial plans not available for those brands</div>
       </div>
     </div>
@@ -321,7 +379,8 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
   <div class="section" id="plans-section" style="position:relative;">
     <div class="section-label"><div class="sec-num">3</div><br>Commercial<br>Plan Cards</div>
     <div class="p">
-      <div class="comm-plan-grid">
+      <!-- CP-4: Grid changed to auto-fit to handle 2-card (ONG/GRE) vs 3-card (IL) layout gracefully -->
+      <div class="comm-plan-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
 
         <!-- Commercial Fixed (featured) — unified .pc component per PC-D16 -->
         <div class="pc featured">
@@ -330,14 +389,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
               <span class="pc-badge badge-fixed">● Fixed Rate</span>
               <span class="pc-badge badge-popular">Most Popular</span>
             </div>
-            <div class="pc-name mkt-inline on">ONG Commercial Fixed 12</div>
-            <div class="pc-name mkt-inline" id="cn-gre">GRE Commercial Fixed 12</div>
-            <div class="pc-name mkt-inline" id="cn-il">IL Commercial Fixed 12</div>
+            <div class="pc-name mkt-inline on" id="cn-f-ong">ONG Commercial Fixed 12</div>
+            <div class="pc-name mkt-inline" id="cn-f-gre">GRE Commercial Fixed 12</div>
+            <div class="pc-name mkt-inline" id="cn-f-il">IL Commercial Fixed 12</div>
           </div>
           <div class="pc-body">
             <div class="pc-rate-row">
               <div class="pc-rate">$0.469</div>
-              <div class="pc-rate-unit">/ <strong>therm</strong></div>
+              <!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
+              <div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-f-ong">CCF</span><span class="mkt-inline" id="ru-f-gre">therm</span><span class="mkt-inline" id="ru-f-il">therm</span></strong></div>
             </div>
             <div class="pc-desc">Lock in your supply rate for 12 months and bring budget certainty to your operating costs — no surprises from market swings.</div>
             <ul class="pc-points">
@@ -365,7 +425,8 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           <div class="pc-body">
             <div class="pc-rate-row">
               <div class="pc-rate">$0.512</div>
-              <div class="pc-rate-unit">/ <strong>therm</strong></div>
+              <!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
+              <div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-v-ong">CCF</span><span class="mkt-inline" id="ru-v-gre">therm</span><span class="mkt-inline" id="ru-v-il">therm</span></strong></div>
             </div>
             <div class="pc-desc">Month-to-month flexibility for businesses that want to follow the market and avoid term commitments.</div>
             <ul class="pc-points">
@@ -382,41 +443,44 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           </div>
         </div>
 
-        <!-- Large Commercial · quote-only state per PC-D9 + PC-D16 -->
-        <div class="pc">
-          <div class="pc-head">
-            <div class="pc-badge-row">
-              <span class="pc-badge badge-custom">Custom Rate</span>
+        <!-- Large Commercial · IL only (CP-4 — removed from ONG/GRE 2026-06-09) -->
+        <div class="mkt" id="lc-il" style="display:none;">
+          <div class="pc">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-custom">Custom Rate</span>
+              </div>
+              <div class="pc-name">Large Commercial</div>
             </div>
-            <div class="pc-name">Large Commercial</div>
-          </div>
-          <div class="pc-body">
-            <div class="pc-quote">
-              <div class="pc-quote-label">Call for a custom quote</div>
-              <div class="pc-quote-phone">1-800-XXX-XXXX</div>
+            <div class="pc-body">
+              <div class="pc-quote">
+                <div class="pc-quote-label">Call for a custom quote</div>
+                <div class="pc-quote-phone">1-800-XXX-XXXX</div>
+              </div>
+              <div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
+              <ul class="pc-points">
+                <li>Custom contract terms</li>
+                <li>High-volume pricing available</li>
+                <li>Dedicated account support</li>
+                <li>Multi-location options</li>
+              </ul>
+              <span class="pc-expand-link" onclick="alert('Inline expand — 2-section variant per §14 matrix: \&quot;What\&#39;s in scope\&quot; + \&quot;Cancellation rights\&quot;.\n\nAnalytics: plan_details_expand · segment=commercial · card_state=quote_only')">▾ View Plan Terms &amp; Disclosures</span>
             </div>
-            <div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
-            <ul class="pc-points">
-              <li>Custom contract terms</li>
-              <li>High-volume pricing available</li>
-              <li>Dedicated account support</li>
-              <li>Multi-location options</li>
-            </ul>
-            <span class="pc-expand-link" onclick="alert('Inline expand — 2-section variant per §14 matrix: \&quot;What\&#39;s in scope\&quot; + \&quot;Cancellation rights\&quot;.\n\nAnalytics: plan_details_expand · segment=commercial · card_state=quote_only')">▾ View Plan Terms &amp; Disclosures</span>
-          </div>
-          <div class="pc-foot">
-            <button class="pc-cta outline">Contact a Rep →</button>
+            <div class="pc-foot">
+              <button class="pc-cta outline">Contact a Rep →</button>
+            </div>
           </div>
         </div>
+
       </div>
       <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Cards use the unified <code>.pc</code> component per PlanCard_Wireframe.html. Description slot, "View Plan Terms &amp; Disclosures" expand, "Start Enrollment →" (Fixed/Variable) and "Contact a Rep →" (Custom) applied.</div>
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> "Contact a Rep →" routes to the dedicated <b>B2B Contact page</b> (per market sitemaps under "For My Business" → B2B Contact). Single national commercial-rep number sourced from <code>ContactFormUtility_Wireframe.html §B2B/Sales Inquiries</code>.</div>
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Self-serve vs. rep-assisted is plan-level — PRIME flags each plan SKU as <code>rate_resolved</code> (Fixed/Variable) or <code>quote_only</code> (Large Commercial). Resolves CommercialPlans Open Q #2.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #1: Plan types and pricing are placeholders — confirm commercial plan options per market with Lee Jackson</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #5: Commercial ETF amounts — placeholder <code>[$ TBD]/month</code> in Fixed card bullet. Confirm with Lee Jackson whether commercial ETFs match residential ($12.50/month) or differ.</div>
-        <div class="ann ann-y"><i>⚑</i> "Most Popular" allowed on commercial but may lack enrollment data to support it — small proportion of total enrollments. CMS guidance: don't publish unless data clearly supports one plan. Wireframe demo retains badge for visual reference.</div>
-        <div class="ann ann-r"><i>⚑</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">new Open Q</span> Customer self-identification: how does a small business know whether they qualify for self-serve plans vs. needing custom quote? Options proposed in PlanCard_Wireframe.html §6 — flag for Lee Jackson / sales team alignment.</div>
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Cards use the unified <code>.pc</code> component per PlanCard_Wireframe.html. Description slot, "View Plan Terms &amp; Disclosures" expand, "Start Enrollment →" (Fixed/Variable) and "Contact a Rep →" (Custom/IL) applied.</div>
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">CP-4</span> Large Commercial quote-only card removed for ONG and GRE — live site review (2026-06-09) confirms no such product exists for those markets. Card retained for IL pending plan-type confirmation. Rep CTA Band (Section 5) provides the large-commercial off-ramp for all markets.</div>
+        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">CP-5</span> Rate unit for ONG updated to CCF (confirmed via live site review 2026-06-09). GRE and IL rate units show "therm" as placeholder — confirm before copy handoff.</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #1 (ONG/GRE partially resolved): ONG live site shows 3 self-serve plans — 12-Month Fixed, Variable, 6-Month Fixed. Wireframe currently shows only 2 (12-Month Fixed + Variable). A 6-Month Fixed card may be needed for ONG/GRE — confirm plan catalog with Lee Jackson before adding.</div>
+        <div class="ann ann-y"><i>⚑</i> Open Q #5: Commercial ETF amounts — placeholder <code>[$ TBD]/month</code> in Fixed card bullet. Confirm with Lee Jackson.</div>
+        <div class="ann ann-y"><i>⚑</i> "Most Popular" badge retained for wireframe reference. CMS guidance: don't publish unless enrollment data clearly supports one plan for commercial segment.</div>
+        <div class="ann ann-y"><i>⚑</i> CP-7: Large commercial cutoff for Rep CTA Band — usage threshold (currently "500+ therms") is placeholder. Client to define self-serve vs. call-in qualifier. Owner: Lee Jackson / sales team.</div>
       </div>
     </div>
   </div>
@@ -435,14 +499,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
             <td><strong>Ohio Natural Gas (ONG)</strong></td>
             <td class="avail-yes">✓ Available</td>
             <td class="avail-yes">✓ Available</td>
-            <td class="avail-yes">✓ Available</td>
+            <td class="avail-no">— Not observed on live site</td>
             <td class="avail-yes">✓ Confirmed</td>
           </tr>
           <tr>
             <td><strong>Grand Rapids Energy (GRE)</strong></td>
             <td class="avail-yes">✓ Available</td>
             <td class="avail-yes">✓ Available</td>
-            <td class="avail-contact">Contact for Quote</td>
+            <td class="avail-no">— Not observed on live site</td>
             <td class="avail-yes">✓ Confirmed</td>
           </tr>
           <tr>
@@ -498,6 +562,38 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
       <div class="ann-row">
         <div class="ann ann-g"><i>✓</i> Rep CTA differentiates self-serve small commercial from large/custom accounts — prevents over-burdening self-serve enrollment flow with complex commercial cases</div>
         <div class="ann ann-y"><i>⚑</i> Usage threshold for "large commercial" (500+ therms) is a placeholder — confirm qualification criteria with Lee Jackson</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: FAQ (CP-3 — added 2026-06-09) -->
+  <div class="section" style="position:relative;">
+    <div class="section-label"><div class="sec-num">6</div><br>FAQ</div>
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-q">What commercial natural gas plans are available for my business?</div>
+        <div class="faq-a">[Brand] offers fixed-rate and variable-rate plans for small to mid-size businesses. Fixed plans lock in your supply rate for the contract term; variable plans adjust monthly with the market. Plan options and pricing vary by utility — select your gas utility above to see what's available for your address. <em>[Note: Final plan catalog pending Lee Jackson confirmation — Open Q #1.]</em></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is there an early termination fee for commercial plans?</div>
+        <div class="faq-a">Fixed-rate plans include an early termination fee (ETF) of <strong>[$ TBD]/month</strong> for each remaining month on your contract if you cancel early. Variable plans have no ETF — you can cancel anytime. <em>[ETF amount pending Lee Jackson confirmation — Open Q #5.]</em></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do I enroll my business online?</div>
+        <div class="faq-a">Select your utility above, choose the plan that fits your business, and click "Start Enrollment." You'll complete enrollment online through our secure system. Have your account number and service address ready. Most small commercial enrollments take about 10 minutes.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How is my commercial gas rate determined?</div>
+        <div class="faq-a">Fixed-rate plans lock in your supply rate for the contract term — your rate won't change even if market prices rise. Variable-rate plans adjust each month based on market conditions and can go up or down. All rates are supply rates only; your utility's delivery charges appear separately on your bill.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">My business has high usage or multiple locations. What are my options?</div>
+        <div class="faq-a">If your business uses high volumes of natural gas or operates across multiple locations, our commercial energy team can work with you on a custom arrangement. Click "Contact a Rep" above or use the banner below to connect with a specialist — no obligation.</div>
+      </div>
+      <div class="ann-row" style="margin-top:12px;">
+        <div class="ann ann-g"><i>✓</i> CP-3 — FAQ section added for consistency with Residential Plans. Content is placeholder — requires commercial-specific copy brief before copywriter handoff.</div>
+        <div class="ann ann-y"><i>⚑</i> FAQ content depends on Open Q #1 (plan types) and Open Q #5 (ETF) — placeholder values flagged inline above.</div>
       </div>
     </div>
   </div>

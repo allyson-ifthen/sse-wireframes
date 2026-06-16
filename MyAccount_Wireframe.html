@@ -941,6 +941,21 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
   }
   .state { display: block !important; page-break-after: always; }
 }
+
+/* -- MA-61 · Multi-premise address selector -- */
+.premise-list { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+.premise-card {
+  display: flex; align-items: flex-start; gap: 12px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 14px 16px; cursor: pointer; transition: border-color .15s;
+  background: var(--surface);
+}
+.premise-card:hover { border-color: var(--accent); }
+.premise-card input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); }
+.premise-card-body { flex: 1; }
+.premise-card-addr { font-weight: 600; font-size: 15px; margin: 0 0 2px; }
+.premise-card-plan { font-size: 13px; color: var(--muted); margin: 0; }
+.premise-card-status { display: inline-block; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(74,144,194,.12); border-radius: 4px; padding: 1px 6px; margin-top: 4px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -964,6 +979,8 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
     <div class="group">
       <span class="group-lbl">State</span>
       <button id="st-btn-login"     class="on" onclick="setState('login')">Login</button>
+      <button id="st-btn-premise"   onclick="setState('premise')">Premise Select</button>
+      <button id="st-btn-mover"     onclick="setState('mover')">Mover Flow</button>
       <button id="st-btn-create"    onclick="setState('create')">Create Account</button>
       <button id="st-btn-forgot"    onclick="setState('forgot')">Forgot Password</button>
       <button id="st-btn-reset"     onclick="setState('reset')">Reset Password</button>
@@ -1104,6 +1121,14 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <h1>Log in to your account</h1>
       <div class="auth-sub">Enter your email and password to view your plan, manage your account, and access your Refer a Friend dashboard.</div>
 
+      <!-- MA-60: IL/IES disclosure box (market-conditional) -->
+      <div class="mkt mkt-il" id="login-disclosure-il" style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; padding:12px 14px; margin-bottom:16px; font-size:12px;">
+        <strong style="color:#7a6000;">Illinois Disclosure (Part 512):</strong> <span style="color:#5a4500;">[ Illinois disclosure copy — pending Legal/Regulatory approval ]</span>
+      </div>
+      <div class="mkt mkt-ies" id="login-disclosure-ies" style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; padding:12px 14px; margin-bottom:16px; font-size:12px;">
+        <strong style="color:#7a6000;">Illinois Disclosure (ICC):</strong> <span style="color:#5a4500;">[ Illinois disclosure copy — pending Legal/Regulatory approval ]</span>
+      </div>
+
       <!-- MA-39 (2026-05-26): Dual-tab login — Email & Password (default) + Account number (legacy) -->
       <div class="auth-tabs" style="display:flex; border-bottom:2px solid var(--line-soft); margin-bottom:18px; gap:0;">
         <button id="login-tab-email" class="auth-tab on" onclick="setLoginTab('email')" style="flex:1; padding:10px 8px; background:none; border:none; border-bottom:2px solid var(--accent); color:var(--accent); font-weight:600; font-size:13px; cursor:pointer; margin-bottom:-2px;">Email &amp; password</button>
@@ -1126,19 +1151,26 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 
       <button class="btn btn-full" id="login-submit" disabled>Log In →</button>
 
+      <!-- MA-57 / MA-62: OTP / Magic-link option — secondary button (upgraded from text link) -->
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line-soft);">
+        <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">No password? We can email you a sign-in code.</div>
+        <button class="btn btn-outline btn-full" type="button" onclick="setState('otp')">Sign in without a password →</button>
+      </div>
+
       </div><!-- /login-panel-email -->
 
       <!-- TAB 2: Account number (legacy path) -->
       <div id="login-panel-acct" style="display:none;">
         <!-- Deprecation warning -->
         <div style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; padding:12px 14px; margin-bottom:16px; font-size:13px;">
-          <strong>Heads up:</strong> Online account access is changing on <strong>[Cutover date — TBD]</strong>. After this date, you'll need an email and password to sign in.
+          <strong>This sign-in method is going away.</strong> Set up your email login now to avoid losing access on <strong>[Cutover date — TBD]</strong>.
           <div style="margin-top:8px;"><button class="link" type="button" onclick="setState('create')">Set up your email login →</button></div>
         </div>
 
         <div class="form-row">
           <label class="form-label" for="login-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
           <input id="login-acct" class="form-input" type="text" placeholder="Your utility account number" aria-required="true">
+          <div class="form-hint">Find this on your utility bill · <a class="link" href="#" style="display:inline;">Where's my account number? ↓</a></div>
         </div>
         <div class="form-row">
           <label class="form-label" for="login-lname"><span class="req">*</span>Last name <span class="req-lbl">Required</span></label>
@@ -1156,13 +1188,17 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
         Already a customer? <button class="link" type="button" onclick="setState('create')">Set up your email login →</button>
         <br>
         <span style="display:inline-block; margin-top:8px;">
-          Not a customer yet? <a class="link" href="#">View plans →</a>
+          Not a customer yet? <a class="link" href="#">View plans →</a> <span class="ann ann-b" style="display:inline; font-size:11px;"><strong>MA-65:</strong> Routes to <code>/residential-plans/</code>. Not market-specific.</span>
         </span>
       </div>
     </div>
 
     <div class="ann ann-g"><strong>MA-16 · Auth direction confirmed:</strong> Email + password is the client-aligned auth model (2026-05-19) across all 5 markets. Replaces the current production model (LDC selector + account number + last name + ZIP).</div>
     <div class="ann ann-g"><strong>MA-23:</strong> Account number is captured once at account creation / first-time link — not at every login. Subsequent logins use email + password only.</div>
+    <div class="ann ann-g"><strong>MA-57 (Phase 3 · 2026-06-15):</strong> Add "Sign in without a password →" link below email+password form. Routes to OTP/magic-link path (enter email → receive code → sign in). Email+password remains primary; OTP is secondary. Enables password recovery for users who cannot recall their credentials (annual+ login frequency). Legacy auth (account number + last name + ZIP) remains tertiary fallback with link "Don't have access to that email? Sign in another way →".</div>
+    <div class="ann ann-y"><strong>MA-64 · OTP tertiary fallback — two-phase routing:</strong> The "Don't have access to that email? Sign in another way →" fallback link on the OTP entry screen has two phases: Phase 1 (current) = routes to legacy account-number tab (Tab 2); Phase 2 (post-sunset, once account-number auth is retired) = routes to a "Please call us" customer service prompt. Ensure dev and content are aware of this future-state change before building. Cross-ref MA-57, MA-63.</div>
+    <div class="ann ann-g"><strong>MA-58 (Phase 3 · 2026-06-15):</strong> Add helper link "Where's my account number? ↓" below the Account Number field in the legacy login state (Tab 2). Matches placement pattern from email setup flow. Mirrors account-number field behavior in Create Account → Step 1 (account verification).</div>
+    <div class="ann ann-g"><strong>MA-60 (Phase 3 · 2026-06-15):</strong> Add IL/IES disclosure box to login state. Visible only for IL (`.mkt mkt-il`) and IES (`.mkt mkt-ies`) markets. Styled as bordered yellow disclosure block with placeholder copy: "[ Illinois disclosure copy — pending Legal/Regulatory approval ]". Annotated `.ann-y` (open question / dependency) pending final regulatory text.</div>
     <div class="ann ann-y"><strong>MA-16 · Open #8 (PRIME):</strong> Account-linking mechanism — does PRIME associate email→account via a new field, or use existing account-number lookup at every login? Owner: Dev (Girish).</div>
     <div class="ann ann-y"><strong>MA-22 · Open #10 (IL):</strong> Part 512 identity-code overlay — does login in IL require identity-code re-verification, or only at enrollment? Cross-ref Enrollment Q30. Owner: Legal + Engineering.</div>
     <div class="ann ann-b"><strong>Existing customers:</strong> Use "Already a customer? Set up your email login →" to one-time link their PRIME account (account # + last name + ZIP) to a new email + password.</div>
@@ -1172,6 +1208,136 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
   </div>
 </div>
 
+
+<!-- ====== MA-69 · Mover Flow — Add a service address (authenticated) ====== -->
+<div class="state" id="state-mover">
+  <div class="state-divider"><strong>State M</strong> — Authenticated · Add a Service Address</div>
+
+  <div style="max-width: 520px; margin: 48px auto;">
+
+    <div class="ann ann-g"><strong>MA-69 · Mover flow.</strong> Reached from Dashboard Personal Information "Moving to a new address? →" (MA-75) or Premise Selector "+ Add a service address" (MA-67). User is already authenticated. Happy path: verify new utility account → handoff to Enrollment with PII pre-filled. Old premise goes inactive once LDC account closes (cross-ref MA-68).</div>
+
+    <div class="stepper" style="margin-bottom:24px;" role="navigation" aria-label="Add address progress">
+      <button id="mv-chip-1" class="step-chip current" onclick="setMoverStep(1)" aria-label="Step 1: Verify new account (current)">
+        <span class="num">1</span> Verify account
+      </button>
+      <span class="step-connector" aria-hidden="true"></span>
+      <button id="mv-chip-2" class="step-chip upcoming" onclick="setMoverStep(2)" aria-label="Step 2: Choose a plan">
+        <span class="num">2</span> Choose a plan
+      </button>
+    </div>
+
+    <!-- STEP 1: Verify new utility account -->
+    <div id="mv-step-1">
+      <h2 style="margin:0 0 6px;">Verify your new service address</h2>
+      <p style="color:var(--muted); margin:0 0 20px;">Enter your new utility account details to link your address to your SouthStar account.</p>
+
+      <div class="form-row">
+        <label class="form-label" for="mv-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
+        <input id="mv-acct" class="form-input" type="text" placeholder="Per-LDC mask applies" aria-required="true">
+        <div class="form-hint">Find this on your utility bill · <a class="link" href="#">Where's my account number? ↓</a></div>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="mv-last"><span class="req">*</span>Last name on account <span class="req-lbl">Required</span></label>
+        <input id="mv-last" class="form-input" type="text" aria-required="true">
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="mv-zip"><span class="req">*</span>ZIP code <span class="req-lbl">Required</span></label>
+        <input id="mv-zip" class="form-input" type="text" maxlength="10" aria-required="true">
+      </div>
+
+      <div class="btn-row" style="justify-content:space-between; margin-top:8px;">
+        <button class="btn btn-outline" type="button" onclick="setState('dashboard')">← Back to dashboard</button>
+        <button class="btn" type="button" onclick="setMoverStep(2)">Verify account →</button>
+      </div>
+      <div class="ann ann-b" style="margin-top:14px;"><strong>MA-69 · Step 1:</strong> Read-only PRIME lookup against new utility account number + last name + ZIP. Same verification pattern as State B Step 1. On success, server issues a short-lived token and advances to Step 2. No credential write at this step.</div>
+    </div>
+
+    <!-- STEP 2: Handoff confirmation -->
+    <div id="mv-step-2" style="display:none;">
+      <div class="step-divider">
+        <strong>✓ Address verified</strong>
+        <span>789 Elm Street, Columbus, OH 43215 · Columbia Gas of Ohio · Account #ONG-00789456</span>
+      </div>
+
+      <h2 style="margin:16px 0 6px;">Select a plan for your new address</h2>
+      <p style="color:var(--muted); margin:0 0 20px;">Your account details are verified. Choose a plan to complete your enrollment — your personal information is pre-filled.</p>
+
+      <div style="background:var(--chip); border:1px solid var(--line-soft); border-radius:4px; padding:14px 16px; margin-bottom:20px; font-size:13px;">
+        <div style="font-weight:600; margin-bottom:6px;">New service address</div>
+        <div>789 Elm Street, Columbus, OH 43215</div>
+        <div style="color:var(--muted); margin-top:2px;">Columbia Gas of Ohio · Account #ONG-00789456</div>
+      </div>
+
+      <button class="btn btn-full" type="button" onclick="setState('dashboard')">Choose a plan →</button>
+      <div class="ann ann-y" style="margin-top:12px;"><strong>MA-69 · Enrollment handoff:</strong> "Choose a plan →" routes to Enrollment with PII pre-filled and new account number linked. URL and handoff mechanism TBD with Engineering. Cross-ref Enrollment Step 1 existing-customer pre-flow (ENR-42).</div>
+
+      <div style="margin-top:16px; text-align:center;">
+        <button class="link" type="button" onclick="setMoverStep(1)" style="font-size:12px;">← Back to verify</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ====== MA-61 · Premise Select — multi-address selector (post-auth, conditional) ====== -->
+<div class="state" id="state-premise">
+  <div class="state-divider"><strong>State A2</strong> — Authenticated · Select Your Address</div>
+
+  <div style="max-width: 520px; margin: 48px auto;">
+    <h2 style="margin: 0 0 6px;">Select your service address</h2>
+    <p style="color: var(--muted); margin: 0 0 4px;">We found multiple addresses associated with your account. Select the address you'd like to manage.</p>
+
+    <div class="ann ann-y" style="margin: 16px 0;"><strong>MA-61 · Conditional state.</strong> This screen renders only when PRIME returns 2+ service addresses linked to the authenticated customer account. Single-premise customers bypass this state and land directly on the Dashboard. PRIME must flag multi-premise status in the session response so the frontend knows to route here post-auth. Engineering dependency: confirm PRIME session API surfaces premise list. Cross-ref ENR-95 (resolution) + ENR-98 (enrollment pre-flow annotation).</div>
+
+    <div class="premise-list">
+      <!-- Address option 1 — Most Recent -->
+      <label class="premise-card">
+        <input type="radio" name="premise-select" value="addr1" checked>
+        <div class="premise-card-body">
+          <p class="premise-card-addr">123 Maple Street, Columbus, OH 43215</p>
+          <p class="premise-card-plan">12-Month PriceGuard Plan · $0.749/Ccf</p>
+          <div style="display:flex; gap:6px; align-items:center; margin-top:4px;">
+            <span class="premise-card-status">Active</span>
+            <span style="font-size:11px; background:var(--accent); color:#fff; border-radius:3px; padding:1px 6px; font-weight:600;">Most Recent</span>
+          </div>
+        </div>
+      </label>
+      <!-- Address option 2 -->
+      <label class="premise-card">
+        <input type="radio" name="premise-select" value="addr2">
+        <div class="premise-card-body">
+          <p class="premise-card-addr">456 Oak Avenue, Westerville, OH 43081</p>
+          <p class="premise-card-plan">Variable Rate Plan · Market rate</p>
+          <span class="premise-card-status">Active</span>
+        </div>
+      </label>
+      <!-- Address option 3 — Inactive example (MA-70) -->
+      <label class="premise-card" style="opacity:0.65;">
+        <input type="radio" name="premise-select" value="addr3" disabled>
+        <div class="premise-card-body">
+          <p class="premise-card-addr">789 Pine Road, Dublin, OH 43017</p>
+          <p class="premise-card-plan">No active plan</p>
+          <span class="premise-card-status" style="background:var(--muted); color:#fff;">Inactive</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="ann ann-b" style="margin-bottom: 16px;"><strong>MA-61 / MA-71 · Dev note.</strong> Address cards are dynamically rendered from PRIME session data. Number of cards = number of premises on account (minimum 2 to reach this state). Each card shows: street address, current plan name + rate, account status. Radio-select; default = most recently active premise (PRIME last-active signal); fallback to first returned if signal unavailable. Inactive cards are display-only and non-selectable.</div>
+    <div class="ann ann-y"><strong>MA-68 · Open question — inactive premise retention.</strong> How does PRIME signal that a premise is inactive (LDC account closed)? What is the retention window before the inactive premise is removed from the account view entirely? Owner: Dev (Girish).</div>
+
+    <div class="btn-row" style="justify-content: flex-end;">
+      <button class="btn" onclick="setState('dashboard')">Continue to My Account &rarr;</button>
+    </div>
+
+    <div style="margin-top:16px; text-align:center;">
+      <button class="link" type="button" onclick="setState('mover')" style="font-size:13px;">+ Add a service address</button>
+    </div>
+
+    <p style="font-size: 12px; color: var(--muted); margin: 16px 0 0; text-align: center;">You can switch between addresses from your dashboard.</p>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
      STATE: SET UP EMAIL LOGIN (formerly "Create Account") — MA-38
@@ -1235,7 +1401,25 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
         <div class="form-row">
           <label class="form-label" for="link-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
           <input id="link-acct" class="form-input" type="text" placeholder="Per-LDC mask applies" aria-required="true">
-          <div class="form-hint">Find this on your utility bill · <a class="link" href="#">Show me on my bill ↓</a></div>
+          <div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px;">
+            <p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
+            <div style="margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--line); border-radius:3px; display:flex; gap:8px; align-items:center; cursor:pointer;" onclick="document.getElementById('bill-image-modal').hidden = false;">
+              <span style="flex:1; font-size:12px; color:var(--muted);">[Bill image thumbnail]</span>
+              <button type="button" style="background:transparent; border:none; cursor:pointer; font-size:14px;" aria-label="Expand bill image" title="Expand to full size">⇱</button>
+            </div>
+            <p style="margin:8px 0 0; font-size:12px;">
+              Can't find your account number? Call SSE:
+              <strong>
+                <span class="mkt mkt-ong on">1-888-466-4427</span>
+                <span class="mkt mkt-pa">1-800-XXX-PENN</span>
+                <span class="mkt mkt-gre">1-800-XXX-GRMI</span>
+                <span class="mkt mkt-il">1-800-XXX-ILGS</span>
+                <span class="mkt mkt-ies">1-800-XXX-IESL</span>
+              </strong>
+              — we can help you locate it. (Do NOT call your Gas Utility Company — call SSE.)
+            </p>
+          </div>
+          <div class="ann ann-g" style="margin-top:6px;"><strong>MA-73:</strong> Upgraded from text hint to always-exposed help block matching Enrollment Step 1 pattern (ENR-26 / ENR-83). Bill image thumbnail + expand modal + SSE call direction with market-variable phone numbers. "Do NOT call your Gas Utility Company" routing prevents LDC call-volume bleed.</div>
         </div>
 
         <div class="form-row">
@@ -1314,6 +1498,11 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <button class="btn btn-full" disabled>Send reset link →</button>
 
       <div class="auth-footer-links">
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line-soft);">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">No password? We can email you a sign-in code instead.</div>
+          <button class="btn btn-outline btn-full" type="button" onclick="setState('otp')">Sign in without a password →</button>
+          <div class="ann ann-b" style="margin-top:8px;"><strong>MA-74:</strong> OTP secondary button on Forgot Password state. Dev dependency: pre-populate the email address already entered in this form into the OTP flow on click.</div>
+        </div>
         Remember your password? <button class="link" type="button" onclick="setState('login')">Back to log in</button>
       </div>
     </div>
@@ -1465,7 +1654,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
             <!-- Inline renewal-window line — conditional, replaces standalone banner (MA-29) -->
             <div class="plan-renewal-line">
               <strong>⚐ Within renewal window — no ETC to switch.</strong><br>
-              Your auto-renew rate will roll on June 30. <a class="link" href="#">View renewal terms →</a>
+              Your auto-renew rate will roll on June 30.
             </div>
 
             <div class="plan-meta-row">
@@ -1606,6 +1795,11 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           <a class="link" href="#">Update phone</a>
         </div>
         <div>
+          <div class="info-label">Service address</div>
+          <div class="info-val">123 Maple Street<br>Columbus, OH 43215</div>
+          <button class="link" type="button" onclick="setState('mover')" style="font-size:13px;">Moving to a new address? →</button>
+        </div>
+        <div>
           <div class="info-label">Mailing address</div>
           <div class="info-val">123 Main Street<br>Columbus, OH 43215</div>
           <a class="link" href="#">Update address</a>
@@ -1618,6 +1812,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       </div>
       <div class="ann ann-g" style="margin-top:14px;"><strong>MA-1 (Done):</strong> Personal information section — email, phone, mailing address, password change. Standard authenticated-app expectation; reduces call-center contacts for self-service updates.</div>
       <div class="ann ann-y"><strong>Open:</strong> Confirm with Dev/PRIME which fields are stored and updatable directly. Email and password tie to the auth layer; phone and mailing address tie to PRIME account record.</div>
+      <div class="ann ann-b"><strong>MA-75 · Service address vs. mailing address:</strong> Service address = utility service location (tied to LDC account; non-editable via form — changes route through mover flow via state-mover). Mailing address = contact/billing address (updatable directly in PRIME). These are distinct fields. Cross-ref MA-69.</div>
     </div>
 
     <!-- My Documents -->
@@ -1652,8 +1847,8 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 
     <!-- Standalone Bill Pay section removed per MA-30; Bill Pay now lives in the dashboard right slot (IL only). -->
 
-    <!-- RAF Summary Card (links to RAF Dashboard state) -->
-    <div class="section-block">
+    <!-- RAF Summary Card — suppressed for IL and IES (MA-76 / MA-79) -->
+    <div class="mkt mkt-ong mkt-pa mkt-gre section-block">
       <div class="section-h">Refer a Friend</div>
       <div class="raf-card">
         <div class="raf-card-head">
@@ -1661,9 +1856,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           <div class="raf-card-sub">
             <span class="mkt-inline mkt-ong on">Earn $25 for you and your friend</span>
             <span class="mkt-inline mkt-pa">Earn $25 for you and your friend</span>
-            <span class="mkt-inline mkt-gre">Refer a friend to Grand Rapids Energy</span>
-            <span class="mkt-inline mkt-il">Refer a friend to Illinois Energy</span>
-            <span class="mkt-inline mkt-ies">Refer a friend to Illinois Energy Solutions</span>
+            <span class="mkt-inline mkt-gre">Earn $25 for you and your friend</span>
           </div>
         </div>
         <div class="raf-card-body">
@@ -1678,6 +1871,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <div class="ann ann-g" style="margin-top:10px;"><strong>MA-3 (Done):</strong> Compact RAF card on dashboard — full experience at <code>/my-account/refer/</code> child page. Click "Refer a Friend →" to view the full RAF dashboard.</div>
       <div class="ann ann-g"><strong>MA-20:</strong> RAF Dashboard now lives as a separate state in this wireframe (toggle via control bar). Mirrors the full <code>/my-account/refer/</code> page.</div>
       <div class="ann ann-y"><strong>Open #2:</strong> RAF portal integration with PRIME — replace, embed, or re-platform? Owner: Dev + RAF system owner client-side.</div>
+      <div class="ann ann-b"><strong>MA-76 / MA-79:</strong> RAF suppressed for IL (IE) and IES — program not available in those markets. ONG, PA, GRE show this card.</div>
     </div>
 
     <!-- ─────────────────────────────────────────────────────
@@ -1940,8 +2134,9 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 <!-- ════════════════════════════════════════════════════════════════════════════
      STATE: RAF DASHBOARD (full /my-account/refer/ view)
 ═════════════════════════════════════════════════════════════════════════════ -->
-<div class="state" id="state-raf">
+<div class="state mkt mkt-ong mkt-pa mkt-gre" id="state-raf">
   <div class="state-divider"><strong>State F</strong> — Authenticated · Refer a Friend Dashboard <span style="opacity:0.7; font-weight:400;">· /my-account/refer/</span></div>
+    <div class="ann ann-b"><strong>MA-79:</strong> RAF Dashboard suppressed for IL (IE) and IES — program not available. Renders for ONG, PA, GRE only. Cross-ref MA-76 (Dashboard summary card suppression).</div>
 
   <div class="acct-header" style="background:#1a3a5f;">
     <div>
@@ -1969,7 +2164,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           <span class="mkt-inline mkt-il">$25 for you · $25 for them</span>
           <span class="mkt-inline mkt-ies">$25 for you · $25 for them</span>
         </div>
-        <div class="raf-incentive-sub">When friends enroll using your code, you both get a bill credit when their service starts.</div>
+        <div class="raf-incentive-sub">When friends enroll using your code, you both receive a $25 digital Visa reward card when their service starts.</div>
       </div>
       <div class="raf-hero-code">
         <div class="raf-code-label">Your code</div>
@@ -2063,7 +2258,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <ol>
         <li>Share your code with friends and family.</li>
         <li>They enroll using your code at checkout.</li>
-        <li>You both receive a $25 bill credit when their service starts.</li>
+        <li>You both receive a $25 digital Visa reward card when their service starts.</li>
       </ol>
       <div class="raf-how-caveat" style="font-size:11px; color:var(--muted); padding-top:8px; border-top:1px solid var(--line-soft);">Reward type and amount may vary by market and promotion period.</div>
     </div>
@@ -2092,7 +2287,8 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
         <div class="raf-faq-body">Sharing your personal Referral Code is easy. We've even built some easy-to-use tools to help you. Log in <a href="#">here</a> and access the following tools: <strong>1. Share by Email:</strong> Simply input your friends' email addresses, and we'll send them a custom email with all the information they need to easily sign up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. <strong>2. Share Socially:</strong> Use Facebook and X to share your Referral Code with your friends. Just click on the social media icon in your Refer-a-Friend account here to post a customized message to your feeds.</div>
       </details>
       <div class="raf-faqs-footer">
-        <a class="link" href="#">More on Learning Center →</a>
+        <a class="link" href="#">Learn more about Refer a Friend →</a>
+        <div class="ann ann-b" style="margin-top:4px;"><strong>MA-81:</strong> Routes to standalone Refer a Friend page under For My Home. URL TBD. No RAF articles are currently scoped for the Learning Center.</div>
       </div>
     </div>
 
@@ -2108,7 +2304,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
     <div class="ann ann-g" style="margin-top:14px;"><strong>MA-43 · Action-first hierarchy + RAF expansion:</strong> Hero (incentive + code) → <strong>side-by-side Email + Social</strong> (60/40) → paired Earnings + History → <strong>How it works (now visible)</strong> → <strong>contextual FAQs (new)</strong> → <strong>Legal placeholder (new, content TBD)</strong>. Section order revised per Allyson walkthrough Round 2: status reads immediately after action; education + fine print live in the footer zone. Code displayed for reference but no longer visually dominant; primary action elevated.</div>
     <div class="ann ann-g"><strong>MA-20:</strong> Full RAF Dashboard mirrors <code>/my-account/refer/</code>. Dashboard's MA-3 summary card is preserved as the entry point — clicking "Refer a Friend →" lands here.</div>
     <div class="ann ann-g"><strong>MA-46 · RAF Program Terms hyperlinks:</strong> Added <code>id="raf-program-terms"</code> anchor to Legal section; fragment links in FAQs (lines 1742, 1746) now resolve to inline Program Terms & Conditions. "Here" login links in FAQs (lines 1746, 1750, 1754) remain as placeholder <code>#</code> pending PRIME referral-code-mgmt URL discovery.</div>
-    <div class="ann ann-y"><strong>MA-43 · FAQ copy:</strong> Working placeholder questions + answers — final copy TBD with content team.</div>
+    <div class="ann ann-y"><strong>MA-43 / MA-80 · FAQ copy — rewrite for authenticated context:</strong> Current FAQ body copy is pulled from the live PA site and assumes an unauthenticated user ("log in here," "get your referral code here"). Since users access this page inside My Account (already logged in, code visible on screen), these references are redundant. Content rewrite pass needed: remove "log in here" links; replace with references to the code displayed above. Final copy TBD with content team.</div>
     <div class="ann ann-y"><strong>MA-43 · Legal placeholder:</strong> Content TBD — Legal owner (Mollie/Josh). Final RAF program terms required before launch.</div>
     <div class="ann ann-y"><strong>MA-20 · Open #2:</strong> RAF portal integration — existing /refer portal uses a separate LDC-selector-only auth (not PRIME). Does the redesign replace it, embed as iframe, or re-platform onto PRIME auth? Owner: Dev + RAF system owner.</div>
     <div class="ann ann-y"><strong>ENRIL-53 cross-ref:</strong> RAF confirmed NOT in IL per David. PA participation TBD. This wireframe shows the full UI for ONG/GRE; IL/IES variants may suppress or replace this state entirely.</div>
@@ -2272,7 +2468,7 @@ function setMarket(m) {
 /* ────────────────────────────────────
    Auth state switcher
 */
-var STATES = ['login', 'create', 'forgot', 'reset', 'dashboard', 'cancel', 'raf'];
+var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'dashboard', 'cancel', 'raf', 'mover'];
 
 function setState(s) {
   document.querySelectorAll('.state').forEach(function(el) {
@@ -2346,6 +2542,16 @@ function setCreateStep(n) {
   s2.style.display = n === 2 ? '' : 'none';
   if (c1) { c1.className = 'step-chip ' + (n === 1 ? 'current' : 'done'); }
   if (c2) { c2.className = 'step-chip ' + (n === 2 ? 'current' : 'upcoming'); }
+}
+function setMoverStep(step) {
+  document.getElementById('mv-step-1').style.display = step === 1 ? '' : 'none';
+  document.getElementById('mv-step-2').style.display = step === 2 ? '' : 'none';
+  var c1 = document.getElementById('mv-chip-1');
+  var c2 = document.getElementById('mv-chip-2');
+  if (c1 && c2) {
+    c1.className = 'step-chip ' + (step === 1 ? 'current' : 'done');
+    c2.className = 'step-chip ' + (step === 2 ? 'current' : 'upcoming');
+  }
 }
 
 /* ────────────────────────────────────

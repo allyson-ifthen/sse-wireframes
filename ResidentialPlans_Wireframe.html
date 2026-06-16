@@ -712,6 +712,30 @@
     gap: 6px;
   }
 
+  /* ── NAV UTILITY ROW ── */
+  .nav-utility {
+    background: #fafaf9;
+    border-bottom: 1px solid #e8e8e4;
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 12px;
+  }
+  .nav-utility a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .nav-utility a:hover {
+    color: #1e3a5f;
+  }
+  .nav-utility-phone {
+    color: #666;
+    font-weight: 700;
+  }
+
 </style>
 </head>
 <body>
@@ -798,6 +822,15 @@
   <div class="section" style="position:relative; margin-bottom:5px;">
     <div class="section-label" style="top:28px; transform:none;"><div class="section-number" style="background:#555;">H</div><br>Nav Header<br>(Global)</div>
     <div style="font-size:10px; color:#aaa; background:#f7f7f5; padding:5px 24px; border-bottom:1px solid #ebebeb;">⚑ Mobile: hamburger collapses nav. Logo + Account icon remain visible.</div>
+    <!-- Utility Row -->
+    <div class="nav-utility">
+      <a>Contact Us</a>
+      <span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
+      <span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
+      <span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
+      <span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
+      <span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
+    </div>
     <div style="background:#fff; border-bottom:2px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:54px; gap:16px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:900; color:#1e3a5f; display:flex; align-items:center; gap:8px; flex-shrink:0;">
         <div style="width:28px; height:28px; background:#1e3a5f; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px;">🔥</div>
@@ -1248,7 +1281,7 @@
             <div class="pc-body">
               <div class="pc-rate-row">
                 <div class="pc-rate">$5.570</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
               </div>
               <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
               <ul class="pc-points">
@@ -1275,7 +1308,7 @@
             <div class="pc-body">
               <div class="pc-rate-row">
                 <div class="pc-rate">$5.970</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
               </div>
               <div class="pc-desc">The longest fixed-rate commitment we offer. Lock in your price for two full years and get the most extended protection from market swings.</div>
               <ul class="pc-points">
@@ -1302,7 +1335,7 @@
             <div class="pc-body">
               <div class="pc-rate-row">
                 <div class="pc-rate">$6.390</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
               </div>
               <div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
               <ul class="pc-points">
@@ -1340,7 +1373,7 @@
               <div class="pc-body">
                 <div class="pc-rate-row">
                   <div class="pc-rate">$5.370</div>
-                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
                 </div>
                 <div class="pc-desc">A shorter commitment for customers who want price protection without locking in for a full year. Best fit for households expecting to move or reassess soon.</div>
                 <ul class="pc-points">
@@ -1365,7 +1398,7 @@
               <div class="pc-body">
                 <div class="pc-rate-row">
                   <div class="pc-rate">$5.770</div>
-                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
                 </div>
                 <div class="pc-desc">Extended protection between the standard 12-month and the longer 24-month plans. A balanced commitment for steady households.</div>
                 <ul class="pc-points">
@@ -1393,7 +1426,7 @@
               <div class="pc-body">
                 <div class="pc-rate-row">
                   <div class="pc-rate">$3.990</div>
-                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
                   <div class="pc-rate-was">was $4.990</div>
                 </div>
                 <div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>

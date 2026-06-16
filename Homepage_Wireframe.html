@@ -325,6 +325,30 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 /* ── DOC FOOTER ── */
 .doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ── NAV UTILITY ROW ── */
+.nav-utility {
+  background: #fafaf9;
+  border-bottom: 1px solid #e8e8e4;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 12px;
+}
+.nav-utility a {
+  color: #555;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.nav-utility a:hover {
+  color: #1e3a5f;
+}
+.nav-utility-phone {
+  color: #666;
+  font-weight: 700;
+}
 </style>
 </head>
 <body>
@@ -364,6 +388,16 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
     <!-- Mobile / small-screen note -->
     <div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside hamburger. Nav links (For My Home, For My Business, Learning Center, About) and search field go inside hamburger drawer.</div>
+
+    <!-- Utility Row -->
+    <div class="nav-utility">
+      <a>Contact Us</a>
+      <span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+    </div>
 
     <div class="nav-header">
 
@@ -599,7 +633,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
             🏠 Residential Plans
             <span class="aud-tab-sub">Natural gas plans for your home</span>
           </button>
-          <button class="aud-tab mkt" id="tab-commercial" onclick="setAudience('commercial', this)">
+          <button class="aud-tab mkt on" id="tab-commercial-ong" onclick="setAudience('commercial', this)" style="display:none;">
+            🏢 Commercial Plans
+            <span class="aud-tab-sub">Natural gas plans for your business</span>
+          </button>
+          <button class="aud-tab mkt on" id="tab-commercial-gre" onclick="setAudience('commercial', this)" style="display:none;">
+            🏢 Commercial Plans
+            <span class="aud-tab-sub">Natural gas plans for your business</span>
+          </button>
+          <button class="aud-tab mkt on" id="tab-commercial-il" onclick="setAudience('commercial', this)" style="display:none;">
             🏢 Commercial Plans
             <span class="aud-tab-sub">Natural gas plans for your business</span>
           </button>
@@ -642,12 +684,11 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
               <div class="ldc-btn">North Shore Gas</div>
             </div>
           </div>
-          <!-- IES: same LDCs -->
+          <!-- IES: static Nicor display (no selector) per IES-HP-4 -->
           <div class="mkt" id="ldc-ies">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Nicor Gas</div>
-              <div class="ldc-btn">Peoples Gas</div>
-              <div class="ldc-btn">North Shore Gas</div>
+            <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:14px 16px; margin-bottom:12px;">
+              <div style="font-size:12px; color:#2e7d32; font-weight:600;">Your utility: <strong>Nicor Gas</strong></div>
+              <div style="font-size:11px; color:#558b2f; margin-top:4px;">Illinois Energy Solutions is available for Nicor Gas customers.</div>
             </div>
           </div>
 
@@ -812,12 +853,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 
   <!-- ══════════════════════════════════
-       SECTION 3 — LEARNING CENTER TEASER
+       SECTION 3 — LEARNING CENTER TEASER (IES-HP-7: suppressed for IES)
        (formerly Section 5 — moved before Why Choose Us per HP-3:
        educational content precedes value proposition to meet users
        still in research mode before presenting the brand case)
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
+  <div class="section mkt" id="lc-section" style="position:relative;">
     <div class="section-label"><div class="sec-num">3</div><br>Learning Center<br>Teaser</div>
     <div class="p">
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
@@ -889,14 +930,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 
   <!-- ══════════════════════════════════
-       SECTION 4 — GREENER LIFE PLANS MODULE
+       SECTION 4 — GREENER LIFE PLANS MODULE (IES-HP-6: suppressed for IES)
        Greener Life is a standalone plan type — NOT an add-on to existing plans.
        From a backend perspective, Greener Life plans are enrolled as their own plan.
        Both fixed-rate and variable-rate Greener Life options are available.
        Carbon neutral: ONG calculates GHG from customer's natural gas usage and
        purchases and retires carbon offsets to balance the emissions impact.
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
+  <div class="section mkt" id="gl-section" style="position:relative;">
     <div class="section-label"><div class="sec-num">4</div><br>Greener Life<br>Plans</div>
     <div class="gl-module">
       <div class="gl-grid">
@@ -1169,7 +1210,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           </div>
         </div>
 
-        <!-- Col 2: Products & Plans
+        <!-- Col 2: Products & Plans (IES-HP-9: IES shows only Fixed Bill Plan, no commercial or Greener Life)
              Sourced from content tracker: Residential Plans page confirmed across all markets.
              ONG: ONG-007 (residential), ONG-023 (commercial); GRE: GRE-009, GRE-020; IL: IL-008, IL-019
              PA: PE-009 (residential only — no commercial in tracker); IES: IES-003 (Fixed Bill Plan, not rate-based)
@@ -1185,7 +1226,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
             <a class="mkt" id="ft-comm-ong">Commercial Plans</a>
             <a class="mkt" id="ft-comm-gre">Commercial Plans</a>
             <a class="mkt" id="ft-comm-il">Commercial Plans</a>
-            <!-- Greener Life Add-On: ONG confirmed; PA/GRE/IL pending IA review; IES n/a -->
+            <!-- Greener Life Add-On: ONG confirmed; PA/GRE/IL pending IA review; IES n/a (IES-HP-9) -->
             <a class="mkt" id="ft-gl-ong">Greener Life™ Plans</a>
             <a class="mkt" id="ft-gl-pa">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
             <a class="mkt" id="ft-gl-gre">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
@@ -1266,13 +1307,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           </div>
         </div>
 
-        <!-- Market-specific regulatory disclaimer -->
+        <!-- Market-specific regulatory disclaimer (IES-HP-9: expanded IES disclosure region) -->
         <div class="footer-license">
           <span class="mkt on" id="ft-disc-ong">Ohio Natural Gas LLC is a certified competitive retail natural gas supplier (CRNGS) licensed by the Public Utilities Commission of Ohio (PUCO). License [#]. Not affiliated with Columbia Gas of Ohio or Dominion Energy Ohio. Your utility continues to deliver gas and maintain pipelines regardless of your supplier choice. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
           <span class="mkt" id="ft-disc-pa">Pennsylvania Energy LLC is licensed by the Pennsylvania Public Utility Commission (PA PUC). License [#]. Not affiliated with UGI Utilities, Peoples Natural Gas, or PECO Energy. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees. <span style="color:#f5c842;">⚑ PA-specific disclosure language TBD — confirm with compliance</span></span>
           <span class="mkt" id="ft-disc-gre">Grand Rapids Energy LLC is licensed by the Michigan Public Service Commission (MPSC). License [#]. Not affiliated with Consumers Energy or SEMCO Energy. <strong style="color:#666;">Rates billed in MCF by your utility.</strong> Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
           <span class="mkt" id="ft-disc-il">Illinois Energy LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. SB651 / 83 Ill. Adm. Code Part 512 disclosure required — confirm full disclosure text with compliance. Rates shown are commodity charges only.</span>
-          <span class="mkt" id="ft-disc-ies">Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill product — monthly charge is not a per-unit rate.</strong> ICC mandatory disclosure language required — confirm full text with compliance. <span style="color:#f5c842;">⚑ IES billing disclosure language differs from rate-based markets — separate review required</span></span>
+          <span class="mkt" id="ft-disc-ies" style="display:none;"><strong>Illinois Energy Solutions LLC — ICC Licensing & Billing Disclosure (Expanded Region):</strong> Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill Product Disclosure:</strong> Illinois Energy Solutions offers a Fixed Bill plan — a monthly charge structure that is NOT a per-unit commodity rate. Your monthly bill amount is fixed and does not vary with market pricing or usage (subject to the terms in your contract). [<span style="color:#f5c842;">Expanded ICC mandatory disclosure copy pending Legal/Regulatory approval — current placeholder for layout testing</span>]</span>
         </div>
 
       </div><!-- /footer-bottom -->
@@ -1334,12 +1375,12 @@ const MKT_ELEMENTS = {
   //   ft-plan-ies  = "Fixed Bill Plan" (IES only)
   //   ft-comm-*    = "Commercial Plans" footer link (ONG/GRE/IL — PA residential-only, IES n/a)
   //   ft-gl-*      = "Greener Life™ Plans" footer link (ONG confirmed; PA/GRE/IL TBD; IES n/a)
-  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','gl-desc-ong','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong'],
-  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','gl-desc-pa','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa'],
-  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','gl-desc-gre','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre'],
-  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','gl-desc-il','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il'],
-  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','gl-ies-note','lc-brand-ies','lc2-ies','fc-ies','fd-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies']
-  // IES: nav-ies (simplified 3-item nav); ft-plan-ies shows "Fixed Bill Plan" not "Residential Gas Plans"; no commercial or Greener Life
+  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong'],
+  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa'],
+  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre'],
+  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il'],
+  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies']
+  // IES: nav-ies (simplified 3-item nav); static Nicor utility (no selector); no commercial tab or Greener Life section
 };
 
 function setMarket(mkt) {
