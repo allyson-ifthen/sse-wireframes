@@ -784,6 +784,48 @@
   .navigation__account { font-size: 11px; font-weight: 700; color: #5a8cbf; text-decoration: underline; cursor: pointer; white-space: nowrap; }
   .navigation__mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
 
+  /* ── NAV HEADER (standard class aliases) ── */
+  .nav-header { position: relative; z-index: 400; }
+  .nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; cursor: pointer; text-decoration: none; }
+  .nav-link:hover { color: #1e3a5f; border-bottom-color: #e8641a; }
+  .nav-account { font-size: 11px; font-weight: 700; color: #5a8cbf; text-decoration: underline; cursor: pointer; white-space: nowrap; }
+  .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  /* ── MKT DISPLAY ── */
+  .mkt { display: none; }
+  .mkt.on { display: block; }
+  .mkt-inline { display: none; }
+  .mkt-inline.on { display: inline; }
+  .mkt-flex { display: none; }
+  .mkt-flex.on { display: flex; }
+
+  /* ── NAV DROPDOWN ── */
+  .nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+  .nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; line-height: 1; transition: color .15s, transform .15s; }
+  .nav-chevron:hover, .nav-item:hover .nav-chevron { color: #1e3a5f; }
+  .nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+  .nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 190px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+  .nav-item.dd-open > .nav-dropdown { display: block; }
+  .nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .1s; }
+  .nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+  .nav-dd-item.mkt { display: none; }
+  .nav-dd-item.mkt.on { display: block; }
+  .nav-hub-link { position: relative; }
+  .nav-hub-link::after { content: attr(data-hub-tip); display: none; position: absolute; top: calc(100% + 2px); left: 0; background: #1e3a5f; color: #fff; font-size: 10px; font-weight: 500; padding: 5px 9px; white-space: nowrap; border-radius: 3px; z-index: 500; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+  .nav-hub-link:hover::after { display: block; }
+  .nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+    .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+    .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+    .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+    .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+    .nav-dd-item { padding: 9px 32px; }
+    .nav-hamburger { display: inline-flex; align-items: center; }
+    .nav-hub-link::after { display: none !important; }
+  }
+
   /* ── SITE FOOTER ── */
   .footer { background: #1a1a1a; color: #ccc; }
   .footer__brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; align-items: start; }
@@ -1007,23 +1049,88 @@
         <span class="market-display" id="logo-il">Illinois Energy</span>
         <span class="market-display" id="logo-ies">Illinois Energy Solutions</span>
       </div>
-      <nav class="navigation__links" style="display:flex;">
-        <a class="navigation__link">For My Home</a>
-        <a class="navigation__link">For My Business</a>
-        <a class="navigation__link">Learning Center</a>
-        <a class="navigation__link">About</a>
+      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+      <nav class="nav-links mkt-flex on" id="nav-standard">
+
+        <!-- For My Home: hub link + dropdown -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
+            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
+            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+          </div>
+        </div>
+
+        <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
+        <div class="nav-item has-dropdown mkt" id="nav-fmb">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
+            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+          </div>
+        </div>
+
+        <!-- Learning Center: direct link + pillar dropdown -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
+            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
+          </div>
+        </div>
+
+        <!-- About Us: hub link + dropdown -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
+        </div>
+
       </nav>
-      <div class="navigation__right">
-        <a class="navigation__account">👤 My Account</a>
-        <span style="font-size:16px; color:#888; cursor:pointer; padding:0 2px;">🔍</span>
-        <span style="font-size:10px; color:#555; border-left:1px solid #ddd; padding-left:10px; line-height:1.6; white-space:nowrap;">
-          <span style="display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:.05em;">Customer Service</span>
-          <span class="market-display active" id="csphone-ong" style="font-weight:700;">1-800-XXX-XXXX</span>
-          <span class="market-display" id="csphone-pa" style="font-weight:700;">1-800-XXX-XXXX</span>
-          <span class="market-display" id="csphone-gre" style="font-weight:700;">1-800-XXX-XXXX</span>
-          <span class="market-display" id="csphone-il" style="font-weight:700;">1-800-XXX-XXXX</span>
-          <span class="market-display" id="csphone-ies" style="font-weight:700;">1-800-XXX-XXXX</span>
-        </span>
+
+      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
+      <nav class="nav-links mkt-flex" id="nav-ies">
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right: Account + Search icon + Hamburger -->
+      <div class="nav-right">
+        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
+        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
       </div>
     </div>
     <div class="breadcrumb" data-figma-component="Breadcrumb" style="padding-bottom:8px;">
@@ -1855,6 +1962,13 @@
      Market switcher (existing — extended to use .wfctl buttons)
   */
   var MARKETS = ['ong','pa','gre','il','ies'];
+  var MKT_ELEMENTS = {
+    ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
+    pa:  ['nav-standard','nav-search-std','nav-lc-area-pa'],
+    gre: ['nav-standard','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
+    il:  ['nav-standard','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il'],
+    ies: ['nav-ies']
+  };
   function setMarket(market) {
     MARKETS.forEach(function(m) {
       var b = document.getElementById('mkt-btn-' + m);
@@ -1865,6 +1979,13 @@
     });
     document.querySelectorAll('[id$="-' + market + '"]').forEach(function(el) {
       if (el.classList.contains('market-display')) el.classList.add('active');
+    });
+    // Show/hide .mkt and .mkt-flex nav elements
+    document.querySelectorAll('.mkt, .mkt-flex').forEach(function(el) { el.classList.remove('on'); });
+    var ids = MKT_ELEMENTS[market] || [];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.add('on');
     });
   }
 
@@ -1948,6 +2069,43 @@
   setVariant('a');
   setAnnMode('all');
   setChrome('show');
+
+  // ── NAV DROPDOWN TOGGLE ──
+  function toggleNavDropdown(chevronBtn) {
+    const item = chevronBtn.closest('.nav-item');
+    const wasOpen = item.classList.contains('dd-open');
+    document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+    if (!wasOpen) item.classList.add('dd-open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+    }
+  });
+
+  // ── MOBILE NAV TOGGLE ──
+  function closeMobileNav() {
+    const btn = document.getElementById('nav-hamburger-btn');
+    document.querySelectorAll('.nav-links.mobile-open').forEach(function(nav) {
+      nav.classList.remove('mobile-open');
+    });
+    if (btn) btn.textContent = '☰';
+  }
+  function toggleMobileNav() {
+    const btn = document.getElementById('nav-hamburger-btn');
+    const activeNav = document.querySelector('.nav-links.mobile-open') ||
+                      document.querySelector('#nav-standard.on, #nav-ies.on');
+    if (!activeNav) return;
+    const isOpen = activeNav.classList.contains('mobile-open');
+    if (isOpen) { closeMobileNav(); return; }
+    activeNav.classList.add('mobile-open');
+    btn.textContent = '✕';
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+      closeMobileNav();
+    }
+  });
 </script>
 
 </body>

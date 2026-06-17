@@ -174,7 +174,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .footer-disclaimer { font-size: 10px; color: #5a7fa8; margin-top: 14px; line-height: 1.5; }
 
 /* ── NAV HEADER ── */
-.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; flex-wrap: wrap; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; flex-wrap: wrap; position: relative; z-index: 400; }
 .nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; letter-spacing: -.02em; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
 .nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
 .nav-links { display: flex; align-items: center; gap: 0; flex: 1; justify-content: center; }
@@ -186,6 +186,31 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .nav-phone { font-size: 11px; color: #aaa; padding: 4px 10px; border: 1.5px dashed #ddd; border-radius: 3px; white-space: nowrap; }
 .nav-enroll-btn { background: #e8641a; color: #fff; border: none; padding: 7px 14px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; white-space: nowrap; }
 .nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+
+/* ── NAV DROPDOWN ── */
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; line-height: 1; transition: color .15s, transform .15s; }
+.nav-chevron:hover, .nav-item:hover .nav-chevron { color: #1e3a5f; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 190px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .1s; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-hub-link { position: relative; }
+.nav-hub-link::after { content: attr(data-hub-tip); display: none; position: absolute; top: calc(100% + 2px); left: 0; background: #1e3a5f; color: #fff; font-size: 10px; font-weight: 500; padding: 5px 9px; white-space: nowrap; border-radius: 3px; z-index: 500; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+.nav-hub-link:hover::after { display: block; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+  .nav-hub-link::after { display: none !important; }
+}
 
 /* ── SITE FOOTER ── */
 .site-footer { background: #1a1a1a; color: #ccc; }
@@ -387,7 +412,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
     <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header<br>(Global)</div>
 
     <!-- Mobile / small-screen note -->
-    <div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside hamburger. Nav links (For My Home, For My Business, Learning Center, About) and search field go inside hamburger drawer.</div>
+    <div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside search icon (🔍) and hamburger. Nav links (For My Home, For My Business, Learning Center, About Us) collapse into hamburger drawer. Search icon navigates to /search/ — same as desktop. IES: no search icon.</div>
 
     <!-- Utility Row -->
     <div class="nav-utility">
@@ -411,28 +436,99 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
         <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
       </div>
 
-      <!-- Primary Nav — L1 items per content tracker (ONG/PA/GRE/IL) -->
-      <!-- IES has a simplified nav — see IES variant below -->
-      <nav class="nav-links mkt on" id="nav-standard" style="display:flex;">
-        <a class="nav-link active">For My Home</a>
-        <a class="nav-link">For My Business</a>
-        <a class="nav-link">Learning Center</a>
-        <a class="nav-link">About</a>
-      </nav>
-      <!-- IES: simplified L1 nav per content tracker (IES-002, IES-008, IES-013) -->
-      <nav class="nav-links mkt" id="nav-ies" style="display:none;">
-        <a class="nav-link active">Fixed Bill Plan</a>
-        <a class="nav-link">Learning Center</a>
-        <a class="nav-link">About</a>
+      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+      <!-- GLB-NAV-1/2/3 (2026-06-17): dropdowns added; chevron is separate tap target from label -->
+      <!-- Hub pages link to # with tooltip; hamburger at ≤768px -->
+      <nav class="nav-links mkt-flex on" id="nav-standard">
+
+        <!-- For My Home: hub link + dropdown -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
+            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
+            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+          </div>
+        </div>
+
+        <!-- For My Business: ONG/GRE/IL only — suppressed for PA (no commercial at launch) -->
+        <!-- Dropdown per Redesign-Site-Map.md: Commercial Plans + Why [Brand] for Business + B2B Contact -->
+        <div class="nav-item has-dropdown mkt" id="nav-fmb">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
+            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
+            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+          </div>
+        </div>
+
+        <!-- Learning Center: hub link + pillar dropdown (GLB-NAV-4) -->
+        <!-- "Does [Brand] Serve My Area?" is market-specific; Carbon Neutral Gas + Greener Life® is ONG/GRE only -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
+            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
+            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
+          </div>
+        </div>
+
+        <!-- About Us: hub link + dropdown (GLB-NAV-1, GLB-NAV-5) -->
+        <!-- SITEMAP-9: Credentials & Licensing consolidated into About Us main page (not a child page) -->
+        <!-- GLB-NAV-5: Your Rights as a Customer added to all markets (2026-06-17 — note: ONG/GRE scope addition) -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
+        </div>
+
       </nav>
 
-      <!-- Right: Account + Persistent Search Bar -->
-      <div class="nav-right">
-        <a class="nav-account">👤 My Account</a>
-        <div style="position:relative; display:flex; align-items:center;">
-          <span style="position:absolute; left:9px; font-size:12px; color:#aaa;">🔍</span>
-          <input type="text" placeholder="Search…" style="font-size:12px; background:#f5f7f8; border:1.5px solid #d0dce8; border-radius:14px; padding:5px 14px 5px 28px; color:#555; width:180px; font-family:inherit; outline:none;">
+      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us (per Redesign-Site-Map.md) -->
+      <!-- My Account accessed via nav-right 👤 icon; no search icon for IES -->
+      <nav class="nav-links mkt-flex" id="nav-ies">
+        <!-- Fixed Bill Plan: hub link + dropdown (child pages per IES site map) -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+          </div>
         </div>
+        <!-- About Us: hub link + dropdown (same child pages as full nav) -->
+        <div class="nav-item has-dropdown">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right: Account + Search icon + Hamburger (mobile only) -->
+      <!-- Search: icon only per Search_BehaviorSession_2026-06-16 (GLB-SEARCH) — navigates to /search/ -->
+      <!-- nav-search-std hidden for IES (IES has no search in nav per Redesign-Site-Map.md) -->
+      <div class="nav-right">
+        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
+        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
       </div>
 
     </div>
@@ -441,12 +537,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
       <div class="ann-row">
         <div class="ann ann-g"><i>✓</i> L1 nav items sourced from content tracker (SouthStar_Content_Tracker_v2): For My Home / For My Business / My Account / Learning Center / About — per documented Section/Nav Level designations</div>
         <div class="ann ann-g"><i>✓</i> "For My Home" = residential plans hub (/for-my-home/) · "For My Business" = commercial hub (/for-my-business/) — these are the tracked page names, not "Plans"</div>
-        <div class="ann ann-g"><i>✓</i> IES gets a distinct simplified nav (3 items per tracker): Fixed Bill Plan / My Account &amp; Bill Pay / About — switches automatically with the market selector above</div>
+        <div class="ann ann-g"><i>✓</i> IES simplified nav (3 items per site map + CLAUDE.md): Fixed Bill Plan / My Account &amp; Bill Pay / About Us — corrected 2026-06-17 (GLB-NAV-3); prior version incorrectly showed "Learning Center" instead of "My Account &amp; Bill Pay"</div>
         <div class="ann ann-g"><i>✓</i> "My Account" as a full L1 item — surfaces authenticated experience (manage plan, renewal, Refer a Friend portal) per IA review discussion</div>
-        <div class="ann ann-g"><i>✓</i> No phone number in nav — lives in footer and Contact page only; consistent with call-avoidance strategy. Search bar is persistent inline in nav-right (replaces standalone icon); My Account persists alongside it.</div>
+        <div class="ann ann-g"><i>✓</i> No phone number in nav — lives in footer and Contact page only; consistent with call-avoidance strategy. Search is an icon-only button (per Search_BehaviorSession_2026-06-16 / GLB-SEARCH) — clicking navigates to /search/. IES has no search icon per Redesign-Site-Map.md.</div>
         <div class="ann ann-y"><i>⚑</i> Open Q #11: "Offers" is NOT an L1 nav item per the content tracker — campaign pages live at /offers/[campaign-name]/ as templates (ONG-013). Confirm whether Offers surfaces as a persistent nav item or only via direct promo links/promo code entry. IA review noted client does not want open cross-LDC offer visibility.</div>
         <div class="ann ann-y"><i>⚑</i> Open Q #12: "Learning Center" label — client flagged the name may feel too academic/intimidating. Final label TBD — content tracker uses "Learning Center" as the working name; align with marketing before finalizing.</div>
         <div class="ann ann-y"><i>⚑</i> Open Q #13: SouthStar parent brand in header — confirm whether entity brand is fully standalone or carries a "a SouthStar Energy company" sub-brand lockup.</div>
+        <div class="ann ann-g"><i>✓</i> Nav dropdowns added (GLB-NAV-1, 2026-06-17): chevron is a separate tap target from the nav label per Nav-Hub-Pages-Decision-Summary (2026-06-04). Hub page links (For My Home, For My Business, About Us, Fixed Bill Plan) show tooltip on hover — hub wireframes TBD. Mobile hamburger menu at ≤768px (GLB-NAV-2). For My Business suppressed for PA (no commercial plans at launch). Dropdown items per Redesign-Site-Map.md: For My Home → Residential Plans / Greener Life [ONG/GRE] / Refer a Friend; For My Business → Commercial Plans / Why [Brand] for Business / B2B Contact; About Us → Company History only (SITEMAP-9).</div>
       </div>
     </div>
   </div>
@@ -1220,17 +1317,17 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           <div class="footer-col-head">Products &amp; Plans</div>
           <div class="footer-col-links">
             <!-- Plan label differs: IES calls it "Fixed Bill Plan" not "Residential Gas Plans" -->
-            <a class="mkt on" id="ft-plan-std">Residential Gas Plans</a>
-            <a class="mkt" id="ft-plan-ies">Fixed Bill Plan</a>
+            <a class="mkt on" id="ft-plan-std" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
+            <a class="mkt" id="ft-plan-ies" href="ResidentialPlans_Wireframe.html">Fixed Bill Plan</a>
             <!-- Commercial Plans — ONG, GRE, IL only; PA residential-only; IES n/a -->
-            <a class="mkt" id="ft-comm-ong">Commercial Plans</a>
-            <a class="mkt" id="ft-comm-gre">Commercial Plans</a>
-            <a class="mkt" id="ft-comm-il">Commercial Plans</a>
+            <a class="mkt" id="ft-comm-ong" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+            <a class="mkt" id="ft-comm-gre" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+            <a class="mkt" id="ft-comm-il" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
             <!-- Greener Life Add-On: ONG confirmed; PA/GRE/IL pending IA review; IES n/a (IES-HP-9) -->
-            <a class="mkt" id="ft-gl-ong">Greener Life™ Plans</a>
-            <a class="mkt" id="ft-gl-pa">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
-            <a class="mkt" id="ft-gl-gre">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
-            <a class="mkt" id="ft-gl-il">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+            <a class="mkt" id="ft-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life™ Plans</a>
+            <a class="mkt" id="ft-gl-pa" href="ResidentialPlans_Wireframe.html">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+            <a class="mkt" id="ft-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+            <a class="mkt" id="ft-gl-il" href="ResidentialPlans_Wireframe.html">Greener Life™ Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
             <a style="color:#7a9cbf; cursor:pointer;"
                onclick="document.getElementById('promo-strip-panel').style.display='block'; document.getElementById('promo-strip-toggle').style.display='none'; document.getElementById('promo-strip-panel').scrollIntoView({behavior:'smooth', block:'center'});">
               Have a Promotional Code?
@@ -1245,14 +1342,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
         <div>
           <div class="footer-col-head">Help &amp; Account</div>
           <div class="footer-col-links">
-            <a>My Account</a>
-            <a>Pay My Bill</a>
-            <a>FAQ</a>
-            <a>Refer a Friend</a>
-            <a>Contact Us</a>
-            <a>About</a>
+            <a href="MyAccount_Wireframe.html">My Account</a>
+            <a href="MyAccount_Wireframe.html">Pay My Bill</a>
+            <a href="LearningCenter_Wireframe.html">FAQ</a>
+            <a href="MyAccount_Wireframe.html">Refer a Friend</a>
+            <a href="ContactFormUtility_Wireframe.html">Contact Us</a>
+            <a href="GeneralInformational_Wireframe.html">About</a>
             <!-- GRE-only: Variable Rate Notice (GRE-049) — high-stakes regulatory page, footer placement ensures discoverability -->
-            <a class="mkt" id="ft-vr-gre" style="color:#c0392b; font-weight:700;">Variable Rate Notice ⚠</a>
+            <a class="mkt" id="ft-vr-gre" href="GeneralInformational_Wireframe.html" style="color:#c0392b; font-weight:700;">Variable Rate Notice ⚠</a>
           </div>
         </div>
 
@@ -1298,12 +1395,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
             All rights reserved.
           </div>
           <div class="footer-legal-links">
-            <a>Privacy Policy</a>
-            <a>Terms of Use</a>
-            <a>Refer a Friend T&amp;Cs</a>
-            <a>Do Not Sell My Info</a>
-            <a>Accessibility</a>
-            <a>Site Map</a>
+            <a href="LegalCompliance_Wireframe.html">Privacy Policy</a>
+            <a href="LegalCompliance_Wireframe.html">Terms of Use</a>
+            <a href="LegalCompliance_Wireframe.html">Refer a Friend T&amp;Cs</a>
+            <a href="LegalCompliance_Wireframe.html">Do Not Sell My Info</a>
+            <a href="LegalCompliance_Wireframe.html">Accessibility</a>
+            <a href="SearchResults_Wireframe.html">Site Map</a>
           </div>
         </div>
 
@@ -1375,17 +1472,18 @@ const MKT_ELEMENTS = {
   //   ft-plan-ies  = "Fixed Bill Plan" (IES only)
   //   ft-comm-*    = "Commercial Plans" footer link (ONG/GRE/IL — PA residential-only, IES n/a)
   //   ft-gl-*      = "Greener Life™ Plans" footer link (ONG confirmed; PA/GRE/IL TBD; IES n/a)
-  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong'],
-  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa'],
-  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre'],
-  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il'],
+  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
+  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa','nav-search-std','nav-lc-area-pa'],
+  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
+  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il'],
   ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies']
+  // IES: no nav-search-std (IES has no search in nav per Redesign-Site-Map.md)
   // IES: nav-ies (simplified 3-item nav); static Nicor utility (no selector); no commercial tab or Greener Life section
 };
 
 function setMarket(mkt) {
   // Clear all .mkt.on
-  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt, .mkt-flex').forEach(el => el.classList.remove('on'));
   // Activate current market
   (MKT_ELEMENTS[mkt] || []).forEach(id => {
     const el = document.getElementById(id);
@@ -1418,6 +1516,44 @@ function setAudience(aud, btn) {
   const panel = document.getElementById('aud-' + aud);
   if (panel) panel.classList.add('active');
 }
+
+// ── NAV DROPDOWN TOGGLE (GLB-NAV-1) ──
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  }
+});
+
+// ── MOBILE NAV TOGGLE (GLB-NAV-2) ──
+function closeMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  document.querySelectorAll('.nav-links.mobile-open').forEach(function(nav) {
+    nav.classList.remove('mobile-open');
+  });
+  if (btn) btn.textContent = '☰';
+}
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const activeNav = document.querySelector('.nav-links.mobile-open') ||
+                    document.querySelector('#nav-standard.on, #nav-ies.on');
+  if (!activeNav) return;
+  const isOpen = activeNav.classList.contains('mobile-open');
+  if (isOpen) { closeMobileNav(); return; }
+  activeNav.classList.add('mobile-open');
+  btn.textContent = '✕';
+}
+// Close mobile nav when tapping outside the nav header
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    closeMobileNav();
+  }
+});
 </script>
 </body>
 </html>
