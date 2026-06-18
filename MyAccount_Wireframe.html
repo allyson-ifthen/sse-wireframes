@@ -998,6 +998,10 @@ body.dash-sub-cancel .dash-active-view { display: none; }
 body.dash-sub-cancel .dash-pending-view { display: none; }
 body.dash-sub-cancel .cancel-flow-container { display: block; }
 
+/* MA-101: premise switcher — conditional on multi-premise account */
+.multi-premise-switcher { display: none; }
+body.has-multi-premise .multi-premise-switcher { display: block; }
+
 /* ── PRINT ── */
 @media print {
   .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline, .oq-panel, .state-divider, .banner-suppressed, .presentation-hint {
@@ -1022,7 +1026,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 .premise-card-status { display: inline-block; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(74,144,194,.12); border-radius: 4px; padding: 1px 6px; margin-top: 4px; }
 </style>
 </head>
-<body class="ann-mode-clean">
+<body class="ann-mode-clean has-multi-premise">
 
 <!-- ════════════════════════════════════
      WIREFRAME-ONLY CONTROL PANEL
@@ -1063,6 +1067,7 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
       <span class="group-lbl">Dashboard</span>
       <button id="dash-btn-active" class="on" onclick="setDashSub('active')">D · Active</button>
       <button id="dash-btn-pending" onclick="setDashSub('pending')">D · Pending validation</button>
+      <button onclick="document.body.classList.toggle('has-multi-premise')">Toggle multi-premise</button>
     </div>
     <div class="group" id="ca-substep-group" style="display:none;">
       <span class="group-lbl">CA Sub-step</span>
@@ -1295,6 +1300,15 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
           <div class="form-hint">Find this on your utility bill · <a class="link" href="#" style="display:inline;" onclick="var d=document.getElementById('li-acct-help'); d.style.display=d.style.display==='none'?'':'none'; return false;">Where's my account number? ↓</a></div>
           <div id="li-acct-help" style="display:none; background:var(--surface-alt); border:1px solid var(--line-soft); border-radius:4px; padding:12px 14px; margin-top:8px; font-size:12px; line-height:1.6;">
             <strong>Where to find your account number:</strong> Your account number appears on your gas bill, usually in the upper-right area above the billing address. It may also be labeled "Choice Service ID" or "Customer Account Number" depending on your utility.
+            <!-- MA-98: bill image placeholder in account number help drawer -->
+            <div class="bill-image-preview" style="margin:12px 0; text-align:center;">
+              <div style="display:inline-block; border:1px solid var(--line,#ddd); border-radius:4px; padding:8px; background:#f9f9f9; cursor:pointer;" onclick="this.querySelector('.bill-img-expand') && this.querySelector('.bill-img-expand').click()">
+                <div style="width:200px; height:140px; background:#eee; border:1px dashed #ccc; display:flex; align-items:center; justify-content:center; font-size:12px; color:#999; border-radius:2px;">
+                  [Bill image placeholder]<br><span style="font-size:10px;">Click to enlarge</span>
+                </div>
+              </div>
+              <p style="font-size:12px; color:var(--muted,#666); margin:6px 0 0;">Your account number appears in the upper-right corner of your bill.</p>
+            </div>
             <div style="margin-top:8px; color:var(--muted);">Can't find it? Call us — <span class="mkt-inline mkt-ong on">1-800-XXX-XXXX</span><span class="mkt-inline mkt-pa">1-800-XXX-XXXX</span><span class="mkt-inline mkt-gre">1-800-XXX-XXXX</span><span class="mkt-inline mkt-il">1-800-XXX-XXXX</span><span class="mkt-inline mkt-ies">1-800-XXX-XXXX</span>. Do <strong>not</strong> call your gas utility.</div>
           </div>
           <div class="ann ann-g" style="margin-top:6px;"><strong>MA-86:</strong> "Where's my account number?" drawer wired — toggles help block below the account number field. Phone numbers are market-variable placeholders pending client confirmation.</div>
@@ -1753,6 +1767,13 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
   <div class="layout">
     <!-- Standalone renewal banner removed per MA-29. Renewal state moved into the plan card below
          (.sc-renewing chip + .plan-renewal-line callout). -->
+
+    <!-- MA-101: Premise switcher — conditional on PRIME returning multiple premises -->
+    <div class="multi-premise-switcher" style="margin-bottom:16px; padding:10px 14px; background:var(--accent-soft,#f0f4ff); border:1px solid var(--line,#ddd); border-radius:4px; display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+      <span>📍 <strong>Service address:</strong> 123 Maple Street, Columbus, OH 43215</span>
+      <a href="#" onclick="setState('premise'); return false;" style="font-size:13px; font-weight:600; color:var(--accent,#0057a8);">Switch address →</a>
+    </div>
+    <div class="ann ann-b" style="margin-bottom:12px;"><strong>MA-101 · Premise switcher:</strong> Conditional — only renders when PRIME returns multiple premises for the authenticated session (<code>body.has-multi-premise</code>). Single-premise customers never see this. Add wfctl toggle to demo on/off. Cross-ref ENR-114 (enrollment multi-address).</div>
 
     <!-- Dashboard cards -->
     <div class="dash-grid">
@@ -2722,7 +2743,14 @@ function setMarket(m) {
 */
 var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'dashboard', 'autorenew', 'cancel', 'raf', 'mover'];
 
+var _settingState = false; // MA-100: recursion guard
 function setState(s) {
+  // MA-100: reset cancel flow state before switching to any other state
+  if (!_settingState && typeof exitCancelFlow === 'function') {
+    _settingState = true;
+    exitCancelFlow();
+    _settingState = false;
+  }
   document.querySelectorAll('.state').forEach(function(el) {
     el.classList.remove('on');
   });
