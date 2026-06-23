@@ -24,6 +24,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
   color: #5a6e7f; font-size: 9px; text-transform: uppercase;
   letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
 }
+.wfctl-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl-label { color: #5a6e7f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-right: 2px; white-space: nowrap; }
+.wfctl-btns { display: flex; gap: 4px; flex-wrap: wrap; }
 .wfctl button {
   background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
   padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
@@ -170,9 +173,10 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
 
 /* GREENER LIFE SPECIFIC */
-.gl-hero { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; padding: 32px 36px; }
-.gl-hero-title { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 10px; }
-.gl-hero-sub { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.6; max-width: 600px; margin-bottom: 16px; }
+.gi-hero.gi-hero--green { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; padding: 32px 36px; }
+.gi-hero-title { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 10px; }
+.gi-hero-sub { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.6; max-width: 600px; margin-bottom: 16px; }
+.gi-hero-trust { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 8px; }
 .steps-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
 .step-card { text-align: center; padding: 16px 12px; border: 1.5px solid #e8e8e4; border-radius: 5px; }
 .step-num-green { width: 32px; height: 32px; background: #2e7d32; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin-bottom: 10px; }
@@ -197,6 +201,75 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .enroll-band-green p { font-size: 13px; color: rgba(255,255,255,.8); }
 .enroll-band-btn-white { background: #fff; color: #1b5e20; border: none; padding: 12px 24px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
 .doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ============================================================
+   MOBILE VIEWPORT SIMULATION — 375px
+   Triggered by body.viewport-mobile via wfctl Viewport toggle
+   ============================================================ */
+
+/* Canvas + phone frame */
+body.viewport-mobile { background: #dde1e7; }
+body.viewport-mobile #page-content {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #b0bac7, 6px 0 20px rgba(0,0,0,.12), -6px 0 20px rgba(0,0,0,.12);
+  overflow-x: hidden;
+}
+
+/* Hero (green variant) */
+body.viewport-mobile .gi-hero.gi-hero--green { padding: 22px 18px; }
+body.viewport-mobile .gi-hero-title { font-size: 22px; }
+body.viewport-mobile .gi-hero-sub { font-size: 13px; }
+body.viewport-mobile .gi-hero-trust { font-size: 10px; }
+
+/* §5 How Greener Life Works — 4-col → 1-col (CRITICAL) */
+body.viewport-mobile .steps-grid-4 { grid-template-columns: 1fr; }
+
+/* §6 Plan Options — 2-col → 1-col */
+body.viewport-mobile .plan-type-grid-2 { grid-template-columns: 1fr; }
+
+/* §6 CTA row — stack both buttons full-width */
+body.viewport-mobile .gl-plan-cta-row { flex-direction: column; align-items: stretch; }
+body.viewport-mobile .gl-plan-cta-row button,
+body.viewport-mobile .gl-plan-cta-row a { width: 100%; text-align: center; }
+
+/* §7 Offset Certification criteria (blocked GL-01, but CSS ready) */
+body.viewport-mobile .cert-criteria { grid-template-columns: 1fr; }
+
+/* §8b Related Articles — 3-col → 1-col (uses inline style; target by class) */
+body.viewport-mobile .gl-articles-grid { grid-template-columns: 1fr !important; }
+
+/* §9 Enroll CTA band */
+body.viewport-mobile .enroll-band-green { padding: 20px 18px; }
+
+/* Footer — 4-col → 1-col */
+body.viewport-mobile .footer-brand-strip {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+body.viewport-mobile .footer-bottom-row {
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+body.viewport-mobile .footer-legal-links { flex-wrap: wrap; gap: 8px; }
+
+/* Nav utility bar */
+body.viewport-mobile .nav-utility { display: none; }
+body.viewport-mobile .nav-links { display: none !important; }
+body.viewport-mobile .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+body.viewport-mobile .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+body.viewport-mobile .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+body.viewport-mobile .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+body.viewport-mobile .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+body.viewport-mobile .nav-dd-item { padding: 9px 32px; }
+body.viewport-mobile .nav-hamburger { display: inline-flex !important; align-items: center; }
+body.viewport-mobile .nav-hub-link::after { display: none !important; }
+
+/* General section padding */
+body.viewport-mobile .p { padding: 20px 18px; }
+body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -216,6 +289,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
     <div class="wfctl-divider"></div>
     <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+    <div class="wfctl-divider"></div>
+      <div class="wfctl-group">
+        <div class="wfctl-label">Viewport</div>
+        <div class="wfctl-btns">
+          <button id="vp-desktop" class="wfctl-btn on" onclick="setViewport('desktop')">Desktop</button>
+          <button id="vp-mobile" class="wfctl-btn" onclick="setViewport('mobile')">375px</button>
+        </div>
+      </div>
   </div>
   <div class="legend-drawer" id="legend-drawer">
     <div class="scenario-legend">
@@ -226,6 +307,8 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     </div>
   </div>
 </div>
+
+<div id="page-content">
 
 <!-- ══════════════════════════════════════════════
      CANVAS
@@ -329,15 +412,18 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   <div class="section">
     <div class="section-label"><div class="sec-num">3</div><br>Hero</div>
 
-    <div class="gl-hero">
-      <div class="gl-hero-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
-      <div class="gl-hero-sub">
+    <div class="gi-hero gi-hero--green">
+      <div class="gi-hero-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
+      <div class="gi-hero-sub">
         <span class="mkt-inline" id="hero-sub-ong">Ohio Natural Gas calculates the greenhouse gas emissions from your natural gas usage and retires certified carbon offsets to balance the impact — so your gas usage is carbon neutral.</span>
         <span class="mkt-inline" id="hero-sub-gre">Grand Rapids Energy calculates the greenhouse gas emissions from your natural gas usage and retires certified carbon offsets to balance the impact — so your gas usage is carbon neutral.</span>
       </div>
       <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
         <button class="wf-btn">View Greener Life Plans &rarr;</button>
-        <a href="#" style="color:rgba(255,255,255,.85); font-size:13px; font-weight:600; text-decoration:none;">How It Works &darr;</a>
+        <a href="#how-it-works" style="color:rgba(255,255,255,.85); font-size:13px; font-weight:600; text-decoration:none;">How It Works &darr;</a>
+      </div>
+      <div class="gi-hero-trust" style="margin-top:10px;">
+        [PLACEHOLDER: offset certification standard — e.g. "Green-e® Climate certified offsets" · client must confirm ONG/GRE certification standard (GL-01) before publishing. Suppress this line entirely if no verifiable certification standard can be cited — do not substitute a generic claim.]
       </div>
       <div style="margin-top:16px;">
         <div class="wf-box">&#128247; Hero imagery &mdash; nature/landscape. Avoid wind turbines, solar panels, renewable energy imagery. No &lsquo;green&rsquo; stock clich&eacute;s. Client to supply.</div>
@@ -359,15 +445,9 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <div class="p">
       <div class="h2">What Is Greener Life&reg;?</div>
 
-      <p class="body-para">Greener Life&reg; is a natural gas plan. When you enroll, <span class="mkt-inline" id="what-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="what-brand-gre">Grand Rapids Energy</span> calculates the greenhouse gas emissions produced when your home burns natural gas &mdash; then purchases and retires certified carbon offsets equal to that amount. The result: your natural gas usage is carbon neutral.</p>
+      <p class="body-para">Greener Life® is a natural gas plan. When you enroll, <span class="mkt-inline on" id="what-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="what-brand-gre">Grand Rapids Energy</span> calculates the greenhouse gas emissions produced when your home burns natural gas — then purchases and retires certified carbon offsets equal to that amount. "Carbon neutral" means the combustion emissions from your home's gas usage are balanced by certified offsets retired on your behalf.</p>
 
-      <p class="body-para">&ldquo;Carbon neutral&rdquo; on a Greener Life&reg; plan means that the greenhouse gas emissions from the combustion of your natural gas &mdash; the carbon dioxide released when gas burns in your furnace, water heater, or range &mdash; are balanced by certified carbon offsets retired on your behalf. This covers combustion emissions at the point of use.</p>
-
-      <p class="body-para">The greenhouse gas emissions offset by Greener Life&reg; are those associated with the combustion of natural gas at the point of consumption. They do not include lifecycle emissions that occur during extraction, production, or delivery of the gas to your home. This is a common boundary in combustion offset programs. We name it here so you can make an informed choice.</p>
-
-      <p class="body-para">[PLACEHOLDER: certification standard &mdash; working assumption Green-e&reg; Climate (same as GNG); client must confirm ONG/GRE use same standard before publishing with named standard (GL-01)]. Certified offsets meet independently verified standards for additionality, permanence, and measurability.</p>
-
-      <p class="body-para">&ldquo;Retiring&rdquo; a carbon offset means permanently removing it from the market &mdash; it is recorded in an official, independent registry as used on your behalf and cannot be sold or claimed again. This prevents double-counting and ensures the offset credit applies to your usage only.</p>
+      <p class="body-para">This covers combustion emissions at the point of use — not lifecycle emissions from the extraction, production, or delivery of gas to your home. <a href="LearningCenter_Wireframe.html" style="color:#2e7d32; font-weight:600;">What does carbon neutral gas actually mean? →</a></p>
 
       <div class="ann-row">
         <span class="ann ann-r">&#9888; &ldquo;Carbon neutral&rdquo; MUST appear with mechanism explanation in same section &mdash; never standalone (compliance)</span>
@@ -378,7 +458,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div><!-- /section 4 what is -->
 
   <!-- ── SECTION 5: HOW IT WORKS ── -->
-  <div class="section">
+  <div class="section" id="how-it-works">
     <div class="section-label"><div class="sec-num">5</div><br>How It Works</div>
     <div class="p">
       <div class="h2">How Greener Life&reg; Works</div>
@@ -426,6 +506,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <div class="p">
       <div class="h2">Greener Life&reg; Plan Options</div>
       <p class="body-para">Available in fixed-rate and variable-rate options.</p>
+      <p class="body-para" style="font-size:12px; color:#555; margin-bottom:12px;">Available for residential natural gas plans.</p>
 
       <div class="plan-type-grid-2">
         <!-- Fixed Rate -->
@@ -442,7 +523,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         </div>
       </div>
 
-      <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+      <div class="gl-plan-cta-row" style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
         <button class="wf-btn">View Greener Life&reg; Plans &rarr;</button>
         <button class="wf-btn-out">Compare All Plans &rarr;</button>
       </div>
@@ -451,6 +532,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         <span class="ann ann-b">&#9432; Shared Plan Type Card component &mdash; same structure as For My Home Section 2 and For My Business Section 2</span>
         <span class="ann ann-r">&#9888; Use &lsquo;early termination charge (ETC)&rsquo; &mdash; never &lsquo;ETF&rsquo;</span>
         <span class="ann ann-y">&#9888; Do not imply Greener Life&reg; plans cost the same as standard plans &mdash; the premium is real</span>
+        <span class="ann ann-y">&#9888; Residential-only scope (GLP-8) &mdash; if Greener Life&reg; expands to commercial, this page requires architecture review: (a) split into separate residential/commercial pages under respective hubs, or (b) introduce an audience toggle. Do not write deeply residential-specific copy into reusable sections. Future-state note only.</span>
       </div>
     </div>
   </div><!-- /section 6 plan options -->
@@ -464,21 +546,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       <div class="cert-block">
         <div class="cert-title">Certification Standard</div>
         <p class="body-para">[PLACEHOLDER: GNG uses Green-e&reg; Climate (Center for Resource Solutions) &mdash; client must confirm ONG and GRE use same standard before publishing with named standard (GL-01). If unconfirmed, use &ldquo;independently certified offsets&rdquo; as holding phrase &mdash; do not name a standard.]</p>
-
-        <div class="cert-criteria">
-          <div class="cert-crit-item">
-            <div class="cert-crit-label">Additionality</div>
-            <div class="cert-crit-body">The emissions reduction would not have happened without the offset funding &mdash; the project would not exist otherwise.</div>
-          </div>
-          <div class="cert-crit-item">
-            <div class="cert-crit-label">Permanence</div>
-            <div class="cert-crit-body">The emissions reduction is lasting &mdash; a forest planted as an offset, for example, must remain a forest, not be cleared in five years.</div>
-          </div>
-          <div class="cert-crit-item">
-            <div class="cert-crit-label">Measurability</div>
-            <div class="cert-crit-body">The amount of carbon avoided or removed is calculated to a verified, consistent standard &mdash; not estimated or assumed.</div>
-          </div>
-        </div>
+        <p class="body-para" style="font-size:12px; color:#555; margin-top:8px;">Certified offsets meet independently verified standards for additionality, permanence, and measurability. <a href="LearningCenter_Wireframe.html" style="color:#2e7d32; font-weight:600;">How carbon offsets work — and how to verify them →</a></p>
       </div>
 
       <div class="wf-box">&#128683; [PLACEHOLDER: specific project types and geographic focus &mdash; pending client and legal review (GL-02). Do not publish this paragraph until confirmed.]</div>
@@ -526,7 +594,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       <!-- FAQ 5 -->
       <div class="faq-item">
         <div class="faq-q">How do I know the offsets are real and not just a claim?</div>
-        <div class="faq-a">Certified offsets are recorded in an official, independent registry &mdash; each offset has a unique ID and is marked as retired when used on your behalf. This prevents double-counting: an offset retired for your Greener Life&reg; plan cannot be sold or claimed by anyone else. <span class="mkt-inline" id="faq5-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="faq5-brand-gre">Grand Rapids Energy</span> uses offsets certified by [PLACEHOLDER: certification standard &mdash; pending GL-01].</div>
+        <div class="faq-a">Certified offsets are recorded in an independent registry with a unique ID and marked as retired when used on your behalf — they cannot be sold or claimed again. <a href="LearningCenter_Wireframe.html" style="color:#2e7d32; font-weight:600;">How carbon offsets work — and how to verify them →</a></div>
       </div>
 
       <div class="ann-row">
@@ -536,6 +604,36 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       </div>
     </div>
   </div><!-- /section 8 faq -->
+
+  <!-- FEATURED ARTICLES — LC Carbon Neutral Pillar cross-link -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">8b</div><br>Related<br>Articles</div>
+    <div class="p">
+      <div class="h2" style="margin-bottom:12px;">Learn More About Carbon Neutral Gas</div>
+      <div class="gl-articles-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:14px;">
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Learning Center</div>
+          <div style="font-size:13px; font-weight:700; color:#1b5e20; margin-bottom:6px; line-height:1.4;">Is a Greener Life® plan worth it for my household?</div>
+          <a href="LearningCenter_Wireframe.html" style="font-size:11px; color:#2e7d32; font-weight:700; text-decoration:none;">Read Article →</a>
+        </div>
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Learning Center</div>
+          <div style="font-size:13px; font-weight:700; color:#1b5e20; margin-bottom:6px; line-height:1.4;">What does carbon neutral gas actually mean?</div>
+          <a href="LearningCenter_Wireframe.html" style="font-size:11px; color:#2e7d32; font-weight:700; text-decoration:none;">Read Article →</a>
+        </div>
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Learning Center</div>
+          <div style="font-size:13px; font-weight:700; color:#1b5e20; margin-bottom:6px; line-height:1.4;">How carbon offsets work — and how to verify them</div>
+          <a href="LearningCenter_Wireframe.html" style="font-size:11px; color:#2e7d32; font-weight:700; text-decoration:none;">Read Article →</a>
+        </div>
+      </div>
+      <a href="LearningCenter_Wireframe.html" style="font-size:12px; color:#2e7d32; font-weight:700; text-decoration:none;">See all carbon neutral articles →</a>
+      <div class="ann-row" style="margin-top:10px;">
+        <span class="ann ann-b">&#9670; Carbon Neutral Gas + Greener Life® is a Learning Center pillar (ONG/GRE only per GLB-NAV-4). Article titles are proposed/pending — use as placeholders; content team to confirm final titles. All three link to LearningCenter_Wireframe.html until pillar URLs are defined. Per GLP-5.</span>
+        <span class="ann ann-y">&#9888; Article 4 ("Your Greener Life® impact") omitted from this module — better suited to post-enrollment surfaces (My Account, confirmation page). Per GLP-5.</span>
+      </div>
+    </div>
+  </div>
 
   <!-- ── SECTION 9: ENROLL CTA ── -->
   <div class="section">
@@ -629,6 +727,8 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 
 <div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
 
+</div><!-- /page-content -->
+
 <script>
 var curMarket = 'ong';
 function setMarket(m) {
@@ -659,6 +759,13 @@ function setAnnMode(mode) {
 
 function setChrome(mode) {
   document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+function setViewport(v) {
+  document.body.classList.toggle('viewport-mobile', v === 'mobile');
+  document.querySelectorAll('[id^="vp-"]').forEach(function(b){ b.classList.remove('on'); });
+  var btn = document.getElementById('vp-' + v);
+  if (btn) btn.classList.add('on');
 }
 
 document.addEventListener('keydown', function(e) {

@@ -36,6 +36,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 }
 .btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
 .btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl-label { color: #5a6e7f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-right: 2px; white-space: nowrap; }
+.wfctl-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+.wfctl-btn { background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b; padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer; }
+.wfctl-btn.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl-btn:hover:not(.on) { background: #475a6b; color: #e6edf3; }
 .wfctl-legend-btn {
   background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
   padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
@@ -167,6 +173,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .gi-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 32px 36px; }
 .gi-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
 .gi-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 560px; margin-bottom: 16px; }
+.gi-hero-trust { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 8px; }
 .enroll-band { background: linear-gradient(135deg, #e8641a, #c04000); color: #fff; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .enroll-band h3 { font-size: 18px; font-weight: 900; margin-bottom: 5px; }
 .enroll-band p { font-size: 13px; color: rgba(255,255,255,.8); }
@@ -203,6 +210,73 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .body-para-sm { font-size: 11px; color: #777; line-height: 1.6; margin-bottom: 8px; font-style: italic; }
 /* Secondary link below button */
 .btn-secondary-link { font-size: 11px; color: #1e3a5f; text-decoration: underline; cursor: pointer; display: block; margin-top: 8px; }
+
+/* ============================================================
+   MOBILE VIEWPORT SIMULATION — 375px
+   Triggered by body.viewport-mobile via wfctl Viewport toggle
+   ============================================================ */
+
+/* Canvas + phone frame */
+body.viewport-mobile { background: #dde1e7; }
+body.viewport-mobile #page-content {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #b0bac7, 6px 0 20px rgba(0,0,0,.12), -6px 0 20px rgba(0,0,0,.12);
+  overflow-x: hidden;
+}
+
+/* Hero */
+body.viewport-mobile .gi-hero { padding: 22px 18px; }
+body.viewport-mobile .gi-hero-title { font-size: 22px; }
+body.viewport-mobile .gi-hero-sub { font-size: 13px; }
+body.viewport-mobile .gi-hero-trust { font-size: 10px; }
+
+/* Hero secondary CTA link — long text, allow wrap */
+body.viewport-mobile .cta-secondary-link { font-size: 12px; }
+
+/* §4 Plan Type Cards — 2-col → 1-col */
+body.viewport-mobile .plan-type-grid-2 { grid-template-columns: 1fr; }
+
+/* §5 How Commercial Supply Works — 3-col → 1-col */
+body.viewport-mobile .steps-grid { grid-template-columns: 1fr; }
+
+/* §6 Why [Brand] for Business — 3-col → 1-col */
+body.viewport-mobile .why-grid-3 { grid-template-columns: 1fr; }
+
+/* §8 Contact Reps — 2-col → 1-col */
+body.viewport-mobile .rep-grid { grid-template-columns: 1fr; }
+
+/* §9 Enroll CTA band */
+body.viewport-mobile .enroll-band { padding: 20px 18px; }
+
+/* Footer — 4-col → 1-col */
+body.viewport-mobile .footer-brand-strip {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+body.viewport-mobile .footer-bottom-row {
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+body.viewport-mobile .footer-legal-links { flex-wrap: wrap; gap: 8px; }
+
+/* Nav utility bar — hide at mobile */
+body.viewport-mobile .nav-utility { display: none; }
+body.viewport-mobile .nav-links { display: none !important; }
+body.viewport-mobile .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+body.viewport-mobile .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+body.viewport-mobile .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+body.viewport-mobile .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+body.viewport-mobile .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+body.viewport-mobile .nav-dd-item { padding: 9px 32px; }
+body.viewport-mobile .nav-hamburger { display: inline-flex !important; align-items: center; }
+body.viewport-mobile .nav-hub-link::after { display: none !important; }
+
+/* General section padding */
+body.viewport-mobile .p { padding: 20px 18px; }
+body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -223,6 +297,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
     <div class="wfctl-divider"></div>
     <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+    <div class="wfctl-divider"></div>
+      <div class="wfctl-group">
+        <div class="wfctl-label">Viewport</div>
+        <div class="wfctl-btns">
+          <button id="vp-desktop" class="wfctl-btn on" onclick="setViewport('desktop')">Desktop</button>
+          <button id="vp-mobile" class="wfctl-btn" onclick="setViewport('mobile')">375px</button>
+        </div>
+      </div>
   </div>
   <div class="legend-drawer" id="legend-drawer">
     <div class="scenario-legend">
@@ -234,6 +316,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div>
 </div>
 
+<div id="page-content">
 <!-- CANVAS -->
 <div class="canvas" style="padding-left: 160px;">
 
@@ -370,29 +453,15 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       </div>
       <p class="gi-hero-sub">Compare fixed and variable commercial natural gas plans — rates shown upfront, licensed supplier, easy account management.</p>
 
-      <!-- Trust badges -->
-      <div class="hero-trust-badges">
-        <div class="hero-badge">
-          ✓ <span class="mkt-inline" id="regulator-badge-ong">PUCO</span><span class="mkt-inline" id="regulator-badge-gre">MPSC</span><span class="mkt-inline" id="regulator-badge-il">ICC</span>-Licensed Commercial Supplier
-        </div>
-        <!-- BBB: ONG and IL only -->
-        <div class="mkt" id="bbb-badge-ong" style="display:none;">
-          <div class="hero-badge">✓ A+ BBB Accredited</div>
-        </div>
-        <div class="mkt" id="bbb-badge-il" style="display:none;">
-          <div class="hero-badge">✓ A+ BBB Accredited</div>
-        </div>
-        <div class="mkt" id="bbb-badge-gre" style="display:none;">
-          <div class="hero-badge hero-badge-suppress">⚑ GRE: Suppress BBB badge (B2B-05 open — alternate proof point needed)</div>
-        </div>
-        <!-- Years serving -->
-        <div class="hero-badge hero-badge-suppress">⚑ [PLACEHOLDER: X+ years serving <span class="mkt-inline" id="years-state-ong">Ohio</span><span class="mkt-inline" id="years-state-gre">Michigan</span><span class="mkt-inline" id="years-state-il">Illinois</span> businesses — pending founding year (B2B-06)]</div>
-      </div>
-
       <!-- CTAs -->
       <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
         <button class="wf-btn">View Commercial Plans →</button>
         <a class="cta-secondary-link">Managing a large commercial or industrial account? Contact our business team →</a>
+      </div>
+      <div class="gi-hero-trust" style="margin-top:10px;">
+        <span class="mkt-inline on" id="hero-trust-ong">PUCO-licensed commercial supplier · [PLACEHOLDER: X+ years serving Ohio businesses — pending founding year (B2B-06); suppress until confirmed]</span>
+        <span class="mkt-inline" id="hero-trust-gre">MPSC-licensed commercial supplier · [PLACEHOLDER: X+ years serving Michigan businesses — pending founding year (B2B-06); suppress until confirmed]</span>
+        <span class="mkt-inline" id="hero-trust-il">ICC-licensed commercial supplier · [PLACEHOLDER: X+ years serving Illinois businesses — pending founding year (B2B-06); suppress until confirmed]</span>
       </div>
 
       <!-- Hero image placeholder -->
@@ -403,6 +472,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         <span class="ann ann-g">H1 is B2B-specific — no household / residential language</span>
         <span class="ann ann-y">⚑ BBB badge: ONG ✓ · IL ✓ · GRE ✗ — need alternate proof point (B2B-05)</span>
         <span class="ann ann-y">⚑ Years serving [State]: suppress until founding year confirmed (B2B-06)</span>
+        <span class="ann ann-b">◈ Dual-CTA variant of the .gi-hero component. Primary button = plan exploration path; secondary text link = large C&I escape hatch. Design/dev: component supports an optional secondary link slot below the primary button. See ForMyHome_Wireframe.html (single-CTA) and WhyBrandForBusiness_Wireframe.html (dual-button) for other variants. Per FMB-1.</span>
       </div>
     </div>
   </div>
@@ -474,24 +544,22 @@ body.chrome-hidden .presentation-hint { display: block !important; }
           <div class="mkt step-card" id="step3b-ong">
             <div class="step-num">3</div>
             <div class="step-label">One Bill, Two Line Items</div>
-            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Ohio Natural Gas supply.</div>
+            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Ohio Natural Gas supply. Switching is handled online and takes only a few minutes — your gas keeps flowing throughout.</div>
           </div>
           <!-- GRE version -->
           <div class="mkt step-card" id="step3b-gre">
             <div class="step-num">3</div>
             <div class="step-label">One Bill, Two Line Items</div>
-            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Grand Rapids Energy supply.</div>
+            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Grand Rapids Energy supply. Switching is handled online and takes only a few minutes — your gas keeps flowing throughout.</div>
           </div>
           <!-- IL version -->
           <div class="mkt step-card" id="step3b-il" style="border-color:#f5c842;">
             <div class="step-num" style="background:#c04000;">3</div>
             <div class="step-label">Two Separate Bills</div>
-            <div class="step-body">Illinois commercial customers receive a separate bill from Illinois Energy for the supply portion of their natural gas. Your utility bill covers delivery; the Illinois Energy bill covers supply. You'll manage two bills.</div>
+            <div class="step-body">Illinois commercial customers receive a separate bill from Illinois Energy for the supply portion of their natural gas. Your utility bill covers delivery; the Illinois Energy bill covers supply. You'll manage two bills. Switching to a new supplier is handled online — your gas keeps flowing, only your supply billing changes.</div>
           </div>
         </div>
       </div>
-
-      <p class="body-para">Switching is handled online for most commercial accounts. There's no interruption to your service — your gas keeps flowing throughout.</p>
 
       <div class="ann-row">
         <span class="ann ann-r">IL separate-billing is material for commercial B2B — must be stated clearly, not deferred to enrollment. Requires legal review (B2B-09).</span>
@@ -536,9 +604,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         </div>
       </div>
 
+      <div style="margin-top:16px;">
+        <button class="wf-btn-out">See why <span class="mkt-inline on" id="wbb-cta-ong">Ohio Natural Gas</span><span class="mkt-inline" id="wbb-cta-gre">Grand Rapids Energy</span><span class="mkt-inline" id="wbb-cta-il">Illinois Energy</span> is the right choice for your business <a href="WhyBrandForBusiness_Wireframe.html">→</a></button>
+      </div>
+
       <div class="ann-row">
         <span class="ann ann-r">Do NOT use "best rates" or "lowest prices" — violates brand credibility position</span>
         <span class="ann ann-y">⚑ GRE BBB suppressed — alternate proof point needed (B2B-05)</span>
+        <span class="ann ann-b">◈ Shared component with Homepage §5 — same 3-card structure. CMS copy is commercial-tailored; Homepage copy is audience-agnostic. Per FMB-3.</span>
       </div>
     </div>
   </div>
@@ -671,6 +744,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div>
 
 </div><!-- /canvas -->
+</div><!-- /page-content -->
 
 <div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
 <script>
@@ -729,6 +803,13 @@ function toggleNavDropdown(chevronBtn) {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
 });
+
+function setViewport(v) {
+  document.body.classList.toggle('viewport-mobile', v === 'mobile');
+  document.querySelectorAll('[id^="vp-"]').forEach(function(b){ b.classList.remove('on'); });
+  var btn = document.getElementById('vp-' + v);
+  if (btn) btn.classList.add('on');
+}
 
 function toggleMobileNav() {
   const btn = document.getElementById('nav-hamburger-btn');

@@ -24,6 +24,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
   color: #5a6e7f; font-size: 9px; text-transform: uppercase;
   letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
 }
+.wfctl-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl-label { color: #5a6e7f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-right: 2px; white-space: nowrap; }
+.wfctl-btns { display: flex; gap: 4px; }
+.wfctl-btn { background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b; padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer; }
+.wfctl-btn.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl-btn:hover:not(.on) { background: #475a6b; color: #e6edf3; }
 .wfctl button {
   background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
   padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
@@ -159,11 +165,10 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
 .doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
 /* HERO */
-.b2b-hero { background: linear-gradient(135deg, #1e3a5f, #0a1e38); color: #fff; padding: 36px 36px; }
-.b2b-hero-h1 { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.2; }
-.b2b-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 560px; margin-bottom: 20px; }
-.b2b-hero-trust { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-.trust-badge { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 3px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: #fff; }
+.gi-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 32px 36px; }
+.gi-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.gi-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 560px; margin-bottom: 16px; }
+.gi-hero-trust { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 10px; }
 .b2b-hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 .btn-hero-primary { background: #e8641a; color: #fff; border: none; padding: 11px 22px; font-weight: 800; font-size: 13px; border-radius: 4px; cursor: pointer; }
 .btn-hero-sec { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4); padding: 9px 18px; font-weight: 700; font-size: 12px; border-radius: 4px; cursor: pointer; }
@@ -207,6 +212,82 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .contact-cta-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .contact-btn { background: #1e3a5f; color: #fff; border: none; padding: 7px 14px; font-size: 11px; font-weight: 700; border-radius: 3px; cursor: pointer; }
 .contact-note { font-size: 11px; color: #666; background: #f5f8fc; border: 1px solid #d0dce8; border-radius: 4px; padding: 10px 14px; margin-top: 12px; }
+
+/* ============================================================
+   MOBILE VIEWPORT SIMULATION — 375px
+   Triggered by body.viewport-mobile via wfctl Viewport toggle
+   ============================================================ */
+
+/* Canvas + phone frame */
+body.viewport-mobile { background: #dde1e7; }
+body.viewport-mobile #page-content {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #b0bac7, 6px 0 20px rgba(0,0,0,.12), -6px 0 20px rgba(0,0,0,.12);
+  overflow-x: hidden;
+}
+
+/* Hero */
+body.viewport-mobile .gi-hero { padding: 22px 18px; }
+body.viewport-mobile .gi-hero-title { font-size: 22px; }
+body.viewport-mobile .gi-hero-sub { font-size: 13px; }
+body.viewport-mobile .gi-hero-trust { font-size: 10px; }
+
+/* Hero dual buttons — stack at mobile */
+body.viewport-mobile .b2b-hero-cta-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+body.viewport-mobile .btn-hero-primary,
+body.viewport-mobile .btn-hero-sec { width: 100%; text-align: center; }
+
+/* §4 Business Case — 2x2 → 1-col */
+body.viewport-mobile .vp-grid { grid-template-columns: 1fr; }
+
+/* §7 Who We Work With — 3-col → 1-col */
+body.viewport-mobile .tier-grid { grid-template-columns: 1fr; }
+
+/* §8 Credentials fact-sheet — label above value */
+body.viewport-mobile .cred-fact-grid {
+  grid-template-columns: 1fr !important;
+}
+body.viewport-mobile .cred-fact-grid > div:nth-child(odd) {
+  margin-top: 10px;
+  border-top: 1px solid #e8edf2;
+  padding-top: 6px;
+}
+
+/* §9 Contact Reps — 2-col → 1-col */
+body.viewport-mobile .contact-grid { grid-template-columns: 1fr; }
+
+/* Enroll CTA band */
+body.viewport-mobile .enroll-band { padding: 20px 18px; }
+
+/* Footer — 4-col → 1-col */
+body.viewport-mobile .footer-brand-strip {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+body.viewport-mobile .footer-bottom-row {
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+body.viewport-mobile .footer-legal-links { flex-wrap: wrap; gap: 8px; }
+
+/* Nav utility bar */
+body.viewport-mobile .nav-utility { display: none; }
+body.viewport-mobile .nav-links { display: none !important; }
+body.viewport-mobile .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+body.viewport-mobile .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+body.viewport-mobile .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+body.viewport-mobile .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+body.viewport-mobile .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+body.viewport-mobile .nav-dd-item { padding: 9px 32px; }
+body.viewport-mobile .nav-hamburger { display: inline-flex !important; align-items: center; }
+body.viewport-mobile .nav-hub-link::after { display: none !important; }
+
+/* General section padding */
+body.viewport-mobile .p { padding: 20px 18px; }
+body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -227,6 +308,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
     <div class="wfctl-divider"></div>
     <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+    <div class="wfctl-divider"></div>
+      <div class="wfctl-group">
+        <div class="wfctl-label">Viewport</div>
+        <div class="wfctl-btns">
+          <button id="vp-desktop" class="wfctl-btn on" onclick="setViewport('desktop')">Desktop</button>
+          <button id="vp-mobile" class="wfctl-btn" onclick="setViewport('mobile')">375px</button>
+        </div>
+      </div>
   </div>
   <div class="legend-drawer" id="legend-drawer">
     <div class="scenario-legend">
@@ -238,6 +327,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div>
 </div>
 
+<div id="page-content">
 <div class="canvas">
 
   <div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
@@ -330,24 +420,16 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   <!-- HERO -->
   <div class="section">
     <span class="section-label"><span class="sec-num">3</span>Hero</span>
-    <div class="b2b-hero">
-      <div class="b2b-hero-h1">
+    <div class="gi-hero">
+      <div class="gi-hero-title">
         <span class="mkt-inline on" id="h1-ong">Why Ohio Natural Gas for Business &mdash; Commercial Gas Supply in Ohio</span>
         <span class="mkt-inline" id="h1-gre">Why Grand Rapids Energy for Business &mdash; Commercial Gas Supply in Michigan</span>
         <span class="mkt-inline" id="h1-il">Why Illinois Energy for Business &mdash; Commercial Gas Supply in Illinois</span>
       </div>
-      <div class="b2b-hero-sub">
-        <span class="mkt-inline on" id="sub-ong">Ohio Natural Gas is a PUCO-licensed commercial natural gas supplier serving businesses across Ohio &mdash; with plan options, rate transparency, and a dedicated business team.</span>
-        <span class="mkt-inline" id="sub-gre">Grand Rapids Energy is an MPSC-licensed commercial natural gas supplier serving businesses across Michigan &mdash; with plan options, rate transparency, and a dedicated business team.</span>
-        <span class="mkt-inline" id="sub-il">Illinois Energy is an ICC-licensed commercial natural gas supplier serving businesses across Illinois &mdash; with plan options, rate transparency, and a dedicated business team.</span>
-      </div>
-      <div class="b2b-hero-trust">
-        <span class="mkt-inline on" id="ht-reg-ong"><div class="trust-badge">PUCO-Licensed Commercial Supplier</div></span>
-        <span class="mkt-inline" id="ht-reg-gre"><div class="trust-badge">MPSC-Licensed Commercial Supplier</div></span>
-        <span class="mkt-inline" id="ht-reg-il"><div class="trust-badge">ICC-Licensed Commercial Supplier</div></span>
-        <div class="mkt on" id="ht-bbb-ong"><div class="trust-badge">[PLACEHOLDER: A+ BBB Accredited &mdash; confirm current status before publishing]</div></div>
-        <div class="mkt" id="ht-bbb-il"><div class="trust-badge">[PLACEHOLDER: A+ BBB Accredited &mdash; confirm current status before publishing]</div></div>
-        <div class="trust-badge">[PLACEHOLDER: X+ years serving [State] businesses &mdash; suppress until founding year confirmed]</div>
+      <div class="gi-hero-sub">
+        <span class="mkt-inline on" id="sub-ong">Compare fixed and variable commercial natural gas supply plans &mdash; with rates shown upfront and a dedicated business team ready when you need them.</span>
+        <span class="mkt-inline" id="sub-gre">Compare fixed and variable commercial natural gas supply plans &mdash; with rates shown upfront and a dedicated business team ready when you need them.</span>
+        <span class="mkt-inline" id="sub-il">Compare fixed and variable commercial natural gas supply plans &mdash; with rates shown upfront and a dedicated business team ready when you need them.</span>
       </div>
       <div style="background:rgba(255,255,255,.08); border:1.5px dashed rgba(255,255,255,.3); border-radius:4px; padding:14px; margin-bottom:18px; text-align:center; color:rgba(255,255,255,.6); font-size:12px;">
         &#128247; Hero imagery placeholder &mdash; commercial context required (office building, industrial facility, restaurant). Not residential. Client to supply.
@@ -356,11 +438,15 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         <button class="btn-hero-primary">View Commercial Plans &rarr;</button>
         <button class="btn-hero-sec">Talk to Our Business Team &rarr;</button>
       </div>
+      <div class="gi-hero-trust">
+        <span class="mkt-inline on" id="wbb-trust-ong">PUCO-licensed commercial supplier &middot; [PLACEHOLDER: X+ years serving Ohio businesses &mdash; pending founding year (OI #5); suppress until confirmed]</span>
+        <span class="mkt-inline" id="wbb-trust-gre">MPSC-licensed commercial supplier &middot; [PLACEHOLDER: X+ years serving Michigan businesses &mdash; pending founding year (OI #5); suppress until confirmed]</span>
+        <span class="mkt-inline" id="wbb-trust-il">ICC-licensed commercial supplier &middot; [PLACEHOLDER: X+ years serving Illinois businesses &mdash; pending founding year (OI #5); suppress until confirmed]</span>
+      </div>
     </div>
     <div class="ann-row" style="padding:0 24px 10px;">
       <span class="ann ann-g">&#10003; H1 formula: Why [Brand] for Business &mdash; Commercial Gas Supply in [State]. Confirmed per-market.</span>
-      <span class="ann ann-r">&#9940; GRE: suppress BBB badge entirely. ONG + IL: confirm current A+ standing before publishing hero badge.</span>
-      <span class="ann ann-y">&#9873; Years-serving badge: suppress until founding year confirmed per market (OI #5)</span>
+      <span class="ann ann-b">&#9670; .gi-hero component &mdash; dual-button variant (primary + secondary outline button). Converted from .b2b-hero per GLB-HERO-1 / WBB-1. Subtitle is value-focused; credential moves to .gi-hero-trust line.</span>
     </div>
   </div>
 
@@ -426,80 +512,12 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     </div>
   </div>
 
-  <!-- SEC 5: HOW COMMERCIAL SUPPLY WORKS -->
+  <!-- NEW: Supply choice orientation callout -->
   <div class="section">
-    <span class="section-label"><span class="sec-num">5</span>How It Works</span>
-    <div class="p">
-      <div class="h2">How Commercial Natural Gas Supply Works</div>
-      <div class="hiw-steps">
-        <div class="hiw-step">
-          <div class="hiw-step-num">1</div>
-          <div class="hiw-step-label">You Choose Your Supplier</div>
-          <div class="hiw-step-body">In deregulated markets, businesses can choose their natural gas supplier instead of defaulting to their utility&rsquo;s supply rate.
-            <span class="mkt-inline on" id="hiw1-ong">Ohio Natural Gas is a licensed supplier certified by PUCO to offer commercial plans in Ohio.</span>
-            <span class="mkt-inline" id="hiw1-gre">Grand Rapids Energy is a licensed supplier certified by MPSC to offer commercial plans in Michigan.</span>
-            <span class="mkt-inline" id="hiw1-il">Illinois Energy is a licensed supplier certified by the ICC to offer commercial plans in Illinois.</span>
-          </div>
-        </div>
-        <div class="hiw-step">
-          <div class="hiw-step-num">2</div>
-          <div class="hiw-step-label">Your Utility Still Delivers</div>
-          <div class="hiw-step-body">Your local utility continues to deliver natural gas to your business through the same pipes. The utility handles emergencies, meter reading, and physical delivery.
-            <span class="mkt-inline on" id="hiw2-ong">Ohio Natural Gas handles your supply rate.</span>
-            <span class="mkt-inline" id="hiw2-gre">Grand Rapids Energy handles your supply rate.</span>
-            <span class="mkt-inline" id="hiw2-il">Illinois Energy handles your supply rate.</span>
-          </div>
-        </div>
-        <!-- ONG + GRE: one bill -->
-        <div class="hiw-step mkt on" id="hiw3-std">
-          <div class="hiw-step-num">3</div>
-          <div class="hiw-step-label">One Bill, Two Line Items</div>
-          <div class="hiw-step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You&rsquo;ll see two charges: utility delivery and
-            <span class="mkt-inline on" id="hiw3-brand-ong">Ohio Natural Gas</span>
-            <span class="mkt-inline" id="hiw3-brand-gre">Grand Rapids Energy</span>
-            supply.
-          </div>
-        </div>
-        <!-- IL: separate bill -->
-        <div class="hiw-step il-variant mkt" id="hiw3-il">
-          <div class="hiw-step-num" style="background:#7a6000;">3</div>
-          <div class="hiw-step-label" style="color:#7a6000;">Two Bills &mdash; One Supplier, One Utility</div>
-          <div class="hiw-step-body">Illinois commercial customers receive a separate bill from Illinois Energy for the supply portion of their natural gas. Your utility bill covers delivery. Illinois Energy&rsquo;s bill covers supply. You&rsquo;ll manage two bills. <strong>Important for AP teams: budget for two line items.</strong> [PLACEHOLDER: IL commercial billing copy requires legal review (OI #10)]</div>
-        </div>
-      </div>
-      <div style="background:#f5f8fc; border:1px solid #d0dce8; border-radius:4px; padding:10px 14px; margin-top:4px; font-size:12px; color:#555;">
-        Enrolling is handled online. There&rsquo;s no interruption to your service &mdash; your gas keeps flowing throughout the switch.
-      </div>
-      <div class="ann-row" style="margin-top:8px;">
-        <span class="ann ann-g">&#10003; GRE slamming-protection disclosure: NOT required on this page &mdash; enrollment page only (closed 2026-06-18).</span>
-        <span class="ann ann-r">&#9940; IL separate billing must be stated plainly in this section &mdash; commercial AP teams need to know before enrolling. Legal review required on final copy.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- SEC 6: PLAN OPTIONS OVERVIEW -->
-  <div class="section">
-    <span class="section-label"><span class="sec-num">6</span>Plan Options</span>
-    <div class="p">
-      <div class="h2">Commercial Plan Options</div>
-      <div class="body-para">See available rates for your business on the Commercial Plans page &mdash; select your utility to view current options.</div>
-      <div class="plan-row">
-        <div class="plan-row-label">Fixed Rate</div>
-        <div class="plan-row-title">Lock in your rate for a defined contract term.</div>
-        <div class="plan-row-body">Fixed-rate plans make energy cost predictable across your budget cycle. Your supply rate stays the same for the duration of your contract regardless of market movement. An Early Termination Charge (ETC) applies if the plan is cancelled before the contract end date. <span class="mkt-inline" id="po-gre">Billed per Mcf.</span><span class="mkt-inline on" id="po-ong"> Billed per therm.</span><span class="mkt-inline" id="po-il"> Billed per therm.</span></div>
-      </div>
-      <div class="plan-row">
-        <div class="plan-row-label">Variable Rate</div>
-        <div class="plan-row-title">Move with the market. No long-term commitment.</div>
-        <div class="plan-row-body">Your commodity rate adjusts monthly with market conditions. Variable-rate plans offer flexibility without a long-term commitment &mdash; no ETC. Rate changes are communicated before each billing period. Best suited for businesses with flexible budgets or that anticipate market price decreases.</div>
-      </div>
-      <div style="margin-top:16px;">
-        <button class="wf-btn">View Commercial Plans &rarr;</button>
-      </div>
-      <div class="ann-row" style="margin-top:8px;">
-        <span class="ann ann-g">&#10003; Always use "Early Termination Charge (ETC)" &mdash; never ETF.</span>
-        <span class="ann ann-g">&#10003; Greener Life suppressed &mdash; not available for commercial plans across all three markets.</span>
-      </div>
+    <span class="section-label"><span class="sec-num">&rarr;</span>Orientation</span>
+    <div class="p" style="background:#f5f8fc; border-left:3px solid #4a90c2; padding:14px 20px;">
+      <div style="font-size:13px; color:#1e3a5f; font-weight:700; margin-bottom:4px;">New to commercial natural gas supply choice?</div>
+      <div style="font-size:12px; color:#555; line-height:1.6;">Learn how commercial supply choice works, what plan options are available, and how switching is handled &mdash; before diving into the business case. <a href="ForMyBusiness_Wireframe.html" style="color:#1e3a5f; font-weight:700;">See how it works on For My Business &rarr;</a></div>
     </div>
   </div>
 
@@ -546,57 +564,42 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <span class="section-label"><span class="sec-num">8</span>Credentials</span>
     <div class="p">
       <div class="h2">Our Credentials</div>
-      <div class="cred-grid">
-        <!-- Regulatory license -->
-        <div class="cred-card">
-          <div class="cred-badge">Regulatory License</div>
-          <div class="cred-val">
-            <span class="mkt-inline on" id="cred-reg-ong">PUCO-Licensed<br>Commercial Supplier</span>
-            <span class="mkt-inline" id="cred-reg-gre">MPSC-Licensed<br>Commercial Supplier</span>
-            <span class="mkt-inline" id="cred-reg-il">ICC-Licensed<br>Commercial Supplier</span>
+      <div style="border:1.5px solid #d0dce8; border-radius:5px; padding:18px 20px; background:#f9fbfd; font-size:12px; line-height:1.8;">
+        <div class="cred-fact-grid" style="display:grid; grid-template-columns: 160px 1fr; gap:6px 16px;">
+          <div style="font-weight:800; color:#1e3a5f;">Regulatory body</div>
+          <div>
+            <span class="mkt-inline on" id="fs-reg-ong">Public Utilities Commission of Ohio (PUCO)</span>
+            <span class="mkt-inline" id="fs-reg-gre">Michigan Public Service Commission (MPSC)</span>
+            <span class="mkt-inline" id="fs-reg-il">Illinois Commerce Commission (ICC)</span>
           </div>
-          <div class="cred-note">
-            <span class="mkt-inline on" id="cred-reg-body-ong">Ohio &mdash; Public Utilities Commission of Ohio</span>
-            <span class="mkt-inline" id="cred-reg-body-gre">Michigan &mdash; Michigan Public Service Commission</span>
-            <span class="mkt-inline" id="cred-reg-body-il">Illinois &mdash; Illinois Commerce Commission</span>
-            <br>License # [PLACEHOLDER: license number per market &mdash; client to provide (OI #4); suppress this line until provided]
+          <div style="font-weight:800; color:#1e3a5f;">License status</div>
+          <div>
+            <span class="mkt-inline on" id="fs-lic-ong">PUCO-licensed commercial natural gas supplier</span>
+            <span class="mkt-inline" id="fs-lic-gre">MPSC-licensed commercial natural gas supplier</span>
+            <span class="mkt-inline" id="fs-lic-il">ICC-licensed commercial natural gas supplier</span>
+            &middot; License # [PLACEHOLDER: client to provide per market (OI #4) &mdash; suppress this line until provided]
           </div>
+          <div style="font-weight:800; color:#1e3a5f;">Legal entity</div>
+          <div>SouthStar Energy Services, LLC &mdash; a subsidiary of Southern Company (NYSE: SO)</div>
+          <div style="font-weight:800; color:#1e3a5f;">BBB standing</div>
+          <div>
+            <span class="mkt on" id="fs-bbb-ong">[PLACEHOLDER: A+ BBB Accredited &mdash; confirm current standing + provide profile URL (OI #7)]</span>
+            <span class="mkt" id="fs-bbb-il">[PLACEHOLDER: A+ BBB Accredited &mdash; confirm current standing + provide profile URL (OI #7)]</span>
+            <span class="mkt" id="fs-bbb-gre">[PLACEHOLDER: GRE &mdash; BBB not applicable; client to supply verifiable substitute (OI #7)]</span>
+          </div>
+          <div style="font-weight:800; color:#1e3a5f;">Years in market</div>
+          <div>[PLACEHOLDER: X+ years serving <span class="mkt-inline on" id="fs-state-ong">Ohio</span><span class="mkt-inline" id="fs-state-gre">Michigan</span><span class="mkt-inline" id="fs-state-il">Illinois</span> businesses &mdash; suppress until founding year confirmed (OI #5)]</div>
         </div>
-        <!-- SouthStar affiliation -->
-        <div class="cred-card">
-          <div class="cred-badge">Corporate Affiliation</div>
-          <div class="cred-val">SouthStar Energy<br>Services, LLC</div>
-          <div class="cred-note">
-            <span class="mkt-inline on" id="cred-sstar-ong">Ohio Natural Gas</span>
-            <span class="mkt-inline" id="cred-sstar-gre">Grand Rapids Energy</span>
-            <span class="mkt-inline" id="cred-sstar-il">Illinois Energy</span>
-            is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
-          </div>
-        </div>
-        <!-- BBB / Years / Reviews -->
-        <div class="cred-card">
-          <div class="cred-badge">Third-Party Credentials</div>
-          <!-- ONG + IL: BBB -->
-          <div class="mkt on" id="cred-bbb-ong">
-            <div class="cred-val">BBB A+</div>
-            <div class="cred-note">A+ BBB Accredited Business. [PLACEHOLDER: ONG BBB profile URL &mdash; client to provide (OI #7)]. Confirm current A+ standing before publishing.</div>
-          </div>
-          <div class="mkt" id="cred-bbb-il">
-            <div class="cred-val">BBB A+</div>
-            <div class="cred-note">A+ BBB Accredited Business. [PLACEHOLDER: IL BBB profile URL &mdash; client to provide (OI #7)]. Confirm current A+ standing before publishing.</div>
-          </div>
-          <!-- GRE: suppress BBB -->
-          <div class="mkt" id="cred-nobbb-gre">
-            <div class="cred-val" style="font-size:12px;">Trust Signal Pending</div>
-            <div class="cred-note">[PLACEHOLDER: third credential for GRE &mdash; BBB not applicable; client to supply verifiable substitute (OI #7)]</div>
-          </div>
-          <div style="margin-top:8px; font-size:11px; color:#888;">[PLACEHOLDER: X+ years serving [State] &mdash; suppress until founding year confirmed (OI #5)] &middot; [PLACEHOLDER: review rating &middot; count &middot; source (OI #6)]</div>
+        <div style="margin-top:14px; padding-top:10px; border-top:1px solid #d0dce8; font-size:11px; color:#777;">
+          <a href="CompanyHistory_Wireframe.html" style="color:#1e3a5f; font-weight:700; text-decoration:none;">Learn more about <span class="mkt-inline on" id="fs-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="fs-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="fs-brand-il">Illinois Energy</span> &rarr;</a>
         </div>
       </div>
       <div class="ann-row" style="margin-top:8px;">
-        <span class="ann ann-r">&#9940; GRE: suppress BBB. ONG/IL: confirm current A+ standing before publishing.</span>
-        <span class="ann ann-g">&#10003; SouthStar affiliation copy is approved &mdash; use verbatim, do not paraphrase.</span>
-        <span class="ann ann-y">&#9873; Suppress license number line until client provides license numbers per market (OI #4).</span>
+        <span class="ann ann-r">&#9940; GRE: suppress BBB row. ONG/IL: confirm current A+ standing before publishing.</span>
+        <span class="ann ann-y">&#9873; Suppress license number clause until client provides per market (OI #4).</span>
+        <span class="ann ann-y">&#9873; Suppress years-in-market until founding year confirmed per market (OI #5).</span>
+        <span class="ann ann-g">&#10003; SouthStar/Southern Company affiliation &mdash; also present in global page footer; no duplication concern. Per WBB-3.</span>
+        <span class="ann ann-b">&#9670; Fact-sheet format (not marketing cards) &mdash; appropriate for commercial procurement/due diligence context. Replaces .cred-grid per WBB-3.</span>
       </div>
     </div>
   </div>
@@ -781,6 +784,13 @@ function toggleMobileNav() {
   const nav = document.querySelector('.nav-links');
   if (nav) nav.classList.toggle('mobile-open');
 }
+function setViewport(v) {
+  document.body.classList.toggle('viewport-mobile', v === 'mobile');
+  document.querySelectorAll('[id^="vp-"]').forEach(function(b){ b.classList.remove('on'); });
+  var btn = document.getElementById('vp-' + v);
+  if (btn) btn.classList.add('on');
+}
 </script>
+</div><!-- /page-content -->
 </body>
 </html>

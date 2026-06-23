@@ -36,6 +36,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 }
 .btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
 .btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl-label { color: #5a6e7f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-right: 2px; white-space: nowrap; }
+.wfctl-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+.wfctl-btn { background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b; padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer; }
+.wfctl-btn.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl-btn:hover:not(.on) { background: #475a6b; color: #e6edf3; }
 .wfctl-legend-btn {
   background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
   padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
@@ -186,6 +192,60 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .enroll-band-btn { background: #fff; color: #c04000; border: none; padding: 11px 22px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; }
 /* SOUTHSTAR CONTEXT BOX */
 .southstar-box { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 18px 20px; margin-top: 20px; }
+
+/* ============================================================
+   MOBILE VIEWPORT SIMULATION — 375px
+   Triggered by body.viewport-mobile via wfctl Viewport toggle
+   ============================================================ */
+
+/* Canvas + phone frame */
+body.viewport-mobile { background: #dde1e7; }
+body.viewport-mobile #page-content {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #b0bac7, 6px 0 20px rgba(0,0,0,.12), -6px 0 20px rgba(0,0,0,.12);
+  overflow-x: hidden;
+}
+
+/* Hero — padding and font adjustments */
+body.viewport-mobile .ch-hero { padding: 22px 18px; }
+body.viewport-mobile .ch-hero h1,
+body.viewport-mobile .ch-hero .gi-hero-title { font-size: 22px; }
+
+/* §5 Timeline — already single-column; just tighten padding */
+body.viewport-mobile .timeline { padding-left: 26px; }
+
+/* Enroll CTA band */
+body.viewport-mobile .enroll-band { padding: 20px 18px; }
+
+/* Footer — 4-col → 1-col */
+body.viewport-mobile .footer-brand-strip {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+body.viewport-mobile .footer-bottom-row {
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+body.viewport-mobile .footer-legal-links { flex-wrap: wrap; gap: 8px; }
+
+/* Nav utility bar */
+body.viewport-mobile .nav-utility { display: none; }
+body.viewport-mobile .nav-links { display: none !important; }
+body.viewport-mobile .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+body.viewport-mobile .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+body.viewport-mobile .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+body.viewport-mobile .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+body.viewport-mobile .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+body.viewport-mobile .nav-dd-item { padding: 9px 32px; }
+body.viewport-mobile .nav-hamburger { display: inline-flex !important; align-items: center; }
+body.viewport-mobile .nav-hub-link::after { display: none !important; }
+
+/* General section padding */
+body.viewport-mobile .p { padding: 20px 18px; }
+body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -200,6 +260,13 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       <button id="mkt-btn-il"  onclick="setMarket('il')">IL</button>
       <button id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
     </div>
+      <div class="wfctl-group">
+        <div class="wfctl-label">Viewport</div>
+        <div class="wfctl-btns">
+          <button id="vp-desktop" class="wfctl-btn on" onclick="setViewport('desktop')">Desktop</button>
+          <button id="vp-mobile" class="wfctl-btn" onclick="setViewport('mobile')">375px</button>
+        </div>
+      </div>
     <div class="wfctl-spacer"></div>
     <button id="ann-btn-all"   class="btn-ann" onclick="setAnnMode('all')">All</button>
     <button id="ann-btn-open"  class="btn-ann" onclick="setAnnMode('open')">Open Qs</button>
@@ -219,6 +286,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div>
 </div>
 
+<div id="page-content">
 <div class="canvas">
 
   <div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
@@ -381,6 +449,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       <div class="ann-row">
         <span class="ann ann-g">&#10003; Entity attribution sentence present verbatim on all markets: "[Brand] is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO)."</span>
         <span class="ann ann-b">&#9670; IES: "Fixed Bill" capitalized &mdash; branded product term. IES intro omits commercial service reference.</span>
+        <span class="ann ann-y">&#9873; Content rewrite direction (CH-2): Reframe this introduction as history-setup, not brand-description. The About Us page (General Informational template) carries the full brand description &mdash; intentional overlap of facts (regulatory credential, SouthStar attribution) across both pages is fine and beneficial for entity signals. Company History intro should orient the reader toward the timeline: open with the brand&rsquo;s presence in market and frame what follows as &ldquo;this is how we got here.&rdquo; Founding year required per market before final copy can be written. Flag for content team.</span>
       </div>
     </div>
   </div>
@@ -499,81 +568,9 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     </div>
   </div>
 
-  <!-- TRUST BAND -->
-  <div class="section">
-    <span class="section-label"><span class="sec-num">6</span>Trust Band</span>
-    <div class="trust-band">
-      <div style="font-size:11px;color:#aac4d9;margin-bottom:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Credentials &amp; Standing</div>
-      <div class="trust-band-grid">
-        <div class="trust-item">
-          <div class="trust-val">&#11088; [X.X]</div>
-          <div class="trust-lbl">[PLACEHOLDER: review rating &middot; count &middot; source &mdash; pending client confirmation. Suppress until source and count confirmed.]</div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val">[XX]+</div>
-          <div class="trust-lbl">Years serving
-            <span class="mkt-inline on" id="ts-state-ong">Ohio</span>
-            <span class="mkt-inline" id="ts-state-pa">Pennsylvania</span>
-            <span class="mkt-inline" id="ts-state-gre">Michigan</span>
-            <span class="mkt-inline" id="ts-state-il">Illinois</span>
-            <span class="mkt-inline" id="ts-state-ies">Illinois</span>
-            households<br>[PLACEHOLDER: suppress until founding year confirmed]
-          </div>
-        </div>
-        <!-- ONG + IL: BBB applicable -->
-        <div class="mkt on" id="ts-bbb-ong">
-          <div class="trust-item">
-            <div class="trust-val" style="font-size:13px;">BBB A+</div>
-            <div class="trust-lbl">A+ BBB Accredited Business<br>[PLACEHOLDER: BBB profile URL &mdash; ONG; client to provide]</div>
-          </div>
-        </div>
-        <div class="mkt" id="ts-bbb-il">
-          <div class="trust-item">
-            <div class="trust-val" style="font-size:13px;">BBB A+</div>
-            <div class="trust-lbl">A+ BBB Accredited Business<br>[PLACEHOLDER: BBB profile URL &mdash; IL; client to provide]</div>
-          </div>
-        </div>
-        <!-- PA + GRE + IES: SouthStar badge instead of BBB -->
-        <div class="mkt" id="ts-sstar-pa">
-          <div class="trust-item">
-            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
-            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
-          </div>
-        </div>
-        <div class="mkt" id="ts-sstar-gre">
-          <div class="trust-item">
-            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
-            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
-          </div>
-        </div>
-        <div class="mkt" id="ts-sstar-ies">
-          <div class="trust-item">
-            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
-            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
-          </div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val" style="font-size:12px;">
-            <span class="mkt-inline on" id="ts-reg-ong">PUCO<br>Licensed</span>
-            <span class="mkt-inline" id="ts-reg-pa">PA PUC<br>Licensed</span>
-            <span class="mkt-inline" id="ts-reg-gre">MPSC<br>Licensed</span>
-            <span class="mkt-inline" id="ts-reg-il">ICC<br>Licensed</span>
-            <span class="mkt-inline" id="ts-reg-ies">ICC<br>Licensed</span>
-          </div>
-          <div class="trust-lbl">State-certified natural gas supplier &#8599;</div>
-        </div>
-      </div>
-    </div>
-    <div class="ann-row" style="padding:0 24px 10px;">
-      <span class="ann ann-r">&#9940; IES, PA, GRE: do not show BBB tile. Use SouthStar/Southern Company affiliation badge.</span>
-      <span class="ann ann-y">&#9873; All trust band values TBD &mdash; suppress individual badges rather than show placeholders in production</span>
-      <span class="ann ann-b">&#9670; Shared component &mdash; same .trust-band-grid / .trust-item used on Homepage and About Us.</span>
-    </div>
-  </div>
-
   <!-- ENROLL CTA -->
   <div class="section">
-    <span class="section-label"><span class="sec-num">7</span>Enroll CTA</span>
+    <span class="section-label"><span class="sec-num">6</span>Enroll CTA</span>
     <div class="enroll-band">
       <div>
         <h3>
@@ -661,6 +658,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   </div>
 
 </div><!-- /canvas -->
+</div><!-- /page-content -->
 
 <div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
 <script>
@@ -702,6 +700,13 @@ function setAnnMode(mode) {
 
 function setChrome(mode) {
   document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+function setViewport(v) {
+  document.body.classList.toggle('viewport-mobile', v === 'mobile');
+  document.querySelectorAll('[id^="vp-"]').forEach(function(b){ b.classList.remove('on'); });
+  var btn = document.getElementById('vp-' + v);
+  if (btn) btn.classList.add('on');
 }
 
 document.addEventListener('keydown', function(e) {

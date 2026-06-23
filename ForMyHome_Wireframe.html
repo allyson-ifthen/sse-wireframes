@@ -24,6 +24,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
   color: #5a6e7f; font-size: 9px; text-transform: uppercase;
   letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
 }
+.wfctl-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl-label { color: #5a6e7f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-right: 2px; white-space: nowrap; }
+.wfctl-btns { display: flex; gap: 4px; align-items: center; }
+.wfctl-btn { background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b; padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer; }
+.wfctl-btn.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl-btn:hover:not(.on) { background: #475a6b; color: #e6edf3; }
 .wfctl button {
   background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
   padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
@@ -207,6 +213,73 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .raf-heading { font-size: 15px; font-weight: 800; color: #1e3a5f; margin-bottom: 4px; }
 .raf-body { font-size: 11px; color: #555; line-height: 1.6; margin-bottom: 8px; }
 .doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ============================================================
+   MOBILE VIEWPORT SIMULATION — 375px
+   Triggered by body.viewport-mobile via wfctl Viewport toggle
+   ============================================================ */
+
+/* Canvas + phone frame */
+body.viewport-mobile { background: #dde1e7; }
+body.viewport-mobile #page-content {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #b0bac7, 6px 0 20px rgba(0,0,0,.12), -6px 0 20px rgba(0,0,0,.12);
+  overflow-x: hidden;
+}
+
+/* Hero */
+body.viewport-mobile .gi-hero { padding: 22px 18px; }
+body.viewport-mobile .gi-hero-title { font-size: 22px; }
+body.viewport-mobile .gi-hero-sub { font-size: 13px; }
+
+/* §4 Plan Type Cards — 3-col → 1-col */
+body.viewport-mobile .plan-type-grid { grid-template-columns: 1fr; }
+
+/* §5 How It Works — 3-col → 1-col */
+body.viewport-mobile .steps-grid { grid-template-columns: 1fr; }
+
+/* §6 Why Choose — 3-col → 1-col */
+body.viewport-mobile .why-grid { grid-template-columns: 1fr; }
+
+/* §7 Greener Life callout — stack button + link */
+body.viewport-mobile .gl-callout { padding: 22px 18px; }
+body.viewport-mobile .gl-callout-cta { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+/* §8 Refer a Friend — stack icon above text */
+body.viewport-mobile .raf-callout { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+/* §9 Enroll CTA — wrap is fine; tighten padding */
+body.viewport-mobile .enroll-band { padding: 20px 18px; }
+
+/* Footer — 4-col → 1-col */
+body.viewport-mobile .footer-brand-strip {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+body.viewport-mobile .footer-bottom-row {
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+body.viewport-mobile .footer-legal-links { flex-wrap: wrap; gap: 8px; }
+
+/* Nav utility bar — hide at mobile */
+body.viewport-mobile .nav-utility { display: none; }
+body.viewport-mobile .nav-links { display: none !important; }
+body.viewport-mobile .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+body.viewport-mobile .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+body.viewport-mobile .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+body.viewport-mobile .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+body.viewport-mobile .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+body.viewport-mobile .nav-dd-item { padding: 9px 32px; }
+body.viewport-mobile .nav-hamburger { display: inline-flex !important; align-items: center; }
+body.viewport-mobile .nav-hub-link::after { display: none !important; }
+
+/* General section padding */
+body.viewport-mobile .p { padding: 20px 18px; }
+body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 </style>
 </head>
 <body class="ann-mode-clean">
@@ -231,6 +304,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9660;</button>
     <div class="wfctl-divider"></div>
     <button class="btn-present" onclick="setChrome('hide')">&#9658; Present</button>
+    <div class="wfctl-divider"></div>
+      <div class="wfctl-group">
+        <div class="wfctl-label">Viewport</div>
+        <div class="wfctl-btns">
+          <button id="vp-desktop" class="wfctl-btn on" onclick="setViewport('desktop')">Desktop</button>
+          <button id="vp-mobile" class="wfctl-btn" onclick="setViewport('mobile')">375px</button>
+        </div>
+      </div>
   </div>
   <div class="legend-drawer" id="legend-drawer">
     <div class="scenario-legend">
@@ -241,6 +322,8 @@ body.chrome-hidden .presentation-hint { display: block !important; }
     </div>
   </div>
 </div>
+
+<div id="page-content">
 
 <!-- ═══════════════════════════════════════════════════════════
      CANVAS
@@ -407,6 +490,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       <div class="ann-row">
         <span class="ann ann-g">✓ H1 is market-specific and state-named — precision for E-E-A-T / entity disambiguation</span>
         <span class="ann ann-y">⚑ Trust signal: founding year TBD per market — suppress until client confirms</span>
+        <span class="ann ann-b">◈ `.gi-hero` component — single-CTA variant (GLB-HERO-1 reference implementation). Homepage hero omits CTA because the LDC widget is the primary action; For My Home has no LDC-gating constraint. See ForMyBusiness_Wireframe.html (dual-CTA: button + text link) and WhyBrandForBusiness_Wireframe.html (dual-button variant) for other variants. Per FMH-1.</span>
       </div>
     </div>
   </div><!-- /section hero -->
@@ -551,17 +635,17 @@ body.chrome-hidden .presentation-hint { display: block !important; }
         <!-- Card 1: Regulated -->
         <div class="why-card">
           <div class="why-icon">⚖️</div>
-          <div class="why-title">Regulated by
+          <div class="why-title">Licensed by
             <span class="mkt-inline" id="why-reg-ong">PUCO.</span>
             <span class="mkt-inline" id="why-reg-pa">PA PUC.</span>
             <span class="mkt-inline" id="why-reg-gre">MPSC.</span>
             <span class="mkt-inline" id="why-reg-il">ICC.</span>
           </div>
           <div class="why-copy">
-            <span class="mkt-inline" id="why-reg-copy-ong">Ohio Natural Gas is a licensed natural gas supplier in Ohio, regulated by the Public Utilities Commission of Ohio (PUCO). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-pa">Pennsylvania Energy is a licensed natural gas supplier in Pennsylvania, regulated by the Pennsylvania Public Utility Commission (PA PUC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-gre">Grand Rapids Energy is a licensed natural gas supplier in Michigan, regulated by the Michigan Public Service Commission (MPSC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-il">Illinois Energy is a licensed natural gas supplier in Illinois, regulated by the Illinois Commerce Commission (ICC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
+            <span class="mkt-inline" id="why-reg-copy-ong">Ohio Natural Gas is a licensed natural gas supplier in Ohio, licensed by the Public Utilities Commission of Ohio (PUCO). Your plan terms, rate disclosures, and rights are governed by state law.</span>
+            <span class="mkt-inline" id="why-reg-copy-pa">Pennsylvania Energy is a licensed natural gas supplier in Pennsylvania, licensed by the Pennsylvania Public Utility Commission (PA PUC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
+            <span class="mkt-inline" id="why-reg-copy-gre">Grand Rapids Energy is a licensed natural gas supplier in Michigan, licensed by the Michigan Public Service Commission (MPSC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
+            <span class="mkt-inline" id="why-reg-copy-il">Illinois Energy is a licensed natural gas supplier in Illinois, licensed by the Illinois Commerce Commission (ICC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
           </div>
         </div>
 
@@ -588,6 +672,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
       </div><!-- /why-grid -->
 
       <div class="ann-row">
+        <span class="ann ann-b">◈ Shared component with Homepage §5 — same 3-card structure and CSS. CMS copy should be residential-tailored for this page: seasonal bill protection, switching simplicity for renters and homeowners, residential consumer rights. Content team: do not reuse Homepage §5 copy verbatim. Per FMH-2.</span>
         <span class="ann ann-b">◈ BBB badge: ONG ✓ / IL ✓ — show. PA ✗ / GRE ✗ — suppress; client to supply alternate third proof point.</span>
         <span class="ann ann-y">⚑ All trust signal values require confirmed data per market before writing — do not publish placeholders</span>
       </div>
@@ -612,13 +697,14 @@ body.chrome-hidden .presentation-hint { display: block !important; }
           <span class="mkt-inline" id="gl-brand-il">Illinois Energy</span>
           calculates the greenhouse gas emissions from your natural gas usage and purchases and retires certified carbon offsets to balance the impact. Available in both fixed-rate and variable-rate options.
         </div>
-        <div>
+        <div class="gl-callout-cta" style="display:flex; align-items:center; flex-wrap:wrap; gap:10px;">
           <button class="gl-callout-btn">View Greener Life Plans →</button>
           <a class="gl-callout-link">How Carbon Offsets Work →</a>
         </div>
       </div>
 
       <div class="ann-row">
+        <span class="ann ann-b">◈ Shared component with Homepage §4 — same content and component. Greener Life® copy requires no residential tailoring; the product is inherently residential. Per FMH-3.</span>
         <span class="ann ann-g">✓ ONG · GRE — Greener Life callout shown</span>
         <span class="ann ann-y">⚑ Suppressed for PA · IL · IES</span>
         <span class="ann ann-r">⛔ Do not use 990M+ lbs carbon offset figure — GNG-specific, cannot be attributed to ONG or GRE</span>
@@ -773,6 +859,7 @@ body.chrome-hidden .presentation-hint { display: block !important; }
   <div class="doc-footer">For My Home Hub Page · CMS Content Template · ONG · PA · GRE · IL · IES suppressed · 4037-25 · IfThen Digital · June 2026</div>
 
 </div><!-- /canvas -->
+</div><!-- /page-content -->
 
 <script>
 var curMarket = 'ong';
@@ -810,6 +897,13 @@ function setAnnMode(mode) {
 
 function setChrome(mode) {
   document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+function setViewport(v) {
+  document.body.classList.toggle('viewport-mobile', v === 'mobile');
+  document.querySelectorAll('[id^="vp-"]').forEach(function(b){ b.classList.remove('on'); });
+  var btn = document.getElementById('vp-' + v);
+  if (btn) btn.classList.add('on');
 }
 
 document.addEventListener('keydown', function(e) {
