@@ -962,6 +962,7 @@
       <button id="step-btn-lookup" onclick="setStep('lookup')">Lookup</button>
       <button id="step-btn-otp" onclick="setStep('otp')">OTP</button>
       <button id="step-btn-account" onclick="setStep('account')">Account #</button>
+      <button id="step-btn-confirmaccount" onclick="setStep('confirmaccount')">Confirm acct (C)</button>
       <button id="step-btn-standing" onclick="setStep('standing')">Standing [retired · ENRIL-191]</button>
       <button id="step-btn-info" onclick="setStep('info')">Info (GBP)</button>
       <button id="step-btn-review" onclick="setStep('review')">Review</button>
@@ -2071,6 +2072,12 @@
         <div class="ann ann-g" style="margin-top: 8px;"><strong>ENRIL-13 inventory:</strong> What Counts email-service down (extends ENR-14 timeout pattern). Vendor per ENRIL-41.</div>
       </div>
 
+      <!-- Email-mismatch error -->
+      <div class="error-banner" id="err-email-mismatch" style="display:none;">
+        <strong>The email address you entered doesn't match what we have on file.</strong> Please check your email and try again, or call <strong>1-877-292-9363</strong> for assistance.
+        <div class="ann ann-g" style="margin-top: 8px;"><strong>ENRIL-13 inventory:</strong> Email mismatch — email entered at Lookup does not match the PRIME account record. Surfaces on step-lookup.</div>
+      </div>
+
       <div class="btn-row">
         <button class="btn btn-tertiary scen-only-a" onclick="setStep('bundle')">&larr; Back</button>
         <!-- ENRIL-170: Scen C alert-stub back button removed — Scen C entry point has no back per design; placeholder alert is confusing in reviewer demos -->
@@ -3079,7 +3086,7 @@
     }
 
     // Update wireframe control button states
-    ['preflow1','preflow2','selectplan','quote','bundle','lookup','otp','account','standing','info','review','confirmation'].forEach(function(k){
+    ['preflow1','preflow2','selectplan','quote','bundle','lookup','otp','account','confirmaccount','standing','info','review','confirmation'].forEach(function(k){
       var b = document.getElementById('step-btn-' + k);
       if (b) b.classList.toggle('on', k === target);
     });
@@ -3192,10 +3199,13 @@
     var d1 = document.getElementById('l-disc-gbpq');
     var d2 = document.getElementById('l-disc-email');
     var d3 = document.getElementById('l-disc-language-attest');
+    var dCall = document.getElementById('l-disc-call');
     // GBPQ + email consent required for all; for GB also require language attestation (ENRIL-124)
     var isGB = document.body.classList.contains('scen-c') || document.body.classList.contains('scen-d');
     ok = ok && d2 && d2.checked;
     if (isGB) ok = ok && d1 && d1.checked && d3 && d3.checked;
+    // Consent-to-call (l-disc-call) is required when the checkbox is present and visible (ENRIL-141 · all scenarios)
+    if (dCall && dCall.offsetParent !== null) ok = ok && dCall.checked;
     var btn = document.getElementById('lookup-request-code-btn');
     if (btn) btn.disabled = !ok;
   }

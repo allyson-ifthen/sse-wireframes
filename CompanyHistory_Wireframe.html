@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company History — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+/* ── WF CONTROL BAR (sticky, dark) ── */
+.wfctl {
+  position: sticky; top: 0; z-index: 50;
+  background: #2d3640;
+  font: 12px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  border-bottom: 2px solid #1a1f24;
+}
+.wfctl-bar {
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.wfctl-divider { width: 1px; height: 18px; background: #3d4a55; flex-shrink: 0; }
+.wfctl-spacer { flex: 1; min-width: 8px; }
+.wfctl .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl .group-lbl {
+  color: #5a6e7f; font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
+}
+.wfctl button {
+  background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.wfctl button.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl button:hover:not(.on) { background: #475a6b; color: #e6edf3; }
+.btn-ann {
+  background: transparent; border: 1px solid transparent; color: #5a6e7f;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
+.btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-legend-btn {
+  background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
+  padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
+}
+.wfctl-legend-btn:hover { border-color: #5a6e7f; color: #ccd6e0; }
+.wfctl-legend-btn.open { border-color: #4a90c2; color: #4a90c2; }
+.btn-present {
+  background: #e8641a; border: none; color: #fff;
+  padding: 4px 12px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-present:hover { background: #c8521a; }
+.legend-drawer {
+  display: none; flex-direction: column; gap: 8px;
+  background: #1e2830; border-top: 1px solid #3d4a55;
+  padding: 10px 16px 12px;
+}
+.legend-drawer.open { display: flex; }
+.scenario-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.scenario-legend .legend-item { display: inline-flex; gap: 5px; align-items: center; font-size: 10px; color: #8a9aaa; }
+.scenario-legend .legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; border: 1px solid; flex-shrink: 0; }
+
+/* ── ANNOTATION VISIBILITY MODES ── */
+body.ann-mode-open .ann-g,
+body.ann-mode-open .ann-b,
+body.ann-mode-open .ann-inline.g,
+body.ann-mode-open .ann-inline.b,
+body.ann-mode-open .dev-note { display: none !important; }
+body.ann-mode-open .oq-panel li.resolved { display: none !important; }
+
+body.ann-mode-clean .ann,
+body.ann-mode-clean .ann-inline,
+body.ann-mode-clean .dev-note,
+body.ann-mode-clean .oq-panel,
+body.ann-mode-clean .banner-suppressed { display: none !important; }
+
+body.chrome-hidden .wfctl,
+body.chrome-hidden .oq-panel,
+body.chrome-hidden .banner-suppressed,
+body.chrome-hidden .ann,
+body.chrome-hidden .ann-inline,
+body.chrome-hidden .dev-note { display: none !important; }
+body.chrome-hidden .presentation-hint { display: block !important; }
+.presentation-hint {
+  display: none; position: fixed; bottom: 18px; right: 18px;
+  background: rgba(17,22,28,0.88); color: #fff;
+  font-size: 11px; font-weight: 600; padding: 8px 14px; border-radius: 4px;
+  z-index: 1000; pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: .02em;
+}
+.presentation-hint kbd {
+  background: rgba(255,255,255,0.18); padding: 1px 6px;
+  border-radius: 3px; font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px; margin: 0 2px;
+}
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 28px 36px; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 190px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+}
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 600px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+/* PAGE HERO */
+.ch-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 36px 36px; }
+.ch-hero-h1 { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.15; }
+.ch-hero-sub { font-size: 15px; color: #aac4d9; line-height: 1.6; max-width: 560px; }
+/* INTRO BLOCK */
+.ch-intro { padding: 24px; background: #f5f8fc; border-bottom: 1.5px solid #d0dce8; }
+/* TIMELINE */
+.timeline { position: relative; padding-left: 32px; margin: 20px 0; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: #d0dce8; }
+.timeline-item { position: relative; margin-bottom: 28px; }
+.timeline-dot { width: 16px; height: 16px; background: #1e3a5f; border-radius: 50%; position: absolute; left: -26px; top: 2px; border: 2px solid #fff; box-shadow: 0 0 0 2px #d0dce8; }
+.timeline-year { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; color: #e8641a; margin-bottom: 4px; }
+.timeline-label { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.timeline-text { font-size: 12px; color: #555; line-height: 1.6; }
+/* TRUST BAND */
+.trust-band { background: #1e3a5f; padding: 20px 32px; }
+.trust-band-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.trust-item { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 4px; padding: 14px 12px; text-align: center; }
+.trust-val { font-size: 16px; font-weight: 900; color: #7ec8e3; line-height: 1.2; margin-bottom: 4px; }
+.trust-lbl { font-size: 10px; color: #aac4d9; line-height: 1.4; }
+/* ENROLL BAND */
+.enroll-band { background: linear-gradient(135deg, #e8641a, #c04000); color: #fff; padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.enroll-band h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+.enroll-band p { font-size: 13px; color: rgba(255,255,255,.85); }
+.enroll-band-btn { background: #fff; color: #c04000; border: none; padding: 11px 22px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; }
+/* SOUTHSTAR CONTEXT BOX */
+.southstar-box { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 18px 20px; margin-top: 20px; }
+</style>
+</head>
+<body class="ann-mode-clean">
+
+<div class="wfctl">
+  <div class="wfctl-bar">
+    <div class="group">
+      <span class="group-lbl">Market</span>
+      <button id="mkt-btn-ong" class="on" onclick="setMarket('ong')">ONG</button>
+      <button id="mkt-btn-pa"  onclick="setMarket('pa')">PA</button>
+      <button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+      <button id="mkt-btn-il"  onclick="setMarket('il')">IL</button>
+      <button id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
+    </div>
+    <div class="wfctl-spacer"></div>
+    <button id="ann-btn-all"   class="btn-ann" onclick="setAnnMode('all')">All</button>
+    <button id="ann-btn-open"  class="btn-ann" onclick="setAnnMode('open')">Open Qs</button>
+    <button id="ann-btn-clean" class="btn-ann on" onclick="setAnnMode('clean')">Clean</button>
+    <div class="wfctl-divider"></div>
+    <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
+    <div class="wfctl-divider"></div>
+    <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+  </div>
+  <div class="legend-drawer" id="legend-drawer">
+    <div class="scenario-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f5e9; border-color:#4caf50;"></span> Confirmed</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fffde7; border-color:#f5c842;"></span> Open / pending</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fdecea; border-color:#e53935;"></span> Blocker / warning</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f0fe; border-color:#4a7adf;"></span> Shared component / dev note</span>
+    </div>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+    <div class="ann ann-b" style="font-size:10px; display:flex;">&#9670; Global promotional pencil banner &mdash; CMS-managed. Appears on GI/About pages. Format: [Offer headline] &middot; [CTA text] &rarr;</div>
+  </div>
+
+  <div style="background:#1e3a5f;color:#fff;border-radius:4px;padding:13px 18px;margin-bottom:10px;font-size:12px;line-height:1.65;border:2px solid #4a7aaf;">
+    <strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template &mdash; Company History (About Section)</strong>
+    Standalone entity credibility page. All 5 markets. Serves research-mode users + AI entity disambiguation. No sales language in body. Enroll CTA at bottom only. This is a standalone page, not a sub-page of the GI wireframe.
+  </div>
+
+  <div class="oq-panel">
+    <h4>&#9873; Open Questions &mdash; Company History</h4>
+    <ul class="oq-list">
+      <li>All milestone years except 2026 Relaunch are TBD &mdash; working dates available for ONG (2007) and GRE (partial 2013); client to confirm all before publishing.</li>
+      <li>SouthStar founding year: working date 1998 (PitchBook + training guide). Southern Company acquisition: working date Feb 12, 2016 (PitchBook). Both need primary source confirmation.</li>
+      <li>Trust band: review source/rating/count TBD all markets. Years-serving TBD (downstream of founding year). BBB URLs for ONG and IL TBD.</li>
+      <li>PA commercial history: confirm whether PA ever had commercial plans before writing intro paragraph (OI #14).</li>
+      <li>IES market entry year: unknown; client to provide.</li>
+    </ul>
+  </div>
+
+  <!-- NAV -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">1</span>Nav Header</span>
+    <div class="nav-utility">
+      <a>Contact Us</a>
+      <span class="nav-utility-phone mkt-inline on" id="phone-ong">1.888.466.4427</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-pa">[PA phone TBD]</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-gre">1.800.841.1541</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-il">[IL phone TBD]</span>
+      <span class="nav-utility-phone mkt-inline" id="phone-ies">[IES phone TBD]</span>
+    </div>
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">S</div>
+        <span class="mkt-inline on" id="nl-ong">Ohio Natural Gas</span>
+        <span class="mkt-inline" id="nl-pa">Pennsylvania Energy</span>
+        <span class="mkt-inline" id="nl-gre">Grand Rapids Energy</span>
+        <span class="mkt-inline" id="nl-il">Illinois Energy</span>
+        <span class="mkt-inline" id="nl-ies">Illinois Energy Solutions</span>
+      </div>
+      <nav class="nav-links mkt-flex on" id="nav-standard">
+        <div class="nav-item has-dropdown">
+          <a class="nav-link" href="ForMyHome_Wireframe.html">For My Home</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9662;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+            <a class="nav-dd-item mkt on" id="nav-gl-ong" href="GreenerLifePlan_Wireframe.html">Greener Life&reg; Plan</a>
+            <a class="nav-dd-item mkt" id="nav-gl-gre" href="GreenerLifePlan_Wireframe.html">Greener Life&reg; Plan</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown mkt on" id="nav-fmb">
+          <a class="nav-link" href="ForMyBusiness_Wireframe.html">For My Business</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9662;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a class="nav-link active">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9662;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Why Choose Us</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
+        </div>
+      </nav>
+      <!-- IES simplified nav -->
+      <nav class="nav-links mkt-flex" id="nav-ies">
+        <div class="nav-item">
+          <a class="nav-link">Fixed Bill Plan</a>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a class="nav-link active">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9662;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+          </div>
+        </div>
+      </nav>
+      <div class="nav-right">
+        <a href="MyAccount_Wireframe.html" style="font-size:12px;font-weight:600;color:#444;">&#128100; My Account</a>
+        <a class="mkt on" id="nav-search-std" href="SearchResults_Wireframe.html" style="font-size:16px;color:#555;text-decoration:none;padding:0 4px;">&#128269;</a>
+        <button class="nav-hamburger" onclick="toggleMobileNav()">&#9776;</button>
+      </div>
+    </div>
+    <div class="nav-mobile-note">Mobile: hamburger menu. About Us is active. IES: simplified 2-item nav (Fixed Bill Plan + About Us).</div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-g">&#10003; Nav active state: About Us / Company History</span>
+      <span class="ann ann-g">&#10003; IES uses simplified nav (no For My Business, no Learning Center, no Search)</span>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+    <div class="breadcrumb p-sm"><a>Home</a> &rsaquo; <a>About Us</a> &rsaquo; Company History</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">3</span>Page Hero</span>
+    <div class="ch-hero">
+      <div class="ch-hero-h1">
+        <span class="mkt-inline on" id="ch-h1-ong">Ohio Natural Gas &mdash; Company History</span>
+        <span class="mkt-inline" id="ch-h1-pa">Pennsylvania Energy &mdash; Company History</span>
+        <span class="mkt-inline" id="ch-h1-gre">Grand Rapids Energy &mdash; Company History</span>
+        <span class="mkt-inline" id="ch-h1-il">Illinois Energy &mdash; Company History</span>
+        <span class="mkt-inline" id="ch-h1-ies">Illinois Energy Solutions &mdash; Company History</span>
+      </div>
+      <div class="ch-hero-sub">
+        <span class="mkt-inline on" id="ch-sub-ong">Serving Ohio natural gas customers since [PLACEHOLDER: ONG market entry year &mdash; working date 2007; client to confirm]. Here&rsquo;s our story.</span>
+        <span class="mkt-inline" id="ch-sub-pa">Serving Pennsylvania natural gas customers since [PLACEHOLDER: PA market entry year &mdash; inferred ~2018; client to confirm]. Here&rsquo;s our story.</span>
+        <span class="mkt-inline" id="ch-sub-gre">Serving Michigan natural gas customers since [PLACEHOLDER: GRE market entry year &mdash; partial: Oct 2013; client to confirm full year]. Here&rsquo;s our story.</span>
+        <span class="mkt-inline" id="ch-sub-il">Serving Illinois natural gas customers since [PLACEHOLDER: IL market entry year &mdash; unknown; client to provide]. Here&rsquo;s our story.</span>
+        <span class="mkt-inline" id="ch-sub-ies">Bringing Illinois homeowners a fixed-bill approach to natural gas budgeting since [PLACEHOLDER: IES market entry year &mdash; unknown; client to provide].</span>
+      </div>
+      <div style="background:rgba(255,255,255,.08); border:1.5px dashed rgba(255,255,255,.3); border-radius:4px; padding:14px; margin-top:16px; text-align:center; color:rgba(255,255,255,.6); font-size:12px;">
+        &#128247; Hero imagery placeholder &mdash; brand lifestyle photography; community or state context. No gas meters or pipelines. Client to supply.
+      </div>
+    </div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-g">&#10003; H1 formula consistent across all markets: [Brand Name] &mdash; Company History</span>
+      <span class="ann ann-y">&#9873; Subhead requires confirmed founding year per market &mdash; use generic fallback ("A natural gas supplier built for [State] &mdash; here&rsquo;s our story.") until year confirmed</span>
+      <span class="ann ann-g">&#10003; IES subhead uses "fixed-bill approach" not "fixed-rate" per IES brand rules</span>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">4</span>Introduction</span>
+    <div class="p">
+      <div class="body-para">
+        <!-- ONG -->
+        <span class="mkt on" id="intro-ong">
+          Ohio Natural Gas is a natural gas supplier licensed by the Public Utilities Commission of Ohio (PUCO) to serve Ohio residents and businesses. As a deregulated supplier, we offer fixed and variable rate plans so customers can choose their commodity rate rather than accepting the default utility price. Ohio Natural Gas also offers Greener Life&reg; &mdash; a natural gas plan that makes your home&rsquo;s gas usage carbon neutral through certified offset purchases. Ohio Natural Gas is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
+        </span>
+        <!-- PA -->
+        <span class="mkt" id="intro-pa">
+          Pennsylvania Energy is a natural gas supplier licensed by the Pennsylvania Public Utility Commission (PA PUC) to serve Pennsylvania residents. As a deregulated supplier, we offer fixed and variable rate plans so customers can choose their commodity rate rather than accepting the default utility price. Pennsylvania Energy is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
+        </span>
+        <!-- GRE -->
+        <span class="mkt" id="intro-gre">
+          Grand Rapids Energy is a natural gas supplier licensed by the Michigan Public Service Commission (MPSC) to serve Michigan residents and businesses. As a deregulated supplier, we offer fixed and variable rate plans so customers can choose their commodity rate. Grand Rapids Energy also offers Greener Life&reg; &mdash; a natural gas plan that makes your home&rsquo;s gas usage carbon neutral through certified offset purchases. Grand Rapids Energy is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
+        </span>
+        <!-- IL -->
+        <span class="mkt" id="intro-il">
+          Illinois Energy is a natural gas supplier licensed by the Illinois Commerce Commission (ICC) to serve Illinois residents and businesses. As a deregulated supplier, we offer fixed and variable rate plans so customers can choose their commodity rate rather than accepting the default utility price. Illinois Energy is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
+        </span>
+        <!-- IES -->
+        <span class="mkt" id="intro-ies">
+          Illinois Energy Solutions is a natural gas supplier licensed by the Illinois Commerce Commission (ICC) to serve Illinois homeowners. Unlike traditional commodity plans, we offer a Fixed Bill approach &mdash; one flat monthly charge that eliminates exposure to volatile market rates. Illinois Energy Solutions is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO).
+        </span>
+      </div>
+      <div class="ann-row">
+        <span class="ann ann-g">&#10003; Entity attribution sentence present verbatim on all markets: "[Brand] is a brand of SouthStar Energy Services, LLC, a subsidiary of Southern Company (NYSE: SO)."</span>
+        <span class="ann ann-b">&#9670; IES: "Fixed Bill" capitalized &mdash; branded product term. IES intro omits commercial service reference.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">5</span>Timeline</span>
+    <div class="p">
+      <div class="h2">Our History</div>
+      <div class="timeline">
+
+        <!-- Milestone 1: Market Entry (all markets) -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">
+            <span class="mkt-inline on" id="tm1-yr-ong">[PLACEHOLDER: ONG market entry year &mdash; working date 2007; client to confirm]</span>
+            <span class="mkt-inline" id="tm1-yr-pa">[PLACEHOLDER: PA market entry year &mdash; inferred ~2018; client to confirm]</span>
+            <span class="mkt-inline" id="tm1-yr-gre">[PLACEHOLDER: GRE market entry year &mdash; partial 2013; client to confirm]</span>
+            <span class="mkt-inline" id="tm1-yr-il">[PLACEHOLDER: IL market entry year &mdash; unknown; client to provide]</span>
+            <span class="mkt-inline" id="tm1-yr-ies">[PLACEHOLDER: IES market entry year &mdash; unknown; client to provide]</span>
+          </div>
+          <div class="timeline-label">
+            <span class="mkt-inline on" id="tm1-lbl-ong">Ohio Natural Gas Launches in Ohio</span>
+            <span class="mkt-inline" id="tm1-lbl-pa">Pennsylvania Energy Launches in Pennsylvania</span>
+            <span class="mkt-inline" id="tm1-lbl-gre">Grand Rapids Energy Launches in Michigan</span>
+            <span class="mkt-inline" id="tm1-lbl-il">Illinois Energy Launches in Illinois</span>
+            <span class="mkt-inline" id="tm1-lbl-ies">Illinois Energy Solutions Launches</span>
+          </div>
+          <div class="timeline-text">
+            <span class="mkt-inline on" id="tm1-body-ong">Ohio Natural Gas began serving Ohio natural gas customers in [year], following certification by the Public Utilities Commission of Ohio (PUCO) as a licensed competitive natural gas supplier.</span>
+            <span class="mkt-inline" id="tm1-body-pa">Pennsylvania Energy began serving Pennsylvania natural gas customers in [year], following licensing by the Pennsylvania Public Utility Commission (PA PUC).</span>
+            <span class="mkt-inline" id="tm1-body-gre">Grand Rapids Energy began serving Michigan natural gas customers in [year], following licensing by the Michigan Public Service Commission (MPSC).</span>
+            <span class="mkt-inline" id="tm1-body-il">Illinois Energy began serving Illinois natural gas customers in [year], following licensing by the Illinois Commerce Commission (ICC).</span>
+            <span class="mkt-inline" id="tm1-body-ies">Illinois Energy Solutions launched in [year] to offer Illinois homeowners a unique fixed-bill approach to natural gas budgeting &mdash; one flat monthly charge with no exposure to commodity rate swings.</span>
+          </div>
+        </div>
+
+        <!-- Milestone 2: Commercial Expansion (ONG, GRE, IL only) -->
+        <div class="timeline-item mkt on" id="tm2-ong">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">[PLACEHOLDER: commercial expansion year &mdash; ONG; client to provide]</div>
+          <div class="timeline-label">Commercial Service Begins</div>
+          <div class="timeline-text">Ohio Natural Gas expanded its services to include commercial natural gas supply for small and mid-size businesses across Ohio.</div>
+        </div>
+        <div class="timeline-item mkt" id="tm2-gre">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">[PLACEHOLDER: commercial expansion year &mdash; GRE; client to provide]</div>
+          <div class="timeline-label">Commercial Service Begins</div>
+          <div class="timeline-text">Grand Rapids Energy expanded its services to include commercial natural gas supply for businesses across Michigan.</div>
+        </div>
+        <div class="timeline-item mkt" id="tm2-il">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">[PLACEHOLDER: commercial expansion year &mdash; IL; client to provide]</div>
+          <div class="timeline-label">Commercial Service Begins</div>
+          <div class="timeline-text">Illinois Energy expanded its services to include commercial natural gas supply for businesses across Illinois.</div>
+        </div>
+
+        <!-- Milestone 3: SouthStar Acquisition (all markets) -->
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:#7a6000;"></div>
+          <div class="timeline-year">[PLACEHOLDER: Southern Company acquisition &mdash; working date 2016 (PitchBook); confirm via press release or SEC filing]</div>
+          <div class="timeline-label">Joins the SouthStar Family</div>
+          <div class="timeline-text">
+            <span class="mkt-inline on" id="tm3-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="tm3-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline" id="tm3-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline" id="tm3-il">Illinois Energy</span>
+            <span class="mkt-inline" id="tm3-ies">Illinois Energy Solutions</span>
+            became a brand of SouthStar Energy Services, LLC, joining a portfolio of natural gas suppliers serving competitive markets across the Southeast, Midwest, and Mid-Atlantic. SouthStar is a subsidiary of Southern Company (NYSE: SO), one of the largest energy holding companies in the United States.
+          </div>
+        </div>
+
+        <!-- Milestone 4: Greener Life Launch (ONG + GRE only) -->
+        <div class="timeline-item mkt on" id="tm4-ong">
+          <div class="timeline-dot" style="background:#1b5e20;"></div>
+          <div class="timeline-year">[PLACEHOLDER: Greener Life&reg; launch year &mdash; ONG; client to provide]</div>
+          <div class="timeline-label">Greener Life&reg; Plans Introduced</div>
+          <div class="timeline-text">Ohio Natural Gas launched Greener Life&reg; &mdash; a natural gas plan that makes your home&rsquo;s gas usage carbon neutral by purchasing and retiring certified carbon offsets to balance your usage. Both fixed and variable options are available.</div>
+        </div>
+        <div class="timeline-item mkt" id="tm4-gre">
+          <div class="timeline-dot" style="background:#1b5e20;"></div>
+          <div class="timeline-year">[PLACEHOLDER: Greener Life&reg; launch year &mdash; GRE; client to provide]</div>
+          <div class="timeline-label">Greener Life&reg; Plans Introduced in Michigan</div>
+          <div class="timeline-text">Grand Rapids Energy launched Greener Life&reg; &mdash; a natural gas plan that makes your Michigan home&rsquo;s gas usage carbon neutral through certified carbon offset purchases.</div>
+        </div>
+
+        <!-- Milestone 5: 2026 Relaunch (all markets) -->
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:#e8641a;"></div>
+          <div class="timeline-year" style="color:#e8641a;">2026 &#10003;</div>
+          <div class="timeline-label">New Site, Same Commitment</div>
+          <div class="timeline-text">In 2026,
+            <span class="mkt-inline on" id="tm5-brand-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="tm5-brand-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline" id="tm5-brand-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline" id="tm5-brand-il">Illinois Energy</span>
+            <span class="mkt-inline" id="tm5-brand-ies">Illinois Energy Solutions</span>
+            launched a redesigned website with clearer plan information, rates shown upfront before enrollment, and improved online account management &mdash; making it easier to find, enroll in, and manage your natural gas plan.
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+
+      <div class="ann-row" style="margin-top:4px;">
+        <span class="ann ann-y">&#9873; All years except 2026 Relaunch are TBD &mdash; use placeholder formatting until client confirms dates per market</span>
+        <span class="ann ann-g">&#10003; Greener Life milestones: ONG + GRE only. Commercial milestone: ONG, GRE, IL only. 2026 Relaunch: all markets.</span>
+        <span class="ann ann-r">&#9940; Do not publish 2016 SouthStar milestone without primary source confirmation (press release or SEC filing)</span>
+        <span class="ann ann-b">&#9670; Write each milestone so it stands alone. No adjectives on years ("landmark year," "exciting milestone"). Facts only.</span>
+      </div>
+
+      <!-- SouthStar context box -->
+      <div class="southstar-box">
+        <div class="h3" style="margin-bottom:8px;">Part of a Larger Family</div>
+        <div class="body-para">SouthStar Energy Services LLC is a wholly-owned subsidiary of Southern Company (NYSE: SO) &mdash; one of the largest producers of electricity and natural gas in the United States, with over a century of energy experience. SouthStar was founded in [PLACEHOLDER: 1998 &mdash; working date; client to confirm] and serves competitive natural gas markets across the Southeast, Midwest, and Mid-Atlantic.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST BAND -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">6</span>Trust Band</span>
+    <div class="trust-band">
+      <div style="font-size:11px;color:#aac4d9;margin-bottom:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Credentials &amp; Standing</div>
+      <div class="trust-band-grid">
+        <div class="trust-item">
+          <div class="trust-val">&#11088; [X.X]</div>
+          <div class="trust-lbl">[PLACEHOLDER: review rating &middot; count &middot; source &mdash; pending client confirmation. Suppress until source and count confirmed.]</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-val">[XX]+</div>
+          <div class="trust-lbl">Years serving
+            <span class="mkt-inline on" id="ts-state-ong">Ohio</span>
+            <span class="mkt-inline" id="ts-state-pa">Pennsylvania</span>
+            <span class="mkt-inline" id="ts-state-gre">Michigan</span>
+            <span class="mkt-inline" id="ts-state-il">Illinois</span>
+            <span class="mkt-inline" id="ts-state-ies">Illinois</span>
+            households<br>[PLACEHOLDER: suppress until founding year confirmed]
+          </div>
+        </div>
+        <!-- ONG + IL: BBB applicable -->
+        <div class="mkt on" id="ts-bbb-ong">
+          <div class="trust-item">
+            <div class="trust-val" style="font-size:13px;">BBB A+</div>
+            <div class="trust-lbl">A+ BBB Accredited Business<br>[PLACEHOLDER: BBB profile URL &mdash; ONG; client to provide]</div>
+          </div>
+        </div>
+        <div class="mkt" id="ts-bbb-il">
+          <div class="trust-item">
+            <div class="trust-val" style="font-size:13px;">BBB A+</div>
+            <div class="trust-lbl">A+ BBB Accredited Business<br>[PLACEHOLDER: BBB profile URL &mdash; IL; client to provide]</div>
+          </div>
+        </div>
+        <!-- PA + GRE + IES: SouthStar badge instead of BBB -->
+        <div class="mkt" id="ts-sstar-pa">
+          <div class="trust-item">
+            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
+            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
+          </div>
+        </div>
+        <div class="mkt" id="ts-sstar-gre">
+          <div class="trust-item">
+            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
+            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
+          </div>
+        </div>
+        <div class="mkt" id="ts-sstar-ies">
+          <div class="trust-item">
+            <div class="trust-val" style="font-size:11px;">SouthStar<br>Energy</div>
+            <div class="trust-lbl">A SouthStar Energy Services brand &mdash; Southern Company (NYSE: SO)</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-val" style="font-size:12px;">
+            <span class="mkt-inline on" id="ts-reg-ong">PUCO<br>Licensed</span>
+            <span class="mkt-inline" id="ts-reg-pa">PA PUC<br>Licensed</span>
+            <span class="mkt-inline" id="ts-reg-gre">MPSC<br>Licensed</span>
+            <span class="mkt-inline" id="ts-reg-il">ICC<br>Licensed</span>
+            <span class="mkt-inline" id="ts-reg-ies">ICC<br>Licensed</span>
+          </div>
+          <div class="trust-lbl">State-certified natural gas supplier &#8599;</div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-r">&#9940; IES, PA, GRE: do not show BBB tile. Use SouthStar/Southern Company affiliation badge.</span>
+      <span class="ann ann-y">&#9873; All trust band values TBD &mdash; suppress individual badges rather than show placeholders in production</span>
+      <span class="ann ann-b">&#9670; Shared component &mdash; same .trust-band-grid / .trust-item used on Homepage and About Us.</span>
+    </div>
+  </div>
+
+  <!-- ENROLL CTA -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">7</span>Enroll CTA</span>
+    <div class="enroll-band">
+      <div>
+        <h3>
+          <span class="mkt-inline on" id="cta-h-ong">Ready to choose your natural gas supplier?</span>
+          <span class="mkt-inline" id="cta-h-pa">Ready to choose your natural gas supplier?</span>
+          <span class="mkt-inline" id="cta-h-gre">Ready to choose your natural gas supplier?</span>
+          <span class="mkt-inline" id="cta-h-il">Ready to choose your natural gas supplier?</span>
+          <span class="mkt-inline" id="cta-h-ies">Ready to simplify your natural gas bill?</span>
+        </h3>
+        <p>
+          <span class="mkt-inline on" id="cta-p-std">View current fixed and variable plans &mdash; rates shown upfront before you enroll.</span>
+          <span class="mkt-inline" id="cta-p-ies">See how the Fixed Bill plan works and get started online.</span>
+        </p>
+      </div>
+      <button class="enroll-band-btn">View Plans &rarr;</button>
+    </div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-g">&#10003; IES CTA headline variant: "Ready to simplify your natural gas bill?" Routes to Residential Plans (Fixed Bill plan).</span>
+      <span class="ann ann-b">&#9670; This is the only CTA on this page. No enroll language in body. Confirmed.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section">
+    <span class="section-label"><span class="sec-num">&mdash;</span>Footer</span>
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo">
+            <span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+            <span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline" id="ft-il">Illinois Energy</span>
+            <span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+          </div>
+          <div class="footer-parent">A SouthStar Energy Services company<br>A subsidiary of Southern Company (NYSE: SO)</div>
+        </div>
+        <div>
+          <div class="footer-col-head">Plans</div>
+          <div class="footer-col-links">
+            <a>Residential Plans</a>
+            <a class="mkt on" id="ftgl-ong">Greener Life&reg; Plans</a>
+            <a class="mkt" id="ftgl-gre">Greener Life&reg; Plans</a>
+            <a class="mkt on" id="ftbiz-ong">Commercial Plans</a>
+            <a class="mkt" id="ftbiz-gre">Commercial Plans</a>
+            <a class="mkt" id="ftbiz-il">Commercial Plans</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">About</div>
+          <div class="footer-col-links">
+            <a>Company History</a>
+            <a>Why Choose Us</a>
+            <a>Learning Center</a>
+            <a>Contact Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">Support</div>
+          <div class="footer-col-links">
+            <a class="mkt on" id="ft-phone-ong">1.888.466.4427</a>
+            <a class="mkt" id="ft-phone-pa">[PA phone TBD]</a>
+            <a class="mkt" id="ft-phone-gre">1.800.841.1541</a>
+            <a class="mkt" id="ft-phone-il">[IL phone TBD]</a>
+            <a class="mkt" id="ft-phone-ies">[IES phone TBD]</a>
+            <a>Gas Emergency: Call your utility</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-row">
+          <span class="footer-copyright">&copy; 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+          <div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="ann-row" style="padding:0 24px 10px;">
+      <span class="ann ann-g">&#10003; About Us nav link active. Entity attribution line present on all markets.</span>
+      <span class="ann ann-b">&#9670; IL and IES require regulatory footer disclosure in production (not shown in wireframe). See Homepage template for full disclosure copy structure.</span>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    Company History &mdash; CMS Content Template &middot; About Section &middot; All 5 markets (ONG &middot; PA &middot; GRE &middot; IL &middot; IES) &middot; 4037-25 &middot; IfThen Digital &middot; June 2026
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
+<script>
+var curMarket = 'ong';
+function setMarket(m) {
+  curMarket = m;
+  ['ong','pa','gre','il','ies'].forEach(function(k) {
+    var btn = document.getElementById('mkt-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === m);
+  });
+  document.querySelectorAll('.mkt, .mkt-flex').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(el => {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-flex')) el.classList.add('on');
+  });
+  var NAV_MKT = {
+    ong: ['nav-standard','nav-fmb','nav-search-std'],
+    pa:  ['nav-standard','nav-search-std'],
+    gre: ['nav-standard','nav-fmb','nav-search-std'],
+    il:  ['nav-standard','nav-fmb','nav-search-std'],
+    ies: ['nav-ies']
+  };
+  (NAV_MKT[m] || []).forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.add('on'); });
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
+  // IES: show simplified cta variant
+  var ctaStd = document.getElementById('cta-p-std');
+  var ctaIes = document.getElementById('cta-p-ies');
+  if (ctaStd && ctaIes) { ctaStd.classList.toggle('on', m !== 'ies'); ctaIes.classList.toggle('on', m === 'ies'); }
+}
+const ANN_MODES = ['all','open','clean'];
+
+function setAnnMode(mode) {
+  ANN_MODES.forEach(function(k) {
+    document.body.classList.toggle('ann-mode-' + k, k === mode);
+    var btn = document.getElementById('ann-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === mode);
+  });
+}
+
+function setChrome(mode) {
+  document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) {
+    setChrome('show');
+  }
+});
+
+function toggleLegend(e) {
+  var drawer = document.getElementById('legend-drawer');
+  var btn = document.getElementById('legend-toggle');
+  if (!drawer) return;
+  var open = drawer.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', open);
+  btn.textContent = open ? 'Legend ▴' : 'Legend ▾';
+}
+
+setMarket('ong');
+setAnnMode('clean');
+function toggleNavDropdown(btn) {
+  const item = btn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+});
+function toggleMobileNav() {
+  const nav = document.querySelector('.nav-links.on');
+  if (nav) nav.classList.toggle('mobile-open');
+}
+</script>
+</body>
+</html>

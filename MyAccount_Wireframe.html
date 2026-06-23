@@ -473,6 +473,36 @@ body.dash-sub-pending .dash-pending-view { display: block; }
 
 .sc-pending { background: var(--ann-y-bg); color: var(--warn); border: 1px solid var(--ann-y-bd); }
 
+/* ── DASHBOARD SUB-STATE: Variable plan (body.dash-variable) ── */
+/* Default: plan card shows fixed-rate elements; variable hides them */
+.plan-fixed-only { display: block; }
+.plan-variable-only { display: none; }
+body.dash-variable .plan-fixed-only { display: none; }
+body.dash-variable .plan-variable-only { display: block; }
+/* Variable plan card rate label override */
+body.dash-variable .plan-unit .var-rate-label { display: inline; }
+body.dash-variable .plan-unit .fix-rate-label { display: none; }
+.var-rate-label { display: none; }
+.fix-rate-label { display: inline; }
+
+/* ── DASHBOARD SUB-STATE: Renewal window (body.dash-renewing) ── */
+/* Status chip: default = sc-active; dash-renewing = sc-renewing */
+.plan-status-chip-active { display: inline-flex; }
+.plan-status-chip-renewing { display: none; }
+body.dash-renewing .plan-status-chip-active { display: none; }
+body.dash-renewing .plan-status-chip-renewing { display: inline-flex; }
+/* Renewal notice block: hidden by default, shown during renewal window */
+.autorenew-notice-conditional { display: none; }
+body.dash-renewing .autorenew-notice-conditional { display: block; }
+
+/* ── DASHBOARD SUB-STATE: Non-renewing / ending (body.dash-ending) ── */
+.plan-status-chip-ending { display: none; }
+body.dash-ending .plan-status-chip-active { display: none; }
+body.dash-ending .plan-status-chip-ending { display: inline-flex; }
+/* Non-renewing action notice block */
+.plan-ending-notice { display: none; }
+body.dash-ending .plan-ending-notice { display: block; }
+
 .enrollment-meta {
   margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
@@ -1002,6 +1032,13 @@ body.dash-sub-cancel .cancel-flow-container { display: block; }
 .multi-premise-switcher { display: none; }
 body.has-multi-premise .multi-premise-switcher { display: block; }
 
+/* ── RESET PASSWORD: Expired token state (body.reset-expired) ── */
+/* Normal reset form visible by default; expired token block hidden by default */
+.reset-form-normal { display: block; }
+.reset-token-expired { display: none; }
+body.reset-expired .reset-form-normal { display: none; }
+body.reset-expired .reset-token-expired { display: block; }
+
 /* ── PRINT ── */
 @media print {
   .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline, .oq-panel, .state-divider, .banner-suppressed, .presentation-hint {
@@ -1051,7 +1088,9 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
       <button id="st-btn-mover"     onclick="setState('mover'); setMoverStep(1);">Mover Flow</button>
       <button id="st-btn-create"    onclick="setState('create')">Create Account</button>
       <button id="st-btn-forgot"    onclick="setState('forgot')">Forgot Password</button>
-      <button id="st-btn-reset"     onclick="setState('reset')">Reset Password</button>
+      <button id="st-btn-otp"       onclick="setState('otp')">OTP Login</button>
+      <button id="st-btn-reset"     onclick="setState('reset'); document.body.classList.remove('reset-expired');">Reset Password</button>
+      <button id="st-btn-reset-expired" onclick="setState('reset'); document.body.classList.add('reset-expired');">Reset · Expired</button>
       <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
       <button id="st-btn-autorenew" onclick="setState('autorenew')">Auto-Renew Opt-Out</button>
       <button id="st-btn-cancel"    onclick="goCancelStep(2, 'variable')">Cancel Flow</button>
@@ -1067,6 +1106,9 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
       <span class="group-lbl">Dashboard</span>
       <button id="dash-btn-active" class="on" onclick="setDashSub('active')">D · Active</button>
       <button id="dash-btn-pending" onclick="setDashSub('pending')">D · Pending validation</button>
+      <button id="dash-btn-variable" onclick="setDashSub('variable')">D · Variable plan</button>
+      <button id="dash-btn-renewing" onclick="setDashSub('renewing')">D · Renewal window</button>
+      <button id="dash-btn-ending" onclick="setDashSub('ending')">D · Non-renewing</button>
       <button onclick="document.body.classList.toggle('has-multi-premise')">Toggle multi-premise</button>
     </div>
     <div class="group" id="ca-substep-group" style="display:none;">
@@ -1673,12 +1715,68 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
 
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     STATE: OTP / PASSWORDLESS LOGIN (MA-57)
+═════════════════════════════════════════════════════════════════════════════ -->
+<div class="state" id="state-otp">
+  <div class="state-divider"><strong>State C2</strong> — Passwordless Login · OTP / Magic Code</div>
+
+  <div class="layout-narrow">
+
+    <!-- PHASE 1: Enter email to receive code -->
+    <div id="otp-phase-1">
+      <div class="auth-card">
+        <h1>Sign in without a password</h1>
+        <div class="auth-sub">Enter your email address and we'll send you a one-time sign-in code. No password needed.</div>
+
+        <div class="form-row">
+          <label class="form-label" for="otp-email"><span class="req">*</span>Email address <span class="req-lbl">Required</span></label>
+          <input id="otp-email" class="form-input" type="email" placeholder="your@email.com" aria-required="true">
+        </div>
+
+        <button class="btn btn-full" type="button" onclick="document.getElementById('otp-phase-1').style.display='none'; document.getElementById('otp-phase-2').style.display='';">Send me a code →</button>
+
+        <div class="auth-footer-links">
+          <button class="link" type="button" onclick="setState('login')">Don't have access to that email? Sign in another way →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2: Enter 6-digit code -->
+    <div id="otp-phase-2" style="display:none;">
+      <div class="auth-card">
+        <h1>Enter your sign-in code</h1>
+        <div class="auth-sub">We sent a 6-digit code to <strong>your@email.com</strong>. Enter it below to sign in. The code expires in 10 minutes.</div>
+
+        <div class="form-row">
+          <label class="form-label" for="otp-code"><span class="req">*</span>Sign-in code <span class="req-lbl">Required</span></label>
+          <input id="otp-code" class="form-input" type="text" placeholder="_ _ _ _ _ _" maxlength="6" style="font-size:20px; letter-spacing:.3em; text-align:center;" aria-required="true">
+          <div class="form-hint">Check your inbox — including your spam folder. <button class="link" type="button">Resend code</button></div>
+        </div>
+
+        <button class="btn btn-full" type="button">Verify and sign in →</button>
+
+        <div class="auth-footer-links">
+          <button class="link" type="button" onclick="setState('login')">Don't have access to that email? Sign in another way →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ann ann-b"><strong>MA-57 · Passwordless login path.</strong> Customer enters email, receives a one-time code via email, enters code to authenticate. Same OTP vendor (What Counts) as enrollment. Phase 3 addition.</div>
+    <div class="ann ann-g"><strong>MA-64 · OTP fallback routing:</strong> "Don't have access to that email? Sign in another way →" routes to the email+password login screen (Tab 1). Phase 2 (post-sunset of account-number auth) = "Please call us" customer service prompt. Cross-ref MA-57, MA-63.</div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      STATE: RESET PASSWORD
 ═════════════════════════════════════════════════════════════════════════════ -->
 <div class="state" id="state-reset">
   <div class="state-divider"><strong>State D</strong> — Reset Password · From email link</div>
 
   <div class="layout-narrow">
+    <!-- Normal reset form (default; hidden when body.reset-expired) -->
+    <div class="reset-form-normal">
     <div class="auth-card">
       <h1>Set a new password</h1>
       <div class="auth-sub">Choose a new password for <strong>jane@email.com</strong>. After saving, you'll be returned to the login page.</div>
@@ -1695,8 +1793,10 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
 
       <button class="btn btn-full" disabled>Reset password →</button>
     </div>
+    </div><!-- /reset-form-normal -->
 
-    <!-- Expired token state — MA-27: inline new-link request + CS phone fallback -->
+    <!-- Expired token state (body.reset-expired) — MA-27: inline new-link request + CS phone fallback -->
+    <div class="reset-token-expired">
     <div class="auth-card" style="margin-top:18px;">
       <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Error state · Token expired</div>
       <div class="auth-success" style="background:var(--ann-r-bg); border-color:var(--ann-r-bd); color:#5a1d18;">
@@ -1732,8 +1832,9 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
         <span style="font-size:11px;">Customer service can verify your identity and reset your password manually if email delivery is failing or you no longer have access to the address on file.</span>
       </div>
     </div>
+    </div><!-- /reset-token-expired -->
 
-    <div class="ann ann-g"><strong>MA-27 · Expired-token UX:</strong> Inline new-link request instead of redirecting to Forgot Password. Email field is read-only (pulled from the expired token's encoded email) so a forwarded link can't be used to spam unrelated addresses. Single-tap to resend.</div>
+    <div class="ann ann-g"><strong>MA-27 · Expired-token UX:</strong> Inline new-link request instead of redirecting to Forgot Password. Email field is read-only (pulled from the expired token's encoded email) so a forwarded link can't be used to spam unrelated addresses. Single-tap to resend. Use wfctl "Reset · Expired" button to preview this state.</div>
     <div class="ann ann-g"><strong>MA-27 · CS phone fallback:</strong> Customer service phone provided for cases where the email-based path is failing (no inbox access, persistent delivery issues, customer no longer recognizes the address). Per-market phone from MA-25 footer copy.</div>
     <div class="ann ann-g"><strong>MA-19 · Reset state:</strong> Token-based reset. Single-use. Expires per TTL (working: 15 min).</div>
     <div class="ann ann-g"><strong>Password complexity:</strong> 8+ chars matches MA-18 and Enrollment ENR-18 spec. Standardized across all auth touchpoints.</div>
@@ -1784,30 +1885,58 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
         <div class="dash-card">
           <div class="dash-card-head">
             <span class="dash-card-title">Current Plan</span>
-            <!-- Status chip variants: .sc-active (default), .sc-renewing (within window), .sc-ending (non-auto-renew expiring) -->
-            <span class="status-chip sc-renewing">● Renewing in 42 days</span>
+            <!-- Status chip variants: default = Active; body.dash-renewing = Renewing; body.dash-ending = Ending -->
+            <span class="status-chip sc-active plan-status-chip-active">● Active</span>
+            <span class="status-chip sc-renewing plan-status-chip-renewing">● Renewing in 42 days</span>
+            <span class="status-chip sc-ending plan-status-chip-ending">● Contract ending June 30, 2026</span>
           </div>
           <div class="dash-card-body">
-            <div class="plan-name">
+            <!-- Fixed plan name (default) -->
+            <div class="plan-name plan-fixed-only">
               <span class="mkt-inline mkt-ong on">ONG Fixed 12</span>
               <span class="mkt-inline mkt-pa">PA Fixed 12</span>
               <span class="mkt-inline mkt-gre">GRE Fixed 12</span>
               <span class="mkt-inline mkt-il">IL Fixed 12</span>
               <span class="mkt-inline mkt-ies">IES Fixed Bill Plan</span>
             </div>
-            <div class="plan-rate">$0.489</div>
-            <div class="plan-unit">
-              <span class="mkt-inline mkt-ong on">per Mcf (fixed rate)</span>
-              <span class="mkt-inline mkt-pa">per therm (fixed rate)</span>
-              <span class="mkt-inline mkt-gre">per Mcf (fixed rate)</span>
-              <span class="mkt-inline mkt-il">per therm (fixed rate)</span>
-              <span class="mkt-inline mkt-ies">custom monthly amount (fixed bill)</span>
+            <!-- Variable plan name (body.dash-variable) -->
+            <div class="plan-name plan-variable-only">
+              <span class="mkt-inline mkt-ong on">ONG Variable</span>
+              <span class="mkt-inline mkt-pa">PA Variable</span>
+              <span class="mkt-inline mkt-gre">GRE Variable</span>
+              <span class="mkt-inline mkt-il">IL Variable</span>
+              <span class="mkt-inline mkt-ies">IES Variable</span>
+              <span style="display:inline-block; margin-left:6px; font-size:10px; font-weight:700; background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:1px 6px; vertical-align:middle;">Variable</span>
+            </div>
+
+            <!-- Fixed rate (default) -->
+            <div class="plan-fixed-only">
+              <div class="plan-rate">$0.489</div>
+              <div class="plan-unit">
+                <span class="mkt-inline mkt-ong on">per Mcf (fixed rate)</span>
+                <span class="mkt-inline mkt-pa">per therm (fixed rate)</span>
+                <span class="mkt-inline mkt-gre">per Mcf (fixed rate)</span>
+                <span class="mkt-inline mkt-il">per therm (fixed rate)</span>
+                <span class="mkt-inline mkt-ies">custom monthly amount (fixed bill)</span>
+              </div>
+            </div>
+            <!-- Variable rate (body.dash-variable) -->
+            <div class="plan-variable-only">
+              <div class="plan-rate" style="color:var(--warn);">Market rate</div>
+              <div class="plan-unit">
+                <span class="mkt-inline mkt-ong on">per Mcf · varies monthly</span>
+                <span class="mkt-inline mkt-pa">per therm · varies monthly</span>
+                <span class="mkt-inline mkt-gre">per Mcf · varies monthly</span>
+                <span class="mkt-inline mkt-il">per therm · varies monthly</span>
+                <span class="mkt-inline mkt-ies">varies monthly</span>
+              </div>
             </div>
 
             <!-- MA-90: plan-renewal-line removed (client feedback: not useful 2026-06-17) -->
             <!-- MA-90: autorenew-notice moved below plan-action-row -->
 
-            <div class="plan-meta-row">
+            <!-- Fixed plan meta (default) -->
+            <div class="plan-meta-row plan-fixed-only">
               <div class="plan-meta-item">
                 <span class="plan-meta-label">Contract Ends</span>
                 <span class="plan-meta-val">June 30, 2026</span>
@@ -1821,16 +1950,37 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
                 <span class="plan-meta-val">$12.50/month remaining</span>
               </div>
             </div>
+            <!-- Variable plan meta (body.dash-variable) -->
+            <div class="plan-meta-row plan-variable-only">
+              <div class="plan-meta-item">
+                <span class="plan-meta-label">Plan type</span>
+                <span class="plan-meta-val">Month-to-month</span>
+              </div>
+              <div class="plan-meta-item">
+                <span class="plan-meta-label">ETC</span>
+                <span class="plan-meta-val">None</span>
+              </div>
+            </div>
+
             <div class="plan-action-row">
               <a class="btn-out btn-sm" href="#">Switch Plan</a>
               <button class="btn-out btn-sm" onclick="openCancelModal()" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</button>
             </div>
 
             <!-- Auto-renewal opt-out notice (MA-82 · MA-90: moved below CTAs 2026-06-17) -->
-            <!-- MA-96: ann-y added 2026-06-17 — this block is conditional; only render when customer is within renewal window -->
-            <div class="ann ann-y" style="margin-top:14px;"><strong>MA-96 · Conditional display:</strong> This notice only appears when the customer is within their renewal window (i.e., PRIME signals an upcoming ACR). It should not render as a steady state on the dashboard. Hide entirely when no renewal event is active.</div>
-            <div class="autorenew-notice" style="margin-top:8px;">
+            <!-- MA-96: conditional — only render when body.dash-renewing is active -->
+            <div class="ann ann-y autorenew-notice-conditional" style="margin-top:14px;"><strong>MA-96 · Conditional display:</strong> This notice only appears when the customer is within their renewal window (i.e., PRIME signals an upcoming ACR). It should not render as a steady state on the dashboard. Hide entirely when no renewal event is active. Controlled by <code>body.dash-renewing</code>.</div>
+            <div class="autorenew-notice autorenew-notice-conditional" style="margin-top:8px;">
               Your contract is set to auto-renew on or around <strong>June 30, 2026</strong>. If you do not want to auto-renew, <a href="#" onclick="setState('autorenew'); return false;">click here for available options</a>.
+            </div>
+
+            <!-- Non-renewing ending notice (MA-29 · body.dash-ending) -->
+            <div class="plan-ending-notice" style="margin-top:8px;">
+              <div class="plan-renewal-line">
+                <strong>⚑ Action required:</strong> Your contract expires on <strong>June 30, 2026</strong> and is <strong>not</strong> set to auto-renew. To continue service without interruption, select a new plan before your expiration date.
+                <div><a class="link" href="#">View available plans →</a></div>
+              </div>
+              <div class="ann ann-y"><strong>MA-29 · Open #3:</strong> Non-auto-renew renewal flow — for plans that do not auto-renew, full renewal flow must be defined with client. This chip and notice block represent the ending state; specific renewal action routing TBD.</div>
             </div>
           </div>
         </div>
@@ -2404,6 +2554,7 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
 <div class="state" id="state-raf">
   <!-- MA-94 (2026-06-17): Removed mkt mkt-ong mkt-pa mkt-gre classes from state wrapper — they caused state-raf to bleed through on State H (autorenew) and other states when market was ONG/PA/GRE because .mkt.on { display:block } fired on the state div regardless of which state was active. Market conditionality now handled by inner wrapper below. -->
   <div class="state-divider"><strong>State F</strong> — Authenticated · Refer a Friend Dashboard <span style="opacity:0.7; font-weight:400;">· /my-account/refer/</span></div>
+    <div class="ann ann-y"><strong>Market scope — RAF:</strong> RAF annotations below apply to ONG, PA, and GRE markets only. This program is not available in IL or IES — content is suppressed for those markets via market class.</div>
     <div class="ann ann-b"><strong>MA-79:</strong> RAF Dashboard suppressed for IL (IE) and IES — program not available. Renders for ONG, PA, GRE only. Cross-ref MA-76 (Dashboard summary card suppression).</div>
     <div class="ann ann-g"><strong>MA-94 (2026-06-17) · Bug fix:</strong> Market classes moved off state wrapper onto inner content wrapper to prevent display:block bleed-through across states.</div>
 
@@ -2624,7 +2775,7 @@ body.has-multi-premise .multi-premise-switcher { display: block; }
         <a class="mkt mkt-ong" href="#">Commercial Plans</a>
         <a class="mkt mkt-gre" href="#">Commercial Plans</a>
         <a class="mkt mkt-il" href="#">Commercial Plans</a>
-        <a class="mkt mkt-ong" href="#">Greener Life™ Plans</a>
+        <a class="mkt mkt-ong" href="#">Greener Life® Plans</a>
       </div>
     </div>
 
@@ -2741,7 +2892,7 @@ function setMarket(m) {
 /* ────────────────────────────────────
    Auth state switcher
 */
-var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'dashboard', 'autorenew', 'cancel', 'raf', 'mover'];
+var STATES = ['login', 'premise', 'create', 'forgot', 'reset', 'otp', 'dashboard', 'autorenew', 'cancel', 'raf', 'mover'];
 
 var _settingState = false; // MA-100: recursion guard
 function setState(s) {
@@ -2750,6 +2901,10 @@ function setState(s) {
     _settingState = true;
     exitCancelFlow();
     _settingState = false;
+  }
+  // Clear reset-expired when navigating away from reset state
+  if (s !== 'reset') {
+    document.body.classList.remove('reset-expired');
   }
   document.querySelectorAll('.state').forEach(function(el) {
     el.classList.remove('on');
@@ -2803,10 +2958,19 @@ function setLoginTab(tab) {
 */
 function setDashSub(sub) {
   document.body.classList.toggle('dash-sub-pending', sub === 'pending');
-  var aBtn = document.getElementById('dash-btn-active');
-  var pBtn = document.getElementById('dash-btn-pending');
-  if (aBtn) aBtn.classList.toggle('on', sub === 'active');
-  if (pBtn) pBtn.classList.toggle('on', sub === 'pending');
+  document.body.classList.toggle('dash-variable', sub === 'variable');
+  document.body.classList.toggle('dash-renewing', sub === 'renewing');
+  document.body.classList.toggle('dash-ending', sub === 'ending');
+  var btns = {
+    'active':   document.getElementById('dash-btn-active'),
+    'pending':  document.getElementById('dash-btn-pending'),
+    'variable': document.getElementById('dash-btn-variable'),
+    'renewing': document.getElementById('dash-btn-renewing'),
+    'ending':   document.getElementById('dash-btn-ending')
+  };
+  Object.keys(btns).forEach(function(k) {
+    if (btns[k]) btns[k].classList.toggle('on', k === sub);
+  });
 }
 
 /* ────────────────────────────────────

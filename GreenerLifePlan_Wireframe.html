@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greener Life® Plan — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+/* ── WF CONTROL BAR (sticky, dark) ── */
+.wfctl {
+  position: sticky; top: 0; z-index: 50;
+  background: #2d3640;
+  font: 12px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  border-bottom: 2px solid #1a1f24;
+}
+.wfctl-bar {
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.wfctl-divider { width: 1px; height: 18px; background: #3d4a55; flex-shrink: 0; }
+.wfctl-spacer { flex: 1; min-width: 8px; }
+.wfctl .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl .group-lbl {
+  color: #5a6e7f; font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
+}
+.wfctl button {
+  background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.wfctl button.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl button:hover:not(.on) { background: #475a6b; color: #e6edf3; }
+.btn-ann {
+  background: transparent; border: 1px solid transparent; color: #5a6e7f;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
+.btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-legend-btn {
+  background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
+  padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
+}
+.wfctl-legend-btn:hover { border-color: #5a6e7f; color: #ccd6e0; }
+.wfctl-legend-btn.open { border-color: #4a90c2; color: #4a90c2; }
+.btn-present {
+  background: #e8641a; border: none; color: #fff;
+  padding: 4px 12px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-present:hover { background: #c8521a; }
+.legend-drawer {
+  display: none; flex-direction: column; gap: 8px;
+  background: #1e2830; border-top: 1px solid #3d4a55;
+  padding: 10px 16px 12px;
+}
+.legend-drawer.open { display: flex; }
+.scenario-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.scenario-legend .legend-item { display: inline-flex; gap: 5px; align-items: center; font-size: 10px; color: #8a9aaa; }
+.scenario-legend .legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; border: 1px solid; flex-shrink: 0; }
+
+/* ── ANNOTATION VISIBILITY MODES ── */
+body.ann-mode-open .ann-g,
+body.ann-mode-open .ann-b,
+body.ann-mode-open .ann-inline.g,
+body.ann-mode-open .ann-inline.b,
+body.ann-mode-open .dev-note { display: none !important; }
+body.ann-mode-open .oq-panel li.resolved { display: none !important; }
+
+body.ann-mode-clean .ann,
+body.ann-mode-clean .ann-inline,
+body.ann-mode-clean .dev-note,
+body.ann-mode-clean .oq-panel,
+body.ann-mode-clean .banner-suppressed { display: none !important; }
+
+body.chrome-hidden .wfctl,
+body.chrome-hidden .oq-panel,
+body.chrome-hidden .banner-suppressed,
+body.chrome-hidden .ann,
+body.chrome-hidden .ann-inline,
+body.chrome-hidden .dev-note { display: none !important; }
+body.chrome-hidden .presentation-hint { display: block !important; }
+.presentation-hint {
+  display: none; position: fixed; bottom: 18px; right: 18px;
+  background: rgba(17,22,28,0.88); color: #fff;
+  font-size: 11px; font-weight: 600; padding: 8px 14px; border-radius: 4px;
+  z-index: 1000; pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: .02em;
+}
+.presentation-hint kbd {
+  background: rgba(255,255,255,0.18); padding: 1px 6px;
+  border-radius: 3px; font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px; margin: 0 2px;
+}
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-r { background: #ef9a9a; border: 1px solid #e53935; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #1b5e20; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.oq-list li.closed { color: #999; text-decoration: line-through; }
+.oq-list li.closed::before { color: #ccc; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 190px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-dd-item.current-page { font-weight: 800; color: #1b5e20; background: #f1f9f1; }
+.nav-hub-link { position: relative; }
+.nav-hub-link::after { content: attr(data-hub-tip); display: none; position: absolute; top: calc(100% + 2px); left: 0; background: #1e3a5f; color: #fff; font-size: 10px; padding: 5px 9px; white-space: nowrap; border-radius: 3px; z-index: 500; pointer-events: none; }
+.nav-hub-link:hover::after { display: block; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+  .nav-hub-link::after { display: none !important; }
+}
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+
+/* GREENER LIFE SPECIFIC */
+.gl-hero { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; padding: 32px 36px; }
+.gl-hero-title { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 10px; }
+.gl-hero-sub { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.6; max-width: 600px; margin-bottom: 16px; }
+.steps-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+.step-card { text-align: center; padding: 16px 12px; border: 1.5px solid #e8e8e4; border-radius: 5px; }
+.step-num-green { width: 32px; height: 32px; background: #2e7d32; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin-bottom: 10px; }
+.step-label { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.step-body { font-size: 11px; color: #555; line-height: 1.6; }
+.plan-type-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 14px; }
+.plan-type-card-green { border: 1.5px solid #81c784; border-radius: 6px; padding: 18px 16px; background: #f1f9f1; }
+.plan-type-label-green { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #1b5e20; background: #c8e6c9; border-radius: 3px; padding: 2px 7px; display: inline-block; margin-bottom: 7px; }
+.plan-type-tagline { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; }
+.plan-type-body { font-size: 11px; color: #555; line-height: 1.6; }
+.faq-item { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 16px 18px; margin-bottom: 8px; }
+.faq-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; line-height: 1.3; }
+.faq-a { font-size: 12px; color: #555; line-height: 1.65; }
+.cert-block { background: #f1f9f1; border: 1.5px solid #81c784; border-radius: 5px; padding: 18px 20px; margin-bottom: 12px; }
+.cert-title { font-size: 13px; font-weight: 800; color: #1b5e20; margin-bottom: 8px; }
+.cert-criteria { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+.cert-crit-item { background: #fff; border: 1px solid #b2dfb2; border-radius: 4px; padding: 12px 10px; text-align: center; }
+.cert-crit-label { font-size: 11px; font-weight: 800; color: #1b5e20; margin-bottom: 4px; }
+.cert-crit-body { font-size: 10px; color: #555; line-height: 1.5; }
+.enroll-band-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.enroll-band-green h3 { font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+.enroll-band-green p { font-size: 13px; color: rgba(255,255,255,.8); }
+.enroll-band-btn-white { background: #fff; color: #1b5e20; border: none; padding: 12px 24px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+</style>
+</head>
+<body class="ann-mode-clean">
+
+<div class="wfctl">
+  <div class="wfctl-bar">
+    <div class="group">
+      <span class="group-lbl">Market</span>
+      <button id="mkt-btn-ong" class="on" onclick="setMarket('ong')">ONG</button>
+      <button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+    </div>
+    <div class="wfctl-spacer"></div>
+    <button id="ann-btn-all"   class="btn-ann" onclick="setAnnMode('all')">All</button>
+    <button id="ann-btn-open"  class="btn-ann" onclick="setAnnMode('open')">Open Qs</button>
+    <button id="ann-btn-clean" class="btn-ann on" onclick="setAnnMode('clean')">Clean</button>
+    <div class="wfctl-divider"></div>
+    <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
+    <div class="wfctl-divider"></div>
+    <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+  </div>
+  <div class="legend-drawer" id="legend-drawer">
+    <div class="scenario-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f5e9; border-color:#4caf50;"></span> Confirmed</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fffde7; border-color:#f5c842;"></span> Open / pending</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fdecea; border-color:#e53935;"></span> Blocker / warning</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f0fe; border-color:#4a7adf;"></span> Shared component / dev note</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CANVAS
+══════════════════════════════════════════════ -->
+<div class="canvas">
+
+  <!-- OQ PANEL -->
+  <div class="oq-panel">
+    <h4>Open Questions — Greener Life® Plan Page</h4>
+    <ul class="oq-list">
+      <li><strong>GL-01:</strong> Certification standard — GNG uses Green-e® Climate. Confirm ONG and GRE use same before publishing Section 5 with named standard.</li>
+      <li><strong>GL-02:</strong> Specific offset project types/geographic focus — blocks Section 5 ¶3.</li>
+      <li><strong>GL-03:</strong> ONG utility names for FAQ Q1 — blocks FAQ Q1 ONG answer.</li>
+      <li><strong>GL-04:</strong> GRE utility names for FAQ Q1 — blocks FAQ Q1 GRE answer.</li>
+      <li><strong>GL-05:</strong> ETC terms and offset retirement timing — confirm against plan agreement before publishing FAQ Q4.</li>
+      <li><strong>GL-06:</strong> GRE Michigan/MPSC regulatory framing for carbon offset claims.</li>
+      <li class="closed"><strong>GL-07 (CLOSED):</strong> 990M+ lbs figure is GNG-specific — DO NOT USE for ONG or GRE.</li>
+      <li><strong>GL-20:</strong> Certified Low Emissions gas enhancement — does SouthStar plan to roll out for ONG/GRE?</li>
+    </ul>
+  </div>
+
+  <!-- PENCIL BANNER -->
+  <div class="section">
+    <div class="p-sm">
+      <div class="ann ann-b">&#9432; Global promotional pencil banner — appears on this page. If no active promotion, suppress. CMS-managed.</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: NAV ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">1</div><br>Nav Header</div>
+
+    <!-- nav-utility -->
+    <div class="nav-utility">
+      <a href="#">Contact Us</a>
+      <span class="nav-utility-phone">
+        <span class="mkt-inline" id="nav-phone-ong">1.888.466.4427</span>
+        <span class="mkt-inline" id="nav-phone-gre">1.800.841.1541</span>
+      </span>
+    </div>
+
+    <!-- nav-header -->
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">&#9650;</div>
+        <span class="mkt-inline" id="nav-logo-ong">Ohio Natural Gas</span>
+        <span class="mkt-inline" id="nav-logo-gre">Grand Rapids Energy</span>
+      </div>
+
+      <nav class="nav-links" id="main-nav-links">
+        <!-- For My Home -->
+        <div class="nav-item">
+          <a class="nav-link active" href="#">For My Home</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9660;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="#">Residential Plans</a>
+            <a class="nav-dd-item current-page" href="#">Greener Life® Plan</a>
+            <a class="nav-dd-item" href="#">Refer a Friend</a>
+          </div>
+        </div>
+        <!-- For My Business (ONG only) -->
+        <div class="nav-item mkt" id="nav-fmb-gl-ong">
+          <a class="nav-link" href="#">For My Business</a>
+        </div>
+        <!-- Learning Center -->
+        <div class="nav-item">
+          <a class="nav-link" href="#">Learning Center</a>
+        </div>
+        <!-- About Us -->
+        <div class="nav-item">
+          <a class="nav-link" href="#">About Us</a>
+        </div>
+      </nav>
+
+      <div class="nav-right">
+        <a href="#" style="font-size:12px; color:#444; font-weight:600; text-decoration:none;">&#128100; My Account</a>
+        <a href="#" style="font-size:12px; color:#444; font-weight:600; text-decoration:none; margin-left:6px;">&#128269; Search</a>
+        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">&#9776;</button>
+      </div>
+    </div>
+
+    <div class="nav-mobile-note">Mobile: hamburger expands stacked nav links · For My Home dropdown collapsible inline · My Account + Search icons remain in nav-right at all breakpoints</div>
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-g">&#10003; Nav: For My Home active · Greener Life® Plan sub-item indicated as current page</span>
+        <span class="ann ann-g">&#10003; Phone numbers confirmed: ONG 1.888.466.4427 · GRE 1.800.841.1541</span>
+      </div>
+    </div>
+  </div><!-- /section 1 nav -->
+
+  <!-- ── SECTION 2: BREADCRUMB ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">2</div><br>Breadcrumb</div>
+    <div class="breadcrumb p-sm">
+      <a href="#">Home</a> › <a href="#">For My Home</a> › Greener Life® Plans
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: HERO ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">3</div><br>Hero</div>
+
+    <div class="gl-hero">
+      <div class="gl-hero-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
+      <div class="gl-hero-sub">
+        <span class="mkt-inline" id="hero-sub-ong">Ohio Natural Gas calculates the greenhouse gas emissions from your natural gas usage and retires certified carbon offsets to balance the impact — so your gas usage is carbon neutral.</span>
+        <span class="mkt-inline" id="hero-sub-gre">Grand Rapids Energy calculates the greenhouse gas emissions from your natural gas usage and retires certified carbon offsets to balance the impact — so your gas usage is carbon neutral.</span>
+      </div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <button class="wf-btn">View Greener Life Plans &rarr;</button>
+        <a href="#" style="color:rgba(255,255,255,.85); font-size:13px; font-weight:600; text-decoration:none;">How It Works &darr;</a>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="wf-box">&#128247; Hero imagery &mdash; nature/landscape. Avoid wind turbines, solar panels, renewable energy imagery. No &lsquo;green&rsquo; stock clich&eacute;s. Client to supply.</div>
+      </div>
+    </div>
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-g">&#10003; H1 approved across both markets — names outcome + product</span>
+        <span class="ann ann-r">&#9888; Do NOT include rate claim — Greener Life carries a premium</span>
+        <span class="ann ann-r">&#9888; Do NOT use 990M+ lbs carbon offset figure — GNG-specific (GL-07 closed)</span>
+      </div>
+    </div>
+  </div><!-- /section 3 hero -->
+
+  <!-- ── SECTION 4: WHAT IS GREENER LIFE ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">4</div><br>What Is<br>Greener Life</div>
+    <div class="p">
+      <div class="h2">What Is Greener Life&reg;?</div>
+
+      <p class="body-para">Greener Life&reg; is a natural gas plan. When you enroll, <span class="mkt-inline" id="what-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="what-brand-gre">Grand Rapids Energy</span> calculates the greenhouse gas emissions produced when your home burns natural gas &mdash; then purchases and retires certified carbon offsets equal to that amount. The result: your natural gas usage is carbon neutral.</p>
+
+      <p class="body-para">&ldquo;Carbon neutral&rdquo; on a Greener Life&reg; plan means that the greenhouse gas emissions from the combustion of your natural gas &mdash; the carbon dioxide released when gas burns in your furnace, water heater, or range &mdash; are balanced by certified carbon offsets retired on your behalf. This covers combustion emissions at the point of use.</p>
+
+      <p class="body-para">The greenhouse gas emissions offset by Greener Life&reg; are those associated with the combustion of natural gas at the point of consumption. They do not include lifecycle emissions that occur during extraction, production, or delivery of the gas to your home. This is a common boundary in combustion offset programs. We name it here so you can make an informed choice.</p>
+
+      <p class="body-para">[PLACEHOLDER: certification standard &mdash; working assumption Green-e&reg; Climate (same as GNG); client must confirm ONG/GRE use same standard before publishing with named standard (GL-01)]. Certified offsets meet independently verified standards for additionality, permanence, and measurability.</p>
+
+      <p class="body-para">&ldquo;Retiring&rdquo; a carbon offset means permanently removing it from the market &mdash; it is recorded in an official, independent registry as used on your behalf and cannot be sold or claimed again. This prevents double-counting and ensures the offset credit applies to your usage only.</p>
+
+      <div class="ann-row">
+        <span class="ann ann-r">&#9888; &ldquo;Carbon neutral&rdquo; MUST appear with mechanism explanation in same section &mdash; never standalone (compliance)</span>
+        <span class="ann ann-r">&#9888; Para 3 (scope limitation) is REQUIRED &mdash; omitting creates misleading impression; compliance risk</span>
+        <span class="ann ann-y">&#9888; Para 4 BLOCKED GL-01 &mdash; do not publish named certification standard until client confirms ONG/GRE use Green-e&reg; Climate</span>
+      </div>
+    </div>
+  </div><!-- /section 4 what is -->
+
+  <!-- ── SECTION 5: HOW IT WORKS ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">5</div><br>How It Works</div>
+    <div class="p">
+      <div class="h2">How Greener Life&reg; Works</div>
+
+      <div class="steps-grid-4">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-num-green">1</div>
+          <div class="step-label">Choose a Greener Life&reg; Plan</div>
+          <div class="step-body">Select a fixed-rate or variable-rate Greener Life&reg; plan. Your utility continues delivering your gas as before.</div>
+        </div>
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-num-green">2</div>
+          <div class="step-label">We Calculate Your Emissions</div>
+          <div class="step-body">
+            <span class="mkt-inline" id="step2-ong">[Ohio Natural Gas] calculates the greenhouse gas emissions from your annual natural gas usage based on your consumption in therms.</span>
+            <span class="mkt-inline" id="step2-gre">[Grand Rapids Energy] calculates the greenhouse gas emissions from your annual natural gas usage based on your consumption in Mcf.</span>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-num-green">3</div>
+          <div class="step-label">We Retire Certified Offsets</div>
+          <div class="step-body">We purchase and permanently retire certified carbon offsets equal to the emissions from your natural gas use &mdash; recorded in an official registry on your behalf.</div>
+        </div>
+        <!-- Step 4 -->
+        <div class="step-card">
+          <div class="step-num-green">4</div>
+          <div class="step-label">Your Natural Gas Use Is Carbon Neutral</div>
+          <div class="step-body">The combustion emissions from your home&rsquo;s natural gas usage are balanced. Your gas and your utility service remain unchanged.</div>
+        </div>
+      </div>
+
+      <div class="ann-row">
+        <span class="ann ann-g">&#10003; Step 2: billing unit is market-specific &mdash; therms for ONG, Mcf for GRE</span>
+        <span class="ann ann-r">&#9888; Step 4: do NOT say &lsquo;your gas is clean&rsquo; &mdash; only the offset accounting changes, not the gas itself</span>
+      </div>
+    </div>
+  </div><!-- /section 5 how it works -->
+
+  <!-- ── SECTION 6: PLAN OPTIONS ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">6</div><br>Plan Options</div>
+    <div class="p">
+      <div class="h2">Greener Life&reg; Plan Options</div>
+      <p class="body-para">Available in fixed-rate and variable-rate options.</p>
+
+      <div class="plan-type-grid-2">
+        <!-- Fixed Rate -->
+        <div class="plan-type-card-green">
+          <div class="plan-type-label-green">Fixed Rate</div>
+          <div class="plan-type-tagline">Lock in your rate for the term of your plan.</div>
+          <div class="plan-type-body">Your commodity rate stays the same for the duration of your agreement &mdash; predictable billing, carbon neutral. An early termination charge (ETC) may apply if you cancel before the term ends.</div>
+        </div>
+        <!-- Variable Rate -->
+        <div class="plan-type-card-green">
+          <div class="plan-type-label-green">Variable Rate</div>
+          <div class="plan-type-tagline">Flexibility without a long-term commitment.</div>
+          <div class="plan-type-body">Your rate adjusts each month with market conditions. No long-term commitment and no early termination charge &mdash; you can cancel at any time.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <button class="wf-btn">View Greener Life&reg; Plans &rarr;</button>
+        <button class="wf-btn-out">Compare All Plans &rarr;</button>
+      </div>
+
+      <div class="ann-row">
+        <span class="ann ann-b">&#9432; Shared Plan Type Card component &mdash; same structure as For My Home Section 2 and For My Business Section 2</span>
+        <span class="ann ann-r">&#9888; Use &lsquo;early termination charge (ETC)&rsquo; &mdash; never &lsquo;ETF&rsquo;</span>
+        <span class="ann ann-y">&#9888; Do not imply Greener Life&reg; plans cost the same as standard plans &mdash; the premium is real</span>
+      </div>
+    </div>
+  </div><!-- /section 6 plan options -->
+
+  <!-- ── SECTION 7: OFFSET CERTIFICATION ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">7</div><br>Offset<br>Certification</div>
+    <div class="p">
+      <div class="h2">What Makes an Offset &ldquo;Certified&rdquo;?</div>
+
+      <div class="cert-block">
+        <div class="cert-title">Certification Standard</div>
+        <p class="body-para">[PLACEHOLDER: GNG uses Green-e&reg; Climate (Center for Resource Solutions) &mdash; client must confirm ONG and GRE use same standard before publishing with named standard (GL-01). If unconfirmed, use &ldquo;independently certified offsets&rdquo; as holding phrase &mdash; do not name a standard.]</p>
+
+        <div class="cert-criteria">
+          <div class="cert-crit-item">
+            <div class="cert-crit-label">Additionality</div>
+            <div class="cert-crit-body">The emissions reduction would not have happened without the offset funding &mdash; the project would not exist otherwise.</div>
+          </div>
+          <div class="cert-crit-item">
+            <div class="cert-crit-label">Permanence</div>
+            <div class="cert-crit-body">The emissions reduction is lasting &mdash; a forest planted as an offset, for example, must remain a forest, not be cleared in five years.</div>
+          </div>
+          <div class="cert-crit-item">
+            <div class="cert-crit-label">Measurability</div>
+            <div class="cert-crit-body">The amount of carbon avoided or removed is calculated to a verified, consistent standard &mdash; not estimated or assumed.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box">&#128683; [PLACEHOLDER: specific project types and geographic focus &mdash; pending client and legal review (GL-02). Do not publish this paragraph until confirmed.]</div>
+
+      <div class="ann-row">
+        <span class="ann ann-r">&#9888; SECTION BLOCKED (GL-01, GL-02) &mdash; Do not publish with placeholder text. All paragraphs require client/legal confirmation.</span>
+        <span class="ann ann-y">&#9888; GL-01: Confirm ONG/GRE use Green-e&reg; Climate. GL-02: Project types/geographic focus needed.</span>
+      </div>
+    </div>
+  </div><!-- /section 7 certification -->
+
+  <!-- ── SECTION 8: FAQ ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">8</div><br>FAQ</div>
+    <div class="p">
+      <div class="h2">Common Questions About Greener Life&reg;</div>
+
+      <!-- FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-q">Does switching to Greener Life&reg; change my utility service?</div>
+        <div class="faq-a">
+          <span class="mkt-inline" id="faq1-ong">No. Your utility &mdash; [PLACEHOLDER: ONG utility names &mdash; GL-03] &mdash; still delivers your natural gas and handles delivery charges, billing disputes, and emergencies. Greener Life&reg; changes your commodity rate supplier. The gas in your pipes is the same gas.</span>
+          <span class="mkt-inline" id="faq1-gre">No. Your utility &mdash; [PLACEHOLDER: GRE utility names &mdash; GL-04] &mdash; still delivers your natural gas and handles delivery charges, billing disputes, and emergencies. Greener Life&reg; changes your commodity rate supplier. The gas in your pipes is the same gas.</span>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-q">Is my natural gas actually different on a Greener Life&reg; plan?</div>
+        <div class="faq-a">No. Natural gas is a commodity &mdash; the gas that arrives at your home is not individually tracked to your supplier. What changes is the accounting: <span class="mkt-inline" id="faq2-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="faq2-brand-gre">Grand Rapids Energy</span> retires certified carbon offsets equal to the emissions your household produces when burning that gas. The offset is what makes your usage carbon neutral, not the gas itself.</div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-q">What emissions does Greener Life&reg; cover?</div>
+        <div class="faq-a">Greener Life&reg; covers the greenhouse gas emissions produced when natural gas burns in your home &mdash; your furnace, water heater, stove, and any other gas appliance. It does not cover lifecycle emissions from extracting, processing, or transporting gas to your home. This is a common boundary in combustion offset programs.</div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-q">What if I move or cancel my plan?</div>
+        <div class="faq-a">If you move or cancel, your plan ends on the date of cancellation. Fixed-rate plans may carry an early termination charge (ETC) &mdash; check your enrollment agreement for terms. [PLACEHOLDER: offset retirement timing &mdash; confirm against actual Greener Life&reg; plan agreement (GL-05)]</div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="faq-item">
+        <div class="faq-q">How do I know the offsets are real and not just a claim?</div>
+        <div class="faq-a">Certified offsets are recorded in an official, independent registry &mdash; each offset has a unique ID and is marked as retired when used on your behalf. This prevents double-counting: an offset retired for your Greener Life&reg; plan cannot be sold or claimed by anyone else. <span class="mkt-inline" id="faq5-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="faq5-brand-gre">Grand Rapids Energy</span> uses offsets certified by [PLACEHOLDER: certification standard &mdash; pending GL-01].</div>
+      </div>
+
+      <div class="ann-row">
+        <span class="ann ann-y">&#9888; FAQ Q1: utility names are placeholders &mdash; ONG (GL-03) &middot; GRE (GL-04). Do not publish with placeholder utility names.</span>
+        <span class="ann ann-y">&#9888; FAQ Q4: ETC terms + offset retirement timing must match actual plan agreement (GL-05)</span>
+        <span class="ann ann-b">&#9432; Dev: FAQPage schema recommended for this section</span>
+      </div>
+    </div>
+  </div><!-- /section 8 faq -->
+
+  <!-- ── SECTION 9: ENROLL CTA ── -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">9</div><br>Enroll CTA</div>
+
+    <div class="enroll-band-green">
+      <div>
+        <h3>Ready to Make Your Natural Gas Carbon Neutral?</h3>
+        <p>View available Greener Life&reg; plans for your home. Choose fixed-rate predictability or variable-rate flexibility &mdash; both options retire certified carbon offsets equal to your usage.</p>
+      </div>
+      <button class="enroll-band-btn-white">View Greener Life Plans &rarr;</button>
+    </div>
+
+    <div style="padding:10px 24px; background:#fff;">
+      <a href="#" style="font-size:12px; color:#555; text-decoration:none; font-weight:600;">Have questions? Contact Us &rarr;</a>
+    </div>
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-g">&#10003; CTA routes to Plans page filtered to Greener Life</span>
+        <span class="ann ann-y">&#9888; Do not add urgency language unless a specific Greener Life&reg; promotion is active</span>
+      </div>
+    </div>
+  </div><!-- /section 9 enroll cta -->
+
+  <!-- ── FOOTER ── -->
+  <div class="section">
+    <div class="section-label">&mdash; Footer</div>
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <!-- Brand col -->
+        <div>
+          <div class="footer-logo">
+            <span class="mkt-inline" id="footer-logo-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="footer-logo-gre">Grand Rapids Energy</span>
+          </div>
+          <div class="footer-parent">A SouthStar Energy Services company<br>A subsidiary of Southern Company (NYSE: SO)</div>
+        </div>
+        <!-- Plans col -->
+        <div>
+          <div class="footer-col-head">Plans</div>
+          <div class="footer-col-links">
+            <a href="#">Residential Plans</a>
+            <a href="#">Greener Life&reg; Plans</a>
+            <div class="mkt" id="footer-commercial-ong"><a href="#">Commercial Plans</a></div>
+          </div>
+        </div>
+        <!-- Learn col -->
+        <div>
+          <div class="footer-col-head">Learn</div>
+          <div class="footer-col-links">
+            <a href="#">Learning Center</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+        <!-- Support col -->
+        <div>
+          <div class="footer-col-head">Support</div>
+          <div class="footer-col-links">
+            <a href="#">Customer Service: <span class="mkt-inline" id="footer-phone-ong">1.888.466.4427</span><span class="mkt-inline" id="footer-phone-gre">1.800.841.1541</span></a>
+            <a href="#" style="color:#666;">[Hours: placeholder]</a>
+            <a href="#" style="color:#ef9a9a; font-size:10px;">&#9888; Gas Emergency? Call your utility &mdash; not us. [LDC name]: [PLACEHOLDER: verify number before publishing (GL-12)]</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-row">
+          <div class="footer-copyright">&copy; 2025 SouthStar Energy Services. All rights reserved.</div>
+          <div class="footer-legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-y">&#9888; LDC emergency phone numbers must be verified per market before publishing &mdash; safety-critical (GL-12)</span>
+      </div>
+    </div>
+  </div><!-- /footer -->
+
+  <div class="doc-footer">
+    Greener Life&reg; Plan Page &middot; CMS Content Template &middot; ONG &middot; GRE only &middot; PA &middot; IL &middot; IES suppressed &middot; 4037-25 &middot; IfThen Digital &middot; June 2026
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
+
+<script>
+var curMarket = 'ong';
+function setMarket(m) {
+  curMarket = m;
+  ['ong','gre'].forEach(function(k) {
+    var btn = document.getElementById('mkt-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === m);
+  });
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(el => {
+    if (el.classList.contains('mkt')) el.classList.add('on');
+  });
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
+}
+setMarket('ong');
+setAnnMode('clean');
+
+const ANN_MODES = ['all','open','clean'];
+
+function setAnnMode(mode) {
+  ANN_MODES.forEach(function(k) {
+    document.body.classList.toggle('ann-mode-' + k, k === mode);
+    var btn = document.getElementById('ann-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === mode);
+  });
+}
+
+function setChrome(mode) {
+  document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) {
+    setChrome('show');
+  }
+});
+
+function toggleLegend(e) {
+  var drawer = document.getElementById('legend-drawer');
+  var btn = document.getElementById('legend-toggle');
+  if (!drawer) return;
+  var open = drawer.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', open);
+  btn.textContent = open ? 'Legend ▴' : 'Legend ▾';
+}
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+});
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  const isOpen = nav.classList.contains('mobile-open');
+  if (isOpen) { nav.classList.remove('mobile-open'); if(btn) btn.textContent='☰'; }
+  else { nav.classList.add('mobile-open'); if(btn) btn.textContent='✕'; }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    document.querySelectorAll('.nav-links.mobile-open').forEach(n => n.classList.remove('mobile-open'));
+    const btn = document.getElementById('nav-hamburger-btn');
+    if (btn) btn.textContent = '☰';
+  }
+});
+</script>
+</body>
+</html>

@@ -669,7 +669,8 @@
   .error-banner strong { color: var(--bad); }
   body.error-submit #err-submit,
   body.error-email #err-email,
-  body.error-timeout #err-timeout { display: block; }
+  body.error-timeout #err-timeout,
+  body.error-existing-account #err-existing-account { display: block; }
 
   /* -- Edit-return banner ------------------------------------------------- */
   .edit-return-banner {
@@ -891,6 +892,7 @@
       <button id="err-btn-submit" onclick="setError('submit')">Submit fail</button>
       <button id="err-btn-timeout" onclick="setError('timeout')">PRIME timeout</button>
       <button id="err-btn-email" onclick="setError('email')">Email in use</button>
+      <button id="err-btn-existing-account" onclick="setError('existing-account')">Existing acct</button>
     </div>
     <div class="scenario-drop-row">
       <span class="scenario-drop-lbl">Edit-return</span>
@@ -914,7 +916,7 @@
     </div>
     <div class="scenario-drop-row">
       <span class="scenario-drop-lbl">ENR-114</span>
-      <button onclick="var el=document.getElementById('multi-address-selector'); el.style.display = el.style.display==='none'?'block':'none';">Toggle multi-address</button>
+      <button onclick="event.stopPropagation(); setFlow('new'); setStep(1); var el=document.getElementById('multi-address-selector'); if(el){ el.style.display='block'; }" >Toggle multi-address</button>
     </div>
     <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
     <div class="scenario-legend">
@@ -1548,6 +1550,22 @@
           <div class="ann ann-y"><strong>§6.1 #6:</strong> GRE timeline for redesigned PRIME enrollment view is open. Masks/field validation only active in ONG and PE today. Redesign should add masks but PRIME backend timing must be confirmed before launch.</div>
         </div>
 
+        <!-- ENR-114: Multi-address inline expansion — conditional on PRIME returning 2+ addresses -->
+        <div id="multi-address-selector" style="display:none; margin-top:18px; padding:16px; background:var(--accent-soft,#f0f4ff); border:1px solid var(--line,#ddd); border-radius:4px;">
+          <p style="margin:0 0 12px; font-size:14px; font-weight:600;">We found multiple service addresses for this account. Please select the one you'd like to enroll:</p>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line,#ddd); border-radius:4px; cursor:pointer;">
+              <input type="radio" name="service-address" value="addr-1" style="margin-top:2px;">
+              <span>123 Maple Street, Columbus, OH 43215<br><span style="font-size:12px; color:var(--muted,#666);">Nicor Gas · Account ···3829</span></span>
+            </label>
+            <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line,#ddd); border-radius:4px; cursor:pointer;">
+              <input type="radio" name="service-address" value="addr-2" style="margin-top:2px;">
+              <span>456 Oak Avenue, Columbus, OH 43220<br><span style="font-size:12px; color:var(--muted,#666);">Nicor Gas · Account ···4471</span></span>
+            </label>
+          </div>
+          <div class="ann ann-b" style="margin-top:10px;"><strong>ENR-114 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. The account number is the utility/LDC account — a landlord or property manager may have multiple addresses on one utility account. Single-address verifications skip this selector entirely. Continue button remains disabled until one address is selected. Confirm with Girish that PRIME returns address array on account-verification call. Cross-ref MA-101 (Dashboard premise switcher).</div>
+        </div>
+
         <!-- ENR-26 / ENR-83: Account-number help is ALWAYS-EXPOSED (text + call line).
              Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation. -->
         <div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px;">
@@ -1603,22 +1621,6 @@
           <a href="/my-account/login" class="btn btn-secondary" style="font-size:13px; padding:6px 12px;">Log In</a>
         </div>
         <span class="ann ann-y">ENR-67 — Existing account inline error. Log In CTA → regular Log In screen → returns to PF-3 post-auth.</span>
-      </div>
-
-      <!-- ENR-114: Multi-address inline expansion — conditional on PRIME returning 2+ addresses -->
-      <div id="multi-address-selector" style="display:none; margin-top:18px; padding:16px; background:var(--accent-soft,#f0f4ff); border:1px solid var(--line,#ddd); border-radius:4px;">
-        <p style="margin:0 0 12px; font-size:14px; font-weight:600;">We found multiple service addresses for this account. Please select the one you'd like to enroll:</p>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line,#ddd); border-radius:4px; cursor:pointer;">
-            <input type="radio" name="service-address" value="addr-1" style="margin-top:2px;">
-            <span>123 Maple Street, Columbus, OH 43215<br><span style="font-size:12px; color:var(--muted,#666);">Nicor Gas · Account ···3829</span></span>
-          </label>
-          <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line,#ddd); border-radius:4px; cursor:pointer;">
-            <input type="radio" name="service-address" value="addr-2" style="margin-top:2px;">
-            <span>456 Oak Avenue, Columbus, OH 43220<br><span style="font-size:12px; color:var(--muted,#666);">Nicor Gas · Account ···4471</span></span>
-          </label>
-        </div>
-        <div class="ann ann-b" style="margin-top:10px;"><strong>ENR-114 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. The account number is the utility/LDC account — a landlord or property manager may have multiple addresses on one utility account. Single-address verifications skip this selector entirely. Continue button remains disabled until one address is selected. Confirm with Girish that PRIME returns address array on account-verification call. Cross-ref MA-101 (Dashboard premise switcher).</div>
       </div>
 
       <div class="btn-row">
@@ -2458,10 +2460,10 @@
   // (ENR-33: 'account' mode removed — async-validation model means account-not-found
   //  errors surface post-flow, not in-flow.)
   function setError(e) {
-    document.body.classList.remove('error-submit','error-timeout','error-email');
+    document.body.classList.remove('error-submit','error-timeout','error-email','error-existing-account');
     if (e !== 'none') document.body.classList.add('error-' + e);
 
-    ['none','submit','timeout','email'].forEach(function(k){
+    ['none','submit','timeout','email','existing-account'].forEach(function(k){
       var b = document.getElementById('err-btn-' + k);
       if (b) b.classList.toggle('on', k === e);
     });
@@ -2469,6 +2471,7 @@
     // jump to the step that surfaces the relevant error
     if (e === 'submit' || e === 'timeout') setStep(4);
     if (e === 'email') setStep(2);
+    if (e === 'existing-account') setStep(1);
   }
 
   // ---------- Edit-return banner (Step 3 Edit link returns to Step 2 with banner) ----------

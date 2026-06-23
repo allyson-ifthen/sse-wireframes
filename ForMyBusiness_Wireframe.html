@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Business Hub Page — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+/* ── WF CONTROL BAR (sticky, dark) ── */
+.wfctl {
+  position: sticky; top: 0; z-index: 50;
+  background: #2d3640;
+  font: 12px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  border-bottom: 2px solid #1a1f24;
+}
+.wfctl-bar {
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.wfctl-divider { width: 1px; height: 18px; background: #3d4a55; flex-shrink: 0; }
+.wfctl-spacer { flex: 1; min-width: 8px; }
+.wfctl .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.wfctl .group-lbl {
+  color: #5a6e7f; font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; margin-right: 2px; white-space: nowrap;
+}
+.wfctl button {
+  background: #3d4a55; color: #aab2bb; border: 1px solid #475a6b;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.wfctl button.on { background: #4a90c2; border-color: #4a90c2; color: #fff; }
+.wfctl button:hover:not(.on) { background: #475a6b; color: #e6edf3; }
+.btn-ann {
+  background: transparent; border: 1px solid transparent; color: #5a6e7f;
+  padding: 3px 8px; border-radius: 3px; font-size: 10px; cursor: pointer;
+}
+.btn-ann.on { background: #3d4a55; border-color: #5a6e7f; color: #ccd6e0; }
+.btn-ann:hover:not(.on) { color: #8a9aaa; }
+.wfctl-legend-btn {
+  background: transparent; border: 1px solid #3d4a55; color: #8a9aaa;
+  padding: 3px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; white-space: nowrap;
+}
+.wfctl-legend-btn:hover { border-color: #5a6e7f; color: #ccd6e0; }
+.wfctl-legend-btn.open { border-color: #4a90c2; color: #4a90c2; }
+.btn-present {
+  background: #e8641a; border: none; color: #fff;
+  padding: 4px 12px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-present:hover { background: #c8521a; }
+.legend-drawer {
+  display: none; flex-direction: column; gap: 8px;
+  background: #1e2830; border-top: 1px solid #3d4a55;
+  padding: 10px 16px 12px;
+}
+.legend-drawer.open { display: flex; }
+.scenario-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.scenario-legend .legend-item { display: inline-flex; gap: 5px; align-items: center; font-size: 10px; color: #8a9aaa; }
+.scenario-legend .legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; border: 1px solid; flex-shrink: 0; }
+
+/* ── ANNOTATION VISIBILITY MODES ── */
+body.ann-mode-open .ann-g,
+body.ann-mode-open .ann-b,
+body.ann-mode-open .ann-inline.g,
+body.ann-mode-open .ann-inline.b,
+body.ann-mode-open .dev-note { display: none !important; }
+body.ann-mode-open .oq-panel li.resolved { display: none !important; }
+
+body.ann-mode-clean .ann,
+body.ann-mode-clean .ann-inline,
+body.ann-mode-clean .dev-note,
+body.ann-mode-clean .oq-panel,
+body.ann-mode-clean .banner-suppressed { display: none !important; }
+
+body.chrome-hidden .wfctl,
+body.chrome-hidden .oq-panel,
+body.chrome-hidden .banner-suppressed,
+body.chrome-hidden .ann,
+body.chrome-hidden .ann-inline,
+body.chrome-hidden .dev-note { display: none !important; }
+body.chrome-hidden .presentation-hint { display: block !important; }
+.presentation-hint {
+  display: none; position: fixed; bottom: 18px; right: 18px;
+  background: rgba(17,22,28,0.88); color: #fff;
+  font-size: 11px; font-weight: 600; padding: 8px 14px; border-radius: 4px;
+  z-index: 1000; pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: .02em;
+}
+.presentation-hint kbd {
+  background: rgba(255,255,255,0.18); padding: 1px 6px;
+  border-radius: 3px; font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px; margin: 0 2px;
+}
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; }
+.wf-box { background: #c7d9f0; border: 1.5px dashed #7aabda; border-radius: 3px; padding: 9px 12px; font-size: 11px; color: #2a4d7a; }
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-sm { background: #e8641a; color: #fff; border: none; padding: 5px 12px; font-weight: 700; font-size: 11px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #e8641a; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 190px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-hub-link { position: relative; }
+.nav-hub-link::after { content: attr(data-hub-tip); display: none; position: absolute; top: calc(100% + 2px); left: 0; background: #1e3a5f; color: #fff; font-size: 10px; padding: 5px 9px; white-space: nowrap; border-radius: 3px; z-index: 500; pointer-events: none; }
+.nav-hub-link:hover::after { display: block; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-bottom: 2px solid #1e3a5f; z-index: 300; padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+  .nav-hub-link::after { display: none !important; }
+}
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+.gi-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 32px 36px; }
+.gi-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.gi-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 560px; margin-bottom: 16px; }
+.enroll-band { background: linear-gradient(135deg, #e8641a, #c04000); color: #fff; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.enroll-band h3 { font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+.enroll-band p { font-size: 13px; color: rgba(255,255,255,.8); }
+.enroll-band-btn { background: #fff; color: #c04000; border: none; padding: 12px 24px; font-weight: 800; font-size: 14px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+/* B2B SPECIFIC */
+.plan-type-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 14px; }
+.plan-type-card { border: 1.5px solid #d0dce8; border-radius: 6px; padding: 18px 16px; background: #f9fbfd; }
+.plan-type-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #1e3a5f; background: #e8f0fe; border-radius: 3px; padding: 2px 7px; display: inline-block; margin-bottom: 7px; }
+.plan-type-tagline { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; }
+.plan-type-body { font-size: 11px; color: #555; line-height: 1.6; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 14px; }
+.step-card { text-align: center; padding: 16px 12px; border: 1.5px solid #e8e8e4; border-radius: 5px; }
+.step-num { width: 32px; height: 32px; background: #1e3a5f; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin-bottom: 10px; }
+.step-label { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.step-body { font-size: 11px; color: #555; line-height: 1.6; }
+.why-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.why-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 18px 16px; }
+.why-icon { font-size: 26px; margin-bottom: 8px; }
+.why-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.why-copy { font-size: 11px; color: #666; line-height: 1.55; }
+.rep-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 12px; }
+.rep-card { border: 1.5px solid #d0dce8; border-radius: 5px; padding: 18px 16px; background: #f5f8fc; }
+.rep-card-name { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 2px; }
+.rep-card-role { font-size: 11px; font-weight: 700; color: #e8641a; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.rep-card-contact { font-size: 12px; color: #555; line-height: 1.7; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+/* Hero trust badges */
+.hero-trust-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.hero-badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; padding: 5px 11px; font-size: 11px; font-weight: 700; color: #e0ecf7; display: flex; align-items: center; gap: 5px; }
+.hero-badge-suppress { background: rgba(255,200,0,0.12); border: 1px solid rgba(245,200,66,0.5); color: #f5c842; }
+/* CTA secondary link */
+.cta-secondary-link { font-size: 12px; color: #aac4d9; text-decoration: underline; cursor: pointer; display: inline-block; margin-left: 16px; }
+/* Small muted text */
+.body-para-sm { font-size: 11px; color: #777; line-height: 1.6; margin-bottom: 8px; font-style: italic; }
+/* Secondary link below button */
+.btn-secondary-link { font-size: 11px; color: #1e3a5f; text-decoration: underline; cursor: pointer; display: block; margin-top: 8px; }
+</style>
+</head>
+<body class="ann-mode-clean">
+
+<div class="wfctl">
+  <div class="wfctl-bar">
+    <div class="group">
+      <span class="group-lbl">Market</span>
+      <button id="mkt-btn-ong" class="on" onclick="setMarket('ong')">ONG</button>
+      <button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+      <button id="mkt-btn-il"  onclick="setMarket('il')">IL</button>
+    </div>
+    <div class="wfctl-spacer"></div>
+    <button id="ann-btn-all"   class="btn-ann" onclick="setAnnMode('all')">All</button>
+    <button id="ann-btn-open"  class="btn-ann" onclick="setAnnMode('open')">Open Qs</button>
+    <button id="ann-btn-clean" class="btn-ann on" onclick="setAnnMode('clean')">Clean</button>
+    <div class="wfctl-divider"></div>
+    <button class="wfctl-legend-btn" id="legend-toggle" onclick="toggleLegend(event)">Legend &#9662;</button>
+    <div class="wfctl-divider"></div>
+    <button class="btn-present" onclick="setChrome('hide')">&#9654; Present</button>
+  </div>
+  <div class="legend-drawer" id="legend-drawer">
+    <div class="scenario-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f5e9; border-color:#4caf50;"></span> Confirmed</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fffde7; border-color:#f5c842;"></span> Open / pending</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#fdecea; border-color:#e53935;"></span> Blocker / warning</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#e8f0fe; border-color:#4a7adf;"></span> Shared component / dev note</span>
+    </div>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas" style="padding-left: 160px;">
+
+  <!-- OQ PANEL -->
+  <div class="oq-panel">
+    <h4>Open Questions &amp; Status — For My Business Hub Page</h4>
+    <ul class="oq-list">
+      <li><strong>B2B-01 CLOSED:</strong> PA and IES suppressed — no commercial plans for these markets. Greener Life® NOT available for commercial plans — confirmed 2026-06-18. Do not surface on this page.</li>
+      <li><strong>B2B-02 CLOSED:</strong> Business rep contacts CONFIRMED: Michael Presto (michael.presto@southstarenergy.com) and Erika Douglas (404.685.4105 · erika.douglas@southstarenergy.com) — same across ONG · GRE · IL.</li>
+      <li><strong>B2B-03 OPEN:</strong> Large C&I threshold TBD — what volume / account size qualifies for rep-assisted vs. online enrollment?</li>
+      <li><strong>B2B-05 OPEN:</strong> GRE BBB alternative needed — ONG and IL show "A+ BBB Accredited"; GRE badge must be suppressed until alternate proof point confirmed.</li>
+      <li><strong>B2B-09 OPEN:</strong> IL separate-bill copy requires legal review before finalizing — copy is drafted but flagged throughout.</li>
+      <li><strong>B2B-10 CLOSED:</strong> Pencil banner confirmed global — same brand-level content as other hub pages.</li>
+    </ul>
+  </div>
+
+  <!-- PENCIL BANNER -->
+  <div class="section">
+    <div class="p-sm" style="background:#1e3a5f;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:12px;font-weight:700;color:#fff;">🔥 [Promotional Pencil Banner — CMS-managed] Limited-time offer: Lock in your rate before prices change. <span style="text-decoration:underline;cursor:pointer;color:#aac4d9;">View Plans →</span></span>
+        <span style="color:#aaa;cursor:pointer;font-size:13px;">✕</span>
+      </div>
+    </div>
+    <div class="p-sm" style="padding-top:6px;padding-bottom:6px;">
+      <span class="ann ann-b">Global promotional pencil banner — same brand-level content as other hub pages (B2B-10 confirmed). CMS-managed.</span>
+    </div>
+  </div>
+
+  <!-- NAV SECTION -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">1</div><br>Nav Header</div>
+
+    <!-- Utility bar -->
+    <div class="nav-utility">
+      <a href="#">Contact Us</a>
+      <span class="nav-utility-phone">
+        <span class="mkt-inline" id="phone-ong">(888) 466-4427</span>
+        <span class="mkt-inline" id="phone-gre">(800) 841-1541</span>
+        <span class="mkt-inline" id="phone-il">(888) 555-0004</span>
+      </span>
+    </div>
+
+    <!-- Nav header -->
+    <div class="nav-header">
+      <div class="nav-logo">
+        <div class="nav-logo-mark">⚡</div>
+        <span>
+          <span class="mkt-inline" id="logo-ong">Ohio Natural Gas</span>
+          <span class="mkt-inline" id="logo-gre">Grand Rapids Energy</span>
+          <span class="mkt-inline" id="logo-il">Illinois Energy</span>
+        </span>
+      </div>
+
+      <nav class="nav-links" id="nav-fmb-main">
+        <!-- For My Home -->
+        <div class="nav-item">
+          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub: Residential plans &amp; info">For My Home</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="#">Residential Plans</a>
+            <a class="nav-dd-item" href="#">Why Choose Us</a>
+            <a class="nav-dd-item" href="#">How It Works</a>
+          </div>
+        </div>
+        <!-- For My Business (ACTIVE) -->
+        <div class="nav-item">
+          <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub: Commercial plans &amp; info">For My Business</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="#">Commercial Plans</a>
+            <a class="nav-dd-item" href="#">Why
+              <span class="mkt-inline" id="dd-brand-ong">ONG</span>
+              <span class="mkt-inline" id="dd-brand-gre">GRE</span>
+              <span class="mkt-inline" id="dd-brand-il">IE</span>
+              for Business
+            </a>
+          </div>
+        </div>
+        <!-- Learning Center -->
+        <div class="nav-item">
+          <a class="nav-link" href="#">Learning Center</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="#">Articles &amp; Guides</a>
+            <a class="nav-dd-item" href="#">Understanding Your Bill</a>
+            <a class="nav-dd-item" href="#">Natural Gas FAQ</a>
+          </div>
+        </div>
+        <!-- About Us -->
+        <div class="nav-item">
+          <a class="nav-link" href="#">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="#">About Us</a>
+            <a class="nav-dd-item" href="#">Our Parent Company</a>
+            <a class="nav-dd-item" href="#">Regulatory Compliance</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-right">
+        <button class="wf-btn-sm" style="background:#1e3a5f;">👤 My Account</button>
+        <button class="wf-btn-sm" style="background:transparent;color:#1e3a5f;border:1.5px solid #1e3a5f;">🔍</button>
+        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+      </div>
+    </div>
+
+    <div class="nav-mobile-note">Mobile: hamburger expands nav links vertically. Dropdowns expand inline on tap.</div>
+
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-g">Nav active state: For My Business</span>
+        <span class="ann ann-y">⚑ Phone numbers: ONG (888) 466-4427 confirmed · GRE (800) 841-1541 confirmed · IL (888) 555-0004 — TBD, placeholder used</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="section">
+    <div class="breadcrumb" style="padding: 10px 24px;">
+      <a href="#">Home</a> › For My Business
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">3</div><br>Hero</div>
+    <div class="gi-hero">
+      <div class="gi-hero-title">
+        <span class="mkt-inline" id="hero-title-ong">Natural gas plans for your Ohio business — clear options, no surprises.</span>
+        <span class="mkt-inline" id="hero-title-gre">Natural gas plans for your Michigan business — clear options, no surprises.</span>
+        <span class="mkt-inline" id="hero-title-il">Natural gas plans for your Illinois business — clear options, no surprises.</span>
+      </div>
+      <p class="gi-hero-sub">Compare fixed and variable commercial natural gas plans — rates shown upfront, licensed supplier, easy account management.</p>
+
+      <!-- Trust badges -->
+      <div class="hero-trust-badges">
+        <div class="hero-badge">
+          ✓ <span class="mkt-inline" id="regulator-badge-ong">PUCO</span><span class="mkt-inline" id="regulator-badge-gre">MPSC</span><span class="mkt-inline" id="regulator-badge-il">ICC</span>-Licensed Commercial Supplier
+        </div>
+        <!-- BBB: ONG and IL only -->
+        <div class="mkt" id="bbb-badge-ong" style="display:none;">
+          <div class="hero-badge">✓ A+ BBB Accredited</div>
+        </div>
+        <div class="mkt" id="bbb-badge-il" style="display:none;">
+          <div class="hero-badge">✓ A+ BBB Accredited</div>
+        </div>
+        <div class="mkt" id="bbb-badge-gre" style="display:none;">
+          <div class="hero-badge hero-badge-suppress">⚑ GRE: Suppress BBB badge (B2B-05 open — alternate proof point needed)</div>
+        </div>
+        <!-- Years serving -->
+        <div class="hero-badge hero-badge-suppress">⚑ [PLACEHOLDER: X+ years serving <span class="mkt-inline" id="years-state-ong">Ohio</span><span class="mkt-inline" id="years-state-gre">Michigan</span><span class="mkt-inline" id="years-state-il">Illinois</span> businesses — pending founding year (B2B-06)]</div>
+      </div>
+
+      <!-- CTAs -->
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <button class="wf-btn">View Commercial Plans →</button>
+        <a class="cta-secondary-link">Managing a large commercial or industrial account? Contact our business team →</a>
+      </div>
+
+      <!-- Hero image placeholder -->
+      <div class="wf-box" style="margin-top:10px;">📷 Hero image — commercial / business context required. Not residential. Client to supply. Suggested: office building, commercial facility, or business team setting.</div>
+    </div>
+    <div class="p-sm">
+      <div class="ann-row">
+        <span class="ann ann-g">H1 is B2B-specific — no household / residential language</span>
+        <span class="ann ann-y">⚑ BBB badge: ONG ✓ · IL ✓ · GRE ✗ — need alternate proof point (B2B-05)</span>
+        <span class="ann ann-y">⚑ Years serving [State]: suppress until founding year confirmed (B2B-06)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — WHAT WE OFFER -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">4</div><br>What We Offer</div>
+    <div class="p">
+      <div class="h2">
+        Commercial Natural Gas Plans from <span class="mkt-inline" id="brand-offer-ong">Ohio Natural Gas</span><span class="mkt-inline" id="brand-offer-gre">Grand Rapids Energy</span><span class="mkt-inline" id="brand-offer-il">Illinois Energy</span>
+      </div>
+      <p class="body-para">Commercial customers have different priorities than residential ones — budget predictability, clean billing, and a supplier who answers the phone. <span class="mkt-inline" id="brand-para-ong">Ohio Natural Gas</span><span class="mkt-inline" id="brand-para-gre">Grand Rapids Energy</span><span class="mkt-inline" id="brand-para-il">Illinois Energy</span> offers fixed and variable commercial natural gas supply plans designed to fit how your business operates.</p>
+
+      <div class="plan-type-grid-2">
+        <div class="plan-type-card">
+          <div class="plan-type-label">Fixed Rate</div>
+          <div class="plan-type-tagline">Lock In Your Rate for the Term.</div>
+          <div class="plan-type-body">Your supply rate stays the same for the duration of your contract. No surprises when market prices spike. Ideal for businesses that need predictable operating costs.</div>
+        </div>
+        <div class="plan-type-card">
+          <div class="plan-type-label">Variable Rate</div>
+          <div class="plan-type-tagline">Move with the Market.</div>
+          <div class="plan-type-body">Your supply rate adjusts monthly based on current market conditions. There's no contract lock-in, so you have flexibility if your business needs change.</div>
+        </div>
+      </div>
+
+      <div class="ann-row" style="margin-bottom:10px;">
+        <span class="ann ann-r">Greener Life® is NOT available for commercial plans — confirmed 2026-06-18 (B2B-01 closed). Do not surface Greener Life on this page.</span>
+      </div>
+
+      <!-- IL billing note -->
+      <div class="mkt" id="il-billing-note-b2b">
+        <div style="margin-bottom:10px;">
+          <span class="ann ann-y">⚑ IL: Commercial customers receive a SEPARATE SouthStar bill for supply. Material difference for AP / billing teams — state clearly before enrollment. Requires legal review (B2B-09).</span>
+        </div>
+      </div>
+
+      <button class="wf-btn-out">See All Commercial Plans and Current Rates →</button>
+
+      <div class="ann-row">
+        <span class="ann ann-y">⚑ GRE: rates billed in Mcf, not therms — verify plan card unit display on Commercial Plans page</span>
+        <span class="ann ann-b">Plan Type Card component — same structure as For My Home and Greener Life Plan pages</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — HOW IT WORKS -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">5</div><br>How Commercial Supply Works</div>
+    <div class="p">
+      <div class="h2">How Commercial Natural Gas Supply Choice Works</div>
+
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-label">Choose Your Supplier</div>
+          <div class="step-body">In deregulated markets, businesses can choose their natural gas supplier instead of defaulting to their utility's supply rate. <span class="mkt-inline" id="step1-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="step1-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="step1-brand-il">Illinois Energy</span> is a <span class="mkt-inline" id="step1-reg-ong">PUCO</span><span class="mkt-inline" id="step1-reg-gre">MPSC</span><span class="mkt-inline" id="step1-reg-il">ICC</span>-certified commercial supplier in <span class="mkt-inline" id="step1-state-ong">Ohio</span><span class="mkt-inline" id="step1-state-gre">Michigan</span><span class="mkt-inline" id="step1-state-il">Illinois</span>.</div>
+        </div>
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-label">Your Utility Still Delivers</div>
+          <div class="step-body">Your local utility — <span class="mkt-inline" id="utilities-ong">Columbia Gas of Ohio, Dominion Energy Ohio, Duke Energy Ohio, Enbridge Gas Ohio</span><span class="mkt-inline" id="utilities-gre">Consumers Energy, DTE Energy</span><span class="mkt-inline" id="utilities-il">Nicor Gas, Peoples Gas, North Shore Gas, Ameren Illinois</span> — continues to deliver natural gas to your business through the same pipes. The utility handles emergencies, meter reading, and physical delivery. <span class="mkt-inline" id="step2-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="step2-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="step2-brand-il">Illinois Energy</span> handles your supply rate.</div>
+        </div>
+        <!-- Step 3 — market-specific -->
+        <div>
+          <!-- ONG version -->
+          <div class="mkt step-card" id="step3b-ong">
+            <div class="step-num">3</div>
+            <div class="step-label">One Bill, Two Line Items</div>
+            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Ohio Natural Gas supply.</div>
+          </div>
+          <!-- GRE version -->
+          <div class="mkt step-card" id="step3b-gre">
+            <div class="step-num">3</div>
+            <div class="step-label">One Bill, Two Line Items</div>
+            <div class="step-body">In most cases, your supply charge appears as a line item on your existing utility bill. You'll see two charges: utility delivery and Grand Rapids Energy supply.</div>
+          </div>
+          <!-- IL version -->
+          <div class="mkt step-card" id="step3b-il" style="border-color:#f5c842;">
+            <div class="step-num" style="background:#c04000;">3</div>
+            <div class="step-label">Two Separate Bills</div>
+            <div class="step-body">Illinois commercial customers receive a separate bill from Illinois Energy for the supply portion of their natural gas. Your utility bill covers delivery; the Illinois Energy bill covers supply. You'll manage two bills.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-para">Switching is handled online for most commercial accounts. There's no interruption to your service — your gas keeps flowing throughout.</p>
+
+      <div class="ann-row">
+        <span class="ann ann-r">IL separate-billing is material for commercial B2B — must be stated clearly, not deferred to enrollment. Requires legal review (B2B-09).</span>
+        <span class="ann ann-g">Utility names per market listed in Step 2 — ONG · GRE · IL confirmed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — WHY [BRAND] FOR BUSINESS -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">6</div><br>Why [Brand] for Business</div>
+    <div class="p">
+      <div class="h2">
+        Why <span class="mkt-inline" id="brand-why-ong">Ohio Natural Gas</span><span class="mkt-inline" id="brand-why-gre">Grand Rapids Energy</span><span class="mkt-inline" id="brand-why-il">Illinois Energy</span> for Your Business
+      </div>
+
+      <div class="why-grid-3">
+        <!-- Card 1: Certified -->
+        <div class="why-card">
+          <div class="why-icon">⚖️</div>
+          <div class="why-title">Certified &amp; Accountable.</div>
+          <div class="why-copy">
+            <span class="mkt-inline" id="why1-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="why1-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="why1-brand-il">Illinois Energy</span> is a <span class="mkt-inline" id="why1-reg-ong">PUCO</span><span class="mkt-inline" id="why1-reg-gre">MPSC</span><span class="mkt-inline" id="why1-reg-il">ICC</span>-licensed commercial natural gas supplier. Your utility still delivers your gas — we handle your supply rate. You get the accountability of a licensed supplier.
+          </div>
+          <div style="margin-top:8px;">
+            <span class="ann ann-b" style="font-size:10px;">BBB badge: ONG ✓ / IL ✓ · GRE ✗ (need alternate B2B-05)</span>
+          </div>
+        </div>
+        <!-- Card 2: Rates -->
+        <div class="why-card">
+          <div class="why-icon">💰</div>
+          <div class="why-title">Rates Shown Upfront. No Hidden Fees.</div>
+          <div class="why-copy">
+            Your commercial supply rate is shown before you enroll — no teaser pricing. <span class="mkt-inline" id="units-ong">Billed per therm.</span><span class="mkt-inline" id="units-gre">Billed per Mcf.</span><span class="mkt-inline" id="units-il">Billed per therm.</span> If an early termination charge (ETC) applies, it is disclosed at enrollment.
+          </div>
+        </div>
+        <!-- Card 3: Support -->
+        <div class="why-card">
+          <div class="why-icon">📞</div>
+          <div class="why-title">A Supplier Who Answers the Phone.</div>
+          <div class="why-copy">Small businesses can enroll online. Large commercial and industrial accounts have access to a dedicated business team for high-volume supply needs, contract questions, and custom solutions.</div>
+        </div>
+      </div>
+
+      <div class="ann-row">
+        <span class="ann ann-r">Do NOT use "best rates" or "lowest prices" — violates brand credibility position</span>
+        <span class="ann ann-y">⚑ GRE BBB suppressed — alternate proof point needed (B2B-05)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — READY TO EXPLORE -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">7</div><br>Ready to Explore</div>
+    <div class="p">
+      <div class="h2">Ready to Explore Commercial Plans?</div>
+      <p class="body-para">
+        The <span class="mkt-inline" id="brand-explore-ong">Ohio Natural Gas</span><span class="mkt-inline" id="brand-explore-gre">Grand Rapids Energy</span><span class="mkt-inline" id="brand-explore-il">Illinois Energy</span> Commercial Plans page shows available fixed and variable natural gas supply plans for <span class="mkt-inline" id="state-explore-ong">Ohio</span><span class="mkt-inline" id="state-explore-gre">Michigan</span><span class="mkt-inline" id="state-explore-il">Illinois</span> businesses — rates listed upfront. You'll select your utility and service ZIP code to see plans available for your location.
+      </p>
+
+      <div style="margin-bottom:12px;">
+        <span class="ann ann-y">⚑ [PLACEHOLDER: online enrollment eligibility — confirm whether all commercial account sizes can enroll online or some require rep-assisted enrollment (B2B-03 / B2B-04)]</span>
+      </div>
+
+      <button class="wf-btn">View Commercial Plans →</button>
+      <a class="btn-secondary-link">Already a commercial customer? Log in to My Account →</a>
+
+      <p class="body-para-sm" style="margin-top:14px;">For large commercial and industrial accounts, or if your account requires custom pricing, contact our business team below.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — CONTACT BUSINESS TEAM -->
+  <div class="section">
+    <div class="section-label"><div class="sec-num">8</div><br>Contact Business Team</div>
+    <div class="p">
+      <div class="h2">Contact Our Business Team</div>
+      <p class="body-para">For large commercial and industrial accounts, or to discuss sales agency opportunities, contact our business team directly.</p>
+
+      <div class="rep-grid">
+        <!-- Michael Presto -->
+        <div class="rep-card">
+          <div class="rep-card-name">Michael Presto</div>
+          <div class="rep-card-role">Large Commercial &amp; Industrial</div>
+          <div class="rep-card-contact">
+            michael.presto@southstarenergy.com<br>
+            <span style="font-size:11px;color:#777;line-height:1.7;">Michael works with large commercial and industrial accounts across <span class="mkt-inline" id="rep-state-ong">Ohio</span><span class="mkt-inline" id="rep-state-gre">Michigan</span><span class="mkt-inline" id="rep-state-il">Illinois</span>. Reach out directly for high-volume supply needs, contract questions, or to get a custom quote.</span>
+          </div>
+        </div>
+        <!-- Erika Douglas -->
+        <div class="rep-card">
+          <div class="rep-card-name">Erika Douglas</div>
+          <div class="rep-card-role">Sales Agency Opportunities</div>
+          <div class="rep-card-contact">
+            404.685.4105 · erika.douglas@southstarenergy.com<br>
+            <span style="font-size:11px;color:#777;line-height:1.7;">Erika manages partnerships with energy brokers and sales agencies. Contact her to learn about agency program opportunities.</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-para" style="font-size:11px;color:#777;">For general business enrollment questions, visit our Commercial Plans page or contact our customer service team at <span class="mkt-inline" id="footer-phone-ong">(888) 466-4427</span><span class="mkt-inline" id="footer-phone-gre">(800) 841-1541</span><span class="mkt-inline" id="footer-phone-il">(888) 555-0004</span> during business hours.</p>
+
+      <div class="ann-row">
+        <span class="ann ann-g">Contacts CONFIRMED (B2B-02 closed): Michael Presto (michael.presto@southstarenergy.com) · Erika Douglas (404.685.4105 · erika.douglas@southstarenergy.com) — same across ONG · GRE · IL</span>
+        <span class="ann ann-y">⚑ Large C&I threshold TBD (B2B-03) — supporting copy is intentionally vague until threshold confirmed</span>
+        <span class="ann ann-b">No contact form — per project decision, direct contact info only. Contact Form Utility page serves general inquiries.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section">
+    <div class="section-label">— Footer</div>
+    <div class="site-footer">
+      <div class="footer-brand-strip">
+        <div>
+          <div class="footer-logo">
+            <span class="mkt-inline" id="footer-logo-ong">Ohio Natural Gas</span>
+            <span class="mkt-inline" id="footer-logo-gre">Grand Rapids Energy</span>
+            <span class="mkt-inline" id="footer-logo-il">Illinois Energy</span>
+          </div>
+          <div class="footer-parent">A SouthStar Energy Services company<br>A subsidiary of Southern Company (NYSE: SO)</div>
+        </div>
+        <div>
+          <div class="footer-col-head">Plans</div>
+          <div class="footer-col-links">
+            <a href="#">Residential Plans</a>
+            <a href="#">Commercial Plans</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">Learn</div>
+          <div class="footer-col-links">
+            <a href="#">Learning Center</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+            <a href="#">My Account</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-head">Support</div>
+          <div class="footer-col-links">
+            <a href="#" style="color:#aaa;font-weight:700;">
+              <span class="mkt-inline" id="support-phone-ong">(888) 466-4427</span>
+              <span class="mkt-inline" id="support-phone-gre">(800) 841-1541</span>
+              <span class="mkt-inline" id="support-phone-il">(888) 555-0004</span>
+            </a>
+            <span style="font-size:10px;color:#666;">Mon–Fri 8am–6pm</span>
+            <span style="font-size:10px;color:#c04000;font-weight:700;">Gas Emergency? Call your utility — not us.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IL regulatory disclosure -->
+      <div class="mkt" id="il-footer-disclosure">
+        <div style="padding:12px 32px;background:#111;border-top:1px solid #2a2a2a;">
+          <span class="ann ann-y" style="font-size:10px;">⚑ IL: Full ICC regulatory footer disclosure required with dynamic utility rate fields. See Homepage template for disclosure structure.</span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-row">
+          <span class="footer-copyright">© 2026 SouthStar Energy Services. All rights reserved.</span>
+          <div class="footer-legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Legal &amp; Compliance</a>
+            <a href="#">Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOC FOOTER -->
+  <div class="doc-footer">
+    For My Business Hub Page · CMS Content Template · ONG · GRE · IL · PA suppressed · IES suppressed · 4037-25 · IfThen Digital · June 2026
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
+<script>
+var curMarket = 'ong';
+function setMarket(m) {
+  curMarket = m;
+  ['ong','gre','il'].forEach(function(k) {
+    var btn = document.getElementById('mkt-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === m);
+  });
+  document.querySelectorAll('.mkt').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(el => {
+    if (el.classList.contains('mkt')) el.classList.add('on');
+  });
+  document.querySelectorAll('.mkt-inline').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
+}
+
+const ANN_MODES = ['all','open','clean'];
+
+function setAnnMode(mode) {
+  ANN_MODES.forEach(function(k) {
+    document.body.classList.toggle('ann-mode-' + k, k === mode);
+    var btn = document.getElementById('ann-btn-' + k);
+    if (btn) btn.classList.toggle('on', k === mode);
+  });
+}
+
+function setChrome(mode) {
+  document.body.classList.toggle('chrome-hidden', mode === 'hide');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) {
+    setChrome('show');
+  }
+});
+
+function toggleLegend(e) {
+  var drawer = document.getElementById('legend-drawer');
+  var btn = document.getElementById('legend-toggle');
+  if (!drawer) return;
+  var open = drawer.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', open);
+  btn.textContent = open ? 'Legend ▴' : 'Legend ▾';
+}
+
+(function() { setMarket('ong'); setAnnMode('clean'); })();
+
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item.dd-open').forEach(el => el.classList.remove('dd-open'));
+});
+
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  const isOpen = nav.classList.contains('mobile-open');
+  if (isOpen) { nav.classList.remove('mobile-open'); if(btn) btn.textContent='☰'; }
+  else { nav.classList.add('mobile-open'); if(btn) btn.textContent='✕'; }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    document.querySelectorAll('.nav-links.mobile-open').forEach(n => n.classList.remove('mobile-open'));
+    const btn = document.getElementById('nav-hamburger-btn');
+    if (btn) btn.textContent = '☰';
+  }
+});
+</script>
+</body>
+</html>
