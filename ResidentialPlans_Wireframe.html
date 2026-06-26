@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Residential Plans Page — Wireframe Sketch | 4037-25</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -783,355 +784,333 @@
 </style>
 </head>
 <body>
-
 <!-- TOOLBAR -->
 <div class="toolbar">
-  <div class="toolbar-left">
-    <div>
-      <div class="toolbar-title">Residential Plans — Wireframe Sketch</div>
-      <div class="toolbar-meta">4037-25 · Phase 2: Define &amp; Design · April 2026</div>
-    </div>
-    <div class="market-switcher">
-      <button class="market-btn active" onclick="setMarket('ong')">ONG (Ohio)</button>
-      <button class="market-btn" onclick="setMarket('pa')">Pennsylvania</button>
-      <button class="market-btn" onclick="setMarket('gre')">GRE (Michigan)</button>
-      <button class="market-btn" onclick="setMarket('il')">IL Energy</button>
-      <button class="market-btn" onclick="setMarket('ies')">IL Energy Solutions</button>
-    </div>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot dot-approved"></div> Approved direction</div>
-    <div class="legend-item"><div class="legend-dot dot-open"></div> Open question</div>
-    <div class="legend-item"><div class="legend-dot dot-component"></div> Component placeholder</div>
-  </div>
+<div class="toolbar-left">
+<div>
+<div class="toolbar-title">Residential Plans — Wireframe Sketch</div>
+<div class="toolbar-meta">4037-25 · Phase 2: Define &amp; Design · April 2026</div>
 </div>
-
+<div class="market-switcher">
+<button class="market-btn active" onclick="setMarket('ong')">ONG (Ohio)</button>
+<button class="market-btn" onclick="setMarket('pa')">Pennsylvania</button>
+<button class="market-btn" onclick="setMarket('gre')">GRE (Michigan)</button>
+<button class="market-btn" onclick="setMarket('il')">IL Energy</button>
+<button class="market-btn" onclick="setMarket('ies')">IL Energy Solutions</button>
+</div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot dot-approved"></div> Approved direction</div>
+<div class="legend-item"><div class="legend-dot dot-open"></div> Open question</div>
+<div class="legend-item"><div class="legend-dot dot-component"></div> Component placeholder</div>
+</div>
+</div>
 <!-- PAGE CANVAS -->
 <div class="canvas">
-  <!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component -->
-  <div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
-    <div class="ann ann-b" style="font-size:10px; display:flex;">◈ Global promotional pencil banner appears here — shared component (see Homepage wireframe for full implementation). Suppressed on Contact, Legal, My Account, and Plan Change Flow. CMS-managed copy per active promotion.</div>
-  </div>
-
-  <!-- SUCCESS METRICS BAR -->
-  <div class="section" style="margin-bottom:12px;">
-    <div class="metrics-bar">
-      <div class="metric-item">
-        <div class="metric-val">9,523</div>
-        <div class="metric-label">ONG enrollment flow views (baseline)</div>
-        <div class="metric-target">↑ Target: +25% YoY</div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-val">581</div>
-        <div class="metric-label">Pricing/plan calls/month (Ohio, Feb '26)</div>
-        <div class="metric-target">↓ Target: −20% within 90 days</div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-val">—</div>
-        <div class="metric-label">Plans → enrollment rate (not tracked)</div>
-        <div class="metric-target">Establish baseline at launch</div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-val">N/A</div>
-        <div class="metric-label">LDC ID completion rate (tool doesn't exist)</div>
-        <div class="metric-target">Target: &gt;80% completion</div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-val">4–5/10</div>
-        <div class="metric-label">Current E-E-A-T citation quality</div>
-        <div class="metric-target">Target: 8+/10 at launch</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- OPEN QUESTIONS PANEL -->
-  <div class="annotations-panel">
-    <h4>⚑ Open Questions — must resolve before wireframes finalize</h4>
-    <ul class="open-q-list">
-      <li style="text-decoration:line-through; color:#aaa;"><strong>#1 RESOLVED</strong> LDC identification mechanism: selector-first (no API needed for primary path) + inline ZIP fallback (API needed for fallback only). Learning Center ZIP tool reframed as educational, not transactional.</li>
-      <li><strong>#2</strong> PRIME rate update frequency — live API or scheduled manual updates? Staleness is a legal and trust risk — confirm with Lee / Susan before rate display pattern is locked</li>
-      <li><strong>#9</strong> Full plan catalog per market — how many plans exist at launch per LDC? Determines whether filter bar shows, whether "see more" expand is needed, and whether Contract Length filter has more than one valid option.</li>
-      <li><strong>#10</strong> Filter bar for small plan sets — if a market has only 2 plans (e.g. Fixed + Variable), hide filter bar entirely or keep it but disable non-applicable chips? Recommend: hide bar when fewer than 3 plans. Confirm with Prime/dev.</li>
-      <li><strong>#3</strong> Greener Life plan availability per market — ONG confirmed; PA, GRE, IL, and IES TBD. Confirm with Aimee Henderson which markets will offer Greener Life plans at launch. Plan rates (not a differential — standalone pricing) must be sourced from Prime/client once availability is confirmed.</li>
-      <li><strong>#4</strong> Promo code error states — error message, silent failure, or "no active promo" state? Defines UX of promo field</li>
-      <li><strong>#5</strong> Greener Life collective impact data — Ohio-level or SouthStar-wide stats? Confirm with marketing / Lee</li>
-      <li><strong>#6</strong> Third-party review aggregates (Google / BBB / Trustpilot) — do any exist per market? If not, sourcing plan needed before Trust Band can be designed</li>
-      <li><strong>#7</strong> Legal enrollment form fields — do any pre-qualify on the Plans page before enrollment Step 1?</li>
-      <li><strong>#8 PA only</strong> UGI historic rate page regulatory requirement — must it be linked from this page?</li>
-      <li><strong>#11</strong> Pinned promo card + standard catalog: confirm with Prime whether a promo plan entry should be suppressed from the filterable plan cards grid when it is displayed in the pinned zone, or whether it appears in both locations. Recommend: suppress from grid to avoid duplication. Affects Prime's catalog surfacing logic.</li>
-    </ul>
-  </div>
-
-  <!-- NAV HEADER -->
-  <div class="section" style="position:relative; margin-bottom:5px;">
-    <div class="section-label" style="top:28px; transform:none;"><div class="section-number" style="background:#555;">H</div><br>Nav Header<br>(Global)</div>
-    <div style="font-size:10px; color:#aaa; background:#f7f7f5; padding:5px 24px; border-bottom:1px solid #ebebeb;">⚑ Mobile: hamburger collapses nav. Logo + Account icon remain visible.</div>
-    <!-- Utility Row -->
-    <div class="nav-utility">
-      <a>Contact Us</a>
-      <span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
-      <span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
-      <span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
-      <span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
-      <span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
-    </div>
-    <div style="background:#fff; border-bottom:2px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:54px; gap:16px; flex-wrap:wrap;">
-      <div style="font-size:14px; font-weight:900; color:#1e3a5f; display:flex; align-items:center; gap:8px; flex-shrink:0;">
-        <div style="width:28px; height:28px; background:#1e3a5f; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px;">🔥</div>
-        <span class="market-display active" id="nav-logo-ong">Ohio Natural Gas</span>
-        <span class="market-display" id="nav-logo-pa">Pennsylvania Energy</span>
-        <span class="market-display" id="nav-logo-gre">Grand Rapids Energy</span>
-        <span class="market-display" id="nav-logo-il">Illinois Energy</span>
-        <span class="market-display" id="nav-logo-ies">Illinois Energy Solutions</span>
-      </div>
-      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-      <nav class="nav-links mkt-flex on" id="nav-standard">
-
-        <!-- For My Home: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
-          </div>
-        </div>
-
-        <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
-        <div class="nav-item has-dropdown mkt" id="nav-fmb">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
-          </div>
-        </div>
-
-        <!-- Learning Center: direct link + pillar dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-          </div>
-        </div>
-
-        <!-- About Us: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-
-      </nav>
-
-      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-      <nav class="nav-links mkt-flex" id="nav-ies">
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-          </div>
-        </div>
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Right: Account + Search icon + Hamburger -->
-      <div class="nav-right">
-        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
-        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 1: HERO -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="section-number">1</div><br>Hero Band</div>
-    <div class="breadcrumb">Home <span>›</span> Plans <span>›</span> Residential Plans</div>
-    <div class="hero">
-      <!-- Market-specific H1 -->
-      <div class="market-display active" id="h1-ong">
-        <div class="hero-h1">Natural Gas Plans in Ohio — Fixed &amp; Variable Rate Options from Ohio Natural Gas</div>
-        <div class="hero-sub">Lock in a predictable rate and protect your household budget — no surprise gas bills.</div>
-      </div>
-      <div class="market-display" id="h1-pa">
-        <div class="hero-h1">Pennsylvania Natural Gas Plans — Fixed &amp; Variable Rates from Pennsylvania Energy</div>
-        <div class="hero-sub">Choose the rate plan that fits your household — backed by a Pennsylvania-licensed gas supplier.</div>
-      </div>
-      <div class="market-display" id="h1-gre">
-        <div class="hero-h1">Michigan Natural Gas Plans — Fixed &amp; Variable Rate Options from Grand Rapids Energy</div>
-        <div class="hero-sub">Budget certainty for Michigan homeowners — know exactly what you'll pay each month.</div>
-      </div>
-      <div class="market-display" id="h1-il">
-        <div class="hero-h1">Illinois Natural Gas Plans — Fixed &amp; Variable Rates from Illinois Energy</div>
-        <div class="hero-sub">Predictable natural gas rates for Illinois households — licensed by the Illinois Commerce Commission.</div>
-      </div>
-      <div class="market-display" id="h1-ies">
-        <div class="hero-h1">Fixed Bill Natural Gas Plans — Simplified Energy Budgeting from Illinois Energy Solutions</div>
-        <div class="hero-sub">One predictable monthly bill — no surprises, no variable rate exposure.</div>
-      </div>
-
-      <!-- Single regulatory credential — the one trust signal universal across all five brands.
+<!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component -->
+<div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+<div class="ann ann-b" style="font-size:10px; display:flex;">◈ Global promotional pencil banner appears here — shared component (see Homepage wireframe for full implementation). Suppressed on Contact, Legal, My Account, and Plan Change Flow. CMS-managed copy per active promotion.</div>
+</div>
+<!-- SUCCESS METRICS BAR -->
+<div class="section" style="margin-bottom:12px;">
+<div class="metrics-bar">
+<div class="metric-item">
+<div class="metric-val">9,523</div>
+<div class="metric-label">ONG enrollment flow views (baseline)</div>
+<div class="metric-target">↑ Target: +25% YoY</div>
+</div>
+<div class="metric-item">
+<div class="metric-val">581</div>
+<div class="metric-label">Pricing/plan calls/month (Ohio, Feb '26)</div>
+<div class="metric-target">↓ Target: −20% within 90 days</div>
+</div>
+<div class="metric-item">
+<div class="metric-val">—</div>
+<div class="metric-label">Plans → enrollment rate (not tracked)</div>
+<div class="metric-target">Establish baseline at launch</div>
+</div>
+<div class="metric-item">
+<div class="metric-val">N/A</div>
+<div class="metric-label">LDC ID completion rate (tool doesn't exist)</div>
+<div class="metric-target">Target: &gt;80% completion</div>
+</div>
+<div class="metric-item">
+<div class="metric-val">4–5/10</div>
+<div class="metric-label">Current E-E-A-T citation quality</div>
+<div class="metric-target">Target: 8+/10 at launch</div>
+</div>
+</div>
+</div>
+<!-- OPEN QUESTIONS PANEL -->
+<div class="annotations-panel">
+<h4>⚑ Open Questions — must resolve before wireframes finalize</h4>
+<ul class="open-q-list">
+<li style="text-decoration:line-through; color:#aaa;"><strong>#1 RESOLVED</strong> LDC identification mechanism: selector-first (no API needed for primary path) + inline ZIP fallback (API needed for fallback only). Learning Center ZIP tool reframed as educational, not transactional.</li>
+<li><strong>#2</strong> PRIME rate update frequency — live API or scheduled manual updates? Staleness is a legal and trust risk — confirm with Lee / Susan before rate display pattern is locked</li>
+<li><strong>#9</strong> Full plan catalog per market — how many plans exist at launch per LDC? Determines whether filter bar shows, whether "see more" expand is needed, and whether Contract Length filter has more than one valid option.</li>
+<li><strong>#10</strong> Filter bar for small plan sets — if a market has only 2 plans (e.g. Fixed + Variable), hide filter bar entirely or keep it but disable non-applicable chips? Recommend: hide bar when fewer than 3 plans. Confirm with Prime/dev.</li>
+<li><strong>#3</strong> Greener Life plan availability per market — ONG confirmed; PA, GRE, IL, and IES TBD. Confirm with Aimee Henderson which markets will offer Greener Life plans at launch. Plan rates (not a differential — standalone pricing) must be sourced from Prime/client once availability is confirmed.</li>
+<li><strong>#4</strong> Promo code error states — error message, silent failure, or "no active promo" state? Defines UX of promo field</li>
+<li><strong>#5</strong> Greener Life collective impact data — Ohio-level or SouthStar-wide stats? Confirm with marketing / Lee</li>
+<li><strong>#6</strong> Third-party review aggregates (Google / BBB / Trustpilot) — do any exist per market? If not, sourcing plan needed before Trust Band can be designed</li>
+<li><strong>#7</strong> Legal enrollment form fields — do any pre-qualify on the Plans page before enrollment Step 1?</li>
+<li><strong>#8 PA only</strong> UGI historic rate page regulatory requirement — must it be linked from this page?</li>
+<li><strong>#11</strong> Pinned promo card + standard catalog: confirm with Prime whether a promo plan entry should be suppressed from the filterable plan cards grid when it is displayed in the pinned zone, or whether it appears in both locations. Recommend: suppress from grid to avoid duplication. Affects Prime's catalog surfacing logic.</li>
+</ul>
+</div>
+<!-- NAV HEADER -->
+<div class="section" style="position:relative; margin-bottom:5px;">
+<div class="section-label" style="top:28px; transform:none;"><div class="section-number" style="background:#555;">H</div><br/>Nav Header<br/>(Global)</div>
+<div style="font-size:10px; color:#aaa; background:#f7f7f5; padding:5px 24px; border-bottom:1px solid #ebebeb;">⚑ Mobile: hamburger collapses nav. Logo + Account icon remain visible.</div>
+<!-- Utility Row -->
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
+</div>
+<div style="background:#fff; border-bottom:2px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:54px; gap:16px; flex-wrap:wrap;">
+<div style="font-size:14px; font-weight:900; color:#1e3a5f; display:flex; align-items:center; gap:8px; flex-shrink:0;">
+<div style="width:28px; height:28px; background:#1e3a5f; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px;">🔥</div>
+<span class="market-display active" id="nav-logo-ong">Ohio Natural Gas</span>
+<span class="market-display" id="nav-logo-pa">Pennsylvania Energy</span>
+<span class="market-display" id="nav-logo-gre">Grand Rapids Energy</span>
+<span class="market-display" id="nav-logo-il">Illinois Energy</span>
+<span class="market-display" id="nav-logo-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<!-- For My Home: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
+<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
+<div class="nav-item has-dropdown mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
+<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+</div>
+</div>
+<!-- Learning Center: direct link + pillar dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+</div>
+</div>
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search icon + Hamburger -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+</div>
+<!-- SECTION 1: HERO -->
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="section-number">1</div><br/>Hero Band</div>
+<div class="breadcrumb">Home <span>›</span> Plans <span>›</span> Residential Plans</div>
+<div class="hero">
+<!-- Market-specific H1 -->
+<div class="market-display active" id="h1-ong">
+<div class="hero-h1">Natural Gas Plans in Ohio — Fixed &amp; Variable Rate Options from Ohio Natural Gas</div>
+<div class="hero-sub">Lock in a predictable rate and protect your household budget — no surprise gas bills.</div>
+</div>
+<div class="market-display" id="h1-pa">
+<div class="hero-h1">Pennsylvania Natural Gas Plans — Fixed &amp; Variable Rates from Pennsylvania Energy</div>
+<div class="hero-sub">Choose the rate plan that fits your household — backed by a Pennsylvania-licensed gas supplier.</div>
+</div>
+<div class="market-display" id="h1-gre">
+<div class="hero-h1">Michigan Natural Gas Plans — Fixed &amp; Variable Rate Options from Grand Rapids Energy</div>
+<div class="hero-sub">Budget certainty for Michigan homeowners — know exactly what you'll pay each month.</div>
+</div>
+<div class="market-display" id="h1-il">
+<div class="hero-h1">Illinois Natural Gas Plans — Fixed &amp; Variable Rates from Illinois Energy</div>
+<div class="hero-sub">Predictable natural gas rates for Illinois households — licensed by the Illinois Commerce Commission.</div>
+</div>
+<div class="market-display" id="h1-ies">
+<div class="hero-h1">Fixed Bill Natural Gas Plans — Simplified Energy Budgeting from Illinois Energy Solutions</div>
+<div class="hero-sub">One predictable monthly bill — no surprises, no variable rate exposure.</div>
+</div>
+<!-- Single regulatory credential — the one trust signal universal across all five brands.
            BBB excluded: not all brands accredited or in good standing.
            "Serving Since [year]" excluded: varies by brand, creates inconsistency risk.
            Full trust treatment (BBB where valid, ratings, differentiators) in Why Customers Choose Us
            section on Homepage. Plans page reinforces with the same lightweight credential. -->
-      <div class="trust-badges">
-        <div class="badge market-display active" id="badge-ong">✓ PUCO Licensed Supplier</div>
-        <div class="badge market-display" id="badge-pa">✓ PA PUC Licensed Supplier</div>
-        <div class="badge market-display" id="badge-gre">✓ MPSC Licensed Supplier</div>
-        <div class="badge market-display" id="badge-il">✓ ICC Licensed Supplier</div>
-        <div class="badge market-display" id="badge-ies">✓ ICC Licensed Supplier</div>
-      </div>
-      <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> No hero image — clean data-forward header preferred on transactional page</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> H1 is entity-specific and AI-search-optimized (not generic "Our Plans")</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Sell on predictability/security — NOT on price comparison</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STICKY CTA BAR (positioned after hero in document flow, sticky in viewport) -->
-  <div class="sticky-bar">
-    <div class="sticky-bar-left">
-      <div>
-        <div style="font-size:10px; color:#aac4d9; text-transform:uppercase; letter-spacing:0.06em;">Sticky Enrollment Bar</div>
-        <div class="sticky-plan-name">No plan selected — activates after scrolling past plan cards</div>
-      </div>
-      <div>
-        <div style="font-size:10px; color:#aac4d9;">When plan selected:</div>
-        <div class="sticky-plan-name">"12-Month Fixed Rate · $0.XX/therm (MCF for GRE)"</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div class="sticky-note">Questions? Call [phone] ↗</div>
-      <button class="sticky-cta-btn">Start Enrollment →</button>
-      <span class="sticky-close">✕</span>
-    </div>
-  </div>
-  <div style="text-align:right; margin-bottom:6px; margin-right:4px;">
-    <span class="annot annot-yellow" style="font-size:10px;"><span>⚑</span> Fire distinct analytics event: <code>enrollment_cta_click</code> with <code>cta_location: sticky</code> vs <code>card</code></span>
-  </div>
-
-  <!-- SECTION 2: LDC GATE -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">2</div><br>LDC Identifier<br>(Selector + ZIP fallback)</div>
-    <div style="padding: 20px 28px;">
-      <div class="ldc-gate">
-        <div class="ldc-gate-title">Who is your natural gas utility?</div>
-        <div class="ldc-gate-sub">Select your utility company to see your available plans and rates.</div>
-
-        <!-- PRIMARY: LDC Selector buttons — market-specific -->
-        <div class="market-display active" id="ldc-sel-ong">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Columbia Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Dominion Energy Ohio</div>
-          </div>
-        </div>
-        <div class="market-display" id="ldc-sel-pa">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">UGI Utilities</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Natural Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">PECO</div>
-          </div>
-        </div>
-        <div class="market-display" id="ldc-sel-gre">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Consumers Energy</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">SEMCO Energy</div>
-          </div>
-        </div>
-        <div class="market-display" id="ldc-sel-il">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Nicor Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
-          </div>
-        </div>
-        <div class="market-display" id="ldc-sel-ies">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Nicor Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Gas</div>
-            <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
-          </div>
-        </div>
-
-        <!-- FALLBACK: ZIP code inline expander -->
-        <div style="margin-top:12px; border-top:1px dashed #b8d4f0; padding-top:12px;">
-          <div style="font-size:12px; color:#5a8cbf; font-weight:600; cursor:pointer;" onclick="toggleZipFallback()">
+<div class="trust-badges">
+<div class="badge market-display active" id="badge-ong">✓ PUCO Licensed Supplier</div>
+<div class="badge market-display" id="badge-pa">✓ PA PUC Licensed Supplier</div>
+<div class="badge market-display" id="badge-gre">✓ MPSC Licensed Supplier</div>
+<div class="badge market-display" id="badge-il">✓ ICC Licensed Supplier</div>
+<div class="badge market-display" id="badge-ies">✓ ICC Licensed Supplier</div>
+</div>
+<div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> No hero image — clean data-forward header preferred on transactional page</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> H1 is entity-specific and AI-search-optimized (not generic "Our Plans")</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Sell on predictability/security — NOT on price comparison</div>
+</div>
+</div>
+</div>
+<!-- STICKY CTA BAR (positioned after hero in document flow, sticky in viewport) -->
+<div class="sticky-bar">
+<div class="sticky-bar-left">
+<div>
+<div style="font-size:10px; color:#aac4d9; text-transform:uppercase; letter-spacing:0.06em;">Sticky Enrollment Bar</div>
+<div class="sticky-plan-name">No plan selected — activates after scrolling past plan cards</div>
+</div>
+<div>
+<div style="font-size:10px; color:#aac4d9;">When plan selected:</div>
+<div class="sticky-plan-name">"12-Month Fixed Rate · $0.XX/therm (MCF for GRE)"</div>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:12px;">
+<div class="sticky-note">Questions? Call [phone] ↗</div>
+<button class="sticky-cta-btn">Start Enrollment →</button>
+<span class="sticky-close">✕</span>
+</div>
+</div>
+<div style="text-align:right; margin-bottom:6px; margin-right:4px;">
+<span class="annot annot-yellow" style="font-size:10px;"><span>⚑</span> Fire distinct analytics event: <code>enrollment_cta_click</code> with <code>cta_location: sticky</code> vs <code>card</code></span>
+</div>
+<!-- SECTION 2: LDC GATE -->
+<div class="section">
+<div class="section-label"><div class="section-number">2</div><br/>LDC Identifier<br/>(Selector + ZIP fallback)</div>
+<div style="padding: 20px 28px;">
+<div class="ldc-gate">
+<div class="ldc-gate-title">Who is your natural gas utility?</div>
+<div class="ldc-gate-sub">Select your utility company to see your available plans and rates.</div>
+<!-- PRIMARY: LDC Selector buttons — market-specific -->
+<div class="market-display active" id="ldc-sel-ong">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Columbia Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Dominion Energy Ohio</div>
+</div>
+</div>
+<div class="market-display" id="ldc-sel-pa">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">UGI Utilities</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Natural Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">PECO</div>
+</div>
+</div>
+<div class="market-display" id="ldc-sel-gre">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Consumers Energy</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">SEMCO Energy</div>
+</div>
+</div>
+<div class="market-display" id="ldc-sel-il">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Nicor Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
+</div>
+</div>
+<div class="market-display" id="ldc-sel-ies">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Nicor Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Gas</div>
+<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
+</div>
+</div>
+<!-- FALLBACK: ZIP code inline expander -->
+<div style="margin-top:12px; border-top:1px dashed #b8d4f0; padding-top:12px;">
+<div onclick="toggleZipFallback()" style="font-size:12px; color:#5a8cbf; font-weight:600; cursor:pointer;">
             🔍 Not sure which utility you have? Find it by zip code ▾
           </div>
-          <div id="zip-fallback" style="display:none; margin-top:10px;">
-            <div style="background:#f7f9ff; border:1.5px solid #c5d8f0; border-radius:4px; padding:14px 16px;">
-              <div style="font-size:12px; color:#555; margin-bottom:10px;">Enter your zip code and we'll identify your utility automatically — no need to leave this page.</div>
-              <div class="ldc-form-row">
-                <div class="ldc-form-field" style="max-width:180px;">
-                  <label class="wf-label">Your Zip Code</label>
-                  <input class="wf-input" type="text" placeholder="e.g. 44101" readonly>
-                </div>
-                <div style="padding-bottom:1px;">
-                  <div class="wf-btn" style="padding:8px 18px; font-size:12px;">Find My Utility →</div>
-                </div>
-              </div>
-              <!-- ZIP result: auto-selects the utility above and confirms visually -->
-              <div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
+<div id="zip-fallback" style="display:none; margin-top:10px;">
+<div style="background:#f7f9ff; border:1.5px solid #c5d8f0; border-radius:4px; padding:14px 16px;">
+<div style="font-size:12px; color:#555; margin-bottom:10px;">Enter your zip code and we'll identify your utility automatically — no need to leave this page.</div>
+<div class="ldc-form-row">
+<div class="ldc-form-field" style="max-width:180px;">
+<label class="wf-label">Your Zip Code</label>
+<input class="wf-input" placeholder="e.g. 44101" readonly="" type="text"/>
+</div>
+<div style="padding-bottom:1px;">
+<div class="wf-btn" style="padding:8px 18px; font-size:12px;">Find My Utility →</div>
+</div>
+</div>
+<!-- ZIP result: auto-selects the utility above and confirms visually -->
+<div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
                 ✓ <strong>Result state:</strong> "Your utility is Columbia Gas. Plans below have been updated." — selector button highlights automatically; zip field collapses.
               </div>
-              <!-- ZIP result: out of service area -->
-              <div style="margin-top:8px; background:#fff8e1; border:1px solid #f5c842; border-radius:3px; padding:8px 12px; font-size:12px; color:#7a6000;">
+<!-- ZIP result: out of service area -->
+<div style="margin-top:8px; background:#fff8e1; border:1px solid #f5c842; border-radius:3px; padding:8px 12px; font-size:12px; color:#7a6000;">
                 ⚠️ <strong>Out-of-area state:</strong> "We don't currently serve your zip code — but we're expanding." + email capture field + "Notify Me" button
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STATE: After selection — confirmed LDC -->
-        <div style="margin-top:12px; background:#e8f5e9; border:1.5px solid #4caf50; border-radius:4px; padding:10px 14px; font-size:12px; color:#2e7d32; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <span>✓ <strong>Confirmed state:</strong> Showing plans for <strong>Columbia Gas</strong> customers · <span style="color:#888; cursor:pointer; text-decoration:underline;">Change utility</span></span>
-          <span style="font-size:11px; color:#888;">Cookie persists this selection for return visits</span>
-        </div>
-
-      </div>
-
-      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Selector-first: one tap for users who know their utility (majority of targeted traffic)</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> ZIP fallback resolves inline — no page navigation, no Learning Center round-trip</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> ZIP result auto-selects utility button + collapses form — single confirmed state</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> LDC above plan cards — not buried in Learning Center (Client feedback March 31)</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> LDC-to-plan mapping: static lookup table sufficient for selector (no API needed for primary path)</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> ZIP API still required for fallback path — confirm lookup table vs. live API with Prime team</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Cookie to persist LDC selection across session — confirm with Prime team</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────────
+</div>
+</div>
+</div>
+<!-- STATE: After selection — confirmed LDC -->
+<div style="margin-top:12px; background:#e8f5e9; border:1.5px solid #4caf50; border-radius:4px; padding:10px 14px; font-size:12px; color:#2e7d32; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+<span>✓ <strong>Confirmed state:</strong> Showing plans for <strong>Columbia Gas</strong> customers · <span style="color:#888; cursor:pointer; text-decoration:underline;">Change utility</span></span>
+<span style="font-size:11px; color:#888;">Cookie persists this selection for return visits</span>
+</div>
+</div>
+<div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> Selector-first: one tap for users who know their utility (majority of targeted traffic)</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> ZIP fallback resolves inline — no page navigation, no Learning Center round-trip</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> ZIP result auto-selects utility button + collapses form — single confirmed state</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> LDC above plan cards — not buried in Learning Center (Client feedback March 31)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> LDC-to-plan mapping: static lookup table sufficient for selector (no API needed for primary path)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> ZIP API still required for fallback path — confirm lookup table vs. live API with Prime team</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Cookie to persist LDC selection across session — confirm with Prime team</div>
+</div>
+</div>
+</div>
+<!-- ─────────────────────────────────────────────────────────────────
        PROMO STRIP — standalone section below LDC selector
        Mirrors homepage layout: LDC selector → promo strip → plan cards.
 
@@ -1166,782 +1145,741 @@
          ↳ EDGE CASE — this state is now less likely since LDC selection for
          LDC-required promos happens on the Promo Page, not here.
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section" style="padding-top:0; padding-bottom:4px;">
-    <div style="padding:0 24px 16px;">
-
-      <!-- STATE A: Auto-apply — both ?promo= and ?ldc= params present in URL -->
-      <div style="background:#fff8e6; border:1.5px solid #c8a240; border-radius:4px; padding:10px 14px; font-size:12px; color:#7a6030;">
-        <strong>📬 Auto-apply state</strong> (fires when both <code>?promo=SAVE25</code> and <code>?ldc=columbia-gas</code> detected in URL):<br>
-        <span style="margin-top:4px; display:block;">"Promotional offer <strong>SAVE25</strong> applied — your discounted rate is reflected in the plans below. <span style="text-decoration:underline; cursor:pointer;">View offer details</span>."</span>
-        <span style="font-size:10px; color:#999; margin-top:4px; display:block;">Banner persists until plan is selected or user dismisses. Promo code carried forward to enrollment flow as URL/session param.</span>
-      </div>
-
-      <!-- STATE B: Manual entry — collapsed toggle for direct-navigation users -->
-      <div style="margin-top:8px; border-top:1px dashed #d4c8a8; padding-top:10px;">
-        <div style="font-size:12px; color:#7a6030; font-weight:600; cursor:pointer;" onclick="this.nextElementSibling.style.display='block'; this.style.display='none';">
+<div class="section" style="padding-top:0; padding-bottom:4px;">
+<div style="padding:0 24px 16px;">
+<!-- STATE A: Auto-apply — both ?promo= and ?ldc= params present in URL -->
+<div style="background:#fff8e6; border:1.5px solid #c8a240; border-radius:4px; padding:10px 14px; font-size:12px; color:#7a6030;">
+<strong>📬 Auto-apply state</strong> (fires when both <code>?promo=SAVE25</code> and <code>?ldc=columbia-gas</code> detected in URL):<br/>
+<span style="margin-top:4px; display:block;">"Promotional offer <strong>SAVE25</strong> applied — your discounted rate is reflected in the plans below. <span style="text-decoration:underline; cursor:pointer;">View offer details</span>."</span>
+<span style="font-size:10px; color:#999; margin-top:4px; display:block;">Banner persists until plan is selected or user dismisses. Promo code carried forward to enrollment flow as URL/session param.</span>
+</div>
+<!-- STATE B: Manual entry — collapsed toggle for direct-navigation users -->
+<div style="margin-top:8px; border-top:1px dashed #d4c8a8; padding-top:10px;">
+<div onclick="this.nextElementSibling.style.display='block'; this.style.display='none';" style="font-size:12px; color:#7a6030; font-weight:600; cursor:pointer;">
           📬 Have a promotional offer code? Enter it here ▾
         </div>
-        <div style="display:none; margin-top:10px; background:#faf8f3; border:1.5px dashed #c8b97a; border-radius:4px; padding:12px 16px;">
-          <div style="font-size:12px; color:#666; margin-bottom:10px;">Enter the code from your mailer or email to apply your promotional offer to the plans below.</div>
-          <div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap;">
-            <div>
-              <div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Promo Code</div>
-              <input class="wf-input" style="max-width:200px;" type="text" placeholder="e.g. SAVE25" readonly>
-            </div>
-            <div class="wf-btn" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">Apply →</div>
-          </div>
-          <div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
-            ✓ <strong>Valid code — LDC already selected:</strong> Transitions to State A auto-apply — "Promotional offer SAVE25 applied." Plans update to reflect offer immediately.<br>
-            <span style="color:#1565c0; margin-top:5px; display:block;">✓ <strong>Valid code — no LDC selected yet:</strong> Transitions to State C (see below) — code stored, prompt to select utility. Discount auto-applies once LDC is confirmed.</span>
-          </div>
-          <div style="margin-top:6px; background:#fff8e1; border:1px solid #f5c842; border-radius:3px; padding:8px 12px; font-size:12px; color:#7a6000;">
+<div style="display:none; margin-top:10px; background:#faf8f3; border:1.5px dashed #c8b97a; border-radius:4px; padding:12px 16px;">
+<div style="font-size:12px; color:#666; margin-bottom:10px;">Enter the code from your mailer or email to apply your promotional offer to the plans below.</div>
+<div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap;">
+<div>
+<div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Promo Code</div>
+<input class="wf-input" placeholder="e.g. SAVE25" readonly="" style="max-width:200px;" type="text"/>
+</div>
+<div class="wf-btn" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">Apply →</div>
+</div>
+<div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
+            ✓ <strong>Valid code — LDC already selected:</strong> Transitions to State A auto-apply — "Promotional offer SAVE25 applied." Plans update to reflect offer immediately.<br/>
+<span style="color:#1565c0; margin-top:5px; display:block;">✓ <strong>Valid code — no LDC selected yet:</strong> Transitions to State C (see below) — code stored, prompt to select utility. Discount auto-applies once LDC is confirmed.</span>
+</div>
+<div style="margin-top:6px; background:#fff8e1; border:1px solid #f5c842; border-radius:3px; padding:8px 12px; font-size:12px; color:#7a6000;">
             ⚠️ <strong>Invalid / expired code:</strong> "That code isn't valid or may have expired. Check your mailer for the correct code." Plans displayed at standard rates.
           </div>
-        </div>
-      </div>
-
-      <!-- STATE C: Code confirmed — LDC not yet selected -->
-      <!-- Triggered when: State B code validates AND no LDC has been selected yet -->
-      <!-- Resolves when: user selects LDC → auto-apply fires (same outcome as State A) -->
-      <div style="margin-top:8px; border-top:1px dashed #d4c8a8; padding-top:10px;">
-        <div style="background:#e3f0fb; border:1.5px solid #1e6fbd; border-radius:4px; padding:10px 14px; font-size:12px; color:#1a3d5c;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-            <div>
-              <strong>✓ Promotional code confirmed</strong><br>
-              <span style="margin-top:4px; display:block;">Code <strong>SAVE25</strong> is valid and saved. <strong>Select your utility above</strong> to see your discounted plan offers.</span>
-              <span style="font-size:10px; color:#4a7faa; margin-top:4px; display:block;">Your discount will be applied automatically once your utility is confirmed — no need to re-enter your code.</span>
-            </div>
-            <div style="font-size:10px; color:#1e6fbd; text-decoration:underline; cursor:pointer; white-space:nowrap; padding-top:2px;">Remove code</div>
-          </div>
-        </div>
-        <div style="background:#d6eaf8; border-left:3px solid #1e6fbd; border-radius:0 3px 3px 0; padding:7px 12px; font-size:11px; color:#1a3d5c; margin-top:6px;">
+</div>
+</div>
+<!-- STATE C: Code confirmed — LDC not yet selected -->
+<!-- Triggered when: State B code validates AND no LDC has been selected yet -->
+<!-- Resolves when: user selects LDC → auto-apply fires (same outcome as State A) -->
+<div style="margin-top:8px; border-top:1px dashed #d4c8a8; padding-top:10px;">
+<div style="background:#e3f0fb; border:1.5px solid #1e6fbd; border-radius:4px; padding:10px 14px; font-size:12px; color:#1a3d5c;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+<div>
+<strong>✓ Promotional code confirmed</strong><br/>
+<span style="margin-top:4px; display:block;">Code <strong>SAVE25</strong> is valid and saved. <strong>Select your utility above</strong> to see your discounted plan offers.</span>
+<span style="font-size:10px; color:#4a7faa; margin-top:4px; display:block;">Your discount will be applied automatically once your utility is confirmed — no need to re-enter your code.</span>
+</div>
+<div style="font-size:10px; color:#1e6fbd; text-decoration:underline; cursor:pointer; white-space:nowrap; padding-top:2px;">Remove code</div>
+</div>
+</div>
+<div style="background:#d6eaf8; border-left:3px solid #1e6fbd; border-radius:0 3px 3px 0; padding:7px 12px; font-size:11px; color:#1a3d5c; margin-top:6px;">
           ↑ <strong>Next step:</strong> Select your gas utility in the section above. Plan offers will appear with your promotional discount automatically applied.
         </div>
-      </div>
-
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-
-        <!-- ── JOURNEY MODEL ANNOTATION (added April 2026) ── -->
-        <div class="annot annot-blue" style="width:100%; display:flex;"><span class="annot-icon">↳</span> <strong>Journey model:</strong> The Promo Page (PromoPage_Wireframe.html) is now the primary decision surface for all promo journeys. Users arrive here from the Promo Page secondary CTA ("Compare All Plans"). This Plans page is a comparison surface — the promo offer is surfaced via the pinned card in Section 3, not re-decided here. State A (below) is the normal arrival state for promo users on this page.</div>
-        <div class="annot annot-blue" style="width:100%; display:flex;"><span class="annot-icon">↳</span> <strong>State A is primary:</strong> Promo Page always passes both <code>?promo=CODE</code> and <code>?ldc=LDC_NAME</code> when routing here — LDC was confirmed on the Promo Page before this redirect. State A auto-applies the code and pre-selects the utility. States B and C remain for edge-case users who bypassed the Promo Page.</div>
-
-        <!-- ── EXISTING STATE ANNOTATIONS ── -->
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Mirrors homepage layout — LDC selector and promo strip are separate sections. Promo strip has one job: apply an offer. LDC selector has one job: identify utility.</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> State A fires when both <code>?promo=</code> and <code>?ldc=</code> are present — this is the expected arrival state for users routed from the Promo Page secondary CTA. Both params are always passed together from the Promo Page (LDC confirmed there first).</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> State B handles edge-case direct-navigation users with a physical code who bypassed the Promo Page — collapsed by default so it doesn't compete with plan cards. Branches on LDC status at time of submission: LDC selected → State A; no LDC → State C. Less common since promo campaigns now route to Promo Page first.</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> State C handles edge case: code entered before LDC selection. Prime validates the code independently of LDC. Code stored in session; customer prompted to select utility. Discount auto-applies on LDC confirm — no re-entry required. Less likely now that LDC-required promos resolve LDC on the Promo Page.</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Invalid/expired code (State B or State C attempt) shows inline message and displays standard rates — no silent failure, no redirect.</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> State C session storage: confirm with dev how the validated promo code is held between LDC selection and plan card render — URL param, session storage, or server-side session. Must survive the LDC selection event without requiring page reload.</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> OQ-P7 (from Promo Page): Should State B manual-entry toggle be suppressed when user arrives via the Promo Page secondary CTA (State A already active)? Showing both may confuse users who already have an offer applied.</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- SECTION 3: PLAN CARDS -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">3</div><br>Plan Cards<br>(Primary CTA Zone)</div>
-    <div class="plans-section">
-      <div class="plans-header">
-        <h2>
-          <span class="market-display active" id="plans-h2-ong">Ohio Natural Gas Plans</span>
-          <span class="market-display" id="plans-h2-pa">Pennsylvania Energy Plans</span>
-          <span class="market-display" id="plans-h2-gre">Grand Rapids Energy Plans</span>
-          <span class="market-display" id="plans-h2-il">Illinois Energy Plans</span>
-          <span class="market-display" id="plans-h2-ies">Illinois Energy Solutions Plans</span>
-        </h2>
-        <div class="ldc-confirmed">
-          <span class="market-display active" id="ldc-badge-ong">✓ Columbia Gas service area</span>
-          <span class="market-display" id="ldc-badge-pa">✓ UGI service area</span>
-          <span class="market-display" id="ldc-badge-gre">✓ Consumers Energy service area</span>
-          <span class="market-display" id="ldc-badge-il">✓ Nicor Gas service area</span>
-          <span class="market-display" id="ldc-badge-ies">✓ Nicor Gas service area</span>
-        </div>
-      </div>
-
-      <!-- ─────────────────────────────────────────────────────
+</div>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+<!-- ── JOURNEY MODEL ANNOTATION (added April 2026) ── -->
+<div class="annot annot-blue" style="width:100%; display:flex;"><span class="annot-icon">↳</span> <strong>Journey model:</strong> The Promo Page (PromoPage_Wireframe.html) is now the primary decision surface for all promo journeys. Users arrive here from the Promo Page secondary CTA ("Compare All Plans"). This Plans page is a comparison surface — the promo offer is surfaced via the pinned card in Section 3, not re-decided here. State A (below) is the normal arrival state for promo users on this page.</div>
+<div class="annot annot-blue" style="width:100%; display:flex;"><span class="annot-icon">↳</span> <strong>State A is primary:</strong> Promo Page always passes both <code>?promo=CODE</code> and <code>?ldc=LDC_NAME</code> when routing here — LDC was confirmed on the Promo Page before this redirect. State A auto-applies the code and pre-selects the utility. States B and C remain for edge-case users who bypassed the Promo Page.</div>
+<!-- ── EXISTING STATE ANNOTATIONS ── -->
+<div class="annot annot-green"><span class="annot-icon">✓</span> Mirrors homepage layout — LDC selector and promo strip are separate sections. Promo strip has one job: apply an offer. LDC selector has one job: identify utility.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> State A fires when both <code>?promo=</code> and <code>?ldc=</code> are present — this is the expected arrival state for users routed from the Promo Page secondary CTA. Both params are always passed together from the Promo Page (LDC confirmed there first).</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> State B handles edge-case direct-navigation users with a physical code who bypassed the Promo Page — collapsed by default so it doesn't compete with plan cards. Branches on LDC status at time of submission: LDC selected → State A; no LDC → State C. Less common since promo campaigns now route to Promo Page first.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> State C handles edge case: code entered before LDC selection. Prime validates the code independently of LDC. Code stored in session; customer prompted to select utility. Discount auto-applies on LDC confirm — no re-entry required. Less likely now that LDC-required promos resolve LDC on the Promo Page.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Invalid/expired code (State B or State C attempt) shows inline message and displays standard rates — no silent failure, no redirect.</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> State C session storage: confirm with dev how the validated promo code is held between LDC selection and plan card render — URL param, session storage, or server-side session. Must survive the LDC selection event without requiring page reload.</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> OQ-P7 (from Promo Page): Should State B manual-entry toggle be suppressed when user arrives via the Promo Page secondary CTA (State A already active)? Showing both may confuse users who already have an offer applied.</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: PLAN CARDS -->
+<div class="section">
+<div class="section-label"><div class="section-number">3</div><br/>Plan Cards<br/>(Primary CTA Zone)</div>
+<div class="plans-section">
+<div class="plans-header">
+<h2>
+<span class="market-display active" id="plans-h2-ong">Ohio Natural Gas Plans</span>
+<span class="market-display" id="plans-h2-pa">Pennsylvania Energy Plans</span>
+<span class="market-display" id="plans-h2-gre">Grand Rapids Energy Plans</span>
+<span class="market-display" id="plans-h2-il">Illinois Energy Plans</span>
+<span class="market-display" id="plans-h2-ies">Illinois Energy Solutions Plans</span>
+</h2>
+<div class="ldc-confirmed">
+<span class="market-display active" id="ldc-badge-ong">✓ Columbia Gas service area</span>
+<span class="market-display" id="ldc-badge-pa">✓ UGI service area</span>
+<span class="market-display" id="ldc-badge-gre">✓ Consumers Energy service area</span>
+<span class="market-display" id="ldc-badge-il">✓ Nicor Gas service area</span>
+<span class="market-display" id="ldc-badge-ies">✓ Nicor Gas service area</span>
+</div>
+</div>
+<!-- ─────────────────────────────────────────────────────
            PINNED PROMO ZONE — visible only when promo code is active
            Sits above the filter bar; not subject to filter state.
            Promo plan is a distinct catalog entry — confirmed with client.
       ────────────────────────────────────────────────────── -->
-      <div class="promo-pin-zone">
-        <div class="promo-pin-header">
-          <div class="pin-label">🏷 Your Promotional Offer — <strong>SAVE25</strong></div>
-          <div class="pin-dismiss">Remove code ✕</div>
-        </div>
-        <div class="promo-pin-body">
-
-          <!-- Pinned-promo card — uses the same .pc component with promo state (per PC-D10 rev 2).
+<div class="promo-pin-zone">
+<div class="promo-pin-header">
+<div class="pin-label">🏷 Your Promotional Offer — <strong>SAVE25</strong></div>
+<div class="pin-dismiss">Remove code ✕</div>
+</div>
+<div class="promo-pin-body">
+<!-- Pinned-promo card — uses the same .pc component with promo state (per PC-D10 rev 2).
                Outer pinned wrapper is owned by this page, not the Plan Card component. -->
-          <div class="pc promo" style="margin:0;">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-variable">Variable Rate</span>
-                <span class="pc-badge badge-promo">Promo SAVE25</span>
-              </div>
-              <div class="pc-name">Variable Plan with Discount</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$3.990</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
-                <div class="pc-rate-was">was $4.990</div>
-              </div>
-              <div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
-              <ul class="pc-points">
-                <li>20%+ off variable rate for first 2 months (new customers only)</li>
-                <li>No sign-up fees</li>
-                <li>No Early Termination Charges</li>
-                <li>After intro period, rate moves to standard variable</li>
-              </ul>
-              <!-- Slot K · Required disclosure line (promo / savings claim) -->
-              <div class="pc-disclosure-line">
+<div class="pc promo" style="margin:0;">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+<span class="pc-badge badge-promo">Promo SAVE25</span>
+</div>
+<div class="pc-name">Variable Plan with Discount</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$3.990</div>
+<div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+<div class="pc-rate-was">was $4.990</div>
+</div>
+<div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
+<ul class="pc-points">
+<li>20%+ off variable rate for first 2 months (new customers only)</li>
+<li>No sign-up fees</li>
+<li>No Early Termination Charges</li>
+<li>After intro period, rate moves to standard variable</li>
+</ul>
+<!-- Slot K · Required disclosure line (promo / savings claim) -->
+<div class="pc-disclosure-line">
                 New residential customers only. Savings calculated against published standard variable rate. <a>See full offer terms ↓</a>
-              </div>
-              <span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-            </div>
-          </div>
-
-          <!-- Annotation column -->
-          <div style="display:flex; flex-direction:column; gap:8px; font-size:11px; color:#555; padding-top:4px;">
-            <div style="font-weight:700; color:#1e3a5f; font-size:12px;">Why this card stays pinned</div>
-            <div style="line-height:1.6;">This plan only exists in the catalog when promo code <strong>SAVE25</strong> is active. It is not a filtered version of a standard plan — it is a distinct Prime catalog entry surfaced by the code.</div>
-            <div style="line-height:1.6;">Placing it above the filter bar communicates that it is outside the browsing context — the user's offer is always visible while they compare other options below.</div>
-            <div style="background:#fff3eb; border:1px solid #f7cdb0; border-radius:3px; padding:7px 10px; font-size:10px; color:#7a3800;">
+</div>
+<span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- Annotation column -->
+<div style="display:flex; flex-direction:column; gap:8px; font-size:11px; color:#555; padding-top:4px;">
+<div style="font-weight:700; color:#1e3a5f; font-size:12px;">Why this card stays pinned</div>
+<div style="line-height:1.6;">This plan only exists in the catalog when promo code <strong>SAVE25</strong> is active. It is not a filtered version of a standard plan — it is a distinct Prime catalog entry surfaced by the code.</div>
+<div style="line-height:1.6;">Placing it above the filter bar communicates that it is outside the browsing context — the user's offer is always visible while they compare other options below.</div>
+<div style="background:#fff3eb; border:1px solid #f7cdb0; border-radius:3px; padding:7px 10px; font-size:10px; color:#7a3800;">
               ⚑ <strong>Confirm with Prime:</strong> does the promo plan entry disappear from the standard plan cards grid once it is pinned here, or does it appear in both locations? Recommend: remove from the filterable grid to avoid duplication.
             </div>
-            <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:7px 10px; font-size:10px; color:#1b5e20;">
+<div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:7px 10px; font-size:10px; color:#1b5e20;">
               ✓ <strong>Filter counter excludes pinned card</strong> — "Showing X of Y plans" in the filter bar reflects only the browsable plan catalog, not the pinned promo entry.
             </div>
-          </div>
-
-        </div>
-        <div class="promo-pin-note">
+</div>
+</div>
+<div class="promo-pin-note">
           📌 This offer stays visible while you browse — use the filters below to compare other available plans. Removing the code returns this plan to the standard catalog.
         </div>
-      </div>
-
-      <!-- ─────────────────────────────────────────────────────
+</div>
+<!-- ─────────────────────────────────────────────────────
            FILTER BAR — appears after LDC is confirmed
            Dynamically filters plan cards; hides when ≤2 plans exist
            Filter counter excludes pinned promo card (counted separately above)
       ────────────────────────────────────────────────────── -->
-      <div class="filter-bar">
-
-        <div class="filter-group">
-          <span class="filter-label">Plan Type</span>
-          <div class="filter-chips">
-            <button class="filter-chip active">All Plans</button>
-            <button class="filter-chip">Fixed Rate</button>
-            <button class="filter-chip">Variable Rate</button>
-          </div>
-        </div>
-
-        <div class="filter-divider"></div>
-
-        <div class="filter-group">
-          <span class="filter-label">Contract Length</span>
-          <div class="filter-chips">
-            <button class="filter-chip active">Any</button>
-            <button class="filter-chip">12 Months</button>
-            <button class="filter-chip">24 Months</button>
-            <button class="filter-chip">Month-to-Month</button>
-          </div>
-        </div>
-
-        <div class="filter-divider"></div>
-
-        <div class="filter-group">
-          <span class="filter-label">Greener Life®</span>
-          <div class="filter-chips">
-            <button class="filter-chip green-chip">🌱 Show Greener Life Plans</button>
-          </div>
-        </div>
-
-        <div class="filter-results">
+<div class="filter-bar">
+<div class="filter-group">
+<span class="filter-label">Plan Type</span>
+<div class="filter-chips">
+<button class="filter-chip active">All Plans</button>
+<button class="filter-chip">Fixed Rate</button>
+<button class="filter-chip">Variable Rate</button>
+</div>
+</div>
+<div class="filter-divider"></div>
+<div class="filter-group">
+<span class="filter-label">Contract Length</span>
+<div class="filter-chips">
+<button class="filter-chip active">Any</button>
+<button class="filter-chip">12 Months</button>
+<button class="filter-chip">24 Months</button>
+<button class="filter-chip">Month-to-Month</button>
+</div>
+</div>
+<div class="filter-divider"></div>
+<div class="filter-group">
+<span class="filter-label">Greener Life®</span>
+<div class="filter-chips">
+<button class="filter-chip green-chip">🌱 Show Greener Life Plans</button>
+</div>
+</div>
+<div class="filter-results">
           Showing <strong>3</strong> of 3 plans
           <span class="filter-reset" style="display:none;">Clear filters ✕</span>
-        </div>
-
-        <div class="filter-bar-note">
-          ⚙ Filters update plan cards instantly (no Apply button). Filter bar hides automatically when a market has ≤2 plans — no point filtering 2 items.<br>
-          Greener Life filter chip hidden for markets where availability is unconfirmed (PA, GRE, IL, IES — TBD ⚑).<br>
-          Greener Life pre-LDC edge case: if user taps "Filter: Greener Life® Plans ↑" in Section 6 before selecting an LDC, the button scrolls up to the LDC selector with a contextual prompt — same scroll-and-prompt pattern as promo State C. Filter bar is not rendered pre-LDC; State 1 / State 2 toggle in the Greener Life module handles the gate.<br>
+</div>
+<div class="filter-bar-note">
+          ⚙ Filters update plan cards instantly (no Apply button). Filter bar hides automatically when a market has ≤2 plans — no point filtering 2 items.<br/>
+          Greener Life filter chip hidden for markets where availability is unconfirmed (PA, GRE, IL, IES — TBD ⚑).<br/>
+          Greener Life pre-LDC edge case: if user taps "Filter: Greener Life® Plans ↑" in Section 6 before selecting an LDC, the button scrolls up to the LDC selector with a contextual prompt — same scroll-and-prompt pattern as promo State C. Filter bar is not rendered pre-LDC; State 1 / State 2 toggle in the Greener Life module handles the gate.<br/>
           Promo active: filter counter ("Showing X of Y plans") reflects only the browsable catalog below — pinned promo card above is excluded from the count. Filters do not affect the pinned zone.
         </div>
-      </div>
-
-      <!-- ONG Plan Cards — unified .pc component per PlanCard_Wireframe.html -->
-      <div class="market-display active" id="cards-ong">
-        <div class="plan-cards">
-          <!-- 12-Month Fixed (featured) -->
-          <div class="pc featured">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-fixed">● Fixed Rate</span>
-                <span class="pc-badge badge-popular">Most Popular</span>
-              </div>
-              <div class="pc-name">12-Month Fixed Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$5.570</div>
-                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-              </div>
-              <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
-              <ul class="pc-points">
-                <li>Your price won't change for 12 months</li>
-                <li>No sign-up fees</li>
-                <li>Early termination: $12.50/month if cancelled early</li>
-                <li>We'll mail 1–2 renewal notices before your contract expires</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8: Billing start timeline · Cancellation rights · Auto-renewal (incl. Slot H · ACR info link) · Contract &amp; disclosures (incl. Plan Contract PDF link). ≤180 words total.\n\nAnalytics: plan_details_expand · params: plan_name, plan_type, market')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-            </div>
-          </div>
-          <!-- 24-Month Fixed -->
-          <div class="pc">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-fixed">● Fixed Rate</span>
-              </div>
-              <div class="pc-name">24-Month Fixed Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$5.970</div>
-                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-              </div>
-              <div class="pc-desc">The longest fixed-rate commitment we offer. Lock in your price for two full years and get the most extended protection from market swings.</div>
-              <ul class="pc-points">
-                <li>Your price won't change for 24 months</li>
-                <li>No sign-up fees</li>
-                <li>Early termination: $12.50/month if cancelled early</li>
-                <li>We'll mail 1–2 renewal notices before your contract expires</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-            </div>
-          </div>
-          <!-- Variable -->
-          <div class="pc">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-variable">Variable Rate</span>
-              </div>
-              <div class="pc-name">Variable Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$6.390</div>
-                <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-              </div>
-              <div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
-              <ul class="pc-points">
-                <li>No sign-up fees</li>
-                <li>No Early Termination Charges — cancel anytime</li>
-                <li>Rate may change or stay the same each month</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + plan-type-specific \&quot;How your rate is set\&quot; (NGI index basis) per §14 matrix.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-            </div>
-          </div>
-        </div>
-        <!-- SAME-PAGE REVEAL: Only shown when a market has additional plans beyond the initial 3-card grid.
+</div>
+<!-- ONG Plan Cards — unified .pc component per PlanCard_Wireframe.html -->
+<div class="market-display active" id="cards-ong">
+<div class="plan-cards">
+<!-- 12-Month Fixed (featured) -->
+<div class="pc featured">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+<span class="pc-badge badge-popular">Most Popular</span>
+</div>
+<div class="pc-name">12-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$5.570</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+<ul class="pc-points">
+<li>Your price won't change for 12 months</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early</li>
+<li>We'll mail 1–2 renewal notices before your contract expires</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8: Billing start timeline · Cancellation rights · Auto-renewal (incl. Slot H · ACR info link) · Contract &amp; disclosures (incl. Plan Contract PDF link). ≤180 words total.\n\nAnalytics: plan_details_expand · params: plan_name, plan_type, market')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- 24-Month Fixed -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+</div>
+<div class="pc-name">24-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$5.970</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">The longest fixed-rate commitment we offer. Lock in your price for two full years and get the most extended protection from market swings.</div>
+<ul class="pc-points">
+<li>Your price won't change for 24 months</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early</li>
+<li>We'll mail 1–2 renewal notices before your contract expires</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- Variable -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+</div>
+<div class="pc-name">Variable Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$6.390</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
+<ul class="pc-points">
+<li>No sign-up fees</li>
+<li>No Early Termination Charges — cancel anytime</li>
+<li>Rate may change or stay the same each month</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + plan-type-specific \&quot;How your rate is set\&quot; (NGI index basis) per §14 matrix.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+</div>
+<!-- SAME-PAGE REVEAL: Only shown when a market has additional plans beyond the initial 3-card grid.
              Markets with ≤3 plans show all cards immediately — no "see more" needed. -->
-        <div class="see-more-plans">
-          <div class="see-more-plans-text">
-            <strong>Showing 3 of 6 Ohio Natural Gas plans.</strong>
+<div class="see-more-plans">
+<div class="see-more-plans-text">
+<strong>Showing 3 of 6 Ohio Natural Gas plans.</strong>
             Filters above may be hiding additional options — or expand to see all plans.
           </div>
-          <span class="see-more-plans-cta" onclick="document.getElementById('ong-extra-plans').style.display='block'; this.parentElement.style.display='none';">
+<span class="see-more-plans-cta" onclick="document.getElementById('ong-extra-plans').style.display='block'; this.parentElement.style.display='none';">
             ▾ Show all plans — no page change
           </span>
-        </div>
-        <div class="hidden-plans-reveal" id="ong-extra-plans">
-          <div class="plan-cards">
-            <!-- 6-Month Fixed Plan -->
-            <div class="pc">
-              <div class="pc-head">
-                <div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
-                <div class="pc-name">6-Month Fixed Plan</div>
-              </div>
-              <div class="pc-body">
-                <div class="pc-rate-row">
-                  <div class="pc-rate">$5.370</div>
-                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-                </div>
-                <div class="pc-desc">A shorter commitment for customers who want price protection without locking in for a full year. Best fit for households expecting to move or reassess soon.</div>
-                <ul class="pc-points">
-                  <li>Your price won't change for 6 months</li>
-                  <li>No sign-up fees</li>
-                  <li>Early termination: $12.50/month if cancelled early</li>
-                  <li>We'll mail 1–2 renewal notices before your contract expires</li>
-                </ul>
-                <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-              </div>
-              <div class="pc-foot">
-                <button class="pc-cta">Start Enrollment →</button>
-                <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-              </div>
-            </div>
-            <!-- 18-Month Fixed Plan -->
-            <div class="pc">
-              <div class="pc-head">
-                <div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
-                <div class="pc-name">18-Month Fixed Plan</div>
-              </div>
-              <div class="pc-body">
-                <div class="pc-rate-row">
-                  <div class="pc-rate">$5.770</div>
-                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-                </div>
-                <div class="pc-desc">Extended protection between the standard 12-month and the longer 24-month plans. A balanced commitment for steady households.</div>
-                <ul class="pc-points">
-                  <li>Your price won't change for 18 months</li>
-                  <li>No sign-up fees</li>
-                  <li>Early termination: $12.50/month if cancelled early</li>
-                  <li>We'll mail 1–2 renewal notices before your contract expires</li>
-                </ul>
-                <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-              </div>
-              <div class="pc-foot">
-                <button class="pc-cta">Start Enrollment →</button>
-                <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-              </div>
-            </div>
-            <!-- Variable Plan with Discount — intro-rate state (promo treatment per PC-D10) -->
-            <div class="pc promo">
-              <div class="pc-head">
-                <div class="pc-badge-row">
-                  <span class="pc-badge badge-variable">Variable Rate</span>
-                  <span class="pc-badge badge-promo">Intro Discount</span>
-                </div>
-                <div class="pc-name">Variable Plan with Discount</div>
-              </div>
-              <div class="pc-body">
-                <div class="pc-rate-row">
-                  <div class="pc-rate">$3.990</div>
-                  <div class="pc-rate-unit">/ <strong>CCF</strong></div>
-                  <div class="pc-rate-was">was $4.990</div>
-                </div>
-                <div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
-                <ul class="pc-points">
-                  <li>20%+ off variable rate for first 2 months (new customers only)</li>
-                  <li>No sign-up fees</li>
-                  <li>No Early Termination Charges</li>
-                  <li>After intro period, rate moves to standard variable</li>
-                </ul>
-                <!-- Slot K · Required disclosure line (intro-rate / savings claim) -->
-                <div class="pc-disclosure-line">
+</div>
+<div class="hidden-plans-reveal" id="ong-extra-plans">
+<div class="plan-cards">
+<!-- 6-Month Fixed Plan -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
+<div class="pc-name">6-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$5.370</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">A shorter commitment for customers who want price protection without locking in for a full year. Best fit for households expecting to move or reassess soon.</div>
+<ul class="pc-points">
+<li>Your price won't change for 6 months</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early</li>
+<li>We'll mail 1–2 renewal notices before your contract expires</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- 18-Month Fixed Plan -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
+<div class="pc-name">18-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$5.770</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">Extended protection between the standard 12-month and the longer 24-month plans. A balanced commitment for steady households.</div>
+<ul class="pc-points">
+<li>Your price won't change for 18 months</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early</li>
+<li>We'll mail 1–2 renewal notices before your contract expires</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- Variable Plan with Discount — intro-rate state (promo treatment per PC-D10) -->
+<div class="pc promo">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+<span class="pc-badge badge-promo">Intro Discount</span>
+</div>
+<div class="pc-name">Variable Plan with Discount</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$3.990</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+<div class="pc-rate-was">was $4.990</div>
+</div>
+<div class="pc-desc">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
+<ul class="pc-points">
+<li>20%+ off variable rate for first 2 months (new customers only)</li>
+<li>No sign-up fees</li>
+<li>No Early Termination Charges</li>
+<li>After intro period, rate moves to standard variable</li>
+</ul>
+<!-- Slot K · Required disclosure line (intro-rate / savings claim) -->
+<div class="pc-disclosure-line">
                   New residential customers only. Savings calculated against published standard variable rate. <a>See full offer terms ↓</a>
-                </div>
-                <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; + \&quot;After the intro period\&quot; per §14 matrix. Promo-state expand may exceed 180-word ceiling — trim Cancellation rights paragraph to compensate.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-              </div>
-              <div class="pc-foot">
-                <button class="pc-cta">Start Enrollment →</button>
-                <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GRE Plan Cards (Michigan — Mcf unit) — unified .pc component -->
-      <div class="market-display" id="cards-gre">
-        <div class="plan-cards">
-          <!-- 12-Month Fixed Rate (featured) -->
-          <div class="pc featured">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-fixed">● Fixed Rate</span>
-                <span class="pc-badge badge-popular">Most Popular</span>
-              </div>
-              <div class="pc-name">12-Month Fixed Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$X.XXX</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
-              </div>
-              <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
-              <ul class="pc-points">
-                <li>Your price won't change for 12 months</li>
-                <li>No sign-up fees</li>
-                <li>Early termination: [$ TBD]/month if cancelled early <span style="color:#c0392b; font-size:10px;">⚑</span></li>
-                <li>We'll mail renewal notices before your contract expires <span style="color:#c0392b; font-size:10px;">⚑ notice period TBD</span></li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: [date]</div>
-            </div>
-          </div>
-          <!-- Variable Rate -->
-          <div class="pc">
-            <div class="pc-head">
-              <div class="pc-badge-row"><span class="pc-badge badge-variable">Variable Rate</span></div>
-              <div class="pc-name">Variable Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-rate-row">
-                <div class="pc-rate">$X.XXX</div>
-                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
-              </div>
-              <div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
-              <ul class="pc-points">
-                <li>No sign-up fees</li>
-                <li>No Early Termination Charges — cancel anytime</li>
-                <li>Rate may change or stay the same each month</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-              <div class="pc-rate-updated">Rate last updated: [date]</div>
-            </div>
-          </div>
-          <!-- Commercial placeholder — built but disabled per March 31 sitemap feedback.
+</div>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; + \&quot;After the intro period\&quot; per §14 matrix. Promo-state expand may exceed 180-word ceiling — trim Cancellation rights paragraph to compensate.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- GRE Plan Cards (Michigan — Mcf unit) — unified .pc component -->
+<div class="market-display" id="cards-gre">
+<div class="plan-cards">
+<!-- 12-Month Fixed Rate (featured) -->
+<div class="pc featured">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+<span class="pc-badge badge-popular">Most Popular</span>
+</div>
+<div class="pc-name">12-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$X.XXX</div>
+<div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+</div>
+<div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate. Peace of mind, plain and simple.</div>
+<ul class="pc-points">
+<li>Your price won't change for 12 months</li>
+<li>No sign-up fees</li>
+<li>Early termination: [$ TBD]/month if cancelled early <span style="color:#c0392b; font-size:10px;">⚑</span></li>
+<li>We'll mail renewal notices before your contract expires <span style="color:#c0392b; font-size:10px;">⚑ notice period TBD</span></li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: [date]</div>
+</div>
+</div>
+<!-- Variable Rate -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row"><span class="pc-badge badge-variable">Variable Rate</span></div>
+<div class="pc-name">Variable Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$X.XXX</div>
+<div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+</div>
+<div class="pc-desc">A month-to-month plan with no long-term commitment. Your rate may change or stay the same each month based on supply and demand.</div>
+<ul class="pc-points">
+<li>No sign-up fees</li>
+<li>No Early Termination Charges — cancel anytime</li>
+<li>Rate may change or stay the same each month</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: [date]</div>
+</div>
+</div>
+<!-- Commercial placeholder — built but disabled per March 31 sitemap feedback.
                Not a real Plan Card render. CommercialPlans_Wireframe.html owns the
                commercial card markup; this slot is a structural reminder only. -->
-          <div style="border:1.5px dashed #d0cfc9; border-radius:5px; padding:18px; background:#f9f9f8; text-align:center; font-size:11px; color:#888; line-height:1.5;">
-            <b>Commercial GRE — placeholder</b><br>
-            Structure built; render disabled until client confirms readiness.<br>
+<div style="border:1.5px dashed #d0cfc9; border-radius:5px; padding:18px; background:#f9f9f8; text-align:center; font-size:11px; color:#888; line-height:1.5;">
+<b>Commercial GRE — placeholder</b><br/>
+            Structure built; render disabled until client confirms readiness.<br/>
             (Sitemap feedback · March 31)
           </div>
+</div>
+</div>
+<!-- PA, IL, IES — simplified placeholders -->
+<!-- PA Plan Cards — render same .pc component as ONG · unit: therms -->
+<div class="market-display" id="cards-pa">
+<div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
+<b style="color:#1e3a5f;">Pennsylvania Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong> (PA-specific). Plan types: standard Fixed (multiple terms) + Variable. Greener Life availability TBD. <span style="color:#c0392b;">⚑</span> PA PUC disclosure links (below) are a PA-only regulatory requirement.
         </div>
-      </div>
-
-      <!-- PA, IL, IES — simplified placeholders -->
-      <!-- PA Plan Cards — render same .pc component as ONG · unit: therms -->
-      <div class="market-display" id="cards-pa">
-        <div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
-          <b style="color:#1e3a5f;">Pennsylvania Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong> (PA-specific). Plan types: standard Fixed (multiple terms) + Variable. Greener Life availability TBD. <span style="color:#c0392b;">⚑</span> PA PUC disclosure links (below) are a PA-only regulatory requirement.
-        </div>
-        <!-- PA regulatory: Historical pricing table links — PA PUC requirement, placed after plan cards -->
-        <div style="border-top:1px solid #e8e8e4; padding-top:16px; margin-top:16px;">
-          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:10px;">Historical Pricing — Pennsylvania Regulatory Disclosure</div>
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#555; margin-bottom:10px;">
-            <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Peoples Natural Gas historical rate data →</a>
-            <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View UGI Utilities historical rate data →</a>
-            <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Philadelphia Gas Works historical rate data →</a>
-            <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Columbia Gas of PA historical rate data →</a>
-          </div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ PA PUC regulatory requirement — historical pricing links on plans page. Placed after plan cards per client direction: links do not need to appear before rates.</span>
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Historical pricing URLs must be confirmed with client/legal before content authoring. Links shown are LDC-specific placeholders. Displayed for PA market only.</span>
-          </div>
-        </div>
-      </div>
-      <div class="market-display" id="cards-il">
-        <!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
-        <div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <div style="font-size:12px; color:#555; line-height:1.5;">
-            <strong>For comparison:</strong> Current
+<!-- PA regulatory: Historical pricing table links — PA PUC requirement, placed after plan cards -->
+<div style="border-top:1px solid #e8e8e4; padding-top:16px; margin-top:16px;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:10px;">Historical Pricing — Pennsylvania Regulatory Disclosure</div>
+<div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#555; margin-bottom:10px;">
+<a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Peoples Natural Gas historical rate data →</a>
+<a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View UGI Utilities historical rate data →</a>
+<a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Philadelphia Gas Works historical rate data →</a>
+<a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">View Columbia Gas of PA historical rate data →</a>
+</div>
+<div style="display:flex; gap:6px; flex-wrap:wrap;">
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ PA PUC regulatory requirement — historical pricing links on plans page. Placed after plan cards per client direction: links do not need to appear before rates.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Historical pricing URLs must be confirmed with client/legal before content authoring. Links shown are LDC-specific placeholders. Displayed for PA market only.</span>
+</div>
+</div>
+</div>
+<div class="market-display" id="cards-il">
+<!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
+<div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+<div style="font-size:12px; color:#555; line-height:1.5;">
+<strong>For comparison:</strong> Current
             <span class="market-display active" id="il-ldc-ref">Nicor Gas</span>
-            <span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>
+<span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>
             default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>. Illinois Energy's plans are shown below.
           </div>
-          <a style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;" onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';">View rate &amp; plan disclosures ▾</a>
+<a onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';" style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;">View rate &amp; plan disclosures ▾</a>
+</div>
+<div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
+<b style="color:#1e3a5f;">Illinois Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong>. Plan types: Guaranteed Bill (quote-only), PriceGuard (Fixed, multiple terms), FlexPlan (Variable), <b>PriceCap</b> (multi-rate · primary+secondary), <b>TruBalance</b> (multi-rate · equal-weight stacked). Multi-rate plans are <b style="color:#b71c1c;">legacy · sunset planned</b> per PC-D4 — do not combine with Greener Life, Most Popular, Promo, or rate-pending. ICC SB651/Part 512 disclosure above is page-level and LDC-aware.
         </div>
-        <div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
-          <b style="color:#1e3a5f;">Illinois Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong>. Plan types: Guaranteed Bill (quote-only), PriceGuard (Fixed, multiple terms), FlexPlan (Variable), <b>PriceCap</b> (multi-rate · primary+secondary), <b>TruBalance</b> (multi-rate · equal-weight stacked). Multi-rate plans are <b style="color:#b71c1c;">legacy · sunset planned</b> per PC-D4 — do not combine with Greener Life, Most Popular, Promo, or rate-pending. ICC SB651/Part 512 disclosure above is page-level and LDC-aware.
-        </div>
-        <!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
-        <div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
-          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
-          <p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
-          <p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
-          <p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
-          <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
-          </div>
-        </div>
-      </div>
-      <div class="market-display" id="cards-ies">
-        <!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
-        <div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <div style="font-size:12px; color:#555; line-height:1.5;">
-            <strong>For comparison:</strong> Current
+<!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
+<div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
+<p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
+<p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
+<p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
+<div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
+</div>
+</div>
+</div>
+<div class="market-display" id="cards-ies">
+<!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
+<div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+<div style="font-size:12px; color:#555; line-height:1.5;">
+<strong>For comparison:</strong> Current
             <span class="market-display active" id="ies-ldc-ref">Nicor Gas</span>
             default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>. Illinois Energy's plans are shown below.
           </div>
-          <a style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;" onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';">View rate &amp; plan disclosures ▾</a>
-        </div>
-        <!-- IES Fixed Bill — new card per PC-D9 rev 2. Single-product market: one card, no grid. -->
-        <div style="max-width:380px; margin:0 auto;">
-          <div class="pc">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-fixedbill">● Fixed Bill</span>
-              </div>
-              <div class="pc-name">Fixed Bill Plan</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-quote">
-                <div class="pc-quote-label">Custom monthly amount</div>
-                <div class="pc-quote-phone" style="font-size:14px; font-weight:700;">Calculated from your usage</div>
-                <div style="font-size:10px; color:#888; margin-top:3px;">Your exact amount is confirmed during enrollment</div>
-              </div>
-              <div class="pc-desc">Pay the same flat amount every month for 12 months — your bill doesn't move with weather or market prices. Your <span class="dyn-ldc">Nicor Gas</span> delivery doesn't change; the Fixed Bill amount appears as a line on your existing Nicor Gas statement.</div>
-              <ul class="pc-points">
-                <li>Same monthly amount for 12 months</li>
-                <li>Protects against weather and price spikes</li>
-                <li>Appears on your existing <span class="dyn-ldc">Nicor Gas</span> bill</li>
-                <li>Total may be higher than utility default — not guaranteed savings</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — per §14 matrix: \&quot;How your monthly amount is calculated\&quot; (replaces Billing start) · Eligibility (LIHEAP/PIPP restrictions) · Cancellation rights · Auto-renewal (incl. Slot H · ACR info link) · Contract &amp; disclosures (incl. ICC \&quot;may not save money\&quot; brief caveat).\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta">Start Enrollment →</button>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
-          <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ PC-D9 rev 2 — IES Fixed Bill card now built (replaces prior placeholder). Inline enrollment canonical from launch. Phone fallback link dropped (nav phone is sufficient). Service mark stripped from plan name. New "Eligibility" section in expand covers LIHEAP/PIPP restrictions.</span>
-          <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Custom-amount quote-block copy needs client direction — currently "Custom monthly amount · Calculated from your usage." Possible enhancements: "Based on your home's past 12 months of natural gas usage."</span>
-          <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ Commercial IES Open Q — likely remains phone-only quote-only state. Confirm with client whether commercial IES enrollment moves online at launch.</span>
-        </div>
-        <!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
-        <div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
-          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
-          <p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
-          <p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
-          <p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
-          <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
-            <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> All plans shown immediately after LDC selection — no second gate, no reason to hide options from a user who has already qualified</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Filter bar dynamically narrows the visible plan set — "See more" expand is a fallback for markets with larger catalogs, not a default truncation</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> "See more" reveals additional plans inline — same page, no navigation, no loss of LDC context</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Fixed-rate plan leads (left/top) — strategic framing confirmed</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> ETF displayed in card — not hidden in footnotes</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> "Supply &amp; demand" language (not "seasonal") on variable cards</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Plan count per market — need final plan catalog from client to know when filter bar + "see more" trigger thresholds apply</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> GRE: MCF only — never therms (client-flagged error in current sitemap)</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> "Most Popular" badge: confirm enrollment volume data per market before publishing — CMS field, configurable without dev</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Greener Life filter chip: confirm availability per market before enabling filter (PA, GRE, IL, IES all TBD)</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Contract Length filter: confirm whether 24-month plans exist in all markets — filter chip should hide if only 1 term length exists</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Auto-renewal notice confirmed: ONG will mail 1–2 renewal notice(s) before contract expires — key point copy finalized for all fixed-rate plan cards (source: live ONG plans page, Apr 2026)</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Unit discrepancy: ONG live plans page (Enbridge Gas Ohio LDC, Apr 2026) shows all rates in Mcf — wireframe requirements say Ohio uses therms. Confirm whether this is LDC-specific (some Ohio utilities bill in Mcf, others in therms) or a requirements error before finalizing plan card unit labels</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> ONG plan catalog confirmed at 6 plans (Enbridge Gas Ohio LDC): 6-Month Fixed ($5.370), 12-Month Fixed ($5.570), 18-Month Fixed ($5.770), 24-Month Fixed ($5.970), Variable ($6.390), Variable with Discount ($4.990 new customers / first 2 months). Confirm catalog is consistent across all 4 ONG LDCs — plan availability may vary.</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Plan card "View Full Plan Details" expand: rescission window (days), billing start timeline — confirm Prime fields available before building expand state</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Variable Plan with Discount: new-customer eligibility check — confirm how Prime/enrollment flow validates "new customer" status and whether this plan should appear for returning customers at all</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 4: TRUST BAND -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">4</div><br>Trust &amp; Social<br>Proof Band</div>
-    <div class="trust-band">
-      <h3>Why customers choose us</h3>
-      <div class="trust-items">
-        <div class="trust-item">
-          <div class="trust-val"><span style="color:#f5c842;">★</span> [X.X]</div>
-          <div class="trust-label">[N,NNN] verified reviews<br>(Google / BBB / Trustpilot)</div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val">[XX]+</div>
-          <div class="trust-label">Years serving<br>
-            <span class="market-display active" id="trust-state-ong">Ohio</span>
-            <span class="market-display" id="trust-state-pa">Pennsylvania</span>
-            <span class="market-display" id="trust-state-gre">Michigan</span>
-            <span class="market-display" id="trust-state-il">Illinois</span>
-            <span class="market-display" id="trust-state-ies">Illinois</span>
+<a onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';" style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;">View rate &amp; plan disclosures ▾</a>
+</div>
+<!-- IES Fixed Bill — new card per PC-D9 rev 2. Single-product market: one card, no grid. -->
+<div style="max-width:380px; margin:0 auto;">
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixedbill">● Fixed Bill</span>
+</div>
+<div class="pc-name">Fixed Bill Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-quote">
+<div class="pc-quote-label">Custom monthly amount</div>
+<div class="pc-quote-phone" style="font-size:14px; font-weight:700;">Calculated from your usage</div>
+<div style="font-size:10px; color:#888; margin-top:3px;">Your exact amount is confirmed during enrollment</div>
+</div>
+<div class="pc-desc">Pay the same flat amount every month for 12 months — your bill doesn't move with weather or market prices. Your <span class="dyn-ldc">Nicor Gas</span> delivery doesn't change; the Fixed Bill amount appears as a line on your existing Nicor Gas statement.</div>
+<ul class="pc-points">
+<li>Same monthly amount for 12 months</li>
+<li>Protects against weather and price spikes</li>
+<li>Appears on your existing <span class="dyn-ldc">Nicor Gas</span> bill</li>
+<li>Total may be higher than utility default — not guaranteed savings</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — per §14 matrix: \&quot;How your monthly amount is calculated\&quot; (replaces Billing start) · Eligibility (LIHEAP/PIPP restrictions) · Cancellation rights · Auto-renewal (incl. Slot H · ACR info link) · Contract &amp; disclosures (incl. ICC \&quot;may not save money\&quot; brief caveat).\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+</div>
+</div>
+</div>
+<div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ PC-D9 rev 2 — IES Fixed Bill card now built (replaces prior placeholder). Inline enrollment canonical from launch. Phone fallback link dropped (nav phone is sufficient). Service mark stripped from plan name. New "Eligibility" section in expand covers LIHEAP/PIPP restrictions.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Custom-amount quote-block copy needs client direction — currently "Custom monthly amount · Calculated from your usage." Possible enhancements: "Based on your home's past 12 months of natural gas usage."</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ Commercial IES Open Q — likely remains phone-only quote-only state. Confirm with client whether commercial IES enrollment moves online at launch.</span>
+</div>
+<!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
+<div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
+<p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
+<p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
+<p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
+<div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
+</div>
+</div>
+</div>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> All plans shown immediately after LDC selection — no second gate, no reason to hide options from a user who has already qualified</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Filter bar dynamically narrows the visible plan set — "See more" expand is a fallback for markets with larger catalogs, not a default truncation</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> "See more" reveals additional plans inline — same page, no navigation, no loss of LDC context</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Fixed-rate plan leads (left/top) — strategic framing confirmed</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> ETF displayed in card — not hidden in footnotes</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> "Supply &amp; demand" language (not "seasonal") on variable cards</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Plan count per market — need final plan catalog from client to know when filter bar + "see more" trigger thresholds apply</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> GRE: MCF only — never therms (client-flagged error in current sitemap)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> "Most Popular" badge: confirm enrollment volume data per market before publishing — CMS field, configurable without dev</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Greener Life filter chip: confirm availability per market before enabling filter (PA, GRE, IL, IES all TBD)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Contract Length filter: confirm whether 24-month plans exist in all markets — filter chip should hide if only 1 term length exists</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Auto-renewal notice confirmed: ONG will mail 1–2 renewal notice(s) before contract expires — key point copy finalized for all fixed-rate plan cards (source: live ONG plans page, Apr 2026)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Unit discrepancy: ONG live plans page (Enbridge Gas Ohio LDC, Apr 2026) shows all rates in Mcf — wireframe requirements say Ohio uses therms. Confirm whether this is LDC-specific (some Ohio utilities bill in Mcf, others in therms) or a requirements error before finalizing plan card unit labels</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> ONG plan catalog confirmed at 6 plans (Enbridge Gas Ohio LDC): 6-Month Fixed ($5.370), 12-Month Fixed ($5.570), 18-Month Fixed ($5.770), 24-Month Fixed ($5.970), Variable ($6.390), Variable with Discount ($4.990 new customers / first 2 months). Confirm catalog is consistent across all 4 ONG LDCs — plan availability may vary.</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Plan card "View Full Plan Details" expand: rescission window (days), billing start timeline — confirm Prime fields available before building expand state</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Variable Plan with Discount: new-customer eligibility check — confirm how Prime/enrollment flow validates "new customer" status and whether this plan should appear for returning customers at all</div>
+</div>
+</div>
+</div>
+<!-- SECTION 4: TRUST BAND -->
+<div class="section">
+<div class="section-label"><div class="section-number">4</div><br/>Trust &amp; Social<br/>Proof Band</div>
+<div class="trust-band">
+<h3>Why customers choose us</h3>
+<div class="trust-items">
+<div class="trust-item">
+<div class="trust-val"><span style="color:#f5c842;">★</span> [X.X]</div>
+<div class="trust-label">[N,NNN] verified reviews<br/>(Google / BBB / Trustpilot)</div>
+</div>
+<div class="trust-item">
+<div class="trust-val">[XX]+</div>
+<div class="trust-label">Years serving<br/>
+<span class="market-display active" id="trust-state-ong">Ohio</span>
+<span class="market-display" id="trust-state-pa">Pennsylvania</span>
+<span class="market-display" id="trust-state-gre">Michigan</span>
+<span class="market-display" id="trust-state-il">Illinois</span>
+<span class="market-display" id="trust-state-ies">Illinois</span>
             households
           </div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val" style="font-size:13px; padding-top:4px;">
-            <span class="market-display active" id="trust-lic-ong">PUCO<br>Licensed</span>
-            <span class="market-display" id="trust-lic-pa">PA PUC<br>Licensed</span>
-            <span class="market-display" id="trust-lic-gre">MPSC<br>Licensed</span>
-            <span class="market-display" id="trust-lic-il">ICC<br>Licensed</span>
-            <span class="market-display" id="trust-lic-ies">ICC<br>Licensed</span>
-          </div>
-          <div class="trust-label">State-certified<br>natural gas supplier ↗</div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val" style="font-size:14px; padding-top:4px;">BBB<br>Accredited</div>
-          <div class="trust-label">Rating: [A+] ↗</div>
-        </div>
-      </div>
-      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Review aggregate: confirm whether verified reviews exist per market. If not, sourcing plan needed before Trust Band can be designed</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> All trust claims must include source link — no unsupported superlatives</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Years-in-market must be verifiable and market-specific — not "decades of experience"</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 6: GREENER LIFE -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">6</div><br>Greener Life®<br>Plans Module</div>
-    <div class="greener-module">
-      <div class="greener-header">
-        <div class="greener-icon">🌱</div>
-        <div>
-          <div class="greener-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
-          <div class="greener-sub">Greener Life® is a natural gas plan that makes your home's gas usage carbon neutral — available in both fixed-rate and variable-rate options.</div>
-        </div>
-      </div>
-      <div class="greener-body">
-        <div class="greener-impact">
-          <span class="market-display active" id="greener-desc-ong">Ohio Natural Gas</span>
-          <span class="market-display" id="greener-desc-pa">Pennsylvania Energy</span>
-          <span class="market-display" id="greener-desc-gre">Grand Rapids Energy</span>
-          <span class="market-display" id="greener-desc-il">Illinois Energy</span>
-          calculates the greenhouse gas emissions from your natural gas usage, then purchases and retires certified carbon offsets to balance the impact. Rates shown in the plan cards above.<br><br>
-          SouthStar customers have collectively offset over <strong>990 million pounds of carbon</strong> from the atmosphere.<br><br>
-          <a href="#" style="color:#2e7d32; font-size:11px; text-decoration:underline;">Learn more about how carbon offsets work →</a>
-        </div>
-        <div class="greener-toggle-area">
-
-          <!-- STATE 1: No LDC selected -->
-          <div style="border:1.5px dashed #b0bec5; border-radius:4px; padding:10px 14px; background:#f5f7f8; margin-bottom:10px;">
-            <div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#78909c; margin-bottom:8px;">State 1 — No LDC selected</div>
-            <div style="font-size:12px; color:#546e7a; margin-bottom:10px; line-height:1.5;">
+</div>
+<div class="trust-item">
+<div class="trust-val" style="font-size:13px; padding-top:4px;">
+<span class="market-display active" id="trust-lic-ong">PUCO<br/>Licensed</span>
+<span class="market-display" id="trust-lic-pa">PA PUC<br/>Licensed</span>
+<span class="market-display" id="trust-lic-gre">MPSC<br/>Licensed</span>
+<span class="market-display" id="trust-lic-il">ICC<br/>Licensed</span>
+<span class="market-display" id="trust-lic-ies">ICC<br/>Licensed</span>
+</div>
+<div class="trust-label">State-certified<br/>natural gas supplier ↗</div>
+</div>
+<div class="trust-item">
+<div class="trust-val" style="font-size:14px; padding-top:4px;">BBB<br/>Accredited</div>
+<div class="trust-label">Rating: [A+] ↗</div>
+</div>
+</div>
+<div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Review aggregate: confirm whether verified reviews exist per market. If not, sourcing plan needed before Trust Band can be designed</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> All trust claims must include source link — no unsupported superlatives</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> Years-in-market must be verifiable and market-specific — not "decades of experience"</div>
+</div>
+</div>
+</div>
+<!-- SECTION 6: GREENER LIFE -->
+<div class="section">
+<div class="section-label"><div class="section-number">6</div><br/>Greener Life®<br/>Plans Module</div>
+<div class="greener-module">
+<div class="greener-header">
+<div class="greener-icon">🌱</div>
+<div>
+<div class="greener-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
+<div class="greener-sub">Greener Life® is a natural gas plan that makes your home's gas usage carbon neutral — available in both fixed-rate and variable-rate options.</div>
+</div>
+</div>
+<div class="greener-body">
+<div class="greener-impact">
+<span class="market-display active" id="greener-desc-ong">Ohio Natural Gas</span>
+<span class="market-display" id="greener-desc-pa">Pennsylvania Energy</span>
+<span class="market-display" id="greener-desc-gre">Grand Rapids Energy</span>
+<span class="market-display" id="greener-desc-il">Illinois Energy</span>
+          calculates the greenhouse gas emissions from your natural gas usage, then purchases and retires certified carbon offsets to balance the impact. Rates shown in the plan cards above.<br/><br/>
+          SouthStar customers have collectively offset over <strong>990 million pounds of carbon</strong> from the atmosphere.<br/><br/>
+<a href="#" style="color:#2e7d32; font-size:11px; text-decoration:underline;">Learn more about how carbon offsets work →</a>
+</div>
+<div class="greener-toggle-area">
+<!-- STATE 1: No LDC selected -->
+<div style="border:1.5px dashed #b0bec5; border-radius:4px; padding:10px 14px; background:#f5f7f8; margin-bottom:10px;">
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#78909c; margin-bottom:8px;">State 1 — No LDC selected</div>
+<div style="font-size:12px; color:#546e7a; margin-bottom:10px; line-height:1.5;">
               To see Greener Life® plan options and rates, first select your gas utility above.
             </div>
-            <div style="display:inline-block; background:#f0f4f9; border:1.5px solid #7aabda; color:#1e3a5f; padding:7px 14px; border-radius:3px; font-size:11px; font-weight:700; cursor:pointer;">
+<div style="display:inline-block; background:#f0f4f9; border:1.5px solid #7aabda; color:#1e3a5f; padding:7px 14px; border-radius:3px; font-size:11px; font-weight:700; cursor:pointer;">
               Select Your Utility ↑
             </div>
-            <div style="font-size:10px; color:#aaa; margin-top:6px;">Scrolls to LDC selector above — Greener Life filter activates automatically once utility is confirmed</div>
-          </div>
-
-          <!-- STATE 2: LDC selected -->
-          <div style="border:1.5px dashed #4caf50; border-radius:4px; padding:10px 14px; background:#f1f8f1;">
-            <div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:8px;">State 2 — LDC selected</div>
-            <div class="wf-label" style="color:#2e7d32; margin-bottom:8px;">See Greener Life® Plans</div>
-            <div style="display:inline-block; background:#2e7d32; color:#fff; padding:8px 18px; border-radius:3px; font-size:12px; font-weight:700; cursor:pointer;">Filter: Greener Life® Plans ↑</div>
-            <div style="font-size:10px; color:#888; margin-top:6px;">Scrolls up and activates Greener Life filter in the plan cards above</div>
-          </div>
-
-        </div>
-      </div>
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> Greener Life is a standalone plan type — enrolled as its own plan, not layered on top of another. Rates appear in plan cards above like any other plan.</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> State 1 → State 2 transition: once LDC is selected anywhere on the page, the toggle area updates automatically — no page reload needed.</div>
-        <div class="annot annot-green"><span class="annot-icon">✓</span> State 1 "Select Your Utility ↑" scrolls to LDC selector — same scroll-and-prompt pattern as promo State C. Consistent interaction model across both edge cases.</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Ohio-level or SouthStar-wide impact data? Confirm with SouthStar marketing</div>
-        <div class="annot annot-yellow"><span class="annot-icon">⚑</span> PA, GRE, IL Greener Life plan availability TBD — confirm with Aimee Henderson before enabling those markets in this module</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 7: FAQ -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">7</div><br>Plan FAQ<br>(Schema Markup)</div>
-    <div class="faq-section">
-      <h2>Common Questions About Natural Gas Plans</h2>
-      <div style="font-size:11px; color:#888; margin-bottom:12px; font-style:italic;">FAQ sourced from Ohio call center data (581 pricing/plan calls/month) and ONG query pattern analysis. FAQ schema (JSON-LD) applied to all items.</div>
-
-      <div class="faq-item open">
-        <div class="faq-question" onclick="toggleFaq(this)">
+<div style="font-size:10px; color:#aaa; margin-top:6px;">Scrolls to LDC selector above — Greener Life filter activates automatically once utility is confirmed</div>
+</div>
+<!-- STATE 2: LDC selected -->
+<div style="border:1.5px dashed #4caf50; border-radius:4px; padding:10px 14px; background:#f1f8f1;">
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:8px;">State 2 — LDC selected</div>
+<div class="wf-label" style="color:#2e7d32; margin-bottom:8px;">See Greener Life® Plans</div>
+<div style="display:inline-block; background:#2e7d32; color:#fff; padding:8px 18px; border-radius:3px; font-size:12px; font-weight:700; cursor:pointer;">Filter: Greener Life® Plans ↑</div>
+<div style="font-size:10px; color:#888; margin-top:6px;">Scrolls up and activates Greener Life filter in the plan cards above</div>
+</div>
+</div>
+</div>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> Greener Life is a standalone plan type — enrolled as its own plan, not layered on top of another. Rates appear in plan cards above like any other plan.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> State 1 → State 2 transition: once LDC is selected anywhere on the page, the toggle area updates automatically — no page reload needed.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> State 1 "Select Your Utility ↑" scrolls to LDC selector — same scroll-and-prompt pattern as promo State C. Consistent interaction model across both edge cases.</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Ohio-level or SouthStar-wide impact data? Confirm with SouthStar marketing</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> PA, GRE, IL Greener Life plan availability TBD — confirm with Aimee Henderson before enabling those markets in this module</div>
+</div>
+</div>
+</div>
+<!-- SECTION 7: FAQ -->
+<div class="section">
+<div class="section-label"><div class="section-number">7</div><br/>Plan FAQ<br/>(Schema Markup)</div>
+<div class="faq-section">
+<h2>Common Questions About Natural Gas Plans</h2>
+<div style="font-size:11px; color:#888; margin-bottom:12px; font-style:italic;">FAQ sourced from Ohio call center data (581 pricing/plan calls/month) and ONG query pattern analysis. FAQ schema (JSON-LD) applied to all items.</div>
+<div class="faq-item open">
+<div class="faq-question" onclick="toggleFaq(this)">
           What's the difference between a fixed rate and a variable rate?
           <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-answer">A fixed rate locks in your price per therm (or Mcf) for the length of your contract — your supply rate won't change even if market prices rise. A variable rate adjusts monthly based on market conditions and can go up or down. Fixed-rate plans typically include an Early Termination Fee if cancelled before the contract end date; variable plans generally do not.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
+</div>
+<div class="faq-answer">A fixed rate locks in your price per therm (or Mcf) for the length of your contract — your supply rate won't change even if market prices rise. A variable rate adjusts monthly based on market conditions and can go up or down. Fixed-rate plans typically include an Early Termination Fee if cancelled before the contract end date; variable plans generally do not.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
           What is an Early Termination Fee (ETF)?
           <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-answer">An Early Termination Fee is a charge that applies if you cancel a fixed-rate plan before your contract end date. The fee is calculated per remaining month on your contract. ETF amounts vary by market — see your plan details for the specific fee. Variable rate plans have no early termination fee.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
+</div>
+<div class="faq-answer">An Early Termination Fee is a charge that applies if you cancel a fixed-rate plan before your contract end date. The fee is calculated per remaining month on your contract. ETF amounts vary by market — see your plan details for the specific fee. Variable rate plans have no early termination fee.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
           Will my utility or gas service change when I switch?
           <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-answer">No. Your local utility company continues to deliver gas to your home and respond to any emergencies — that never changes. When you switch to [market brand], you're choosing a new supplier for the commodity portion of your bill. Your pipes, your meter, and your utility's phone number stay exactly the same.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
+</div>
+<div class="faq-answer">No. Your local utility company continues to deliver gas to your home and respond to any emergencies — that never changes. When you switch to [market brand], you're choosing a new supplier for the commodity portion of your bill. Your pipes, your meter, and your utility's phone number stay exactly the same.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
           How long does it take to switch? Will my service be interrupted?
           <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-answer">Enrollment is done entirely online. Your switch typically takes effect at your next meter read — there is no service interruption at any point. You'll continue to receive one bill from your utility, which will reflect your new supply rate.</div>
-      </div>
-
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> 4 FAQ items selected based on call center data (OH Feb 2026): enrollment questions (34%), pricing/plan questions (20%), and the utility-vs-supplier confusion flagged in the April 21 wireframe review.</div>
-      </div>
-
-      <div class="faq-schema-note">⚙ FAQPage schema markup (JSON-LD) required on all items — enables Google Featured Snippets and AI Overview eligibility. Track accordion expansion events: <code>faq_expand</code> with <code>question_id</code> param.</div>
-    </div>
-  </div>
-
-  <!-- SECTION 8: SUPPORTING LINKS -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">8</div><br>Supporting<br>Content Links</div>
-    <div class="links-section">
-      <h3>Explore More</h3>
-      <div class="links-grid">
-        <div class="link-card"><span class="link-arrow">→</span> Understanding Natural Gas Rates<br><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 1</span></div>
-        <div class="link-card"><span class="link-arrow">→</span> How to Switch Natural Gas Suppliers<br><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 3</span></div>
-        <div class="link-card"><span class="link-arrow">→</span> Finding Your Utility Company<br><span style="color:#aaa; font-size:10px;">Learning Center · Service Area &amp; Your Utility</span></div>
-        <div class="link-card"><span class="link-arrow">→</span> Greener Life® Plans<br><span style="color:#aaa; font-size:10px;">Carbon-neutral natural gas plan details</span></div>
-        <div class="link-card" style="background:#fff8f5; border-color:#e8641a;"><span class="link-arrow">→</span> <strong>Start Enrollment</strong><br><span style="color:#aaa; font-size:10px;">Primary CTA · Step 1</span></div>
-        <div class="link-card"><span class="link-arrow">→</span> Contact &amp; Customer Service<br><span style="color:#aaa; font-size:10px;">Support &amp; regulatory compliance</span></div>
-      </div>
-      <div style="margin-top:8px;">
-        <div class="annot annot-green"><span class="annot-icon">✓</span> PACE: Coherent Semantic Ecosystem — Plans page must connect to adjacent content; no dead ends</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ANALYTICS REQUIREMENTS -->
-  <div class="section" style="margin-top:12px;">
-    <div style="padding: 16px 28px;">
-      <div style="font-size:12px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">⚙ Analytics Instrumentation Required (hash-nav gap must be fixed)</div>
-      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
-        <div class="wf-box" style="font-size:10px;"><strong>plans_page_view</strong><br>Page load · params: market, ldc_identified</div>
-        <div class="wf-box" style="font-size:10px;"><strong>ldc_lookup_submitted</strong><br>Zip submit · params: zip_code, ldc_result, in_service_area</div>
-        <div class="wf-box" style="font-size:10px;"><strong>plan_card_view</strong><br>Intersection observer · params: plan_name, plan_type, market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>enrollment_cta_click</strong><br>CTA click · params: plan_name, cta_location (card|sticky|faq)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>greener_life_toggle</strong><br>Toggle on/off · params: plan_name, toggle_state</div>
-        <div class="wf-box" style="font-size:10px;"><strong>faq_expand</strong><br>Accordion expand · params: question_id, question_text</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_code_applied</strong><br>Promo submit · params: promo_code (hashed), valid</div>
-        <div class="wf-box" style="font-size:10px;"><strong>plan_details_expand</strong><br>"View Full Plan Details" click · params: plan_name, plan_type</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="doc-footer">
-    SouthStar Energy · 4037-25 Expanded Markets Website Updates · Wireframe Sketch · Phase 2: Define &amp; Design · April 2026<br>
+</div>
+<div class="faq-answer">Enrollment is done entirely online. Your switch typically takes effect at your next meter read — there is no service interruption at any point. You'll continue to receive one bill from your utility, which will reflect your new supply rate.</div>
+</div>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> 4 FAQ items selected based on call center data (OH Feb 2026): enrollment questions (34%), pricing/plan questions (20%), and the utility-vs-supplier confusion flagged in the April 21 wireframe review.</div>
+</div>
+<div class="faq-schema-note">⚙ FAQPage schema markup (JSON-LD) required on all items — enables Google Featured Snippets and AI Overview eligibility. Track accordion expansion events: <code>faq_expand</code> with <code>question_id</code> param.</div>
+</div>
+</div>
+<!-- SECTION 8: SUPPORTING LINKS -->
+<div class="section">
+<div class="section-label"><div class="section-number">8</div><br/>Supporting<br/>Content Links</div>
+<div class="links-section">
+<h3>Explore More</h3>
+<div class="links-grid">
+<div class="link-card"><span class="link-arrow">→</span> Understanding Natural Gas Rates<br/><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 1</span></div>
+<div class="link-card"><span class="link-arrow">→</span> How to Switch Natural Gas Suppliers<br/><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 3</span></div>
+<div class="link-card"><span class="link-arrow">→</span> Finding Your Utility Company<br/><span style="color:#aaa; font-size:10px;">Learning Center · Service Area &amp; Your Utility</span></div>
+<div class="link-card"><span class="link-arrow">→</span> Greener Life® Plans<br/><span style="color:#aaa; font-size:10px;">Carbon-neutral natural gas plan details</span></div>
+<div class="link-card" style="background:#fff8f5; border-color:#e8641a;"><span class="link-arrow">→</span> <strong>Start Enrollment</strong><br/><span style="color:#aaa; font-size:10px;">Primary CTA · Step 1</span></div>
+<div class="link-card"><span class="link-arrow">→</span> Contact &amp; Customer Service<br/><span style="color:#aaa; font-size:10px;">Support &amp; regulatory compliance</span></div>
+</div>
+<div style="margin-top:8px;">
+<div class="annot annot-green"><span class="annot-icon">✓</span> PACE: Coherent Semantic Ecosystem — Plans page must connect to adjacent content; no dead ends</div>
+</div>
+</div>
+</div>
+<!-- ANALYTICS REQUIREMENTS -->
+<div class="section" style="margin-top:12px;">
+<div style="padding: 16px 28px;">
+<div style="font-size:12px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">⚙ Analytics Instrumentation Required (hash-nav gap must be fixed)</div>
+<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
+<div class="wf-box" style="font-size:10px;"><strong>plans_page_view</strong><br/>Page load · params: market, ldc_identified</div>
+<div class="wf-box" style="font-size:10px;"><strong>ldc_lookup_submitted</strong><br/>Zip submit · params: zip_code, ldc_result, in_service_area</div>
+<div class="wf-box" style="font-size:10px;"><strong>plan_card_view</strong><br/>Intersection observer · params: plan_name, plan_type, market</div>
+<div class="wf-box" style="font-size:10px;"><strong>enrollment_cta_click</strong><br/>CTA click · params: plan_name, cta_location (card|sticky|faq)</div>
+<div class="wf-box" style="font-size:10px;"><strong>greener_life_toggle</strong><br/>Toggle on/off · params: plan_name, toggle_state</div>
+<div class="wf-box" style="font-size:10px;"><strong>faq_expand</strong><br/>Accordion expand · params: question_id, question_text</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_code_applied</strong><br/>Promo submit · params: promo_code (hashed), valid</div>
+<div class="wf-box" style="font-size:10px;"><strong>plan_details_expand</strong><br/>"View Full Plan Details" click · params: plan_name, plan_type</div>
+</div>
+</div>
+</div>
+<div class="doc-footer">
+    SouthStar Energy · 4037-25 Expanded Markets Website Updates · Wireframe Sketch · Phase 2: Define &amp; Design · April 2026<br/>
     IfThen Digital, LLC — Confidential
   </div>
-
 </div><!-- /canvas -->
-
 <script>
   function toggleZipFallback() {
     const el = document.getElementById('zip-fallback');
@@ -2022,6 +1960,5 @@
     }
   });
 </script>
-
 </body>
 </html>

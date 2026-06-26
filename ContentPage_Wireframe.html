@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Content Page Template — Wireframe Sketch | 4037-25</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -329,876 +330,796 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </style>
 </head>
 <body>
-
 <!-- ═══════════════════════════════════════════
      TOOLBAR
      ═══════════════════════════════════════════ -->
 <div class="toolbar">
-  <div class="toolbar-left">
-    <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-    <span class="toolbar-meta">Content Page Template</span>
-    <div>
-      <div class="vsw-label">Market</div>
-      <div class="market-switcher">
-        <button class="btn-market active" onclick="setMarket('ong',event)">ONG</button>
-        <button class="btn-market" onclick="setMarket('pa',event)">PA</button>
-        <button class="btn-market" onclick="setMarket('gre',event)">GRE</button>
-        <button class="btn-market" onclick="setMarket('il',event)">IL</button>
-        <button class="btn-market" onclick="setMarket('ies',event)">IES</button>
-      </div>
-    </div>
-    <div>
-      <div class="vsw-label">Page Variant</div>
-      <div class="variant-switcher">
-        <button class="btn-variant active" onclick="setVariant('gi',event)">General Informational</button>
-        <button class="btn-variant" onclick="setVariant('pillar',event)">LC Pillar Hub</button>
-        <button class="btn-variant" onclick="setVariant('article',event)">LC Article</button>
-      </div>
-    </div>
-  </div>
-  <div class="legend">
-    <span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
-    <span class="legend-item"><span class="dot dot-y"></span> Open Question</span>
-    <span class="legend-item"><span class="dot" style="background:#4a7adf;border-radius:2px;"></span> Variant Diff</span>
-  </div>
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">Content Page Template</span>
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" onclick="setMarket('ong',event)">ONG</button>
+<button class="btn-market" onclick="setMarket('pa',event)">PA</button>
+<button class="btn-market" onclick="setMarket('gre',event)">GRE</button>
+<button class="btn-market" onclick="setMarket('il',event)">IL</button>
+<button class="btn-market" onclick="setMarket('ies',event)">IES</button>
 </div>
-
+</div>
+<div>
+<div class="vsw-label">Page Variant</div>
+<div class="variant-switcher">
+<button class="btn-variant active" onclick="setVariant('gi',event)">General Informational</button>
+<button class="btn-variant" onclick="setVariant('pillar',event)">LC Pillar Hub</button>
+<button class="btn-variant" onclick="setVariant('article',event)">LC Article</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open Question</span>
+<span class="legend-item"><span class="dot" style="background:#4a7adf;border-radius:2px;"></span> Variant Diff</span>
+</div>
+</div>
 <!-- ═══════════════════════════════════════════
      CANVAS
      ═══════════════════════════════════════════ -->
 <div class="canvas">
+<!-- VARIANT DIFF PANEL -->
+<div class="variant-diff-panel">
+<h4>📐 Template Variant Comparison — What Changes Between Variants</h4>
+<div class="variant-diff-row" style="font-weight:700;font-size:10px;color:#1a3a8f;border-bottom:1px solid #c0d0f0;padding-bottom:4px;margin-bottom:6px;">
+<span>Component</span>
+<span>General Informational</span>
+<span>LC Pillar Hub</span>
+<span>LC Article</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">Hero</span>
+<span class="vdr-val highlight">Dark blue gradient, marketing copy, entity-specific H1</span>
+<span class="vdr-val">Pillar color band, badge + title, article count</span>
+<span class="vdr-val">Simple header band, pillar badge, article H1 + meta bar</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">Sidebar role</span>
+<span class="vdr-val highlight">Sub-page navigation (About / History / Why Choose Us)</span>
+<span class="vdr-val">All-pillars nav list (current highlighted)</span>
+<span class="vdr-val" style="color:#888; font-style:italic;">None — full-width layout. Related articles in bottom band.</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">Content body</span>
+<span class="vdr-val highlight">Marketing blocks: entity hierarchy, trust grid, timeline, value props, rebuttals</span>
+<span class="vdr-val">Intro para + 3-col article card grid + related pillars row</span>
+<span class="vdr-val">AI extract box, prose sections, market blocks, mid-article CTA, FAQ schema</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">CTA treatment</span>
+<span class="vdr-val highlight">Full enroll band (orange gradient) at bottom</span>
+<span class="vdr-val">No hard CTA — "Explore more" links within article cards</span>
+<span class="vdr-val">Mid-article inline CTA + related articles band + soft enroll nudge</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">Schema / SEO</span>
+<span class="vdr-val">Standard page — E-E-A-T signals, entity disambiguation</span>
+<span class="vdr-val">BreadcrumbList schema, pillar hub structured data</span>
+<span class="vdr-val highlight">FAQ schema on Q&amp;A pairs, Article schema, AI extract optimization</span>
+</div>
+<div class="variant-diff-row">
+<span class="vdr-label">noindex</span>
+<span class="vdr-val">index (marketing pages)</span>
+<span class="vdr-val">index (LC hub)</span>
+<span class="vdr-val">index (educational content)</span>
+</div>
+</div>
+<!-- OQ PANEL -->
+<div class="oq-panel">
+<h4>⚑ Open Questions — Content Page Template</h4>
+<ul class="oq-list">
+<li>Trust signals (years in market, customers served, satisfaction score) — all values TBD; must be verified by client before any About Us page can be finalized.</li>
+<li>Company History milestone dates — market entry, commercial expansion, SouthStar acquisition, Greener Life launch, 2026 relaunch; all dates TBD.</li>
+<li>Greener Life availability in PA — confirm before carbon-neutral pillar is scoped for Pennsylvania.</li>
+<li>ONG Carbon Neutral Gas hub: 5th pillar unique to ONG — confirm whether GRE also gets this pillar (Greener Life available in GRE).</li>
+<li>AI extract box: confirm preferred summary length and format for AI search optimization per market.</li>
+</ul>
+</div>
+<!-- ─── NAV HEADER (shared) ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">1</span>Nav Header</span>
+<!-- Utility Row -->
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span class="mkt-inline on" id="nl-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="nl-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="nl-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="nl-il">Illinois Energy</span>
+<span class="mkt-inline" id="nl-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<!-- For My Home: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
+<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
+<div class="nav-item has-dropdown mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
+<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+</div>
+</div>
+<!-- Learning Center: direct link + pillar dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+</div>
+</div>
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search icon + Hamburger -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. Active nav item reflects current section.</div>
 
-  <!-- VARIANT DIFF PANEL -->
-  <div class="variant-diff-panel">
-    <h4>📐 Template Variant Comparison — What Changes Between Variants</h4>
-    <div class="variant-diff-row" style="font-weight:700;font-size:10px;color:#1a3a8f;border-bottom:1px solid #c0d0f0;padding-bottom:4px;margin-bottom:6px;">
-      <span>Component</span>
-      <span>General Informational</span>
-      <span>LC Pillar Hub</span>
-      <span>LC Article</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">Hero</span>
-      <span class="vdr-val highlight">Dark blue gradient, marketing copy, entity-specific H1</span>
-      <span class="vdr-val">Pillar color band, badge + title, article count</span>
-      <span class="vdr-val">Simple header band, pillar badge, article H1 + meta bar</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">Sidebar role</span>
-      <span class="vdr-val highlight">Sub-page navigation (About / History / Why Choose Us)</span>
-      <span class="vdr-val">All-pillars nav list (current highlighted)</span>
-      <span class="vdr-val" style="color:#888; font-style:italic;">None — full-width layout. Related articles in bottom band.</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">Content body</span>
-      <span class="vdr-val highlight">Marketing blocks: entity hierarchy, trust grid, timeline, value props, rebuttals</span>
-      <span class="vdr-val">Intro para + 3-col article card grid + related pillars row</span>
-      <span class="vdr-val">AI extract box, prose sections, market blocks, mid-article CTA, FAQ schema</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">CTA treatment</span>
-      <span class="vdr-val highlight">Full enroll band (orange gradient) at bottom</span>
-      <span class="vdr-val">No hard CTA — "Explore more" links within article cards</span>
-      <span class="vdr-val">Mid-article inline CTA + related articles band + soft enroll nudge</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">Schema / SEO</span>
-      <span class="vdr-val">Standard page — E-E-A-T signals, entity disambiguation</span>
-      <span class="vdr-val">BreadcrumbList schema, pillar hub structured data</span>
-      <span class="vdr-val highlight">FAQ schema on Q&A pairs, Article schema, AI extract optimization</span>
-    </div>
-    <div class="variant-diff-row">
-      <span class="vdr-label">noindex</span>
-      <span class="vdr-val">index (marketing pages)</span>
-      <span class="vdr-val">index (LC hub)</span>
-      <span class="vdr-val">index (educational content)</span>
-    </div>
-  </div>
-
-  <!-- OQ PANEL -->
-  <div class="oq-panel">
-    <h4>⚑ Open Questions — Content Page Template</h4>
-    <ul class="oq-list">
-      <li>Trust signals (years in market, customers served, satisfaction score) — all values TBD; must be verified by client before any About Us page can be finalized.</li>
-      <li>Company History milestone dates — market entry, commercial expansion, SouthStar acquisition, Greener Life launch, 2026 relaunch; all dates TBD.</li>
-      <li>Greener Life availability in PA — confirm before carbon-neutral pillar is scoped for Pennsylvania.</li>
-      <li>ONG Carbon Neutral Gas hub: 5th pillar unique to ONG — confirm whether GRE also gets this pillar (Greener Life available in GRE).</li>
-      <li>AI extract box: confirm preferred summary length and format for AI search optimization per market.</li>
-    </ul>
-  </div>
-
-  <!-- ─── NAV HEADER (shared) ─── -->
-  <div class="section">
-    <span class="section-label"><span class="sec-num">1</span>Nav Header</span>
-    <!-- Utility Row -->
-    <div class="nav-utility">
-      <a>Contact Us</a>
-      <span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
-    </div>
-    <div class="nav-header">
-      <div class="nav-logo">
-        <div class="nav-logo-mark">S</div>
-        <span class="mkt-inline on" id="nl-ong">Ohio Natural Gas</span>
-        <span class="mkt-inline" id="nl-pa">Pennsylvania Energy</span>
-        <span class="mkt-inline" id="nl-gre">Grand Rapids Energy</span>
-        <span class="mkt-inline" id="nl-il">Illinois Energy</span>
-        <span class="mkt-inline" id="nl-ies">Illinois Energy Solutions</span>
-      </div>
-      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-      <nav class="nav-links mkt-flex on" id="nav-standard">
-
-        <!-- For My Home: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
-          </div>
-        </div>
-
-        <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
-        <div class="nav-item has-dropdown mkt" id="nav-fmb">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
-          </div>
-        </div>
-
-        <!-- Learning Center: direct link + pillar dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-          </div>
-        </div>
-
-        <!-- About Us: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-
-      </nav>
-
-      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-      <nav class="nav-links mkt-flex" id="nav-ies">
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-          </div>
-        </div>
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Right: Account + Search icon + Hamburger -->
-      <div class="nav-right">
-        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
-        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
-      </div>
-    </div>
-    <div class="nav-mobile-note">Mobile: hamburger menu. Active nav item reflects current section.</div>
-    <div class="ann-row" style="padding:0 24px 10px;">
-      <span class="ann ann-g">✓ Nav active state: About Us (GI variant) or Learning Center (LC variants)</span>
-    </div>
-  </div>
-
-
-  <!-- ═══════════════════════════════════════════
+</div>
+<!-- ═══════════════════════════════════════════
        VARIANT 1 — GENERAL INFORMATIONAL
        ═══════════════════════════════════════════ -->
-  <div class="variant on" id="v-gi">
-
-    <!-- Rep risk banners (internal only) -->
-    <div class="mkt" id="reprisk-ies">
-      <div style="padding: 10px 0 0;">
-        <div class="rep-risk-banner"><strong>⛔ IES Reputational Risk — Internal Only:</strong> <p>Do not feature BBB badge or star rating for IES. Known BBB complaint volume creates brand risk. Use Southern Company / SouthStar affiliation as primary trust signal instead.</p></div>
-      </div>
-    </div>
-    <div class="mkt" id="reprisk-pa">
-      <div style="padding: 10px 0 0;">
-        <div class="rep-risk-banner"><strong>⛔ PA Reputational Risk — Internal Only:</strong> <p>PA has -43 AI sentiment score and brand confusion with PAG&amp;E. Avoid any copy that could be confused with PG&amp;E. Trust rebuttal section is especially important for this market.</p></div>
-      </div>
-    </div>
-
-    <!-- Breadcrumb -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
-      <div class="breadcrumb p-sm">
-        <a>Home</a> ›
+<div class="variant on" id="v-gi">
+<!-- Rep risk banners (internal only) -->
+<div class="mkt" id="reprisk-ies">
+<div style="padding: 10px 0 0;">
+<div class="rep-risk-banner"><strong>⛔ IES Reputational Risk — Internal Only:</strong> <p>Do not feature BBB badge or star rating for IES. Known BBB complaint volume creates brand risk. Use Southern Company / SouthStar affiliation as primary trust signal instead.</p></div>
+</div>
+</div>
+<div class="mkt" id="reprisk-pa">
+<div style="padding: 10px 0 0;">
+<div class="rep-risk-banner"><strong>⛔ PA Reputational Risk — Internal Only:</strong> <p>PA has -43 AI sentiment score and brand confusion with PAG&amp;E. Avoid any copy that could be confused with PG&amp;E. Trust rebuttal section is especially important for this market.</p></div>
+</div>
+</div>
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm">
+<a>Home</a> ›
         <span id="gi-bc-label">About Us</span>
-      </div>
-    </div>
-
-    <!-- GI Hero -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">3</span>Page Hero</span>
-      <div class="gi-hero">
-        <div class="gi-hero-title">
-          <span class="mkt-inline on" id="gi-h1-ong">Ohio Natural Gas</span>
-          <span class="mkt-inline" id="gi-h1-pa">Pennsylvania Energy</span>
-          <span class="mkt-inline" id="gi-h1-gre">Grand Rapids Energy</span>
-          <span class="mkt-inline" id="gi-h1-il">Illinois Energy</span>
-          <span class="mkt-inline" id="gi-h1-ies">Illinois Energy Solutions</span>
+</div>
+</div>
+<!-- GI Hero -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Page Hero</span>
+<div class="gi-hero">
+<div class="gi-hero-title">
+<span class="mkt-inline on" id="gi-h1-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="gi-h1-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="gi-h1-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="gi-h1-il">Illinois Energy</span>
+<span class="mkt-inline" id="gi-h1-ies">Illinois Energy Solutions</span>
           — <span id="gi-hero-subtitle">About Us</span>
-        </div>
-        <div class="gi-hero-sub">
-          <span class="mkt-inline on" id="gi-sub-ong">Natural gas supply you can trust — backed by SouthStar Energy Services and Southern Company (NYSE: SO).</span>
-          <span class="mkt-inline" id="gi-sub-pa">Competitive natural gas supply for Pennsylvania homes and businesses — backed by SouthStar Energy Services.</span>
-          <span class="mkt-inline" id="gi-sub-gre">Natural gas supply for Michigan homes — backed by SouthStar Energy Services and Southern Company.</span>
-          <span class="mkt-inline" id="gi-sub-il">Illinois natural gas supply with fixed-rate and variable options — backed by SouthStar Energy Services.</span>
-          <span class="mkt-inline" id="gi-sub-ies">Fixed Bill natural gas supply for Illinois homes — predictable monthly costs, ICC-regulated, backed by SouthStar Energy Services.</span>
-        </div>
-      </div>
-      <div class="ann-row" style="padding: 0 24px 10px;">
-        <span class="ann ann-g">✓ H1 includes brand name + state + product type for E-E-A-T / entity disambiguation</span>
-        <span class="ann ann-y">⚑ Hero copy TBD — placeholder per market</span>
-      </div>
-    </div>
+</div>
+<div class="gi-hero-sub">
+<span class="mkt-inline on" id="gi-sub-ong">Natural gas supply you can trust — backed by SouthStar Energy Services and Southern Company (NYSE: SO).</span>
+<span class="mkt-inline" id="gi-sub-pa">Competitive natural gas supply for Pennsylvania homes and businesses — backed by SouthStar Energy Services.</span>
+<span class="mkt-inline" id="gi-sub-gre">Natural gas supply for Michigan homes — backed by SouthStar Energy Services and Southern Company.</span>
+<span class="mkt-inline" id="gi-sub-il">Illinois natural gas supply with fixed-rate and variable options — backed by SouthStar Energy Services.</span>
+<span class="mkt-inline" id="gi-sub-ies">Fixed Bill natural gas supply for Illinois homes — predictable monthly costs, ICC-regulated, backed by SouthStar Energy Services.</span>
+</div>
+</div>
 
-    <!-- GI Two-Column Layout -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
-      <div class="content-layout">
-
-        <!-- SIDEBAR — Sub-page nav -->
-        <div class="content-sidebar">
-          <div class="sidebar-sticky">
-            <div class="sidebar-head">In This Section</div>
-            <ul class="spn-list">
-              <li><a class="spn-active" id="spn-about" onclick="setGiSubpage('about')">About Us</a></li>
-              <li><a id="spn-history" onclick="setGiSubpage('history')">Company History</a></li>
-              <li><a id="spn-why" onclick="setGiSubpage('why')">Why Choose Us</a></li>
-            </ul>
-            <div class="ann-row" style="margin-top:12px;padding-right:8px;">
-              <span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = sub-page nav (GI only)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- MAIN CONTENT — Sub-pages -->
-        <div class="content-main">
-
-          <!-- SUB-PAGE: ABOUT US -->
-          <div class="gi-subpage on" id="gsp-about">
-            <div class="h2" style="margin-bottom:14px;">About
+</div>
+<!-- GI Two-Column Layout -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
+<div class="content-layout">
+<!-- SIDEBAR — Sub-page nav -->
+<div class="content-sidebar">
+<div class="sidebar-sticky">
+<div class="sidebar-head">In This Section</div>
+<ul class="spn-list">
+<li><a class="spn-active" id="spn-about" onclick="setGiSubpage('about')">About Us</a></li>
+<li><a id="spn-history" onclick="setGiSubpage('history')">Company History</a></li>
+<li><a id="spn-why" onclick="setGiSubpage('why')">Why Choose Us</a></li>
+</ul>
+<div class="ann-row" style="margin-top:12px;padding-right:8px;">
+<span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = sub-page nav (GI only)</span>
+</div>
+</div>
+</div>
+<!-- MAIN CONTENT — Sub-pages -->
+<div class="content-main">
+<!-- SUB-PAGE: ABOUT US -->
+<div class="gi-subpage on" id="gsp-about">
+<div class="h2" style="margin-bottom:14px;">About
               <span class="mkt-inline on" id="ab-nm-ong"> Ohio Natural Gas</span>
-              <span class="mkt-inline" id="ab-nm-pa"> Pennsylvania Energy</span>
-              <span class="mkt-inline" id="ab-nm-gre"> Grand Rapids Energy</span>
-              <span class="mkt-inline" id="ab-nm-il"> Illinois Energy</span>
-              <span class="mkt-inline" id="ab-nm-ies"> Illinois Energy Solutions</span>
-            </div>
-
-            <div class="body-para">
-              <span class="mkt-inline on" id="ab-p-ong">Ohio Natural Gas is a competitive natural gas supplier licensed to operate in Ohio. We provide residential and commercial customers with fixed-rate and variable-rate natural gas supply plans — including the Greener Life® carbon-neutral option.</span>
-              <span class="mkt-inline" id="ab-p-pa">Pennsylvania Energy is a competitive natural gas supplier licensed by the Pennsylvania Public Utility Commission (PA PUC). We serve residential and commercial customers across participating utility service areas in Pennsylvania.</span>
-              <span class="mkt-inline" id="ab-p-gre">Grand Rapids Energy is a competitive natural gas supplier serving residential and commercial customers in Michigan. We're licensed by the Michigan Public Service Commission (MPSC).</span>
-              <span class="mkt-inline" id="ab-p-il">Illinois Energy is a competitive natural gas supplier licensed by the Illinois Commerce Commission (ICC). We serve residential and commercial customers across Nicor Gas and Peoples Gas service territories.</span>
-              <span class="mkt-inline" id="ab-p-ies">Illinois Energy Solutions is a fixed bill natural gas supplier serving residential customers in Illinois, regulated by the Illinois Commerce Commission (ICC).</span>
-            </div>
-
-            <!-- Entity Hierarchy -->
-            <div class="h3" style="margin:16px 0 10px;">Who We Are</div>
-            <div class="entity-hierarchy">
-              <div class="entity-tier">
-                <div class="entity-tier-label">Parent Co.</div>
-                <div>
-                  <div class="entity-dot"></div>
-                </div>
-                <div class="entity-box">
-                  <div class="entity-name">Southern Company (NYSE: SO)</div>
-                  <div class="entity-role">Fortune 500 energy company. One of the largest producers of electricity and natural gas in the US. Headquartered in Atlanta, GA.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
-                <div class="entity-v-line" style="margin-left:0;"></div>
-              </div>
-              <div class="entity-tier">
-                <div class="entity-tier-label">Subsidiary</div>
-                <div><div class="entity-dot"></div></div>
-                <div class="entity-box">
-                  <div class="entity-name">SouthStar Energy Services LLC</div>
-                  <div class="entity-role">Natural gas marketing subsidiary of Southern Company. Operates competitive retail gas supply brands across multiple states.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
-                <div class="entity-v-line"></div>
-              </div>
-              <div class="entity-tier">
-                <div class="entity-tier-label">Market Brand</div>
-                <div><div class="entity-dot" style="background:#e8641a;"></div></div>
-                <div class="entity-box primary">
-                  <div class="entity-name">
-                    <span class="mkt-inline on" id="eh-brand-ong">Ohio Natural Gas</span>
-                    <span class="mkt-inline" id="eh-brand-pa">Pennsylvania Energy</span>
-                    <span class="mkt-inline" id="eh-brand-gre">Grand Rapids Energy</span>
-                    <span class="mkt-inline" id="eh-brand-il">Illinois Energy</span>
-                    <span class="mkt-inline" id="eh-brand-ies">Illinois Energy Solutions</span>
-                  </div>
-                  <div class="entity-role">State-level competitive retail gas supply brand. Licensed and regulated by
+<span class="mkt-inline" id="ab-nm-pa"> Pennsylvania Energy</span>
+<span class="mkt-inline" id="ab-nm-gre"> Grand Rapids Energy</span>
+<span class="mkt-inline" id="ab-nm-il"> Illinois Energy</span>
+<span class="mkt-inline" id="ab-nm-ies"> Illinois Energy Solutions</span>
+</div>
+<div class="body-para">
+<span class="mkt-inline on" id="ab-p-ong">Ohio Natural Gas is a competitive natural gas supplier licensed to operate in Ohio. We provide residential and commercial customers with fixed-rate and variable-rate natural gas supply plans — including the Greener Life® carbon-neutral option.</span>
+<span class="mkt-inline" id="ab-p-pa">Pennsylvania Energy is a competitive natural gas supplier licensed by the Pennsylvania Public Utility Commission (PA PUC). We serve residential and commercial customers across participating utility service areas in Pennsylvania.</span>
+<span class="mkt-inline" id="ab-p-gre">Grand Rapids Energy is a competitive natural gas supplier serving residential and commercial customers in Michigan. We're licensed by the Michigan Public Service Commission (MPSC).</span>
+<span class="mkt-inline" id="ab-p-il">Illinois Energy is a competitive natural gas supplier licensed by the Illinois Commerce Commission (ICC). We serve residential and commercial customers across Nicor Gas and Peoples Gas service territories.</span>
+<span class="mkt-inline" id="ab-p-ies">Illinois Energy Solutions is a fixed bill natural gas supplier serving residential customers in Illinois, regulated by the Illinois Commerce Commission (ICC).</span>
+</div>
+<!-- Entity Hierarchy -->
+<div class="h3" style="margin:16px 0 10px;">Who We Are</div>
+<div class="entity-hierarchy">
+<div class="entity-tier">
+<div class="entity-tier-label">Parent Co.</div>
+<div>
+<div class="entity-dot"></div>
+</div>
+<div class="entity-box">
+<div class="entity-name">Southern Company (NYSE: SO)</div>
+<div class="entity-role">Fortune 500 energy company. One of the largest producers of electricity and natural gas in the US. Headquartered in Atlanta, GA.</div>
+</div>
+</div>
+<div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
+<div class="entity-v-line" style="margin-left:0;"></div>
+</div>
+<div class="entity-tier">
+<div class="entity-tier-label">Subsidiary</div>
+<div><div class="entity-dot"></div></div>
+<div class="entity-box">
+<div class="entity-name">SouthStar Energy Services LLC</div>
+<div class="entity-role">Natural gas marketing subsidiary of Southern Company. Operates competitive retail gas supply brands across multiple states.</div>
+</div>
+</div>
+<div style="display:flex;gap:14px;padding-left:72px;margin:-10px 0 4px;">
+<div class="entity-v-line"></div>
+</div>
+<div class="entity-tier">
+<div class="entity-tier-label">Market Brand</div>
+<div><div class="entity-dot" style="background:#e8641a;"></div></div>
+<div class="entity-box primary">
+<div class="entity-name">
+<span class="mkt-inline on" id="eh-brand-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="eh-brand-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="eh-brand-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="eh-brand-il">Illinois Energy</span>
+<span class="mkt-inline" id="eh-brand-ies">Illinois Energy Solutions</span>
+</div>
+<div class="entity-role">State-level competitive retail gas supply brand. Licensed and regulated by
                     <span class="mkt-inline on" id="eh-reg-ong">PUCO / OCC (Ohio).</span>
-                    <span class="mkt-inline" id="eh-reg-pa">PA PUC (Pennsylvania).</span>
-                    <span class="mkt-inline" id="eh-reg-gre">MPSC (Michigan).</span>
-                    <span class="mkt-inline" id="eh-reg-il">ICC (Illinois).</span>
-                    <span class="mkt-inline" id="eh-reg-ies">ICC (Illinois).</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="ann-row">
-              <span class="ann ann-g">✓ Entity hierarchy confirmed: state brand → SouthStar → Southern Company (NYSE: SO)</span>
-            </div>
+<span class="mkt-inline" id="eh-reg-pa">PA PUC (Pennsylvania).</span>
+<span class="mkt-inline" id="eh-reg-gre">MPSC (Michigan).</span>
+<span class="mkt-inline" id="eh-reg-il">ICC (Illinois).</span>
+<span class="mkt-inline" id="eh-reg-ies">ICC (Illinois).</span>
+</div>
+</div>
+</div>
+</div>
 
-            <!-- Trust signals -->
-            <div class="h3" style="margin:20px 0 10px;">By the Numbers</div>
-            <div class="trust-grid">
-              <div class="trust-card"><div class="trust-val">[X]+</div><div class="trust-lbl">Years serving customers</div></div>
-              <div class="trust-card"><div class="trust-val">[X]K+</div><div class="trust-lbl">Active customers</div></div>
-              <div class="trust-card"><div class="trust-val">[X]%</div><div class="trust-lbl">Customer satisfaction score</div></div>
-              <div class="trust-card mkt on" id="trust-ong"><div class="trust-val">4</div><div class="trust-lbl">Ohio LDCs served</div></div>
-              <div class="trust-card mkt" id="trust-pa"><div class="trust-val">2</div><div class="trust-lbl">PA LDCs served</div></div>
-              <div class="trust-card mkt" id="trust-gre"><div class="trust-val">2</div><div class="trust-lbl">Michigan LDCs served</div></div>
-              <div class="trust-card mkt" id="trust-il"><div class="trust-val">2</div><div class="trust-lbl">Illinois LDCs served</div></div>
-              <div class="trust-card mkt" id="trust-ies"><div class="trust-val">1</div><div class="trust-lbl">Product offered</div></div>
-            </div>
-            <div class="ann-row">
-              <span class="ann ann-y">⚑ All trust signal values TBD — client must confirm before page can be finalized</span>
-              <span class="ann ann-r">⛔ IES + PA: do not include BBB badge — see reputational risk note above</span>
-            </div>
-          </div><!-- /gsp-about -->
+<!-- Trust signals -->
+<div class="h3" style="margin:20px 0 10px;">By the Numbers</div>
+<div class="trust-grid">
+<div class="trust-card"><div class="trust-val">[X]+</div><div class="trust-lbl">Years serving customers</div></div>
+<div class="trust-card"><div class="trust-val">[X]K+</div><div class="trust-lbl">Active customers</div></div>
+<div class="trust-card"><div class="trust-val">[X]%</div><div class="trust-lbl">Customer satisfaction score</div></div>
+<div class="trust-card mkt on" id="trust-ong"><div class="trust-val">4</div><div class="trust-lbl">Ohio LDCs served</div></div>
+<div class="trust-card mkt" id="trust-pa"><div class="trust-val">2</div><div class="trust-lbl">PA LDCs served</div></div>
+<div class="trust-card mkt" id="trust-gre"><div class="trust-val">2</div><div class="trust-lbl">Michigan LDCs served</div></div>
+<div class="trust-card mkt" id="trust-il"><div class="trust-val">2</div><div class="trust-lbl">Illinois LDCs served</div></div>
+<div class="trust-card mkt" id="trust-ies"><div class="trust-val">1</div><div class="trust-lbl">Product offered</div></div>
+</div>
 
-          <!-- SUB-PAGE: COMPANY HISTORY -->
-          <div class="gi-subpage" id="gsp-history">
-            <div class="h2" style="margin-bottom:14px;">Company History</div>
-            <div class="body-para">
-              <span class="mkt-inline on" id="hist-intro-ong">Ohio Natural Gas has been serving Ohio homeowners and businesses since [YEAR TBD], growing from a regional supplier into one of Ohio's most trusted competitive gas marketers.</span>
-              <span class="mkt-inline" id="hist-intro-pa">Pennsylvania Energy has served PA customers since [YEAR TBD].</span>
-              <span class="mkt-inline" id="hist-intro-gre">Grand Rapids Energy has served Michigan customers since [YEAR TBD].</span>
-              <span class="mkt-inline" id="hist-intro-il">Illinois Energy has served Illinois customers since [YEAR TBD].</span>
-              <span class="mkt-inline" id="hist-intro-ies">Illinois Energy Solutions launched to offer Illinois homeowners a unique fixed-bill approach to natural gas budgeting.</span>
-            </div>
+</div><!-- /gsp-about -->
+<!-- SUB-PAGE: COMPANY HISTORY -->
+<div class="gi-subpage" id="gsp-history">
+<div class="h2" style="margin-bottom:14px;">Company History</div>
+<div class="body-para">
+<span class="mkt-inline on" id="hist-intro-ong">Ohio Natural Gas has been serving Ohio homeowners and businesses since [YEAR TBD], growing from a regional supplier into one of Ohio's most trusted competitive gas marketers.</span>
+<span class="mkt-inline" id="hist-intro-pa">Pennsylvania Energy has served PA customers since [YEAR TBD].</span>
+<span class="mkt-inline" id="hist-intro-gre">Grand Rapids Energy has served Michigan customers since [YEAR TBD].</span>
+<span class="mkt-inline" id="hist-intro-il">Illinois Energy has served Illinois customers since [YEAR TBD].</span>
+<span class="mkt-inline" id="hist-intro-ies">Illinois Energy Solutions launched to offer Illinois homeowners a unique fixed-bill approach to natural gas budgeting.</span>
+</div>
+<div class="timeline" style="margin-top:16px;">
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-year">[YEAR TBD]</div>
+<div class="timeline-text"><strong>Market entry.</strong> <span class="mkt-inline on" id="hist-1-ong">Ohio Natural Gas launches as a competitive gas supplier in Ohio.</span><span class="mkt-inline" id="hist-1-pa">Pennsylvania Energy launches in PA.</span><span class="mkt-inline" id="hist-1-gre">Grand Rapids Energy launches in Michigan.</span><span class="mkt-inline" id="hist-1-il">Illinois Energy launches in Illinois.</span><span class="mkt-inline" id="hist-1-ies">Illinois Energy Solutions launches with Fixed Bill product.</span></div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-year">[YEAR TBD]</div>
+<div class="timeline-text"><strong>Commercial expansion.</strong> Service extended to business customers. [Milestone copy TBD — confirm with client]</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-year">[YEAR TBD]</div>
+<div class="timeline-text"><strong>SouthStar acquisition.</strong> Brand becomes part of the SouthStar Energy Services family — a Southern Company (NYSE: SO) subsidiary.</div>
+</div>
+<div class="timeline-item mkt on" id="hist-gl-ong">
+<div class="timeline-dot" style="background:#1b6e2e;"></div>
+<div class="timeline-year">[YEAR TBD]</div>
+<div class="timeline-text"><strong>Greener Life® launches.</strong> Carbon-neutral natural gas option introduced for Ohio customers.</div>
+</div>
+<div class="timeline-item mkt" id="hist-gl-gre">
+<div class="timeline-dot" style="background:#1b6e2e;"></div>
+<div class="timeline-year">[YEAR TBD]</div>
+<div class="timeline-text"><strong>Greener Life® launches in Michigan.</strong> Carbon-neutral natural gas option introduced for Grand Rapids Energy customers.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot" style="background:#e8641a;"></div>
+<div class="timeline-year">2026</div>
+<div class="timeline-text"><strong>Website relaunch.</strong> New site with AI-optimized content, improved Learning Center, and streamlined enrollment experience.</div>
+</div>
+</div>
 
-            <div class="timeline" style="margin-top:16px;">
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">[YEAR TBD]</div>
-                <div class="timeline-text"><strong>Market entry.</strong> <span class="mkt-inline on" id="hist-1-ong">Ohio Natural Gas launches as a competitive gas supplier in Ohio.</span><span class="mkt-inline" id="hist-1-pa">Pennsylvania Energy launches in PA.</span><span class="mkt-inline" id="hist-1-gre">Grand Rapids Energy launches in Michigan.</span><span class="mkt-inline" id="hist-1-il">Illinois Energy launches in Illinois.</span><span class="mkt-inline" id="hist-1-ies">Illinois Energy Solutions launches with Fixed Bill product.</span></div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">[YEAR TBD]</div>
-                <div class="timeline-text"><strong>Commercial expansion.</strong> Service extended to business customers. [Milestone copy TBD — confirm with client]</div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">[YEAR TBD]</div>
-                <div class="timeline-text"><strong>SouthStar acquisition.</strong> Brand becomes part of the SouthStar Energy Services family — a Southern Company (NYSE: SO) subsidiary.</div>
-              </div>
-              <div class="timeline-item mkt on" id="hist-gl-ong">
-                <div class="timeline-dot" style="background:#1b6e2e;"></div>
-                <div class="timeline-year">[YEAR TBD]</div>
-                <div class="timeline-text"><strong>Greener Life® launches.</strong> Carbon-neutral natural gas option introduced for Ohio customers.</div>
-              </div>
-              <div class="timeline-item mkt" id="hist-gl-gre">
-                <div class="timeline-dot" style="background:#1b6e2e;"></div>
-                <div class="timeline-year">[YEAR TBD]</div>
-                <div class="timeline-text"><strong>Greener Life® launches in Michigan.</strong> Carbon-neutral natural gas option introduced for Grand Rapids Energy customers.</div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot" style="background:#e8641a;"></div>
-                <div class="timeline-year">2026</div>
-                <div class="timeline-text"><strong>Website relaunch.</strong> New site with AI-optimized content, improved Learning Center, and streamlined enrollment experience.</div>
-              </div>
-            </div>
-            <div class="ann-row" style="margin-top:12px;">
-              <span class="ann ann-y">⚑ All history dates TBD — client to confirm all milestone years</span>
-              <span class="ann ann-y">⚑ Greener Life timeline item: ONG + GRE only</span>
-            </div>
-
-            <!-- SouthStar context -->
-            <div style="background:#f5f8fc;border:1.5px solid #d0dce8;border-radius:5px;padding:16px 18px;margin-top:20px;">
-              <div class="h3" style="margin-bottom:8px;">Part of a Larger Family</div>
-              <div class="body-para">SouthStar Energy Services LLC is a wholly-owned subsidiary of Southern Company (NYSE: SO) — one of the largest producers of electricity and natural gas in the United States, with over a century of energy experience.</div>
-            </div>
-          </div><!-- /gsp-history -->
-
-          <!-- SUB-PAGE: WHY CHOOSE US -->
-          <div class="gi-subpage" id="gsp-why">
-            <div class="h2" style="margin-bottom:14px;">Why Choose
+<!-- SouthStar context -->
+<div style="background:#f5f8fc;border:1.5px solid #d0dce8;border-radius:5px;padding:16px 18px;margin-top:20px;">
+<div class="h3" style="margin-bottom:8px;">Part of a Larger Family</div>
+<div class="body-para">SouthStar Energy Services LLC is a wholly-owned subsidiary of Southern Company (NYSE: SO) — one of the largest producers of electricity and natural gas in the United States, with over a century of energy experience.</div>
+</div>
+</div><!-- /gsp-history -->
+<!-- SUB-PAGE: WHY CHOOSE US -->
+<div class="gi-subpage" id="gsp-why">
+<div class="h2" style="margin-bottom:14px;">Why Choose
               <span class="mkt-inline on" id="why-nm-ong"> Ohio Natural Gas?</span>
-              <span class="mkt-inline" id="why-nm-pa"> Pennsylvania Energy?</span>
-              <span class="mkt-inline" id="why-nm-gre"> Grand Rapids Energy?</span>
-              <span class="mkt-inline" id="why-nm-il"> Illinois Energy?</span>
-              <span class="mkt-inline" id="why-nm-ies"> Illinois Energy Solutions?</span>
-            </div>
+<span class="mkt-inline" id="why-nm-pa"> Pennsylvania Energy?</span>
+<span class="mkt-inline" id="why-nm-gre"> Grand Rapids Energy?</span>
+<span class="mkt-inline" id="why-nm-il"> Illinois Energy?</span>
+<span class="mkt-inline" id="why-nm-ies"> Illinois Energy Solutions?</span>
+</div>
+<div class="why-grid" style="margin-bottom:20px;">
+<div class="why-card"><div class="why-icon">💰</div><div class="why-title">Rates Shown Up Front</div><div class="why-copy">No hidden fees. See exactly what you'll pay before you enroll — our rates are published clearly on every plan page.</div></div>
+<div class="why-card"><div class="why-icon">🔒</div><div class="why-title">Lock In Your Rate</div><div class="why-copy">Fixed-rate plans protect you from market volatility. Your rate stays the same for the duration of your contract term.</div></div>
+<div class="why-card mkt on" id="why-gl-ong"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Go carbon-neutral with our Greener Life® plan. 100% of your gas usage is offset with certified carbon credits.</div></div>
+<div class="why-card mkt" id="why-gl-gre"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Michigan customers can go carbon-neutral with our Greener Life® plan.</div></div>
+<div class="why-card mkt" id="why-ies-fb"><div class="why-icon">📋</div><div class="why-title">One Fixed Monthly Bill</div><div class="why-copy">Illinois Energy Solutions' Fixed Bill plan means your gas supply cost is the same every month — no surprises, no rate exposure.</div></div>
+<div class="why-card"><div class="why-icon">🏛️</div><div class="why-title">Southern Company Backing</div><div class="why-copy">We're backed by Southern Company (NYSE: SO) — a Fortune 500 energy company with decades of experience in energy markets.</div></div>
+<div class="why-card"><div class="why-icon">📞</div><div class="why-title">US-Based Support</div><div class="why-copy">Our customer support team is based in the US. Reach us by phone, email, or through your online account.</div></div>
+<div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Easy to Switch</div><div class="why-copy">Enrollment takes minutes. We handle the switch — your utility still delivers your gas and handles emergencies.</div></div>
+</div>
 
-            <div class="why-grid" style="margin-bottom:20px;">
-              <div class="why-card"><div class="why-icon">💰</div><div class="why-title">Rates Shown Up Front</div><div class="why-copy">No hidden fees. See exactly what you'll pay before you enroll — our rates are published clearly on every plan page.</div></div>
-              <div class="why-card"><div class="why-icon">🔒</div><div class="why-title">Lock In Your Rate</div><div class="why-copy">Fixed-rate plans protect you from market volatility. Your rate stays the same for the duration of your contract term.</div></div>
-              <div class="why-card mkt on" id="why-gl-ong"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Go carbon-neutral with our Greener Life® plan. 100% of your gas usage is offset with certified carbon credits.</div></div>
-              <div class="why-card mkt" id="why-gl-gre"><div class="why-icon">🌿</div><div class="why-title">Greener Life® Option</div><div class="why-copy">Michigan customers can go carbon-neutral with our Greener Life® plan.</div></div>
-              <div class="why-card mkt" id="why-ies-fb"><div class="why-icon">📋</div><div class="why-title">One Fixed Monthly Bill</div><div class="why-copy">Illinois Energy Solutions' Fixed Bill plan means your gas supply cost is the same every month — no surprises, no rate exposure.</div></div>
-              <div class="why-card"><div class="why-icon">🏛️</div><div class="why-title">Southern Company Backing</div><div class="why-copy">We're backed by Southern Company (NYSE: SO) — a Fortune 500 energy company with decades of experience in energy markets.</div></div>
-              <div class="why-card"><div class="why-icon">📞</div><div class="why-title">US-Based Support</div><div class="why-copy">Our customer support team is based in the US. Reach us by phone, email, or through your online account.</div></div>
-              <div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Easy to Switch</div><div class="why-copy">Enrollment takes minutes. We handle the switch — your utility still delivers your gas and handles emergencies.</div></div>
-            </div>
-            <div class="ann-row" style="margin-bottom:16px;">
-              <span class="ann ann-g">✓ Greener Life card: ONG + GRE only; Fixed Bill card: IES only</span>
-            </div>
+<!-- Trust rebuttals -->
+<div class="h3" style="margin-bottom:12px;">Addressing Common Questions</div>
+<div class="rebuttal-card">
+<div class="rebuttal-icon">🤔</div>
+<div>
+<div class="rebuttal-label">Common Concern</div>
+<div class="rebuttal-q">Is a third-party supplier actually safe? What happens if the company goes away?</div>
+<div class="rebuttal-a">Your local utility always remains responsible for delivering gas to your home and responding to emergencies — that never changes when you switch suppliers. Your utility distribution service is separate from gas supply. We source the gas; they deliver it. Even if your supplier changes, your service does not get interrupted.</div>
+</div>
+</div>
+<div class="rebuttal-card">
+<div class="rebuttal-icon">💵</div>
+<div>
+<div class="rebuttal-label">Common Concern</div>
+<div class="rebuttal-q">Am I really saving money, or is this just a gimmick?</div>
+<div class="rebuttal-a">A fixed-rate plan isn't primarily about saving money — it's about predictability and protection from market spikes. When gas prices rise, your rate stays the same. The value is in stability and peace of mind, not a guaranteed bill reduction.</div>
+</div>
+</div>
+<div class="rebuttal-card mkt" id="rb-ies">
+<div class="rebuttal-icon">📋</div>
+<div>
+<div class="rebuttal-label">IES Specific</div>
+<div class="rebuttal-q">What is a Fixed Bill plan, and how is it different from a fixed rate?</div>
+<div class="rebuttal-a">A fixed-rate plan locks in your price per therm but your bill still varies based on how much gas you use. A Fixed Bill plan locks in your total monthly charge — so the amount you pay is the same every month regardless of usage or price changes, up to your plan's usage threshold.</div>
+</div>
+</div>
+</div><!-- /gsp-why -->
+</div><!-- /content-main -->
+</div><!-- /content-layout -->
+</div><!-- /section -->
+<!-- Enroll CTA Band -->
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>Enroll CTA</span>
+<div class="enroll-band">
+<div>
+<h3>Ready to get started?</h3>
+<p>See plans and rates for your area and enroll easily online.</p>
+</div>
+<button class="enroll-band-btn">View Plans &amp; Enroll</button>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
+<span class="ann ann-b">Variant diff: full enroll band present on GI only; LC variants use softer CTAs</span>
 
-            <!-- Trust rebuttals -->
-            <div class="h3" style="margin-bottom:12px;">Addressing Common Questions</div>
-            <div class="rebuttal-card">
-              <div class="rebuttal-icon">🤔</div>
-              <div>
-                <div class="rebuttal-label">Common Concern</div>
-                <div class="rebuttal-q">Is a third-party supplier actually safe? What happens if the company goes away?</div>
-                <div class="rebuttal-a">Your local utility always remains responsible for delivering gas to your home and responding to emergencies — that never changes when you switch suppliers. Your utility distribution service is separate from gas supply. We source the gas; they deliver it. Even if your supplier changes, your service does not get interrupted.</div>
-              </div>
-            </div>
-            <div class="rebuttal-card">
-              <div class="rebuttal-icon">💵</div>
-              <div>
-                <div class="rebuttal-label">Common Concern</div>
-                <div class="rebuttal-q">Am I really saving money, or is this just a gimmick?</div>
-                <div class="rebuttal-a">A fixed-rate plan isn't primarily about saving money — it's about predictability and protection from market spikes. When gas prices rise, your rate stays the same. The value is in stability and peace of mind, not a guaranteed bill reduction.</div>
-              </div>
-            </div>
-            <div class="rebuttal-card mkt" id="rb-ies">
-              <div class="rebuttal-icon">📋</div>
-              <div>
-                <div class="rebuttal-label">IES Specific</div>
-                <div class="rebuttal-q">What is a Fixed Bill plan, and how is it different from a fixed rate?</div>
-                <div class="rebuttal-a">A fixed-rate plan locks in your price per therm but your bill still varies based on how much gas you use. A Fixed Bill plan locks in your total monthly charge — so the amount you pay is the same every month regardless of usage or price changes, up to your plan's usage threshold.</div>
-              </div>
-            </div>
-          </div><!-- /gsp-why -->
-
-        </div><!-- /content-main -->
-      </div><!-- /content-layout -->
-    </div><!-- /section -->
-
-    <!-- Enroll CTA Band -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">5</span>Enroll CTA</span>
-      <div class="enroll-band">
-        <div>
-          <h3>Ready to get started?</h3>
-          <p>See plans and rates for your area and enroll easily online.</p>
-        </div>
-        <button class="enroll-band-btn">View Plans &amp; Enroll</button>
-      </div>
-      <div class="ann-row" style="padding:0 24px 10px;">
-        <span class="ann ann-b">Variant diff: full enroll band present on GI only; LC variants use softer CTAs</span>
-        <span class="ann ann-g">✓ CTA routes to Residential Plans / plan selector with LDC pre-populated if known</span>
-      </div>
-    </div>
-
-  </div><!-- /v-gi -->
-
-
-  <!-- ═══════════════════════════════════════════
+</div>
+</div>
+</div><!-- /v-gi -->
+<!-- ═══════════════════════════════════════════
        VARIANT 2 — LC PILLAR HUB
        ═══════════════════════════════════════════ -->
-  <div class="variant" id="v-pillar">
-
-    <!-- Breadcrumb -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
-      <div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › Understanding Your Gas Rates</div>
-    </div>
-
-    <!-- Pillar Hero -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">3</span>Pillar Hero</span>
-      <div class="pillar-hero" style="background:#f0f4fa;border-bottom:3px solid #1e3a5f;">
-        <span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
-        <div class="h1">
-          <span class="mkt-inline on" id="ph-ong">Ohio Natural Gas:</span>
-          <span class="mkt-inline" id="ph-pa">Pennsylvania Energy:</span>
-          <span class="mkt-inline" id="ph-gre">Grand Rapids Energy:</span>
-          <span class="mkt-inline" id="ph-il">Illinois Energy:</span>
-          <span class="mkt-inline" id="ph-ies">Illinois Energy Solutions:</span>
+<div class="variant" id="v-pillar">
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › Understanding Your Gas Rates</div>
+</div>
+<!-- Pillar Hero -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Pillar Hero</span>
+<div class="pillar-hero" style="background:#f0f4fa;border-bottom:3px solid #1e3a5f;">
+<span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+<div class="h1">
+<span class="mkt-inline on" id="ph-ong">Ohio Natural Gas:</span>
+<span class="mkt-inline" id="ph-pa">Pennsylvania Energy:</span>
+<span class="mkt-inline" id="ph-gre">Grand Rapids Energy:</span>
+<span class="mkt-inline" id="ph-il">Illinois Energy:</span>
+<span class="mkt-inline" id="ph-ies">Illinois Energy Solutions:</span>
           Understanding Your Gas Rates
         </div>
-        <div class="subhead" style="margin-top:6px;">Everything you need to know about how natural gas is priced, billed, and compared — in plain language.</div>
-        <div class="pillar-article-count" style="margin-top:8px;">6 articles · Pillar 1 of
+<div class="subhead" style="margin-top:6px;">Everything you need to know about how natural gas is priced, billed, and compared — in plain language.</div>
+<div class="pillar-article-count" style="margin-top:8px;">6 articles · Pillar 1 of
           <span class="mkt-inline on" id="pa-ct-ong">5</span>
-          <span class="mkt-inline" id="pa-ct-pa">4</span>
-          <span class="mkt-inline" id="pa-ct-gre">5</span>
-          <span class="mkt-inline" id="pa-ct-il">4</span>
-          <span class="mkt-inline" id="pa-ct-ies">4</span>
-        </div>
-      </div>
-      <div class="ann-row" style="padding:0 24px 10px;">
-        <span class="ann ann-g">✓ Pillar badge color system: P1 navy, P2 green, P3 rust, P4 purple, P5 dark green</span>
-        <span class="ann ann-b">Variant diff: hero = pillar color band (not marketing gradient)</span>
-      </div>
-    </div>
+<span class="mkt-inline" id="pa-ct-pa">4</span>
+<span class="mkt-inline" id="pa-ct-gre">5</span>
+<span class="mkt-inline" id="pa-ct-il">4</span>
+<span class="mkt-inline" id="pa-ct-ies">4</span>
+</div>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
 
-    <!-- Two-column layout -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
-      <div class="content-layout">
-        <div class="content-sidebar">
-          <div class="sidebar-sticky">
-            <div class="sidebar-head">All Pillars</div>
-            <ul class="pillar-nav-list">
-              <li><a class="active"><span class="pillar-nav-dot pnd-1"></span>Understanding Gas Rates</a></li>
-              <li><a><span class="pillar-nav-dot pnd-2"></span>Service Area &amp; Setup</a></li>
-              <li><a><span class="pillar-nav-dot pnd-3"></span>How to Switch or Sign Up</a></li>
-              <li><a><span class="pillar-nav-dot pnd-4"></span>Managing Your Account &amp; Bill</a></li>
-              <li class="mkt on" id="pnav-gl-ong"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
-              <li class="mkt" id="pnav-gl-gre"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
-            </ul>
-            <div class="ann-row" style="margin-top:12px;padding-right:8px;">
-              <span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = all-pillars nav list</span>
-              <span class="ann ann-y" style="font-size:10px;margin-top:4px;">⚑ P5 Carbon Neutral Gas: ONG + GRE only</span>
-            </div>
-          </div>
-        </div>
-        <div class="content-main">
-          <div class="body-para">These articles cover how natural gas is priced, why your bill changes, and how to compare supplier rates in your area. Start with the basics or jump to the topic most relevant to you.</div>
+<span class="ann ann-b">Variant diff: hero = pillar color band (not marketing gradient)</span>
+</div>
+</div>
+<!-- Two-column layout -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content + Sidebar</span>
+<div class="content-layout">
+<div class="content-sidebar">
+<div class="sidebar-sticky">
+<div class="sidebar-head">All Pillars</div>
+<ul class="pillar-nav-list">
+<li><a class="active"><span class="pillar-nav-dot pnd-1"></span>Understanding Gas Rates</a></li>
+<li><a><span class="pillar-nav-dot pnd-2"></span>Service Area &amp; Setup</a></li>
+<li><a><span class="pillar-nav-dot pnd-3"></span>How to Switch or Sign Up</a></li>
+<li><a><span class="pillar-nav-dot pnd-4"></span>Managing Your Account &amp; Bill</a></li>
+<li class="mkt on" id="pnav-gl-ong"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
+<li class="mkt" id="pnav-gl-gre"><a><span class="pillar-nav-dot pnd-5"></span>Carbon Neutral Gas</a></li>
+</ul>
+<div class="ann-row" style="margin-top:12px;padding-right:8px;">
+<span class="ann ann-b" style="font-size:10px;">Variant diff: sidebar = all-pillars nav list</span>
 
-          <!-- Article card grid -->
-          <div class="article-grid" style="margin-top:14px;">
-            <div class="ac">
-              <div class="ac-top"><div class="ac-num">01</div><div class="ac-title">What You're Paying For: Therms Explained</div></div>
-              <div class="ac-body"><p>Understand the unit your gas bill uses — and why it matters for comparing plans.</p></div>
-              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-            <div class="ac">
-              <div class="ac-top"><div class="ac-num">02</div><div class="ac-title">Current Rate vs. Utility Default</div></div>
-              <div class="ac-body"><p>See how our current rate compares to your utility's default supply rate — updated regularly.</p></div>
-              <div class="ac-footer"><span class="ac-read-time">3 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-            <div class="ac">
-              <div class="ac-top"><div class="ac-num">03</div><div class="ac-title">Fixed Rate vs. Variable Rate: Which Is Right for You?</div></div>
-              <div class="ac-body"><p>The difference between fixed and variable — and how to choose based on your usage and risk tolerance.</p></div>
-              <div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-            <div class="ac">
-              <div class="ac-top"><div class="ac-num">04</div><div class="ac-title">Why Gas Prices Change Throughout the Year</div></div>
-              <div class="ac-body"><p>Seasonal demand, storage levels, and weather events all affect gas prices. Here's how.</p></div>
-              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-            <div class="ac">
-              <div class="ac-top"><div class="ac-num">05</div><div class="ac-title">Understanding Gas Plans on a Fixed Income</div></div>
-              <div class="ac-body"><p>How fixed-rate and fixed-bill plans can help households that need predictable monthly costs.</p></div>
-              <div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-            <div class="ac">
-              <div class="ac-top">
-                <div class="ac-num">06</div>
-                <div class="ac-title">How to Compare Supplier Rates in
+</div>
+</div>
+</div>
+<div class="content-main">
+<div class="body-para">These articles cover how natural gas is priced, why your bill changes, and how to compare supplier rates in your area. Start with the basics or jump to the topic most relevant to you.</div>
+<!-- Article card grid -->
+<div class="article-grid" style="margin-top:14px;">
+<div class="ac">
+<div class="ac-top"><div class="ac-num">01</div><div class="ac-title">What You're Paying For: Therms Explained</div></div>
+<div class="ac-body"><p>Understand the unit your gas bill uses — and why it matters for comparing plans.</p></div>
+<div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+<div class="ac">
+<div class="ac-top"><div class="ac-num">02</div><div class="ac-title">Current Rate vs. Utility Default</div></div>
+<div class="ac-body"><p>See how our current rate compares to your utility's default supply rate — updated regularly.</p></div>
+<div class="ac-footer"><span class="ac-read-time">3 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+<div class="ac">
+<div class="ac-top"><div class="ac-num">03</div><div class="ac-title">Fixed Rate vs. Variable Rate: Which Is Right for You?</div></div>
+<div class="ac-body"><p>The difference between fixed and variable — and how to choose based on your usage and risk tolerance.</p></div>
+<div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+<div class="ac">
+<div class="ac-top"><div class="ac-num">04</div><div class="ac-title">Why Gas Prices Change Throughout the Year</div></div>
+<div class="ac-body"><p>Seasonal demand, storage levels, and weather events all affect gas prices. Here's how.</p></div>
+<div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+<div class="ac">
+<div class="ac-top"><div class="ac-num">05</div><div class="ac-title">Understanding Gas Plans on a Fixed Income</div></div>
+<div class="ac-body"><p>How fixed-rate and fixed-bill plans can help households that need predictable monthly costs.</p></div>
+<div class="ac-footer"><span class="ac-read-time">4 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+<div class="ac">
+<div class="ac-top">
+<div class="ac-num">06</div>
+<div class="ac-title">How to Compare Supplier Rates in
                   <span class="mkt-inline on" id="ac-state-ong"> Ohio</span>
-                  <span class="mkt-inline" id="ac-state-pa"> Pennsylvania</span>
-                  <span class="mkt-inline" id="ac-state-gre"> Michigan</span>
-                  <span class="mkt-inline" id="ac-state-il"> Illinois</span>
-                  <span class="mkt-inline" id="ac-state-ies"> Illinois</span>
-                </div>
-              </div>
-              <div class="ac-body"><p>A plain-language guide to reading and comparing supplier rate offers in your state.</p><span class="ac-market-tag" id="ac-mt-ong">Ohio specific</span><span class="ac-market-tag" id="ac-mt-pa" style="display:none;">PA specific</span></div>
-              <div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
-            </div>
-          </div>
-          <div class="ann-row" style="margin-top:10px;">
-            <span class="ann ann-b">Variant diff: content = article card grid (not marketing copy blocks)</span>
-            <span class="ann ann-y">⚑ Article count per pillar varies by market — confirm final article list per market</span>
-          </div>
+<span class="mkt-inline" id="ac-state-pa"> Pennsylvania</span>
+<span class="mkt-inline" id="ac-state-gre"> Michigan</span>
+<span class="mkt-inline" id="ac-state-il"> Illinois</span>
+<span class="mkt-inline" id="ac-state-ies"> Illinois</span>
+</div>
+</div>
+<div class="ac-body"><p>A plain-language guide to reading and comparing supplier rate offers in your state.</p><span class="ac-market-tag" id="ac-mt-ong">Ohio specific</span><span class="ac-market-tag" id="ac-mt-pa" style="display:none;">PA specific</span></div>
+<div class="ac-footer"><span class="ac-read-time">5 min read</span><span class="ac-read-link">Read →</span></div>
+</div>
+</div>
+<div class="ann-row" style="margin-top:10px;">
+<span class="ann ann-b">Variant diff: content = article card grid (not marketing copy blocks)</span>
 
-          <!-- Related Pillars -->
-          <div class="h3" style="margin:24px 0 10px;">Explore Other Topics</div>
-          <div class="related-pillars-row">
-            <div class="rp"><div class="rp-icon">🏠</div><div class="rp-name">Service Area &amp; Setup</div><div class="rp-count">5 articles</div></div>
-            <div class="rp"><div class="rp-icon">↩️</div><div class="rp-name">How to Switch or Sign Up</div><div class="rp-count">5 articles</div></div>
-            <div class="rp"><div class="rp-icon">📄</div><div class="rp-name">Managing Your Account &amp; Bill</div><div class="rp-count">5 articles</div></div>
-            <div class="rp mkt on" id="rp-gl-ong"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">5 articles</div></div>
-            <div class="rp mkt" id="rp-gl-gre"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">4 articles</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Metrics bar -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">5</span>SEO / Metrics</span>
-      <div class="metrics-bar">
-        <div><div class="m-val">BreadcrumbList</div><div class="m-lbl">Schema markup</div><div class="m-tgt">Pillar hub + articles</div></div>
-        <div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
-        <div><div class="m-val">4–5</div><div class="m-lbl">Pillars per market</div><div class="m-tgt">P5 = ONG + GRE only</div></div>
-      </div>
-    </div>
-
-  </div><!-- /v-pillar -->
-
-
-  <!-- ═══════════════════════════════════════════
+</div>
+<!-- Related Pillars -->
+<div class="h3" style="margin:24px 0 10px;">Explore Other Topics</div>
+<div class="related-pillars-row">
+<div class="rp"><div class="rp-icon">🏠</div><div class="rp-name">Service Area &amp; Setup</div><div class="rp-count">5 articles</div></div>
+<div class="rp"><div class="rp-icon">↩️</div><div class="rp-name">How to Switch or Sign Up</div><div class="rp-count">5 articles</div></div>
+<div class="rp"><div class="rp-icon">📄</div><div class="rp-name">Managing Your Account &amp; Bill</div><div class="rp-count">5 articles</div></div>
+<div class="rp mkt on" id="rp-gl-ong"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">5 articles</div></div>
+<div class="rp mkt" id="rp-gl-gre"><div class="rp-icon">🌿</div><div class="rp-name">Carbon Neutral Gas</div><div class="rp-count">4 articles</div></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Metrics bar -->
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>SEO / Metrics</span>
+<div class="metrics-bar">
+<div><div class="m-val">BreadcrumbList</div><div class="m-lbl">Schema markup</div><div class="m-tgt">Pillar hub + articles</div></div>
+<div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
+<div><div class="m-val">4–5</div><div class="m-lbl">Pillars per market</div><div class="m-tgt">P5 = ONG + GRE only</div></div>
+</div>
+</div>
+</div><!-- /v-pillar -->
+<!-- ═══════════════════════════════════════════
        VARIANT 3 — LC ARTICLE
        ═══════════════════════════════════════════ -->
-  <div class="variant" id="v-article">
+<div class="variant" id="v-article">
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › <a>Understanding Gas Rates</a> › Fixed Rate vs. Variable Rate</div>
+</div>
+<!-- Reading progress bar -->
+<div style="height:3px;background:#e8641a;width:35%;"></div>
+<!-- Article Header -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Article Header</span>
+<div class="article-header">
+<div class="article-meta-bar">
+<span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+<span>5 min read</span>
+<span>Updated April 2026</span>
+<span class="mkt-inline on" id="art-mkt-ong" style="background:#e8f5e9;border:1px solid #4caf50;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#2e7d32;">Ohio</span>
+<span class="mkt-inline" id="art-mkt-pa" style="background:#e3f2fd;border:1px solid #1565c0;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#0d47a1;">Pennsylvania</span>
+<span class="mkt-inline" id="art-mkt-gre" style="background:#f3e5f5;border:1px solid #8e24aa;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#6a1b9a;">Michigan</span>
+<span class="mkt-inline" id="art-mkt-il" style="background:#fff3e0;border:1px solid #ef6c00;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#e65100;">Illinois</span>
+<span class="mkt-inline" id="art-mkt-ies" style="background:#fce4ec;border:1px solid #c2185b;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#880e4f;">IES</span>
+</div>
+<div class="article-h1">Fixed Rate vs. Variable Rate: Which Natural Gas Plan Is Right for You?</div>
+<div class="article-sub">Understand the key difference between fixed and variable gas supply rates — and how to choose the right plan for your household.</div>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
+<span class="ann ann-b">Variant diff: article H1 + meta bar (not marketing hero)</span>
 
-    <!-- Breadcrumb -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
-      <div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › <a>Understanding Gas Rates</a> › Fixed Rate vs. Variable Rate</div>
-    </div>
 
-    <!-- Reading progress bar -->
-    <div style="height:3px;background:#e8641a;width:35%;"></div>
+</div>
+</div>
+<!-- Full-width content (no sidebar) -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Article Content</span>
+<div class="ann-row" style="padding:8px 24px 4px;">
 
-    <!-- Article Header -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">3</span>Article Header</span>
-      <div class="article-header">
-        <div class="article-meta-bar">
-          <span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
-          <span>5 min read</span>
-          <span>Updated April 2026</span>
-          <span class="mkt-inline on" id="art-mkt-ong" style="background:#e8f5e9;border:1px solid #4caf50;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#2e7d32;">Ohio</span>
-          <span class="mkt-inline" id="art-mkt-pa" style="background:#e3f2fd;border:1px solid #1565c0;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#0d47a1;">Pennsylvania</span>
-          <span class="mkt-inline" id="art-mkt-gre" style="background:#f3e5f5;border:1px solid #8e24aa;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#6a1b9a;">Michigan</span>
-          <span class="mkt-inline" id="art-mkt-il" style="background:#fff3e0;border:1px solid #ef6c00;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#e65100;">Illinois</span>
-          <span class="mkt-inline" id="art-mkt-ies" style="background:#fce4ec;border:1px solid #c2185b;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#880e4f;">IES</span>
-        </div>
-        <div class="article-h1">Fixed Rate vs. Variable Rate: Which Natural Gas Plan Is Right for You?</div>
-        <div class="article-sub">Understand the key difference between fixed and variable gas supply rates — and how to choose the right plan for your household.</div>
-      </div>
-      <div class="ann-row" style="padding:0 24px 10px;">
-        <span class="ann ann-b">Variant diff: article H1 + meta bar (not marketing hero)</span>
-        <span class="ann ann-g">✓ Article H1 must include brand name + state + topic for E-E-A-T</span>
-        <span class="ann ann-g">✓ Reading progress bar: sticky, updates on scroll</span>
-      </div>
-    </div>
+<span class="ann ann-b" style="font-size:10px;">Variant diff: full-width article body (no sidebar). GI and Pillar Hub variants retain their sidebars.</span>
+</div>
+<div style="display:grid; grid-template-columns:1fr;">
+<div class="content-main">
+<!-- AI Extract Box -->
+<div class="ai-extract-box">
+<div class="ai-extract-label">✦ AI Search Extract</div>
+<div class="ai-extract-text">"A fixed-rate natural gas plan locks in a set price per therm for the duration of your contract, protecting you from market price increases. A variable-rate plan fluctuates monthly based on market conditions and may be lower or higher than the fixed rate in any given month. Fixed-rate plans typically include an Early Termination Fee if cancelled before the contract end date."</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-b">Variant diff: AI extract box present on LC Articles only — optimizes for AI-mediated search (Google SGE, Perplexity, etc.)</span>
 
-    <!-- Full-width content (no sidebar) -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">4</span>Article Content</span>
-      <div class="ann-row" style="padding:8px 24px 4px;">
-        <span class="ann ann-g" style="font-size:10px;">✓ Sidebar removed — LC articles are concise enough that anchor navigation adds no value and narrows the content column unnecessarily. Related articles surface in the "Keep Reading" band below.</span>
-        <span class="ann ann-b" style="font-size:10px;">Variant diff: full-width article body (no sidebar). GI and Pillar Hub variants retain their sidebars.</span>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr;">
-        <div class="content-main">
-
-          <!-- AI Extract Box -->
-          <div class="ai-extract-box">
-            <div class="ai-extract-label">✦ AI Search Extract</div>
-            <div class="ai-extract-text">"A fixed-rate natural gas plan locks in a set price per therm for the duration of your contract, protecting you from market price increases. A variable-rate plan fluctuates monthly based on market conditions and may be lower or higher than the fixed rate in any given month. Fixed-rate plans typically include an Early Termination Fee if cancelled before the contract end date."</div>
-          </div>
-          <div class="ann-row">
-            <span class="ann ann-b">Variant diff: AI extract box present on LC Articles only — optimizes for AI-mediated search (Google SGE, Perplexity, etc.)</span>
-            <span class="ann ann-y">⚑ AI extract copy — review per article before publish</span>
-          </div>
-
-          <!-- Article Sections -->
-          <div class="article-section">
-            <div class="article-section-h2">What Is a Fixed Rate?</div>
-            <p class="body-para">A fixed-rate natural gas plan locks in a set price per therm for the length of your contract. Your supply rate will not change even if the wholesale price of gas increases.</p>
-            <p class="body-para">[ARTICLE BODY COPY PLACEHOLDER — key points: rate stability, contract term length, good for risk-averse customers]</p>
-          </div>
-
-          <div class="article-section">
-            <div class="article-section-h2">What Is a Variable Rate?</div>
-            <p class="body-para">A variable-rate plan adjusts monthly based on market conditions. Your rate may be lower than a fixed rate some months — but it can also be significantly higher during periods of high demand or supply disruption.</p>
-          </div>
-
-          <!-- Mid-article CTA -->
-          <div class="article-section">
-            <div class="mid-cta">
-              <div>
-                <p>See current fixed rates in your area</p>
-                <small>Enter your ZIP code to view available plans for your area</small>
-              </div>
-              <button class="wf-btn-sm" style="background:#fff;color:#c04000;">View Plans</button>
-            </div>
-            <div class="ann-row" style="margin-top:8px;">
-              <span class="ann ann-b">Variant diff: mid-article CTA inline within content (not a full enroll band)</span>
-            </div>
-          </div>
-
-          <div class="article-section">
-            <div class="article-section-h2">Early Termination — What Applies to You</div>
-            <div class="market-block mkt on" id="art-etf-ong">
-              <div class="market-block-label">Ohio Natural Gas</div>
+</div>
+<!-- Article Sections -->
+<div class="article-section">
+<div class="article-section-h2">What Is a Fixed Rate?</div>
+<p class="body-para">A fixed-rate natural gas plan locks in a set price per therm for the length of your contract. Your supply rate will not change even if the wholesale price of gas increases.</p>
+<p class="body-para">[ARTICLE BODY COPY PLACEHOLDER — key points: rate stability, contract term length, good for risk-averse customers]</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">What Is a Variable Rate?</div>
+<p class="body-para">A variable-rate plan adjusts monthly based on market conditions. Your rate may be lower than a fixed rate some months — but it can also be significantly higher during periods of high demand or supply disruption.</p>
+</div>
+<!-- Mid-article CTA -->
+<div class="article-section">
+<div class="mid-cta">
+<div>
+<p>See current fixed rates in your area</p>
+<small>Enter your ZIP code to view available plans for your area</small>
+</div>
+<button class="wf-btn-sm" style="background:#fff;color:#c04000;">View Plans</button>
+</div>
+<div class="ann-row" style="margin-top:8px;">
+<span class="ann ann-b">Variant diff: mid-article CTA inline within content (not a full enroll band)</span>
+</div>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Early Termination — What Applies to You</div>
+<div class="market-block mkt on" id="art-etf-ong">
+<div class="market-block-label">Ohio Natural Gas</div>
               Fixed-rate plans carry an Early Termination Fee of <strong>$12.50 per remaining month</strong> if you cancel before your contract end date.
             </div>
-            <div class="market-block mkt" id="art-etf-pa">
-              <div class="market-block-label">Pennsylvania Energy</div>
+<div class="market-block mkt" id="art-etf-pa">
+<div class="market-block-label">Pennsylvania Energy</div>
               Fixed-rate plans carry an Early Termination Fee of <strong>$10.00 per remaining month</strong> if you cancel before your contract end date.
             </div>
-            <div class="market-block mkt" id="art-etf-gre">
-              <div class="market-block-label">Grand Rapids Energy</div>
+<div class="market-block mkt" id="art-etf-gre">
+<div class="market-block-label">Grand Rapids Energy</div>
               Early Termination Fee applies — amount TBD, pending client confirmation.
             </div>
-            <div class="market-block mkt" id="art-etf-il">
-              <div class="market-block-label">Illinois Energy</div>
+<div class="market-block mkt" id="art-etf-il">
+<div class="market-block-label">Illinois Energy</div>
               Early Termination Fee applies — amount TBD. Note: ICC SB651/Part 512 compliance required; ETF must be disclosed at enrollment.
             </div>
-            <div class="market-block mkt" id="art-etf-ies">
-              <div class="market-block-label">Illinois Energy Solutions</div>
+<div class="market-block mkt" id="art-etf-ies">
+<div class="market-block-label">Illinois Energy Solutions</div>
               Fixed Bill plan ETF — amount TBD, pending client confirmation.
             </div>
-            <div class="ann-row" style="margin-top:8px;">
-              <span class="ann ann-g">✓ Market-specific ETF blocks shown/hidden per active market</span>
-            </div>
-          </div>
 
-          <!-- FAQ Schema Section -->
-          <div class="article-section faq-schema-section">
-            <div class="article-section-h2">Common Questions <span class="faq-schema-badge">FAQ Schema</span></div>
-            <div class="ann-row" style="margin-bottom:10px;">
-              <span class="ann ann-b">Variant diff: FAQ schema markup present on LC Articles — eligible for Google FAQ rich results and AI overviews</span>
-            </div>
-            <div class="faq-item">
-              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+</div>
+<!-- FAQ Schema Section -->
+<div class="article-section faq-schema-section">
+<div class="article-section-h2">Common Questions <span class="faq-schema-badge">FAQ Schema</span></div>
+<div class="ann-row" style="margin-bottom:10px;">
+<span class="ann ann-b">Variant diff: FAQ schema markup present on LC Articles — eligible for Google FAQ rich results and AI overviews</span>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
                 Can I switch from a variable rate to a fixed rate at any time? <span class="faq-q-toggle">+</span>
-              </div>
-              <div class="faq-a">Yes, you can enroll in a fixed-rate plan at any time. If you're already on a fixed-rate plan and want to change to a different plan, Early Termination Fee rules may apply depending on your contract state.</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+</div>
+<div class="faq-a">Yes, you can enroll in a fixed-rate plan at any time. If you're already on a fixed-rate plan and want to change to a different plan, Early Termination Fee rules may apply depending on your contract state.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
                 Is a fixed-rate plan guaranteed to be cheaper than my utility's rate? <span class="faq-q-toggle">+</span>
-              </div>
-              <div class="faq-a">No — a fixed-rate plan is about stability, not guaranteed savings. During periods of low market prices your utility's rate may be lower. The benefit of a fixed rate is predictability and protection against price spikes.</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
+</div>
+<div class="faq-a">No — a fixed-rate plan is about stability, not guaranteed savings. During periods of low market prices your utility's rate may be lower. The benefit of a fixed rate is predictability and protection against price spikes.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.faq-q-toggle').textContent=this.nextElementSibling.classList.contains('open')?'−':'+'">
                 What happens when my fixed-rate contract ends? <span class="faq-q-toggle">+</span>
-              </div>
-              <div class="faq-a">[Answer content TBD — covers auto-renewal, rollover to variable, renewal notice timeline. Confirm per market.]</div>
-            </div>
-          </div>
+</div>
+<div class="faq-a">[Answer content TBD — covers auto-renewal, rollover to variable, renewal notice timeline. Confirm per market.]</div>
+</div>
+</div>
+</div><!-- /content-main -->
+</div><!-- /article-grid -->
+</div>
+<!-- Related Articles Band -->
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>Related Articles</span>
+<div class="p">
+<div class="h3" style="margin-bottom:12px;">Keep Reading</div>
+<div class="related-articles-grid">
+<div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates · 4 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Early Termination: What It Is and When It Applies<small>How to Switch or Sign Up · 5 min read</small><span class="pillar-badge pb-p3" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
+<div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates · 3 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+</div>
+<div class="ann-row" style="margin-top:10px;">
+<span class="ann ann-b">Variant diff: related articles band instead of enroll band; enroll nudge below if article is plan-adjacent</span>
 
-        </div><!-- /content-main -->
-      </div><!-- /article-grid -->
-    </div>
-
-    <!-- Related Articles Band -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">5</span>Related Articles</span>
-      <div class="p">
-        <div class="h3" style="margin-bottom:12px;">Keep Reading</div>
-        <div class="related-articles-grid">
-          <div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates · 4 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
-          <div class="ra-card">Early Termination: What It Is and When It Applies<small>How to Switch or Sign Up · 5 min read</small><span class="pillar-badge pb-p3" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
-          <div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates · 3 min read</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
-        </div>
-        <div class="ann-row" style="margin-top:10px;">
-          <span class="ann ann-b">Variant diff: related articles band instead of enroll band; enroll nudge below if article is plan-adjacent</span>
-          <span class="ann ann-g">✓ Related article recommendations: same pillar priority, cross-pillar secondary</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Metrics bar -->
-    <div class="section">
-      <span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
-      <div class="metrics-bar">
-        <div><div class="m-val">FAQ Schema</div><div class="m-lbl">Rich result eligible</div><div class="m-tgt">Every Q&amp;A pair</div></div>
-        <div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
-        <div><div class="m-val">AI Extract</div><div class="m-lbl">SGE / AI overview</div><div class="m-tgt">Frontloaded summary</div></div>
-        <div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
-        <div><div class="m-val">4–5 min</div><div class="m-lbl">Target read time</div></div>
-      </div>
-    </div>
-
-  </div><!-- /v-article -->
-
-
-  <!-- ─── FOOTER (shared across all variants) ─── -->
-  <div class="section">
-    <span class="section-label"><span class="sec-num">—</span>Footer</span>
-    <div class="site-footer">
-      <div class="footer-brand-strip">
-        <div>
-          <div class="footer-logo">
-            <span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
-            <span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
-            <span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
-            <span class="mkt-inline" id="ft-il">Illinois Energy</span>
-            <span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
-          </div>
-          <div class="footer-parent">A SouthStar Energy Services company<br>A subsidiary of Southern Company (NYSE: SO)</div>
-        </div>
-        <div>
-          <div class="footer-col-head">Plans</div>
-          <div class="footer-col-links">
-            <a>Residential Plans</a>
-            <a class="mkt on" id="ftgl-ong">Greener Life® Plans</a>
-            <a class="mkt" id="ftgl-gre">Greener Life® Plans</a>
-            <a>Commercial Plans</a>
-          </div>
-        </div>
-        <div>
-          <div class="footer-col-head">Learn</div>
-          <div class="footer-col-links">
-            <a>Learning Center</a>
-            <a>FAQ</a>
-            <a>About Us</a>
-            <a>Contact Us</a>
-          </div>
-        </div>
-        <div>
-          <div class="footer-col-head">Legal</div>
-          <div class="footer-col-links">
-            <a>Privacy Policy</a>
-            <a>Terms of Use</a>
-            <a>Enrollment Disclosures</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-bottom-row">
-          <span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
-          <div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="doc-footer">
-    4037-25 · SouthStar Expanded Markets Redesign · Content Page Template (General Informational + LC Pillar Hub + LC Article) · IfThen Digital · April 2026<br>
+</div>
+</div>
+</div>
+<!-- Metrics bar -->
+<div class="section">
+<span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
+<div class="metrics-bar">
+<div><div class="m-val">FAQ Schema</div><div class="m-lbl">Rich result eligible</div><div class="m-tgt">Every Q&amp;A pair</div></div>
+<div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
+<div><div class="m-val">AI Extract</div><div class="m-lbl">SGE / AI overview</div><div class="m-tgt">Frontloaded summary</div></div>
+<div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
+<div><div class="m-val">4–5 min</div><div class="m-lbl">Target read time</div></div>
+</div>
+</div>
+</div><!-- /v-article -->
+<!-- ─── FOOTER (shared across all variants) ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">—</span>Footer</span>
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">
+<span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="ft-il">Illinois Energy</span>
+<span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+</div>
+<div class="footer-parent">A SouthStar Energy Services company<br/>A subsidiary of Southern Company (NYSE: SO)</div>
+</div>
+<div>
+<div class="footer-col-head">Plans</div>
+<div class="footer-col-links">
+<a>Residential Plans</a>
+<a class="mkt on" id="ftgl-ong">Greener Life® Plans</a>
+<a class="mkt" id="ftgl-gre">Greener Life® Plans</a>
+<a>Commercial Plans</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Learn</div>
+<div class="footer-col-links">
+<a>Learning Center</a>
+<a>FAQ</a>
+<a>About Us</a>
+<a>Contact Us</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Legal</div>
+<div class="footer-col-links">
+<a>Privacy Policy</a>
+<a>Terms of Use</a>
+<a>Enrollment Disclosures</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+<div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc-footer">
+    4037-25 · SouthStar Expanded Markets Redesign · Content Page Template (General Informational + LC Pillar Hub + LC Article) · IfThen Digital · April 2026<br/>
     ⛔ SUPERSEDED — This consolidated file has been split into two purpose-built template wireframes: (1) LearningCenter_Wireframe.html — LC Hub, LC Pillar Hub, and LC Article; (2) GeneralInformational_Wireframe.html — GI/About pages with Organization schema, service area, and regulatory licensing sections. This file is retained for reference only and should not be used as the source of truth.
   </div>
-
 </div><!-- /canvas -->
-
 <script>
 var curMarket = 'ong';
 var curVariant = 'gi';

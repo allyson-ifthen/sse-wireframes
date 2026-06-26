@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Commercial Plans — Wireframe Sketch | 4037-25</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -197,519 +198,460 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </style>
 </head>
 <body>
-
 <div class="toolbar">
-  <div class="toolbar-left">
-    <div>
-      <div class="toolbar-title">Commercial Plans — Wireframe Sketch</div>
-      <div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
-    </div>
-    <div>
-      <div class="vsw-label">Market</div>
-      <div class="market-switcher">
-        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
-        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
-        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
-        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
-        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
-      </div>
-    </div>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
-    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
-    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
-  </div>
+<div class="toolbar-left">
+<div>
+<div class="toolbar-title">Commercial Plans — Wireframe Sketch</div>
+<div class="toolbar-meta">4037-25 · Phase 2 · Batch 2 · April 2026</div>
 </div>
-
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+<button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+<button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+<button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+<button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+<div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+<div class="legend-item"><div class="dot dot-b"></div> Component</div>
+</div>
+</div>
 <div class="canvas">
-
-  <!-- NAV HEADER -->
-  <div class="section" style="position:relative; margin-bottom:5px;">
-    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header</div>
-    <div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav.</div>
-    <!-- Utility Row -->
-    <div class="nav-utility">
-      <a>Contact Us</a>
-      <span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
-    </div>
-    <div class="nav-header">
-      <div class="nav-logo">
-        <div class="nav-logo-mark">🔥</div>
-        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
-        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
-        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
-        <span class="mkt" id="logo-il">Illinois Energy</span>
-        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
-      </div>
-      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-      <nav class="nav-links mkt-flex on" id="nav-standard">
-
-        <!-- For My Home: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
-          </div>
-        </div>
-
-        <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
-        <div class="nav-item has-dropdown mkt" id="nav-fmb">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
-          </div>
-        </div>
-
-        <!-- Learning Center: direct link + pillar dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-          </div>
-        </div>
-
-        <!-- About Us: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-
-      </nav>
-
-      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-      <nav class="nav-links mkt-flex" id="nav-ies">
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-          </div>
-        </div>
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Right: Account + Search icon + Hamburger -->
-      <div class="nav-right">
-        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
-        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- METRICS BAR -->
-  <div class="section" style="margin-bottom:10px;">
-    <div class="metrics-bar">
-      <div><div class="m-val">3 markets</div><div class="m-lbl">Commercial plans available: ONG, GRE, IL Energy</div><div class="m-tgt">PA and IES: no commercial plans — contact routing shown</div></div>
-      <div><div class="m-val">Same LDC</div><div class="m-lbl">LDC gating identical to Residential Plans template</div><div class="m-tgt">Solve-once-persist LDC logic reused from Homepage</div></div>
-      <div><div class="m-val">Rep path</div><div class="m-lbl">Large commercial accounts may require rep call, not self-serve</div><div class="m-tgt">CTA routes to contact form for rep-assisted enrollments</div></div>
-      <div><div class="m-val">PA built</div><div class="m-lbl">PA template structure built but disabled</div><div class="m-tgt">Routes to contact/inquiry CTA — no plan cards shown</div></div>
-    </div>
-  </div>
-
-  <!-- OPEN QUESTIONS -->
-  <div class="oq-panel">
-    <h4>⚑ Open Questions — Commercial Plans</h4>
-    <ul class="oq-list">
-      <li><strong>#1 CRITICAL</strong> Commercial plan types: What plan types exist for commercial customers — fixed, variable, custom contract? Are commercial plans structured differently from residential (e.g., therms vs. MCF, contract length options)? Confirm with Lee Jackson.</li>
-      <li><strong>#2</strong> Commercial enrollment path: Does the commercial enrollment flow use the same PRIME-based path as residential, or does it involve a rep call for larger accounts? Wireframe shows a self-serve path for small commercial + rep CTA for larger accounts. Confirm with dev team.</li>
-      <li><strong>#3</strong> PA commercial contact routing: PA has no commercial plans. The page routes to a contact inquiry CTA. Confirm the correct contact destination — general contact form, dedicated business inquiry form, or phone number.</li>
-      <li><strong>#4</strong> IES commercial scope: IES is a residential-only product (Fixed Bill). Commercial is not applicable. Wireframe hides commercial tab for IES entirely and shows a "residential only" note.</li>
-      <li><strong>#5</strong> Commercial ETF: Does the commercial plan carry the same ETF structure as residential ($12.50/month for ONG)? Or is the commercial ETF different? Confirm per market.</li>
-    </ul>
-  </div>
-
-  <!-- SECTION 1: HERO BAND (CP-1 — added 2026-06-09) -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">1</div><br>Hero Band</div>
-    <div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span><a>For My Business</a><span style="color:#ddd; margin:0 4px;">›</span>Commercial Plans</div>
-
-    <!-- PA/IES: Not available state -->
-    <div class="mkt" id="na-pa">
-      <div class="p-lg" style="background:#fafafa;">
-        <div class="not-available-overlay">
-          <div class="na-icon">🏢</div>
-          <div class="na-title">Commercial Plans — Pennsylvania</div>
-          <div class="na-body">Commercial natural gas plans are not currently available from Pennsylvania Energy. For business inquiries, please contact us and a member of our team will assist you.</div>
-          <div class="wf-btn">Contact Us for Business Inquiries →</div>
-        </div>
-        <div class="ann-row">
-          <div class="ann ann-g"><i>✓</i> PA commercial template is built but shows contact routing instead of plan cards — structure is in place for future activation</div>
-          <div class="ann ann-y"><i>⚑</i> Open Q #3: Confirm the correct contact destination for PA commercial inquiries</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- IES: Not applicable -->
-    <div class="mkt" id="na-ies">
-      <div class="p-lg" style="background:#fafafa;">
-        <div class="not-available-overlay">
-          <div class="na-icon">💡</div>
-          <div class="na-title">Illinois Energy Solutions — Residential Only</div>
-          <div class="na-body">Illinois Energy Solutions offers the Fixed Bill plan for residential customers only. For business natural gas plans in Illinois, visit Illinois Energy.</div>
-          <div class="wf-btn-out">Illinois Energy — Business Plans →</div>
-        </div>
-        <div class="ann-row">
-          <div class="ann ann-g"><i>✓</i> IES is a residential-only product — commercial section not applicable. Cross-link to IL Energy for business customers.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ONG: Hero Band -->
-    <div class="mkt on" id="avail-ong">
-      <div class="hero-band">
-        <div class="h1">Commercial Natural Gas Plans — Ohio</div>
-        <div class="subhead">Fixed and variable rate options for small to mid-size Ohio businesses. Select your utility to see available plans.</div>
-        <div class="hero-trust">
-          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by PUCO</div>
-          <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
-          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Ohio Businesses Since [Year — TBD]</div>
-        </div>
-        <div class="ann-row">
-          <div class="ann ann-g"><i>✓</i> CP-1 — Hero band added for consistency with Residential Plans. H1 entity-specific for AI search / SEO disambiguation.</div>
-          <div class="ann ann-y"><i>⚑</i> Trust strip content (years serving, BBB accreditation) requires client confirmation per market before copy handoff.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- GRE: Hero Band -->
-    <div class="mkt" id="avail-gre">
-      <div class="hero-band">
-        <div class="h1">Commercial Natural Gas Plans — Michigan</div>
-        <div class="subhead">Fixed and variable rate options for small to mid-size Michigan businesses. Select your utility to see available plans.</div>
-        <div class="hero-trust">
-          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by MPSC</div>
-          <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
-          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Michigan Businesses Since [Year — TBD]</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- IL: Hero Band -->
-    <div class="mkt" id="avail-il">
-      <div class="hero-band">
-        <div class="h1">Commercial Natural Gas Plans — Illinois</div>
-        <div class="subhead">Fixed and variable rate options for Illinois commercial customers. Select your utility to see available plans.</div>
-        <div class="hero-trust">
-          <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by ICC</div>
-          <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Illinois Businesses Since [Year — TBD]</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 2: LDC GATING WIDGET -->
-  <div class="section" id="ldc-section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">2</div><br>LDC Gating<br>Widget</div>
-    <div class="p">
-      <div class="ldc-widget">
-        <div class="ldc-widget-title">Who is your natural gas utility?</div>
-        <div class="ldc-widget-sub">Select your utility — we'll show the commercial plans available for your address.</div>
-        <div class="mkt on" id="ldc-ong">
-          <div class="ldc-selector"><div class="ldc-btn selected">Columbia Gas</div><div class="ldc-btn">Dominion Energy Ohio</div></div>
-        </div>
-        <div class="mkt" id="ldc-gre">
-          <div class="ldc-selector"><div class="ldc-btn">DTE Energy</div><div class="ldc-btn">Consumers Energy</div></div>
-        </div>
-        <div class="mkt" id="ldc-il">
-          <div class="ldc-selector"><div class="ldc-btn">Nicor Gas</div><div class="ldc-btn">Peoples Gas</div><div class="ldc-btn">North Shore Gas</div></div>
-        </div>
-        <!-- ZIP Fallback (CP-2 — added 2026-06-09) -->
-        <div class="ldc-zip-fallback">
-          <span>Don't know your utility?</span>
-          <input class="ldc-zip-input" type="text" placeholder="Enter ZIP code" />
-          <button class="ldc-zip-submit">Look up →</button>
-        </div>
-      </div>
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> LDC gating uses the same component as Residential Plans — solve-once-persist via URL parameter (?ldc=columbia-gas). LDC selection on Homepage carries through to this page.</div>
-        <div class="ann ann-g"><i>✓</i> CP-2 — ZIP fallback added; mirrors Residential Plans pattern. Commercial customers have no more LDC knowledge than residential customers.</div>
-        <div class="ann ann-g"><i>✓</i> PA and IES markets do not see this section — commercial plans not available for those brands</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: COMMERCIAL PLAN CARDS -->
-  <div class="section" id="plans-section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">3</div><br>Commercial<br>Plan Cards</div>
-    <div class="p">
-      <!-- CP-4: Grid changed to auto-fit to handle 2-card (ONG/GRE) vs 3-card (IL) layout gracefully -->
-      <div class="comm-plan-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-
-        <!-- Commercial Fixed (featured) — unified .pc component per PC-D16 -->
-        <div class="pc featured">
-          <div class="pc-head">
-            <div class="pc-badge-row">
-              <span class="pc-badge badge-fixed">● Fixed Rate</span>
-              <span class="pc-badge badge-popular">Most Popular</span>
-            </div>
-            <div class="pc-name mkt-inline on" id="cn-f-ong">ONG Commercial Fixed 12</div>
-            <div class="pc-name mkt-inline" id="cn-f-gre">GRE Commercial Fixed 12</div>
-            <div class="pc-name mkt-inline" id="cn-f-il">IL Commercial Fixed 12</div>
-          </div>
-          <div class="pc-body">
-            <div class="pc-rate-row">
-              <div class="pc-rate">$0.469</div>
-              <!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
-              <div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-f-ong">CCF</span><span class="mkt-inline" id="ru-f-gre">therm</span><span class="mkt-inline" id="ru-f-il">therm</span></strong></div>
-            </div>
-            <div class="pc-desc">Lock in your supply rate for 12 months and bring budget certainty to your operating costs — no surprises from market swings.</div>
-            <ul class="pc-points">
-              <li>Rate locked for 12 months</li>
-              <li>Budget certainty for your business</li>
-              <li>Early termination: [$ TBD]/month if cancelled early</li>
-              <li>Auto-renews at renewal terms</li>
-            </ul>
-            <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8 + commercial cancellation rights may differ from residential (Open Q #5).\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
-          </div>
-          <div class="pc-foot">
-            <button class="pc-cta">Start Enrollment →</button>
-            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-          </div>
-        </div>
-
-        <!-- Commercial Variable -->
-        <div class="pc">
-          <div class="pc-head">
-            <div class="pc-badge-row">
-              <span class="pc-badge badge-variable">Variable Rate</span>
-            </div>
-            <div class="pc-name">Commercial Variable</div>
-          </div>
-          <div class="pc-body">
-            <div class="pc-rate-row">
-              <div class="pc-rate">$0.512</div>
-              <!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
-              <div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-v-ong">CCF</span><span class="mkt-inline" id="ru-v-gre">therm</span><span class="mkt-inline" id="ru-v-il">therm</span></strong></div>
-            </div>
-            <div class="pc-desc">Month-to-month flexibility for businesses that want to follow the market and avoid term commitments.</div>
-            <ul class="pc-points">
-              <li>No contract term</li>
-              <li>No early termination fee</li>
-              <li>Rate changes monthly</li>
-              <li>Can switch or cancel anytime</li>
-            </ul>
-            <span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
-          </div>
-          <div class="pc-foot">
-            <button class="pc-cta">Start Enrollment →</button>
-            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
-          </div>
-        </div>
-
-        <!-- Large Commercial · IL only (CP-4 — removed from ONG/GRE 2026-06-09) -->
-        <div class="mkt" id="lc-il" style="display:none;">
-          <div class="pc">
-            <div class="pc-head">
-              <div class="pc-badge-row">
-                <span class="pc-badge badge-custom">Custom Rate</span>
-              </div>
-              <div class="pc-name">Large Commercial</div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-quote">
-                <div class="pc-quote-label">Call for a custom quote</div>
-                <div class="pc-quote-phone">1-800-XXX-XXXX</div>
-              </div>
-              <div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
-              <ul class="pc-points">
-                <li>Custom contract terms</li>
-                <li>High-volume pricing available</li>
-                <li>Dedicated account support</li>
-                <li>Multi-location options</li>
-              </ul>
-              <span class="pc-expand-link" onclick="alert('Inline expand — 2-section variant per §14 matrix: \&quot;What\&#39;s in scope\&quot; + \&quot;Cancellation rights\&quot;.\n\nAnalytics: plan_details_expand · segment=commercial · card_state=quote_only')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="pc-foot">
-              <button class="pc-cta outline">Contact a Rep →</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">PC-D16</span> Cards use the unified <code>.pc</code> component per PlanCard_Wireframe.html. Description slot, "View Plan Terms &amp; Disclosures" expand, "Start Enrollment →" (Fixed/Variable) and "Contact a Rep →" (Custom/IL) applied.</div>
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">CP-4</span> Large Commercial quote-only card removed for ONG and GRE — live site review (2026-06-09) confirms no such product exists for those markets. Card retained for IL pending plan-type confirmation. Rep CTA Band (Section 5) provides the large-commercial off-ramp for all markets.</div>
-        <div class="ann ann-g"><i>✓</i> <span style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 4px; font-size:9.5px; font-weight:700; margin-right:3px;">CP-5</span> Rate unit for ONG updated to CCF (confirmed via live site review 2026-06-09). GRE and IL rate units show "therm" as placeholder — confirm before copy handoff.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #1 (ONG/GRE partially resolved): ONG live site shows 3 self-serve plans — 12-Month Fixed, Variable, 6-Month Fixed. Wireframe currently shows only 2 (12-Month Fixed + Variable). A 6-Month Fixed card may be needed for ONG/GRE — confirm plan catalog with Lee Jackson before adding.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #5: Commercial ETF amounts — placeholder <code>[$ TBD]/month</code> in Fixed card bullet. Confirm with Lee Jackson.</div>
-        <div class="ann ann-y"><i>⚑</i> "Most Popular" badge retained for wireframe reference. CMS guidance: don't publish unless enrollment data clearly supports one plan for commercial segment.</div>
-        <div class="ann ann-y"><i>⚑</i> CP-7: Large commercial cutoff for Rep CTA Band — usage threshold (currently "500+ therms") is placeholder. Client to define self-serve vs. call-in qualifier. Owner: Lee Jackson / sales team.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 4: MARKET AVAILABILITY TABLE -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">4</div><br>Market<br>Availability</div>
-    <div class="p">
-      <div class="h3" style="margin-bottom:12px;">Commercial Plan Availability by Market</div>
-      <table class="avail-table">
-        <thead>
-          <tr><th>Market</th><th>Fixed Rate</th><th>Variable Rate</th><th>Custom / Rep</th><th>Self-Serve Enrollment</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Ohio Natural Gas (ONG)</strong></td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-no">— Not observed on live site</td>
-            <td class="avail-yes">✓ Confirmed</td>
-          </tr>
-          <tr>
-            <td><strong>Grand Rapids Energy (GRE)</strong></td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-no">— Not observed on live site</td>
-            <td class="avail-yes">✓ Confirmed</td>
-          </tr>
-          <tr>
-            <td><strong>Illinois Energy (IL)</strong></td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-yes">✓ Available</td>
-            <td class="avail-contact">Contact for Quote</td>
-            <td class="avail-yes">✓ Confirmed</td>
-          </tr>
-          <tr>
-            <td><strong>Pennsylvania Energy (PA)</strong></td>
-            <td class="avail-no">✗ Not available</td>
-            <td class="avail-no">✗ Not available</td>
-            <td class="avail-contact">Inquiry only</td>
-            <td class="avail-no">—</td>
-          </tr>
-          <tr>
-            <td><strong>Illinois Energy Solutions (IES)</strong></td>
-            <td class="avail-no">✗ Residential only</td>
-            <td class="avail-no">✗ Residential only</td>
-            <td class="avail-no">✗ N/A</td>
-            <td class="avail-no">—</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Availability table documents the template decision logic — PA is built but disabled, IES is not applicable</div>
-        <div class="ann ann-y"><i>⚑</i> Plan availability and enrollment path per market to be confirmed with client — this table uses current working assumptions</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 5: REP CTA BAND -->
-  <div class="section" id="rep-cta-section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">5</div><br>Rep CTA<br>Band</div>
-    <div class="rep-cta">
-      <div class="rep-cta-grid">
-        <div>
-          <div class="rep-cta-title">Have a larger business or need a custom rate?</div>
-          <div class="rep-cta-sub">Our commercial energy team can build a plan around your business's usage profile. Typical qualification: accounts using 500+ therms/month or multi-location businesses. Talk to a rep — no obligation.</div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
-          <div class="wf-btn" style="white-space:nowrap;">Contact a Rep →</div>
-          <div style="font-size:11px; color:#aac4d9; text-align:right;">
-            <span class="mkt-inline on">1-800-XXX-XXXX (ONG Business)</span>
-            <span class="mkt-inline" id="rp-gre">1-800-XXX-XXXX (GRE Business)</span>
-            <span class="mkt-inline" id="rp-il">1-800-XXX-XXXX (IL Business)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="p-sm">
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Rep CTA differentiates self-serve small commercial from large/custom accounts — prevents over-burdening self-serve enrollment flow with complex commercial cases</div>
-        <div class="ann ann-y"><i>⚑</i> Usage threshold for "large commercial" (500+ therms) is a placeholder — confirm qualification criteria with Lee Jackson</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 6: FAQ (CP-3 — added 2026-06-09) -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">6</div><br>FAQ</div>
-    <div class="faq-section">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <div class="faq-q">What commercial natural gas plans are available for my business?</div>
-        <div class="faq-a">[Brand] offers fixed-rate and variable-rate plans for small to mid-size businesses. Fixed plans lock in your supply rate for the contract term; variable plans adjust monthly with the market. Plan options and pricing vary by utility — select your gas utility above to see what's available for your address. <em>[Note: Final plan catalog pending Lee Jackson confirmation — Open Q #1.]</em></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Is there an early termination fee for commercial plans?</div>
-        <div class="faq-a">Fixed-rate plans include an early termination fee (ETF) of <strong>[$ TBD]/month</strong> for each remaining month on your contract if you cancel early. Variable plans have no ETF — you can cancel anytime. <em>[ETF amount pending Lee Jackson confirmation — Open Q #5.]</em></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How do I enroll my business online?</div>
-        <div class="faq-a">Select your utility above, choose the plan that fits your business, and click "Start Enrollment." You'll complete enrollment online through our secure system. Have your account number and service address ready. Most small commercial enrollments take about 10 minutes.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How is my commercial gas rate determined?</div>
-        <div class="faq-a">Fixed-rate plans lock in your supply rate for the contract term — your rate won't change even if market prices rise. Variable-rate plans adjust each month based on market conditions and can go up or down. All rates are supply rates only; your utility's delivery charges appear separately on your bill.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">My business has high usage or multiple locations. What are my options?</div>
-        <div class="faq-a">If your business uses high volumes of natural gas or operates across multiple locations, our commercial energy team can work with you on a custom arrangement. Click "Contact a Rep" above or use the banner below to connect with a specialist — no obligation.</div>
-      </div>
-      <div class="ann-row" style="margin-top:12px;">
-        <div class="ann ann-g"><i>✓</i> CP-3 — FAQ section added for consistency with Residential Plans. Content is placeholder — requires commercial-specific copy brief before copywriter handoff.</div>
-        <div class="ann ann-y"><i>⚑</i> FAQ content depends on Open Q #1 (plan types) and Open Q #5 (ETF) — placeholder values flagged inline above.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SITE FOOTER -->
-  <div class="section">
-    <div class="site-footer">
-      <div class="footer-brand-strip">
-        <div>
-          <div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
-          <div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
-          <div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
-          <div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
-          <div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
-          <div class="footer-parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
-        </div>
-        <div><div class="footer-col-head">For My Business</div><div class="footer-col-links"><a>Commercial Plans</a><a>Contact a Rep</a></div></div>
-        <div><div class="footer-col-head">For My Home</div><div class="footer-col-links"><a>Residential Plans</a><a>Enroll</a></div></div>
-        <div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
-      </div>
-      <div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
-    </div>
-  </div>
-
-  <div class="doc-footer">Commercial Plans — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026</div>
+<!-- NAV HEADER -->
+<div class="section" style="position:relative; margin-bottom:5px;">
+<div class="section-label"><div class="sec-num" style="background:#555;">H</div><br/>Nav Header</div>
+<div class="nav-mobile-note">⚑ Mobile: hamburger collapses nav.</div>
+<!-- Utility Row -->
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">🔥</div>
+<span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+<span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+<span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+<span class="mkt" id="logo-il">Illinois Energy</span>
+<span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<!-- For My Home: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
+<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
+<div class="nav-item has-dropdown mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
+<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+</div>
+</div>
+<!-- Learning Center: direct link + pillar dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+</div>
+</div>
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search icon + Hamburger -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+</div>
+<!-- METRICS BAR -->
+<div class="section" style="margin-bottom:10px;">
+<div class="metrics-bar">
+<div><div class="m-val">3 markets</div><div class="m-lbl">Commercial plans available: ONG, GRE, IL Energy</div><div class="m-tgt">PA and IES: no commercial plans — contact routing shown</div></div>
+<div><div class="m-val">Same LDC</div><div class="m-lbl">LDC gating identical to Residential Plans template</div><div class="m-tgt">Solve-once-persist LDC logic reused from Homepage</div></div>
+<div><div class="m-val">Rep path</div><div class="m-lbl">Large commercial accounts may require rep call, not self-serve</div><div class="m-tgt">CTA routes to contact form for rep-assisted enrollments</div></div>
+<div><div class="m-val">PA built</div><div class="m-lbl">PA template structure built but disabled</div><div class="m-tgt">Routes to contact/inquiry CTA — no plan cards shown</div></div>
+</div>
+</div>
+<!-- OPEN QUESTIONS -->
+<div class="oq-panel">
+<h4>⚑ Open Questions — Commercial Plans</h4>
+<ul class="oq-list">
+<li><strong>#1 CRITICAL</strong> Commercial plan types: What plan types exist for commercial customers — fixed, variable, custom contract? Are commercial plans structured differently from residential (e.g., therms vs. MCF, contract length options)? Confirm with Lee Jackson.</li>
+<li><strong>#2</strong> Commercial enrollment path: Does the commercial enrollment flow use the same PRIME-based path as residential, or does it involve a rep call for larger accounts? Wireframe shows a self-serve path for small commercial + rep CTA for larger accounts. Confirm with dev team.</li>
+<li><strong>#3</strong> PA commercial contact routing: PA has no commercial plans. The page routes to a contact inquiry CTA. Confirm the correct contact destination — general contact form, dedicated business inquiry form, or phone number.</li>
+<li><strong>#4</strong> IES commercial scope: IES is a residential-only product (Fixed Bill). Commercial is not applicable. Wireframe hides commercial tab for IES entirely and shows a "residential only" note.</li>
+<li><strong>#5</strong> Commercial ETF: Does the commercial plan carry the same ETF structure as residential ($12.50/month for ONG)? Or is the commercial ETF different? Confirm per market.</li>
+</ul>
+</div>
+<!-- SECTION 1: HERO BAND (CP-1 — added 2026-06-09) -->
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">1</div><br/>Hero Band</div>
+<div class="breadcrumb"><a>Home</a><span style="color:#ddd; margin:0 4px;">›</span><a>For My Business</a><span style="color:#ddd; margin:0 4px;">›</span>Commercial Plans</div>
+<!-- PA/IES: Not available state -->
+<div class="mkt" id="na-pa">
+<div class="p-lg" style="background:#fafafa;">
+<div class="not-available-overlay">
+<div class="na-icon">🏢</div>
+<div class="na-title">Commercial Plans — Pennsylvania</div>
+<div class="na-body">Commercial natural gas plans are not currently available from Pennsylvania Energy. For business inquiries, please contact us and a member of our team will assist you.</div>
+<div class="wf-btn">Contact Us for Business Inquiries →</div>
 </div>
 
+</div>
+</div>
+<!-- IES: Not applicable -->
+<div class="mkt" id="na-ies">
+<div class="p-lg" style="background:#fafafa;">
+<div class="not-available-overlay">
+<div class="na-icon">💡</div>
+<div class="na-title">Illinois Energy Solutions — Residential Only</div>
+<div class="na-body">Illinois Energy Solutions offers the Fixed Bill plan for residential customers only. For business natural gas plans in Illinois, visit Illinois Energy.</div>
+<div class="wf-btn-out">Illinois Energy — Business Plans →</div>
+</div>
+
+</div>
+</div>
+<!-- ONG: Hero Band -->
+<div class="mkt on" id="avail-ong">
+<div class="hero-band">
+<div class="h1">Commercial Natural Gas Plans — Ohio</div>
+<div class="subhead">Fixed and variable rate options for small to mid-size Ohio businesses. Select your utility to see available plans.</div>
+<div class="hero-trust">
+<div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by PUCO</div>
+<div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
+<div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Ohio Businesses Since [Year — TBD]</div>
+</div>
+
+</div>
+</div>
+<!-- GRE: Hero Band -->
+<div class="mkt" id="avail-gre">
+<div class="hero-band">
+<div class="h1">Commercial Natural Gas Plans — Michigan</div>
+<div class="subhead">Fixed and variable rate options for small to mid-size Michigan businesses. Select your utility to see available plans.</div>
+<div class="hero-trust">
+<div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by MPSC</div>
+<div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
+<div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Michigan Businesses Since [Year — TBD]</div>
+</div>
+</div>
+</div>
+<!-- IL: Hero Band -->
+<div class="mkt" id="avail-il">
+<div class="hero-band">
+<div class="h1">Commercial Natural Gas Plans — Illinois</div>
+<div class="subhead">Fixed and variable rate options for Illinois commercial customers. Select your utility to see available plans.</div>
+<div class="hero-trust">
+<div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by ICC</div>
+<div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Illinois Businesses Since [Year — TBD]</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 2: LDC GATING WIDGET -->
+<div class="section" id="ldc-section" style="position:relative;">
+<div class="section-label"><div class="sec-num">2</div><br/>LDC Gating<br/>Widget</div>
+<div class="p">
+<div class="ldc-widget">
+<div class="ldc-widget-title">Who is your natural gas utility?</div>
+<div class="ldc-widget-sub">Select your utility — we'll show the commercial plans available for your address.</div>
+<div class="mkt on" id="ldc-ong">
+<div class="ldc-selector"><div class="ldc-btn selected">Columbia Gas</div><div class="ldc-btn">Dominion Energy Ohio</div></div>
+</div>
+<div class="mkt" id="ldc-gre">
+<div class="ldc-selector"><div class="ldc-btn">DTE Energy</div><div class="ldc-btn">Consumers Energy</div></div>
+</div>
+<div class="mkt" id="ldc-il">
+<div class="ldc-selector"><div class="ldc-btn">Nicor Gas</div><div class="ldc-btn">Peoples Gas</div><div class="ldc-btn">North Shore Gas</div></div>
+</div>
+<!-- ZIP Fallback (CP-2 — added 2026-06-09) -->
+<div class="ldc-zip-fallback">
+<span>Don't know your utility?</span>
+<input class="ldc-zip-input" placeholder="Enter ZIP code" type="text"/>
+<button class="ldc-zip-submit">Look up →</button>
+</div>
+</div>
+
+</div>
+</div>
+<!-- SECTION 3: COMMERCIAL PLAN CARDS -->
+<div class="section" id="plans-section" style="position:relative;">
+<div class="section-label"><div class="sec-num">3</div><br/>Commercial<br/>Plan Cards</div>
+<div class="p">
+<!-- CP-4: Grid changed to auto-fit to handle 2-card (ONG/GRE) vs 3-card (IL) layout gracefully -->
+<div class="comm-plan-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+<!-- Commercial Fixed (featured) — unified .pc component per PC-D16 -->
+<div class="pc featured">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+<span class="pc-badge badge-popular">Most Popular</span>
+</div>
+<div class="pc-name mkt-inline on" id="cn-f-ong">ONG Commercial Fixed 12</div>
+<div class="pc-name mkt-inline" id="cn-f-gre">GRE Commercial Fixed 12</div>
+<div class="pc-name mkt-inline" id="cn-f-il">IL Commercial Fixed 12</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$0.469</div>
+<!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
+<div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-f-ong">CCF</span><span class="mkt-inline" id="ru-f-gre">therm</span><span class="mkt-inline" id="ru-f-il">therm</span></strong></div>
+</div>
+<div class="pc-desc">Lock in your supply rate for 12 months and bring budget certainty to your operating costs — no surprises from market swings.</div>
+<ul class="pc-points">
+<li>Rate locked for 12 months</li>
+<li>Budget certainty for your business</li>
+<li>Early termination: [$ TBD]/month if cancelled early</li>
+<li>Auto-renews at renewal terms</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8 + commercial cancellation rights may differ from residential (Open Q #5).\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- Commercial Variable -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+</div>
+<div class="pc-name">Commercial Variable</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$0.512</div>
+<!-- CP-5: Rate unit market-variable — ONG uses CCF; GRE/IL TBD (therm placeholder) -->
+<div class="pc-rate-unit">/ <strong><span class="mkt-inline on" id="ru-v-ong">CCF</span><span class="mkt-inline" id="ru-v-gre">therm</span><span class="mkt-inline" id="ru-v-il">therm</span></strong></div>
+</div>
+<div class="pc-desc">Month-to-month flexibility for businesses that want to follow the market and avoid term commitments.</div>
+<ul class="pc-points">
+<li>No contract term</li>
+<li>No early termination fee</li>
+<li>Rate changes monthly</li>
+<li>Can switch or cancel anytime</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;How your rate is set\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · segment=commercial')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- Large Commercial · IL only (CP-4 — removed from ONG/GRE 2026-06-09) -->
+<div class="mkt" id="lc-il" style="display:none;">
+<div class="pc">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-custom">Custom Rate</span>
+</div>
+<div class="pc-name">Large Commercial</div>
+</div>
+<div class="pc-body">
+<div class="pc-quote">
+<div class="pc-quote-label">Call for a custom quote</div>
+<div class="pc-quote-phone">1-800-XXX-XXXX</div>
+</div>
+<div class="pc-desc">Negotiated pricing and contract structure for high-volume, multi-site, or strategic accounts.</div>
+<ul class="pc-points">
+<li>Custom contract terms</li>
+<li>High-volume pricing available</li>
+<li>Dedicated account support</li>
+<li>Multi-location options</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 2-section variant per §14 matrix: \&quot;What\'s in scope\&quot; + \&quot;Cancellation rights\&quot;.\n\nAnalytics: plan_details_expand · segment=commercial · card_state=quote_only')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta outline">Contact a Rep →</button>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<!-- SECTION 4: MARKET AVAILABILITY TABLE -->
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">4</div><br/>Market<br/>Availability</div>
+<div class="p">
+<div class="h3" style="margin-bottom:12px;">Commercial Plan Availability by Market</div>
+<table class="avail-table">
+<thead>
+<tr><th>Market</th><th>Fixed Rate</th><th>Variable Rate</th><th>Custom / Rep</th><th>Self-Serve Enrollment</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ohio Natural Gas (ONG)</strong></td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-no">— Not observed on live site</td>
+<td class="avail-yes">✓ Confirmed</td>
+</tr>
+<tr>
+<td><strong>Grand Rapids Energy (GRE)</strong></td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-no">— Not observed on live site</td>
+<td class="avail-yes">✓ Confirmed</td>
+</tr>
+<tr>
+<td><strong>Illinois Energy (IL)</strong></td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-yes">✓ Available</td>
+<td class="avail-contact">Contact for Quote</td>
+<td class="avail-yes">✓ Confirmed</td>
+</tr>
+<tr>
+<td><strong>Pennsylvania Energy (PA)</strong></td>
+<td class="avail-no">✗ Not available</td>
+<td class="avail-no">✗ Not available</td>
+<td class="avail-contact">Inquiry only</td>
+<td class="avail-no">—</td>
+</tr>
+<tr>
+<td><strong>Illinois Energy Solutions (IES)</strong></td>
+<td class="avail-no">✗ Residential only</td>
+<td class="avail-no">✗ Residential only</td>
+<td class="avail-no">✗ N/A</td>
+<td class="avail-no">—</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<!-- SECTION 5: REP CTA BAND -->
+<div class="section" id="rep-cta-section" style="position:relative;">
+<div class="section-label"><div class="sec-num">5</div><br/>Rep CTA<br/>Band</div>
+<div class="rep-cta">
+<div class="rep-cta-grid">
+<div>
+<div class="rep-cta-title">Have a larger business or need a custom rate?</div>
+<div class="rep-cta-sub">Our commercial energy team can build a plan around your business's usage profile. Typical qualification: accounts using 500+ therms/month or multi-location businesses. Talk to a rep — no obligation.</div>
+</div>
+<div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+<div class="wf-btn" style="white-space:nowrap;">Contact a Rep →</div>
+<div style="font-size:11px; color:#aac4d9; text-align:right;">
+<span class="mkt-inline on">1-800-XXX-XXXX (ONG Business)</span>
+<span class="mkt-inline" id="rp-gre">1-800-XXX-XXXX (GRE Business)</span>
+<span class="mkt-inline" id="rp-il">1-800-XXX-XXXX (IL Business)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-sm">
+
+</div>
+</div>
+<!-- SECTION 6: FAQ (CP-3 — added 2026-06-09) -->
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">6</div><br/>FAQ</div>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+<div class="faq-q">What commercial natural gas plans are available for my business?</div>
+<div class="faq-a">[Brand] offers fixed-rate and variable-rate plans for small to mid-size businesses. Fixed plans lock in your supply rate for the contract term; variable plans adjust monthly with the market. Plan options and pricing vary by utility — select your gas utility above to see what's available for your address. <em>[Note: Final plan catalog pending Lee Jackson confirmation — Open Q #1.]</em></div>
+</div>
+<div class="faq-item">
+<div class="faq-q">Is there an early termination fee for commercial plans?</div>
+<div class="faq-a">Fixed-rate plans include an early termination fee (ETF) of <strong>[$ TBD]/month</strong> for each remaining month on your contract if you cancel early. Variable plans have no ETF — you can cancel anytime. <em>[ETF amount pending Lee Jackson confirmation — Open Q #5.]</em></div>
+</div>
+<div class="faq-item">
+<div class="faq-q">How do I enroll my business online?</div>
+<div class="faq-a">Select your utility above, choose the plan that fits your business, and click "Start Enrollment." You'll complete enrollment online through our secure system. Have your account number and service address ready. Most small commercial enrollments take about 10 minutes.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">How is my commercial gas rate determined?</div>
+<div class="faq-a">Fixed-rate plans lock in your supply rate for the contract term — your rate won't change even if market prices rise. Variable-rate plans adjust each month based on market conditions and can go up or down. All rates are supply rates only; your utility's delivery charges appear separately on your bill.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">My business has high usage or multiple locations. What are my options?</div>
+<div class="faq-a">If your business uses high volumes of natural gas or operates across multiple locations, our commercial energy team can work with you on a custom arrangement. Click "Contact a Rep" above or use the banner below to connect with a specialist — no obligation.</div>
+</div>
+
+</div>
+</div>
+<!-- SITE FOOTER -->
+<div class="section">
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo mkt on" id="f-logo-ong">Ohio Natural Gas</div>
+<div class="footer-logo mkt" id="f-logo-pa">Pennsylvania Energy</div>
+<div class="footer-logo mkt" id="f-logo-gre">Grand Rapids Energy</div>
+<div class="footer-logo mkt" id="f-logo-il">Illinois Energy</div>
+<div class="footer-logo mkt" id="f-logo-ies">Illinois Energy Solutions</div>
+<div class="footer-parent">A SouthStar Energy company<br/>A Southern Company subsidiary</div>
+</div>
+<div><div class="footer-col-head">For My Business</div><div class="footer-col-links"><a>Commercial Plans</a><a>Contact a Rep</a></div></div>
+<div><div class="footer-col-head">For My Home</div><div class="footer-col-links"><a>Residential Plans</a><a>Enroll</a></div></div>
+<div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
+</div>
+<div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
+</div>
+</div>
+<div class="doc-footer">Commercial Plans — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026</div>
+</div>
 <script>
 const MKT_ELEMENTS = {
   ong: ['logo-ong','nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','avail-ong','nav-ph-ong'],

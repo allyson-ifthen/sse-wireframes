@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Card — Drawer Pattern Demo | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: #f0f0ed;
+  color: #1a1a1a;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 14px; letter-spacing: 0.02em; }
+.toolbar-meta { color: #aaa; }
+.legend { display: flex; gap: 14px; align-items: center; font-size: 11px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+.dot-approved { background: #4caf50; }
+.dot-open { background: #f5c842; }
+.dot-component { background: #c7d9f0; border: 1px solid #7aabda; }
+
+/* ── CANVAS ── */
+.canvas {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 24px 80px;
+}
+
+.canvas-intro {
+  background: #fffbea;
+  border: 1.5px solid #e5d28a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #5e4a00;
+}
+.canvas-intro h1 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e3a5f;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.section {
+  background: #fff;
+  border: 1.5px solid #d0cfc9;
+  margin-bottom: 24px;
+  padding: 22px 28px 24px;
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #d0cfc9;
+}
+.section-num {
+  display: inline-flex;
+  background: #1e3a5f;
+  color: #fff;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.section-title { font-size: 15px; font-weight: 800; color: #1e3a5f; letter-spacing: -0.01em; }
+.section-sub { font-size: 11px; color: #777; font-weight: 500; margin-left: auto; text-align: right; }
+.section-body { padding-top: 14px; }
+
+.ann {
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 6px 9px;
+  border-radius: 3px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+.ann i { font-style: normal; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-g i { color: #4caf50; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-y i { color: #c9a544; }
+.ann-r { background: #ffebee; border: 1.5px solid #e57373; color: #b71c1c; }
+.ann-r i { color: #e57373; }
+.ann-b { background: #e3f2fd; border: 1.5px solid #7aabda; color: #1565c0; }
+.ann-b i { color: #1e6fbd; }
+
+hr.soft { border: none; border-top: 1px dashed #d0cfc9; margin: 18px 0; }
+
+/* ───────────────────────────────────────────────
+   PLAN CARD
+─────────────────────────────────────────────── */
+.pc {
+  border: 1.5px solid #d0cfc9;
+  border-radius: 5px;
+  background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+.pc.featured { border-color: #e8641a; border-width: 2px; }
+.pc.greener  { border-color: #4caf50; border-width: 1.5px; }
+
+.pc-head {
+  padding: 12px 14px 10px;
+  background: #f7f7f5;
+  border-bottom: 1px solid #ebebeb;
+}
+.pc-badge-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 6px; }
+.pc-badge {
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-block;
+}
+.badge-fixed    { background: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; }
+.badge-variable { background: #f5f5f5; color: #666; border: 1px solid #ccc; }
+.badge-popular  { background: #e8641a; color: #fff; border: 1px solid #e8641a; }
+.badge-greener  { background: #c8e6c9; color: #2e7d32; border: 1px solid #4caf50; }
+.pc-name { font-size: 14px; font-weight: 800; color: #1e3a5f; line-height: 1.25; }
+
+.pc-body { padding: 12px 14px 4px; }
+.pc-rate-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+.pc-rate { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1; }
+.pc-rate-unit { font-size: 12px; color: #888; }
+.pc-rate-unit strong { color: #1e3a5f; font-weight: 700; }
+.pc-desc { font-size: 11.5px; color: #444; line-height: 1.5; margin: 8px 0 10px; }
+.pc-points {
+  list-style: none;
+  margin: 6px 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.pc-points li {
+  font-size: 11px;
+  color: #444;
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+.pc-points li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #e8641a;
+  font-weight: 900;
+}
+
+/* ── CTA (promoted above expand link) ── */
+.pc-cta-wrap { padding: 8px 14px 2px; }
+.pc-cta {
+  background: #e8641a;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  display: block;
+}
+
+.pc-expand-link {
+  font-size: 11px;
+  color: #1e6fbd;
+  cursor: pointer;
+  text-decoration: underline;
+  display: block;
+  padding: 6px 14px 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+.pc-rate-updated {
+  font-size: 10px;
+  color: #aaa;
+  text-align: right;
+  font-style: italic;
+  padding: 0 14px 10px;
+}
+
+/* ── ACTIVE state on card ── */
+.pc.drawer-open {
+  border-color: #1e3a5f;
+  border-width: 2px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.pc.drawer-open .pc-expand-link { color: #1e3a5f; font-weight: 700; }
+
+/* ─────────────────────────────────────────────────────────
+   GRID + DRAWER MECHANISM
+   The .plan-grid is position:relative. The .plan-drawer is
+   absolutely positioned below the row where the active card
+   lives. JavaScript computes the card's row bottom and
+   inserts the drawer there.
+───────────────────────────────────────────────────────── */
+.plan-grid-wrap {
+  position: relative;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  position: relative;
+}
+
+/* ── DRAWER ── */
+.plan-drawer {
+  display: none;
+  background: #f4f6f9;
+  border: 2px solid #1e3a5f;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  padding: 20px 24px;
+  margin-top: -2px; /* overlap card border */
+  position: relative;
+}
+.plan-drawer.visible { display: block; }
+
+.drawer-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.drawer-section h5 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1e3a5f;
+  font-weight: 800;
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #1e3a5f;
+}
+.drawer-section p {
+  font-size: 11px;
+  color: #444;
+  line-height: 1.55;
+}
+.drawer-section a {
+  color: #1e6fbd;
+  text-decoration: underline;
+  font-size: 11px;
+}
+
+.drawer-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: #888;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+}
+.drawer-close:hover { color: #1e3a5f; }
+
+.drawer-plan-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #1e3a5f;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.drawer-plan-label span {
+  background: #1e3a5f;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Connector tab above drawer ── */
+.drawer-tab {
+  display: none;
+  height: 0;
+  position: relative;
+}
+.drawer-tab::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #1e3a5f;
+}
+
+/* ───────────────────
+   PROBLEM DEMO: inline accordion grid
+─────────────────── */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pc-expanded-inline {
+  background: #fafaf7;
+  border-top: 1px dashed #d0cfc9;
+  border-bottom: 1px dashed #d0cfc9;
+  margin: 8px -14px 0;
+  padding: 10px 14px;
+  font-size: 10.5px;
+  color: #555;
+  line-height: 1.55;
+}
+.pc-expanded-inline h5 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  font-weight: 800;
+  margin: 6px 0 3px;
+}
+.pc-expanded-inline h5:first-child { margin-top: 0; }
+.pc-expanded-inline p { margin-bottom: 5px; }
+.pc-expanded-inline a { color: #1e6fbd; text-decoration: underline; }
+.pc-foot-old { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+
+/* problem highlight box */
+.problem-highlight {
+  background: #ffebee;
+  border: 2px dashed #e57373;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #b71c1c;
+  line-height: 1.5;
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.problem-highlight strong { display: block; font-size: 12px; margin-bottom: 2px; }
+
+/* annotations row */
+.ann-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.ann-row .ann { flex: 1; min-width: 220px; margin-bottom: 0; }
+
+/* comparison label */
+.compare-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: #1e3a5f;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.compare-label.bad { background: #c62828; }
+.compare-label.good { background: #2e7d32; }
+
+/* pointer arrows for annotations */
+.arrow-note {
+  font-size: 10.5px;
+  color: #b71c1c;
+  font-weight: 700;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* ghost card — shows displaced height in problem view */
+.ghost-space {
+  border: 2px dashed #e57373;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffebee,
+    #ffebee 4px,
+    #fff 4px,
+    #fff 12px
+  );
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+.ghost-space span {
+  font-size: 10.5px;
+  color: #e57373;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 12px;
+}
+
+/* viewport clip demo */
+.viewport-clip {
+  border: 3px solid #e57373;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+.viewport-clip::after {
+  content: '⬆ CTA pushed out of view';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(198,40,40,0.92);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+  padding: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.viewport-clip-label {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  background: #e57373;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 5px 0 3px 0;
+}
+
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="toolbar-title">Plan Card — Drawer Pattern Demo</span>
+    <span class="toolbar-meta">4037-25 · SouthStar Expanded Markets · exploration · 2026-06-16</span>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot dot-approved"></span> Decision locked</div>
+    <div class="legend-item"><span class="legend-dot dot-open"></span> Open / dependency</div>
+    <div class="legend-item"><span class="legend-dot dot-component"></span> Dev note</div>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <div class="canvas-intro">
+    <h1>Plan Card — Drawer Pattern: Design Exploration</h1>
+    <p>This file explores the full-width <b>drawer pattern</b> as an alternative to the current inline accordion for "View Plan Terms &amp; Disclosures." Section 1 shows the problem with inline accordion in a grid. Section 2 shows the drawer pattern — click any card's expand link to see it live. Section 3 covers trade-offs and open decisions.</p>
+    <p>This is a design exploration, not an approved change. Decisions would be logged in <code>Wireframe_ChangeLog_Active.md</code> before any propagation to PlanCard_Wireframe.html.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 1: THE PROBLEM
+  ════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">1</span>
+      <span class="section-title">The problem — inline accordion in a 3-column grid</span>
+      <span class="section-sub">Static mockup · no interaction</span>
+    </div>
+    <div class="section-body">
+
+      <div class="compare-label bad">Current behavior — problems annotated</div>
+
+      <div class="problem-grid">
+
+        <!-- Card 1: closed -->
+        <div class="pc">
+          <div class="pc-head">
+            <div class="pc-badge-row">
+              <span class="pc-badge badge-variable">Variable Rate</span>
+            </div>
+            <div class="pc-name">Variable Plan</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-rate-row">
+              <div class="pc-rate">$4.990</div>
+              <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+            </div>
+            <div class="pc-desc">Month-to-month with no long-term commitment. Your rate may change each month based on supply and demand.</div>
+            <ul class="pc-points">
+              <li>No sign-up fees</li>
+              <li>No early termination charges</li>
+              <li>Rate may change month to month</li>
+            </ul>
+            <span style="font-size:11px; color:#1e6fbd; text-decoration:underline; cursor:pointer; display:block; padding: 2px 0 6px;">▾ View Plan Terms &amp; Disclosures</span>
+          </div>
+          <div class="pc-foot-old">
+            <button class="pc-cta">Start Enrollment →</button>
+            <div style="font-size:10px; color:#aaa; text-align:right; font-style:italic;">Rate last updated: Apr 2026</div>
+          </div>
+        </div>
+
+        <!-- Card 2: OPEN — shows the problem -->
+        <div>
+          <div class="viewport-clip">
+            <div class="viewport-clip-label">↕ Accordion open</div>
+            <div class="pc featured" style="border-radius:5px 5px 0 0; border-bottom:none;">
+              <div class="pc-head">
+                <div class="pc-badge-row">
+                  <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                  <span class="pc-badge badge-popular">Most Popular</span>
+                </div>
+                <div class="pc-name">12-Month Fixed Plan</div>
+              </div>
+              <div class="pc-body">
+                <div class="pc-rate-row">
+                  <div class="pc-rate">$5.570</div>
+                  <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+                </div>
+                <div class="pc-desc">Lock in your price for the next 12 months so weather and market swings don't change your supply rate.</div>
+                <ul class="pc-points">
+                  <li>Your price won't change for 12 months</li>
+                  <li>No sign-up fees</li>
+                  <li>Early termination: $12.50/month if cancelled early</li>
+                  <li>We'll mail 1–2 renewal notices before your contract expires</li>
+                </ul>
+                <span style="font-size:11px; color:#1e6fbd; text-decoration:underline; cursor:pointer; display:block; padding: 2px 0 4px;">▴ Hide Plan Terms &amp; Disclosures</span>
+                <div class="pc-expanded-inline">
+                  <h5>Billing start timeline</h5>
+                  <p>Your new rate begins on the meter-read date following the utility's processing of your enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+                  <h5>Cancellation rights</h5>
+                  <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+                  <h5>Auto-renewal</h5>
+                  <p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a>Automatic Contract Renewal info →</a></p>
+                  <h5>Contract &amp; disclosures</h5>
+                  <p>Full plan contract: <a>Plan Contract (PDF) →</a>. State consumer-protection resources are linked inside the contract.</p>
+                </div>
+              </div>
+              <div class="pc-foot-old" style="opacity:0.35; position:relative;">
+                <button class="pc-cta" style="cursor:default;">Start Enrollment →</button>
+                <div style="font-size:10px; color:#aaa; text-align:right; font-style:italic;">Rate last updated: Apr 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: closed — but forced tall = awkward whitespace -->
+        <div class="ghost-space">
+          <span>Whitespace gap<br>Card 3 pushed down<br>to match row height</span>
+        </div>
+
+      </div>
+
+      <div class="ann-row">
+        <div class="ann ann-r"><i>✕</i><span><strong>CTA pushed out of viewport.</strong> On a ~768px viewport with the accordion open, "Start Enrollment →" may require scrolling past ~180 words of legal content before it's visible. High friction for a primary conversion action.</span></div>
+        <div class="ann ann-r"><i>✕</i><span><strong>Grid row height inconsistency.</strong> CSS Grid rows align to the tallest cell. An open card stretches the row, leaving whitespace gutters in adjacent closed cards. Visually breaks the grid on desktop.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><strong>Multi-row grids compound the problem.</strong> If plans wrap to 2 rows (4–6 plans), opening a card in row 1 doesn't affect row 2, but the visual disruption is still jarring for a single row.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 2: THE DRAWER PATTERN (LIVE DEMO)
+  ════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">2</span>
+      <span class="section-title">Drawer pattern — full-width panel below the row</span>
+      <span class="section-sub">Live interaction · click "View Plan Terms" on any card</span>
+    </div>
+    <div class="section-body">
+
+      <div class="compare-label good">Proposed pattern — interactive</div>
+      <p style="font-size:11.5px; color:#555; margin-bottom:16px; line-height:1.5;">Click <b>"View Plan Terms &amp; Disclosures"</b> on any card. The drawer opens below the grid row — the card grid layout does not shift. CTA remains visible above the expand link. Click a different card to switch. Click the same card again or "Close" to dismiss.</p>
+
+      <div class="plan-grid-wrap">
+        <div class="plan-grid" id="demoGrid">
+
+          <!-- Card A -->
+          <div class="pc" data-plan="Variable Plan" data-drawer="a">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-variable">Variable Rate</span>
+              </div>
+              <div class="pc-name">Variable Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$4.990</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <ul class="pc-points">
+                <li>No sign-up fees</li>
+                <li>No early termination charges — cancel anytime</li>
+                <li>Rate may change month to month</li>
+              </ul>
+            </div>
+            <div class="pc-cta-wrap">
+              <button class="pc-cta">Start Enrollment →</button>
+            </div>
+            <button class="pc-expand-link" onclick="toggleDrawer(this, 'a', 'Variable Plan')">▾ View Plan Terms &amp; Disclosures</button>
+            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+          </div>
+
+          <!-- Card B: featured -->
+          <div class="pc featured" data-plan="12-Month Fixed Plan" data-drawer="b">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-popular">Most Popular</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+                <li>We'll mail 1–2 renewal notices before your contract expires</li>
+              </ul>
+            </div>
+            <div class="pc-cta-wrap">
+              <button class="pc-cta">Start Enrollment →</button>
+            </div>
+            <button class="pc-expand-link" onclick="toggleDrawer(this, 'b', '12-Month Fixed Plan')">▾ View Plan Terms &amp; Disclosures</button>
+            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+          </div>
+
+          <!-- Card C: Greener Life -->
+          <div class="pc greener" data-plan="12-Month Fixed Plan with Greener Life" data-drawer="c">
+            <div class="pc-head">
+              <div class="pc-badge-row">
+                <span class="pc-badge badge-fixed">● Fixed Rate</span>
+                <span class="pc-badge badge-greener">🌱 Greener Life</span>
+              </div>
+              <div class="pc-name">12-Month Fixed Plan with Greener Life</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-rate-row">
+                <div class="pc-rate">$5.570</div>
+                <div class="pc-rate-unit">/ <strong>Mcf</strong></div>
+              </div>
+              <ul class="pc-points">
+                <li>Your price won't change for 12 months</li>
+                <li>Carbon offsets retire monthly matching your usage</li>
+                <li>No sign-up fees</li>
+                <li>Early termination: $12.50/month if cancelled early</li>
+              </ul>
+            </div>
+            <div class="pc-cta-wrap">
+              <button class="pc-cta">Start Enrollment →</button>
+            </div>
+            <button class="pc-expand-link" onclick="toggleDrawer(this, 'c', '12-Month Fixed Plan with Greener Life')">▾ View Plan Terms &amp; Disclosures</button>
+            <div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+          </div>
+
+        </div><!-- /plan-grid -->
+
+        <!-- THE DRAWER — injected below the grid row -->
+        <div class="plan-drawer" id="planDrawer">
+          <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
+          <div class="drawer-plan-label">
+            <span>Plan Terms &amp; Disclosures</span>
+            <span id="drawerPlanName" style="background:none; color:#1e3a5f; border:none; padding:0; font-size:12px; font-weight:700;"></span>
+          </div>
+          <div class="drawer-inner">
+            <div class="drawer-section">
+              <h5>Billing start timeline</h5>
+              <p>Your new rate begins on the meter-read date following the utility's processing of your enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility (<span style="font-style:italic; color:#888;">LDC name resolves from session context</span>).</p>
+            </div>
+            <div class="drawer-section">
+              <h5>Cancellation rights</h5>
+              <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies — example: cancelling with 6 months left = $75.00.</p>
+            </div>
+            <div class="drawer-section">
+              <h5>Auto-renewal</h5>
+              <p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration.<br><a href="#">Automatic Contract Renewal info →</a></p>
+            </div>
+            <div class="drawer-section">
+              <h5>Contract &amp; disclosures</h5>
+              <p>Full plan contract: <a href="#">Plan Contract (PDF) →</a><br>State consumer-protection resources are linked inside the contract.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /plan-grid-wrap -->
+
+      <div class="ann-row" style="margin-top: 20px;">
+        <div class="ann ann-g"><i>✓</i><span><strong>Grid stays stable.</strong> Cards never change height. Adjacent cards are unaffected. No whitespace gaps.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><strong>CTA above expand link.</strong> "Start Enrollment →" is always visible between the bullets and the terms link — open or closed.</span></div>
+        <div class="ann ann-g"><i>✓</i><span><strong>One drawer, shared.</strong> Only one plan's terms are visible at a time. Switching cards replaces drawer content — cleaner than two open accordions competing for attention.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><strong>Dev note.</strong> Drawer is appended once to the DOM below the grid container, not inside any card. No grid-row height logic required. Content swapped via JS on each open. Accessible: focus moves to drawer on open, returns to trigger on close.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 3: TRADE-OFFS & OPEN QUESTIONS
+  ════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">3</span>
+      <span class="section-title">Trade-offs &amp; open decisions</span>
+      <span class="section-sub">Before logging as approved change</span>
+    </div>
+    <div class="section-body">
+
+      <table style="width:100%; border-collapse:collapse; font-size:11.5px; line-height:1.5;">
+        <thead>
+          <tr>
+            <th style="background:#1e3a5f; color:#fff; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; width:22%;">Consideration</th>
+            <th style="background:#1e3a5f; color:#fff; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; width:30%;">Inline accordion</th>
+            <th style="background:#1e3a5f; color:#fff; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; width:30%;">Drawer pattern</th>
+            <th style="background:#1e3a5f; color:#fff; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; width:18%;">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">Grid stability</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#ffebee; color:#b71c1c;">Breaks — row expands, whitespace in adjacent cards</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#e8f5e9; color:#2e7d32;">Stable — cards never change height</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#2e7d32;">Drawer wins</td>
+          </tr>
+          <tr style="background:#f9f9f7;">
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">CTA visibility</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#ffebee; color:#b71c1c;">CTA pushed below ~180 words of content; may require scroll</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#e8f5e9; color:#2e7d32;">CTA always visible above the expand link — open or closed</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#2e7d32;">Drawer wins</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">Mobile behavior</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#e8f5e9; color:#2e7d32;">Natural single-column stack — accordion is idiomatic on mobile</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#fffde7; color:#7a6000;">Drawer becomes full-width panel below the card (single-col = same visual result as accordion). Needs responsive breakpoint decision.</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#7a6000;">Conditional — use drawer ≥ md breakpoint; revert to inline accordion on mobile</td>
+          </tr>
+          <tr style="background:#f9f9f7;">
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">Dev complexity</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#e8f5e9; color:#2e7d32;">Simple CSS show/hide within card</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#fffde7; color:#7a6000;">Requires JS to append drawer below grid, swap content, manage focus. Modest — single shared drawer element, not per-card.</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#7a6000;">Slight drawer overhead — confirm acceptable with dev</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">Accessibility</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px;">Standard aria-expanded toggle; well-understood pattern</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px;">Requires focus management (move to drawer on open, return on close) + aria-controls. Manageable but more surface area.</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#7a6000;">Confirm with dev — not a blocker</td>
+          </tr>
+          <tr style="background:#f9f9f7;">
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">Analytics</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px;">plan_details_section_view (already logged in PC-D7)</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px;">Same event shape — drawer_open replaces expand_open; section_name param unchanged</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#2e7d32;">No change to analytics spec</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#1e3a5f;">2-plan grid (edge case)</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px;">Problem remains — one card expands, adjacent has whitespace</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; background:#e8f5e9; color:#2e7d32;">Drawer still spans full grid width regardless of card count</td>
+            <td style="border:1px solid #d0cfc9; padding:8px 10px; font-weight:700; color:#2e7d32;">Drawer wins</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="soft">
+
+      <div class="ann-row">
+        <div class="ann ann-y"><i>⚑</i><span><strong>Open decision: mobile breakpoint.</strong> At what viewport width does the drawer revert to inline accordion? Recommend ≤ 767px (single-column layout) — but confirm with dev.</span></div>
+        <div class="ann ann-y"><i>⚑</i><span><strong>Open decision: drawer width on odd plan counts.</strong> 1-plan grid or 2-plan grid — drawer still spans 100% of .plan-grid-wrap. Does the drawer feel oversized on a 1-plan layout? Low-priority edge case.</span></div>
+        <div class="ann ann-b"><i>↳</i><span><strong>CMS impact.</strong> Drawer content (the 4 sections) is still CMS-authored per plan_type — no authoring change required. Rendering location changes, not content model.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<script>
+var activeCard = null;
+var activeTrigger = null;
+
+function toggleDrawer(triggerEl, cardId, planName) {
+  var drawer = document.getElementById('planDrawer');
+  var card = triggerEl.closest('.pc');
+
+  // If clicking the already-open card, close it
+  if (activeCard === card) {
+    closeDrawer();
+    return;
+  }
+
+  // Close previous
+  if (activeCard) {
+    activeCard.classList.remove('drawer-open');
+    if (activeTrigger) {
+      activeTrigger.textContent = '▾ View Plan Terms & Disclosures';
+    }
+  }
+
+  // Open new
+  activeCard = card;
+  activeTrigger = triggerEl;
+  card.classList.add('drawer-open');
+  triggerEl.textContent = '▴ Hide Plan Terms & Disclosures';
+
+  // Update drawer label
+  document.getElementById('drawerPlanName').textContent = planName;
+
+  // Show drawer
+  drawer.classList.add('visible');
+
+  // Smooth scroll drawer into view
+  setTimeout(function() {
+    drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+function closeDrawer() {
+  var drawer = document.getElementById('planDrawer');
+  drawer.classList.remove('visible');
+  if (activeCard) {
+    activeCard.classList.remove('drawer-open');
+  }
+  if (activeTrigger) {
+    activeTrigger.textContent = '▾ View Plan Terms & Disclosures';
+    activeTrigger.focus();
+  }
+  activeCard = null;
+  activeTrigger = null;
+}
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && activeCard) closeDrawer();
+});
+</script>
+
+</body>
+</html>

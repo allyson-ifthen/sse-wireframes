@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Promotional Page — Wireframe Sketch | 4037-25</title>
 <style>
   :root {
@@ -862,607 +863,535 @@
 </style>
 </head>
 <body>
-
 <!-- ════════════════════════════════════
      WIREFRAME META BAR (removable in production)
 ═════════════════════════════════════ -->
 <div class="wf-meta" data-wf-only="true">
-  <div class="row"><strong>File:</strong> PromoPage_Wireframe.html · <strong>Project:</strong> 4037-25 SouthStar Expanded Markets · <strong>Batch:</strong> 2</div>
-  <div class="row"><strong>Template:</strong> Promotional Page (CMS Content) — Variant A (No-LDC) · Variant B (LDC-Required) · §3b RAF Override (Filter-to-Plans) · <strong>Markets:</strong> ONG · PA · GRE · IL · IES</div>
-  <div class="row"><strong>Source spec:</strong> CLAUDE.md · <strong>Logged:</strong> Wireframe_ChangeLog.md §A.8 / §B.8 · PROMO-1 → PROMO-PROPAGATE-RAF · PROMO-CONVENTION</div>
+<div class="row"><strong>File:</strong> PromoPage_Wireframe.html · <strong>Project:</strong> 4037-25 SouthStar Expanded Markets · <strong>Batch:</strong> 2</div>
+<div class="row"><strong>Template:</strong> Promotional Page (CMS Content) — Variant A (No-LDC) · Variant B (LDC-Required) · §3b RAF Override (Filter-to-Plans) · <strong>Markets:</strong> ONG · PA · GRE · IL · IES</div>
+<div class="row"><strong>Source spec:</strong> CLAUDE.md · <strong>Logged:</strong> Wireframe_ChangeLog.md §A.8 / §B.8 · PROMO-1 → PROMO-PROPAGATE-RAF · PROMO-CONVENTION</div>
 </div>
-
 <!-- ════════════════════════════════════
      WIREFRAME-ONLY CONTROL PANEL (CLAUDE.md convention)
 ═════════════════════════════════════ -->
 <div class="wfctl" data-wf-only="true">
-  <div class="group">
-    <span class="group-lbl">Market:</span>
-    <button id="mkt-btn-ong" class="on" onclick="setMarket('ong')">ONG</button>
-    <button id="mkt-btn-pa"  onclick="setMarket('pa')">PA</button>
-    <button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
-    <button id="mkt-btn-il"  onclick="setMarket('il')">IL</button>
-    <button id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
-  </div>
-  <div class="group">
-    <span class="group-lbl">Variant:</span>
-    <button id="var-btn-a"   class="on" onclick="setVariant('a')">A · No-LDC</button>
-    <button id="var-btn-b"   onclick="setVariant('b')">B · LDC-Required</button>
-    <button id="var-btn-raf" onclick="setVariant('raf')">§3b · RAF Override</button>
-  </div>
-  <div class="group">
-    <span class="group-lbl">State:</span>
-    <button id="st-btn-1" class="on" onclick="setState('1')">State 1</button>
-    <button id="st-btn-2" onclick="setState('2')">State 2</button>
-    <button id="st-btn-3" onclick="setState('3')">State 3</button>
-  </div>
-  <div class="group">
-    <span class="group-lbl">Annotations:</span>
-    <button id="ann-btn-all"   class="on" onclick="setAnnMode('all')">All</button>
-    <button id="ann-btn-open"  onclick="setAnnMode('open')">Open Qs only</button>
-    <button id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
-  </div>
-  <div class="group">
-    <span class="group-lbl">Chrome:</span>
-    <button id="chrome-btn-show" class="on" onclick="setChrome('show')">Show</button>
-    <button id="chrome-btn-hide" onclick="setChrome('hide')">Hide (presentation)</button>
-  </div>
+<div class="group">
+<span class="group-lbl">Market:</span>
+<button class="on" id="mkt-btn-ong" onclick="setMarket('ong')">ONG</button>
+<button id="mkt-btn-pa" onclick="setMarket('pa')">PA</button>
+<button id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+<button id="mkt-btn-il" onclick="setMarket('il')">IL</button>
+<button id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
 </div>
-
+<div class="group">
+<span class="group-lbl">Variant:</span>
+<button class="on" id="var-btn-a" onclick="setVariant('a')">A · No-LDC</button>
+<button id="var-btn-b" onclick="setVariant('b')">B · LDC-Required</button>
+<button id="var-btn-raf" onclick="setVariant('raf')">§3b · RAF Override</button>
+</div>
+<div class="group">
+<span class="group-lbl">State:</span>
+<button class="on" id="st-btn-1" onclick="setState('1')">State 1</button>
+<button id="st-btn-2" onclick="setState('2')">State 2</button>
+<button id="st-btn-3" onclick="setState('3')">State 3</button>
+</div>
+<div class="group">
+<span class="group-lbl">Annotations:</span>
+<button class="on" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button id="ann-btn-open" onclick="setAnnMode('open')">Open Qs only</button>
+<button id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+<div class="group">
+<span class="group-lbl">Chrome:</span>
+<button class="on" id="chrome-btn-show" onclick="setChrome('show')">Show</button>
+<button id="chrome-btn-hide" onclick="setChrome('hide')">Hide (presentation)</button>
+</div>
+</div>
 <!-- Legend strip kept beneath wfctl for color-key reference -->
 <div class="legend" data-wf-only="true" style="background:#1f262e; color:#cfd5db; padding:6px 24px; display:flex; gap:16px; align-items:center; font-size:11px; border-bottom:1px solid #2a323b;">
-  <span class="legend-item"><span class="legend-dot" style="background:var(--ann-g-bg); border:1px solid var(--ann-g-bd);"></span> Confirmed</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd);"></span> Open / pending</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--ann-r-bg); border:1px solid var(--ann-r-bd);"></span> Blocker / warning</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--ann-b-bg); border:1px solid var(--ann-b-bd);"></span> Shared component / dev note</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--ann-g-bg); border:1px solid var(--ann-g-bd);"></span> Confirmed</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--ann-y-bg); border:1px solid var(--ann-y-bd);"></span> Open / pending</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--ann-r-bg); border:1px solid var(--ann-r-bd);"></span> Blocker / warning</span>
+<span class="legend-item"><span class="legend-dot" style="background:var(--ann-b-bg); border:1px solid var(--ann-b-bd);"></span> Shared component / dev note</span>
 </div>
-
 <!-- Floating presentation-mode hint (only shows when body.chrome-hidden) -->
 <div class="presentation-hint" data-wf-only="true">Press <kbd>Esc</kbd> to exit presentation mode</div>
-
 <div class="canvas">
-
-  <!-- OPEN QUESTIONS PANEL -->
-  <div class="oq-panel" data-wf-only="true">
-    <div class="oq-title">⚑ Open Questions — Promotional Page</div>
-    <ul class="oq-list">
-      <li><strong>OQ-P1:</strong> LDC selector type for LDC-required promos — should this be a dropdown (known LDC list per market) or a ZIP code input with lookup? Recommendation: dropdown first (simpler UX), ZIP fallback if list is unreliable.</li>
-      <li><strong>OQ-P2:</strong> Which current and planned promotions require LDC identification before rate confirmation? Need matrix from Prime team: promo code → LDC-dependent (Y/N).</li>
-      <li><strong>OQ-P3:</strong> State 3 no-match messaging — should it be promo-specific ("This offer is only available to [LDC] customers") or a generic fallback? Confirm with legal/compliance.</li>
-      <li><strong>OQ-P4 RESOLVED:</strong> Cross-market promo code namespace — each market runs on its own domain, so <code>ohionaturalgas.com/offers/save25/</code> and <code>pennsylvaniaenergy.com/offers/save25/</code> are independent pages. The same code can exist across markets without collision. A user landing on the wrong market site with a valid-but-wrong-market code is handled by the invalid/no-match state.</li>
-      <li><strong>OQ-P5:</strong> Offer expiration display — should the promo page surface an expiration date/countdown? If so, where does this date come from (Prime API or static CMS field)?</li>
-      <li><strong>OQ-P6:</strong> What happens when a promo code URL param is invalid or expired? Does the page render with an error state, or does it redirect to the Plans page with no promo applied?</li>
-      <li><strong>OQ-P7:</strong> For the secondary CTA "Compare All Plans" → should the Plans page suppress the promo strip's manual-entry toggle when arriving via this path (promo already confirmed), showing only the pinned promo card?</li>
-    </ul>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────────
+<!-- OPEN QUESTIONS PANEL -->
+<div class="oq-panel" data-wf-only="true">
+<div class="oq-title">⚑ Open Questions — Promotional Page</div>
+<ul class="oq-list">
+<li><strong>OQ-P1:</strong> LDC selector type for LDC-required promos — should this be a dropdown (known LDC list per market) or a ZIP code input with lookup? Recommendation: dropdown first (simpler UX), ZIP fallback if list is unreliable.</li>
+<li><strong>OQ-P2:</strong> Which current and planned promotions require LDC identification before rate confirmation? Need matrix from Prime team: promo code → LDC-dependent (Y/N).</li>
+<li><strong>OQ-P3:</strong> State 3 no-match messaging — should it be promo-specific ("This offer is only available to [LDC] customers") or a generic fallback? Confirm with legal/compliance.</li>
+<li><strong>OQ-P4 RESOLVED:</strong> Cross-market promo code namespace — each market runs on its own domain, so <code>ohionaturalgas.com/offers/save25/</code> and <code>pennsylvaniaenergy.com/offers/save25/</code> are independent pages. The same code can exist across markets without collision. A user landing on the wrong market site with a valid-but-wrong-market code is handled by the invalid/no-match state.</li>
+<li><strong>OQ-P5:</strong> Offer expiration display — should the promo page surface an expiration date/countdown? If so, where does this date come from (Prime API or static CMS field)?</li>
+<li><strong>OQ-P6:</strong> What happens when a promo code URL param is invalid or expired? Does the page render with an error state, or does it redirect to the Plans page with no promo applied?</li>
+<li><strong>OQ-P7:</strong> For the secondary CTA "Compare All Plans" → should the Plans page suppress the promo strip's manual-entry toggle when arriving via this path (promo already confirmed), showing only the pinned promo card?</li>
+</ul>
+</div>
+<!-- ─────────────────────────────────────────────────────────────────
        SECTION 0: ENTRY PATH DIAGRAM
        Not a visible page section — a wireframe annotation layer showing
        how users arrive on this page. Three entry paths defined.
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section" style="padding: 16px 28px 14px;">
-    <div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">↳ Entry Paths — How Users Arrive on This Page</div>
-    <div class="entry-path-row" style="margin: 0 0 14px;">
+<div class="section" style="padding: 16px 28px 14px;">
+<div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">↳ Entry Paths — How Users Arrive on This Page</div>
+<div class="entry-path-row" style="margin: 0 0 14px;">
+<div class="entry-path-node">
+<div class="entry-path-node-title">Path 1 · URL Params</div>
+<div class="entry-path-node-body">Campaign link, email, digital ad<br/><code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">?promo=SAVE25</code><br/>Promo code auto-validated on load</div>
+</div>
+<div class="entry-path-arrow">→</div>
+<div class="entry-path-node">
+<div class="entry-path-node-title">Path 2 · Homepage Input</div>
+<div class="entry-path-node-body">User typed or pasted code into<br/>homepage promo field<br/>Code pre-validated before redirect</div>
+</div>
+<div class="entry-path-arrow">→</div>
+<div class="entry-path-node">
+<div class="entry-path-node-title">Path 3 · Physical / OOH</div>
+<div class="entry-path-node-body">Printed mailer, door hanger,<br/>business card with URL<br/>User navigates directly to promo URL</div>
+</div>
+<div class="entry-path-arrow">→</div>
+<div class="entry-path-dest">
+<div class="entry-path-dest-title">🏷 Promo Page</div>
+<div class="entry-path-dest-sub">Decision surface for all promo journeys<br/>Code validated · Offer displayed · Primary CTA: Enroll</div>
+</div>
+</div>
+<div style="display:flex; gap:8px; flex-wrap:wrap;">
 
-      <div class="entry-path-node">
-        <div class="entry-path-node-title">Path 1 · URL Params</div>
-        <div class="entry-path-node-body">Campaign link, email, digital ad<br><code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">?promo=SAVE25</code><br>Promo code auto-validated on load</div>
-      </div>
 
-      <div class="entry-path-arrow">→</div>
 
-      <div class="entry-path-node">
-        <div class="entry-path-node-title">Path 2 · Homepage Input</div>
-        <div class="entry-path-node-body">User typed or pasted code into<br>homepage promo field<br>Code pre-validated before redirect</div>
-      </div>
 
-      <div class="entry-path-arrow">→</div>
+</div>
+</div>
+<!-- URL ARCHITECTURE BLOCK -->
+<div class="section" style="padding: 16px 28px 18px;">
+<div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px;">↳ URL Architecture — Promotional Pages</div>
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
+<div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Canonical URL</div>
+<code style="font-size:12px; font-weight:700; color:#1e3a5f; background:#e8f0f9; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/offers/{promo-code}/</code>
+<div style="font-size:11px; color:#555; line-height:1.6;">One CMS page per promotion. Promo code is path-based (not a query parameter) — cleaner for analytics, CMS management, and printed materials.<br/><br/>
+<strong>Example:</strong> <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">ohionaturalgas.com/offers/save25/</code></div>
+</div>
+<div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Vanity URL (Physical / OOH)</div>
+<code style="font-size:12px; font-weight:700; color:#e8641a; background:#fff3e0; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/{promo-code}/ → 301 → /offers/{promo-code}/</code>
+<div style="font-size:11px; color:#555; line-height:1.6;">Root-level redirect set up in CMS for printed materials, door hangers, and mailers where URL length matters. No additional page required — just a redirect rule.<br/><br/>
+<strong>Example:</strong> <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">ohionaturalgas.com/save25</code> → <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">/offers/save25/</code></div>
+</div>
+</div>
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
+<div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">/offers/ Hub</div>
+<code style="font-size:12px; font-weight:700; color:#555; background:#ebebeb; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/offers/ → 301 → /residential-plans/</code>
+<div style="font-size:11px; color:#555; line-height:1.6;">No hub/index page needed — users don't browse for promo codes. The <code>/offers/</code> root simply redirects to Residential Plans. Avoids a maintenance-heavy "all offers" listing.</div>
+</div>
+<div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
+<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Expired / Invalid Promos</div>
+<code style="font-size:12px; font-weight:700; color:#c62828; background:#fce4ec; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">410 Gone — or → /residential-plans/</code>
+<div style="font-size:11px; color:#555; line-height:1.6;">Expired promo pages return a 410 (Gone) or redirect to <code>/residential-plans/</code> — not a soft 404. This signals to search engines the page intentionally no longer exists and prevents expired offers from accumulating in the index.</div>
+</div>
+</div>
+<div style="display:flex; gap:8px; flex-wrap:wrap;">
 
-      <div class="entry-path-node">
-        <div class="entry-path-node-title">Path 3 · Physical / OOH</div>
-        <div class="entry-path-node-body">Printed mailer, door hanger,<br>business card with URL<br>User navigates directly to promo URL</div>
-      </div>
 
-      <div class="entry-path-arrow">→</div>
 
-      <div class="entry-path-dest">
-        <div class="entry-path-dest-title">🏷 Promo Page</div>
-        <div class="entry-path-dest-sub">Decision surface for all promo journeys<br>Code validated · Offer displayed · Primary CTA: Enroll</div>
-      </div>
 
-    </div>
+</div>
+</div>
+<!-- NAV HEADER -->
+<div class="section" style="position:relative; margin-bottom:5px;">
+<div class="section-label" style="top:auto; transform:none; top:16px;"><div class="section-number" style="background:#555;">H</div><br/>Nav Header<br/>(Global)</div>
+<div class="navigation__mobile-note">⚑ Mobile: hamburger collapses nav links. Logo + Account icon remain visible.</div>
+<!-- Utility Row -->
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="navigation" data-figma-component="Navigation">
+<div class="navigation__logo">
+<div class="navigation__logo-mark">🔥</div>
+<span class="market-display active" id="logo-ong">Ohio Natural Gas</span>
+<span class="market-display" id="logo-pa">Pennsylvania Energy</span>
+<span class="market-display" id="logo-gre">Grand Rapids Energy</span>
+<span class="market-display" id="logo-il">Illinois Energy</span>
+<span class="market-display" id="logo-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<!-- For My Home: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
+<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
+<div class="nav-item has-dropdown mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
+<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+</div>
+</div>
+<!-- Learning Center: direct link + pillar dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+</div>
+</div>
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search icon + Hamburger -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="breadcrumb" data-figma-component="Breadcrumb" style="padding-bottom:8px;">
+<span class="market-display active" id="bc-ong">Ohio Natural Gas</span>
+<span class="market-display" id="bc-pa">Pennsylvania Energy</span>
+<span class="market-display" id="bc-gre">Grand Rapids Energy</span>
+<span class="market-display" id="bc-il">Illinois Energy</span>
+<span class="market-display" id="bc-ies">Illinois Energy Solutions</span>
+<span>›</span> <a style="color:#5a8cbf;">offers</a> <span>›</span> <strong>save25</strong>  <span style="font-size:10px; color:#bbb; font-weight:400;">(/offers/save25/)</span>
+</div>
+</div>
+<!-- SECTION 1: PAGE HERO -->
+<div class="section">
+<div class="section-label"><div class="section-number">1</div><br/>Page Hero<br/>(Offer ID)</div>
+<div class="page-title page-title--promo" data-figma-component="PageTitle" data-figma-variant="promo">
+<div class="tag tag--promo-code" data-figma-component="Tag" data-figma-variant="promo-code">🏷 SAVE25</div>
+<div class="page-title__heading">
+<span class="market-display active" id="h1-ong">Your Exclusive Natural Gas Offer</span>
+<span class="market-display" id="h1-pa">Your Exclusive Natural Gas Offer</span>
+<span class="market-display" id="h1-gre">Your Exclusive Natural Gas Offer</span>
+<span class="market-display" id="h1-il">Your Exclusive Natural Gas Offer</span>
+<span class="market-display" id="h1-ies">Your Exclusive Natural Gas Offer</span>
+</div>
+<div class="page-title__subhead">A promotional rate has been reserved for you. Review the offer details below, then enroll or compare your options.</div>
+<div style="display:flex; gap:8px; flex-wrap:wrap;">
 
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <div class="ann ann-g">All three entry paths converge on the Promo Page. No path bypasses it — enrollment never fires until the user explicitly clicks "Enroll Now →" from this page.</div>
-      <div class="ann ann-g">Path 1 (URL params): promo code is in the URL — Prime validates on page load. No manual input required. LDC param may also be present (LDC-required promos from campaign pages that collected LDC before routing here).</div>
-      <div class="ann ann-g">Path 2 (Homepage): code already validated by homepage input. Page receives validated code (session/param). Skip validation step — surface offer immediately.</div>
-      <div class="ann ann-g">Path 3 (Physical): vanity URL on printed materials (e.g., <code>ohionaturalgas.com/save25</code>) 301-redirects to the canonical promo URL (<code>/offers/save25/</code>). Vanity URLs are CMS redirects — no additional page build required. See URL architecture below.</div>
-    </div>
-  </div>
 
-  <!-- URL ARCHITECTURE BLOCK -->
-  <div class="section" style="padding: 16px 28px 18px;">
-    <div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px;">↳ URL Architecture — Promotional Pages</div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
-
-      <div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
-        <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Canonical URL</div>
-        <code style="font-size:12px; font-weight:700; color:#1e3a5f; background:#e8f0f9; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/offers/{promo-code}/</code>
-        <div style="font-size:11px; color:#555; line-height:1.6;">One CMS page per promotion. Promo code is path-based (not a query parameter) — cleaner for analytics, CMS management, and printed materials.<br><br>
-        <strong>Example:</strong> <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">ohionaturalgas.com/offers/save25/</code></div>
-      </div>
-
-      <div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
-        <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Vanity URL (Physical / OOH)</div>
-        <code style="font-size:12px; font-weight:700; color:#e8641a; background:#fff3e0; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/{promo-code}/ → 301 → /offers/{promo-code}/</code>
-        <div style="font-size:11px; color:#555; line-height:1.6;">Root-level redirect set up in CMS for printed materials, door hangers, and mailers where URL length matters. No additional page required — just a redirect rule.<br><br>
-        <strong>Example:</strong> <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">ohionaturalgas.com/save25</code> → <code style="font-size:10px; background:#eee; padding:1px 5px; border-radius:2px;">/offers/save25/</code></div>
-      </div>
-
-    </div>
-
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
-
-      <div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
-        <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">/offers/ Hub</div>
-        <code style="font-size:12px; font-weight:700; color:#555; background:#ebebeb; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">/offers/ → 301 → /residential-plans/</code>
-        <div style="font-size:11px; color:#555; line-height:1.6;">No hub/index page needed — users don't browse for promo codes. The <code>/offers/</code> root simply redirects to Residential Plans. Avoids a maintenance-heavy "all offers" listing.</div>
-      </div>
-
-      <div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
-        <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:8px;">Expired / Invalid Promos</div>
-        <code style="font-size:12px; font-weight:700; color:#c62828; background:#fce4ec; padding:4px 10px; border-radius:3px; display:block; margin-bottom:8px;">410 Gone — or → /residential-plans/</code>
-        <div style="font-size:11px; color:#555; line-height:1.6;">Expired promo pages return a 410 (Gone) or redirect to <code>/residential-plans/</code> — not a soft 404. This signals to search engines the page intentionally no longer exists and prevents expired offers from accumulating in the index.</div>
-      </div>
-
-    </div>
-
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <div class="ann ann-g">Each market runs on its own domain — <code>ohionaturalgas.com/offers/save25/</code> and <code>pennsylvaniaenergy.com/offers/save25/</code> are independent pages. The same promo code can exist across markets without namespace collision.</div>
-      <div class="ann ann-g">All promo pages should be <strong>noindex</strong> — short-lived, contain no evergreen SEO value, and expired promos should not accumulate in Google's index. Set via CMS meta robots field per page.</div>
-      <div class="ann ann-g">OQ-P4 RESOLVED — cross-market promo code namespace is not an issue because each market has its own domain. A code landing on the wrong market site is handled by the invalid/no-match state in the wireframe.</div>
-      <div class="ann ann-y">OQ-P6: Invalid or expired code handling — does the page render an error state at <code>/offers/save25/</code>, or does it redirect immediately to <code>/residential-plans/</code>? Recommendation: render the error state on the promo page so the user understands why they're being redirected, then offer the redirect as a CTA.</div>
-    </div>
-  </div>
-
-  <!-- NAV HEADER -->
-  <div class="section" style="position:relative; margin-bottom:5px;">
-    <div class="section-label" style="top:auto; transform:none; top:16px;"><div class="section-number" style="background:#555;">H</div><br>Nav Header<br>(Global)</div>
-    <div class="navigation__mobile-note">⚑ Mobile: hamburger collapses nav links. Logo + Account icon remain visible.</div>
-    <!-- Utility Row -->
-    <div class="nav-utility">
-      <a>Contact Us</a>
-      <span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
-      <span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
-      <span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
-      <span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
-      <span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
-    </div>
-    <div class="navigation" data-figma-component="Navigation">
-      <div class="navigation__logo">
-        <div class="navigation__logo-mark">🔥</div>
-        <span class="market-display active" id="logo-ong">Ohio Natural Gas</span>
-        <span class="market-display" id="logo-pa">Pennsylvania Energy</span>
-        <span class="market-display" id="logo-gre">Grand Rapids Energy</span>
-        <span class="market-display" id="logo-il">Illinois Energy</span>
-        <span class="market-display" id="logo-ies">Illinois Energy Solutions</span>
-      </div>
-      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-      <nav class="nav-links mkt-flex on" id="nav-standard">
-
-        <!-- For My Home: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
-          </div>
-        </div>
-
-        <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
-        <div class="nav-item has-dropdown mkt" id="nav-fmb">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
-          </div>
-        </div>
-
-        <!-- Learning Center: direct link + pillar dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-          </div>
-        </div>
-
-        <!-- About Us: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-
-      </nav>
-
-      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-      <nav class="nav-links mkt-flex" id="nav-ies">
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-          </div>
-        </div>
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Right: Account + Search icon + Hamburger -->
-      <div class="nav-right">
-        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
-        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
-      </div>
-    </div>
-    <div class="breadcrumb" data-figma-component="Breadcrumb" style="padding-bottom:8px;">
-      <span class="market-display active" id="bc-ong">Ohio Natural Gas</span>
-      <span class="market-display" id="bc-pa">Pennsylvania Energy</span>
-      <span class="market-display" id="bc-gre">Grand Rapids Energy</span>
-      <span class="market-display" id="bc-il">Illinois Energy</span>
-      <span class="market-display" id="bc-ies">Illinois Energy Solutions</span>
-      <span>›</span> <a style="color:#5a8cbf;">offers</a> <span>›</span> <strong>save25</strong> &nbsp;<span style="font-size:10px; color:#bbb; font-weight:400;">(/offers/save25/)</span>
-    </div>
-  </div>
-
-  <!-- SECTION 1: PAGE HERO -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">1</div><br>Page Hero<br>(Offer ID)</div>
-    <div class="page-title page-title--promo" data-figma-component="PageTitle" data-figma-variant="promo">
-
-      <div class="tag tag--promo-code" data-figma-component="Tag" data-figma-variant="promo-code">🏷 SAVE25</div>
-
-      <div class="page-title__heading">
-        <span class="market-display active" id="h1-ong">Your Exclusive Natural Gas Offer</span>
-        <span class="market-display" id="h1-pa">Your Exclusive Natural Gas Offer</span>
-        <span class="market-display" id="h1-gre">Your Exclusive Natural Gas Offer</span>
-        <span class="market-display" id="h1-il">Your Exclusive Natural Gas Offer</span>
-        <span class="market-display" id="h1-ies">Your Exclusive Natural Gas Offer</span>
-      </div>
-      <div class="page-title__subhead">A promotional rate has been reserved for you. Review the offer details below, then enroll or compare your options.</div>
-
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="ann ann-g">H1 is generic ("Your Exclusive Offer") — promo name and rate live in the offer module below, not the H1, so the H1 doesn't need to be per-promo dynamic</div>
-        <div class="ann ann-g">Promo code badge (🏷 SAVE25) confirms to the user which offer has been activated — especially useful for Path 1 (URL auto-apply) where the user didn't type the code themselves</div>
-        <div class="ann ann-y">Copy direction: confirm whether H1 should be promo-name-driven ("Save 25 on [Plan Name]") or generic — generic is safer for CMS reuse but less compelling</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════════════════════════════
+</div>
+</div>
+</div>
+<!-- ════════════════════════════════════════════════════════════════
        VARIANT A WRAPPER · No-LDC Variant
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
        Toggled via setVariant('a'); has no internal states.
   ════════════════════════════════════════════════════════════════ -->
-  <div class="variant on" id="variant-a">
-
-  <!-- ─────────────────────────────────────────────────────────────────
+<div class="variant on" id="variant-a">
+<!-- ─────────────────────────────────────────────────────────────────
        SECTION 2: OFFER MODULE — NO-LDC VARIANT
        For promotions where LDC identification is NOT required.
        Single state: offer is fully resolved on page load.
        Example: a flat dollar-off promo, or a rate discount that
        applies across all LDCs in the market.
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">2</div><br>Offer Module<br>(No-LDC<br>Variant)</div>
-    <div class="offer-module">
-
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-success">Variant A</span>
+<div class="section">
+<div class="section-label"><div class="section-number">2</div><br/>Offer Module<br/>(No-LDC<br/>Variant)</div>
+<div class="offer-module">
+<div class="offer-module-label">
+<span class="state-pill state-pill-success">Variant A</span>
         No LDC Identification Required — Single State · Rate confirmed on page load
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
-
-        <!-- Variant A · Rate-resolved promo card — unified .plan-card component, promo state per PC-D10 rev 2 -->
-        <div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
-          <div class="plan-card__head">
-            <div class="plan-card__badge-row">
-              <span class="tag tag--rate-fixed">● Fixed Rate</span>
-              <span class="tag tag--promo">Promo SAVE25</span>
-            </div>
-            <div class="plan-card__name">12-Month Fixed Plan</div>
-          </div>
-          <div class="plan-card__body">
-            <div class="plan-card__rate-row">
-              <div class="plan-card__rate">$0.599</div>
-              <div class="plan-card__rate-unit">/ <strong><span class="market-display active" id="unit-ong">therm</span><span class="market-display" id="unit-pa">therm</span><span class="market-display" id="unit-gre">Mcf</span><span class="market-display" id="unit-il">therm</span><span class="market-display" id="unit-ies">therm</span></strong></div>
-              <div class="plan-card__rate-was">was $0.799</div>
-            </div>
-            <div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
-            <div class="plan-card__description">A 12-month locked rate at a promotional price, exclusive to this offer. Once enrolled, your rate holds for the full term.</div>
-            <ul class="plan-card__points">
-              <li>Rate locked for full 12-month term</li>
-              <li>No enrollment fee</li>
-              <li>$12.50/month early termination fee if cancelled early</li>
-            </ul>
-            <!-- Slot K · Required disclosure line (promo state) -->
-            <div class="plan-card__disclosure-line">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+<!-- Variant A · Rate-resolved promo card — unified .plan-card component, promo state per PC-D10 rev 2 -->
+<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">12-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.599</div>
+<div class="plan-card__rate-unit">/ <strong><span class="market-display active" id="unit-ong">therm</span><span class="market-display" id="unit-pa">therm</span><span class="market-display" id="unit-gre">Mcf</span><span class="market-display" id="unit-il">therm</span><span class="market-display" id="unit-ies">therm</span></strong></div>
+<div class="plan-card__rate-was">was $0.799</div>
+</div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">A 12-month locked rate at a promotional price, exclusive to this offer. Once enrolled, your rate holds for the full term.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 12-month term</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<!-- Slot K · Required disclosure line (promo state) -->
+<div class="plan-card__disclosure-line">
               Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
-            </div>
-            <span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + plan-type-specific \&quot;Promo eligibility &amp; terms\&quot; section per §14 matrix. Anchor to page-level Promo Disclosure block below.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
-          </div>
-          <div class="plan-card__foot">
-            <button class="button button--primary plan-card__cta">Start Enrollment →</button>
-            <a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
-            <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
-          </div>
-        </div>
-        <div style="font-size:10px; color:#999; margin-top:8px; line-height:1.4; max-width:520px;">
-          Enrollment routes to Step 1 with plan_id + promo_code passed as session params · user never re-enters code during enrollment.<br>
-          "View all plans" → Residential Plans page with promo pinned above filter bar (pinned-promo zone per PC-D10 §5.b).<br>
+</div>
+<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + plan-type-specific \&quot;Promo eligibility &amp; terms\&quot; section per §14 matrix. Anchor to page-level Promo Disclosure block below.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<div style="font-size:10px; color:#999; margin-top:8px; line-height:1.4; max-width:520px;">
+          Enrollment routes to Step 1 with plan_id + promo_code passed as session params · user never re-enters code during enrollment.<br/>
+          "View all plans" → Residential Plans page with promo pinned above filter bar (pinned-promo zone per PC-D10 §5.b).<br/>
           LDC context passed as URL param where confirmed.
         </div>
+<!-- Annotation column -->
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-        <!-- Annotation column -->
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">Primary CTA: "Enroll Now →" routes directly into enrollment flow. Offer code and plan name passed as session params — user never re-enters code during enrollment.</div>
-          <div class="ann ann-g" style="margin-top:0;">Promo Page is purpose-built for promo code holders. Users without a code should navigate directly to the Plans page via the nav. "View all plans" retained as a subtle text escape hatch only — not a featured CTA.</div>
-          <div class="ann ann-g" style="margin-top:0;">Rate display: show promo rate AND struck-through standard rate to reinforce value. "was $X.XX" uses published standard rate for that plan.</div>
-          <div class="ann ann-y" style="margin-top:0;">PENDING: Expiration date, promo code name, and disclosure are required elements. Exact field values to be mapped to PRIME fields following technical walkthrough (May 12, 2026). Content and legal team to confirm disclosure copy before authoring.</div>
-          <div class="ann ann-y" style="margin-top:0;">OQ-P5: Expiration date display — static CMS field or Prime API field? If static, content team must update per promo. If API, confirm field availability.</div>
-          <div class="ann ann-y" style="margin-top:0;">Unit convention: ONG/PA/IL in therms; GRE (Michigan) in Mcf — confirm all promo plan rates displayed in correct unit per market. Market switcher drives unit label above.</div>
-        </div>
 
-      </div>
-    </div>
-  </div>
 
-  </div><!-- /variant-a -->
 
-  <!-- ════════════════════════════════════════════════════════════════
+
+
+</div>
+</div>
+</div>
+</div>
+</div><!-- /variant-a -->
+<!-- ════════════════════════════════════════════════════════════════
        VARIANT B WRAPPER · LDC-Required Variant
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
        Toggled via setVariant('b'); contains 3 internal states.
   ════════════════════════════════════════════════════════════════ -->
-  <div class="variant" id="variant-b">
-
-  <!-- ─────────────────────────────────────────────────────────────────
+<div class="variant" id="variant-b">
+<!-- ─────────────────────────────────────────────────────────────────
        SECTION 3: OFFER MODULE — LDC-REQUIRED VARIANT
        For promotions where the offered rate is LDC-specific (different
        rate per utility, or offer only available for certain utilities).
        Three states: pre-LDC → post-LDC match → post-LDC no-match.
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">3</div><br>Offer Module<br>(LDC-Required<br>Variant)</div>
-    <div class="offer-module">
-
-      <div class="state on" id="state-b-1">
-      <!-- STATE 1: Pre-LDC — rate pending utility selection -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-pending">State 1</span>
+<div class="section">
+<div class="section-label"><div class="section-number">3</div><br/>Offer Module<br/>(LDC-Required<br/>Variant)</div>
+<div class="offer-module">
+<div class="state on" id="state-b-1">
+<!-- STATE 1: Pre-LDC — rate pending utility selection -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-pending">State 1</span>
         Pre-LDC — Offer Identified, Rate Pending Utility Selection
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-          <!-- State 1 · Rate-pending card — unified .plan-card component, rate-pending state per PC-D11 -->
-          <div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="margin-bottom:12px;">
-            <div class="plan-card__head">
-              <div class="plan-card__badge-row">
-                <span class="tag tag--rate-fixed">● Fixed Rate</span>
-                <span class="tag tag--promo">Promo SAVE25</span>
-              </div>
-              <div class="plan-card__name">12-Month Fixed Plan</div>
-            </div>
-            <div class="plan-card__body">
-              <div class="plan-card__rate-pending">
-                <strong>Rate varies by utility</strong>
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<!-- State 1 · Rate-pending card — unified .plan-card component, rate-pending state per PC-D11 -->
+<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="margin-bottom:12px;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">12-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-pending">
+<strong>Rate varies by utility</strong>
                 Select your gas utility below to see your confirmed promotional rate.
               </div>
-              <div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
-              <div class="plan-card__description">A 12-month locked rate, exclusive to this promotion. Confirm your utility to see your exact rate and complete enrollment.</div>
-              <ul class="plan-card__points">
-                <li>Rate locked for full 12-month term</li>
-                <li>No enrollment fee</li>
-                <li>$12.50/month early termination fee if cancelled early</li>
-              </ul>
-              <!-- Slot K · Required disclosure line (promo state) -->
-              <div class="plan-card__disclosure-line">
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">A 12-month locked rate, exclusive to this promotion. Confirm your utility to see your exact rate and complete enrollment.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 12-month term</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<!-- Slot K · Required disclosure line (promo state) -->
+<div class="plan-card__disclosure-line">
                 Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
-              </div>
-              <span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="plan-card__foot">
-              <button class="button button--primary plan-card__cta is-disabled" disabled>Start Enrollment →</button>
-              <div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
-            </div>
-          </div>
+</div>
+<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
+</div>
+</div>
+<!-- Inline LDC selector -->
+<div class="ldc-selector">
+<div class="ldc-selector__title">Which gas utility delivers to your home?</div>
+<div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to confirm your promotional rate.</div>
+<div class="ldc-selector__row">
+<div class="ldc-selector__field">
+<div class="input__label">Gas Utility</div>
+<select class="input input--select">
+<option disabled="" selected="">Select your utility…</option>
+<option class="market-display active" id="ldc-opta-ong">Columbia Gas of Ohio</option>
+<option class="market-display active" id="ldc-optb-ong">Dominion Energy Ohio</option>
+<option class="market-display" id="ldc-opta-pa">UGI Utilities</option>
+<option class="market-display" id="ldc-optb-pa">Peoples Natural Gas</option>
+<option class="market-display" id="ldc-opta-gre">Consumers Energy</option>
+<option class="market-display" id="ldc-optb-gre">DTE Energy</option>
+<option class="market-display" id="ldc-opta-il">Nicor Gas</option>
+<option class="market-display" id="ldc-optb-il">Peoples Gas</option>
+<option class="market-display" id="ldc-opta-ies">Nicor Gas</option>
+<option class="market-display" id="ldc-optb-ies">Peoples Gas</option>
+</select>
+</div>
+<div class="button button--primary button--sm" style="white-space:nowrap;">Confirm Utility →</div>
+</div>
+<div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
+</div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-          <!-- Inline LDC selector -->
-          <div class="ldc-selector">
-            <div class="ldc-selector__title">Which gas utility delivers to your home?</div>
-            <div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to confirm your promotional rate.</div>
-            <div class="ldc-selector__row">
-              <div class="ldc-selector__field">
-                <div class="input__label">Gas Utility</div>
-                <select class="input input--select">
-                  <option disabled selected>Select your utility…</option>
-                  <option class="market-display active" id="ldc-opta-ong">Columbia Gas of Ohio</option>
-                  <option class="market-display active" id="ldc-optb-ong">Dominion Energy Ohio</option>
-                  <option class="market-display" id="ldc-opta-pa">UGI Utilities</option>
-                  <option class="market-display" id="ldc-optb-pa">Peoples Natural Gas</option>
-                  <option class="market-display" id="ldc-opta-gre">Consumers Energy</option>
-                  <option class="market-display" id="ldc-optb-gre">DTE Energy</option>
-                  <option class="market-display" id="ldc-opta-il">Nicor Gas</option>
-                  <option class="market-display" id="ldc-optb-il">Peoples Gas</option>
-                  <option class="market-display" id="ldc-opta-ies">Nicor Gas</option>
-                  <option class="market-display" id="ldc-optb-ies">Peoples Gas</option>
-                </select>
-              </div>
-              <div class="button button--primary button--sm" style="white-space:nowrap;">Confirm Utility →</div>
-            </div>
-            <div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
-          </div>
-        </div>
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">LDC selector is inline on the Promo Page — user stays in the promotional context throughout utility selection. No redirect to Residential Plans to select LDC.</div>
-          <div class="ann ann-g" style="margin-top:0;">CTAs are visible but inactive (muted/disabled) in State 1 — user can see the destination but cannot act until rate is confirmed. Sets expectation without a dead end.</div>
-          <div class="ann ann-g" style="margin-top:0;">Dropdown (known utility list) is the primary selector — simpler and faster than ZIP input for users who know their utility. ZIP fallback is a secondary link below.</div>
-          <div class="ann ann-y" style="margin-top:0;">OQ-P1: Dropdown vs. ZIP-first — confirm with Prime team whether the utility list is reliable for all five markets, or if ZIP lookup is needed as the primary path for some markets.</div>
-          <div class="ann ann-y" style="margin-top:0;">OQ-P2: Need a matrix of which promos require LDC confirmation — this section only renders if the promo is flagged as LDC-dependent.</div>
-        </div>
 
-      </div>
 
-      </div><!-- /state-b-1 -->
 
-      <div class="state" id="state-b-2">
-      <!-- STATE 2: Post-LDC Match — rate confirmed, enroll/compare available -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-success">State 2</span>
+</div>
+</div>
+</div><!-- /state-b-1 -->
+<div class="state" id="state-b-2">
+<!-- STATE 2: Post-LDC Match — rate confirmed, enroll/compare available -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-success">State 2</span>
         Post-LDC Match — Utility Confirmed, Rate Resolved · Enroll or Compare
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-          <!-- LDC confirmed badge -->
-          <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:8px 14px; font-size:12px; color:#2e7d32; font-weight:700; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-            <span>✓ Columbia Gas of Ohio confirmed — your rate is locked in</span>
-            <span style="font-size:11px; font-weight:400; text-decoration:underline; cursor:pointer; color:#555;">Change</span>
-          </div>
-
-          <!-- State 2 · Rate-resolved post-LDC card — same .plan-card component as Variant A, LDC context resolved -->
-          <div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo">
-            <div class="plan-card__head">
-              <div class="plan-card__badge-row">
-                <span class="tag tag--rate-fixed">● Fixed Rate</span>
-                <span class="tag tag--promo">Promo SAVE25</span>
-              </div>
-              <div class="plan-card__name">12-Month Fixed Plan</div>
-            </div>
-            <div class="plan-card__body">
-              <div class="plan-card__rate-row">
-                <div class="plan-card__rate">$0.599</div>
-                <div class="plan-card__rate-unit">/ <strong>therm</strong></div>
-                <div class="plan-card__rate-was">was $0.799</div>
-              </div>
-              <div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
-              <div class="plan-card__description">Your 12-month locked promotional rate, confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span>. Once enrolled, your rate holds for the full term.</div>
-              <ul class="plan-card__points">
-                <li>Rate locked for full 12-month term</li>
-                <li>No enrollment fee</li>
-                <li>$12.50/month early termination fee if cancelled early</li>
-              </ul>
-              <!-- Slot K · Required disclosure line (promo state) -->
-              <div class="plan-card__disclosure-line">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<!-- LDC confirmed badge -->
+<div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:8px 14px; font-size:12px; color:#2e7d32; font-weight:700; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+<span>✓ Columbia Gas of Ohio confirmed — your rate is locked in</span>
+<span style="font-size:11px; font-weight:400; text-decoration:underline; cursor:pointer; color:#555;">Change</span>
+</div>
+<!-- State 2 · Rate-resolved post-LDC card — same .plan-card component as Variant A, LDC context resolved -->
+<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">12-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.599</div>
+<div class="plan-card__rate-unit">/ <strong>therm</strong></div>
+<div class="plan-card__rate-was">was $0.799</div>
+</div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">Your 12-month locked promotional rate, confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span>. Once enrolled, your rate holds for the full term.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 12-month term</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<!-- Slot K · Required disclosure line (promo state) -->
+<div class="plan-card__disclosure-line">
                 Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
-              </div>
-              <span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code · ldc')">▾ View Plan Terms &amp; Disclosures</span>
-            </div>
-            <div class="plan-card__foot">
-              <button class="button button--primary plan-card__cta">Start Enrollment →</button>
-              <a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
-              <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
-            </div>
-          </div>
-          <div style="font-size:10px; color:#999; margin-top:8px; line-height:1.4;">
-            Enrollment routes to Step 1 with LDC pre-seeded (Columbia Gas of Ohio) and promo_code passed in session.<br>
+</div>
+<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code · ldc')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<div style="font-size:10px; color:#999; margin-top:8px; line-height:1.4;">
+            Enrollment routes to Step 1 with LDC pre-seeded (Columbia Gas of Ohio) and promo_code passed in session.<br/>
             "View all plans" → Plans page · LDC + promo passed as params · Promo card pinned in §5.b zone.
           </div>
-        </div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">State 2 is visually identical to Variant A (No-LDC) with the addition of the LDC confirmation badge. Consistent CTA layout across all resolved states.</div>
-          <div class="ann ann-g" style="margin-top:0;">"Change" link allows utility correction without losing the promo — resets to State 1 selector, re-validates on new selection.</div>
-          <div class="ann ann-g" style="margin-top:0;">LDC selection is passed to enrollment flow — user won't be asked to re-identify their utility during checkout. Reduces enrollment friction.</div>
-          <div class="ann ann-g" style="margin-top:0;">Secondary CTA passes LDC param to Plans page: <code>?ldc=columbia-gas&amp;promo=SAVE25</code> — Plans page auto-selects utility and pins promo card.</div>
-          <div class="ann ann-y" style="margin-top:0;">PENDING: Expiration date, promo code name, and disclosure are required elements. Exact field values to be mapped to PRIME fields following technical walkthrough (May 12, 2026). Content and legal team to confirm disclosure copy before authoring.</div>
-        </div>
 
-      </div>
 
-      </div><!-- /state-b-2 -->
 
-      <div class="state" id="state-b-3">
-      <!-- STATE 3: Post-LDC No-Match — offer unavailable for selected utility -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-error">State 3</span>
+
+</div>
+</div>
+</div><!-- /state-b-2 -->
+<div class="state" id="state-b-3">
+<!-- STATE 3: Post-LDC No-Match — offer unavailable for selected utility -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-error">State 3</span>
         Post-LDC No-Match — Offer Not Available for Selected Utility
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-          <div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
             ✗ Dominion Energy Ohio selected
           </div>
-
-          <div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
-            <div class="banner-alert__title">This offer isn't available for Dominion Energy customers</div>
-            <div class="banner-alert__body">
+<div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
+<div class="banner-alert__title">This offer isn't available for Dominion Energy customers</div>
+<div class="banner-alert__body">
               The <strong>SAVE25</strong> promotional offer is currently only available to Columbia Gas of Ohio customers. Your utility (Dominion Energy Ohio) is not eligible for this specific promotion at this time.
             </div>
-            <div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
-            <div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
-            <div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin</div>
-          </div>
-        </div>
+<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
+<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
+<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin</div>
+</div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">State 3 is a hard no — the offer is ineligible. Page does not pin the promo card on Plans because the user cannot use this offer. Clear, honest messaging prevents frustration.</div>
-          <div class="ann ann-g" style="margin-top:0;">CTA routes to Residential Plans with the selected LDC pre-seeded — user still gets a smooth path to plans even though the specific promo doesn't apply. No dead end.</div>
-          <div class="ann ann-y" style="margin-top:0;">OQ-P3: Specificity of no-match message — "only available to [LDC] customers" requires knowing which LDC(s) are eligible. Confirm whether Prime provides eligible-LDC metadata per promo, or if we default to generic "not available in your area."</div>
-          <div class="ann ann-y" style="margin-top:0;">"Change" link not shown in State 3 — user can still use browser back or scroll up. Consider adding a "Try a different utility" link to allow error correction without full page reset.</div>
-        </div>
 
-      </div>
-      </div><!-- /state-b-3 -->
 
-    </div>
-  </div>
 
-  </div><!-- /variant-b -->
-
-  <!-- ════════════════════════════════════════════════════════════════
+</div>
+</div>
+</div><!-- /state-b-3 -->
+</div>
+</div>
+</div><!-- /variant-b -->
+<!-- ════════════════════════════════════════════════════════════════
        VARIANT RAF WRAPPER · §3b RAF Override (Filter-to-Plans)
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
        Toggled via setVariant('raf'); contains 3 internal states.
   ════════════════════════════════════════════════════════════════ -->
-  <div class="variant" id="variant-raf">
-
-  <!-- ─────────────────────────────────────────────────────────────────
+<div class="variant" id="variant-raf">
+<!-- ─────────────────────────────────────────────────────────────────
        SECTION 3b: OFFER MODULE — RAF OVERRIDE (FILTER-TO-PLANS)
        Template override of Variant B, triggered by CMS flag
        `variant: filter_to_plans` on the promo record. Built for the
@@ -1477,486 +1406,429 @@
        (3) CTA is "View Plans →" routing to filtered Plans Listing
        (4) Referral Code captured at Enrollment Step 1 (cross-ref ↔ ENR)
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">3b</div><br>Offer Module<br>(RAF Override ·<br>Filter-to-Plans)</div>
-    <div class="offer-module">
-
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-pending">Override</span>
+<div class="section">
+<div class="section-label"><div class="section-number">3b</div><br/>Offer Module<br/>(RAF Override ·<br/>Filter-to-Plans)</div>
+<div class="offer-module">
+<div class="offer-module-label">
+<span class="state-pill state-pill-pending">Override</span>
         RAF / Filter-to-Plans — Multi-Plan Promo · No Inline Rate · Routes to Plans
       </div>
-
-      <!-- Override framing -->
-      <div style="font-size:12px; color:#555; padding: 0 0 16px; line-height:1.6; border-bottom: 1px dashed #d8e1ea; margin-bottom:18px;">
-        <strong>When this override applies:</strong> Promos that unlock <em>multiple</em> eligible plans (e.g., Refer a Friend — lowest available 24 / 18 / 12-month fixed) rather than a single rate. CMS flag <code style="background:#eef3f8; padding:1px 5px; border-radius:2px; font-size:11px;">variant: filter_to_plans</code> on the promo record swaps the rate-inline offer card (Variant B) for the program-intro layout below. State 3 (Post-LDC No-Match) from Variant B is reused as-is with copy adapted to the program.
+<!-- Override framing -->
+<div style="font-size:12px; color:#555; padding: 0 0 16px; line-height:1.6; border-bottom: 1px dashed #d8e1ea; margin-bottom:18px;">
+<strong>When this override applies:</strong> Promos that unlock <em>multiple</em> eligible plans (e.g., Refer a Friend — lowest available 24 / 18 / 12-month fixed) rather than a single rate. CMS flag <code style="background:#eef3f8; padding:1px 5px; border-radius:2px; font-size:11px;">variant: filter_to_plans</code> on the promo record swaps the rate-inline offer card (Variant B) for the program-intro layout below. State 3 (Post-LDC No-Match) from Variant B is reused as-is with copy adapted to the program.
       </div>
-
-      <div class="state on" id="state-raf-1">
-      <!-- STATE 1: Pre-Selection — program intro + segment + LDC -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-pending">State 1</span>
+<div class="state on" id="state-raf-1">
+<!-- STATE 1: Pre-Selection — program intro + segment + LDC -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-pending">State 1</span>
         Pre-Selection — Program Intro · Segment + LDC Pending
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-
-          <!-- Program-intro block (replaces the offer card) -->
-          <div style="background:#fff; border:1px solid #d8e1ea; border-radius:6px; padding:18px 20px; margin-bottom:12px;">
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-              <span class="tag tag--promo">Promo RAF25</span>
-              <span class="tag" style="background:#e8eef5; color:#3a5d7d;">Refer a Friend</span>
-            </div>
-            <div style="font-size:18px; font-weight:800; color:#2a4a66; line-height:1.3; margin-bottom:8px;">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<!-- Program-intro block (replaces the offer card) -->
+<div style="background:#fff; border:1px solid #d8e1ea; border-radius:6px; padding:18px 20px; margin-bottom:12px;">
+<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+<span class="tag tag--promo">Promo RAF25</span>
+<span class="tag" style="background:#e8eef5; color:#3a5d7d;">Refer a Friend</span>
+</div>
+<div style="font-size:18px; font-weight:800; color:#2a4a66; line-height:1.3; margin-bottom:8px;">
               Get $25 when you sign up — and your friend gets $25 too.
             </div>
-            <div style="font-size:12px; color:#555; line-height:1.6; margin-bottom:12px;">
+<div style="font-size:12px; color:#555; line-height:1.6; margin-bottom:12px;">
               When you enroll with Promo Code <strong>RAF25</strong> and provide your friend's Referral Code, you'll receive <span class="market-display active" id="raf-brand-ong">ONG's</span><span class="market-display" id="raf-brand-pa">Pennsylvania Energy's</span><span class="market-display" id="raf-brand-gre">GRE's</span><span class="market-display" id="raf-brand-il">Illinois Energy's</span><span class="market-display" id="raf-brand-ies">IES's</span> lowest available fixed rate plus a digital $25 Visa® Reward Card. Your friend earns a $25 reward too.
             </div>
-            <ul class="plan-card__points" style="margin-bottom:12px;">
-              <li>Multiple plan terms eligible — 24, 18, or 12-month fixed</li>
-              <li>Lowest available rate in your area at the time you enroll</li>
-              <li>$25 digital Visa Reward Card for you and your referrer</li>
-              <li>Maximum $500/year in Reward Cards per person</li>
-            </ul>
-            <!-- Slot K · Required disclosure line (program-level) -->
-            <div class="plan-card__disclosure-line">
+<ul class="plan-card__points" style="margin-bottom:12px;">
+<li>Multiple plan terms eligible — 24, 18, or 12-month fixed</li>
+<li>Lowest available rate in your area at the time you enroll</li>
+<li>$25 digital Visa Reward Card for you and your referrer</li>
+<li>Maximum $500/year in Reward Cards per person</li>
+</ul>
+<!-- Slot K · Required disclosure line (program-level) -->
+<div class="plan-card__disclosure-line">
               Subject to Refer-a-Friend Program rules. Eligibility, restrictions, and full terms apply. <a href="#promo-disclosure">See full program terms ↓</a>
-            </div>
-            <div style="font-size:11px; color:#5a8cbf; margin-top:10px;">
-              <a href="#" style="color:#5a8cbf;">Refer-a-Friend FAQs ↗</a>
-              &nbsp;·&nbsp;
+</div>
+<div style="font-size:11px; color:#5a8cbf; margin-top:10px;">
+<a href="#" style="color:#5a8cbf;">Refer-a-Friend FAQs ↗</a>
+               · 
               <a href="#" style="color:#5a8cbf;">Program Terms &amp; Conditions ↗</a>
-            </div>
-          </div>
-
-          <!-- Segment toggle (Residential / Commercial) -->
-          <div class="ldc-selector" style="background:#f4f8fc; border-color:#c5d4e2;">
-            <div class="ldc-selector__title">Are you signing up for your home or your business?</div>
-            <div class="ldc-selector__subhead">RAF25 resolves to a different underlying offer code per segment (Residential vs. Commercial).</div>
-            <div class="ldc-selector__row" style="gap:8px;">
-              <button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #2a4a66;">● Residential</button>
-              <button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #c5d4e2;">○ Commercial</button>
-            </div>
-          </div>
-
-          <!-- Inline LDC selector (same pattern as Variant B State 1) -->
-          <div class="ldc-selector" style="margin-top:10px;">
-            <div class="ldc-selector__title">Which gas utility delivers to your <span class="seg-display-res">home</span><span class="seg-display-com" style="display:none;">business</span>?</div>
-            <div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to see the plans you're eligible for.</div>
-            <div class="ldc-selector__row">
-              <div class="ldc-selector__field">
-                <div class="input__label">Gas Utility</div>
-                <select class="input input--select">
-                  <option disabled selected>Select your utility…</option>
-                  <option class="market-display active" id="raf-ldc-opta-ong">Columbia Gas of Ohio</option>
-                  <option class="market-display active" id="raf-ldc-optb-ong">Dominion Energy Ohio</option>
-                  <option class="market-display active" id="raf-ldc-optc-ong">Duke Energy Ohio</option>
-                  <option class="market-display active" id="raf-ldc-optd-ong">CenterPoint Energy</option>
-                  <option class="market-display" id="raf-ldc-opta-pa">UGI Utilities</option>
-                  <option class="market-display" id="raf-ldc-optb-pa">Peoples Natural Gas</option>
-                  <option class="market-display" id="raf-ldc-opta-gre">Consumers Energy</option>
-                  <option class="market-display" id="raf-ldc-optb-gre">DTE Energy</option>
-                  <option class="market-display" id="raf-ldc-opta-il">Nicor Gas</option>
-                  <option class="market-display" id="raf-ldc-optb-il">Peoples Gas</option>
-                  <option class="market-display" id="raf-ldc-opta-ies">Nicor Gas</option>
-                  <option class="market-display" id="raf-ldc-optb-ies">Peoples Gas</option>
-                </select>
-              </div>
-              <div class="button button--primary button--sm" style="white-space:nowrap;">View Plans →</div>
-            </div>
-            <div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
-          </div>
-
-          <div style="font-size:11px; color:#888; margin-top:10px; font-style:italic; text-align:center;">
+</div>
+</div>
+<!-- Segment toggle (Residential / Commercial) -->
+<div class="ldc-selector" style="background:#f4f8fc; border-color:#c5d4e2;">
+<div class="ldc-selector__title">Are you signing up for your home or your business?</div>
+<div class="ldc-selector__subhead">RAF25 resolves to a different underlying offer code per segment (Residential vs. Commercial).</div>
+<div class="ldc-selector__row" style="gap:8px;">
+<button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #2a4a66;">● Residential</button>
+<button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #c5d4e2;">○ Commercial</button>
+</div>
+</div>
+<!-- Inline LDC selector (same pattern as Variant B State 1) -->
+<div class="ldc-selector" style="margin-top:10px;">
+<div class="ldc-selector__title">Which gas utility delivers to your <span class="seg-display-res">home</span><span class="seg-display-com" style="display:none;">business</span>?</div>
+<div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to see the plans you're eligible for.</div>
+<div class="ldc-selector__row">
+<div class="ldc-selector__field">
+<div class="input__label">Gas Utility</div>
+<select class="input input--select">
+<option disabled="" selected="">Select your utility…</option>
+<option class="market-display active" id="raf-ldc-opta-ong">Columbia Gas of Ohio</option>
+<option class="market-display active" id="raf-ldc-optb-ong">Dominion Energy Ohio</option>
+<option class="market-display active" id="raf-ldc-optc-ong">Duke Energy Ohio</option>
+<option class="market-display active" id="raf-ldc-optd-ong">CenterPoint Energy</option>
+<option class="market-display" id="raf-ldc-opta-pa">UGI Utilities</option>
+<option class="market-display" id="raf-ldc-optb-pa">Peoples Natural Gas</option>
+<option class="market-display" id="raf-ldc-opta-gre">Consumers Energy</option>
+<option class="market-display" id="raf-ldc-optb-gre">DTE Energy</option>
+<option class="market-display" id="raf-ldc-opta-il">Nicor Gas</option>
+<option class="market-display" id="raf-ldc-optb-il">Peoples Gas</option>
+<option class="market-display" id="raf-ldc-opta-ies">Nicor Gas</option>
+<option class="market-display" id="raf-ldc-optb-ies">Peoples Gas</option>
+</select>
+</div>
+<div class="button button--primary button--sm" style="white-space:nowrap;">View Plans →</div>
+</div>
+<div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
+</div>
+<div style="font-size:11px; color:#888; margin-top:10px; font-style:italic; text-align:center;">
             CTA enables once segment + utility are both selected. No rate is shown on this page — you'll pick a plan and term on the next screen.
           </div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
+<div class="ann ann-b" style="margin-top:0;"><strong>Override scope</strong> — built as a CMS-flag override of Variant B, not a first-class variant. Per PROMO-12 alignment (2026-05-20), RAF is currently the only promo of this shape; if more emerge, promote to a full Variant C.</div>
 
-        </div>
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-b" style="margin-top:0;"><strong>Override scope</strong> — built as a CMS-flag override of Variant B, not a first-class variant. Per PROMO-12 alignment (2026-05-20), RAF is currently the only promo of this shape; if more emerge, promote to a full Variant C.</div>
-          <div class="ann ann-g" style="margin-top:0;"><strong>PROMO-9 — Segment toggle</strong>. RAF25 published code resolves to two underlying offer codes by segment (Residential → STDRES&lt;market&gt; · Commercial → STDCOM&lt;market&gt;). Segment toggle gates which underlying code is passed to enrollment. Segment-keyed promo resolution is documented in §7 Promo Disclosure block.</div>
-          <div class="ann ann-g" style="margin-top:0;"><strong>PROMO-10 — No inline rate / Filter-to-Plans CTA</strong>. Page is intentionally a program-intro + filter, not an offer card. CTA routes to <code>/residential-plans/?ldc=&amp;segment=&amp;promo=RAF25</code> (or <code>/commercial-plans/</code> for Commercial segment). Plans Listing displays eligible terms pinned at the top of the grid; user picks the term, then enrolls.</div>
-          <div class="ann ann-y" style="margin-top:0;"><strong>PROMO-11 — ↔ ENROLLMENT cross-reference</strong>. RAF-family promos require a conditional <strong>Referral Code</strong> field at Enrollment Step 1 (separate from <code>promo_code</code> — uniquely identifies the referring customer). The promo page itself does NOT capture this; field appears in enrollment when <code>promo_code</code> is RAF-family. See <code>Meetings/Enrollment_OutstandingQuestions_2026-05-13.md</code> for field treatment open question.</div>
-          <div class="ann ann-y" style="margin-top:0;">Commercial segment routing — does Commercial RAF route to <code>/commercial-plans/</code> or to a B2B Contact page? Live ONG RAF page surfaces a Commercial toggle but commercial enrollment shape isn't documented. Confirm with SSE marketing.</div>
-          <div class="ann ann-y" style="margin-top:0;">OH market shows four LDCs in live RAF page (CenterPoint, Columbia Gas, Duke Energy, Enbridge Gas Ohio); current Variant B State 1 lists two (Columbia + Dominion). Reconcile the canonical OH LDC list with Prime team before propagating — Variant B selector may also need updating.</div>
-        </div>
 
-      </div>
 
-      </div><!-- /state-raf-1 -->
 
-      <div class="state" id="state-raf-2">
-      <!-- STATE 2: Post-Selection — segment + LDC confirmed, CTA enabled -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-success">State 2</span>
+</div>
+</div>
+</div><!-- /state-raf-1 -->
+<div class="state" id="state-raf-2">
+<!-- STATE 2: Post-Selection — segment + LDC confirmed, CTA enabled -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-success">State 2</span>
         Post-Selection — Segment + Utility Confirmed · View Plans Enabled
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-
-          <!-- Confirmation badges -->
-          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
-            <div style="background:#e8f5e9; border:1px solid #2e7d32; border-radius:4px; padding:6px 12px; font-size:11px; color:#1b5e20; font-weight:700;">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<!-- Confirmation badges -->
+<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+<div style="background:#e8f5e9; border:1px solid #2e7d32; border-radius:4px; padding:6px 12px; font-size:11px; color:#1b5e20; font-weight:700;">
               ✓ Residential · <span style="text-decoration:underline; cursor:pointer; font-weight:400;">Change</span>
-            </div>
-            <div style="background:#e8f5e9; border:1px solid #2e7d32; border-radius:4px; padding:6px 12px; font-size:11px; color:#1b5e20; font-weight:700;">
+</div>
+<div style="background:#e8f5e9; border:1px solid #2e7d32; border-radius:4px; padding:6px 12px; font-size:11px; color:#1b5e20; font-weight:700;">
               ✓ <span class="dyn-ldc">Columbia Gas of Ohio</span> · <span style="text-decoration:underline; cursor:pointer; font-weight:400;">Change</span>
-            </div>
-          </div>
-
-          <!-- Confirmation copy + CTA -->
-          <div style="background:#fff; border:1px solid #2e7d32; border-radius:6px; padding:18px 20px;">
-            <div style="font-size:14px; font-weight:800; color:#1b5e20; margin-bottom:8px;">You're eligible for RAF25.</div>
-            <div style="font-size:12px; color:#555; line-height:1.6; margin-bottom:14px;">
+</div>
+</div>
+<!-- Confirmation copy + CTA -->
+<div style="background:#fff; border:1px solid #2e7d32; border-radius:6px; padding:18px 20px;">
+<div style="font-size:14px; font-weight:800; color:#1b5e20; margin-bottom:8px;">You're eligible for RAF25.</div>
+<div style="font-size:12px; color:#555; line-height:1.6; margin-bottom:14px;">
               We'll show you the plans available for <span class="dyn-ldc">Columbia Gas of Ohio</span> Residential customers. Pick a term that works for you — the $25 reward applies to all eligible RAF25 enrollments.
             </div>
-            <button class="button button--primary plan-card__cta">View Plans →</button>
-            <div style="font-size:10px; color:#888; text-align:center; font-style:italic; margin-top:8px;">
+<button class="button button--primary plan-card__cta">View Plans →</button>
+<div style="font-size:10px; color:#888; text-align:center; font-style:italic; margin-top:8px;">
               Routes to <code>/residential-plans/?ldc=columbia-gas&amp;segment=res&amp;promo=RAF25</code> · eligible terms pinned at top of grid
             </div>
-          </div>
+</div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-        </div>
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">Plans Listing must support <code>?promo=</code> param to filter/pin eligible plans. Cross-reference Plans Listing propagation work (RP-PROPAGATE) — promo-pin behavior in §5.b zone already specified; this extends it with a query-param entry path.</div>
-          <div class="ann ann-g" style="margin-top:0;">Segment + LDC + promo_code all carried as URL params to Plans Listing, then forwarded into Enrollment via the standard pre-seeding pattern. No re-capture on either downstream surface.</div>
-          <div class="ann ann-g" style="margin-top:0;">"Change" links on confirmation badges return user to State 1 with prior selections cleared. No data loss on the program-intro block (it's static content).</div>
-          <div class="ann ann-b" style="margin-top:0;">No "Enroll Now" CTA on this page — by design. User must see eligible terms and pick one before enrollment. Differs from Variant B State 2 where Enroll is primary.</div>
-        </div>
 
-      </div>
-
-      </div><!-- /state-raf-2 -->
-
-      <div class="state" id="state-raf-3">
-      <!-- STATE 3 reuses Variant B State 3 with copy adapted to RAF (no-match) -->
-      <div class="offer-module-label">
-        <span class="state-pill state-pill-error">State 3</span>
+<div class="ann ann-b" style="margin-top:0;">No "Enroll Now" CTA on this page — by design. User must see eligible terms and pick one before enrollment. Differs from Variant B State 2 where Enroll is primary.</div>
+</div>
+</div>
+</div><!-- /state-raf-2 -->
+<div class="state" id="state-raf-3">
+<!-- STATE 3 reuses Variant B State 3 with copy adapted to RAF (no-match) -->
+<div class="offer-module-label">
+<span class="state-pill state-pill-error">State 3</span>
         Post-LDC No-Match — RAF Not Available for Selected Utility (reuses Variant B State 3 pattern)
       </div>
-
-      <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
-
-        <div style="flex: 0 0 auto; max-width: 520px;">
-          <div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
+<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+<div style="flex: 0 0 auto; max-width: 520px;">
+<div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
             ✗ Dominion Energy Ohio selected
           </div>
-
-          <div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
-            <div class="banner-alert__title">RAF25 isn't available for Dominion Energy customers</div>
-            <div class="banner-alert__body">
+<div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
+<div class="banner-alert__title">RAF25 isn't available for Dominion Energy customers</div>
+<div class="banner-alert__body">
               The Refer-a-Friend program is currently only available to Columbia Gas of Ohio customers. Your utility (Dominion Energy Ohio) isn't eligible for this promotion at this time.
             </div>
-            <div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
-            <div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
-            <div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin · No referral reward</div>
-          </div>
-        </div>
+<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
+<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
+<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin · No referral reward</div>
+</div>
+</div>
+<div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
 
-        <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-          <div class="ann ann-g" style="margin-top:0;">Pattern parity with Variant B State 3 — same no-match zone styling, same redirect target. Only copy differs to reference the program name instead of the rate code.</div>
-          <div class="ann ann-y" style="margin-top:0;">Inherits OQ-P3 from Variant B — eligible-LDC specificity in the no-match message depends on whether Prime exposes eligible-LDC metadata per promo. Same resolution applies here.</div>
-        </div>
 
-      </div>
-      </div><!-- /state-raf-3 -->
+</div>
+</div>
+</div><!-- /state-raf-3 -->
+</div>
+</div>
+</div><!-- /variant-raf -->
+<!-- SECTION 4: FULL PROMO JOURNEY FLOW DIAGRAM -->
+<div class="section">
+<div class="section-label"><div class="section-number">4</div><br/>Journey<br/>Flow Model<br/>(Annotation)</div>
+<div class="flow-diagram">
+<div style="font-size:11px; font-weight:800; color:#555; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Promo Journey Model — Full Flow Annotation</div>
+<div class="flow-section-title">No-LDC Promo Path (Variant A)</div>
+<div class="flow-row">
+<div class="flow-node">Entry (any path)</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node flow-node-primary">Promo Page<br/><span style="font-size:10px; font-weight:400; color:#aac4d9;">Offer + Rate displayed</span></div>
+<div class="flow-arrow">→</div>
+<div style="display:flex; flex-direction:column; gap:5px;">
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-enroll">Enroll Now → <span style="font-size:10px; font-weight:400;">(Primary)</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Enrollment Flow<br/><span style="font-size:9px; color:#888;">Code + Plan pre-seeded</span></div>
+</div>
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-plans">View all plans <span style="font-size:10px; font-weight:400;">(text link — de-prioritized)</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Plans Page<br/><span style="font-size:9px; color:#888;">Promo card pinned above filter bar</span></div>
+</div>
+</div>
+</div>
+<div class="flow-section-title" style="margin-top:14px;">LDC-Required Promo Path (Variant B)</div>
+<div class="flow-row" style="align-items:flex-start;">
+<div class="flow-node">Entry (any path)</div>
+<div class="flow-arrow" style="margin-top:10px;">→</div>
+<div class="flow-node flow-node-primary" style="align-self:flex-start;">Promo Page<br/><span style="font-size:10px; font-weight:400; color:#aac4d9;">State 1: Offer shown,<br/>rate pending LDC</span></div>
+<div class="flow-arrow" style="margin-top:10px;">→</div>
+<div style="display:flex; flex-direction:column; gap:5px;">
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node" style="background:#2e7d32; border-color:#2e7d32; color:#fff;">LDC Match<br/><span style="font-size:9px;">State 2</span></div>
+<div class="flow-arrow">→</div>
+<div style="display:flex; flex-direction:column; gap:4px;">
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-enroll">Enroll Now →</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Enrollment<br/><span style="font-size:9px; color:#888;">LDC + Code pre-seeded</span></div>
+</div>
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-plans">View all plans <span style="font-size:10px; font-weight:400;">(text link — de-prioritized)</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Plans Page<br/><span style="font-size:9px; color:#888;">LDC pre-selected + promo pinned</span></div>
+</div>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-error">LDC No-Match<br/><span style="font-size:9px;">State 3</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Plans Page<br/><span style="font-size:9px; color:#888;">LDC pre-selected · No promo pin</span></div>
+</div>
+</div>
+</div>
+<div class="flow-section-title" style="margin-top:14px;">RAF Override — Filter-to-Plans (CMS flag · Variant B subset)</div>
+<div class="flow-row" style="align-items:flex-start;">
+<div class="flow-node">Entry (any path)</div>
+<div class="flow-arrow" style="margin-top:10px;">→</div>
+<div class="flow-node flow-node-primary" style="align-self:flex-start;">Promo Page<br/><span style="font-size:10px; font-weight:400; color:#aac4d9;">§3b · Program intro,<br/>no offer card</span></div>
+<div class="flow-arrow" style="margin-top:10px;">→</div>
+<div style="display:flex; flex-direction:column; gap:5px;">
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node" style="background:#2e7d32; border-color:#2e7d32; color:#fff;">Segment + LDC<br/><span style="font-size:9px;">State 2 confirmed</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node flow-node-plans">View Plans →</div>
+<div class="flow-arrow">→</div>
+<div style="display:flex; flex-direction:column; gap:4px;">
+<div class="flow-node">Plans Page<br/><span style="font-size:9px; color:#888;">?ldc=&amp;segment=&amp;promo=RAF25<br/>Eligible terms pinned</span></div>
+<div class="flow-arrow" style="text-align:center;">↓</div>
+<div class="flow-node">Enrollment<br/><span style="font-size:9px; color:#888;">+ Referral Code field<br/>(RAF-family promos)</span></div>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:5px;">
+<div class="flow-node flow-node-error">LDC No-Match<br/><span style="font-size:9px;">State 3</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">Plans Page<br/><span style="font-size:9px; color:#888;">LDC pre-selected · No promo pin</span></div>
+</div>
+</div>
+</div>
+<div class="flow-section-title" style="margin-top:14px;">Plans Page Role in Promo Journey (Secondary Surface)</div>
+<div class="flow-row">
+<div class="flow-node flow-node-primary">Plans Page<br/><span style="font-size:10px; font-weight:400; color:#aac4d9;">Comparison surface only</span></div>
+<div class="flow-arrow">→</div>
+<div style="display:flex; flex-direction:column; gap:5px;">
+<div class="flow-node">Pinned promo card visible above filter bar<br/><span style="font-size:9px; color:#888;">User browses + compares · Promo stays visible throughout</span></div>
+<div class="flow-node" style="color:#888; font-style:italic; background:#f5f7f8;">Manual promo entry (State B/C) is still present but is<br/>now a secondary/edge-case path — promo journey starts on Promo Page</div>
+</div>
+</div>
+<div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
 
-    </div>
-  </div>
 
-  </div><!-- /variant-raf -->
 
-  <!-- SECTION 4: FULL PROMO JOURNEY FLOW DIAGRAM -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">4</div><br>Journey<br>Flow Model<br>(Annotation)</div>
-    <div class="flow-diagram">
-      <div style="font-size:11px; font-weight:800; color:#555; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Promo Journey Model — Full Flow Annotation</div>
 
-      <div class="flow-section-title">No-LDC Promo Path (Variant A)</div>
-      <div class="flow-row">
-        <div class="flow-node">Entry (any path)</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node flow-node-primary">Promo Page<br><span style="font-size:10px; font-weight:400; color:#aac4d9;">Offer + Rate displayed</span></div>
-        <div class="flow-arrow">→</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node flow-node-enroll">Enroll Now → <span style="font-size:10px; font-weight:400;">(Primary)</span></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-node">Enrollment Flow<br><span style="font-size:9px; color:#888;">Code + Plan pre-seeded</span></div>
-          </div>
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node flow-node-plans">View all plans <span style="font-size:10px; font-weight:400;">(text link — de-prioritized)</span></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-node">Plans Page<br><span style="font-size:9px; color:#888;">Promo card pinned above filter bar</span></div>
-          </div>
-        </div>
-      </div>
 
-      <div class="flow-section-title" style="margin-top:14px;">LDC-Required Promo Path (Variant B)</div>
-      <div class="flow-row" style="align-items:flex-start;">
-        <div class="flow-node">Entry (any path)</div>
-        <div class="flow-arrow" style="margin-top:10px;">→</div>
-        <div class="flow-node flow-node-primary" style="align-self:flex-start;">Promo Page<br><span style="font-size:10px; font-weight:400; color:#aac4d9;">State 1: Offer shown,<br>rate pending LDC</span></div>
-        <div class="flow-arrow" style="margin-top:10px;">→</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node" style="background:#2e7d32; border-color:#2e7d32; color:#fff;">LDC Match<br><span style="font-size:9px;">State 2</span></div>
-            <div class="flow-arrow">→</div>
-            <div style="display:flex; flex-direction:column; gap:4px;">
-              <div style="display:flex; align-items:center; gap:5px;">
-                <div class="flow-node flow-node-enroll">Enroll Now →</div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-node">Enrollment<br><span style="font-size:9px; color:#888;">LDC + Code pre-seeded</span></div>
-              </div>
-              <div style="display:flex; align-items:center; gap:5px;">
-                <div class="flow-node flow-node-plans">View all plans <span style="font-size:10px; font-weight:400;">(text link — de-prioritized)</span></div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-node">Plans Page<br><span style="font-size:9px; color:#888;">LDC pre-selected + promo pinned</span></div>
-              </div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node flow-node-error">LDC No-Match<br><span style="font-size:9px;">State 3</span></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-node">Plans Page<br><span style="font-size:9px; color:#888;">LDC pre-selected · No promo pin</span></div>
-          </div>
-        </div>
-      </div>
+</div>
+</div>
+</div>
+<!-- SECTION 5: CONTACT CARD -->
+<div class="section">
+<div class="section-label"><div class="section-number">5</div><br/>Contact<br/>Card</div>
+<div style="padding: 20px 28px;">
+<div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:6px; padding:18px 22px;">
+<!-- Icon -->
+<div style="font-size:28px; flex-shrink:0; margin-top:2px;">💬</div>
+<!-- Content -->
+<div style="flex:1; min-width:220px;">
+<div style="font-size:15px; font-weight:800; color:#1e3a5f; margin-bottom:4px;">Have questions about this offer?</div>
+<div style="font-size:12px; color:#555; margin-bottom:14px; line-height:1.6;">Our team can walk you through the plan details, eligibility, and enrollment process. No pressure — just answers.</div>
+<!-- Primary CTA -->
+<div style="margin-bottom:14px;">
+<div class="button button--primary" style="display:inline-block;">Enroll Now →</div>
+</div>
+<div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+<!-- Regulatory note -->
+<div style="flex:1; min-width:160px;">
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Licensed Supplier</div>
+<div style="font-size:11px; color:#555; line-height:1.5;">
+<span class="market-display active" id="reg-note-ong">Ohio Natural Gas is a licensed natural gas marketer certified by the Public Utilities Commission of Ohio (PUCO).</span>
+<span class="market-display" id="reg-note-pa">Pennsylvania Energy is a licensed natural gas supplier certified by the Pennsylvania Public Utility Commission (PA PUC).</span>
+<span class="market-display" id="reg-note-gre">Grand Rapids Energy is a licensed natural gas supplier regulated by the Michigan Public Service Commission (MPSC).</span>
+<span class="market-display" id="reg-note-il">Illinois Energy is a licensed alternative retail natural gas supplier regulated by the Illinois Commerce Commission (ICC).</span>
+<span class="market-display" id="reg-note-ies">Illinois Energy Solutions is a licensed alternative retail natural gas supplier regulated by the Illinois Commerce Commission (ICC).</span>
+</div>
+</div>
+<!-- Divider -->
+<div style="width:1px; background:#d0dce8; align-self:stretch; flex-shrink:0;"></div>
+<!-- Phone — secondary, de-emphasized -->
+<div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Questions? Call Us</div>
+<div style="font-size:12px; font-weight:600; color:#666;">
+<span class="market-display active" id="contact-phone-ong">1-800-XXX-XXXX</span>
+<span class="market-display" id="contact-phone-pa">1-800-XXX-XXXX</span>
+<span class="market-display" id="contact-phone-gre">1-800-XXX-XXXX</span>
+<span class="market-display" id="contact-phone-il">1-800-XXX-XXXX</span>
+<span class="market-display" id="contact-phone-ies">1-800-XXX-XXXX</span>
+</div>
+<div style="font-size:10px; color:#aaa; margin-top:3px;">[Hours TBD — confirm with client]</div>
+</div>
+</div>
+</div>
+<!-- Secondary CTA -->
+<div style="flex-shrink:0; display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+<div class="button button--secondary" style="white-space:nowrap;">Contact Us →</div>
+<div style="font-size:10px; color:#888; text-align:right;">Full contact page with<br/>LDC emergency numbers</div>
+</div>
+</div>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
 
-      <div class="flow-section-title" style="margin-top:14px;">RAF Override — Filter-to-Plans (CMS flag · Variant B subset)</div>
-      <div class="flow-row" style="align-items:flex-start;">
-        <div class="flow-node">Entry (any path)</div>
-        <div class="flow-arrow" style="margin-top:10px;">→</div>
-        <div class="flow-node flow-node-primary" style="align-self:flex-start;">Promo Page<br><span style="font-size:10px; font-weight:400; color:#aac4d9;">§3b · Program intro,<br>no offer card</span></div>
-        <div class="flow-arrow" style="margin-top:10px;">→</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node" style="background:#2e7d32; border-color:#2e7d32; color:#fff;">Segment + LDC<br><span style="font-size:9px;">State 2 confirmed</span></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-node flow-node-plans">View Plans →</div>
-            <div class="flow-arrow">→</div>
-            <div style="display:flex; flex-direction:column; gap:4px;">
-              <div class="flow-node">Plans Page<br><span style="font-size:9px; color:#888;">?ldc=&amp;segment=&amp;promo=RAF25<br>Eligible terms pinned</span></div>
-              <div class="flow-arrow" style="text-align:center;">↓</div>
-              <div class="flow-node">Enrollment<br><span style="font-size:9px; color:#888;">+ Referral Code field<br>(RAF-family promos)</span></div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:5px;">
-            <div class="flow-node flow-node-error">LDC No-Match<br><span style="font-size:9px;">State 3</span></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-node">Plans Page<br><span style="font-size:9px; color:#888;">LDC pre-selected · No promo pin</span></div>
-          </div>
-        </div>
-      </div>
 
-      <div class="flow-section-title" style="margin-top:14px;">Plans Page Role in Promo Journey (Secondary Surface)</div>
-      <div class="flow-row">
-        <div class="flow-node flow-node-primary">Plans Page<br><span style="font-size:10px; font-weight:400; color:#aac4d9;">Comparison surface only</span></div>
-        <div class="flow-arrow">→</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <div class="flow-node">Pinned promo card visible above filter bar<br><span style="font-size:9px; color:#888;">User browses + compares · Promo stays visible throughout</span></div>
-          <div class="flow-node" style="color:#888; font-style:italic; background:#f5f7f8;">Manual promo entry (State B/C) is still present but is<br>now a secondary/edge-case path — promo journey starts on Promo Page</div>
-        </div>
-      </div>
 
-      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="ann ann-g">Promo Page is the singular decision surface — all enrollment decisions for promo users start here, regardless of entry path. Consistent experience across campaign, homepage, and physical mail journeys.</div>
-        <div class="ann ann-g">Promo Page is purpose-built for promo code holders. Users without a code should navigate directly to the Plans page via the nav. "View all plans" retained as a subtle text escape hatch only — not a featured CTA.</div>
-        <div class="ann ann-g">Plans Page is comparison-only for promo users — they arrive via secondary CTA, see their promo offer pinned, and can enroll from the card or browse alternatives. The page does not re-run the promo journey.</div>
-        <div class="ann ann-g">Enrollment flow is downstream of both surfaces — code and LDC context are passed as params, so enrollment doesn't need to re-capture either. Reduces friction and drop-off risk.</div>
-        <div class="ann ann-y">OQ-P7: Should Plans page suppress the manual promo entry toggle when the user arrives with a confirmed promo code via secondary CTA? Showing it could confuse users who already have a code applied.</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- SECTION 5: CONTACT CARD -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">5</div><br>Contact<br>Card</div>
-    <div style="padding: 20px 28px;">
 
-      <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:6px; padding:18px 22px;">
+</div>
+</div>
+</div>
+<!-- SECTION 6: END CTA BAND -->
+<div class="section">
+<div class="section-label"><div class="section-number">6</div><br/>End CTA<br/>Band</div>
+<div style="padding: 20px 28px;">
+<div style="background: #1e3a5f; border-radius: 5px; padding: 20px 24px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+<div>
+<div style="font-size:15px; font-weight:800; margin-bottom:4px;">Ready to lock in your promotional rate?</div>
+<div style="font-size:12px; color:#aac4d9;">Offer SAVE25 is reserved for you. Enroll easily online — no service interruption, no hidden fees.</div>
+</div>
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+<div class="button button--primary">Enroll Now →</div>
+<a style="font-size:11px; color:#aac4d9; text-decoration:underline; cursor:pointer;">View all plans →</a>
+</div>
+</div>
+<div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
 
-        <!-- Icon -->
-        <div style="font-size:28px; flex-shrink:0; margin-top:2px;">💬</div>
 
-        <!-- Content -->
-        <div style="flex:1; min-width:220px;">
-          <div style="font-size:15px; font-weight:800; color:#1e3a5f; margin-bottom:4px;">Have questions about this offer?</div>
-          <div style="font-size:12px; color:#555; margin-bottom:14px; line-height:1.6;">Our team can walk you through the plan details, eligibility, and enrollment process. No pressure — just answers.</div>
 
-          <!-- Primary CTA -->
-          <div style="margin-bottom:14px;">
-            <div class="button button--primary" style="display:inline-block;">Enroll Now →</div>
-          </div>
-
-          <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
-
-            <!-- Regulatory note -->
-            <div style="flex:1; min-width:160px;">
-              <div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Licensed Supplier</div>
-              <div style="font-size:11px; color:#555; line-height:1.5;">
-                <span class="market-display active" id="reg-note-ong">Ohio Natural Gas is a licensed natural gas marketer certified by the Public Utilities Commission of Ohio (PUCO).</span>
-                <span class="market-display" id="reg-note-pa">Pennsylvania Energy is a licensed natural gas supplier certified by the Pennsylvania Public Utility Commission (PA PUC).</span>
-                <span class="market-display" id="reg-note-gre">Grand Rapids Energy is a licensed natural gas supplier regulated by the Michigan Public Service Commission (MPSC).</span>
-                <span class="market-display" id="reg-note-il">Illinois Energy is a licensed alternative retail natural gas supplier regulated by the Illinois Commerce Commission (ICC).</span>
-                <span class="market-display" id="reg-note-ies">Illinois Energy Solutions is a licensed alternative retail natural gas supplier regulated by the Illinois Commerce Commission (ICC).</span>
-              </div>
-            </div>
-
-            <!-- Divider -->
-            <div style="width:1px; background:#d0dce8; align-self:stretch; flex-shrink:0;"></div>
-
-            <!-- Phone — secondary, de-emphasized -->
-            <div>
-              <div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Questions? Call Us</div>
-              <div style="font-size:12px; font-weight:600; color:#666;">
-                <span class="market-display active" id="contact-phone-ong">1-800-XXX-XXXX</span>
-                <span class="market-display" id="contact-phone-pa">1-800-XXX-XXXX</span>
-                <span class="market-display" id="contact-phone-gre">1-800-XXX-XXXX</span>
-                <span class="market-display" id="contact-phone-il">1-800-XXX-XXXX</span>
-                <span class="market-display" id="contact-phone-ies">1-800-XXX-XXXX</span>
-              </div>
-              <div style="font-size:10px; color:#aaa; margin-top:3px;">[Hours TBD — confirm with client]</div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Secondary CTA -->
-        <div style="flex-shrink:0; display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-          <div class="button button--secondary" style="white-space:nowrap;">Contact Us →</div>
-          <div style="font-size:10px; color:#888; text-align:right;">Full contact page with<br>LDC emergency numbers</div>
-        </div>
-
-      </div>
-
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="ann ann-g">Contact card positioned below offer module — secondary to the primary offer content per client direction.</div>
-        <div class="ann ann-g">Online enrollment is the primary CTA for all Visa-based offers — phone number de-emphasized to secondary per client direction.</div>
-        <div class="ann ann-g">Contact card replaces the trust band — promo page users are high-intent and already past the evaluation stage. The trust band was solving a problem they don't have. "We're here if you have questions" is the right signal at this point in the journey.</div>
-        <div class="ann ann-g">Regulatory certification moved here as a license statement — more useful and contextually appropriate than a generic trust badge. Satisfies any market-level disclosure requirements without a separate section.</div>
-        <div class="ann ann-y">Phone number and hours TBD — confirm per-market customer service numbers and operating hours with client before content authoring begins.</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- SECTION 6: END CTA BAND -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">6</div><br>End CTA<br>Band</div>
-    <div style="padding: 20px 28px;">
-      <div style="background: #1e3a5f; border-radius: 5px; padding: 20px 24px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
-        <div>
-          <div style="font-size:15px; font-weight:800; margin-bottom:4px;">Ready to lock in your promotional rate?</div>
-          <div style="font-size:12px; color:#aac4d9;">Offer SAVE25 is reserved for you. Enroll easily online — no service interruption, no hidden fees.</div>
-        </div>
-        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-          <div class="button button--primary">Enroll Now →</div>
-          <a style="font-size:11px; color:#aac4d9; text-decoration:underline; cursor:pointer;">View all plans →</a>
-        </div>
-      </div>
-      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="ann ann-g">Promo Page is purpose-built for promo code holders. Users without a code should navigate directly to the Plans page via the nav. "View all plans" retained as a subtle text escape hatch only — not a featured CTA.</div>
-        <div class="ann ann-g">Reinforces the primary enroll CTA at the bottom of the page. No competing outlined button — enrollment is the singular visual focal point in the end band.</div>
-        <div class="ann ann-g">"Enroll easily online" reinforces low-effort commitment signal without making an unverified time claim — important for physical-mail users who may be less digitally confident</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ANALYTICS REQUIREMENTS -->
-  <div class="section" style="margin-top:12px;">
-    <div style="padding: 16px 28px;">
-      <div style="font-size:12px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">⚙ Analytics Instrumentation Required</div>
-      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
-        <div class="wf-box" style="font-size:10px;"><strong>promo_page_view</strong><br>Page load · params: market, promo_code (hashed), entry_path (url_param|homepage|direct), variant (no_ldc|ldc_required|filter_to_plans), segment (res|com|null)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_code_validated</strong><br>Code confirmed on load or after input · params: promo_code (hashed), valid (true|false), entry_path</div>
-        <div class="wf-box" style="font-size:10px;"><strong>ldc_selected_on_promo</strong><br>Utility selection submitted · params: ldc_name, promo_code (hashed), segment (res|com|null), result (match|no_match)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_segment_selected</strong><br>RAF override only — segment toggle clicked · params: promo_code (hashed), segment (res|com), resolved_underlying_code (hashed)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_enroll_click</strong><br>Primary CTA click (Variants A/B) · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_view_plans_click</strong><br>RAF override only — "View Plans →" CTA · params: promo_code (hashed), segment, ldc_name, target (residential_plans|commercial_plans)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_compare_click</strong><br>Secondary CTA click · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_ldc_no_match</strong><br>State 3 reached · params: promo_code (hashed), ldc_name, redirect_target (plans_page)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_code_invalid</strong><br>Invalid or expired code detected · params: promo_code (hashed), entry_path, error_type (invalid|expired|wrong_market)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_ldc_change_click</strong><br>"Change" utility link tapped in State 2 · params: promo_code (hashed), original_ldc, action (reset_to_state_1)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SITE FOOTER -->
-  <div class="section" style="margin-top:12px;">
-    <div class="footer" data-figma-component="Footer">
-      <div class="footer__brand-strip">
-        <div>
-          <div class="footer__logo-name market-display active" id="flogo-ong">Ohio Natural Gas</div>
-          <div class="footer__logo-name market-display" id="flogo-pa">Pennsylvania Energy</div>
-          <div class="footer__logo-name market-display" id="flogo-gre">Grand Rapids Energy</div>
-          <div class="footer__logo-name market-display" id="flogo-il">Illinois Energy</div>
-          <div class="footer__logo-name market-display" id="flogo-ies">Illinois Energy Solutions</div>
-          <div class="footer__parent">A SouthStar Energy company<br>A Southern Company subsidiary</div>
-        </div>
-        <div>
-          <div class="footer__col-head">For Your Home</div>
-          <div class="footer__col-links"><a>Residential Plans</a><a>Greener Life Plans</a><a>Refer a Friend</a></div>
-        </div>
-        <div>
-          <div class="footer__col-head">Support</div>
-          <div class="footer__col-links"><a>FAQ</a><a>Contact Us</a><a>Learning Center</a></div>
-        </div>
-        <div>
-          <div class="footer__col-head">Legal</div>
-          <div class="footer__col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a><a>Regulatory Disclosures</a></div>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <div class="footer__bottom-row">
-          <div class="footer__copyright">© 2026 SouthStar Energy Services. All rights reserved.</div>
-          <div class="footer__legal-links"><a>Terms</a><a>Privacy</a><a>Sitemap</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────────
+</div>
+</div>
+</div>
+<!-- ANALYTICS REQUIREMENTS -->
+<div class="section" style="margin-top:12px;">
+<div style="padding: 16px 28px;">
+<div style="font-size:12px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">⚙ Analytics Instrumentation Required</div>
+<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
+<div class="wf-box" style="font-size:10px;"><strong>promo_page_view</strong><br/>Page load · params: market, promo_code (hashed), entry_path (url_param|homepage|direct), variant (no_ldc|ldc_required|filter_to_plans), segment (res|com|null)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_code_validated</strong><br/>Code confirmed on load or after input · params: promo_code (hashed), valid (true|false), entry_path</div>
+<div class="wf-box" style="font-size:10px;"><strong>ldc_selected_on_promo</strong><br/>Utility selection submitted · params: ldc_name, promo_code (hashed), segment (res|com|null), result (match|no_match)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_segment_selected</strong><br/>RAF override only — segment toggle clicked · params: promo_code (hashed), segment (res|com), resolved_underlying_code (hashed)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_enroll_click</strong><br/>Primary CTA click (Variants A/B) · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_view_plans_click</strong><br/>RAF override only — "View Plans →" CTA · params: promo_code (hashed), segment, ldc_name, target (residential_plans|commercial_plans)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_compare_click</strong><br/>Secondary CTA click · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_ldc_no_match</strong><br/>State 3 reached · params: promo_code (hashed), ldc_name, redirect_target (plans_page)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_code_invalid</strong><br/>Invalid or expired code detected · params: promo_code (hashed), entry_path, error_type (invalid|expired|wrong_market)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_ldc_change_click</strong><br/>"Change" utility link tapped in State 2 · params: promo_code (hashed), original_ldc, action (reset_to_state_1)</div>
+</div>
+</div>
+</div>
+<!-- SITE FOOTER -->
+<div class="section" style="margin-top:12px;">
+<div class="footer" data-figma-component="Footer">
+<div class="footer__brand-strip">
+<div>
+<div class="footer__logo-name market-display active" id="flogo-ong">Ohio Natural Gas</div>
+<div class="footer__logo-name market-display" id="flogo-pa">Pennsylvania Energy</div>
+<div class="footer__logo-name market-display" id="flogo-gre">Grand Rapids Energy</div>
+<div class="footer__logo-name market-display" id="flogo-il">Illinois Energy</div>
+<div class="footer__logo-name market-display" id="flogo-ies">Illinois Energy Solutions</div>
+<div class="footer__parent">A SouthStar Energy company<br/>A Southern Company subsidiary</div>
+</div>
+<div>
+<div class="footer__col-head">For Your Home</div>
+<div class="footer__col-links"><a>Residential Plans</a><a>Greener Life Plans</a><a>Refer a Friend</a></div>
+</div>
+<div>
+<div class="footer__col-head">Support</div>
+<div class="footer__col-links"><a>FAQ</a><a>Contact Us</a><a>Learning Center</a></div>
+</div>
+<div>
+<div class="footer__col-head">Legal</div>
+<div class="footer__col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a><a>Regulatory Disclosures</a></div>
+</div>
+</div>
+<div class="footer__bottom">
+<div class="footer__bottom-row">
+<div class="footer__copyright">© 2026 SouthStar Energy Services. All rights reserved.</div>
+<div class="footer__legal-links"><a>Terms</a><a>Privacy</a><a>Sitemap</a></div>
+</div>
+</div>
+</div>
+</div>
+<!-- ─────────────────────────────────────────────────────────────────
        SECTION 7: PAGE-LEVEL PROMO DISCLOSURE BLOCK (Slot K anchor target)
        Lives at the bottom of the Promo Page. Anchored from every promo
        card's Slot K "See full offer terms ↓" link, the in-expand "Promo
        eligibility & terms" section's anchor, and (where applicable) the
        pinned-promo Slot K on the Plans Listing.
   ───────────────────────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-label"><div class="section-number">7</div><br>Page-Level<br>Promo<br>Disclosure</div>
-    <div id="promo-disclosure" class="banner-alert banner-alert--info" data-figma-component="BannerAlert" data-figma-variant="info">
-      <div class="anchor-label">Slot K anchor target · in-page anchor: <code>#promo-disclosure</code></div>
-      <h3>Full Offer Terms — SAVE25 Promotional Rate</h3>
-      <p>[Full ICC/PUC-required disclosure copy for this promo — TBD from legal/compliance review. Includes: eligibility requirements (new residential customers only; restrictions for customers with active SouthStar service or recent enrollment); geographic and LDC limitations; promo period duration and what happens at term end; savings claim basis (e.g., "Savings of $0.20/therm calculated against the published Variable Plan standard rate of $0.799/therm in effect as of [DATE]"); restrictions on combining with other offers; how the promo code is applied; and any state-specific consumer protection language.]</p>
-      <p><strong>Savings claim basis.</strong> "was $0.799/therm" references the actually-published standard rate for the 12-month Fixed plan in effect at the time this offer was published. Was-price is sourced from the canonical standard-rate field — not an inflated MSRP anchor (regulatory rule per PC-D10 rev 2).</p>
-      <p><strong>Expiration.</strong> This offer expires [MM/DD/YYYY] at 11:59 PM ET. Enrollments initiated after the expiration moment do not qualify for the promotional rate.</p>
-      <p><strong>LDC-specific terms.</strong> If this promo is LDC-restricted, additional language specific to each eligible utility may apply — see your selected utility above. <span class="dyn-ldc">[LDC-specific copy resolved at render]</span></p>
-      <p><strong>Segment-keyed promo resolution (PROMO-9).</strong> Some published promo codes (e.g., <code>RAF25</code>) resolve to two underlying offer codes by segment — Residential and Commercial — with separate terms and reward structures. The published code is the customer-facing string; the underlying code is the value passed to Prime at enrollment. Mapping is authored in CMS per promo (Residential: <code>STDRES&lt;market&gt;</code> · Commercial: <code>STDCOM&lt;market&gt;</code> pattern for RAF-family promos). Disclosure copy below applies to the resolved underlying code, not the published code.</p>
-      <p><strong>Refer-a-Friend specifics (RAF override only).</strong> RAF program requires the referee to enter the referrer's unique Referral Code at enrollment. The Referral Code is independent of the promo code and is captured in the Enrollment flow (Step 1), not on this page. Reward amounts, maximum annual award ($500/person), and fulfillment timing (7-day digital Visa Reward Card delivery) are governed by the RAF Program terms linked above.</p>
-      <div style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
-        <div class="ann ann-g" style="margin-top:0;"><span class="ref" style="background:#fff; border:1px solid currentColor; border-radius:3px; padding:0 5px; font-size:10px; font-weight:700;">PC-D13</span> Block lives <b>at page bottom</b> per live-site precedent and PC-D13 spec. Each promo card's Slot K line ("Eligibility, restrictions, and full promo terms apply. See full offer terms ↓") anchors here.</div>
-        <div class="ann ann-g" style="margin-top:0;">The same block is referenced from the in-expand "Promo eligibility &amp; terms" section's secondary anchor (per §14 matrix) — gives users who open the expand a second pointer to full text.</div>
-        <div class="ann ann-g" style="margin-top:0;">For LDC-required promos, the block is LDC-aware — copy keyed to the customer's confirmed LDC. Dynamic LDC token shown above demonstrates the session-context resolution.</div>
-        <div class="ann ann-y" style="margin-top:0;">Full legal copy TBD from legal/compliance review before authoring. Content placeholder above demonstrates structure only.</div>
-        <div class="ann ann-y" style="margin-top:0;">For Plans Listing pinned-promo (per PC-D10 §5.b), the same block renders below the standard plan grid — parallel position. Authoring is a single canonical block reused across promo placements.</div>
-      </div>
-    </div>
-  </div>
+<div class="section">
+<div class="section-label"><div class="section-number">7</div><br/>Page-Level<br/>Promo<br/>Disclosure</div>
+<div class="banner-alert banner-alert--info" data-figma-component="BannerAlert" data-figma-variant="info" id="promo-disclosure">
+<div class="anchor-label">Slot K anchor target · in-page anchor: <code>#promo-disclosure</code></div>
+<h3>Full Offer Terms — SAVE25 Promotional Rate</h3>
+<p>[Full ICC/PUC-required disclosure copy for this promo — TBD from legal/compliance review. Includes: eligibility requirements (new residential customers only; restrictions for customers with active SouthStar service or recent enrollment); geographic and LDC limitations; promo period duration and what happens at term end; savings claim basis (e.g., "Savings of $0.20/therm calculated against the published Variable Plan standard rate of $0.799/therm in effect as of [DATE]"); restrictions on combining with other offers; how the promo code is applied; and any state-specific consumer protection language.]</p>
+<p><strong>Savings claim basis.</strong> "was $0.799/therm" references the actually-published standard rate for the 12-month Fixed plan in effect at the time this offer was published. Was-price is sourced from the canonical standard-rate field — not an inflated MSRP anchor (regulatory rule per PC-D10 rev 2).</p>
+<p><strong>Expiration.</strong> This offer expires [MM/DD/YYYY] at 11:59 PM ET. Enrollments initiated after the expiration moment do not qualify for the promotional rate.</p>
+<p><strong>LDC-specific terms.</strong> If this promo is LDC-restricted, additional language specific to each eligible utility may apply — see your selected utility above. <span class="dyn-ldc">[LDC-specific copy resolved at render]</span></p>
+<p><strong>Segment-keyed promo resolution (PROMO-9).</strong> Some published promo codes (e.g., <code>RAF25</code>) resolve to two underlying offer codes by segment — Residential and Commercial — with separate terms and reward structures. The published code is the customer-facing string; the underlying code is the value passed to Prime at enrollment. Mapping is authored in CMS per promo (Residential: <code>STDRES&lt;market&gt;</code> · Commercial: <code>STDCOM&lt;market&gt;</code> pattern for RAF-family promos). Disclosure copy below applies to the resolved underlying code, not the published code.</p>
+<p><strong>Refer-a-Friend specifics (RAF override only).</strong> RAF program requires the referee to enter the referrer's unique Referral Code at enrollment. The Referral Code is independent of the promo code and is captured in the Enrollment flow (Step 1), not on this page. Reward amounts, maximum annual award ($500/person), and fulfillment timing (7-day digital Visa Reward Card delivery) are governed by the RAF Program terms linked above.</p>
+<div style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
 
-  <div class="doc-footer" data-wf-only="true">
-    SouthStar Energy · 4037-25 Expanded Markets Website Updates · Wireframe Sketch · Phase 2: Define &amp; Design · April 2026<br>
+
+
+
+
+</div>
+</div>
+</div>
+<div class="doc-footer" data-wf-only="true">
+    SouthStar Energy · 4037-25 Expanded Markets Website Updates · Wireframe Sketch · Phase 2: Define &amp; Design · April 2026<br/>
     IfThen Digital, LLC — Confidential
   </div>
-
 </div><!-- /canvas -->
-
 <script>
   /* ────────────────────────────────────
      Market switcher (existing — extended to use .wfctl buttons)
@@ -2107,6 +1979,5 @@
     }
   });
 </script>
-
 </body>
 </html>

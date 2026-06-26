@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Homepage — Wireframe Sketch | 4037-25</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -377,278 +378,230 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </style>
 </head>
 <body>
-
 <!-- ══ TOOLBAR ══ -->
 <div class="toolbar">
-  <div class="toolbar-left">
-    <div>
-      <div class="toolbar-title">Homepage — Wireframe Sketch</div>
-      <div class="toolbar-meta">4037-25 · Phase 2 · April 2026</div>
-    </div>
-    <div>
-      <div class="vsw-label">Market</div>
-      <div class="market-switcher">
-        <button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
-        <button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
-        <button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
-        <button class="btn-market" onclick="setMarket('il')">IL Energy</button>
-        <button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
-      </div>
-    </div>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><div class="dot dot-g"></div> Approved</div>
-    <div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
-    <div class="legend-item"><div class="dot dot-b"></div> Component</div>
-  </div>
+<div class="toolbar-left">
+<div>
+<div class="toolbar-title">Homepage — Wireframe Sketch</div>
+<div class="toolbar-meta">4037-25 · Phase 2 · April 2026</div>
 </div>
-
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" onclick="setMarket('ong')">ONG (Ohio)</button>
+<button class="btn-market" onclick="setMarket('pa')">Pennsylvania</button>
+<button class="btn-market" onclick="setMarket('gre')">GRE (Michigan)</button>
+<button class="btn-market" onclick="setMarket('il')">IL Energy</button>
+<button class="btn-market" onclick="setMarket('ies')">IL Energy Solutions</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="dot dot-g"></div> Approved</div>
+<div class="legend-item"><div class="dot dot-y"></div> Open Q</div>
+<div class="legend-item"><div class="dot dot-b"></div> Component</div>
+</div>
+</div>
 <div class="canvas">
-
-  <!-- ══════════════════════════════════
+<!-- ══════════════════════════════════
        SECTION H — NAV HEADER (Global)
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative; margin-bottom:5px;">
-    <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br>Nav Header<br>(Global)</div>
+<div class="section" style="position:relative; margin-bottom:5px;">
+<div class="section-label"><div class="sec-num" style="background:#555;">H</div><br/>Nav Header<br/>(Global)</div>
+<!-- Mobile / small-screen note -->
+<div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside search icon (🔍) and hamburger. Nav links (For My Home, For My Business, Learning Center, About Us) collapse into hamburger drawer. Search icon navigates to /search/ — same as desktop. IES: no search icon.</div>
+<!-- Utility Row -->
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="nav-header">
+<!-- Logo -->
+<div class="nav-logo">
+<div class="nav-logo-mark">🔥</div>
+<span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
+<span class="mkt" id="logo-pa">Pennsylvania Energy</span>
+<span class="mkt" id="logo-gre">Grand Rapids Energy</span>
+<span class="mkt" id="logo-il">Illinois Energy</span>
+<span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<!-- GLB-NAV-1/2/3 (2026-06-17): dropdowns added; chevron is separate tap target from label -->
+<!-- Hub pages link to # with tooltip; hamburger at ≤768px -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<!-- For My Home: hub link + dropdown -->
+<div class="nav-item has-dropdown">
+<a class="nav-link active nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
+<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA (no commercial at launch) -->
+<!-- Dropdown per Redesign-Site-Map.md: Commercial Plans + Why [Brand] for Business + B2B Contact -->
+<div class="nav-item has-dropdown mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
+<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
+<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+</div>
+</div>
+<!-- Learning Center: hub link + pillar dropdown (GLB-NAV-4) -->
+<!-- "Does [Brand] Serve My Area?" is market-specific; Carbon Neutral Gas + Greener Life® is ONG/GRE only -->
+<div class="nav-item has-dropdown">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
+<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
+<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown (GLB-NAV-1, GLB-NAV-5) -->
+<!-- SITEMAP-9: Credentials & Licensing consolidated into About Us main page (not a child page) -->
+<!-- GLB-NAV-5: Your Rights as a Customer added to all markets (2026-06-17 — note: ONG/GRE scope addition) -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us (per Redesign-Site-Map.md) -->
+<!-- My Account accessed via nav-right 👤 icon; no search icon for IES -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<!-- Fixed Bill Plan: hub link + dropdown (child pages per IES site map) -->
+<div class="nav-item has-dropdown">
+<a class="nav-link active nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+</div>
+</div>
+<!-- About Us: hub link + dropdown (same child pages as full nav) -->
+<div class="nav-item has-dropdown">
+<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search icon + Hamburger (mobile only) -->
+<!-- Search: icon only per Search_BehaviorSession_2026-06-16 (GLB-SEARCH) — navigates to /search/ -->
+<!-- nav-search-std hidden for IES (IES has no search in nav per Redesign-Site-Map.md) -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="p-sm">
 
-    <!-- Mobile / small-screen note -->
-    <div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside search icon (🔍) and hamburger. Nav links (For My Home, For My Business, Learning Center, About Us) collapse into hamburger drawer. Search icon navigates to /search/ — same as desktop. IES: no search icon.</div>
+</div>
+</div>
+<!-- METRICS BAR -->
+<div class="section" style="margin-bottom:10px;">
+<div class="metrics-bar">
+<div><div class="m-val">27–44%</div><div class="m-lbl">Homepage share of all landing pages (OH 27%, PA 44%)</div><div class="m-tgt">#1 entry point — must convert on first visit</div></div>
+<div><div class="m-val">~5%</div><div class="m-lbl">Return visitor rate across all markets</div><div class="m-tgt">Acquisition-first UX — most users never return</div></div>
+<div><div class="m-val">3.5 / 2</div><div class="m-lbl">Pages per session (Ohio / GRE)</div><div class="m-tgt">Ohio sessions deeper — GRE needs stronger page depth</div></div>
+<div><div class="m-val">0</div><div class="m-lbl">AI Overviews / rich results today</div><div class="m-tgt">Every section heading is a citation candidate</div></div>
+</div>
+</div>
+<!-- OPEN QUESTIONS -->
+<div class="oq-panel">
+<h4>⚑ Open Questions — Homepage</h4>
+<ul class="oq-list">
+<li><strong>#1 CRITICAL</strong> LDC widget destination: does selecting a utility (a) redirect to the Plans page with LDC pre-selected in URL, or (b) scroll to an inline plan teaser section on the homepage? Wireframe shows option (a) — Plans page route — as the recommended path. Confirm with PM and dev before Phase 3.</li>
+<li><strong>#2</strong> Above-the-fold test: should the LDC widget be embedded inside the hero (above fold) or immediately below the hero fold? Wireframe shows it immediately below — but A/B test both. Confirm with conversion rate optimization strategy.</li>
+<li><strong>#3</strong> IES homepage treatment: Fixed Bill product uses a billing-first architecture. Should the IES homepage use the same template or a custom layout that leads with "predictable monthly bill" rather than "rate"? Confirm with Susan Bergen / IES product lead.</li>
+<li><strong>#4</strong> Promo/deals band: current sites have "Deals" page as #2 landing page (Ohio) and GASPEQ referral promos (PA). Should a promo code field or "Current Deals" callout appear on the homepage? Wireframe excludes it — flagging as open.</li>
+<li><strong>#5</strong> Review aggregates: Trust Band requires verified review counts and star ratings. Confirm which markets have Google / BBB / Trustpilot data available.</li>
+<li><strong>#6</strong> Greener Life on IES homepage: Greener Life is a standalone plan type, not an add-on. Confirm whether Greener Life plans are available under the IES brand — if not, the Greener Life module should be hidden for IES entirely.</li>
+<li><strong>#7</strong> SouthStar / Southern Company parent brand mention: requirements specify all sites must explain the relationship between SouthStar Energy, Southern Company, and state entities. Is this in the footer, a dedicated FAQ section, or a separate "About" callout?</li>
+<li><strong>#8</strong> Commercial plans confirmed available in: ONG (Ohio), GRE (Michigan), IL Energy. NOT available in: Pennsylvania, IES. Open sub-questions before commercial escape hatch routes to a live page: (a) What plan types exist for commercial customers — fixed, variable, custom contract? (b) Does the commercial enrollment flow differ from residential (likely yes — larger accounts may involve a rep call rather than self-serve)? (c) Is there a Commercial Plans page already in the sitemap, or does it need to be scoped into Phase 3? Confirm with Lee Jackson.</li>
+<li><strong>#9</strong> PA commercial contact routing: Pennsylvania has no commercial plans, so the escape hatch routes to a "contact us" CTA instead of a plans page. Confirm what the contact destination should be — a general contact form, a dedicated business inquiry form, or a phone number? Also confirm whether this contact route applies to the main nav or only to the LDC widget escape hatch.</li>
+<li><strong>#10</strong> Existing customer login URL: the Existing Customer tab has been removed; returning customers are directed via "Already a customer? Log in →" below the widget and the My Account nav link. Confirm whether the login destination is a single shared URL across all markets or market-specific portal URLs (which would require market-conditional href values).</li>
+<li><strong>#18</strong> Promo code handling: wireframe shows the code passed as a URL parameter to the Plans page (/residential-plans?promo=SAVE25&amp;ldc=columbia-gas). Confirm with dev: (a) is URL param the preferred mechanism or should it be a session cookie? (b) what is the server-side validation flow — does the Plans page validate the code and display the promotional rate, or does the code route to a dedicated campaign landing page? (c) confirm error state copy for expired/invalid codes with Lee Jackson / marketing.</li>
+</ul>
+</div>
+<!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component -->
+<div style="background:#1e3a5f; color:#fff; padding:8px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+<div style="font-size:12px; font-weight:600;">
+<span class="mkt on" id="pb-promo-ong">🏷 Exclusive offer available for Ohio Natural Gas customers —</span>
+<span class="mkt" id="pb-promo-pa">🏷 Exclusive offer available for Pennsylvania Energy customers —</span>
+<span class="mkt" id="pb-promo-gre">🏷 Exclusive offer available for Grand Rapids Energy customers —</span>
+<span class="mkt" id="pb-promo-il">🏷 Exclusive offer available for Illinois Energy customers —</span>
+<span class="mkt" id="pb-promo-ies">🏷 Exclusive offer available for Illinois Energy Solutions customers —</span>
+<a style="color:#7ec8e3; text-decoration:underline; cursor:pointer; margin-left:4px;">See this offer →</a>
+</div>
+<div style="font-size:10px; color:#aac4d9; white-space:nowrap;">Limited time</div>
+</div>
+<div class="ann-row" style="padding:4px 24px 6px; background:#f0f4f9;">
+<span class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner — shared component. Appears on: Homepage, Plans Listing, Learning Center, General Informational, Search Results. Suppressed on: Contact &amp; Utility Directory (conflict with emergency banner), Legal/Compliance, My Account, Plan Change Flow. Josh confirmed "we will always have a promo being offered" — banner is always populated. CMS-managed copy and link per active promotion.</span>
 
-    <!-- Utility Row -->
-    <div class="nav-utility">
-      <a>Contact Us</a>
-      <span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
-      <span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
-    </div>
-
-    <div class="nav-header">
-
-      <!-- Logo -->
-      <div class="nav-logo">
-        <div class="nav-logo-mark">🔥</div>
-        <span class="mkt on" id="logo-ong">Ohio Natural Gas</span>
-        <span class="mkt" id="logo-pa">Pennsylvania Energy</span>
-        <span class="mkt" id="logo-gre">Grand Rapids Energy</span>
-        <span class="mkt" id="logo-il">Illinois Energy</span>
-        <span class="mkt" id="logo-ies">Illinois Energy Solutions</span>
-      </div>
-
-      <!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-      <!-- GLB-NAV-1/2/3 (2026-06-17): dropdowns added; chevron is separate tap target from label -->
-      <!-- Hub pages link to # with tooltip; hamburger at ≤768px -->
-      <nav class="nav-links mkt-flex on" id="nav-standard">
-
-        <!-- For My Home: hub link + dropdown -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Home</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Home submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-            <a class="nav-dd-item mkt" id="nav-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="nav-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-            <a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
-          </div>
-        </div>
-
-        <!-- For My Business: ONG/GRE/IL only — suppressed for PA (no commercial at launch) -->
-        <!-- Dropdown per Redesign-Site-Map.md: Commercial Plans + Why [Brand] for Business + B2B Contact -->
-        <div class="nav-item has-dropdown mkt" id="nav-fmb">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">For My Business</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open For My Business submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-            <a class="nav-dd-item mkt" id="nav-whybiz-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-            <a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
-          </div>
-        </div>
-
-        <!-- Learning Center: hub link + pillar dropdown (GLB-NAV-4) -->
-        <!-- "Does [Brand] Serve My Area?" is market-specific; Carbon Neutral Gas + Greener Life® is ONG/GRE only -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Learning Center submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-pa" href="LearningCenter_Wireframe.html">Does PE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-gre" href="LearningCenter_Wireframe.html">Does GRE Serve My Area?</a>
-            <a class="nav-dd-item mkt" id="nav-lc-area-il" href="LearningCenter_Wireframe.html">Does IE Serve My Area?</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-ong" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-            <a class="nav-dd-item mkt" id="nav-lc-carbon-gre" href="LearningCenter_Wireframe.html">Carbon Neutral Gas + Greener Life®</a>
-          </div>
-        </div>
-
-        <!-- About Us: hub link + dropdown (GLB-NAV-1, GLB-NAV-5) -->
-        <!-- SITEMAP-9: Credentials & Licensing consolidated into About Us main page (not a child page) -->
-        <!-- GLB-NAV-5: Your Rights as a Customer added to all markets (2026-06-17 — note: ONG/GRE scope addition) -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-
-      </nav>
-
-      <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us (per Redesign-Site-Map.md) -->
-      <!-- My Account accessed via nav-right 👤 icon; no search icon for IES -->
-      <nav class="nav-links mkt-flex" id="nav-ies">
-        <!-- Fixed Bill Plan: hub link + dropdown (child pages per IES site map) -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">Fixed Bill Plan</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open Fixed Bill Plan submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-          </div>
-        </div>
-        <!-- About Us: hub link + dropdown (same child pages as full nav) -->
-        <div class="nav-item has-dropdown">
-          <a class="nav-link nav-hub-link" href="#" data-hub-tip="Hub page — wireframe TBD">About Us</a>
-          <button class="nav-chevron" onclick="toggleNavDropdown(this)" aria-label="Open About Us submenu">▾</button>
-          <div class="nav-dropdown">
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Right: Account + Search icon + Hamburger (mobile only) -->
-      <!-- Search: icon only per Search_BehaviorSession_2026-06-16 (GLB-SEARCH) — navigates to /search/ -->
-      <!-- nav-search-std hidden for IES (IES has no search in nav per Redesign-Site-Map.md) -->
-      <div class="nav-right">
-        <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-        <a class="mkt" id="nav-search-std" href="SearchResults_Wireframe.html" title="Search" aria-label="Search" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;">🔍</a>
-        <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" aria-label="Open navigation menu">☰</button>
-      </div>
-
-    </div>
-
-    <div class="p-sm">
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> L1 nav items sourced from content tracker (SouthStar_Content_Tracker_v2): For My Home / For My Business / My Account / Learning Center / About — per documented Section/Nav Level designations</div>
-        <div class="ann ann-g"><i>✓</i> "For My Home" = residential plans hub (/for-my-home/) · "For My Business" = commercial hub (/for-my-business/) — these are the tracked page names, not "Plans"</div>
-        <div class="ann ann-g"><i>✓</i> IES simplified nav (3 items per site map + CLAUDE.md): Fixed Bill Plan / My Account &amp; Bill Pay / About Us — corrected 2026-06-17 (GLB-NAV-3); prior version incorrectly showed "Learning Center" instead of "My Account &amp; Bill Pay"</div>
-        <div class="ann ann-g"><i>✓</i> "My Account" as a full L1 item — surfaces authenticated experience (manage plan, renewal, Refer a Friend portal) per IA review discussion</div>
-        <div class="ann ann-g"><i>✓</i> No phone number in nav — lives in footer and Contact page only; consistent with call-avoidance strategy. Search is an icon-only button (per Search_BehaviorSession_2026-06-16 / GLB-SEARCH) — clicking navigates to /search/. IES has no search icon per Redesign-Site-Map.md.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #11: "Offers" is NOT an L1 nav item per the content tracker — campaign pages live at /offers/[campaign-name]/ as templates (ONG-013). Confirm whether Offers surfaces as a persistent nav item or only via direct promo links/promo code entry. IA review noted client does not want open cross-LDC offer visibility.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #12: "Learning Center" label — client flagged the name may feel too academic/intimidating. Final label TBD — content tracker uses "Learning Center" as the working name; align with marketing before finalizing.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #13: SouthStar parent brand in header — confirm whether entity brand is fully standalone or carries a "a SouthStar Energy company" sub-brand lockup.</div>
-        <div class="ann ann-g"><i>✓</i> Nav dropdowns added (GLB-NAV-1, 2026-06-17): chevron is a separate tap target from the nav label per Nav-Hub-Pages-Decision-Summary (2026-06-04). Hub page links (For My Home, For My Business, About Us, Fixed Bill Plan) show tooltip on hover — hub wireframes TBD. Mobile hamburger menu at ≤768px (GLB-NAV-2). For My Business suppressed for PA (no commercial plans at launch). Dropdown items per Redesign-Site-Map.md: For My Home → Residential Plans / Greener Life [ONG/GRE] / Refer a Friend; For My Business → Commercial Plans / Why [Brand] for Business / B2B Contact; About Us → Company History only (SITEMAP-9).</div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- METRICS BAR -->
-  <div class="section" style="margin-bottom:10px;">
-    <div class="metrics-bar">
-      <div><div class="m-val">27–44%</div><div class="m-lbl">Homepage share of all landing pages (OH 27%, PA 44%)</div><div class="m-tgt">#1 entry point — must convert on first visit</div></div>
-      <div><div class="m-val">~5%</div><div class="m-lbl">Return visitor rate across all markets</div><div class="m-tgt">Acquisition-first UX — most users never return</div></div>
-      <div><div class="m-val">3.5 / 2</div><div class="m-lbl">Pages per session (Ohio / GRE)</div><div class="m-tgt">Ohio sessions deeper — GRE needs stronger page depth</div></div>
-      <div><div class="m-val">0</div><div class="m-lbl">AI Overviews / rich results today</div><div class="m-tgt">Every section heading is a citation candidate</div></div>
-    </div>
-  </div>
-
-  <!-- OPEN QUESTIONS -->
-  <div class="oq-panel">
-    <h4>⚑ Open Questions — Homepage</h4>
-    <ul class="oq-list">
-      <li><strong>#1 CRITICAL</strong> LDC widget destination: does selecting a utility (a) redirect to the Plans page with LDC pre-selected in URL, or (b) scroll to an inline plan teaser section on the homepage? Wireframe shows option (a) — Plans page route — as the recommended path. Confirm with PM and dev before Phase 3.</li>
-      <li><strong>#2</strong> Above-the-fold test: should the LDC widget be embedded inside the hero (above fold) or immediately below the hero fold? Wireframe shows it immediately below — but A/B test both. Confirm with conversion rate optimization strategy.</li>
-      <li><strong>#3</strong> IES homepage treatment: Fixed Bill product uses a billing-first architecture. Should the IES homepage use the same template or a custom layout that leads with "predictable monthly bill" rather than "rate"? Confirm with Susan Bergen / IES product lead.</li>
-      <li><strong>#4</strong> Promo/deals band: current sites have "Deals" page as #2 landing page (Ohio) and GASPEQ referral promos (PA). Should a promo code field or "Current Deals" callout appear on the homepage? Wireframe excludes it — flagging as open.</li>
-      <li><strong>#5</strong> Review aggregates: Trust Band requires verified review counts and star ratings. Confirm which markets have Google / BBB / Trustpilot data available.</li>
-      <li><strong>#6</strong> Greener Life on IES homepage: Greener Life is a standalone plan type, not an add-on. Confirm whether Greener Life plans are available under the IES brand — if not, the Greener Life module should be hidden for IES entirely.</li>
-      <li><strong>#7</strong> SouthStar / Southern Company parent brand mention: requirements specify all sites must explain the relationship between SouthStar Energy, Southern Company, and state entities. Is this in the footer, a dedicated FAQ section, or a separate "About" callout?</li>
-      <li><strong>#8</strong> Commercial plans confirmed available in: ONG (Ohio), GRE (Michigan), IL Energy. NOT available in: Pennsylvania, IES. Open sub-questions before commercial escape hatch routes to a live page: (a) What plan types exist for commercial customers — fixed, variable, custom contract? (b) Does the commercial enrollment flow differ from residential (likely yes — larger accounts may involve a rep call rather than self-serve)? (c) Is there a Commercial Plans page already in the sitemap, or does it need to be scoped into Phase 3? Confirm with Lee Jackson.</li>
-      <li><strong>#9</strong> PA commercial contact routing: Pennsylvania has no commercial plans, so the escape hatch routes to a "contact us" CTA instead of a plans page. Confirm what the contact destination should be — a general contact form, a dedicated business inquiry form, or a phone number? Also confirm whether this contact route applies to the main nav or only to the LDC widget escape hatch.</li>
-      <li><strong>#10</strong> Existing customer login URL: the Existing Customer tab has been removed; returning customers are directed via "Already a customer? Log in →" below the widget and the My Account nav link. Confirm whether the login destination is a single shared URL across all markets or market-specific portal URLs (which would require market-conditional href values).</li>
-      <li><strong>#18</strong> Promo code handling: wireframe shows the code passed as a URL parameter to the Plans page (/residential-plans?promo=SAVE25&ldc=columbia-gas). Confirm with dev: (a) is URL param the preferred mechanism or should it be a session cookie? (b) what is the server-side validation flow — does the Plans page validate the code and display the promotional rate, or does the code route to a dedicated campaign landing page? (c) confirm error state copy for expired/invalid codes with Lee Jackson / marketing.</li>
-    </ul>
-  </div>
-
-
-  <!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component -->
-  <div style="background:#1e3a5f; color:#fff; padding:8px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-    <div style="font-size:12px; font-weight:600;">
-      <span class="mkt on" id="pb-promo-ong">🏷 Exclusive offer available for Ohio Natural Gas customers —</span>
-      <span class="mkt" id="pb-promo-pa">🏷 Exclusive offer available for Pennsylvania Energy customers —</span>
-      <span class="mkt" id="pb-promo-gre">🏷 Exclusive offer available for Grand Rapids Energy customers —</span>
-      <span class="mkt" id="pb-promo-il">🏷 Exclusive offer available for Illinois Energy customers —</span>
-      <span class="mkt" id="pb-promo-ies">🏷 Exclusive offer available for Illinois Energy Solutions customers —</span>
-      <a style="color:#7ec8e3; text-decoration:underline; cursor:pointer; margin-left:4px;">See this offer →</a>
-    </div>
-    <div style="font-size:10px; color:#aac4d9; white-space:nowrap;">Limited time</div>
-  </div>
-  <div class="ann-row" style="padding:4px 24px 6px; background:#f0f4f9;">
-    <span class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner — shared component. Appears on: Homepage, Plans Listing, Learning Center, General Informational, Search Results. Suppressed on: Contact &amp; Utility Directory (conflict with emergency banner), Legal/Compliance, My Account, Plan Change Flow. Josh confirmed "we will always have a promo being offered" — banner is always populated. CMS-managed copy and link per active promotion.</span>
-    <span class="ann ann-g" style="font-size:10px;">✓ Serves TV/OOH traffic who land on any page without a specific promo code. The promo code input (Section 2b) handles capture for users who have a code; this banner handles awareness for those who don't.</span>
-  </div>
-
-  <!-- ══════════════════════════════════
+</div>
+<!-- ══════════════════════════════════
        SECTION 1 — HERO BAND
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">1</div><br>Hero Band</div>
-    <div class="breadcrumb"><a>Home</a></div>
-    <div class="p-lg">
-
-      <!-- Market-specific H1 -->
-      <div class="mkt on" id="h1-ong"><div class="h1">Natural gas plans for Ohio — clear options, no surprises.</div></div>
-      <div class="mkt" id="h1-pa"><div class="h1">Natural gas plans for Pennsylvania — clear options, no surprises.</div></div>
-      <div class="mkt" id="h1-gre"><div class="h1">Natural gas plans for Michigan — clear options, no surprises.</div></div>
-      <div class="mkt" id="h1-il"><div class="h1">Natural gas plans for Illinois — clear options, no surprises.</div></div>
-      <div class="mkt" id="h1-ies"><div class="h1">Fixed Bill plans for Illinois — one charge, no surprises.</div></div>
-
-      <!-- Market-specific subhead -->
-      <div class="mkt on" id="sub-ong"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
-      <div class="mkt" id="sub-pa"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
-      <div class="mkt" id="sub-gre"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — billed in MCF by your local utility. Rates shown upfront before you enroll.</div></div>
-      <div class="mkt" id="sub-il"><div class="subhead" style="margin-bottom:16px;">Choose from fixed and variable plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
-      <div class="mkt" id="sub-ies"><div class="subhead" style="margin-bottom:16px;">One predictable monthly charge — no commodity rate exposure, no seasonal swings. Your utility still delivers the gas; we handle the pricing.</div></div>
-
-      <!-- No hero CTA button — LDC widget (Section 2) is the primary action.
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">1</div><br/>Hero Band</div>
+<div class="breadcrumb"><a>Home</a></div>
+<div class="p-lg">
+<!-- Market-specific H1 -->
+<div class="mkt on" id="h1-ong"><div class="h1">Natural gas plans for Ohio — clear options, no surprises.</div></div>
+<div class="mkt" id="h1-pa"><div class="h1">Natural gas plans for Pennsylvania — clear options, no surprises.</div></div>
+<div class="mkt" id="h1-gre"><div class="h1">Natural gas plans for Michigan — clear options, no surprises.</div></div>
+<div class="mkt" id="h1-il"><div class="h1">Natural gas plans for Illinois — clear options, no surprises.</div></div>
+<div class="mkt" id="h1-ies"><div class="h1">Fixed Bill plans for Illinois — one charge, no surprises.</div></div>
+<!-- Market-specific subhead -->
+<div class="mkt on" id="sub-ong"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
+<div class="mkt" id="sub-pa"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
+<div class="mkt" id="sub-gre"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — billed in MCF by your local utility. Rates shown upfront before you enroll.</div></div>
+<div class="mkt" id="sub-il"><div class="subhead" style="margin-bottom:16px;">Choose from fixed and variable plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
+<div class="mkt" id="sub-ies"><div class="subhead" style="margin-bottom:16px;">One predictable monthly charge — no commodity rate exposure, no seasonal swings. Your utility still delivers the gas; we handle the pricing.</div></div>
+<!-- No hero CTA button — LDC widget (Section 2) is the primary action.
            A button here would route to the Plans page bypassing LDC context.
            The widget below is the call to action. See annotation. -->
-
-      <!-- Trust micro-badge — single regulatory credential, universal across all five brands.
+<!-- Trust micro-badge — single regulatory credential, universal across all five brands.
            BBB excluded: not all brands accredited or in good standing.
            "Serving Since [year]" excluded: varies by brand, creates inconsistency risk.
            "North American Gas" claim excluded: sourced as 99%, not 100% — requires sign-off before use.
            Full trust signal treatment (BBB where valid, reviews, differentiators) belongs in
            the Why Customers Choose Us section (Section 4) where context and design real estate exist. -->
-      <div class="trust-micro">
-        <div class="trust-badge mkt on" id="lic-ong">✓ PUCO Licensed Supplier</div>
-        <div class="trust-badge mkt" id="lic-pa">✓ PA PUC Licensed Supplier</div>
-        <div class="trust-badge mkt" id="lic-gre">✓ MPSC Licensed Supplier</div>
-        <div class="trust-badge mkt" id="lic-il">✓ ICC Licensed Supplier</div>
-        <div class="trust-badge mkt" id="lic-ies">✓ ICC Licensed Supplier</div>
-      </div>
+<div class="trust-micro">
+<div class="trust-badge mkt on" id="lic-ong">✓ PUCO Licensed Supplier</div>
+<div class="trust-badge mkt" id="lic-pa">✓ PA PUC Licensed Supplier</div>
+<div class="trust-badge mkt" id="lic-gre">✓ MPSC Licensed Supplier</div>
+<div class="trust-badge mkt" id="lic-il">✓ ICC Licensed Supplier</div>
+<div class="trust-badge mkt" id="lic-ies">✓ ICC Licensed Supplier</div>
+</div>
 
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> H1 is entity-specific and AI-search-optimized — includes brand name + state + product type (SEO + AI Overview eligibility)</div>
-        <div class="ann ann-g"><i>✓</i> IES H1 leads with "Predictable Monthly Bill" not rate — Fixed Bill is a billing product, not a rate comparison</div>
-        <div class="ann ann-g"><i>✓</i> No hero image — clean, data-forward header for a transactional page (confirmed direction)</div>
-        <div class="ann ann-g"><i>✓</i> Sell on predictability + security, NOT cheapest price — approved strategic framing</div>
-        <div class="ann ann-g"><i>✓</i> Hero is pure brand/orientation — H1 answers "am I in the right place?", single trust credential answers "can I trust them?" without competing with the LDC widget for attention. All audience routing consolidated into Section 2.</div>
-        <div class="ann ann-g"><i>✓</i> Single regulatory credential in hero — the one trust signal universal across all five brands. BBB excluded (not all brands accredited or in good standing). "Serving Since [year]" excluded (varies by brand). North American Gas claim excluded (99%, not 100% — requires compliance sign-off). Full trust treatment in Section 3 (Why Choose [Brand]).</div>
-        <div class="ann ann-g"><i>✓</i> No CTA button or escape hatch links in hero — these fragments are replaced by the audience tab component in Section 2, which handles all three paths cleanly in one place</div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 2b — PROMO CODE ENTRY STRIP
        Moved above LDC widget per HP-4 (client confirmed).
        Serves direct mail segment: users who receive a physical promo code
@@ -656,68 +609,49 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
        Digital campaign traffic should arrive at /campaign/[code] directly —
        no homepage entry needed for that segment.
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative; padding-top:0; padding-bottom:0;">
-    <div class="section-label" style="top:12px;"><div class="sec-num" style="font-size:9px; padding:4px 6px;">2b</div><br>Promo<br>Entry</div>
-    <div class="p-sm">
-
-      <div style="background:#faf8f3; border:1.5px dashed #c8b97a; border-radius:5px; padding:14px 20px; max-width:680px;">
-        <!-- Collapsed default state -->
-        <span class="ldc-zip-toggle" style="color:#7a6030;" id="promo-strip-toggle"
-          onclick="document.getElementById('promo-strip-panel').style.display='block'; this.style.display='none';">
+<div class="section" style="position:relative; padding-top:0; padding-bottom:0;">
+<div class="section-label" style="top:12px;"><div class="sec-num" style="font-size:9px; padding:4px 6px;">2b</div><br/>Promo<br/>Entry</div>
+<div class="p-sm">
+<div style="background:#faf8f3; border:1.5px dashed #c8b97a; border-radius:5px; padding:14px 20px; max-width:680px;">
+<!-- Collapsed default state -->
+<span class="ldc-zip-toggle" id="promo-strip-toggle" onclick="document.getElementById('promo-strip-panel').style.display='block'; this.style.display='none';" style="color:#7a6030;">
           📬 Received a promotional offer? Enter your code here ▾
         </span>
-
-        <!-- Expanded state -->
-        <div id="promo-strip-panel" style="display:none;">
-          <div class="body-sm" style="margin-bottom:10px; color:#666;">
+<!-- Expanded state -->
+<div id="promo-strip-panel" style="display:none;">
+<div class="body-sm" style="margin-bottom:10px; color:#666;">
             Enter the code from your mailer or email. You'll see your offer and confirm your utility on the next page.
           </div>
-          <div class="ldc-zip-row">
-            <div>
-              <div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Promo Code</div>
-              <input class="wf-input" style="max-width:200px;" type="text" placeholder="e.g. SAVE25" readonly>
-            </div>
-            <div class="wf-btn-sm" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">See My Offer →</div>
-          </div>
-
-          <!-- Valid code routing logic -->
-          <div class="ldc-confirm-state" style="margin-top:12px;">
+<div class="ldc-zip-row">
+<div>
+<div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Promo Code</div>
+<input class="wf-input" placeholder="e.g. SAVE25" readonly="" style="max-width:200px;" type="text"/>
+</div>
+<div class="wf-btn-sm" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">See My Offer →</div>
+</div>
+<!-- Valid code routing logic -->
+<div class="ldc-confirm-state" style="margin-top:12px;">
             ✓ <strong>Valid code — no LDC selected:</strong> Routes to <code>/campaign/[code]</code>. Campaign page confirms the offer and collects utility selection before proceeding to Plans.
           </div>
-          <div class="ldc-confirm-state" style="margin-top:6px;">
+<div class="ldc-confirm-state" style="margin-top:6px;">
             ✓ <strong>Valid code — LDC already selected above:</strong> Routes to <code>/campaign/[code]?ldc=columbia-gas</code>. Campaign page receives LDC param, skips utility step, proceeds directly to offer confirmation + "See My Plans →".
           </div>
-          <div class="ldc-out-state" style="margin-top:6px;">
+<div class="ldc-out-state" style="margin-top:6px;">
             ⚠️ <strong>Invalid / expired code:</strong> "That code isn't valid or may have expired. Check your mailer for the correct code, or <a style="color:#c0392b;">browse our current plans</a>."
           </div>
-        </div>
-      </div>
+</div>
+</div>
 
-      <div class="ann-row" style="margin-top:10px;">
-        <div class="ann ann-g"><i>✓</i> Promo strip is visually distinct from the LDC widget (warm amber vs. blue) — different color family signals a different purpose without requiring a heading or explanation</div>
-        <div class="ann ann-g"><i>✓</i> Collapsed by default — negligible visual weight for the majority of users who have no promo code; expands on demand for users who do</div>
-        <div class="ann ann-g"><i>✓</i> CTA label "See My Offer →" frames the action as a benefit, not a form task; campaign page handles the payoff</div>
-        <div class="ann ann-g"><i>✓</i> Routes to campaign landing page (not Plans page directly) — campaign page is the offer confirmation moment and the attribution point for campaign performance measurement. Consistent with current live flow.</div>
-        <div class="ann ann-g"><i>✓</i> LDC pass-through: if user already selected utility in widget above, LDC is appended as URL param. Campaign page can skip utility selection and go straight to offer confirmation — reduces steps for users who engaged with the widget first.</div>
-        <div class="ann ann-g"><i>✓</i> Serves direct mail segment specifically: users with a physical code who type the homepage URL manually. Digital campaign traffic (email, paid media) links directly to /campaign/[code] — no homepage promo entry needed for those users.</div>
-        <div class="ann ann-g"><i>✓</i> Footer "Have a Promotional Code?" link (Products &amp; Plans column) provides a second discovery point for users who scroll past the promo strip — scrolls back up to Section 2b and auto-expands the promo input panel. Single entry point in the DOM; no duplicate promo logic needed.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #19: Campaign page URL structure — /campaign/[code-slug] vs. /promo/[code] vs. a single /campaign/?code=[CODE] param? Confirm with dev and confirm whether code validation is client-side (on submit) or server-side (on campaign page load).</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #20: LDC state detection — does the promo strip need to actively read the widget's selected state, or is LDC passed via a shared URL/session param on submit? Confirm implementation approach with dev team.</div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 2 — LDC IDENTIFIER WIDGET
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">2</div><br>LDC Identifier<br>Widget</div>
-    <div class="p">
-      <div class="ldc-widget">
-
-        <!-- ══ AUDIENCE TAB BAR ══
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">2</div><br/>LDC Identifier<br/>Widget</div>
+<div class="p">
+<div class="ldc-widget">
+<!-- ══ AUDIENCE TAB BAR ══
              Two plan-type tabs: Residential Plans (default) / Commercial Plans.
              Commercial tab hidden for PA (no commercial plans) and IES (residential-only product).
              Existing customer path removed from widget — handled by My Account nav link
@@ -725,152 +659,136 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
              Plans auto-renew and profile management is call-center-handled, making a
              dedicated existing-customer tab a low-frequency use case unworthy of tab prominence.
         -->
-        <div class="aud-tabs">
-          <button class="aud-tab active" onclick="setAudience('residential', this)">
+<div class="aud-tabs">
+<button class="aud-tab active" onclick="setAudience('residential', this)">
             🏠 Residential Plans
             <span class="aud-tab-sub">Natural gas plans for your home</span>
-          </button>
-          <button class="aud-tab mkt on" id="tab-commercial-ong" onclick="setAudience('commercial', this)" style="display:none;">
+</button>
+<button class="aud-tab mkt on" id="tab-commercial-ong" onclick="setAudience('commercial', this)" style="display:none;">
             🏢 Commercial Plans
             <span class="aud-tab-sub">Natural gas plans for your business</span>
-          </button>
-          <button class="aud-tab mkt on" id="tab-commercial-gre" onclick="setAudience('commercial', this)" style="display:none;">
+</button>
+<button class="aud-tab mkt on" id="tab-commercial-gre" onclick="setAudience('commercial', this)" style="display:none;">
             🏢 Commercial Plans
             <span class="aud-tab-sub">Natural gas plans for your business</span>
-          </button>
-          <button class="aud-tab mkt on" id="tab-commercial-il" onclick="setAudience('commercial', this)" style="display:none;">
+</button>
+<button class="aud-tab mkt on" id="tab-commercial-il" onclick="setAudience('commercial', this)" style="display:none;">
             🏢 Commercial Plans
             <span class="aud-tab-sub">Natural gas plans for your business</span>
-          </button>
-        </div>
-
-
-        <!-- ══ PANEL 1: RESIDENTIAL PLANS (default) ══ -->
-        <div class="aud-panel active" id="aud-residential">
-
-          <div class="ldc-widget-title">Who is your natural gas utility?</div>
-          <div class="ldc-widget-sub">Select your utility — we'll show you the plans available for your address.</div>
-
-          <!-- ONG: Columbia Gas / Dominion -->
-          <div class="mkt on" id="ldc-ong">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Columbia Gas</div>
-              <div class="ldc-btn">Dominion Energy Ohio</div>
-            </div>
-          </div>
-          <!-- PA: UGI / Peoples / PECO -->
-          <div class="mkt" id="ldc-pa">
-            <div class="ldc-selector">
-              <div class="ldc-btn">UGI Utilities</div>
-              <div class="ldc-btn">Peoples Natural Gas</div>
-              <div class="ldc-btn">PECO</div>
-            </div>
-          </div>
-          <!-- GRE: Consumers / SEMCO -->
-          <div class="mkt" id="ldc-gre">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Consumers Energy</div>
-              <div class="ldc-btn">SEMCO Energy</div>
-            </div>
-          </div>
-          <!-- IL Energy: Nicor / Peoples / North Shore -->
-          <div class="mkt" id="ldc-il">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Nicor Gas</div>
-              <div class="ldc-btn">Peoples Gas</div>
-              <div class="ldc-btn">North Shore Gas</div>
-            </div>
-          </div>
-          <!-- IES: static Nicor display (no selector) per IES-HP-4 -->
-          <div class="mkt" id="ldc-ies">
-            <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:14px 16px; margin-bottom:12px;">
-              <div style="font-size:12px; color:#2e7d32; font-weight:600;">Your utility: <strong>Nicor Gas</strong></div>
-              <div style="font-size:11px; color:#558b2f; margin-top:4px;">Illinois Energy Solutions is available for Nicor Gas customers.</div>
-            </div>
-          </div>
-
-          <!-- ZIP fallback -->
-          <div style="margin-top:12px; border-top:1px dashed #b8d4f0; padding-top:10px;">
-            <span class="ldc-zip-toggle" onclick="document.getElementById('ldc-zip-panel').style.display='block'; this.style.display='none';">
+</button>
+</div>
+<!-- ══ PANEL 1: RESIDENTIAL PLANS (default) ══ -->
+<div class="aud-panel active" id="aud-residential">
+<div class="ldc-widget-title">Who is your natural gas utility?</div>
+<div class="ldc-widget-sub">Select your utility — we'll show you the plans available for your address.</div>
+<!-- ONG: Columbia Gas / Dominion -->
+<div class="mkt on" id="ldc-ong">
+<div class="ldc-selector">
+<div class="ldc-btn">Columbia Gas</div>
+<div class="ldc-btn">Dominion Energy Ohio</div>
+</div>
+</div>
+<!-- PA: UGI / Peoples / PECO -->
+<div class="mkt" id="ldc-pa">
+<div class="ldc-selector">
+<div class="ldc-btn">UGI Utilities</div>
+<div class="ldc-btn">Peoples Natural Gas</div>
+<div class="ldc-btn">PECO</div>
+</div>
+</div>
+<!-- GRE: Consumers / SEMCO -->
+<div class="mkt" id="ldc-gre">
+<div class="ldc-selector">
+<div class="ldc-btn">Consumers Energy</div>
+<div class="ldc-btn">SEMCO Energy</div>
+</div>
+</div>
+<!-- IL Energy: Nicor / Peoples / North Shore -->
+<div class="mkt" id="ldc-il">
+<div class="ldc-selector">
+<div class="ldc-btn">Nicor Gas</div>
+<div class="ldc-btn">Peoples Gas</div>
+<div class="ldc-btn">North Shore Gas</div>
+</div>
+</div>
+<!-- IES: static Nicor display (no selector) per IES-HP-4 -->
+<div class="mkt" id="ldc-ies">
+<div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:14px 16px; margin-bottom:12px;">
+<div style="font-size:12px; color:#2e7d32; font-weight:600;">Your utility: <strong>Nicor Gas</strong></div>
+<div style="font-size:11px; color:#558b2f; margin-top:4px;">Illinois Energy Solutions is available for Nicor Gas customers.</div>
+</div>
+</div>
+<!-- ZIP fallback -->
+<div style="margin-top:12px; border-top:1px dashed #b8d4f0; padding-top:10px;">
+<span class="ldc-zip-toggle" onclick="document.getElementById('ldc-zip-panel').style.display='block'; this.style.display='none';">
               🔍 Not sure which utility you have? Find by zip code ▾
             </span>
-            <div id="ldc-zip-panel" class="ldc-zip-panel">
-              <div class="body-sm" style="margin-bottom:8px;">Enter your zip code and we'll identify your utility automatically.</div>
-              <div class="ldc-zip-row">
-                <div><div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Zip Code</div><input class="wf-input" style="max-width:150px;" type="text" placeholder="e.g. 44101" readonly></div>
-                <div class="wf-btn-sm" style="padding:8px 16px; font-size:12px;">Find My Utility →</div>
-              </div>
-              <div class="ldc-confirm-state" style="margin-top:10px;">
+<div class="ldc-zip-panel" id="ldc-zip-panel">
+<div class="body-sm" style="margin-bottom:8px;">Enter your zip code and we'll identify your utility automatically.</div>
+<div class="ldc-zip-row">
+<div><div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Zip Code</div><input class="wf-input" placeholder="e.g. 44101" readonly="" style="max-width:150px;" type="text"/></div>
+<div class="wf-btn-sm" style="padding:8px 16px; font-size:12px;">Find My Utility →</div>
+</div>
+<div class="ldc-confirm-state" style="margin-top:10px;">
                 ✓ <strong>Result state:</strong> "Your utility is Columbia Gas." — auto-selects button above; routes to Plans page with LDC pre-set.
               </div>
-              <div class="ldc-out-state" style="margin-top:6px;">
+<div class="ldc-out-state" style="margin-top:6px;">
                 ⚠️ <strong>Out-of-area state:</strong> "We don't currently serve your zip code — but we're expanding." + email capture + "Notify Me"
               </div>
-
-              <!-- ── HP-6: State — Multiple Utilities Found ──────────────
+<!-- ── HP-6: State — Multiple Utilities Found ──────────────
                    Shown when a ZIP code spans more than one LDC territory.
                    Filters the full utility list to only the matching LDCs.
                    No phone number surfaced — SouthStar cannot determine
                    which utility serves a specific address.
               ──────────────────────────────────────────────────────── -->
-              <div style="margin-top:14px; border-top:2px dashed #b8d4f0; padding-top:12px;">
-                <div style="font-size:10px; font-weight:800; color:#5a8cbf; text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">State — Multiple Utilities Found</div>
-                <div style="background:#f7f9ff; border:1.5px solid #c5d8f0; border-radius:5px; padding:14px 16px;">
-                  <div style="font-size:13px; font-weight:700; color:#1e3a5f; margin-bottom:10px;">We found 2 utilities that may serve your area. Which one is yours?</div>
-                  <div class="ldc-selector" style="margin-bottom:10px;">
-                    <div class="ldc-btn">Columbia Gas</div>
-                    <div class="ldc-btn">Dominion Energy Ohio</div>
-                  </div>
-                  <div style="font-size:11px; color:#666; line-height:1.5;">
+<div style="margin-top:14px; border-top:2px dashed #b8d4f0; padding-top:12px;">
+<div style="font-size:10px; font-weight:800; color:#5a8cbf; text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">State — Multiple Utilities Found</div>
+<div style="background:#f7f9ff; border:1.5px solid #c5d8f0; border-radius:5px; padding:14px 16px;">
+<div style="font-size:13px; font-weight:700; color:#1e3a5f; margin-bottom:10px;">We found 2 utilities that may serve your area. Which one is yours?</div>
+<div class="ldc-selector" style="margin-bottom:10px;">
+<div class="ldc-btn">Columbia Gas</div>
+<div class="ldc-btn">Dominion Energy Ohio</div>
+</div>
+<div style="font-size:11px; color:#666; line-height:1.5;">
                     Not sure which is yours? Your utility's name is on every gas bill.
                     <a style="color:#5a8cbf; font-weight:700; cursor:pointer; text-decoration:underline; margin-left:4px;">→ Learn more</a>
-                  </div>
-                </div>
-                <div class="ann-row" style="margin-top:8px;">
-                  <div class="ann ann-g"><i>✓</i> ZIP narrows to matching LDCs only — not full market list. Fallback routes to LC Service Area &amp; Setup article. No phone number surfaced — SouthStar cannot determine which utility serves a specific address.</div>
-                </div>
-              </div>
+</div>
+</div>
 
-            </div>
-          </div>
-
-          <!-- Post-selection confirmed state -->
-          <div class="ldc-confirm-state" style="margin-top:12px;">
-            <span>✓ <strong>After selection:</strong> "Showing plans for <strong>Columbia Gas</strong> customers" — routes to
+</div>
+</div>
+</div>
+<!-- Post-selection confirmed state -->
+<div class="ldc-confirm-state" style="margin-top:12px;">
+<span>✓ <strong>After selection:</strong> "Showing plans for <strong>Columbia Gas</strong> customers" — routes to
               <span class="mkt on" id="dest-ong">Ohio Natural Gas</span>
-              <span class="mkt" id="dest-pa">Pennsylvania Energy</span>
-              <span class="mkt" id="dest-gre">Grand Rapids Energy</span>
-              <span class="mkt" id="dest-il">Illinois Energy</span>
-              <span class="mkt" id="dest-ies">Illinois Energy Solutions</span>
+<span class="mkt" id="dest-pa">Pennsylvania Energy</span>
+<span class="mkt" id="dest-gre">Grand Rapids Energy</span>
+<span class="mkt" id="dest-il">Illinois Energy</span>
+<span class="mkt" id="dest-ies">Illinois Energy Solutions</span>
               Plans page with LDC pre-selected <span style="color:#aaa;">(Open Q #1)</span>
-            </span>
-            <div class="wf-btn-sm">See My Plans →</div>
-          </div>
-
-          <!-- ── HP-5: State B — Utility Selected ─────────────────────
+</span>
+<div class="wf-btn-sm">See My Plans →</div>
+</div>
+<!-- ── HP-5: State B — Utility Selected ─────────────────────
                In-widget transformation shown after a utility button is tapped.
                Utility buttons are replaced by a confirmation state within the
                same container — no page scroll or navigation required.
                Widget does not resize.
           ───────────────────────────────────────────────────────────── -->
-          <div style="margin-top:18px; border-top:2px dashed #7aabda; padding-top:14px;">
-            <div style="font-size:10px; font-weight:800; color:#5a8cbf; text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">State B — Utility Selected</div>
-            <div style="background:#e8f5e9; border:2px solid #4caf50; border-radius:6px; padding:16px 18px;">
-              <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#2e7d32; margin-bottom:12px;">
-                <span style="font-size:18px;">✓</span> Columbia Gas of Ohio
+<div style="margin-top:18px; border-top:2px dashed #7aabda; padding-top:14px;">
+<div style="font-size:10px; font-weight:800; color:#5a8cbf; text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">State B — Utility Selected</div>
+<div style="background:#e8f5e9; border:2px solid #4caf50; border-radius:6px; padding:16px 18px;">
+<div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#2e7d32; margin-bottom:12px;">
+<span style="font-size:18px;">✓</span> Columbia Gas of Ohio
               </div>
-              <div class="wf-btn-lg" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; margin-bottom:10px;">View Plans →</div>
-              <div style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer;">Change utility</div>
-            </div>
-            <div class="ann-row" style="margin-top:8px;">
-              <div class="ann ann-g"><i>✓</i> In-widget transformation — utility buttons replaced by confirmation state within same container. No page scroll or navigation required. Widget does not resize.</div>
-            </div>
-          </div>
+<div class="wf-btn-lg" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; margin-bottom:10px;">View Plans →</div>
+<div style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer;">Change utility</div>
+</div>
 
-        </div><!-- /aud-residential -->
-
-
-        <!-- ══ PANEL 2: COMMERCIAL PLANS ══
+</div>
+</div><!-- /aud-residential -->
+<!-- ══ PANEL 2: COMMERCIAL PLANS ══
              Mirrors Residential Plans flow: LDC selection → Commercial Plans page.
              Available for ONG, GRE, IL only.
              Tab button hidden for PA (no commercial plans) and IES (residential-only product)
@@ -878,155 +796,119 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
              Most commercial customers are small-scale (comparable to 2–4 households);
              LDC-first flow is appropriate. Enterprise accounts surface via secondary contact link.
         -->
-        <div class="aud-panel" id="aud-commercial">
-
-          <div class="ldc-widget-title">Who is your commercial gas utility?</div>
-          <div class="ldc-widget-sub">Select your utility — we'll show you the commercial plans available for your account.</div>
-
-          <!-- ONG: Columbia Gas / Dominion -->
-          <div class="mkt on" id="ldc-comm-ong">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Columbia Gas</div>
-              <div class="ldc-btn">Dominion Energy Ohio</div>
-            </div>
-          </div>
-          <!-- GRE: Consumers / SEMCO -->
-          <div class="mkt" id="ldc-comm-gre">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Consumers Energy</div>
-              <div class="ldc-btn">SEMCO Energy</div>
-            </div>
-          </div>
-          <!-- IL: Nicor / Peoples / North Shore -->
-          <div class="mkt" id="ldc-comm-il">
-            <div class="ldc-selector">
-              <div class="ldc-btn">Nicor Gas</div>
-              <div class="ldc-btn">Peoples Gas</div>
-              <div class="ldc-btn">North Shore Gas</div>
-            </div>
-          </div>
-
-          <!-- Post-selection confirmed state -->
-          <div class="ldc-confirm-state" style="margin-top:12px;">
+<div class="aud-panel" id="aud-commercial">
+<div class="ldc-widget-title">Who is your commercial gas utility?</div>
+<div class="ldc-widget-sub">Select your utility — we'll show you the commercial plans available for your account.</div>
+<!-- ONG: Columbia Gas / Dominion -->
+<div class="mkt on" id="ldc-comm-ong">
+<div class="ldc-selector">
+<div class="ldc-btn">Columbia Gas</div>
+<div class="ldc-btn">Dominion Energy Ohio</div>
+</div>
+</div>
+<!-- GRE: Consumers / SEMCO -->
+<div class="mkt" id="ldc-comm-gre">
+<div class="ldc-selector">
+<div class="ldc-btn">Consumers Energy</div>
+<div class="ldc-btn">SEMCO Energy</div>
+</div>
+</div>
+<!-- IL: Nicor / Peoples / North Shore -->
+<div class="mkt" id="ldc-comm-il">
+<div class="ldc-selector">
+<div class="ldc-btn">Nicor Gas</div>
+<div class="ldc-btn">Peoples Gas</div>
+<div class="ldc-btn">North Shore Gas</div>
+</div>
+</div>
+<!-- Post-selection confirmed state -->
+<div class="ldc-confirm-state" style="margin-top:12px;">
             ✓ <strong>After selection:</strong> Routes to Commercial Plans page with LDC pre-selected.
             <div class="wf-btn-sm">See Commercial Plans →</div>
-          </div>
-
-          <!-- Enterprise secondary link — smaller subset of larger accounts -->
-          <div class="aud-crosslink" style="margin-top:14px;">
+</div>
+<!-- Enterprise secondary link — smaller subset of larger accounts -->
+<div class="aud-crosslink" style="margin-top:14px;">
             Managing a larger commercial account? <a>Contact us →</a>
-          </div>
-
-          <div class="aud-crosslink">
+</div>
+<div class="aud-crosslink">
             Looking for home plans? <a onclick="setAudience('residential', document.querySelectorAll('.aud-tab')[0])">Switch to Residential Plans →</a>
-          </div>
-
-        </div><!-- /aud-commercial -->
-
-      </div><!-- /ldc-widget -->
-
-      <!-- Already a customer secondary line — below widget, not in tabs.
+</div>
+</div><!-- /aud-commercial -->
+</div><!-- /ldc-widget -->
+<!-- Already a customer secondary line — below widget, not in tabs.
            Plans auto-renew; profile management handled by call center.
            My Account nav link is the primary path for returning customers. -->
-      <div style="text-align:center; margin-top:10px; font-size:11px; color:#999;">
+<div style="text-align:center; margin-top:10px; font-size:11px; color:#999;">
         Already a customer? <a style="color:#1e3a5f; font-weight:600; cursor:pointer;">Log in to My Account →</a>
-      </div>
+</div>
 
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Two-tab widget: Residential Plans (default) / Commercial Plans — product-line distinction, not customer-status distinction. Cleaner than three tabs, avoids inflating minority use cases to peer-level prominence.</div>
-        <div class="ann ann-g"><i>✓</i> Existing Customer tab removed — plans auto-renew and profile management is call-center-handled, making a dedicated tab a low-frequency use case. My Account nav link handles returning customers. "Already a customer?" secondary line below widget provides a non-intrusive fallback.</div>
-        <div class="ann ann-g"><i>✓</i> Commercial Plans tab mirrors Residential flow: LDC selector → Commercial Plans page. Most commercial customers are small-scale (2–4 household equivalent); self-serve LDC-first flow is appropriate.</div>
-        <div class="ann ann-g"><i>✓</i> Commercial tab hidden for PA (no commercial plans) and IES (residential-only product) via MKT_ELEMENTS. setMarket() resets widget to Residential tab automatically when PA or IES is selected.</div>
-        <div class="ann ann-g"><i>✓</i> Enterprise contact link surfaces as secondary within Commercial panel — not a primary CTA, not a tab. Appropriate prominence for a small minority of commercial customers.</div>
-        <div class="ann ann-g"><i>✓</i> Residential panel contains only LDC selection and ZIP fallback — promo code entry in standalone strip below (Section 2b). Widget retains single job: identify utility.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #1: LDC selection routes to Plans page vs. inline plan teaser. Wireframe shows Plans-page route as recommended.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #8: Commercial Plans page (/for-my-business/) not yet scoped — confirm with Lee Jackson. Commercial LDC flow routes here after utility selection.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #9: Enterprise contact destination — general contact form, dedicated commercial inquiry form, or phone?</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #10: My Account portal URL — single shared portal or market-specific? Determines whether "Log in to My Account →" link is static or market-conditional.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #18: Promo code routing confirmed. Confirm URL structure and LDC pass-through — see Open Q #19 and #20 in Section 2b annotations.</div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 3 — LEARNING CENTER TEASER (IES-HP-7: suppressed for IES)
        (formerly Section 5 — moved before Why Choose Us per HP-3:
        educational content precedes value proposition to meet users
        still in research mode before presenting the brand case)
   ══════════════════════════════════ -->
-  <div class="section mkt" id="lc-section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">3</div><br>Learning Center<br>Teaser</div>
-    <div class="p">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
-        <div class="h2">
+<div class="section mkt" id="lc-section" style="position:relative;">
+<div class="section-label"><div class="sec-num">3</div><br/>Learning Center<br/>Teaser</div>
+<div class="p">
+<div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+<div class="h2">
           Have questions about natural gas?
           <span style="font-size:12px; font-weight:400; color:#888; margin-left:8px;">
-            <span class="mkt on" id="lc-brand-ong">Energy Answers from Ohio Natural Gas</span>
-            <span class="mkt" id="lc-brand-pa">Energy Answers from Pennsylvania Energy</span>
-            <span class="mkt" id="lc-brand-gre">Energy Answers from Grand Rapids Energy</span>
-            <span class="mkt" id="lc-brand-il">Energy Answers from Illinois Energy</span>
-            <span class="mkt" id="lc-brand-ies">Energy Answers from Illinois Energy Solutions</span>
-            <span style="color:#f5c842;">⚑ section name TBD</span>
-          </span>
-        </div>
-        <div class="wf-btn-out" style="font-size:11px; padding:6px 14px; white-space:nowrap;">Explore All Topics →</div>
-      </div>
-
-      <div class="lc-cards">
-        <div class="lc-card">
-          <div class="lc-card-top">
-            <div class="pillar-badge">Gas Rates</div>
-            <div class="lc-card-title">What's the difference between a fixed and variable gas rate?</div>
-          </div>
-          <div class="lc-card-body">
+<span class="mkt on" id="lc-brand-ong">Energy Answers from Ohio Natural Gas</span>
+<span class="mkt" id="lc-brand-pa">Energy Answers from Pennsylvania Energy</span>
+<span class="mkt" id="lc-brand-gre">Energy Answers from Grand Rapids Energy</span>
+<span class="mkt" id="lc-brand-il">Energy Answers from Illinois Energy</span>
+<span class="mkt" id="lc-brand-ies">Energy Answers from Illinois Energy Solutions</span>
+<span style="color:#f5c842;">⚑ section name TBD</span>
+</span>
+</div>
+<div class="wf-btn-out" style="font-size:11px; padding:6px 14px; white-space:nowrap;">Explore All Topics →</div>
+</div>
+<div class="lc-cards">
+<div class="lc-card">
+<div class="lc-card-top">
+<div class="pillar-badge">Gas Rates</div>
+<div class="lc-card-title">What's the difference between a fixed and variable gas rate?</div>
+</div>
+<div class="lc-card-body">
             A fixed rate stays the same for your contract. A variable rate moves with the market each month. Here's what that means for your bill.
             <div class="lc-read-more">Read article →</div>
-          </div>
-        </div>
-
-        <div class="lc-card">
-          <div class="lc-card-top">
-            <div class="pillar-badge p2">Service Area</div>
-            <div class="lc-card-title">
-              <span class="mkt on" id="lc2-ong">Who is my natural gas supplier in Ohio — and can I choose?</span>
-              <span class="mkt" id="lc2-pa">Who is my natural gas supplier in Pennsylvania?</span>
-              <span class="mkt" id="lc2-gre">Who is my natural gas supplier in Michigan?</span>
-              <span class="mkt" id="lc2-il">Who is my natural gas supplier in Illinois?</span>
-              <span class="mkt" id="lc2-ies">Who is my natural gas supplier in Illinois?</span>
-            </div>
-          </div>
-          <div class="lc-card-body">
+</div>
+</div>
+<div class="lc-card">
+<div class="lc-card-top">
+<div class="pillar-badge p2">Service Area</div>
+<div class="lc-card-title">
+<span class="mkt on" id="lc2-ong">Who is my natural gas supplier in Ohio — and can I choose?</span>
+<span class="mkt" id="lc2-pa">Who is my natural gas supplier in Pennsylvania?</span>
+<span class="mkt" id="lc2-gre">Who is my natural gas supplier in Michigan?</span>
+<span class="mkt" id="lc2-il">Who is my natural gas supplier in Illinois?</span>
+<span class="mkt" id="lc2-ies">Who is my natural gas supplier in Illinois?</span>
+</div>
+</div>
+<div class="lc-card-body">
             In deregulated states, your utility delivers the gas but you can choose your supplier — the same way you might choose a phone plan.
             <div class="lc-read-more">Read article →</div>
-          </div>
-        </div>
-
-        <div class="lc-card">
-          <div class="lc-card-top">
-            <div class="pillar-badge p4">Account &amp; Bills</div>
-            <div class="lc-card-title">Why does my gas bill show two separate charges?</div>
-          </div>
-          <div class="lc-card-body">
+</div>
+</div>
+<div class="lc-card">
+<div class="lc-card-top">
+<div class="pillar-badge p4">Account &amp; Bills</div>
+<div class="lc-card-title">Why does my gas bill show two separate charges?</div>
+</div>
+<div class="lc-card-body">
             Every gas bill has two parts: the utility's delivery charge and your supplier's commodity charge. This explains exactly what each one covers.
             <div class="lc-read-more">Read article →</div>
-          </div>
-        </div>
-      </div>
+</div>
+</div>
+</div>
 
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Educational content precedes value proposition — meets users still in research mode before presenting the brand case.</div>
-        <div class="ann ann-g"><i>✓</i> 3 featured articles sourced from top call-driver topics (Susan Bergen interview + ONG query pattern analysis)</div>
-        <div class="ann ann-g"><i>✓</i> LC teaser on homepage creates a pathway for users who aren't ready to enroll — reduces bounce, supports MAVI metric</div>
-        <div class="ann ann-g"><i>✓</i> "Explore All Topics →" routes to Learning Center hub — consistent with LC wireframe pillar structure</div>
-        <div class="ann ann-y"><i>⚑</i> Section name TBD: "Energy Answers", "Learning Center", "Your Questions Answered" — must resolve Open Q #1 in LC requirements before finalizing</div>
-        <div class="ann ann-y"><i>⚑</i> MAVI hierarchy (client priority): new user view plan types → educational content. LC teaser placed after plans — not competing with conversion funnel</div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 4 — GREENER LIFE PLANS MODULE (IES-HP-6: suppressed for IES)
        Greener Life is a standalone plan type — NOT an add-on to existing plans.
        From a backend perspective, Greener Life plans are enrolled as their own plan.
@@ -1034,60 +916,47 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
        Carbon neutral: ONG calculates GHG from customer's natural gas usage and
        purchases and retires carbon offsets to balance the emissions impact.
   ══════════════════════════════════ -->
-  <div class="section mkt" id="gl-section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">4</div><br>Greener Life<br>Plans</div>
-    <div class="gl-module">
-      <div class="gl-grid">
-        <div>
-          <div class="gl-icon-big">🌱</div>
-          <div class="gl-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
-          <div class="gl-sub">
+<div class="section mkt" id="gl-section" style="position:relative;">
+<div class="section-label"><div class="sec-num">4</div><br/>Greener Life<br/>Plans</div>
+<div class="gl-module">
+<div class="gl-grid">
+<div>
+<div class="gl-icon-big">🌱</div>
+<div class="gl-title">Make Your Natural Gas Carbon Neutral — Greener Life® Plans</div>
+<div class="gl-sub">
             Greener Life® is a natural gas plan that makes your home's gas usage carbon neutral.
             <span class="mkt on" id="gl-desc-ong">Ohio Natural Gas</span>
-            <span class="mkt" id="gl-desc-pa">Pennsylvania Energy</span>
-            <span class="mkt" id="gl-desc-gre">Grand Rapids Energy</span>
-            <span class="mkt" id="gl-desc-il">Illinois Energy</span>
+<span class="mkt" id="gl-desc-pa">Pennsylvania Energy</span>
+<span class="mkt" id="gl-desc-gre">Grand Rapids Energy</span>
+<span class="mkt" id="gl-desc-il">Illinois Energy</span>
             calculates the greenhouse gas emissions from your natural gas usage, then purchases and retires certified carbon offsets to balance the impact. Available in both fixed-rate and variable-rate options — choose the term that fits your household.
           </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-            <div class="wf-btn" style="background:#2e7d32; font-size:12px; padding:8px 18px;">See Greener Life® Plans →</div>
-            <div class="wf-btn-out" style="color:#2e7d32; border-color:#2e7d32; font-size:12px; padding:8px 18px;">Learn More About Carbon Offsets →</div>
-          </div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div class="gl-stat">
-            <div class="gl-stat-val">990M+</div>
-            <div class="gl-stat-desc">Pounds of carbon offset by SouthStar customers<br><span style="color:#f5c842; font-size:9px;">⚑ confirm: Ohio-level or SouthStar-wide? — Aimee Henderson</span></div>
-          </div>
-          <div class="gl-stat">
-            <div class="gl-stat-val" style="font-size:13px; line-height:1.3;">Fixed &amp;<br>Variable</div>
-            <div class="gl-stat-desc">Both plan term options available.<br>Rates shown on Plans page after utility selection.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- IES: Greener Life availability TBD — hide section until confirmed -->
-      <div class="mkt" id="gl-ies-note" style="margin-top:10px; font-size:11px; color:#f5c842;">
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+<div class="wf-btn" style="background:#2e7d32; font-size:12px; padding:8px 18px;">See Greener Life® Plans →</div>
+<div class="wf-btn-out" style="color:#2e7d32; border-color:#2e7d32; font-size:12px; padding:8px 18px;">Learn More About Carbon Offsets →</div>
+</div>
+</div>
+<div style="display:flex; flex-direction:column; gap:10px;">
+<div class="gl-stat">
+<div class="gl-stat-val">990M+</div>
+<div class="gl-stat-desc">Pounds of carbon offset by SouthStar customers<br/><span style="color:#f5c842; font-size:9px;">⚑ confirm: Ohio-level or SouthStar-wide? — Aimee Henderson</span></div>
+</div>
+<div class="gl-stat">
+<div class="gl-stat-val" style="font-size:13px; line-height:1.3;">Fixed &amp;<br/>Variable</div>
+<div class="gl-stat-desc">Both plan term options available.<br/>Rates shown on Plans page after utility selection.</div>
+</div>
+</div>
+</div>
+<!-- IES: Greener Life availability TBD — hide section until confirmed -->
+<div class="mkt" id="gl-ies-note" style="margin-top:10px; font-size:11px; color:#f5c842;">
         ⚑ IES market: Greener Life plan availability not yet confirmed. Hide this section for IES until resolved — Open Q #6.
       </div>
-    </div>
-    <div class="p-sm">
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Greener Life reframed as a standalone plan type — not an add-on. Backend enrollment is as its own plan. Copy updated to reflect this distinction throughout.</div>
-        <div class="ann ann-g"><i>✓</i> Carbon offset mechanism explained: ONG calculates GHG from customer's gas usage → purchases and retires certified carbon offsets. Transparent, not vague.</div>
-        <div class="ann ann-g"><i>✓</i> Both fixed and variable Greener Life options acknowledged — rates not shown on homepage (consistent with LDC-gating principle; rates surface on Plans page after utility selection)</div>
-        <div class="ann ann-g"><i>✓</i> Sustainability section has its own module — client confirmed Greener Life needs prominence (March 27 feedback)</div>
-        <div class="ann ann-g"><i>✓</i> "See Greener Life® Plans →" CTA routes to Plans page filtered to Greener Life options — not to an enrollment screen directly</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #6: IES Greener Life availability — not yet confirmed. Section hidden for IES market until resolved.</div>
-        <div class="ann ann-y"><i>⚑</i> PA / GRE / IL Greener Life plan availability still TBD — confirm with Aimee Henderson before enabling those markets in this section</div>
-        <div class="ann ann-y"><i>⚑</i> Impact stat (990M lbs) — confirm whether Ohio-level, per-brand, or SouthStar-wide with Aimee Henderson before publishing</div>
-        <div class="ann ann-y"><i>⚑</i> "Learn More About Carbon Offsets →" destination — confirm whether this routes to a Greener Life detail page or a Learning Center article</div>
-      </div>
-    </div>
-  </div>
+</div>
+<div class="p-sm">
 
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 5 — WHY CHOOSE [BRAND] (Value Props + Trust merged)
        (formerly Section 3 — moved after Have Questions per HP-3:
        value proposition follows educational content once users
@@ -1098,373 +967,304 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
        VP cards (rational case) → trust strip (external validation) → testimonial (social proof).
        Natural persuasion arc; removes duplicate section heading and scroll fatigue.
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">5</div><br>Why Choose<br>[Brand]</div>
-    <div class="p">
-
-      <div class="h3" style="margin-bottom:14px;">Why choose
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">5</div><br/>Why Choose<br/>[Brand]</div>
+<div class="p">
+<div class="h3" style="margin-bottom:14px;">Why choose
         <span class="mkt on" id="vp-brand-ong">Ohio Natural Gas</span>
-        <span class="mkt" id="vp-brand-pa">Pennsylvania Energy</span>
-        <span class="mkt" id="vp-brand-gre">Grand Rapids Energy</span>
-        <span class="mkt" id="vp-brand-il">Illinois Energy</span>
-        <span class="mkt" id="vp-brand-ies">Illinois Energy Solutions</span>?
+<span class="mkt" id="vp-brand-pa">Pennsylvania Energy</span>
+<span class="mkt" id="vp-brand-gre">Grand Rapids Energy</span>
+<span class="mkt" id="vp-brand-il">Illinois Energy</span>
+<span class="mkt" id="vp-brand-ies">Illinois Energy Solutions</span>?
       </div>
-
-      <!-- ── Part A: Value Proposition Cards ─────────────────────
+<!-- ── Part A: Value Proposition Cards ─────────────────────
            Product/service differentiation — the rational case.
            Ordered: price transparency (primary driver) → licensed & regulated → supplier choice.
       ───────────────────────────────────────────────────────────── -->
-      <div class="vp-grid">
-
-        <div class="vp-card" style="border-top:3px solid #1e3a5f;">
-          <div class="vp-icon">🔒</div>
-          <div class="vp-title mkt on" id="vp1-ong">Straightforward Rate Options. No Fine Print Surprises.</div>
-          <div class="vp-title mkt" id="vp1-ies">One Flat Monthly Bill. No Fine Print Surprises.</div>
-          <div class="vp-title mkt" id="vp1-pa">Straightforward Rate Options. No Fine Print Surprises.</div>
-          <div class="vp-title mkt" id="vp1-gre">Straightforward Rate Options. No Fine Print Surprises.</div>
-          <div class="vp-title mkt" id="vp1-il">Straightforward Rate Options. No Fine Print Surprises.</div>
-          <div class="vp-desc mkt on" id="vpd1-ong">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? Lock in a fixed rate for 12 or 24 months. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
-          <div class="vp-desc mkt" id="vpd1-ies">The Fixed Bill plan means one transparent monthly charge — no commodity rate exposure, no seasonal swings. One plan, one number on your bill every month. What you're quoted is what you pay.</div>
-          <div class="vp-desc mkt" id="vpd1-pa">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? A fixed rate protects you from commodity swings for 12 or 24 months. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
-          <div class="vp-desc mkt" id="vpd1-gre">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? Lock in your MCF rate for the full contract term. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
-          <div class="vp-desc mkt" id="vpd1-il">We show you fixed-rate and variable-rate plan options — with rates upfront, before you enroll. Want price certainty? Lock in your commodity rate for your contract term. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
-        </div>
-
-        <div class="vp-card" style="border-top:3px solid #4caf50;">
-          <div class="vp-icon">✅</div>
-          <div class="vp-title">Licensed, Regulated, &amp; Accountable</div>
-          <div class="vp-desc">
-            <span class="mkt on" id="vpd2-ong">Ohio Natural Gas is a PUCO-certified supplier. Your utility (Columbia Gas or Dominion) still delivers your gas — we handle your commodity rate.</span>
-            <span class="mkt" id="vpd2-pa">Pennsylvania Energy is PA PUC-certified. Your utility (UGI, Peoples, or PECO) still delivers your gas — we handle your commodity rate.</span>
-            <span class="mkt" id="vpd2-gre">Grand Rapids Energy is MPSC-licensed. Consumers Energy or SEMCO still delivers your gas — your pipes and safety response don't change.</span>
-            <span class="mkt" id="vpd2-il">Illinois Energy is ICC-licensed. Your utility (Nicor, Peoples, or North Shore) still delivers your gas — we handle the commodity rate.</span>
-            <span class="mkt" id="vpd2-ies">Illinois Energy Solutions is ICC-licensed. Your utility still delivers your gas — we handle the pricing with a transparent Fixed Bill structure.</span>
-          </div>
-        </div>
-
-        <div class="vp-card" style="border-top:3px solid #e8641a;">
-          <div class="vp-icon">🎯</div>
-          <div class="vp-title">Choose Your Supplier. Own Your Rate.</div>
-          <div class="vp-desc">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
-        </div>
-
-      </div>
-
-      <!-- ── Part B: Trust Strip ──────────────────────────────────
+<div class="vp-grid">
+<div class="vp-card" style="border-top:3px solid #1e3a5f;">
+<div class="vp-icon">🔒</div>
+<div class="vp-title mkt on" id="vp1-ong">Straightforward Rate Options. No Fine Print Surprises.</div>
+<div class="vp-title mkt" id="vp1-ies">One Flat Monthly Bill. No Fine Print Surprises.</div>
+<div class="vp-title mkt" id="vp1-pa">Straightforward Rate Options. No Fine Print Surprises.</div>
+<div class="vp-title mkt" id="vp1-gre">Straightforward Rate Options. No Fine Print Surprises.</div>
+<div class="vp-title mkt" id="vp1-il">Straightforward Rate Options. No Fine Print Surprises.</div>
+<div class="vp-desc mkt on" id="vpd1-ong">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? Lock in a fixed rate for 12 or 24 months. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
+<div class="vp-desc mkt" id="vpd1-ies">The Fixed Bill plan means one transparent monthly charge — no commodity rate exposure, no seasonal swings. One plan, one number on your bill every month. What you're quoted is what you pay.</div>
+<div class="vp-desc mkt" id="vpd1-pa">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? A fixed rate protects you from commodity swings for 12 or 24 months. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
+<div class="vp-desc mkt" id="vpd1-gre">We show you fixed-rate, variable-rate, and Greener Life® plan options — with rates upfront, before you enroll. Want price certainty? Lock in your MCF rate for the full contract term. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
+<div class="vp-desc mkt" id="vpd1-il">We show you fixed-rate and variable-rate plan options — with rates upfront, before you enroll. Want price certainty? Lock in your commodity rate for your contract term. Prefer flexibility? A variable rate moves with the market. No hidden fees either way.</div>
+</div>
+<div class="vp-card" style="border-top:3px solid #4caf50;">
+<div class="vp-icon">✅</div>
+<div class="vp-title">Licensed, Regulated, &amp; Accountable</div>
+<div class="vp-desc">
+<span class="mkt on" id="vpd2-ong">Ohio Natural Gas is a PUCO-certified supplier. Your utility (Columbia Gas or Dominion) still delivers your gas — we handle your commodity rate.</span>
+<span class="mkt" id="vpd2-pa">Pennsylvania Energy is PA PUC-certified. Your utility (UGI, Peoples, or PECO) still delivers your gas — we handle your commodity rate.</span>
+<span class="mkt" id="vpd2-gre">Grand Rapids Energy is MPSC-licensed. Consumers Energy or SEMCO still delivers your gas — your pipes and safety response don't change.</span>
+<span class="mkt" id="vpd2-il">Illinois Energy is ICC-licensed. Your utility (Nicor, Peoples, or North Shore) still delivers your gas — we handle the commodity rate.</span>
+<span class="mkt" id="vpd2-ies">Illinois Energy Solutions is ICC-licensed. Your utility still delivers your gas — we handle the pricing with a transparent Fixed Bill structure.</span>
+</div>
+</div>
+<div class="vp-card" style="border-top:3px solid #e8641a;">
+<div class="vp-icon">🎯</div>
+<div class="vp-title">Choose Your Supplier. Own Your Rate.</div>
+<div class="vp-desc">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+</div>
+</div>
+<!-- ── Part B: Trust Strip ──────────────────────────────────
            External validation below the product cards.
            Answers "how do I know this is true?" after the rational case is made.
            BBB is market-conditional — not all brands are accredited or in good standing.
       ───────────────────────────────────────────────────────────── -->
-      <div style="border-top:1px solid #e8e8e4; margin:22px 0 16px;"></div>
-
-      <div class="trust-band-grid">
-        <div class="trust-item">
-          <div class="trust-val"><span style="color:#f5c842;">★</span> [X.X]</div>
-          <div class="trust-lbl">[N,NNN] verified reviews<br>(Google / BBB / Trustpilot)<br><span style="color:#f5c842;">⚑ confirm source per market</span></div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val">[XX]+</div>
-          <div class="trust-lbl">Years serving
+<div style="border-top:1px solid #e8e8e4; margin:22px 0 16px;"></div>
+<div class="trust-band-grid">
+<div class="trust-item">
+<div class="trust-val"><span style="color:#f5c842;">★</span> [X.X]</div>
+<div class="trust-lbl">[N,NNN] verified reviews<br/>(Google / BBB / Trustpilot)<br/><span style="color:#f5c842;">⚑ confirm source per market</span></div>
+</div>
+<div class="trust-item">
+<div class="trust-val">[XX]+</div>
+<div class="trust-lbl">Years serving
             <span class="mkt on" id="ts-state-ong">Ohio</span>
-            <span class="mkt" id="ts-state-pa">Pennsylvania</span>
-            <span class="mkt" id="ts-state-gre">Michigan</span>
-            <span class="mkt" id="ts-state-il">Illinois</span>
-            <span class="mkt" id="ts-state-ies">Illinois</span>
+<span class="mkt" id="ts-state-pa">Pennsylvania</span>
+<span class="mkt" id="ts-state-gre">Michigan</span>
+<span class="mkt" id="ts-state-il">Illinois</span>
+<span class="mkt" id="ts-state-ies">Illinois</span>
             households
           </div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val" style="font-size:14px;">
-            <span class="mkt on" id="ts-reg-ong">PUCO<br>Licensed</span>
-            <span class="mkt" id="ts-reg-pa">PA PUC<br>Licensed</span>
-            <span class="mkt" id="ts-reg-gre">MPSC<br>Licensed</span>
-            <span class="mkt" id="ts-reg-il">ICC<br>Licensed</span>
-            <span class="mkt" id="ts-reg-ies">ICC<br>Licensed</span>
-          </div>
-          <div class="trust-lbl">State-certified<br>natural gas supplier ↗</div>
-        </div>
-        <div class="trust-item">
-          <div class="trust-val" style="font-size:14px;">BBB<br>Accredited</div>
-          <div class="trust-lbl">Rating: [A+] ↗<br><span style="color:#f5c842;">⚑ market-conditional — confirm standing per brand before publishing</span></div>
-        </div>
-      </div>
-
-      <!-- ── Part C: Customer Testimonial ────────────────────────
+</div>
+<div class="trust-item">
+<div class="trust-val" style="font-size:14px;">
+<span class="mkt on" id="ts-reg-ong">PUCO<br/>Licensed</span>
+<span class="mkt" id="ts-reg-pa">PA PUC<br/>Licensed</span>
+<span class="mkt" id="ts-reg-gre">MPSC<br/>Licensed</span>
+<span class="mkt" id="ts-reg-il">ICC<br/>Licensed</span>
+<span class="mkt" id="ts-reg-ies">ICC<br/>Licensed</span>
+</div>
+<div class="trust-lbl">State-certified<br/>natural gas supplier ↗</div>
+</div>
+<div class="trust-item">
+<div class="trust-val" style="font-size:14px;">BBB<br/>Accredited</div>
+<div class="trust-lbl">Rating: [A+] ↗<br/><span style="color:#f5c842;">⚑ market-conditional — confirm standing per brand before publishing</span></div>
+</div>
+</div>
+<!-- ── Part C: Customer Testimonial ────────────────────────
            Social proof: one verified quote per market, CMS-configurable.
            Do not fabricate — source from Google / BBB / Trustpilot only.
       ───────────────────────────────────────────────────────────── -->
-      <div style="margin-top:16px; background:#f7f7f5; border:1.5px solid #e0dfd9; border-left:4px solid #e8641a; border-radius:4px; padding:14px 18px;">
-        <div style="font-size:13px; color:#333; font-style:italic; margin-bottom:6px;">"[Customer testimonial — 1–2 sentences. Plain, honest language. Must be sourced from verified review platform — no fabricated quotes.]"</div>
-        <div style="font-size:11px; color:#888;">— [First name, city, state] · [Source: Google / BBB]</div>
-        <div style="font-size:10px; color:#f5c842; margin-top:4px;">⚑ Testimonial placeholder — pull from verified reviews for each market. One quote per market — CMS-configurable.</div>
-      </div>
+<div style="margin-top:16px; background:#f7f7f5; border:1.5px solid #e0dfd9; border-left:4px solid #e8641a; border-radius:4px; padding:14px 18px;">
+<div style="font-size:13px; color:#333; font-style:italic; margin-bottom:6px;">"[Customer testimonial — 1–2 sentences. Plain, honest language. Must be sourced from verified review platform — no fabricated quotes.]"</div>
+<div style="font-size:11px; color:#888;">— [First name, city, state] · [Source: Google / BBB]</div>
+<div style="font-size:10px; color:#f5c842; margin-top:4px;">⚑ Testimonial placeholder — pull from verified reviews for each market. One quote per market — CMS-configurable.</div>
+</div>
+<!-- AI Sentiment context — annotation only, not shown to visitors -->
+<div class="sentiment-bar">
+<span style="font-size:11px; font-weight:700; color:#555;">AI Sentiment (current baseline):</span>
+<span class="sentiment-chip sc-pos">ONG +19</span>
+<span class="sentiment-chip sc-neg">IES −43</span>
+<span class="sentiment-chip sc-neutral">IE −14</span>
+<span style="font-size:10px; color:#aaa; flex:1;">IES: −43 score driven by BBB billing complaints — trust strip must be substantially stronger for IES; proactive billing transparency copy required. IE: −14 from variable rate vs. Nicor comparison — transparency in copy is key. Annotations only — not displayed to site visitors.</span>
+</div>
 
-      <!-- AI Sentiment context — annotation only, not shown to visitors -->
-      <div class="sentiment-bar">
-        <span style="font-size:11px; font-weight:700; color:#555;">AI Sentiment (current baseline):</span>
-        <span class="sentiment-chip sc-pos">ONG +19</span>
-        <span class="sentiment-chip sc-neg">IES −43</span>
-        <span class="sentiment-chip sc-neutral">IE −14</span>
-        <span style="font-size:10px; color:#aaa; flex:1;">IES: −43 score driven by BBB billing complaints — trust strip must be substantially stronger for IES; proactive billing transparency copy required. IE: −14 from variable rate vs. Nicor comparison — transparency in copy is key. Annotations only — not displayed to site visitors.</span>
-      </div>
-
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Merged from former Sections 3 + 5 — VP cards (rational case) flow into trust strip (external validation) then testimonial (social proof). Single section heading removes duplicate "why choose us" framing.</div>
-        <div class="ann ann-g"><i>✓</i> VP cards ladder up to Trusted Advisor North Star: price transparency (informed decision-making) → licensed &amp; regulated (accountability/credibility) → supplier choice (empowerment). Ordered to build confidence before asking for a decision.</div>
-        <div class="ann ann-g"><i>✓</i> Card 2 (Licensed &amp; Regulated) and trust strip regulatory badge reinforce each other — card explains the concept, badge quantifies credibility. Not redundant: card = narrative, badge = proof.</div>
-        <div class="ann ann-g"><i>✓</i> IES card 1 uses "Flat Monthly Bill" framing — not "fixed rate" (Fixed Bill is a billing product, not a rate comparison)</div>
-        <div class="ann ann-g"><i>✓</i> All trust claims must include source link — no unsupported superlatives (E-E-A-T requirement)</div>
-        <div class="ann ann-g"><i>✓</i> Years-in-market claim must be market-specific and verifiable — not generic "decades of experience"</div>
-        <div class="ann ann-y"><i>⚑</i> BBB: market-conditional — confirm which brands are accredited and in good standing before this tile is published. Not all brands qualify. Do not show for brands without current accreditation.</div>
-        <div class="ann ann-y"><i>⚑</i> IES: −43 AI sentiment requires extra trust signal investment — consider adding response-to-complaints note, explicit billing transparency copy, and link to billing FAQ in this section</div>
-        <div class="ann ann-y"><i>⚑</i> Review aggregate: confirm which markets have Google / BBB / Trustpilot data and minimum review counts before trust strip copy is written</div>
-        <div class="ann ann-y"><i>⚑</i> Icon treatment: emoji placeholders — confirm with brand guide whether custom icons or a clean icon set (e.g. Heroicons) is required</div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 6 — FOOTER CTA BAND
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">6</div><br>Footer CTA<br>Band</div>
-    <div class="footer-cta">
-      <div class="footer-cta-grid">
-        <div>
-          <div class="footer-cta-title">
-            <span class="mkt on" id="fc-ong">Ready to lock in your Ohio Natural Gas rate?</span>
-            <span class="mkt" id="fc-pa">Ready to lock in your Pennsylvania Energy rate?</span>
-            <span class="mkt" id="fc-gre">Ready to lock in your Grand Rapids Energy rate?</span>
-            <span class="mkt" id="fc-il">Ready to lock in your Illinois Energy rate?</span>
-            <span class="mkt" id="fc-ies">Ready to simplify your Illinois Energy Solutions bill?</span>
-          </div>
-          <div class="footer-cta-sub">
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">6</div><br/>Footer CTA<br/>Band</div>
+<div class="footer-cta">
+<div class="footer-cta-grid">
+<div>
+<div class="footer-cta-title">
+<span class="mkt on" id="fc-ong">Ready to lock in your Ohio Natural Gas rate?</span>
+<span class="mkt" id="fc-pa">Ready to lock in your Pennsylvania Energy rate?</span>
+<span class="mkt" id="fc-gre">Ready to lock in your Grand Rapids Energy rate?</span>
+<span class="mkt" id="fc-il">Ready to lock in your Illinois Energy rate?</span>
+<span class="mkt" id="fc-ies">Ready to simplify your Illinois Energy Solutions bill?</span>
+</div>
+<div class="footer-cta-sub">
             Easy to enroll online. Your utility still delivers your gas. Nothing changes except your rate
             <span class="mkt on" id="fc-sub-ies" style="display:none;"> — and you'll always know what you owe.</span>
-            <span class="mkt" id="fc-sub-rest">.</span>
-          </div>
-          <div class="footer-disclaimer">
-            <span class="mkt on" id="fd-ong">Ohio Natural Gas LLC is a licensed natural gas supplier certified by the Public Utilities Commission of Ohio (PUCO). [Link ↗] · Not the same as your local utility.</span>
-            <span class="mkt" id="fd-pa">Pennsylvania Energy is licensed by the Pennsylvania Public Utility Commission (PA PUC). [Link ↗] · Not affiliated with your local utility company.</span>
-            <span class="mkt" id="fd-gre">Grand Rapids Energy is licensed by the Michigan Public Service Commission (MPSC). [Link ↗] · Not affiliated with your local utility.</span>
-            <span class="mkt" id="fd-il">Illinois Energy is licensed by the Illinois Commerce Commission (ICC). [Link ↗] · Not affiliated with your local utility. SB651/Part 512 disclosure required ⚑</span>
-            <span class="mkt" id="fd-ies">Illinois Energy Solutions is licensed by the Illinois Commerce Commission (ICC). [Link ↗] · Not affiliated with your local utility. ICC mandatory disclosure required ⚑</span>
-          </div>
-        </div>
-        <div class="footer-cta-actions">
-          <div class="wf-btn-lg" style="white-space:nowrap;">See My Plans →</div>
-          <!-- Call CTA removed — project brief: defer call center traffic; phone number
+<span class="mkt" id="fc-sub-rest">.</span>
+</div>
+<div class="footer-disclaimer">
+<span class="mkt on" id="fd-ong">Ohio Natural Gas LLC is a licensed natural gas supplier certified by the Public Utilities Commission of Ohio (PUCO). [Link ↗] · Not the same as your local utility.</span>
+<span class="mkt" id="fd-pa">Pennsylvania Energy is licensed by the Pennsylvania Public Utility Commission (PA PUC). [Link ↗] · Not affiliated with your local utility company.</span>
+<span class="mkt" id="fd-gre">Grand Rapids Energy is licensed by the Michigan Public Service Commission (MPSC). [Link ↗] · Not affiliated with your local utility.</span>
+<span class="mkt" id="fd-il">Illinois Energy is licensed by the Illinois Commerce Commission (ICC). [Link ↗] · Not affiliated with your local utility. SB651/Part 512 disclosure required ⚑</span>
+<span class="mkt" id="fd-ies">Illinois Energy Solutions is licensed by the Illinois Commerce Commission (ICC). [Link ↗] · Not affiliated with your local utility. ICC mandatory disclosure required ⚑</span>
+</div>
+</div>
+<div class="footer-cta-actions">
+<div class="wf-btn-lg" style="white-space:nowrap;">See My Plans →</div>
+<!-- Call CTA removed — project brief: defer call center traffic; phone number
                available in Site Footer Support column for existing customer service needs -->
-        </div>
-      </div>
-    </div>
-    <div class="p-sm">
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> "Ready to lock in" headline echoes rate certainty value prop — consistent messaging through the page</div>
-        <div class="ann ann-g"><i>✓</i> IES footer uses "simplify your bill" framing — not "lock in rate" (Fixed Bill distinction)</div>
-        <div class="ann ann-g"><i>✓</i> License disclaimer in footer — required for all markets, must include state-specific regulator and link to license verification</div>
-        <div class="ann ann-g"><i>✓</i> Call CTA removed — project brief is to defer call center traffic. Phone number remains in Site Footer Support column for existing customer service only, not surfaced as a primary conversion CTA.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #7: SouthStar / Southern Company parent brand relationship — should an explainer appear in this band or in a dedicated "About" section?</div>
-        <div class="ann ann-y"><i>⚑</i> IL and IES: SB651/Part 512 and ICC mandatory disclosures — confirm whether additional legal copy is required in this section</div>
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+<div class="p-sm">
 
-
-  <!-- ══════════════════════════════════
+</div>
+</div>
+<!-- ══════════════════════════════════
        SECTION 7 — SITE FOOTER (Global)
   ══════════════════════════════════ -->
-  <div class="section" style="position:relative;">
-    <div class="section-label"><div class="sec-num">7</div><br>Site Footer<br>(Global)</div>
-
-    <div class="site-footer">
-
-      <!-- Footer brand + utility nav strip
+<div class="section" style="position:relative;">
+<div class="section-label"><div class="sec-num">7</div><br/>Site Footer<br/>(Global)</div>
+<div class="site-footer">
+<!-- Footer brand + utility nav strip
            Structure sourced from IA review meeting (March 23, 2026):
            "customer service phone number and then my account surfacing Learning Center
            and the FAQ page... contact us page... privacy policy, terms of use, site map" -->
-      <div class="footer-brand-strip">
-
-        <!-- Left: entity brand -->
-        <div>
-          <div class="footer-logo">
-            <span class="mkt on" id="ft-logo-ong">Ohio Natural Gas</span>
-            <span class="mkt" id="ft-logo-pa">Pennsylvania Energy</span>
-            <span class="mkt" id="ft-logo-gre">Grand Rapids Energy</span>
-            <span class="mkt" id="ft-logo-il">Illinois Energy</span>
-            <span class="mkt" id="ft-logo-ies">Illinois Energy Solutions</span>
-          </div>
-          <div class="footer-parent">
-            A SouthStar Energy company · SouthStar Energy is a subsidiary of Southern Company Gas<br>
-            <span style="color:#f5c842; font-size:9px;">⚑ Confirm exact legal language — Open Q #7</span>
-          </div>
-          <div class="footer-social">
-            <div class="footer-social-icon">f</div>
-            <div class="footer-social-icon">in</div>
-            <div class="footer-social-icon">𝕏</div>
-          </div>
-        </div>
-
-        <!-- Col 2: Products & Plans (IES-HP-9: IES shows only Fixed Bill Plan, no commercial or Greener Life)
+<div class="footer-brand-strip">
+<!-- Left: entity brand -->
+<div>
+<div class="footer-logo">
+<span class="mkt on" id="ft-logo-ong">Ohio Natural Gas</span>
+<span class="mkt" id="ft-logo-pa">Pennsylvania Energy</span>
+<span class="mkt" id="ft-logo-gre">Grand Rapids Energy</span>
+<span class="mkt" id="ft-logo-il">Illinois Energy</span>
+<span class="mkt" id="ft-logo-ies">Illinois Energy Solutions</span>
+</div>
+<div class="footer-parent">
+            A SouthStar Energy company · SouthStar Energy is a subsidiary of Southern Company Gas<br/>
+<span style="color:#f5c842; font-size:9px;">⚑ Confirm exact legal language — Open Q #7</span>
+</div>
+<div class="footer-social">
+<div class="footer-social-icon">f</div>
+<div class="footer-social-icon">in</div>
+<div class="footer-social-icon">𝕏</div>
+</div>
+</div>
+<!-- Col 2: Products & Plans (IES-HP-9: IES shows only Fixed Bill Plan, no commercial or Greener Life)
              Sourced from content tracker: Residential Plans page confirmed across all markets.
              ONG: ONG-007 (residential), ONG-023 (commercial); GRE: GRE-009, GRE-020; IL: IL-008, IL-019
              PA: PE-009 (residential only — no commercial in tracker); IES: IES-003 (Fixed Bill Plan, not rate-based)
              Greener Life: ONG confirmed (ONG-013–018); PA/GRE/IL status TBD — awaiting IA confirmation
              Promo code pathway: collapsed entry consistent with LDC widget New Customer tab -->
-        <div>
-          <div class="footer-col-head">Products &amp; Plans</div>
-          <div class="footer-col-links">
-            <!-- Plan label differs: IES calls it "Fixed Bill Plan" not "Residential Gas Plans" -->
-            <a class="mkt on" id="ft-plan-std" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
-            <a class="mkt" id="ft-plan-ies" href="ResidentialPlans_Wireframe.html">Fixed Bill Plan</a>
-            <!-- Commercial Plans — ONG, GRE, IL only; PA residential-only; IES n/a -->
-            <a class="mkt" id="ft-comm-ong" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="mkt" id="ft-comm-gre" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <a class="mkt" id="ft-comm-il" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-            <!-- Greener Life Add-On: ONG confirmed; PA/GRE/IL pending IA review; IES n/a (IES-HP-9) -->
-            <a class="mkt" id="ft-gl-ong" href="ResidentialPlans_Wireframe.html">Greener Life® Plans</a>
-            <a class="mkt" id="ft-gl-pa" href="ResidentialPlans_Wireframe.html">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
-            <a class="mkt" id="ft-gl-gre" href="ResidentialPlans_Wireframe.html">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
-            <a class="mkt" id="ft-gl-il" href="ResidentialPlans_Wireframe.html">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
-            <a style="color:#7a9cbf; cursor:pointer;"
-               onclick="document.getElementById('promo-strip-panel').style.display='block'; document.getElementById('promo-strip-toggle').style.display='none'; document.getElementById('promo-strip-panel').scrollIntoView({behavior:'smooth', block:'center'});">
+<div>
+<div class="footer-col-head">Products &amp; Plans</div>
+<div class="footer-col-links">
+<!-- Plan label differs: IES calls it "Fixed Bill Plan" not "Residential Gas Plans" -->
+<a class="mkt on" href="ResidentialPlans_Wireframe.html" id="ft-plan-std">Residential Gas Plans</a>
+<a class="mkt" href="ResidentialPlans_Wireframe.html" id="ft-plan-ies">Fixed Bill Plan</a>
+<!-- Commercial Plans — ONG, GRE, IL only; PA residential-only; IES n/a -->
+<a class="mkt" href="CommercialPlans_Wireframe.html" id="ft-comm-ong">Commercial Plans</a>
+<a class="mkt" href="CommercialPlans_Wireframe.html" id="ft-comm-gre">Commercial Plans</a>
+<a class="mkt" href="CommercialPlans_Wireframe.html" id="ft-comm-il">Commercial Plans</a>
+<!-- Greener Life Add-On: ONG confirmed; PA/GRE/IL pending IA review; IES n/a (IES-HP-9) -->
+<a class="mkt" href="ResidentialPlans_Wireframe.html" id="ft-gl-ong">Greener Life® Plans</a>
+<a class="mkt" href="ResidentialPlans_Wireframe.html" id="ft-gl-pa">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+<a class="mkt" href="ResidentialPlans_Wireframe.html" id="ft-gl-gre">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+<a class="mkt" href="ResidentialPlans_Wireframe.html" id="ft-gl-il">Greener Life® Plans <span style="color:#f5c842;font-size:9px;">⚑ TBD</span></a>
+<a onclick="document.getElementById('promo-strip-panel').style.display='block'; document.getElementById('promo-strip-toggle').style.display='none'; document.getElementById('promo-strip-panel').scrollIntoView({behavior:'smooth', block:'center'});" style="color:#7a9cbf; cursor:pointer;">
               Have a Promotional Code?
             </a>
-          </div>
-        </div>
-
-        <!-- Col 3: Help & Account
+</div>
+</div>
+<!-- Col 3: Help & Account
              Task-based labels surfacing L2 pages without parent context — column header
              establishes categorical context so labels are self-explanatory (NNG/Baymard)
              Sources: ONG-046 FAQ, ONG-053 Contact Us; GRE-044–048; IES-017–020; GRE-049 Variable Rate -->
-        <div>
-          <div class="footer-col-head">Help &amp; Account</div>
-          <div class="footer-col-links">
-            <a href="MyAccount_Wireframe.html">My Account</a>
-            <a href="MyAccount_Wireframe.html">Pay My Bill</a>
-            <a href="LearningCenter_Wireframe.html">FAQ</a>
-            <a href="MyAccount_Wireframe.html">Refer a Friend</a>
-            <a href="ContactFormUtility_Wireframe.html">Contact Us</a>
-            <a href="GeneralInformational_Wireframe.html">About</a>
-            <!-- GRE-only: Variable Rate Notice (GRE-049) — high-stakes regulatory page, footer placement ensures discoverability -->
-            <a class="mkt" id="ft-vr-gre" href="GeneralInformational_Wireframe.html" style="color:#c0392b; font-weight:700;">Variable Rate Notice ⚠</a>
-          </div>
-        </div>
-
-        <!-- Col 4: Support (phone + emergency + license)
+<div>
+<div class="footer-col-head">Help &amp; Account</div>
+<div class="footer-col-links">
+<a href="MyAccount_Wireframe.html">My Account</a>
+<a href="MyAccount_Wireframe.html">Pay My Bill</a>
+<a href="LearningCenter_Wireframe.html">FAQ</a>
+<a href="MyAccount_Wireframe.html">Refer a Friend</a>
+<a href="ContactFormUtility_Wireframe.html">Contact Us</a>
+<a href="GeneralInformational_Wireframe.html">About</a>
+<!-- GRE-only: Variable Rate Notice (GRE-049) — high-stakes regulatory page, footer placement ensures discoverability -->
+<a class="mkt" href="GeneralInformational_Wireframe.html" id="ft-vr-gre" style="color:#c0392b; font-weight:700;">Variable Rate Notice ⚠</a>
+</div>
+</div>
+<!-- Col 4: Support (phone + emergency + license)
              Customer service number intentionally in footer only — not in nav — per project brief:
              enrollment calls are costly; footer placement serves existing customers without
              promoting inbound calls as primary CTA -->
-        <div>
-          <div class="footer-col-head">Support</div>
-          <div class="footer-phone-label" style="margin-top:0; margin-bottom:2px;">Customer Service</div>
-          <div class="footer-phone">1-[xxx]-[xxx]-[xxxx]</div>
-          <div style="font-size:9px; color:#555; margin-top:2px; margin-bottom:10px;">Mon–Fri [hours] · <span style="color:#f5c842;">⚑ confirm hours/market</span></div>
-          <div style="font-size:10px; color:#555; line-height:1.5; margin-bottom:12px;">
-            <span class="mkt on" id="ft-lic-ong">PUCO Certified Supplier · License [#]</span>
-            <span class="mkt" id="ft-lic-pa">PA PUC Licensed · License [#]</span>
-            <span class="mkt" id="ft-lic-gre">MPSC Licensed Supplier · License [#]</span>
-            <span class="mkt" id="ft-lic-il">ICC Certified Supplier · License [#]</span>
-            <span class="mkt" id="ft-lic-ies">ICC Certified Supplier · License [#]</span>
-          </div>
-          <!-- Gas emergency note — routes to utility, not supplier; legally critical -->
-          <div style="padding:8px 12px; background:#2a2a2a; border-radius:3px; font-size:10px; color:#888;">
-            <strong style="color:#aaa;">Gas emergency?</strong> Call your utility — not us.<br>
-            <span class="mkt on" id="ft-em-ong">Columbia Gas: 1-800-[xxx]<br>Dominion: 1-800-[xxx]</span>
-            <span class="mkt" id="ft-em-pa">UGI: 1-800-[xxx]<br>Peoples: 1-800-[xxx]</span>
-            <span class="mkt" id="ft-em-gre">Consumers: 1-800-[xxx]<br>SEMCO: 1-800-[xxx]</span>
-            <span class="mkt" id="ft-em-il">Nicor: 1-888-[xxx]<br>Peoples Gas: 1-866-[xxx]</span>
-            <span class="mkt" id="ft-em-ies">Nicor: 1-888-[xxx]<br>Peoples Gas: 1-866-[xxx]</span>
-          </div>
-        </div>
-
-      </div><!-- /footer-brand-strip -->
-
-      <!-- Bottom bar: copyright + legal links + market-specific disclaimer -->
-      <div class="footer-bottom">
-        <div class="footer-bottom-row">
-          <div class="footer-copyright">
+<div>
+<div class="footer-col-head">Support</div>
+<div class="footer-phone-label" style="margin-top:0; margin-bottom:2px;">Customer Service</div>
+<div class="footer-phone">1-[xxx]-[xxx]-[xxxx]</div>
+<div style="font-size:9px; color:#555; margin-top:2px; margin-bottom:10px;">Mon–Fri [hours] · <span style="color:#f5c842;">⚑ confirm hours/market</span></div>
+<div style="font-size:10px; color:#555; line-height:1.5; margin-bottom:12px;">
+<span class="mkt on" id="ft-lic-ong">PUCO Certified Supplier · License [#]</span>
+<span class="mkt" id="ft-lic-pa">PA PUC Licensed · License [#]</span>
+<span class="mkt" id="ft-lic-gre">MPSC Licensed Supplier · License [#]</span>
+<span class="mkt" id="ft-lic-il">ICC Certified Supplier · License [#]</span>
+<span class="mkt" id="ft-lic-ies">ICC Certified Supplier · License [#]</span>
+</div>
+<!-- Gas emergency note — routes to utility, not supplier; legally critical -->
+<div style="padding:8px 12px; background:#2a2a2a; border-radius:3px; font-size:10px; color:#888;">
+<strong style="color:#aaa;">Gas emergency?</strong> Call your utility — not us.<br/>
+<span class="mkt on" id="ft-em-ong">Columbia Gas: 1-800-[xxx]<br/>Dominion: 1-800-[xxx]</span>
+<span class="mkt" id="ft-em-pa">UGI: 1-800-[xxx]<br/>Peoples: 1-800-[xxx]</span>
+<span class="mkt" id="ft-em-gre">Consumers: 1-800-[xxx]<br/>SEMCO: 1-800-[xxx]</span>
+<span class="mkt" id="ft-em-il">Nicor: 1-888-[xxx]<br/>Peoples Gas: 1-866-[xxx]</span>
+<span class="mkt" id="ft-em-ies">Nicor: 1-888-[xxx]<br/>Peoples Gas: 1-866-[xxx]</span>
+</div>
+</div>
+</div><!-- /footer-brand-strip -->
+<!-- Bottom bar: copyright + legal links + market-specific disclaimer -->
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<div class="footer-copyright">
             © [year]
             <span class="mkt on" id="ft-copy-ong">Ohio Natural Gas LLC.</span>
-            <span class="mkt" id="ft-copy-pa">Pennsylvania Energy LLC.</span>
-            <span class="mkt" id="ft-copy-gre">Grand Rapids Energy LLC.</span>
-            <span class="mkt" id="ft-copy-il">Illinois Energy LLC.</span>
-            <span class="mkt" id="ft-copy-ies">Illinois Energy Solutions LLC.</span>
+<span class="mkt" id="ft-copy-pa">Pennsylvania Energy LLC.</span>
+<span class="mkt" id="ft-copy-gre">Grand Rapids Energy LLC.</span>
+<span class="mkt" id="ft-copy-il">Illinois Energy LLC.</span>
+<span class="mkt" id="ft-copy-ies">Illinois Energy Solutions LLC.</span>
             All rights reserved.
           </div>
-          <div class="footer-legal-links">
-            <a href="LegalCompliance_Wireframe.html">Privacy Policy</a>
-            <a href="LegalCompliance_Wireframe.html">Terms of Use</a>
-            <a href="LegalCompliance_Wireframe.html">Refer a Friend T&amp;Cs</a>
-            <a href="LegalCompliance_Wireframe.html">Do Not Sell My Info</a>
-            <a href="LegalCompliance_Wireframe.html">Accessibility</a>
-            <a href="SearchResults_Wireframe.html">Site Map</a>
-          </div>
-        </div>
+<div class="footer-legal-links">
+<a href="LegalCompliance_Wireframe.html">Privacy Policy</a>
+<a href="LegalCompliance_Wireframe.html">Terms of Use</a>
+<a href="LegalCompliance_Wireframe.html">Refer a Friend T&amp;Cs</a>
+<a href="LegalCompliance_Wireframe.html">Do Not Sell My Info</a>
+<a href="LegalCompliance_Wireframe.html">Accessibility</a>
+<a href="SearchResults_Wireframe.html">Site Map</a>
+</div>
+</div>
+<!-- Market-specific regulatory disclaimer (IES-HP-9: expanded IES disclosure region) -->
+<div class="footer-license">
+<span class="mkt on" id="ft-disc-ong">Ohio Natural Gas LLC is a certified competitive retail natural gas supplier (CRNGS) licensed by the Public Utilities Commission of Ohio (PUCO). License [#]. Not affiliated with Columbia Gas of Ohio or Dominion Energy Ohio. Your utility continues to deliver gas and maintain pipelines regardless of your supplier choice. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
+<span class="mkt" id="ft-disc-pa">Pennsylvania Energy LLC is licensed by the Pennsylvania Public Utility Commission (PA PUC). License [#]. Not affiliated with UGI Utilities, Peoples Natural Gas, or PECO Energy. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees. <span style="color:#f5c842;">⚑ PA-specific disclosure language TBD — confirm with compliance</span></span>
+<span class="mkt" id="ft-disc-gre">Grand Rapids Energy LLC is licensed by the Michigan Public Service Commission (MPSC). License [#]. Not affiliated with Consumers Energy or SEMCO Energy. <strong style="color:#666;">Rates billed in MCF by your utility.</strong> Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
+<span class="mkt" id="ft-disc-il">Illinois Energy LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. SB651 / 83 Ill. Adm. Code Part 512 disclosure required — confirm full disclosure text with compliance. Rates shown are commodity charges only.</span>
+<span class="mkt" id="ft-disc-ies" style="display:none;"><strong>Illinois Energy Solutions LLC — ICC Licensing &amp; Billing Disclosure (Expanded Region):</strong> Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill Product Disclosure:</strong> Illinois Energy Solutions offers a Fixed Bill plan — a monthly charge structure that is NOT a per-unit commodity rate. Your monthly bill amount is fixed and does not vary with market pricing or usage (subject to the terms in your contract). [<span style="color:#f5c842;">Expanded ICC mandatory disclosure copy pending Legal/Regulatory approval — current placeholder for layout testing</span>]</span>
+</div>
+</div><!-- /footer-bottom -->
+</div><!-- /site-footer -->
+<div class="p-sm">
 
-        <!-- Market-specific regulatory disclaimer (IES-HP-9: expanded IES disclosure region) -->
-        <div class="footer-license">
-          <span class="mkt on" id="ft-disc-ong">Ohio Natural Gas LLC is a certified competitive retail natural gas supplier (CRNGS) licensed by the Public Utilities Commission of Ohio (PUCO). License [#]. Not affiliated with Columbia Gas of Ohio or Dominion Energy Ohio. Your utility continues to deliver gas and maintain pipelines regardless of your supplier choice. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
-          <span class="mkt" id="ft-disc-pa">Pennsylvania Energy LLC is licensed by the Pennsylvania Public Utility Commission (PA PUC). License [#]. Not affiliated with UGI Utilities, Peoples Natural Gas, or PECO Energy. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees. <span style="color:#f5c842;">⚑ PA-specific disclosure language TBD — confirm with compliance</span></span>
-          <span class="mkt" id="ft-disc-gre">Grand Rapids Energy LLC is licensed by the Michigan Public Service Commission (MPSC). License [#]. Not affiliated with Consumers Energy or SEMCO Energy. <strong style="color:#666;">Rates billed in MCF by your utility.</strong> Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
-          <span class="mkt" id="ft-disc-il">Illinois Energy LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. SB651 / 83 Ill. Adm. Code Part 512 disclosure required — confirm full disclosure text with compliance. Rates shown are commodity charges only.</span>
-          <span class="mkt" id="ft-disc-ies" style="display:none;"><strong>Illinois Energy Solutions LLC — ICC Licensing & Billing Disclosure (Expanded Region):</strong> Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill Product Disclosure:</strong> Illinois Energy Solutions offers a Fixed Bill plan — a monthly charge structure that is NOT a per-unit commodity rate. Your monthly bill amount is fixed and does not vary with market pricing or usage (subject to the terms in your contract). [<span style="color:#f5c842;">Expanded ICC mandatory disclosure copy pending Legal/Regulatory approval — current placeholder for layout testing</span>]</span>
-        </div>
-
-      </div><!-- /footer-bottom -->
-    </div><!-- /site-footer -->
-
-    <div class="p-sm">
-      <div class="ann-row">
-        <div class="ann ann-g"><i>✓</i> Footer restructured from flat link list to 4-column grid: Brand · Products &amp; Plans · Help &amp; Account · Support. Column headers provide categorical context so L2/L3 page labels ("Residential Gas Plans," "Pay My Bill") are self-explanatory without parent nav context — per NNG footer design research and Baymard Institute global nav studies.</div>
-        <div class="ann ann-g"><i>✓</i> Products &amp; Plans column (Col 2): Residential Gas Plans + Commercial Plans (ONG/GRE/IL) + Greener Life® Plans (ONG confirmed; PA/GRE/IL TBD) + Have a Promotional Code? — sourced from content tracker: ONG-007/023, GRE-009/020, IL-008/019, PE-009, IES-003</div>
-        <div class="ann ann-g"><i>✓</i> Help &amp; Account column (Col 3): My Account, Pay My Bill, FAQ, Refer a Friend, Contact Us, About — task-based labels covering the top existing-customer tasks. Variable Rate Notice shown for GRE only (GRE-049) in this column — high-stakes regulatory page surfaced for discoverability.</div>
-        <div class="ann ann-g"><i>✓</i> IES Products column shows "Fixed Bill Plan" (not "Residential Gas Plans") — IES has no per-unit rate product; plan name must match the IES nav label and product framing throughout</div>
-        <div class="ann ann-g"><i>✓</i> IES Products column omits Commercial Plans and Greener Life Add-On — IES is residential-only with a fixed-bill model; neither product applies</div>
-        <div class="ann ann-g"><i>✓</i> Variable Rate Notice (/variable-rate/) moved to Help &amp; Account column, GRE only — GRE-049 in content tracker; GRE is the only market with a tracked Variable Rate Notice page</div>
-        <div class="ann ann-g"><i>✓</i> Refer a Friend T&amp;Cs in legal strip — GRE-047 in content tracker; confirm which other markets carry a Refer a Friend program before extending to all footers</div>
-        <div class="ann ann-g"><i>✓</i> Gas emergency callout routes to utility (not supplier) — legally critical; supplier does not handle gas emergencies. Utility phone numbers must be confirmed per market.</div>
-        <div class="ann ann-g"><i>✓</i> Customer service phone in Support column (not in nav) — prevents promotion of inbound enrollment calls per project brief; serves existing customers after enrollment</div>
-        <div class="ann ann-g"><i>✓</i> Regulatory disclaimer is market-specific — required for all five markets; text must be compliance-approved before launch</div>
-        <div class="ann ann-g"><i>✓</i> IES disclaimer identifies Fixed Bill as a monthly charge, not a per-unit rate — prevents regulatory misrepresentation</div>
-        <div class="ann ann-g"><i>✓</i> GRE disclaimer includes MCF billing note — GRE is the only market billing in MCF, not therms</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #7 (carried forward): SouthStar / Southern Company exact legal language for sub-brand attribution in Col 1 — must be approved by legal before use</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #15: IL SB651 / Part 512 mandatory disclosure — confirm full required text with compliance; cannot finalize IL footer without this</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #16: Account portal URLs — single shared portal vs. market-specific? Determines whether My Account and Pay My Bill links are static or market-conditional in Col 3</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #17: Social media — confirm active channels per market before social icons are linked. IA review did not address social; confirm with marketing.</div>
-        <div class="ann ann-y"><i>⚑</i> Open Q #18: Greener Life Plans in footer — ONG confirmed (ONG-013–018 in tracker); PA/GRE/IL flagged TBD pending IA confirmation; IES excluded until Open Q #6 resolved</div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ANALYTICS EVENTS -->
-  <div class="section">
-    <div class="p-sm">
-      <div class="h3" style="margin-bottom:8px;">⚙ Analytics Events (Homepage)</div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px;">
-        <div class="wf-box" style="font-size:10px;"><strong>homepage_view</strong><br>Page load · param: market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>ldc_selector_click</strong><br>Utility button click · params: ldc_name, market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>ldc_zip_submit</strong><br>ZIP entry · params: zip, ldc_result, in_area (bool)</div>
-        <div class="wf-box" style="font-size:10px;"><strong>ldc_to_plans_click</strong><br>"See My Plans →" after LDC confirmed · params: ldc_name, market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>audience_tab_click</strong><br>Residential / Commercial tab · params: tab_name (residential|commercial), market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>promo_code_submit</strong><br>Promo strip submit · params: code_valid (bool), ldc_pre_selected (bool), market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>nav_enroll_click</strong><br>"Enroll →" header button · param: market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>existing_customer_login_click</strong><br>"Already a customer? Log in →" link below widget · param: market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>footer_nav_click</strong><br>Any footer link click · params: column (products|help|support), link_label</div>
-        <div class="wf-box" style="font-size:10px;"><strong>plan_teaser_enroll_click</strong><br>Enroll from homepage teaser card · params: plan_name, market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>greener_life_cta_click</strong><br>"See Greener Life Plans" / "Learn More" · params: cta_type (plans|learn_more), market</div>
-        <div class="wf-box" style="font-size:10px;"><strong>lc_teaser_article_click</strong><br>LC card click · params: article_title, position</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="doc-footer">4037-25 · Homepage · Wireframe Sketch · April 2026 · IfThen</div>
-
+</div>
+</div>
+<!-- ANALYTICS EVENTS -->
+<div class="section">
+<div class="p-sm">
+<div class="h3" style="margin-bottom:8px;">⚙ Analytics Events (Homepage)</div>
+<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px;">
+<div class="wf-box" style="font-size:10px;"><strong>homepage_view</strong><br/>Page load · param: market</div>
+<div class="wf-box" style="font-size:10px;"><strong>ldc_selector_click</strong><br/>Utility button click · params: ldc_name, market</div>
+<div class="wf-box" style="font-size:10px;"><strong>ldc_zip_submit</strong><br/>ZIP entry · params: zip, ldc_result, in_area (bool)</div>
+<div class="wf-box" style="font-size:10px;"><strong>ldc_to_plans_click</strong><br/>"See My Plans →" after LDC confirmed · params: ldc_name, market</div>
+<div class="wf-box" style="font-size:10px;"><strong>audience_tab_click</strong><br/>Residential / Commercial tab · params: tab_name (residential|commercial), market</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_code_submit</strong><br/>Promo strip submit · params: code_valid (bool), ldc_pre_selected (bool), market</div>
+<div class="wf-box" style="font-size:10px;"><strong>nav_enroll_click</strong><br/>"Enroll →" header button · param: market</div>
+<div class="wf-box" style="font-size:10px;"><strong>existing_customer_login_click</strong><br/>"Already a customer? Log in →" link below widget · param: market</div>
+<div class="wf-box" style="font-size:10px;"><strong>footer_nav_click</strong><br/>Any footer link click · params: column (products|help|support), link_label</div>
+<div class="wf-box" style="font-size:10px;"><strong>plan_teaser_enroll_click</strong><br/>Enroll from homepage teaser card · params: plan_name, market</div>
+<div class="wf-box" style="font-size:10px;"><strong>greener_life_cta_click</strong><br/>"See Greener Life Plans" / "Learn More" · params: cta_type (plans|learn_more), market</div>
+<div class="wf-box" style="font-size:10px;"><strong>lc_teaser_article_click</strong><br/>LC card click · params: article_title, position</div>
+</div>
+</div>
+</div>
+<div class="doc-footer">4037-25 · Homepage · Wireframe Sketch · April 2026 · IfThen</div>
 </div><!-- /canvas -->
-
 <script>
 const MKT_ELEMENTS = {
   // Footer column 2 IDs:
