@@ -1457,8 +1457,9 @@
 <div class="ann ann-b" style="margin-top:10px;"><strong>ENR-114 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. The account number is the utility/LDC account — a landlord or property manager may have multiple addresses on one utility account. Single-address verifications skip this selector entirely. Continue button remains disabled until one address is selected. Confirm with Girish that PRIME returns address array on account-verification call. Cross-ref MA-101 (Dashboard premise switcher).</div>
 </div>
 <!-- ENR-26 / ENR-83: Account-number help is ALWAYS-EXPOSED (text + call line).
-             Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation. -->
-<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px;">
+             Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation.
+             ENR-129: width:100% added to outer container to ensure full-width rendering. -->
+<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px; width:100%;">
 <p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
 <!-- Sample bill image with expand icon (ENR-83) -->
 <div onclick="document.getElementById('bill-image-modal').hidden = false;" style="margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--line); border-radius:3px; display:flex; gap:8px; align-items:center; cursor:pointer;">
@@ -1593,7 +1594,6 @@
 <span class="mkt-inline mkt-pa">Pennsylvania</span>
 <span class="mkt-inline mkt-gre">Michigan</span>
 </div>
-<div class="field-help"> Based on your selected utility (ENR-44).</div>
 </div>
 <div class="field">
 <label for="addr-zip"><span class="req">*</span>ZIP</label>
@@ -1758,20 +1758,7 @@
         </div>
         <div class="dev-note plan-fixed"><strong>ENR-12:</strong> ETC acknowledgement is a SEPARATE checkbox in addition to the general T&amp;Cs. Renders only for fixed plans. Variable plans show only the standard T&amp;Cs checkbox. (Source: 2026-05-11 walkthrough — Adam confirmed fixed plans surface an additional ETC checkbox.)</div> -->
 
-<!-- ENR-60 (2026-05-26): Per-market supplier authorization + rescission rights -->
-<div class="mkt mkt-ong on" id="supplier-auth-ong">
-<div class="checkbox-row" style="margin-top:10px;">
-<input id="consent-supplier-auth" required="" type="checkbox"/>
-<label for="consent-supplier-auth"><span class="req">*</span>I authorize Ohio Natural Gas to be my natural gas supplier and to process with CenterPoint Energy this request to enroll in a new contract with Ohio Natural Gas. If I am a new ONG customer, I understand that my natural gas company will be sending me a confirmation notice of the transfer of service. I also understand that I may rescind my enrollment without penalty within 7 business days of the postmark date of that confirmation notice by contacting my natural gas company.</label>
-</div>
-</div>
-
-<div class="mkt mkt-pa">
-
-</div>
-<div class="mkt mkt-gre">
-
-</div>
+<!-- ENR-131: supplier-auth block moved to Step 4 (Review) — see below -->
 
 </div><!-- /.fieldset-box (ENR-128) -->
 </div>
@@ -1849,6 +1836,23 @@
            Replaced by auto-create-at-submit + single-field "Set your password" inline on Confirmation.
            Supersedes the ENR-35 in-flow placement (ENR-35 / ENR-32 standalone-sign-in UX still relevant). -->
 
+<!-- ENR-131: Supplier authorization moved here from Step 3 (Accept Contract).
+     Most consequential action belongs at point of no return (Review), not grouped with T&Cs. -->
+<div class="review-section" style="margin-top:20px;">
+<header><h4>Supplier Authorization</h4></header>
+<!-- ENR-60 (2026-05-26): Per-market supplier authorization + rescission rights -->
+<div class="mkt mkt-ong on" id="supplier-auth-ong">
+<div class="checkbox-row" style="margin-top:10px;">
+<input id="consent-supplier-auth" required="" type="checkbox"/>
+<label for="consent-supplier-auth"><span class="req">*</span>I authorize Ohio Natural Gas to be my natural gas supplier and to process with CenterPoint Energy this request to enroll in a new contract with Ohio Natural Gas. If I am a new ONG customer, I understand that my natural gas company will be sending me a confirmation notice of the transfer of service. I also understand that I may rescind my enrollment without penalty within 7 business days of the postmark date of that confirmation notice by contacting my natural gas company.</label>
+</div>
+</div>
+<div class="mkt mkt-pa">
+</div>
+<div class="mkt mkt-gre">
+</div>
+</div>
+
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep(3)">← Back</button>
 <div class="btn-row-right">
@@ -1876,6 +1880,24 @@
 <!-- ENR-92: Existing customer cancel contract option (2 routing patterns for client decision) -->
 
 </div>
+<!-- ENR-132.1: "What Happens Next" timeline — reinstated/added at top of Confirmation body -->
+<div class="timeline-block" style="margin:24px 0; padding:20px; background:var(--accent-soft); border-radius:6px; border:1px solid var(--line);">
+<h3 style="margin:0 0 16px; font-size:15px;">What happens next</h3>
+<div style="display:flex; gap:0; flex-direction:column;">
+<div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:14px; position:relative;">
+<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">1</div>
+<div style="padding-top:4px; font-size:14px; font-weight:600;">Enrollment received</div>
+</div>
+<div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:14px;">
+<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">2</div>
+<div style="padding-top:4px; font-size:14px; font-weight:600;">Utility verification</div>
+</div>
+<div style="display:flex; align-items:flex-start; gap:12px;">
+<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">3</div>
+<div style="padding-top:4px; font-size:14px; font-weight:600;">Service switch</div>
+</div>
+</div>
+</div>
 <div class="confirmation-next">
 <p>Your gas utility will review and confirm your switch. We'll email you once it's official — or reach out if we need anything from you. The full process typically takes 1–3 billing cycles; timing varies by utility.</p>
 </div>
@@ -1890,25 +1912,24 @@
 <strong>Check your email for paperless billing verification.</strong> Once you verify, we'll stop sending paper statements and bills. Until verified, you'll receive both.
         </div>
 </div>
-<!-- ENR-115: "Need anything?" section -->
-<div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd);">
-<h3 style="margin:0 0 14px;">Need anything?</h3>
-<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
-<div style="padding:12px; background:var(--accent-soft,#f0f4ff); border-radius:4px; border-left:4px solid var(--accent,#0057a8);">
-<strong>Call us for help</strong><br/>
-<span style="font-size:13px;">
-<span class="mkt mkt-ong on">1-877-654-2765</span><span class="mkt mkt-pa">1-877-654-2765</span><span class="mkt mkt-gre">1-877-654-2765</span>
-              · Mon–Fri 8 a.m.–6 p.m. ET
-            </span>
+<!-- ENR-132.3: Replaced "Need anything?" section (ENR-115) with two side-by-side callout cards.
+     Removed "Track enrollment status" and "Go to My Account" cards (misleading — account creation is optional). -->
+<div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd); display:flex; gap:16px; flex-wrap:wrap;">
+  <!-- Card A: Customer support — all markets -->
+  <div style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
+    <strong style="display:block; margin-bottom:6px;">Questions? We're here to help.</strong>
+    <div style="font-size:13px; margin-bottom:8px;">
+      <span class="mkt mkt-ong on">1-877-654-2765</span><span class="mkt mkt-pa">1-877-654-2765</span><span class="mkt mkt-gre">1-877-654-2765</span>
+    </div>
+    <a href="ContactFormUtility_Wireframe.html" style="font-size:13px;">Contact us →</a>
+  </div>
+  <!-- Card B: Learning Center — ONG / PA / GRE only (suppress for IES) -->
+  <div class="mkt mkt-ong mkt-pa mkt-gre on" style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
+    <strong style="display:block; margin-bottom:6px;">Visit our Resource Center</strong>
+    <a href="LearningCenter_Wireframe.html" style="font-size:13px;">Explore articles →</a>
+  </div>
 </div>
-<div style="display:flex; gap:12px; flex-wrap:wrap;">
-<a class="btn btn-secondary" href="MyAccount_Wireframe.html" style="font-size:13px; padding:8px 14px;">📊 Track enrollment status</a>
-<a class="btn btn-secondary" href="MyAccount_Wireframe.html" style="font-size:13px; padding:8px 14px;">👤 Go to My Account</a>
-<a class="btn btn-secondary" href="LearningCenter_Wireframe.html" style="font-size:13px; padding:8px 14px;">📚 Visit Learning Center</a>
-</div>
-</div>
-<div class="ann ann-b"><strong>ENR-115 · "Need anything?" section:</strong> Added for consistency with IL-IES Confirmation step (ENRIL-198). Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff. Learning Center link visible for all OPG markets.</div>
-</div>
+<div class="ann ann-b"><strong>ENR-132 · Side-by-side callout cards:</strong> Replaced ENR-115 "Need anything?" section. Card A (customer support + market phone) visible all markets. Card B (Learning Center) wrapped in .mkt-ong/.mkt-pa/.mkt-gre — suppressed for IES. Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff.</div>
 <!-- RAF section: Elevated to position 3 per ENR-91 (2026-06-15) — Refer a Friend elevated from last position -->
 <div class="raf-block">
 <h3>Refer a friend, earn rewards</h3>
@@ -1931,7 +1952,7 @@
            ENR-91: Moved to position 4 (after RAF). -->
 <div id="set-password-confirmation" style="background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 6px; padding: 18px; margin: 18px 0;">
 <h3 style="margin: 0 0 6px; color: var(--accent); display: flex; align-items: center; gap: 10px;">
-          Set your password
+          Create an account to track your switch status.
           <span style="background: var(--accent); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.04em;">Recommended</span>
 </h3>
 <p style="font-size: 13px; color: var(--note); margin: 0 0 12px;">Your My Account is ready. Add a password to manage your plan, view your contract, and track your switch status.</p>
@@ -1964,10 +1985,10 @@
 <span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
         — Monday–Friday 8am–8pm.
       </div>
+<!-- ENR-132.4: Removed secondary "Back to home" button; single primary CTA routes to Homepage_Wireframe.html -->
 <div class="btn-row">
-<a class="btn btn-tertiary" href="#">← Back to home</a>
 <div class="btn-row-right">
-<a class="btn" href="/">Return to Homepage →</a>
+<a class="btn" href="Homepage_Wireframe.html">Back to homepage →</a>
 </div>
 </div>
 

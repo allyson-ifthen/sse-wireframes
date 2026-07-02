@@ -781,6 +781,54 @@
     .nav-hub-link::after { display: none !important; }
   }
 
+  /* ── LDC BILL THUMBNAIL ── */
+  .bill-thumb {
+    border: 1px solid #c5d8f0;
+    border-radius: 4px;
+    padding: 8px;
+    background: #f7f9ff;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .bill-thumb:hover { border-color: #5a8cbf; box-shadow: 0 1px 6px rgba(90,140,191,.2); }
+  .bill-thumb-img {
+    height: 64px;
+    background: #e8eef5;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #5a7a9a;
+    margin-bottom: 6px;
+  }
+  .bill-thumb-label { font-size: 11px; color: #5a8cbf; text-decoration: underline; }
+
+  /* ── LDC BILL MODAL ── */
+  .ldc-bill-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .ldc-bill-overlay[hidden] { display: none; }
+  .ldc-bill-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 24px;
+    max-width: 520px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* ── ZIP STATE TOGGLE ── */
+  .zip-state-btn.active { background: #5a8cbf !important; color: #fff !important; }
+  .zip-state-panel { }
 </style>
 </head>
 <body>
@@ -1082,14 +1130,65 @@
 <div class="wf-btn" style="padding:8px 18px; font-size:12px;">Find My Utility →</div>
 </div>
 </div>
-<!-- ZIP result: auto-selects the utility above and confirms visually -->
-<div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
-                ✓ <strong>Result state:</strong> "Your utility is Columbia Gas. Plans below have been updated." — selector button highlights automatically; zip field collapses.
-              </div>
-<!-- ZIP result: out of service area -->
-<div style="margin-top:8px; background:#fff8e1; border:1px solid #f5c842; border-radius:3px; padding:8px 12px; font-size:12px; color:#7a6000;">
-                ⚠️ <strong>Out-of-area state:</strong> "We don't currently serve your zip code — but we're expanding." + email capture field + "Notify Me" button
-              </div>
+<!-- ZIP result states — toggle between outcomes -->
+<div style="margin-top:12px;">
+  <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+    <span style="font-size:10px; color:#888; align-self:center; margin-right:2px;">Result state:</span>
+    <button class="zip-state-btn active" onclick="setZipState('single',this)" style="font-size:10px; padding:3px 9px; border:1px solid #5a8cbf; border-radius:12px; background:#5a8cbf; color:#fff; cursor:pointer;">Single match</button>
+    <button class="zip-state-btn" onclick="setZipState('multi',this)" style="font-size:10px; padding:3px 9px; border:1px solid #5a8cbf; border-radius:12px; background:#fff; color:#5a8cbf; cursor:pointer;">Multiple matches ★ new</button>
+    <button class="zip-state-btn" onclick="setZipState('outofarea',this)" style="font-size:10px; padding:3px 9px; border:1px solid #5a8cbf; border-radius:12px; background:#fff; color:#5a8cbf; cursor:pointer;">Out of area</button>
+  </div>
+
+  <!-- State: single match -->
+  <div id="zip-state-single" class="zip-state-panel">
+    <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:10px 14px; font-size:12px; color:#2e7d32;">
+      ✓ <strong>Your utility is Columbia Gas.</strong> Plans below have been updated.
+    </div>
+    <div style="margin-top:6px; font-size:11px; color:#888;">Selector button highlights automatically; ZIP field collapses.</div>
+  </div>
+
+  <!-- State: multiple matches — bill thumbnail interaction -->
+  <div id="zip-state-multi" class="zip-state-panel" style="display:none;">
+    <div style="font-size:12px; color:#333; font-weight:600; margin-bottom:10px;">We found 2 utilities that may serve your area. Which one is yours?</div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+
+      <!-- Utility card 1 -->
+      <div style="flex:1; min-width:130px;">
+        <button style="width:100%; padding:10px 8px; border:1.5px solid #333; border-radius:4px; background:#333; color:#fff; font-size:12px; font-weight:600; cursor:pointer; margin-bottom:8px;">[UTILITY NAME 1]</button>
+        <div class="bill-thumb" onclick="openBillModal('Utility 1')" title="Click to expand bill example">
+          <div class="bill-thumb-img">[Bill thumbnail]</div>
+          <div class="bill-thumb-label">See bill example →</div>
+        </div>
+      </div>
+
+      <!-- Utility card 2 -->
+      <div style="flex:1; min-width:130px;">
+        <button style="width:100%; padding:10px 8px; border:1.5px solid #b8d4f0; border-radius:4px; background:#fff; color:#333; font-size:12px; font-weight:600; cursor:pointer; margin-bottom:8px;">[UTILITY NAME 2]</button>
+        <div class="bill-thumb" onclick="openBillModal('Utility 2')" title="Click to expand bill example">
+          <div class="bill-thumb-img">[Bill thumbnail]</div>
+          <div class="bill-thumb-label">See bill example →</div>
+        </div>
+      </div>
+
+    </div>
+    <div style="margin-top:10px; font-size:11px; color:#888;">Select your utility above, or tap "See bill example" to compare your physical bill before selecting.</div>
+    <div class="ann ann-b" style="margin-top:10px;">↳ <strong>Dev note:</strong> Bill thumbnail opens a modal (same component as account number help in Enrollment). SSE to supply one bill image per LDC per market. Selecting the utility button closes the ZIP accordion and highlights the corresponding LDC selector button above.</div>
+  </div>
+
+  <!-- State: out of area -->
+  <div id="zip-state-outofarea" class="zip-state-panel" style="display:none;">
+    <div style="background:#fff8e1; border:1px solid #f5c842; border-radius:4px; padding:10px 14px; font-size:12px; color:#7a6000;">
+      ⚠️ <strong>We don't currently serve your ZIP code</strong> — but we're expanding.
+    </div>
+    <div style="margin-top:10px; display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
+      <div style="flex:1; min-width:160px;">
+        <div style="font-size:11px; color:#555; margin-bottom:4px;">Get notified when we come to your area:</div>
+        <input class="wf-input" placeholder="your@email.com" type="email" style="font-size:12px; padding:7px 10px;" readonly/>
+      </div>
+      <div class="wf-btn" style="padding:8px 16px; font-size:12px; white-space:nowrap;">Notify Me</div>
+    </div>
+  </div>
+</div>
 </div>
 </div>
 </div>
@@ -1886,6 +1985,22 @@
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
   }
 
+  function setZipState(state, btn) {
+    document.querySelectorAll('.zip-state-panel').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.zip-state-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('zip-state-' + state).style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  function openBillModal(utilityName) {
+    document.getElementById('lbm-utility-name').textContent = utilityName;
+    document.getElementById('ldc-bill-modal').hidden = false;
+  }
+
+  function closeBillModal() {
+    document.getElementById('ldc-bill-modal').hidden = true;
+  }
+
   var MKT_ELEMENTS = {
     ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
     pa:  ['nav-standard','nav-search-std','nav-lc-area-pa'],
@@ -1960,5 +2075,25 @@
     }
   });
 </script>
+<!-- LDC bill identification modal -->
+<div id="ldc-bill-modal" hidden role="dialog" aria-modal="true" aria-labelledby="lbm-title" class="ldc-bill-overlay">
+  <div class="ldc-bill-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+      <h3 id="lbm-title" style="margin:0; font-size:15px;">Does this look like your bill?</h3>
+      <button onclick="closeBillModal()" style="background:transparent; border:none; font-size:20px; cursor:pointer; padding:0; line-height:1;" aria-label="Close">✕</button>
+    </div>
+    <div id="lbm-utility-name" style="font-size:12px; color:#5a8cbf; font-weight:600; margin-bottom:14px;"></div>
+    <div style="background:#f5f5f5; border-radius:4px; padding:16px; text-align:center; margin-bottom:16px;">
+      <div style="height:220px; background:#fff; border:1px solid #ddd; border-radius:3px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
+        <span style="color:#aaa; font-size:12px;">[Full-size utility bill image — utility name prominent in header]</span>
+      </div>
+      <p style="margin:0; font-size:12px; color:#777;">Your utility's name appears in the top section of your bill. Match it to one of the options above.</p>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+      <button onclick="closeBillModal()" style="padding:9px 18px; border:1.5px solid #b8d4f0; background:#fff; border-radius:4px; cursor:pointer; font-size:13px;">Not my utility</button>
+      <button onclick="closeBillModal()" class="wf-btn" style="padding:9px 20px; font-size:13px;">This is my utility →</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
