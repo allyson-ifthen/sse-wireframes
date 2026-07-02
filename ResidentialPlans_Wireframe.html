@@ -1399,22 +1399,27 @@
 <div class="filter-group">
 <span class="filter-label">Plan Type</span>
 <div class="filter-chips">
-<button class="filter-chip active">All Plans</button>
-<button class="filter-chip">Fixed Rate</button>
-<button class="filter-chip">Variable Rate</button>
+<button class="filter-chip active" onclick="setPlanType('all', this)">All Plans</button>
+<button class="filter-chip" onclick="setPlanType('fixed', this)">Fixed Rate</button>
+<button class="filter-chip" onclick="setPlanType('variable', this)">Variable Rate</button>
 </div>
 </div>
 <div class="filter-divider"></div>
-<div class="filter-group">
+<div class="filter-group" id="filter-group-contract-length">
 <span class="filter-label">Contract Length</span>
 <div class="filter-chips">
-<button class="filter-chip active">Any</button>
+<button class="filter-chip active">Any Length</button>
+<button class="filter-chip">6 Months</button>
 <button class="filter-chip">12 Months</button>
+<button class="filter-chip">18 Months</button>
 <button class="filter-chip">24 Months</button>
-<button class="filter-chip">Month-to-Month</button>
+<button class="filter-chip" id="filter-chip-mtm">Month-to-Month</button>
 </div>
 </div>
-<div class="filter-divider"></div>
+<div style="margin-top:6px; width:100%;" id="filter-contract-length-ann" class="ann-y" style="display:none;">
+<span class="annot annot-yellow" style="display:inline-flex;"><span class="annot-icon">⚑</span> Open Q — Greener Life plans: confirm with client/PRIME whether any Greener Life plans are offered as variable rate. If not, "Variable Rate" selection should also hide the Greener Life filter row.</span>
+</div>
+<div class="filter-divider" id="filter-divider-after-contract"></div>
 <div class="filter-group">
 <span class="filter-label">Greener Life®</span>
 <div class="filter-chips">
@@ -1980,6 +1985,37 @@
   </div>
 </div><!-- /canvas -->
 <script>
+  // ── PLAN TYPE FILTER — RP-10 ──
+  function setPlanType(type, btn) {
+    // Update active chip state
+    btn.closest('.filter-chips').querySelectorAll('.filter-chip').forEach(function(c) {
+      c.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    var contractGroup = document.getElementById('filter-group-contract-length');
+    var mtmChip = document.getElementById('filter-chip-mtm');
+    var contractAnn = document.getElementById('filter-contract-length-ann');
+    var contractDivider = document.getElementById('filter-divider-after-contract');
+
+    if (type === 'all') {
+      contractGroup.style.display = '';
+      contractDivider.style.display = '';
+      mtmChip.style.display = '';
+      contractAnn.style.display = 'none';
+    } else if (type === 'fixed') {
+      contractGroup.style.display = '';
+      contractDivider.style.display = '';
+      mtmChip.style.display = 'none';
+      contractAnn.style.display = 'none';
+    } else if (type === 'variable') {
+      contractGroup.style.display = 'none';
+      contractDivider.style.display = 'none';
+      mtmChip.style.display = 'none';
+      contractAnn.style.display = 'block';
+    }
+  }
+
   function toggleZipFallback() {
     const el = document.getElementById('zip-fallback');
     el.style.display = el.style.display === 'none' ? 'block' : 'none';

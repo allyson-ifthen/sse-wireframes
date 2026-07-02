@@ -877,14 +877,30 @@
   /* ENRIL-166: ENR-102 equivalent — suppress "Change plan →" sidebar link per scenario/step (mirrors ONG pattern) */
   body.scen-a:not(.flow-step-quote) .plan-name-row a { display: none; }
   body.scen-c:not(.flow-step-lookup) .plan-name-row a { display: none; }
+  /* ENRIL-282: "Change plan →" hidden for Scen B and Scen D (existing customer paths) entirely */
   body.scen-b .plan-name-row a,
-  body.scen-d .plan-name-row a { display: none; }
+  body.scen-d .plan-name-row a { display: none !important; }
 
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
   .plan-summary-current { display: none; }
   body.flow-step-selectplan .plan-summary-current { display: block; }
   /* ENRIL-245: suppress older scen-only-existing current-plan block on step-selectplan (replaced by plan-summary-current) */
   body.flow-step-selectplan .plan-summary > .scen-only-existing:first-child { display: none; }
+
+  /* ENRIL-281 + ENRIL-287: Scen B/D sidebar — suppress the always-on "current plan" block
+     except on selectplan step (where plan-summary-current takes over as the authoritative display).
+     This prevents two plan-name blocks rendering simultaneously on quote/review/confirmation steps. */
+  body.scen-b .plan-summary > .scen-only-existing:first-child,
+  body.scen-d .plan-summary > .scen-only-existing:first-child { display: none; }
+  body.scen-b.flow-step-selectplan .plan-summary > .scen-only-existing:first-child,
+  body.scen-d.flow-step-selectplan .plan-summary > .scen-only-existing:first-child { display: block; }
+
+  /* ENRIL-292: Scen D Review step — suppress "current plan" summary block; only "Your plan" shows */
+  body.scen-d.flow-step-review .plan-summary-current { display: none; }
+
+  /* ENRIL-282: "Change plan →" hidden for Scen B and Scen D entirely */
+  body.scen-b .plan-summary .change-plan-link,
+  body.scen-d .plan-summary .change-plan-link { display: none !important; }
 
   @media print {
     .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline { display: none !important; }
@@ -1140,7 +1156,7 @@
 <div aria-label="Enrollment progress (Scenario B — Non-GB Existing)" class="stepper stepper-b">
 <button class="step-chip current" data-step="selectplan" onclick="setStep('selectplan')"><span class="num">1</span><span>Select plan</span></button>
 <span class="step-divider"></span>
-<button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">2</span><span>Quote</span></button>
+<button class="step-chip upcoming" data-step="quote" onclick="setStep('quote')"><span class="num">2</span><span class="scen-only-b-inline">Switch</span></button>
 <span class="step-divider"></span>
 <button class="step-chip upcoming" data-step="bundle" onclick="setStep('bundle')"><span class="num">3</span><span>Documents</span></button>
 <span class="step-divider"></span>
@@ -1225,7 +1241,7 @@
 <dt>Expires</dt><dd>Feb 28, 2027</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
-<button class="btn btn-tertiary" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:12px;">Keep current plan</button>
+<button class="btn" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:12px;">Keep current plan</button>
 
 </div>
 <h3>Your plan</h3>
@@ -1245,13 +1261,13 @@
 <span class="scen-only-b-inline">$0.74 <small>/ therm</small></span>
 <span class="scen-only-gb">$97 <small>/ month</small></span>
 </div>
-<div class="ann ann-b scen-only-gb" style="font-size:11px; padding:6px 8px; margin-bottom:8px;">ENRIL-85 · GB rate hidden until Quote step — unknown until PRIME runs <code>GetQuotes</code>. Rate reveals here on Quote step and remains visible through Review and Confirmation.</div>
 <dl>
 <dt>Term</dt><dd>12 months</dd>
 <dt>Type</dt><dd>
-<span class="scen-hide-gb scen-only-a-inline">Fixed-rate</span>
-<span class="scen-hide-gb scen-only-b-inline">Fixed-rate</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-271: GB labels wrapped in scen-only-gb so they never show for Scen A/B. -->
+<!-- ENRIL-283: non-GB labels scoped to scen-only-a/scen-only-b; GB labels scoped to scen-only-gb — mutually exclusive -->
+<span class="scen-only-a-inline">Fixed-rate</span>
+<span class="scen-only-b-inline">Fixed-rate</span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-271/283: GB labels wrapped in scen-only-gb so they never show for Scen A/B. -->
 <span class="scen-only-gb mkt-inline mkt-il on">Guaranteed Bill</span>
 <span class="scen-only-gb mkt-inline mkt-ies">Fixed Bill</span>
 </dd>
@@ -1460,7 +1476,7 @@
 
             Applied to your final bill for your current plan.
           </div>
-<button class="btn btn-sm">Continue with this plan</button>
+<!-- ENRIL-288: "Continue with this plan" removed — plan selection is confirmed via the bottom btn-row Continue button, not per-card CTA -->
 </div>
 <!-- Alt plan 2 -->
 <div class="plan-pick-card" data-plan="il-fixed-6">
@@ -1502,7 +1518,8 @@
 <!-- ENRIL-247: Consent fieldset moved below plan-pick-grid (Scen B/D) — customer selects plan first, then confirms consents before clicking Continue -->
 <div class="fieldset scen-only-existing" style="margin-top: 20px;">
 <h3>Before you continue</h3>
-<div class="checkbox-row">
+<!-- ENRIL-289: scen-hide-b → scen-only-d so email consent only renders for Scen D (Scen B users consented earlier in pre-flow) -->
+<div class="checkbox-row scen-only-d">
 <input id="sp-disc-email" type="checkbox"/>
 <label for="sp-disc-email"><strong>I consent to receive email</strong> from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> about my service and account, including the authentication code required to verify my identity. </label>
 </div>
@@ -1525,11 +1542,10 @@
 
 
 <div class="btn-row">
-<button class="btn btn-tertiary" onclick="alert('Return to My Account — production: route to /my-account/change-plan/')">← My Account</button>
-<div class="btn-row-right" style="flex-direction: row-reverse;">
-<button class="btn" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
-<button class="btn btn-secondary scen-only-b-inline" onclick="setStep('quote')">Continue to pricing →</button>
-<button class="btn btn-secondary scen-only-d-inline" onclick="setStep('otp')">Continue to verification →</button>
+<button class="btn btn-outline" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
+<div class="btn-row-right">
+<button class="btn scen-only-b-inline" onclick="setStep('quote')">Continue to pricing →</button>
+<button class="btn scen-only-d-inline" onclick="setStep('otp')">Continue to verification →</button>
 </div>
 </div>
 </section>
@@ -1584,7 +1600,8 @@
 <!-- ENRIL-206: IES "Fixed Bill" branding split -->
 <!-- ENRIL-228: Nest market spans inside scen-only wrapper to fix CSS specificity bleed -->
 <span class="scen-only-c-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
-<span class="scen-only-d-inline">Confirm your switch</span>
+<!-- ENRIL-290: Scen D heading updated to match "Quote" chip label -->
+<span class="scen-only-d-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
 </h2>
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here -->
 <p class="step-have-ready scen-hide-gb">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
@@ -1601,9 +1618,9 @@
            to prove they're new is confusing. Self-identification (ONG ENR-69 pattern) is cleaner.
            Late-detection via PRIME at step-account (ENRIL-54) remains the actual catch mechanism. -->
 <!-- ENRIL-248: removed display:flex from inline style — was overriding .scen-only-a{display:none} in non-Scen-A scenarios -->
+<!-- ENRIL-284: Removed "Already a SouthStar customer?" prefix. Plain text + inline hyperlink only; no background, no border, no border-radius, no padding. -->
 <div class="scen-only-a" style="margin-bottom: 22px; font-size: 13px;">
-<span class="mkt mkt-il on">Already an Illinois Energy customer?</span><span class="mkt mkt-ies on">Already an Illinois Energy Solutions customer?</span> Manage or change your plan in My Account.
-          <a href="#" onclick="event.preventDefault(); setScenario('b'); setStep('selectplan');" style="margin-left: 6px;">Sign in →</a>
+Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b'); setStep('selectplan');" style="margin-left: 2px;">Log in →</a>
 </div>
 <!-- ENRIL-249: #raf-promo-il removed — RAF is not available in IL (confirmed; ENRIL-146 annotation was incorrect). IES suppression was already correct (no equivalent section existed). -->
 <!-- ENRIL-207: Side-by-side plan switch comparison for existing customers (Scen B/D) -->
@@ -1819,10 +1836,9 @@
          ==================================================================== -->
 <section class="step residential-only" id="step-lookup">
 <h2>Verify your information to continue</h2>
-<p class="step-have-ready">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
 <p class="step-intro">
-<span class="scen-only-a-inline">We'll send a 6-digit code to your email to verify your identity.</span>
-<span class="scen-only-gb">To generate your quote we need your contact info. You'll see your full contract before completing your enrollment.</span>
+<span class="scen-only-a-inline">Enter your contact details so we can locate your account and confirm your service area. We'll send a verification code to your email to complete your identity check.</span>
+<span class="scen-only-gb">Enter your contact details so we can look up your service profile and generate your personalized quote.</span>
 </p>
 <!-- ENRIL-256: escape hatch moved to below input fields (after phone/email row, before Required consents fieldset); copy updated to match Scen A ENRIL-136 pattern — no plan-type reference, consistent framing -->
 <!-- placeholder: escape hatch rendered in new position below field-rows — see below -->
@@ -2359,12 +2375,7 @@
 
            Scen B/D comparison block remains below — that IS net-new comparison content
            that the single-plan sidebar can't carry. -->
-<!-- Plan section: side-by-side comparison renders for B/D only (per ENRIL-83 / ENRIL-91); section is hidden entirely for Scen A/C -->
-<!-- ENRIL-148: Current plan moved to side rail for Scen B/D; main content shows new plan only -->
-<div class="review-section scen-only-existing">
-<header><h4>Your plan</h4></header>
-
-</div>
+<!-- ENRIL-294: "Your Plan" review-section removed — redundant with sticky sidebar card (Scen B/D) -->
 <!-- ENRIL-274: Reorder to Service & account → Contact → Address (per ENRIL-274; prior ENRIL-263 order was Contact → Service & account → Address) -->
 <!-- ENRIL-147: Original order was Service Info → Service Address → Contact Info -->
 <!-- ENRIL-213: "Service info" → "Service & account"; Edit link wrapped scen-only-a/c per ENRIL-216 -->
@@ -2591,11 +2602,7 @@
 <p style="margin-top: 16px; font-size: 13px; color: var(--muted);">
 <strong>Didn't get the email?</strong> <a href="#" onclick="event.preventDefault(); alert('Resend confirmation email');">Resend it →</a>
 </p>
-<!-- ENRIL-265: Scen B — Keep current plan secondary CTA -->
-<div class="scen-only-b" style="margin-top: 24px; padding: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 4px;">
-<p style="margin: 0 0 12px; font-size: 13px;">Changed your mind? You can keep your current plan instead.</p>
-<button class="btn btn-outline" onclick="alert('Return to current plan — Scen B keep current plan')">Keep my current plan</button>
-</div>
+<!-- ENRIL-291: Scen B/D "Keep my current plan" section removed from Confirmation — not applicable post-submission -->
 
 <!-- ENRIL-280: Replace "Need anything?" section with side-by-side callout cards -->
 <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); display:flex; gap:16px; flex-wrap:wrap;">

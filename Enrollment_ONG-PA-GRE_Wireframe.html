@@ -1125,7 +1125,7 @@
 <strong>Fixed-term plan.</strong> Early Termination Fee applies if you cancel before the 12-month term ends.
       </div>
 
-<button class="btn btn-tertiary flow-step-pf3 keep-current-plan" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:14px; font-size:12px;">Keep current plan</button>
+<button class="btn flow-step-pf3 keep-current-plan" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:14px;">Keep current plan</button>
 </div>
 <div class="plan-summary-new">
 <h3><span class="plan-label-new">Your new plan</span><span class="plan-label-confirmation" style="display:none;">Your selected plan</span></h3>
@@ -1287,7 +1287,6 @@
             <span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre">$X.XX/mo (GRE TBD)</span>
             applied to your final bill for your current fixed plan.
           </div>
-<button class="btn btn-sm">Continue with this plan</button>
 </div>
 <div class="plan-pick-card" data-plan="fixed-6">
 <h4>6-Month PriceGuard Plan</h4>
@@ -1318,9 +1317,9 @@
 
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep('pf2')">← Back</button>
-<div class="btn-row-right" style="flex-direction: row-reverse;">
-<button class="btn keep-current-plan" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
-<button class="btn btn-secondary" onclick="setStep('pf4')">Continue with selected plan →</button>
+<div class="btn-row-right">
+<button class="btn btn-tertiary keep-current-plan" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
+<button class="btn" onclick="setStep('pf4')">Continue with selected plan →</button>
 </div>
 </div>
 </section>
@@ -1371,10 +1370,10 @@
 
 
 <div class="btn-row">
-<button class="btn btn-tertiary" onclick="setStep('pf3')">← Back</button>
-<div class="btn-row-right" style="flex-direction: row-reverse;">
-<button class="btn keep-current-plan" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
-<button class="btn btn-secondary" onclick="setStep(2)">Continue to enrollment details →</button>
+<button class="btn btn-tertiary keep-current-plan" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
+<div class="btn-row-right">
+<button class="btn btn-secondary" onclick="setStep('pf3')">← Back</button>
+<button class="btn" onclick="setStep(2)">Continue to enrollment details →</button>
 </div>
 </div>
 </section>
@@ -1459,7 +1458,7 @@
 <!-- ENR-26 / ENR-83: Account-number help is ALWAYS-EXPOSED (text + call line).
              Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation.
              ENR-129: width:100% added to outer container to ensure full-width rendering. -->
-<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px; width:100%;">
+<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px; width:100%; max-width:none; display:block;">
 <p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
 <!-- Sample bill image with expand icon (ENR-83) -->
 <div onclick="document.getElementById('bill-image-modal').hidden = false;" style="margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--line); border-radius:3px; display:flex; gap:8px; align-items:center; cursor:pointer;">
@@ -1467,13 +1466,13 @@
 <button aria-label="Expand bill image" style="background:transparent; border:none; cursor:pointer; font-size:14px;" title="Expand to full size" type="button">⇱</button>
 </div>
 
-<!-- ENR-107: width fix -->
-<p style="margin:12px 0 10px; font-size:12px; width:100%; display:block;">
-            Can't find your <span class="mkt mkt-ong on">account number</span><span class="mkt mkt-pa">account number / Service Point ID</span><span class="mkt mkt-gre">account number</span>? Call SSE:
+<!-- ENR-133: full-width fix — mkt-inline on phone spans so they render inline (not display:block) inside the paragraph -->
+<p style="margin:12px 0 10px; font-size:12px; width:100%; max-width:none; display:block;">
+            Can't find your <span class="mkt-inline mkt-ong on">account number</span><span class="mkt-inline mkt-pa">account number / Service Point ID</span><span class="mkt-inline mkt-gre">account number</span>? Call SSE:
             <strong>
-<span class="mkt mkt-ong on">1-888-466-4427</span>
-<span class="mkt mkt-pa">1-800-XXX-PENN</span>
-<span class="mkt mkt-gre">1-800-XXX-GRMI</span>
+<span class="mkt-inline mkt-ong on">1-888-466-4427</span>
+<span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
+<span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
 </strong>
             — we can help you locate it. (Do NOT call your Gas Utility Company for this — call SSE.)
           </p>
@@ -1536,13 +1535,11 @@
 </div>
 
 </div>
-<p class="field-legend"><span class="req">*</span> Required field</p>
 <div class="account-ref-display">
 <span class="account-ref-label">Enrolling for:</span>
 <span class="account-ref-number">[Account number]</span>
-<span class="account-ref-sep"> · </span>
-<span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy</span>
 </div>
+<p class="field-legend"><span class="req">*</span> Required field</p>
 <div class="ann ann-b">ENR-120 · Read-only account reference. Value passed via session/state from Step 1; no PRIME call needed. Also applies to existing customer flow (body.flow-existing) — in that case, value comes from PRIME record (PF-3 / ENR-94). Both paths are read-only.</div>
 <div class="fieldset" id="sec-contact">
 <h3>Contact</h3>
@@ -1880,26 +1877,24 @@
 <!-- ENR-92: Existing customer cancel contract option (2 routing patterns for client decision) -->
 
 </div>
-<!-- ENR-132.1: "What Happens Next" timeline — reinstated/added at top of Confirmation body -->
-<div class="timeline-block" style="margin:24px 0; padding:20px; background:var(--accent-soft); border-radius:6px; border:1px solid var(--line);">
-<h3 style="margin:0 0 16px; font-size:15px;">What happens next</h3>
-<div style="display:flex; gap:0; flex-direction:column;">
-<div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:14px; position:relative;">
-<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">1</div>
-<div style="padding-top:4px; font-size:14px; font-weight:600;">Enrollment received</div>
+<!-- ENR-136: "What Happens Next" — horizontal 3-column timeline (reverted from ENR-132 vertical list) -->
+<h3 style="margin:24px 0 0; font-size:15px;">What happens next</h3>
+<div class="timeline">
+<div class="timeline-stage current">
+<div class="stage-dot"></div>
+<div class="stage-title">Enrollment received</div>
+<div class="stage-desc">We've received your enrollment and emailed your confirmation and contract.</div>
 </div>
-<div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:14px;">
-<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">2</div>
-<div style="padding-top:4px; font-size:14px; font-weight:600;">Utility verification</div>
+<div class="timeline-stage">
+<div class="stage-dot"></div>
+<div class="stage-title">Utility verification</div>
+<div class="stage-desc">Your gas utility reviews and approves the switch to <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>.</div>
 </div>
-<div style="display:flex; align-items:flex-start; gap:12px;">
-<div style="width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">3</div>
-<div style="padding-top:4px; font-size:14px; font-weight:600;">Service switch</div>
+<div class="timeline-stage">
+<div class="stage-dot"></div>
+<div class="stage-title">Service begins</div>
+<div class="stage-desc">Your gas supply switches to <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>. We'll email you once it's official.</div>
 </div>
-</div>
-</div>
-<div class="confirmation-next">
-<p>Your gas utility will review and confirm your switch. We'll email you once it's official — or reach out if we need anything from you. The full process typically takes 1–3 billing cycles; timing varies by utility.</p>
 </div>
 <!-- ENR-51 (2026-05-25): "Your enrollment" inline plan card removed from Confirmation.
            Sticky plan summary sidebar (right rail) carries plan name, rate, term, ETC, customer charge.
@@ -1977,14 +1972,6 @@
 </div>
 <!-- ENR-91 (2026-06-15): Welcome letter section removed; print/download consolidated into hero.
            Welcome Letter + Contract document section — moved to hero confirmation section (consolidated with print/download). -->
-<!-- Help -->
-<div style="margin-top:24px; padding:18px; background: #fafbfc; border-radius:4px;">
-<strong>Need help?</strong> Call us:
-        <span class="mkt-inline mkt-ong on">1-800-XXX-OHIO</span>
-<span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
-<span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
-        — Monday–Friday 8am–8pm.
-      </div>
 <!-- ENR-132.4: Removed secondary "Back to home" button; single primary CTA routes to Homepage_Wireframe.html -->
 <div class="btn-row">
 <div class="btn-row-right">
