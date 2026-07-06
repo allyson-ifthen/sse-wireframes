@@ -887,13 +887,15 @@
   /* ENRIL-245: suppress older scen-only-existing current-plan block on step-selectplan (replaced by plan-summary-current) */
   body.flow-step-selectplan .plan-summary > .scen-only-existing:first-child { display: none; }
 
-  /* ENRIL-281 + ENRIL-287: Scen B/D sidebar — suppress the always-on "current plan" block
-     except on selectplan step (where plan-summary-current takes over as the authoritative display).
-     This prevents two plan-name blocks rendering simultaneously on quote/review/confirmation steps. */
+  /* ENRIL-281 + ENRIL-287 (corrected by ENRIL-295): Scen B/D sidebar — suppress the always-on
+     "current plan" block on every step, including Select Plan, where .plan-summary-current
+     (line 886) is the sole authoritative "current plan" display. The prior version of this rule
+     included a Select-Plan-step exception that re-enabled this block, causing it to render
+     alongside .plan-summary-current AND the always-visible "Your plan" block — 2-3 plan blocks
+     stacked simultaneously. That exception is removed; no exception is needed because rule at
+     line 888 already covers Select Plan for all scenarios. */
   body.scen-b .plan-summary > .scen-only-existing:first-child,
   body.scen-d .plan-summary > .scen-only-existing:first-child { display: none; }
-  body.scen-b.flow-step-selectplan .plan-summary > .scen-only-existing:first-child,
-  body.scen-d.flow-step-selectplan .plan-summary > .scen-only-existing:first-child { display: block; }
 
   /* ENRIL-292: Scen D Review step — suppress "current plan" summary block; only "Your plan" shows */
   body.scen-d.flow-step-review .plan-summary-current { display: none; }
