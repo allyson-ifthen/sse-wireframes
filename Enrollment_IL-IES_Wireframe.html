@@ -379,6 +379,11 @@
   }
   .checkbox-row input, .radio-row input { margin-top: 2px; }
   .checkbox-row label, .radio-row label { font-weight: 400; font-size: 13px; line-height: 1.5; flex: 1; display: block; } /* ENRIL-235: consent label formatting fix — flex:1 ensures label spans full container width, prevents odd mid-text line breaks */
+  /* ENRIL-296: scenario-visibility fix — a checkbox-row that also carries a scen-only-* class was picking up `display:block` from `body.scen-X .scen-only-X` (line ~ scen-visibility block), clobbering the row's `display:flex` and dropping the label below the checkbox. Higher-specificity rule restores flex so box + label stay side-by-side when the row is revealed. */
+  body.scen-a .scen-only-a.checkbox-row,
+  body.scen-b .scen-only-b.checkbox-row,
+  body.scen-c .scen-only-c.checkbox-row,
+  body.scen-d .scen-only-d.checkbox-row { display: flex; }
 
   /* -- Buttons ------------------------------------------------------------ */
   .btn {
