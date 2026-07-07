@@ -1370,9 +1370,11 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <!-- ====== MA-69 · Mover Flow — Add a service address (authenticated) ====== -->
 <div class="state" id="state-mover">
-<div class="state-divider"><strong>State M</strong> — Authenticated · Add a Service Address</div>
+<div class="state-divider"><strong>State M</strong> — Authenticated · Add a Service Address <span style="font-weight:400; color:var(--muted);">(ONG / PA / GRE — self-service; IL / IES — informational per MA-108)</span></div>
 <div style="max-width: 520px; margin: 48px auto;">
 
+<!-- MA-108: Self-service verify/choose-plan mover flow — ONG / PA / GRE only. IL/IES suppressed (see informational block below). -->
+<div class="mkt mkt-ong mkt-pa mkt-gre on">
 <div aria-label="Add address progress" class="stepper" role="navigation" style="margin-bottom:24px;">
 <button aria-label="Step 1: Verify new account (current)" class="step-chip current" id="mv-chip-1" onclick="setMoverStep(1)">
 <span class="num">1</span> Verify account
@@ -1423,6 +1425,20 @@ body.reset-expired .reset-token-expired { display: block; }
 <div style="margin-top:16px; text-align:center;">
 <button class="link" onclick="setMoverStep(1)" style="font-size:12px;" type="button">← Back to verify</button>
 </div>
+</div>
+</div><!-- /.mkt mkt-ong mkt-pa mkt-gre (MA-108 self-service wrapper) -->
+<!-- MA-108: IL / IES informational messaging — no self-service action. Illinois moves are handled automatically on the back end (utility notifies SSE; SSE recreates the plan at the new premise under a new cust_id). -->
+<div class="mkt mkt-il mkt-ies">
+<h2 style="margin:0 0 6px;">Moving to a new address?</h2>
+<p style="color:var(--muted); margin:0 0 20px;">Good news — there's nothing you need to do.</p>
+<div style="background:var(--accent-soft); border:1px solid var(--line); border-radius:6px; padding:18px 20px; font-size:14px; line-height:1.55;">
+<p style="margin:0 0 12px;">When you move within <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>' service area, we'll automatically continue your service at your new address once your utility notifies us of the move. You'll keep the same plan you have today — no re-enrollment, no plan selection needed.</p>
+<p style="margin:0;">If you have questions about your move, <a href="../ContactFormUtility_Wireframe.html">contact us</a> and we'll be glad to help.</p>
+</div>
+<div class="btn-row" style="margin-top:20px;">
+<button class="btn btn-outline" onclick="setState('dashboard')" type="button">← Back to dashboard</button>
+</div>
+<div class="ann ann-b" style="margin-top:14px;"><strong>MA-108 · IL/IES mover — informational only:</strong> Illinois process differs fundamentally from ONG/PA/GRE — on a move within territory the customer is automatically SSE's customer at the new premise. The utility (Nicor / Peoples / North Shore) notifies SSE, which recreates the same plan at the new premise under a new cust_id entirely on the back end. No self-service verify/choose-plan flow. Copy is placeholder — final wording is a copywriting pass.</div>
 </div>
 </div>
 </div>

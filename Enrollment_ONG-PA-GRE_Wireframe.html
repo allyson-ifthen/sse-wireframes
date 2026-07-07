@@ -1907,24 +1907,7 @@
 <strong>Check your email for paperless billing verification.</strong> Once you verify, we'll stop sending paper statements and bills. Until verified, you'll receive both.
         </div>
 </div>
-<!-- ENR-132.3: Replaced "Need anything?" section (ENR-115) with two side-by-side callout cards.
-     Removed "Track enrollment status" and "Go to My Account" cards (misleading — account creation is optional). -->
-<div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd); display:flex; gap:16px; flex-wrap:wrap;">
-  <!-- Card A: Customer support — all markets -->
-  <div style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
-    <strong style="display:block; margin-bottom:6px;">Questions? We're here to help.</strong>
-    <div style="font-size:13px; margin-bottom:8px;">
-      <span class="mkt mkt-ong on">1-877-654-2765</span><span class="mkt mkt-pa">1-877-654-2765</span><span class="mkt mkt-gre">1-877-654-2765</span>
-    </div>
-    <a href="ContactFormUtility_Wireframe.html" style="font-size:13px;">Contact us →</a>
-  </div>
-  <!-- Card B: Learning Center — ONG / PA / GRE only (suppress for IES) -->
-  <div class="mkt mkt-ong mkt-pa mkt-gre on" style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
-    <strong style="display:block; margin-bottom:6px;">Visit our Resource Center</strong>
-    <a href="LearningCenter_Wireframe.html" style="font-size:13px;">Explore articles →</a>
-  </div>
-</div>
-<div class="ann ann-b"><strong>ENR-132 · Side-by-side callout cards:</strong> Replaced ENR-115 "Need anything?" section. Card A (customer support + market phone) visible all markets. Card B (Learning Center) wrapped in .mkt-ong/.mkt-pa/.mkt-gre — suppressed for IES. Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff.</div>
+<!-- ENR-141 (2026-07-06): Questions/Resource Center callout cards moved to AFTER the account-creation section (below). -->
 <!-- RAF section: Elevated to position 3 per ENR-91 (2026-06-15) — Refer a Friend elevated from last position -->
 <div class="raf-block">
 <h3>Refer a friend, earn rewards</h3>
@@ -1970,6 +1953,23 @@
         ✓ We'll email you a link to set your password — you can set up any time. The link expires in 7 days; "Forgot password?" on sign-in reissues it.
         
 </div>
+<!-- ENR-141 (2026-07-06): Questions/Resource Center callout cards — moved here from above WTE/paperless to below the account-creation section. -->
+<div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd); display:flex; gap:16px; flex-wrap:wrap;">
+  <!-- Card A: Customer support — all markets -->
+  <div style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
+    <strong style="display:block; margin-bottom:6px;">Questions? We're here to help.</strong>
+    <div style="font-size:13px; margin-bottom:8px;">
+      <span class="mkt mkt-ong on">1-877-654-2765</span><span class="mkt mkt-pa">1-877-654-2765</span><span class="mkt mkt-gre">1-877-654-2765</span>
+    </div>
+    <a href="ContactFormUtility_Wireframe.html" style="font-size:13px;">Contact us →</a>
+  </div>
+  <!-- Card B: Learning Center — ONG / PA / GRE only (suppress for IES) -->
+  <div class="mkt mkt-ong mkt-pa mkt-gre on" style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
+    <strong style="display:block; margin-bottom:6px;">Visit our Resource Center</strong>
+    <a href="LearningCenter_Wireframe.html" style="font-size:13px;">Explore articles →</a>
+  </div>
+</div>
+<div class="ann ann-b"><strong>ENR-132 · Side-by-side callout cards:</strong> Replaced ENR-115 "Need anything?" section. Card A (customer support + market phone) visible all markets. Card B (Learning Center) wrapped in .mkt-ong/.mkt-pa/.mkt-gre — suppressed for IES. Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff.</div>
 <!-- ENR-91 (2026-06-15): Welcome letter section removed; print/download consolidated into hero.
            Welcome Letter + Contract document section — moved to hero confirmation section (consolidated with print/download). -->
 <!-- ENR-132.4: Removed secondary "Back to home" button; single primary CTA routes to Homepage_Wireframe.html -->

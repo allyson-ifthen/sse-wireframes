@@ -321,6 +321,24 @@
     text-transform: uppercase; letter-spacing: 0.06em;
   }
 
+  /* ENRIL-308: Switch screen (Quote step, Scen B/D) — hide sticky plan card and expand
+     content to full width. Mirrors OPG PF-4 "Confirm your switch" pattern. The
+     plan-switch-compare "Switching from / To" component is the canonical surface here;
+     the sidebar remains on other Scen B/D steps. */
+  body.flow-step-quote.scen-b .plan-summary,
+  body.flow-step-quote.scen-d .plan-summary { display: none !important; }
+  body.flow-step-quote.scen-b .layout,
+  body.flow-step-quote.scen-d .layout { grid-template-columns: 1fr; }
+
+  /* ENRIL-310: OTP two-state sequencing for Scen B/D. Initial state shows "Confirm where to
+     send your code"; the code-entry panel + countdown are hidden until Send code is clicked
+     (body.otp-code-sent). Scen A/C auto-send on arrival, so their code-entry panel is always
+     visible and the confirm panel is already suppressed via .scen-only-existing. */
+  body.scen-b:not(.otp-code-sent) #otp-enter-code,
+  body.scen-d:not(.otp-code-sent) #otp-enter-code { display: none; }
+  body.scen-b.otp-code-sent #otp-confirm-send,
+  body.scen-d.otp-code-sent #otp-confirm-send { display: none; }
+
   /* -- "Have ready" line (replaces WTE panel per ENRIL-261) ------------------- */
   .step-have-ready { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
 
@@ -760,13 +778,7 @@
   .step-chip.skipped { opacity: 0.35; cursor: not-allowed; }
   .step-chip.skipped .num { background: var(--line-soft); color: var(--muted); }
 
-  /* -- Subflow announce + result split (ENRIL-71) ------------------------- */
-  .next-step-announce {
-    margin-top: 16px; padding: 12px 14px;
-    background: var(--accent-soft); border-left: 3px solid var(--accent);
-    border-radius: 3px; font-size: 13px;
-  }
-  .next-step-announce strong { color: var(--accent); }
+  /* ENRIL-302 (2026-07-06): .next-step-announce (ENRIL-71) removed — was only used by the "Almost there" container on step-account, now deleted. */
 
   /* -- Resend button + debounce (ENRIL-65) -------------------------------- */
   .resend-block {
@@ -879,12 +891,7 @@
   .footer-row { max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; }
   .footer-col strong { display: block; color: #fff; margin-bottom: 8px; }
 
-  /* ENRIL-166: ENR-102 equivalent — suppress "Change plan →" sidebar link per scenario/step (mirrors ONG pattern) */
-  body.scen-a:not(.flow-step-quote) .plan-name-row a { display: none; }
-  body.scen-c:not(.flow-step-lookup) .plan-name-row a { display: none; }
-  /* ENRIL-282: "Change plan →" hidden for Scen B and Scen D (existing customer paths) entirely */
-  body.scen-b .plan-name-row a,
-  body.scen-d .plan-name-row a { display: none !important; }
+  /* ENRIL-300 (2026-07-06): "Change plan →" sidebar link removed from markup; ENRIL-166/282 rules that hid it (.plan-name-row a + orphaned .change-plan-link) deleted as dead code. */
 
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
   .plan-summary-current { display: none; }
@@ -904,10 +911,6 @@
 
   /* ENRIL-292: Scen D Review step — suppress "current plan" summary block; only "Your plan" shows */
   body.scen-d.flow-step-review .plan-summary-current { display: none; }
-
-  /* ENRIL-282: "Change plan →" hidden for Scen B and Scen D entirely */
-  body.scen-b .plan-summary .change-plan-link,
-  body.scen-d .plan-summary .change-plan-link { display: none !important; }
 
   @media print {
     .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline { display: none !important; }
@@ -1121,13 +1124,7 @@
 <span class="scen-only-d-inline"><span class="mkt mkt-il on">Change your plan</span><span class="mkt mkt-ies">Change your plan</span></span>
 <small>· Illinois Part 512 enrollment</small>
 </div>
-<!-- ENRIL-103: "Enroll as" confirmation pill (mirrors ONG ENR-43) -->
-<div class="enroll-as">
-    You're enrolling in: <strong>
-<span class="scen-only-a-inline scen-only-b-inline">Residential service</span><span class="scen-only-c-inline scen-only-d-inline"><span class="mkt mkt-il on">Guaranteed Bill plan</span><span class="mkt mkt-ies">Fixed Bill plan</span></span>
-</strong>
-<a href="#" onclick="event.preventDefault(); alert('Production: route back to plans listing.');" style="font-size:13px; margin-left:8px;">Change →</a>
-</div>
+<!-- ENRIL-311 (2026-07-06): "Enroll as" confirmation pill removed entirely (text + link). Plan-type/scenario context is conveyed by the page title above. Supersedes ENRIL-297 (which removed only the Change link). -->
 
 </div>
 <!-- Scenario context breadcrumb (Scen B/D — pre-flow path) — RETAINED per ENRIL-94.
@@ -1222,9 +1219,8 @@
 <h4 style="margin: 0 0 8px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em;">Current plan</h4>
 <div class="plan-name" style="font-size: 14px; font-weight: 600; margin-bottom: 6px;">
 <span class="scen-only-b-inline">12-Month PriceGuard Plan</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split -->
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill Plan</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill Plan</span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-d-inline wrapper (was combined classes; .mkt.on bled through in non-D scenarios) -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Fixed Bill Plan</span></span>
 </div>
 <dl style="margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 12px;">
 <dt style="color: var(--muted);">Rate</dt><dd style="margin: 0; font-weight: 500;"><span class="scen-only-b-inline">$0.74 / therm</span><span class="scen-only-d-inline">$XXX.XX / month</span></dd>
@@ -1236,8 +1232,8 @@
 <h3>Your current plan</h3>
 <div class="plan-name">
 <span class="scen-only-b-inline">12-Month PriceGuard Plan</span>
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill Plan · 12-month term</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill Plan · 12-month term</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan · 12-month term</span><span class="mkt-inline mkt-ies">Fixed Bill Plan · 12-month term</span></span>
 </div>
 <div class="plan-rate">
 <span class="scen-only-b-inline">$0.74 <small>/ therm · Fixed</small></span>
@@ -1258,10 +1254,10 @@
 <span class="scen-hide-gb scen-only-a-inline">12-Month PriceGuard Plan</span>
 <span class="scen-hide-gb scen-only-b-inline">24-Month PriceGuard Plan</span>
 <!-- ENRIL-206: IES "Fixed Bill" branding split -->
-<span class="scen-only-gb mkt mkt-il on">Guaranteed Bill Plan</span>
-<span class="scen-only-gb mkt mkt-ies">Fixed Bill Plan</span>
+<!-- ENRIL-301: nest market spans inside scen-only-gb wrapper (was scen-only-gb mkt mkt-il on — .mkt.on specificity bled through in Scen A) -->
+<span class="scen-only-gb"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Fixed Bill Plan</span></span>
 </div>
-<a href="#" onclick="event.preventDefault(); alert('Return to Plans page (Scen A/C) or Select Plan step (Scen B/D) to change plan');">Change plan →</a>
+<!-- ENRIL-300 (2026-07-06): "Change plan →" link removed entirely (matches OPG ENR-117). -->
 </div>
 <div class="plan-rate">
 <span class="scen-only-a-inline">$0.74 <small>/ therm</small></span>
@@ -1274,9 +1270,8 @@
 <!-- ENRIL-283: non-GB labels scoped to scen-only-a/scen-only-b; GB labels scoped to scen-only-gb — mutually exclusive -->
 <span class="scen-only-a-inline">Fixed-rate</span>
 <span class="scen-only-b-inline">Fixed-rate</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-271/283: GB labels wrapped in scen-only-gb so they never show for Scen A/B. -->
-<span class="scen-only-gb mkt-inline mkt-il on">Guaranteed Bill</span>
-<span class="scen-only-gb mkt-inline mkt-ies">Fixed Bill</span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-gb wrapper (was combined scen-only-gb + mkt-inline.on, which bled through in Scen A). -->
+<span class="scen-only-gb"><span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span></span>
 </dd>
 <dt>Monthly customer charge</dt><dd>$X.XX</dd>
 <dt>Early termination charge</dt><dd></dd>
@@ -1313,7 +1308,8 @@
 <h2>Sign in to change your plan</h2>
 <p class="step-intro">
 <span class="scen-only-b-inline">Existing customer · Non-GB plan change.</span>
-<span class="scen-only-d-inline mkt mkt-il on">Existing customer · Guaranteed Bill plan change.</span><span class="scen-only-d-inline mkt mkt-ies">Existing customer · Fixed Bill plan change.</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Existing customer · Guaranteed Bill plan change.</span><span class="mkt-inline mkt-ies">Existing customer · Fixed Bill plan change.</span></span>
         Customer type and LDC are pulled from your account record (per CL-010 — no re-prompt).
       </p>
 
@@ -1452,8 +1448,8 @@
 
 <h3 style="margin-top: 22px;">
 <span class="scen-only-b-inline">Plans available to switch to</span>
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill plans available to switch to</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill plans available to switch to</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill plans available to switch to</span><span class="mkt-inline mkt-ies">Fixed Bill plans available to switch to</span></span>
 </h3>
 <p style="font-size: 13px; color: var(--muted); margin: -8px 0 12px;">
         Filtered to your market (<span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>) and utility
@@ -1465,9 +1461,8 @@
 <span class="selected-badge">Selected</span>
 <h4>
 <span class="scen-only-b-inline">24-Month PriceGuard Plan</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split -->
-<span class="scen-only-d-inline mkt mkt-il on">24-Month Guaranteed Bill Plan</span>
-<span class="scen-only-d-inline mkt mkt-ies">24-Month Fixed Bill Plan</span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">24-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">24-Month Fixed Bill Plan</span></span>
 </h4>
 <div class="pp-rate">
 <span class="scen-only-b-inline">$0.69 <small>/ therm</small></span>
@@ -1475,8 +1470,8 @@
 </div>
 <div class="pp-term">
 <span class="scen-only-b-inline">Fixed · 24-month term · Locks in your rate longer</span>
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill · 24-month term</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill · 24-month term</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill · 24-month term</span><span class="mkt-inline mkt-ies">Fixed Bill · 24-month term</span></span>
 </div>
 <div class="pp-etf-callout">
 <strong>Switching may incur an early-termination fee.</strong>
@@ -1489,9 +1484,8 @@
 <div class="plan-pick-card" data-plan="il-fixed-6">
 <h4>
 <span class="scen-only-b-inline">6-Month PriceGuard Plan</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split -->
-<span class="scen-only-d-inline mkt mkt-il on">6-Month Guaranteed Bill Plan</span>
-<span class="scen-only-d-inline mkt mkt-ies">6-Month Fixed Bill Plan</span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">6-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">6-Month Fixed Bill Plan</span></span>
 </h4>
 <div class="pp-rate">
 <span class="scen-only-b-inline">$0.77 <small>/ therm</small></span>
@@ -1499,8 +1493,8 @@
 </div>
 <div class="pp-term">
 <span class="scen-only-b-inline">Fixed · 6-month term · Shorter commitment</span>
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill · 6-month term</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill · 6-month term</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill · 6-month term</span><span class="mkt-inline mkt-ies">Fixed Bill · 6-month term</span></span>
 </div>
 <div class="pp-etf-callout">
 <strong>Switching may incur an early-termination fee.</strong>
@@ -1522,8 +1516,9 @@
 <button class="btn btn-secondary btn-sm">Select this plan</button>
 </div>
 </div>
-<!-- ENRIL-247: Consent fieldset moved below plan-pick-grid (Scen B/D) — customer selects plan first, then confirms consents before clicking Continue -->
-<div class="fieldset scen-only-existing" style="margin-top: 20px;">
+<!-- ENRIL-247: Consent fieldset moved below plan-pick-grid — customer selects plan first, then confirms consents before clicking Continue.
+     ENRIL-306 (2026-07-06): scoped scen-only-existing → scen-only-d. Both checkboxes inside are Scen D-only (email/OTP consent + GBPQ don't apply to Scen B, which is already authenticated and skips OTP), so Scen B was rendering an empty "Before you continue" box. English attestation still reaches Scen B on the Quote step. -->
+<div class="fieldset scen-only-d" style="margin-top: 20px;">
 <h3>Before you continue</h3>
 <!-- ENRIL-289: scen-hide-b → scen-only-d so email consent only renders for Scen D (Scen B users consented earlier in pre-flow) -->
 <div class="checkbox-row scen-only-d">
@@ -1551,7 +1546,8 @@
 <div class="btn-row">
 <button class="btn btn-outline" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
 <div class="btn-row-right">
-<button class="btn scen-only-b-inline" onclick="setStep('quote')">Continue to pricing →</button>
+<!-- ENRIL-307 (2026-07-06): relabel "Continue to pricing" → "Continue with selected plan" (matches OPG existing-customer flow; clearer when choosing between two plan options on this screen) -->
+<button class="btn scen-only-b-inline" onclick="setStep('quote')">Continue with selected plan →</button>
 <button class="btn scen-only-d-inline" onclick="setStep('otp')">Continue to verification →</button>
 </div>
 </div>
@@ -1610,8 +1606,9 @@
 <!-- ENRIL-290: Scen D heading updated to match "Quote" chip label -->
 <span class="scen-only-d-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
 </h2>
-<!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here -->
-<p class="step-have-ready scen-hide-gb">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
+<!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
+     ENRIL-309 (2026-07-06): scen-hide-gb → scen-only-a so it's also hidden for Scen B (existing customer, already authenticated). Now shows for brand-new customers (Scen A) only. -->
+<p class="step-have-ready scen-only-a">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
 <!-- ENRIL-207: step-intro made scenario-aware; Scen A keeps original; Scen B/D get new intro; Scen C/GB keeps original -->
 <!-- ENRIL-228: Nest market spans inside scen-only class to fix CSS specificity bleed -->
 <p class="step-intro scen-only-a">Review the pricing for the plan you selected. You'll need to confirm two things before continuing.</p>
@@ -1624,11 +1621,8 @@
 <!-- Rationale: Part 512 requires account # AFTER identity verification; forcing new customers
            to prove they're new is confusing. Self-identification (ONG ENR-69 pattern) is cleaner.
            Late-detection via PRIME at step-account (ENRIL-54) remains the actual catch mechanism. -->
-<!-- ENRIL-248: removed display:flex from inline style — was overriding .scen-only-a{display:none} in non-Scen-A scenarios -->
-<!-- ENRIL-284: Removed "Already a SouthStar customer?" prefix. Plain text + inline hyperlink only; no background, no border, no border-radius, no padding. -->
-<div class="scen-only-a" style="margin-bottom: 22px; font-size: 13px;">
-Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b'); setStep('selectplan');" style="margin-left: 2px;">Log in →</a>
-</div>
+<!-- ENRIL-298 (2026-07-06): existing-customer "Log In" link relocated to after the "Before you continue" disclosures fieldset (below), ahead of the btn-row, and relabeled with market brand name. -->
+
 <!-- ENRIL-249: #raf-promo-il removed — RAF is not available in IL (confirmed; ENRIL-146 annotation was incorrect). IES suppression was already correct (no equivalent section existed). -->
 <!-- ENRIL-207: Side-by-side plan switch comparison for existing customers (Scen B/D) -->
 <div class="scen-only-b scen-only-d">
@@ -1637,8 +1631,8 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 <div class="plan-switch-compare-label">Switching from</div>
 <h4>
 <span class="scen-only-b-inline">12-Month PriceGuard Plan</span>
-<span class="scen-only-d-inline mkt mkt-il on">Guaranteed Bill Plan · 12-month term</span>
-<span class="scen-only-d-inline mkt mkt-ies">Fixed Bill Plan · 12-month term</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan · 12-month term</span><span class="mkt-inline mkt-ies">Fixed Bill Plan · 12-month term</span></span>
 </h4>
 <dl>
 <dt>Type</dt>
@@ -1664,8 +1658,8 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 <div class="plan-switch-compare-label">To</div>
 <h4>
 <span class="scen-only-b-inline">24-Month PriceGuard Plan</span>
-<span class="scen-only-d-inline mkt mkt-il on">24-Month Guaranteed Bill Plan</span>
-<span class="scen-only-d-inline mkt mkt-ies">24-Month Fixed Bill Plan</span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">24-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">24-Month Fixed Bill Plan</span></span>
 </h4>
 <dl>
 <dt>Type</dt>
@@ -1736,14 +1730,19 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 
 </div>
 </div>
+<!-- ENRIL-298 (2026-07-06): Existing-customer link — relocated here (was above plan-switch-compare) and relabeled with market brand name, consistent with the step-lookup existing-customer callout. Scen A only. -->
+<div class="scen-only-a" style="margin: 18px 0 2px; font-size: 13px;">
+<span class="mkt-inline mkt-il on">Already an Illinois Energy customer?</span><span class="mkt-inline mkt-ies">Already an Illinois Energy Solutions customer?</span> <a href="#" onclick="event.preventDefault(); setScenario('b'); setStep('selectplan');" style="margin-left: 2px;">Log In →</a>
+</div>
 <!-- Language declined stop screen -->
 <div class="error-banner" id="err-language-decline">
 <strong>Enrollment cannot continue.</strong> At this time, we are unable to continue your enrollment online. Please call us at <strong>1-877-292-9363</strong> so we can assist you. Thank you.
         
 </div>
 <div class="btn-row">
-<!-- ENRIL-114: "Back to Plans" link on Quote step only (Scen A/C new customer). ENRIL-277: Scen C relabeled to "← Back" routing to confirmaccount step. -->
-<a class="scen-only-a-inline" href="#" onclick="event.preventDefault(); alert('Return to Plans page');" style="font-size: 13px; color: var(--accent); text-decoration: underline;">Back to Plans</a>
+<!-- ENRIL-114: "Back to Plans" link on Quote step only (Scen A/C new customer). ENRIL-277: Scen C relabeled to "← Back" routing to confirmaccount step.
+     ENRIL-299 (2026-07-06): Scen A "Back to Plans" restyled as tertiary button with arrow, matching OPG pattern (was plain underlined text link). Uses scen-only-a to match sibling back buttons. -->
+<a class="btn btn-tertiary scen-only-a" href="#" onclick="event.preventDefault(); alert('Return to Plans page');">← Back to Plans</a>
 <button class="btn btn-tertiary scen-only-c" onclick="setStep('confirmaccount')">← Back</button>
 <!-- ENRIL-191: Scen B returns to selectplan; Scen D returns to otp (standing removed) -->
 <button class="btn btn-tertiary scen-only-b" onclick="setStep('selectplan')">← Back</button>
@@ -1958,7 +1957,8 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 <!-- ENRIL-210: Email pre-confirmation for existing customers (Scen B/D) -->
 <!-- ENRIL-252: Scen B email is read-only (comes from PRIME — editing would allow OTP to unverified address).
            Scen D email editable treatment retained (Scen D customer did not type email moments ago). -->
-<div class="scen-only-existing fieldset" style="margin-bottom: 20px;">
+<!-- ENRIL-310: id added for two-state OTP sequencing (Scen B/D). Hidden once code is sent (body.otp-code-sent). -->
+<div class="scen-only-existing fieldset" id="otp-confirm-send" style="margin-bottom: 20px;">
 <h3>Confirm where to send your code</h3>
 <!-- Scen B: read-only email display -->
 <div class="scen-only-b">
@@ -1982,10 +1982,12 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 </div>
 
 </div>
-<button class="btn btn-secondary" onclick="alert('Send code — production: triggers GetWebSiteAuthenticationCode with confirmed email')" style="margin-top: 12px;">Send code →</button>
+<!-- ENRIL-310: Send code reveals the "Enter your code" panel (and starts the countdown) for Scen B/D. Production: triggers GetWebSiteAuthenticationCode with the confirmed email. -->
+<button class="btn btn-secondary" onclick="document.body.classList.add('otp-code-sent');" style="margin-top: 12px;">Send code →</button>
 
 </div>
-<div class="fieldset">
+<!-- ENRIL-310: id added — hidden for Scen B/D until code is sent; always visible for Scen A/C (auto-sent on arrival). -->
+<div class="fieldset" id="otp-enter-code">
 <h3>Enter your code</h3>
 <p>Usually arrives within a minute. <span class="auth-timer">Code expires in 29:54</span></p>
 <div aria-label="6-digit authentication code" class="auth-segments" role="group">
@@ -2178,10 +2180,7 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 </div>
 <div class="ann ann-b">ENRIL-242 · Credit check consent — Scen A. Added to Account # step. ENRIL-272: layout fixed to .checkbox-row; required added. ENRIL-273: label copy softened. Cross-ref ENRIL-231 (Scen C credit check pre-collection).</div>
 </div>
-<!-- ENRIL-191: Updated pre-announce — standing check now runs silently in background -->
-<div class="next-step-announce">
-<strong>Almost there.</strong> Once you confirm your account, we'll verify your standing in the background before you continue to review.
-      </div>
+<!-- ENRIL-302 (2026-07-06): "Almost there" next-step-announce container removed (Scen A/C). Copy was misleading — implied near-completion when several steps remain, and this isn't where standing/credit checks run. Orphaned .next-step-announce CSS removed too. -->
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep('otp')">← Back</button>
 <div class="btn-row-right">
@@ -2389,7 +2388,7 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 <div class="review-section">
 <header>
 <h4>Service &amp; account</h4>
-<a class="scen-only-a scen-only-c" href="#" onclick="event.preventDefault(); openEditFor('account');">Edit →</a>
+<!-- ENRIL-303 (2026-07-06): Edit link removed. Account number is used upstream to run SearchCustomers (populates read-only Name) and the standing/credit check; editing at Review would desync data already shown. A wrong account number is a start-over case, not a Review-step edit. (Same no-in-flow-editing logic as Contact/Address.) -->
 
 </header>
 <dl>
@@ -2564,18 +2563,22 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
 </div>
 <!-- ENRIL-280: "What happens next" timeline — stage labels only, no sub-text -->
 <h3>What happens next</h3>
+<!-- ENRIL-304 (2026-07-06): stage-description sentences added under each title, mirroring OPG ENR-136. No "when" timing labels. -->
 <div class="timeline">
 <div class="timeline-stage current">
 <div class="stage-dot"></div>
 <div class="stage-title">Enrollment received</div>
+<div class="stage-desc">We've received your enrollment and emailed your confirmation and contract.</div>
 </div>
 <div class="timeline-stage">
 <div class="stage-dot"></div>
 <div class="stage-title">Utility verification</div>
+<div class="stage-desc">Your gas utility reviews and approves the switch to <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</div>
 </div>
 <div class="timeline-stage">
 <div class="stage-dot"></div>
 <div class="stage-title">Service switch</div>
+<div class="stage-desc">Your gas supply switches to <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. We'll email you once it's official.</div>
 </div>
 </div>
 
@@ -2822,6 +2825,8 @@ Existing customer? <a href="#" onclick="event.preventDefault(); setScenario('b')
       document.body.className = document.body.className
         .split(' ').filter(function(c){ return c.indexOf('flow-step-') !== 0; }).join(' ');
       document.body.classList.add('flow-step-' + target);
+      // ENRIL-310: reset OTP send-state on (re)entry so Scen B/D always start at "Confirm where to send your code".
+      document.body.classList.remove('otp-code-sent');
     } else {
       console.warn('Step not found:', target);
       return;
