@@ -749,6 +749,8 @@
     padding: 8px 14px; background: #fff; border: 1px solid var(--line);
     border-radius: 3px; color: var(--ink);
   }
+  .raf-channels button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .raf-tos-label { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; margin: 10px 0 14px; }
 
   /* -- Inline dev-note callouts ------------------------------------------ */
   .dev-note {
@@ -904,6 +906,12 @@
 <div class="scenario-drop-row">
 <span class="scenario-drop-lbl">ENR-114</span>
 <button onclick="event.stopPropagation(); setFlow('new'); setStep(1); var el=document.getElementById('multi-address-selector'); if(el){ el.style.display='block'; }">Toggle multi-address</button>
+</div>
+<div class="scenario-drop-row">
+<span class="scenario-drop-lbl">RAF state (ENR-152)</span>
+<button id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
+<button id="raf-btn-pending" onclick="setConfRafView('pending')">Pending</button>
+<button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
 </div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
 <div class="scenario-legend">
@@ -1927,20 +1935,50 @@
         ✓ We'll email you a link to set your password — you can set up any time. The link expires in 7 days; "Forgot password?" on sign-in reissues it.
 
 </div>
-<!-- RAF section: per ENR-147 (2026-07-17), now renders after account creation, before the Questions/Natural Gas Basics callout cards. -->
-<div class="raf-block">
+<!-- RAF section: per ENR-147 (2026-07-17), renders after account creation, before the Questions/Natural Gas Basics callout cards. -->
+<!-- ENR-152 (2026-07-20): Replaces the old exposed-code + T&Cs-gates-share-buttons pattern with a three-state model —
+     participant / optin / pending — mirroring MA-109's My Account RAF Dashboard. A Referral Code can only be issued
+     after the referrer authenticates and explicitly clicks Agree (per the live ONG RAF T&Cs), and PRIME confirms
+     issuance is asynchronous — so no state can promise an inline code reveal at the moment of opting in.
+     Reviewer toggle: "RAF state (ENR-152)" in the Scenario drawer switches between the three states for QA.
+     Default = optin (not yet a participant) for both New and Existing flows; a brand-new customer can never start
+     on "Already participant" (no prior account), so that state is reachable only via the reviewer toggle here. -->
+<div class="raf-block" id="raf-block-confirmation">
+
+<!-- ── STATE: NOT OPTED IN (teaser + join action) ── -->
+<div id="conf-raf-view-optin">
+<h3>Refer a friend, earn rewards</h3>
+<p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
+<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="#raf-program-terms">Program Terms</a></label>
+<div class="raf-channels">
+<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('pending')">Join &amp; get my code →</button>
+</div>
+<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
+<div class="ann ann-b">ENR-152 · "Learn more" is a placeholder dead link pending GLB-RAF-1 (standalone Refer-a-Friend page, not yet built/prioritized) — will repoint once that page exists, same as the nav's "Refer a Friend" item.</div>
+</div>
+
+<!-- ── STATE: PENDING (just opted in, code issuance async) ── -->
+<div id="conf-raf-view-pending" style="display:none;">
+<h3>You're in! 🎉</h3>
+<p style="margin:0 0 14px;">Your referral code will be ready in My Account within <strong>[X business days]</strong>. We won't email it — check back in My Account and you'll be able to share it and track your rewards there.</p>
+<div class="ann ann-b">ENR-152 · Turnaround time is a bracketed placeholder — swap in the real figure once PRIME confirms it (non-blocking). No email promise, per ENR-90's no-timing-promises precedent.</div>
+</div>
+
+<!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
+<div id="conf-raf-view-participant" style="display:none;">
 <h3>Refer a friend, earn rewards</h3>
 <p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
 <div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-ong on">JORDAN-ONG-25</span><span class="mkt-inline mkt-pa">JORDAN-PE-25</span><span class="mkt-inline mkt-gre">JORDAN-GRE-25</span></span></div>
-<label class="raf-tos-label"><input id="raf-tos" onchange="document.querySelectorAll('.raf-share-action').forEach(el =&gt; el.disabled = !this.checked)" type="checkbox"/> I agree to the Refer-A-Friend <a href="#">Terms &amp; Conditions →</a></label>
 <div class="raf-channels">
-<button class="raf-share-action" disabled="">Email a friend</button>
-<button class="raf-share-action" disabled="">Copy link</button>
-<button class="raf-share-action" disabled="">Share on social</button>
+<button class="raf-share-action">Email a friend</button>
+<button class="raf-share-action">Copy link</button>
+<button class="raf-share-action">Share on social</button>
 </div>
-<p><a href="#">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-b">ENR-126 · RAF eligibility timing open (ENR-4) — T&amp;Cs gate and share actions may need to be suppressed entirely until PRIME confirms the customer's referral code is active. **ENR-150 open:** whether RAF belongs on this page at all is still unresolved — Allyson to investigate further.</div>
+<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
+<div class="ann ann-y">ENR-152 · Existing-customer (Plan-Change) only: whether PRIME can expose this "already a participant" flag at Plan-Change Confirmation is unconfirmed (extends ENR-4) — build assumes yes; falls back to Optin/Pending states only if PRIME says the flag isn't queryable here. Flagged for Girish/PRIME.</div>
+</div>
 
+<div class="ann ann-b">ENR-150 resolved 2026-07-20 → ENR-152: RAF stays on this page, but no longer exposes an unissued code. Full writeup: RAF_Confirmation_Proposal_2026-07-20.md.</div>
 
 </div>
 <!-- ENR-141 (2026-07-06): Questions/Natural Gas Basics callout cards — render below RAF/account-creation section. -->
@@ -2490,6 +2528,31 @@
     if (db) db.classList.toggle('on', state === 'deferred');
   }
 
+  // ---------- ENR-152: Confirmation RAF three-state model (optin / pending / participant) ----------
+  // Mirrors MA-109's My Account RAF Dashboard sub-states. Default = optin for both New and Existing
+  // flows (a brand-new customer can never land on "participant" — no prior account — so that state
+  // is reachable here only via the reviewer toggle). Reviewer toggle: "RAF state (ENR-152)" in the
+  // Scenario drawer.
+  function setConfRafView(view) {
+    ['optin', 'pending', 'participant'].forEach(function(v) {
+      var el = document.getElementById('conf-raf-view-' + v);
+      if (el) el.style.display = (v === view) ? '' : 'none';
+    });
+    var map = { optin: 'raf-btn-optin', pending: 'raf-btn-pending', participant: 'raf-btn-participant' };
+    Object.keys(map).forEach(function(v) {
+      var b = document.getElementById(map[v]);
+      if (b) b.classList.toggle('on', v === view);
+    });
+    // Reset the join checkbox/button when leaving the optin state via the reviewer toggle,
+    // so re-entering optin doesn't show a stale checked/enabled state.
+    if (view !== 'optin') {
+      var agree = document.getElementById('conf-raf-agree');
+      var join = document.getElementById('conf-raf-join');
+      if (agree) agree.checked = false;
+      if (join) join.disabled = true;
+    }
+  }
+
   // ---------- ENR-84: Scroll-to-unlock for Accept Contract T&C viewer ----------
   // Customer must scroll to bottom of T&C document before Continue button activates.
   (function setupScrollToUnlock() {
@@ -2570,6 +2633,7 @@
   setMarket('ong');        // default to ONG (shows account-twice variant)
   setAnnMode('clean');     // default to clean view for presentations
   setStep(1);              // sets body.flow-step-1 so WTE panel + change-plan-link CSS rules fire correctly on load
+  setConfRafView('optin'); // ENR-152: default RAF state = not yet opted in, for both New and Existing flows
   validateStep1();
   validateStep2();
   validateStep3();
