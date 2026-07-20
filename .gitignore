@@ -1,2 +1,4 @@
 build-sheets/
 .DS_Store
+
+.fuse_hidden*
