@@ -175,6 +175,8 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 /* ── HERO BAND (CP-1) ── */
 .hero-band { padding: 26px 32px 24px; background: #f7f8fb; }
+.hero-rate-line { font-size: 13px; color: #1e3a5f; line-height: 1.5; margin-top: 8px; max-width: 620px; }
+.hero-rate-line strong { font-weight: 800; }
 .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid #dde6f0; }
 .hero-trust-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #555; font-weight: 600; }
 .hero-trust-icon { font-size: 13px; }
@@ -263,16 +265,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
+<!-- Natural Gas Basics: direct link + pillar dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
@@ -290,7 +288,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -309,7 +307,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -375,6 +373,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="hero-band">
 <div class="h1">Commercial Natural Gas Plans — Ohio</div>
 <div class="subhead">Fixed and variable rate options for small to mid-size Ohio businesses. Select your utility to see available plans.</div>
+<div class="hero-rate-line">Supply rates from <strong>$0.469/CCF</strong> in Ohio, based on average business usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="ann ann-y" style="font-size:9px;"><i>⚑</i> CP-8 — phrasing change from client's original "final rate depends on your utility," needs confirmation</span></div>
 <div class="hero-trust">
 <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by PUCO</div>
 <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
@@ -388,6 +387,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="hero-band">
 <div class="h1">Commercial Natural Gas Plans — Michigan</div>
 <div class="subhead">Fixed and variable rate options for small to mid-size Michigan businesses. Select your utility to see available plans.</div>
+<div class="hero-rate-line">Supply rates from <strong>[$ TBD]/Mcf</strong> in Michigan, based on average business usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="ann ann-y" style="font-size:9px;"><i>⚑</i> CP-8 — blocked on CP Open Question #1 (commercial plan types/units unconfirmed, owner Lee Jackson)</span></div>
 <div class="hero-trust">
 <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by MPSC</div>
 <div class="hero-trust-item"><span class="hero-trust-icon">★</span> BBB Accredited</div>
@@ -400,6 +400,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="hero-band">
 <div class="h1">Commercial Natural Gas Plans — Illinois</div>
 <div class="subhead">Fixed and variable rate options for Illinois commercial customers. Select your utility to see available plans.</div>
+<div class="hero-rate-line">Supply rates from <strong>[$ TBD]/therm</strong> in Illinois, based on average business usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="ann ann-y" style="font-size:9px;"><i>⚑</i> CP-8 — blocked on CP Open Question #1 (commercial plan types/units unconfirmed, owner Lee Jackson)</span></div>
 <div class="hero-trust">
 <div class="hero-trust-item"><span class="hero-trust-icon">✓</span> Licensed by ICC</div>
 <div class="hero-trust-item"><span class="hero-trust-icon">🏢</span> Serving Illinois Businesses Since [Year — TBD]</div>
@@ -654,10 +655,10 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <script>
 const MKT_ELEMENTS = {
-  ong: ['logo-ong','nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','avail-ong','nav-ph-ong'],
+  ong: ['logo-ong','nav-standard','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','avail-ong','nav-ph-ong'],
   pa:  ['logo-pa','nav-standard','nav-search-std','nav-lc-area-pa'],
-  gre: ['logo-gre','nav-standard','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','avail-gre','nav-ph-gre'],
-  il:  ['logo-il','nav-standard','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il','avail-il','nav-ph-il'],
+  gre: ['logo-gre','nav-standard','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','avail-gre','nav-ph-gre'],
+  il:  ['logo-il','nav-standard','nav-fmb','nav-search-std','nav-lc-area-il','avail-il','nav-ph-il'],
   ies: ['logo-ies','nav-ies','nav-ph-ies']
 };
 function setMarket(m) {

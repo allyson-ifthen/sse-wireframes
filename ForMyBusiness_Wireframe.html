@@ -189,11 +189,6 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .step-num { width: 32px; height: 32px; background: #1e3a5f; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin-bottom: 10px; }
 .step-label { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
 .step-body { font-size: 11px; color: #555; line-height: 1.6; }
-.why-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.why-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 18px 16px; }
-.why-icon { font-size: 26px; margin-bottom: 8px; }
-.why-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
-.why-copy { font-size: 11px; color: #666; line-height: 1.55; }
 .rep-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 12px; }
 .rep-card { border: 1.5px solid #d0dce8; border-radius: 5px; padding: 18px 16px; background: #f5f8fc; }
 .rep-card-name { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 2px; }
@@ -241,8 +236,6 @@ body.viewport-mobile .plan-type-grid-2 { grid-template-columns: 1fr; }
 /* §5 How Commercial Supply Works — 3-col → 1-col */
 body.viewport-mobile .steps-grid { grid-template-columns: 1fr; }
 
-/* §6 Why [Brand] for Business — 3-col → 1-col */
-body.viewport-mobile .why-grid-3 { grid-template-columns: 1fr; }
 
 /* §8 Contact Reps — 2-col → 1-col */
 body.viewport-mobile .rep-grid { grid-template-columns: 1fr; }
@@ -387,18 +380,12 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <a class="nav-link active nav-hub-link" href="#" data-hub-tip="Hub: Commercial plans &amp; info">For My Business</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Commercial Plans</a>
-            <a class="nav-dd-item" href="#">Why
-              <span class="mkt-inline" id="dd-brand-ong">ONG</span>
-              <span class="mkt-inline" id="dd-brand-gre">GRE</span>
-              <span class="mkt-inline" id="dd-brand-il">IE</span>
-              for Business
-            </a>
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
           </div>
         </div>
-        <!-- Learning Center -->
+        <!-- Natural Gas Basics -->
         <div class="nav-item">
-          <a class="nav-link" href="#">Learning Center</a>
+          <a class="nav-link" href="#">Natural Gas Basics</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
             <a class="nav-dd-item" href="#">Articles &amp; Guides</a>
@@ -472,7 +459,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <span class="ann ann-g">H1 is B2B-specific — no household / residential language</span>
         <span class="ann ann-y">⚑ BBB badge: ONG ✓ · IL ✓ · GRE ✗ — need alternate proof point (B2B-05)</span>
         <span class="ann ann-y">⚑ Years serving [State]: suppress until founding year confirmed (B2B-06)</span>
-        <span class="ann ann-b">◈ Dual-CTA variant of the .gi-hero component. Primary button = plan exploration path; secondary text link = large C&I escape hatch. Design/dev: component supports an optional secondary link slot below the primary button. See ForMyHome_Wireframe.html (single-CTA) and WhyBrandForBusiness_Wireframe.html (dual-button) for other variants. Per FMB-1.</span>
+        <span class="ann ann-b">◈ Dual-CTA variant of the .gi-hero component. Primary button = plan exploration path; secondary text link = large C&I escape hatch. Design/dev: component supports an optional secondary link slot below the primary button. See ForMyHome_Wireframe.html (single-CTA) for another variant. (Why Brand for Business's dual-button variant retired 2026-07-13 per CIA-2 — page moved to Wireframes/_Retired/.) Per FMB-1.</span>
       </div>
     </div>
   </div>
@@ -572,46 +559,44 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
   <div class="section">
     <div class="section-label"><div class="sec-num">6</div><br>Why [Brand] for Business</div>
     <div class="p">
-      <div class="h2">
-        Why <span class="mkt-inline" id="brand-why-ong">Ohio Natural Gas</span><span class="mkt-inline" id="brand-why-gre">Grand Rapids Energy</span><span class="mkt-inline" id="brand-why-il">Illinois Energy</span> for Your Business
+      <div style="font-size:14px; color:#333; line-height:1.6; max-width:640px;">
+        <span class="mkt-inline on" id="trust-ong">Licensed to operate in Ohio, with [XX]+ years serving Ohio businesses.</span>
+        <span class="mkt-inline" id="trust-gre">Licensed by the Michigan Public Service Commission (MPSC), with [XX]+ years serving Michigan businesses.</span>
+        <span class="mkt-inline" id="trust-il">Licensed by the Illinois Commerce Commission (ICC), with [XX]+ years serving Illinois businesses.</span>
       </div>
 
-      <div class="why-grid-3">
-        <!-- Card 1: Certified -->
-        <div class="why-card">
-          <div class="why-icon">⚖️</div>
-          <div class="why-title">Certified &amp; Accountable.</div>
-          <div class="why-copy">
-            <span class="mkt-inline" id="why1-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="why1-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="why1-brand-il">Illinois Energy</span> is a <span class="mkt-inline" id="why1-reg-ong">PUCO</span><span class="mkt-inline" id="why1-reg-gre">MPSC</span><span class="mkt-inline" id="why1-reg-il">ICC</span>-licensed commercial natural gas supplier. Your utility still delivers your gas — we handle your supply rate. You get the accountability of a licensed supplier.
+      <!-- Condensed credentials fact-sheet, folded in from retired Why Brand for Business §8 (CIA-2, 2026-07-13) -->
+      <div style="border:1.5px solid #d0dce8; border-radius:5px; padding:16px 18px; margin-top:14px; background:#f9fbfd; font-size:12px; line-height:1.8;">
+        <div style="display:grid; grid-template-columns: 150px 1fr; gap:6px 16px;">
+          <div style="font-weight:800; color:#1e3a5f;">Regulatory body</div>
+          <div>
+            <span class="mkt-inline on" id="fs-reg-ong">Public Utilities Commission of Ohio (PUCO)</span>
+            <span class="mkt-inline" id="fs-reg-gre">Michigan Public Service Commission (MPSC)</span>
+            <span class="mkt-inline" id="fs-reg-il">Illinois Commerce Commission (ICC)</span>
           </div>
-          <div style="margin-top:8px;">
-            <span class="ann ann-b" style="font-size:10px;">BBB badge: ONG ✓ / IL ✓ · GRE ✗ (need alternate B2B-05)</span>
-          </div>
+          <div style="font-weight:800; color:#1e3a5f;">Legal entity</div>
+          <div>SouthStar Energy Services, LLC — a subsidiary of Southern Company (NYSE: SO)</div>
         </div>
-        <!-- Card 2: Rates -->
-        <div class="why-card">
-          <div class="why-icon">💰</div>
-          <div class="why-title">Rates Shown Upfront. No Hidden Fees.</div>
-          <div class="why-copy">
-            Your commercial supply rate is shown before you enroll — no teaser pricing. <span class="mkt-inline" id="units-ong">Billed per therm.</span><span class="mkt-inline" id="units-gre">Billed per Mcf.</span><span class="mkt-inline" id="units-il">Billed per therm.</span> If an early termination charge (ETC) applies, it is disclosed at enrollment.
-          </div>
+        <!-- BBB standing — shown only where standing is genuinely strong, per GLB-TRUST-2 (2026-07-13) -->
+        <div class="mkt on" id="fs-bbb-row-ong" style="margin-top:8px; padding-top:8px; border-top:1px solid #e8edf2; display:flex; gap:16px;">
+          <div style="font-weight:800; color:#1e3a5f; width:150px; flex-shrink:0;">BBB standing</div>
+          <div>[PLACEHOLDER: A+ BBB Accredited — confirm current standing + provide profile URL (B2B-05)]</div>
         </div>
-        <!-- Card 3: Support -->
-        <div class="why-card">
-          <div class="why-icon">📞</div>
-          <div class="why-title">A Supplier Who Answers the Phone.</div>
-          <div class="why-copy">Small businesses can enroll online. Large commercial and industrial accounts have access to a dedicated business team for high-volume supply needs, contract questions, and custom solutions.</div>
+        <div class="mkt" id="fs-bbb-row-il" style="margin-top:8px; padding-top:8px; border-top:1px solid #e8edf2; display:flex; gap:16px;">
+          <div style="font-weight:800; color:#1e3a5f; width:150px; flex-shrink:0;">BBB standing</div>
+          <div>[PLACEHOLDER: A+ BBB Accredited — confirm current standing + provide profile URL (B2B-05)]</div>
         </div>
       </div>
 
-      <div style="margin-top:16px;">
-        <button class="wf-btn-out">See why <span class="mkt-inline on" id="wbb-cta-ong">Ohio Natural Gas</span><span class="mkt-inline" id="wbb-cta-gre">Grand Rapids Energy</span><span class="mkt-inline" id="wbb-cta-il">Illinois Energy</span> is the right choice for your business <a href="WhyBrandForBusiness_Wireframe.html">→</a></button>
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="wf-btn-out" href="GeneralInformational_Wireframe.html">About <span class="mkt-inline on" id="trustbtn-ong">Ohio Natural Gas</span><span class="mkt-inline" id="trustbtn-gre">Grand Rapids Energy</span><span class="mkt-inline" id="trustbtn-il">Illinois Energy</span></a>
       </div>
 
       <div class="ann-row">
-        <span class="ann ann-r">Do NOT use "best rates" or "lowest prices" — violates brand credibility position</span>
-        <span class="ann ann-y">⚑ GRE BBB suppressed — alternate proof point needed (B2B-05)</span>
-        <span class="ann ann-b">◈ Shared component with Homepage §5 — same 3-card structure. CMS copy is commercial-tailored; Homepage copy is audience-agnostic. Per FMB-3.</span>
+        <span class="ann ann-g">✓ CIA-2 (2026-07-13): standalone Why Brand for Business page retired (moved to Wireframes/_Retired/) — council found its own procurement audience converts via phone/rep (Michael Presto, Erika Douglas — §8 below), not a page visit. Condensed credentials fact-sheet (regulatory body, legal entity, BBB standing) folded in here from that page's §8; full 3-card trust grid still not restored (GLB-TRUST-1/FMB-6 tiering stands). "See why…" button removed since its destination page no longer exists.</span>
+        <span class="ann ann-b">◈ Trust-module tiering (GLB-TRUST-1 / FMB-6): the full 3-card "Why [Brand] for Business" trust grid was removed from this supporting page — the full trust module now lives only on Homepage and About Us. One-line proof point + condensed fact-sheet + "About [Brand]" link cover the credibility case without repeating the same "licensed &amp; accountable" claim on every page (client redundancy pushback, cf. HP-14).</span>
+        <span class="ann ann-y">⚑ [XX]+ reuses the trust-band years-in-market placeholder — single find-and-replace once client confirms years in market per market.</span>
+        <span class="ann ann-y">⚑ BBB standing per market follows GLB-TRUST-2 (2026-07-13): only show BBB where standing is genuinely strong. GRE row omitted here — no confirmed strong BBB standing (B2B-05); matches the GRE BBB exclusion already applied on Homepage/About Us.</span>
       </div>
     </div>
   </div>
@@ -697,7 +682,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <div>
           <div class="footer-col-head">Learn</div>
           <div class="footer-col-links">
-            <a href="#">Learning Center</a>
+            <a href="#">Natural Gas Basics</a>
             <a href="#">About Us</a>
             <a href="#">Contact Us</a>
             <a href="#">My Account</a>

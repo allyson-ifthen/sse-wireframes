@@ -126,7 +126,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .ptc-footer { padding: 8px 14px 12px; }
 
 /* ── TRUST BAND ── */
-.trust-band-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+/* GLB-TRUST-2: flex layout so the strip lays out cleanly at 2 or 3 items per market (no empty/broken slot) */
+.trust-band-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.trust-band-grid .trust-item { flex: 1 1 150px; max-width: 260px; }
 .trust-item { background: #fff; border: 1px solid #e8e8e4; border-radius: 4px; padding: 14px 12px; text-align: center; }
 .trust-val { font-size: 20px; font-weight: 900; color: #1e3a5f; line-height: 1.1; margin-bottom: 4px; }
 .trust-lbl { font-size: 10px; color: #888; line-height: 1.4; }
@@ -409,7 +411,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="section" style="position:relative; margin-bottom:5px;">
 <div class="section-label"><div class="sec-num" style="background:#555;">H</div><br/>Nav Header<br/>(Global)</div>
 <!-- Mobile / small-screen note -->
-<div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside search icon (🔍) and hamburger. Nav links (For My Home, For My Business, Learning Center, About Us) collapse into hamburger drawer. Search icon navigates to /search/ — same as desktop. IES: no search icon.</div>
+<div class="nav-mobile-note">⚑ Mobile: My Account icon persists in header alongside search icon (🔍) and hamburger. Nav links (For My Home, For My Business, Natural Gas Basics, About Us) collapse into hamburger drawer. Search icon navigates to /search/ — same as desktop. IES: no search icon.</div>
 <!-- Utility Row -->
 <div class="nav-utility">
 <a>Contact Us</a>
@@ -445,23 +447,19 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 </div>
 <!-- For My Business: ONG/GRE/IL only — suppressed for PA (no commercial at launch) -->
-<!-- Dropdown per Redesign-Site-Map.md: Commercial Plans + Why [Brand] for Business + B2B Contact -->
+<!-- Dropdown per Redesign-Site-Map.md, updated 2026-07-13 (CIA-2/CIA-6/CIA-7): Commercial Plans only. Why [Brand] for Business retired (credentials folded into ForMyBusiness_Wireframe.html hub); B2B Contact removed as stale/redundant (site map removed it 2026-06-24; commercial contact lives on ContactFormUtility_Wireframe.html §Commercial & Sales Inquiries). Two genuine destinations justify keeping the dropdown: label → For My Business hub page, chevron → Commercial Plans. -->
 <div class="nav-item has-dropdown mkt" id="nav-fmb">
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: hub link + pillar dropdown (GLB-NAV-4) -->
+<!-- Natural Gas Basics: hub link + pillar dropdown (GLB-NAV-4) -->
 <!-- "Does [Brand] Serve My Area?" is market-specific; Carbon Neutral Gas + Greener Life® is ONG/GRE only -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
@@ -481,7 +479,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -503,7 +501,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -538,7 +536,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <li><strong>#2</strong> Above-the-fold test: should the LDC widget be embedded inside the hero (above fold) or immediately below the hero fold? Wireframe shows it immediately below — but A/B test both. Confirm with conversion rate optimization strategy.</li>
 <li><strong>#3</strong> IES homepage treatment: Fixed Bill product uses a billing-first architecture. Should the IES homepage use the same template or a custom layout that leads with "predictable monthly bill" rather than "rate"? Confirm with Susan Bergen / IES product lead.</li>
 <li><strong>#4</strong> Promo/deals band: current sites have "Deals" page as #2 landing page (Ohio) and GASPEQ referral promos (PA). Should a promo code field or "Current Deals" callout appear on the homepage? Wireframe excludes it — flagging as open.</li>
-<li><strong>#5</strong> Review aggregates: Trust Band requires verified review counts and star ratings. Confirm which markets have Google / BBB / Trustpilot data available.</li>
+<li><strong>#5</strong> <s>Review aggregates: Trust Band requires verified review counts and star ratings. Confirm which markets have Google / BBB / Trustpilot data available.</s> <strong>CLOSED (GLB-TRUST-2, 2026-07-13)</strong> — moot: customer-review content removed from the trust strip; no review aggregates to source.</li>
 <li><strong>#6</strong> Greener Life on IES homepage: Greener Life is a standalone plan type, not an add-on. Confirm whether Greener Life plans are available under the IES brand — if not, the Greener Life module should be hidden for IES entirely.</li>
 <li><strong>#7</strong> SouthStar / Southern Company parent brand mention: requirements specify all sites must explain the relationship between SouthStar Energy, Southern Company, and state entities. Is this in the footer, a dedicated FAQ section, or a separate "About" callout?</li>
 <li><strong>#8</strong> Commercial plans confirmed available in: ONG (Ohio), GRE (Michigan), IL Energy. NOT available in: Pennsylvania, IES. Open sub-questions before commercial escape hatch routes to a live page: (a) What plan types exist for commercial customers — fixed, variable, custom contract? (b) Does the commercial enrollment flow differ from residential (likely yes — larger accounts may involve a rep call rather than self-serve)? (c) Is there a Commercial Plans page already in the sitemap, or does it need to be scoped into Phase 3? Confirm with Lee Jackson.</li>
@@ -559,8 +557,20 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div style="font-size:10px; color:#aac4d9; white-space:nowrap;">Limited time</div>
 </div>
+<!-- HP-21 (2026-07-20): Second rotating pencil-banner message — new-customer orientation. In production this ALTERNATES with the promo message above within the same single banner slot (not stacked); rendered here as a second row so both messages are visible for review. Homepage-only pending the page-scope decision (see annotation). -->
+<div style="background:#1e3a5f; color:#fff; padding:8px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; border-top:1px solid rgba(255,255,255,.15);">
+<div style="font-size:12px; font-weight:600;">
+<span class="mkt on" id="pb-orient-ong">👋 New to Ohio Natural Gas? <a href="ResidentialPlans_Wireframe.html" style="color:#7ec8e3; text-decoration:underline; margin-left:4px;">See residential plans →</a></span>
+<span class="mkt" id="pb-orient-pa">👋 New to Pennsylvania Energy? <a href="ResidentialPlans_Wireframe.html" style="color:#7ec8e3; text-decoration:underline; margin-left:4px;">See residential plans →</a></span>
+<span class="mkt" id="pb-orient-gre">👋 New to Grand Rapids Energy? <a href="ResidentialPlans_Wireframe.html" style="color:#7ec8e3; text-decoration:underline; margin-left:4px;">See residential plans →</a></span>
+<span class="mkt" id="pb-orient-il">👋 New to Illinois Energy? <a href="ResidentialPlans_Wireframe.html" style="color:#7ec8e3; text-decoration:underline; margin-left:4px;">See residential plans →</a></span>
+<span class="mkt" id="pb-orient-ies">👋 New to Illinois Energy Solutions? <a href="#" style="color:#7ec8e3; text-decoration:underline; margin-left:4px;">See Fixed Bill Plan →</a></span>
+</div>
+<div style="font-size:10px; color:#aac4d9; white-space:nowrap;">Getting started</div>
+</div>
 <div class="ann-row" style="padding:4px 24px 6px; background:#f0f4f9;">
-<span class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner — shared component. Appears on: Homepage, Plans Listing, Learning Center, General Informational, Search Results. Suppressed on: Contact &amp; Utility Directory (conflict with emergency banner), Legal/Compliance, My Account, Plan Change Flow. Josh confirmed "we will always have a promo being offered" — banner is always populated. CMS-managed copy and link per active promotion.</span>
+<span class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner — shared component. Appears on: Homepage, Plans Listing, Natural Gas Basics, General Informational, Search Results. Suppressed on: Contact &amp; Utility Directory (conflict with emergency banner), Legal/Compliance, My Account, Plan Change Flow. Josh confirmed "we will always have a promo being offered" — banner is always populated. CMS-managed copy and link per active promotion.</span>
+<span class="ann ann-y" style="font-size:10px; display:block; margin-top:4px;">HP-21 · The "New to [Brand]?" orientation message is a <strong>second rotating message in this same banner slot</strong> — it alternates with the promo message, not shown alongside it (stacked here only for review). <strong>Open:</strong> (1) page scope — Homepage only vs. all 5 templates sharing this banner (not yet decided; built Homepage-only for now); (2) WCAG 2.2.2 (Pause, Stop, Hide) requires a pause/stop control on auto-rotating content — not yet scoped as dev work; (3) rotation dwell time / transition mechanics need a dev spec; (4) no visitor-state (new vs. returning) detection — message shows to all visitors. Homepage is client-approved (Batch 1); this is a single stakeholder's post-approval concern, not a reopening of sign-off.</span>
 
 </div>
 <!-- ══════════════════════════════════
@@ -641,7 +651,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
           </div>
 </div>
 </div>
-
+<div class="annot annot-green" style="margin-top:8px;"><span class="annot-icon">✓</span> <strong>PROMO-19 (2026-07-15):</strong> confirmed this inline message-plus-link treatment already matches the direction aligned for the Promo Page's runtime-invalid-code case (PROMO-13) — a brief explanatory state, not a redirect. No change needed here; noted for consistency across all three entry points (Promo Page, Homepage, Residential Plans).</div>
 </div>
 </div>
 <!-- ══════════════════════════════════
@@ -851,7 +861,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
        still in research mode before presenting the brand case)
   ══════════════════════════════════ -->
 <div class="section mkt" id="lc-section" style="position:relative;">
-<div class="section-label"><div class="sec-num">3</div><br/>Learning Center<br/>Teaser</div>
+<div class="section-label"><div class="sec-num">3</div><br/>Natural Gas Basics<br/>Teaser</div>
 <div class="p">
 <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
 <div class="h2">
@@ -1019,10 +1029,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
       ───────────────────────────────────────────────────────────── -->
 <div style="border-top:1px solid #e8e8e4; margin:22px 0 16px;"></div>
 <div class="trust-band-grid">
-<div class="trust-item">
-<div class="trust-val"><span style="color:#f5c842;">★</span> [X.X]</div>
-<div class="trust-lbl">[N,NNN] verified reviews<br/>(Google / BBB / Trustpilot)<br/><span style="color:#f5c842;">⚑ confirm source per market</span></div>
-</div>
+<!-- GLB-TRUST-2 (2026-07-20): star-rating / verified-review-count trust item removed — customer-review data is not sourceable at this time (client direction 2026-07-13). Remaining signals: years serving, state licensing, and BBB (market-conditional). -->
 <div class="trust-item">
 <div class="trust-val">[XX]+</div>
 <div class="trust-lbl">Years serving
@@ -1044,20 +1051,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="trust-lbl">State-certified<br/>natural gas supplier ↗</div>
 </div>
-<div class="trust-item">
+<div class="trust-item mkt on" id="ts-bbb">
 <div class="trust-val" style="font-size:14px;">BBB<br/>Accredited</div>
-<div class="trust-lbl">Rating: [A+] ↗<br/><span style="color:#f5c842;">⚑ market-conditional — confirm standing per brand before publishing</span></div>
+<div class="trust-lbl">Rating: [A+] ↗<br/><span style="color:#f5c842;">⚑ show only where BBB standing is genuinely strong — confirm per brand (ONG/PA/GRE/IL) before publishing; hidden for IES</span></div>
 </div>
 </div>
-<!-- ── Part C: Customer Testimonial ────────────────────────
-           Social proof: one verified quote per market, CMS-configurable.
-           Do not fabricate — source from Google / BBB / Trustpilot only.
-      ───────────────────────────────────────────────────────────── -->
-<div style="margin-top:16px; background:#f7f7f5; border:1.5px solid #e0dfd9; border-left:4px solid #e8641a; border-radius:4px; padding:14px 18px;">
-<div style="font-size:13px; color:#333; font-style:italic; margin-bottom:6px;">"[Customer testimonial — 1–2 sentences. Plain, honest language. Must be sourced from verified review platform — no fabricated quotes.]"</div>
-<div style="font-size:11px; color:#888;">— [First name, city, state] · [Source: Google / BBB]</div>
-<div style="font-size:10px; color:#f5c842; margin-top:4px;">⚑ Testimonial placeholder — pull from verified reviews for each market. One quote per market — CMS-configurable.</div>
-</div>
+<!-- ── Part C: Customer Testimonial — REMOVED per GLB-TRUST-2 (2026-07-13 client direction: customer-review content is not sourceable; no fabricated quotes). ── -->
+<div class="ann ann-b" style="margin-top:14px;"><strong>GLB-TRUST-2:</strong> Customer-review content removed entirely — the star-rating/verified-review item and the customer-testimonial block are both gone (review data not sourceable). Remaining signals cap at real/sourceable: <strong>years serving</strong> + <strong>state licensing</strong> (always), plus <strong>BBB accreditation only where standing is genuinely strong</strong>. The grid now flexes to 2 or 3 items — <strong>IES shows 2 items</strong> (no BBB slot; BBB complaint volume / −43 AI-sentiment risk, leans on Southern Company/SouthStar affiliation), while ONG/PA/GRE/IL show 3 pending per-brand BBB standing from the client. Same shared component in About Us (GeneralInformational). Closes Homepage Open Q #5. HP-13 / HP-14 still reference review counts and need rewording separately before build.</div>
 <!-- AI Sentiment context — annotation only, not shown to visitors -->
 <div class="sentiment-bar">
 <span style="font-size:11px; font-weight:700; color:#555;">AI Sentiment (current baseline):</span>
@@ -1116,7 +1116,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="site-footer">
 <!-- Footer brand + utility nav strip
            Structure sourced from IA review meeting (March 23, 2026):
-           "customer service phone number and then my account surfacing Learning Center
+           "customer service phone number and then my account surfacing Natural Gas Basics
            and the FAQ page... contact us page... privacy policy, terms of use, site map" -->
 <div class="footer-brand-strip">
 <!-- Left: entity brand -->
@@ -1200,12 +1200,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <!-- Gas emergency note — routes to utility, not supplier; legally critical -->
 <div style="padding:8px 12px; background:#2a2a2a; border-radius:3px; font-size:10px; color:#888;">
 <strong style="color:#aaa;">Gas emergency?</strong> Call your utility — not us.<br/>
-<span class="mkt on" id="ft-em-ong">Columbia Gas: 1-800-[xxx]<br/>Dominion: 1-800-[xxx]</span>
-<span class="mkt" id="ft-em-pa">UGI: 1-800-[xxx]<br/>Peoples: 1-800-[xxx]</span>
+<span class="mkt on" id="ft-em-ong">CenterPoint Energy: 1-800-[xxx]<br/>Columbia Gas of Ohio: 1-800-[xxx]<br/>Duke Energy Ohio: 1-800-[xxx]<br/>Enbridge Gas Ohio: 1-800-[xxx]</span>
+<span class="mkt" id="ft-em-pa">Peoples Natural Gas: 1-800-[xxx]<br/>UGI Utilities Inc.: 1-800-[xxx]<br/>Philadelphia Gas Works: 1-800-[xxx]<br/>Columbia Gas of Pennsylvania: 1-800-[xxx]</span>
 <span class="mkt" id="ft-em-gre">Consumers: 1-800-[xxx]<br/>SEMCO: 1-800-[xxx]</span>
 <span class="mkt" id="ft-em-il">Nicor: 1-888-[xxx]<br/>Peoples Gas: 1-866-[xxx]</span>
 <span class="mkt" id="ft-em-ies">Nicor: 1-888-[xxx]<br/>Peoples Gas: 1-866-[xxx]</span>
 </div>
+<div class="ann ann-r" style="margin-top:8px;">HP-22 (2026-07-20) · 4th LDC slot added — ONG and PA now list all 4 utilities per the copywriter's homepage copy (SSE homepage copy.docx): ONG = CenterPoint Energy, Columbia Gas of Ohio, Duke Energy Ohio, Enbridge Gas Ohio; PA = Peoples Natural Gas, UGI Utilities Inc., Philadelphia Gas Works, Columbia Gas of Pennsylvania. GRE (2) / IL / IES unchanged. <strong>Safety-critical:</strong> phone numbers are placeholders — verify every utility name and number against the authoritative source before publishing. Companion update to <code>Homepage_ContentTemplate_Fillable.xlsx</code> (add LDC-4 field) tracked separately.</div>
 </div>
 </div><!-- /footer-brand-strip -->
 <!-- Bottom bar: copyright + legal links + market-specific disclaimer -->
@@ -1272,11 +1273,11 @@ const MKT_ELEMENTS = {
   //   ft-plan-ies  = "Fixed Bill Plan" (IES only)
   //   ft-comm-*    = "Commercial Plans" footer link (ONG/GRE/IL — PA residential-only, IES n/a)
   //   ft-gl-*      = "Greener Life® Plans" footer link (ONG confirmed; PA/GRE/IL TBD; IES n/a)
-  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
-  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa','nav-search-std','nav-lc-area-pa'],
-  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
-  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il'],
-  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies']
+  ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','ts-bbb','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','pb-orient-ong'],
+  pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','ts-bbb','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa','nav-search-std','nav-lc-area-pa','pb-orient-pa'],
+  gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','ts-bbb','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','pb-orient-gre'],
+  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','ts-bbb','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il','nav-fmb','nav-search-std','nav-lc-area-il','pb-orient-il'],
+  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies','pb-orient-ies']
   // IES: no nav-search-std (IES has no search in nav per Redesign-Site-Map.md)
   // IES: nav-ies (simplified 3-item nav); static Nicor utility (no selector); no commercial tab or Greener Life section
 };

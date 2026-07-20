@@ -114,17 +114,6 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .contact-sidebar { background: #f5f8fc; border-left: 1px solid #d0dce8; padding: 20px; }
 .contact-sidebar-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 14px; }
 
-/* Emergency band */
-.emergency-band { background: #fce4ec; border: 2px solid #e53935; border-radius: 4px; padding: 16px 20px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
-.emergency-icon { font-size: 24px; flex-shrink: 0; }
-.emergency-title { font-size: 14px; font-weight: 900; color: #c62828; margin-bottom: 6px; }
-.emergency-body { font-size: 12px; color: #880e4f; line-height: 1.5; }
-.emergency-number { font-size: 18px; font-weight: 900; color: #c62828; margin-top: 6px; display: block; }
-.emergency-ldc-row { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-.emergency-ldc-item { background: #fff; border: 1px solid #f48fb1; border-radius: 3px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-.emergency-ldc-name { font-size: 12px; font-weight: 700; color: #880e4f; }
-.emergency-ldc-num { font-size: 13px; font-weight: 900; color: #c62828; }
-
 /* Contact info cards */
 .contact-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
 .contact-info-card { border: 1.5px solid #d0dce8; border-radius: 4px; padding: 14px 16px; background: #fff; }
@@ -254,16 +243,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
+<!-- Natural Gas Basics: direct link + pillar dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
@@ -281,7 +266,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -300,7 +285,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -313,17 +298,10 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 </div>
 </div>
-<!-- Pencil Banner — Emergency Routing -->
-<div style="background:#fff3e0; border-bottom:2px solid #e8641a; padding:8px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-<div style="font-size:12px; color:#7a3800; font-weight:600;">🚨 <strong>Smell gas?</strong> This is a utility emergency — contact your gas utility immediately.</div>
-<a href="#utility-directory" style="font-size:11px; color:#e8641a; font-weight:700; text-decoration:underline; cursor:pointer; white-space:nowrap;">View utility emergency contacts ↓</a>
-</div>
-
 <!-- METRICS BAR -->
 <div class="section" style="margin-bottom:10px;">
 <div class="metrics-bar">
 <div><div class="m-val">No form</div><div class="m-lbl">No contact intake form — no monitored inbox</div><div class="m-tgt">Phone is the primary inbound channel</div></div>
-<div><div class="m-val">Safety-critical</div><div class="m-lbl">Emergency LDC routing is the most important element</div><div class="m-tgt">Gas leak queries must reach the right utility immediately</div></div>
 <div><div class="m-val">LDC routing</div><div class="m-lbl">Clear separation: SSE handles supply; LDC handles delivery</div><div class="m-tgt">Routing clarity reduces misdirected calls</div></div>
 <div><div class="m-val">RAF → My Account</div><div class="m-lbl">Refer a Friend moved to authenticated My Account dashboard</div><div class="m-tgt">No standalone /refer page in this wireframe</div></div>
 </div>
@@ -332,11 +310,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="oq-panel">
 <h4>⚑ Open Questions — Contact &amp; Utility Directory</h4>
 <ul class="oq-list">
-<li><strong>#1 CRITICAL</strong> LDC emergency contact numbers: Who at the client side owns maintaining this content? Emergency contacts must route to the correct LDC — these numbers change and must be verified per market before launch. All numbers in this wireframe are placeholders that must be confirmed before publication.</li>
-<li><strong>#2</strong> Full LDC contact directory: Beyond emergency numbers, should the page include general LDC customer service numbers (billing, meter reads, service calls)? Wireframe shows both emergency and general service numbers — confirm scope with client.</li>
-<li><strong>#3</strong> Customer service hours: Phone hours for each market are currently TBD. Confirm with client before content authoring begins.</li>
-<li><strong>#4</strong> IL / IES contact differentiation: IE and IES share overlapping LDCs (Nicor, Peoples Gas) but have different products and may have different customer service numbers. Confirm whether they have the same or distinct contact lines.</li>
-<li><strong>#5</strong> Live chat: Should the page include a live chat option or chatbot escalation? Confirm with client whether chat is in scope and if so, which markets and what tool.</li>
+<li><strong>#1</strong> Customer service hours: Phone hours for each market are currently TBD. Confirm with client before content authoring begins.</li>
+<li><strong>#2</strong> Live chat: Should the page include a live chat option or chatbot escalation? Confirm with client whether chat is in scope and if so, which markets and what tool.</li>
+<li style="color:#888;"><em>Resolved by CF-9 (2026-07-09): former #1 (LDC emergency-number ownership) and #2 (general vs. emergency number scope) are moot — the dedicated emergency banner and full per-LDC directory were removed from this page; per-LDC numbers now live in the site footer. Former #4 (IL/IES shared-LDC number differentiation) still applies but transfers to whichever wireframe owns the footer — not tracked here.</em></li>
 </ul>
 </div>
 <!-- ══════════════ CONTACT PAGE VIEW ══════════════ -->
@@ -426,118 +402,16 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 </div>
 </div>
+<div class="ann-row" style="margin-top:10px;">
+<span class="ann ann-b">◈ CF-9 (2026-07-09): The dedicated emergency-routing pencil banner and the full per-LDC contact directory (former Section 3) were removed. A live gas-leak visitor calls 911 or the number on their bill, not this page — and "Contact Your Utility For" above already discloses that utilities (not SSE) handle emergencies, delivery, and meter reads without needing numbers. The per-LDC customer-service number now lives in the site footer (one number per LDC, per updated footer execution — not yet reflected in this wireframe), so "Contact Your Utility For" is not a discoverability gap.</span>
+</div>
 <!-- FAQ deflection -->
 <div style="background:#fff3e0; border:1.5px solid #e8641a; border-radius:4px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-<div style="font-size:12px; color:#666; line-height:1.5;"><strong>Have a quick question?</strong> Most answers about billing, plans, and enrollment are in our Learning Center.</div>
+<div style="font-size:12px; color:#666; line-height:1.5;"><strong>Have a quick question?</strong> Most answers about billing, plans, and enrollment are in our Natural Gas Basics.</div>
 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-<div class="wf-btn-out" style="font-size:11px; padding:6px 14px; white-space:nowrap;">Browse Learning Center →</div>
+<div class="wf-btn-out" style="font-size:11px; padding:6px 14px; white-space:nowrap;">Browse Natural Gas Basics →</div>
 </div>
 </div>
-
-</div>
-</div>
-<!-- SECTION 3: FULL LDC CONTACT DIRECTORY -->
-<div class="section" id="utility-directory" style="position:relative;">
-<div class="section-label"><div class="sec-num">3</div><br/>Utility<br/>Directory</div>
-<div class="p">
-<div class="h2" style="margin-bottom:4px;">Your Utility Contacts</div>
-<div style="font-size:13px; color:#666; margin-bottom:16px;">Your utility company manages gas delivery, emergencies, meter reads, and billing. Contact them directly for any delivery or service issue.</div>
-<details style="background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:4px; padding:12px 16px; margin-top:12px;">
-<summary style="font-size:12px; font-weight:700; color:#1e3a5f; cursor:pointer; list-style:none;">View utility contacts for your area ▾</summary>
-<div style="margin-top:12px;">
-<!-- ONG utilities -->
-<div class="mkt on" id="ldc-dir-ong">
-<div class="h3" style="margin-bottom:12px;">Ohio — Utility Contacts</div>
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Columbia Gas of Ohio</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-344-4077</strong><br/>🌐 columbiagasohio.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Dominion Energy Ohio</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-362-7557</strong><br/>🌐 dominionenergy.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Duke Energy Ohio</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-544-6900</strong><br/>🌐 duke-energy.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Enbridge Gas Ohio</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>[TBD]</strong><br/>🌐 enbridgegas.com</div>
-</div>
-</div>
-</div>
-<!-- PA utilities -->
-<div class="mkt" id="ldc-dir-pa">
-<div class="h3" style="margin-bottom:12px;">Pennsylvania — Utility Contacts</div>
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">UGI Utilities</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-276-2722</strong><br/>🌐 ugi.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Natural Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-764-0111</strong><br/>🌐 peoples-gas.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Philadelphia Gas Works</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>215-235-1000</strong><br/>🌐 pgworks.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Columbia Gas of PA</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>[TBD]</strong><br/>🌐 nisource.com</div>
-</div>
-</div>
-</div>
-<!-- GRE utilities -->
-<div class="mkt" id="ldc-dir-gre">
-<div class="h3" style="margin-bottom:12px;">Michigan — Utility Contacts</div>
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">DTE Energy</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-477-4747</strong><br/>🌐 dteenergy.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Consumers Energy</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-800-477-5050</strong><br/>🌐 consumersenergy.com</div>
-</div>
-</div>
-</div>
-<!-- IL utilities -->
-<div class="mkt" id="ldc-dir-il">
-<div class="h3" style="margin-bottom:12px;">Illinois — Utility Contacts</div>
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Nicor Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-888-642-6748</strong><br/>🌐 nicorgas.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br/>🌐 peoplesgasdelivery.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">North Shore Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br/>🌐 northshoregas.com</div>
-</div>
-</div>
-</div>
-<!-- IES utilities -->
-<div class="mkt" id="ldc-dir-ies">
-<div class="h3" style="margin-bottom:12px;">Illinois — Utility Contacts</div>
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Nicor Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>1-888-642-6748</strong><br/>🌐 nicorgas.com</div>
-</div>
-<div style="border:1.5px solid #d0dce8; border-radius:4px; padding:14px;">
-<div style="font-size:13px; font-weight:800; color:#1e3a5f; margin-bottom:8px;">Peoples Gas</div>
-<div style="font-size:11px; color:#555; line-height:2.0;">📞 Customer service: <strong>866-556-6001</strong><br/>🌐 peoplesgasdelivery.com</div>
-</div>
-</div>
-</div>
-</div>
-</details>
-
 
 </div>
 </div>
@@ -689,14 +563,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 </div>
 <div class="doc-footer">Contact &amp; Utility Directory — CMS Content Template · 4037-25 · IfThen Digital · April 2026<br/>
-  No intake form (no monitored inbox). RAF removed — lives in My Account. Primary purpose: emergency routing, SSE customer service, full LDC contact directory.</div>
+  No intake form (no monitored inbox). RAF removed — lives in My Account. Primary purpose: SSE customer service and routing clarity (who handles what). Emergency-routing banner + full LDC directory removed per CF-9 — per-LDC numbers now live in the site footer.</div>
 </div>
 <script>
 const MKT_ELEMENTS = {
-  ong: ['logo-ong','nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','f-logo-ong'],
+  ong: ['logo-ong','nav-standard','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','f-logo-ong'],
   pa:  ['logo-pa','nav-standard','nav-search-std','nav-lc-area-pa','f-logo-pa'],
-  gre: ['logo-gre','nav-standard','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','f-logo-gre'],
-  il:  ['logo-il','nav-standard','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il','f-logo-il'],
+  gre: ['logo-gre','nav-standard','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','f-logo-gre'],
+  il:  ['logo-il','nav-standard','nav-fmb','nav-search-std','nav-lc-area-il','f-logo-il'],
   ies: ['logo-ies','nav-ies','f-logo-ies']
 };
 function setMarket(m) {

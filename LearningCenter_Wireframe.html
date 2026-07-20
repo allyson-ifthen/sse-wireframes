@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Learning Center Template — Wireframe | 4037-25</title>
+<title>Natural Gas Basics Template — Wireframe | 4037-25</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
@@ -198,6 +198,10 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
    ════════════════════════════════ */
 .pillar-hero { padding: 22px 24px; border-bottom: 1px solid #e8e8e4; }
 .pillar-badge { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+/* LC-8: pillar tags on article cards are browse links → route to the pillar's own Pillar Hub (not Search) */
+.pillar-badge[onclick] { cursor: pointer; }
+.pillar-badge[onclick]:hover { filter: brightness(1.08); text-decoration: underline; }
+.pillar-badge[onclick]:focus-visible { outline: 2px solid #1e3a5f; outline-offset: 2px; }
 .pb-p1 { background: #1e3a5f; }
 .pb-p2 { background: #2e7d32; }
 .pb-p3 { background: #b84800; }
@@ -310,7 +314,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="toolbar">
 <div class="toolbar-left">
 <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-<span class="toolbar-meta">Learning Center Template</span>
+<span class="toolbar-meta">Natural Gas Basics Template</span>
 <div>
 <div class="vsw-label">Market</div>
 <div class="market-switcher">
@@ -363,7 +367,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="variant-diff-row">
 <span class="vdr-label">CMS Type</span>
-<span class="vdr-val highlight">Learning Center Hub — one per market</span>
+<span class="vdr-val highlight">Natural Gas Basics Hub — one per market</span>
 <span class="vdr-val">LC Pillar Hub — one per pillar per market</span>
 <span class="vdr-val">LC Article — many per market</span>
 </div>
@@ -375,7 +379,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="variant-diff-row">
 <span class="vdr-label">Hero</span>
-<span class="vdr-val highlight">Dark navy gradient, large H1 "Learning Center", market name prepended, subhead</span>
+<span class="vdr-val highlight">Dark navy gradient, large H1 "Natural Gas Basics", market name prepended, subhead</span>
 <span class="vdr-val">Pillar color band, badge + title, article count, pillar nav</span>
 <span class="vdr-val">Simple header band, pillar badge, article H1 + meta bar, reading progress bar</span>
 </div>
@@ -418,14 +422,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <!-- OQ PANEL -->
 <div class="oq-panel">
-<h4>⚑ Open Questions — Learning Center Template</h4>
+<h4>⚑ Open Questions — Natural Gas Basics Template</h4>
 <ul class="oq-list">
 <li>ONG Carbon Neutral Gas hub: 5th pillar unique to ONG — confirm whether GRE also gets this pillar (Greener Life available in GRE markets). Currently shown for both ONG and GRE.</li>
 <li>Article counts per pillar per market — confirm final article list before Hub and Pillar Hub card counts can be finalized.</li>
 <li>Featured article (Staff Pick) on Hub: confirm whether this is a manually curated CMS field or auto-populated from most-read/highest-performing article.</li>
 <li>Key Takeaways box: optional CMS field — confirm authoring guidance for content team (when to include, preferred length, relationship to Article schema <code>description</code> field).</li>
 <li>Pillar card grid layout on Hub: 2-column or 3-column — confirm preferred grid density. Currently 3-col (5 pillars = 2 rows; 4 pillars = one row + 1 orphan handled by auto grid).</li>
-<li>Hub page SEO title pattern — confirm format: "[Market Name] Learning Center | [Brand]" or "Natural Gas Learning Center | [Market]".</li>
+<li>Hub page SEO title pattern — confirm format: "[Market Name] Natural Gas Basics | [Brand]" or "Natural Gas Basics | [Market]".</li>
 </ul>
 </div>
 <!-- ─── NAV HEADER (shared) ─── -->
@@ -468,16 +472,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
+<!-- Natural Gas Basics: direct link + pillar dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
@@ -495,7 +495,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -514,7 +514,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -526,7 +526,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
 </div>
 </div>
-<div class="nav-mobile-note">Mobile: hamburger menu. Learning Center active in all three LC variants.</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. Natural Gas Basics active in all three LC variants.</div>
 
 </div>
 <!-- ═══════════════════════════════════════════
@@ -535,13 +535,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="variant on" id="v-hub">
 <!-- CMS Type Stripe -->
 <div class="cms-type-stripe">
-      CMS Content Type: <span>Learning Center Hub</span> · One per market · URL: /learning-center/ · noindex: no
+      CMS Content Type: <span>Natural Gas Basics Hub</span> · One per market · URL: /learning-center/ · noindex: no
     </div>
 <!-- Breadcrumb -->
 <div class="section">
 <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
 <div class="breadcrumb p-sm">
-<a>Home</a> › Learning Center
+<a>Home</a> › Natural Gas Basics
       </div>
 </div>
 <!-- LC Hub Hero -->
@@ -554,7 +554,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <span class="mkt-inline" id="lch-name-gre">Grand Rapids Energy</span>
 <span class="mkt-inline" id="lch-name-il">Illinois Energy</span>
 <span class="mkt-inline" id="lch-name-ies">Illinois Energy Solutions</span>
-          Learning Center
+          Natural Gas Basics
         </div>
 <div class="lc-hero-sub">Practical guides to understanding your natural gas options — rates, plans, switching, and more.</div>
 <div class="lc-hero-url">southstarenergy.com/learning-center/ · Primary SEO asset for the site</div>
@@ -686,7 +686,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="featured-article-title">Fixed Rate vs. Variable Rate: Which Natural Gas Plan Is Right for You?</div>
 <div class="featured-article-desc">If you're new to choosing your own gas supply, start here. This article explains the key difference between fixed and variable rates, when each makes sense, and what to expect in your first contract term.</div>
 <div class="featured-article-meta">
-<span class="pillar-badge pb-p1" style="font-size:8px;padding:2px 7px;margin-right:6px;margin-bottom:0;">💡 Understanding Gas Rates</span>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:2px 7px;margin-right:6px;margin-bottom:0;">💡 Understanding Gas Rates</span>
               5 min read · Updated April 2026
             </div>
 </div>
@@ -695,6 +695,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 
 <span class="ann ann-b">Variant diff: featured article (staff pick) present on LC Hub only</span>
+<span class="ann ann-b" style="display:block; margin-top:4px;">LC-8 · The pillar tag on this (and every) article card is a browse link — tapping it routes to that pillar's own <strong>Pillar Hub</strong> page (a citable, indexable URL), <strong>not</strong> to Search Results with the pillar pre-filtered. Search's pillar-taxonomy filter stays scoped to actual query use. Rationale: Pillar Hubs are indexable/citable (SEO/AEO), and routing tags to Search would add a third overlapping path into the same content. Internal review (Allyson) 2026-07-15; not yet client-reviewed.</span>
 </div>
 </div>
 </div>
@@ -710,7 +711,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <!-- Breadcrumb -->
 <div class="section">
 <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
-<div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › Understanding Your Gas Rates</div>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Natural Gas Basics</a> › Understanding Your Gas Rates</div>
 </div>
 <!-- Pillar Hero -->
 <div class="section">
@@ -843,14 +844,14 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <!-- Breadcrumb -->
 <div class="section">
 <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
-<div class="breadcrumb p-sm"><a>Home</a> › <a>Learning Center</a> › <a>Understanding Gas Rates</a> › Fixed Rate vs. Variable Rate</div>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Natural Gas Basics</a> › <a>Understanding Gas Rates</a> › Fixed Rate vs. Variable Rate</div>
 </div>
 <!-- Pillar Hero Band -->
 <div class="section" style="background:#1e3a5f; border-color:#1e3a5f;">
 <div style="padding:16px 24px; display:flex; align-items:center; gap:14px;">
 <span style="font-size:28px; flex-shrink:0;">💡</span>
 <div>
-<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#7ec8e3; margin-bottom:3px;">Learning Center</div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#7ec8e3; margin-bottom:3px;">Natural Gas Basics</div>
 <div style="font-size:15px; font-weight:800; color:#fff;">
 <span class="mkt-inline on" id="art-pillar-ong">Understanding Gas Rates · Ohio Natural Gas</span>
 <span class="mkt-inline" id="art-pillar-pa">Understanding Gas Rates · Pennsylvania Energy</span>
@@ -981,17 +982,17 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div style="display: flex; flex-direction: column; gap: 12px;">
 <div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
 <a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Why Gas Prices Change Throughout the Year</a>
-<span class="pillar-badge pb-p1" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
 <div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
 </div>
 <div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
 <a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Early Termination: What It Is and When It Applies</a>
-<span class="pillar-badge pb-p3" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 3</span>
+<span class="pillar-badge pb-p3" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 3</span>
 <div style="font-size: 10px; color: #aaa; margin-top: 3px;">5 min read</div>
 </div>
 <div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
 <a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">What You're Paying For: Therms Explained</a>
-<span class="pillar-badge pb-p1" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
 <div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
 </div>
 </div>
@@ -1037,9 +1038,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="p">
 <div class="h3" style="margin-bottom:12px;">Keep Reading</div>
 <div class="related-articles-grid">
-<div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
-<div class="ra-card">Early Termination: What It Is and When It Applies<small>How to Switch or Sign Up</small><span class="pillar-badge pb-p3" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
-<div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Early Termination: What It Is and When It Applies<small>How to Switch or Sign Up</small><span class="pillar-badge pb-p3" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
+<div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
 </div>
 <div class="ann-row" style="margin-top:10px;">
 <span class="ann ann-b">Variant diff: related articles band instead of enroll band; enroll nudge below if article is plan-adjacent</span>
@@ -1087,7 +1088,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div>
 <div class="footer-col-head">Learn</div>
 <div class="footer-col-links">
-<a>Learning Center</a>
+<a>Natural Gas Basics</a>
 <a>FAQ</a>
 <a>About Us</a>
 <a>Contact Us</a>
@@ -1111,7 +1112,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 </div>
 <div class="doc-footer">
-    Learning Center Template — CMS Content Template · Three content types: LC Hub, LC Pillar Hub, LC Article · 4037-25 · IfThen Digital · April 2026 · Extracted from ContentPage_Wireframe.html
+    Natural Gas Basics Template — CMS Content Template · Three content types: LC Hub, LC Pillar Hub, LC Article · 4037-25 · IfThen Digital · April 2026 · Extracted from ContentPage_Wireframe.html
   </div>
 </div><!-- /canvas -->
 <script>
@@ -1163,6 +1164,21 @@ function setVariant(v, e) {
   document.querySelectorAll('.variant').forEach(el => el.classList.remove('on'));
   var vEl = document.getElementById('v-' + v);
   if (vEl) vEl.classList.add('on');
+}
+
+/* LC-8 (2026-07-20): tapping a pillar tag on an article card routes to that pillar's
+   own Pillar Hub — a browse action to a citable/indexable URL — NOT to Search Results
+   with the pillar pre-filtered. In this wireframe there is one representative Pillar Hub
+   variant, so all card tags route to it; in production each deep-links to
+   /learning-center/[pillar-slug]/. */
+function openPillarFromTag(ev) {
+  if (ev) { ev.stopPropagation(); }
+  var pillarBtn = Array.prototype.find.call(
+    document.querySelectorAll('.btn-variant'),
+    function (b) { return /pillar/i.test(b.textContent); }
+  );
+  setVariant('pillar', pillarBtn ? { target: pillarBtn } : undefined);
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function toggleFaq(qEl) {

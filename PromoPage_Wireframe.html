@@ -399,6 +399,11 @@
   body.ann-mode-open .ann-b { display: none !important; }
   body.ann-mode-clean .ann,
   body.ann-mode-clean .oq-panel { display: none !important; }
+  /* Flow-diagram / entry-path annotation blocks (Section 0, Section 4) —
+     these aren't .ann elements but are wireframe-only reviewer diagrams,
+     not part of the rendered page. Hide in Clean mode per Enrollment
+     wireframe convention (2026-07-14). */
+  body.ann-mode-clean .wf-diagram-block { display: none !important; }
 
   /* ── CHROME / PRESENTATION MODE (CLAUDE.md convention) ──
      Hides every wireframe overlay; Esc exits.
@@ -606,6 +611,13 @@
   .plan-card__disclosure-line { font-size: 10.5px; color: #666; font-style: italic; line-height: 1.5; margin: 8px 0 6px; padding: 6px 0 0; border-top: 1px dashed #e0dfd9; }
   .plan-card__disclosure-line::before { content: "* "; color: #888; font-weight: 700; }
   .plan-card__disclosure-line a { color: #1e6fbd; text-decoration: underline; font-style: normal; font-weight: 600; }
+
+  /* PROMO-29 / PC-D17 — Promo Page card locks into always-expanded state; no accordion, no Slot K summary line (see plan-card__expanded below). Scope: Promo Page only — Slot K + accordion states are unchanged on Residential/Commercial Plans. */
+  .plan-card__expanded { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e0dfd9; }
+  .plan-card__expanded h5 { font-size: 11px; font-weight: 700; color: #1e3a5f; margin: 10px 0 3px; }
+  .plan-card__expanded h5:first-child { margin-top: 0; }
+  .plan-card__expanded p { font-size: 11px; color: #555; line-height: 1.55; margin: 0 0 4px; }
+  .plan-card__expanded a { color: #1e6fbd; text-decoration: underline; font-weight: 600; }
 
   .plan-card__foot { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
   /* Plan-card CTA: composes .button.button--primary (added in HTML) with a full-width + larger padding override for in-card use */
@@ -860,6 +872,78 @@
   .nav-utility a:hover { color: #1e3a5f; }
   .nav-utility-phone { color: #666; font-weight: 700; }
 
+  /* ── PROMO-22 · SIMPLIFIED NAV (brand mark + customer-service phone with hours) ──
+     Replaces the Full Nav header on the Promo Page (PROMO-22, 2026-07-14).
+     Mirrors the Enrollment simplified-nav shape (brand left, phone right) but
+     WITHOUT the exit-confirmation modal — the Promo Page holds no in-progress
+     form data to protect. No main nav links, no Search, no My Account icon. */
+  .promo-simplenav { background:#fff; border-bottom:2px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:14px 24px; gap:16px; flex-wrap:wrap; }
+  .promo-simplenav .brand { font-size:15px; font-weight:900; color:#1e3a5f; display:flex; align-items:center; gap:8px; letter-spacing:-.02em; }
+  .promo-simplenav .brand-mark { width:28px; height:28px; background:#1e3a5f; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
+  .promo-simplenav .cs-phone { font-size:12px; color:#444; text-align:right; }
+  .promo-simplenav .cs-phone strong { color:#1e3a5f; font-weight:800; }
+  .promo-simplenav .cs-phone .cs-lead { color:#888; font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:9.5px; display:block; margin-bottom:2px; }
+  .promo-simplenav .cs-phone .hours { color:#888; font-weight:500; }
+  @media (max-width: 600px) {
+    .promo-simplenav { gap:8px; }
+    .promo-simplenav .cs-phone { font-size:11px; }
+  }
+
+  /* ── PROMO-15 · Plan-type toggle (fixed / variable card versions on Variants A & B) ── */
+  .ptype { display: none; }
+  .ptype.on { display: block; }
+
+  /* ── PROMO-24 · Plan-count-conditional subhead (single vs. multi-plan promos) ── */
+  .psub { display: none; }
+  .psub.on { display: inline; }
+
+  /* ── PROMO-25 · Page-level offer-expiry banner (above the offer module) ── */
+  .promo-expiry-banner {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff7ee; border: 1.5px solid #e8641a; border-left-width: 5px;
+    border-radius: 4px; padding: 12px 18px; margin: 6px 0;
+    font-size: 13px; font-weight: 700; color: #a5460f;
+  }
+  .promo-expiry-banner .cal { font-size: 18px; line-height: 1; }
+  .promo-expiry-banner .sub { font-size: 11px; font-weight: 500; color: #7a4500; }
+
+  /* ── PROMO-6 · Contact Card (Section 5) mobile stacking ── */
+  .promo-contact-card { display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:6px; padding:18px 22px; }
+  .promo-contact-card__cols { display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
+  .promo-contact-card__divider { width:1px; background:#d0dce8; align-self:stretch; flex-shrink:0; }
+  @media (max-width: 600px) {
+    .promo-contact-card__cols { flex-direction: column; gap: 14px; }
+    .promo-contact-card__divider { display: none; }
+  }
+
+  /* ── PROMO-13 · Runtime-invalid/expired promo code — brief explanatory state, toggled via control panel "Error mode" ── */
+  .promo-invalid-state { display: none; }
+  body.err-invalid .promo-invalid-state { display: block; }
+  body.err-invalid .promo-main-content { display: none; }
+
+  /* ── PROMO-17 · ZIP fallback expander (adopted wholesale from Homepage/Plans pattern) ── */
+  .ldc-zip-toggle { font-size: 11px; color: #5a8cbf; font-weight: 600; cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-style: italic; }
+  .ldc-zip-panel { background: #f7f9ff; border: 1.5px solid #c5d8f0; border-radius: 4px; padding: 12px 14px; margin-top: 10px; display: none; }
+  .ldc-zip-panel.open { display: block; }
+  .ldc-zip-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; margin-top: 8px; }
+  .zip-substate { margin-top: 12px; border-top: 1px dashed #c5d8f0; padding-top: 10px; }
+  .zip-substate-title { font-size: 10px; font-weight: 800; color: #5a8cbf; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+  .zip-ldc-opt { display:block; width:100%; text-align:left; background:#fff; border:1.5px solid #c5d8f0; border-radius:4px; padding:8px 12px; font-size:12px; color:#1e3a5f; font-weight:600; cursor:pointer; margin-bottom:6px; }
+  .zip-ldc-opt:hover { border-color:#5a8cbf; background:#f0f6ff; }
+  .zip-ldc-opt .inel { font-weight:400; font-style:italic; color:#b71c1c; font-size:10.5px; }
+  .zip-out-note { font-size: 11px; color: #7f0000; background:#fce4ec; border:1px solid #f5c6d0; border-radius:4px; padding:8px 10px; line-height:1.5; }
+
+  /* ── PROMO-20 · soft eligibility disclosure line (Variant A, non-blocking) ── */
+  .promo-eligibility-line { font-size: 11px; color: #7a4500; background: #fff7ee; border: 1px solid #ffd9b8; border-radius: 3px; padding: 6px 10px; margin: 8px 0 4px; line-height: 1.45; display:flex; gap:6px; align-items:flex-start; }
+  .promo-eligibility-line::before { content: "ℹ"; flex-shrink:0; }
+  /* PROMO-30: hero-level placement — hidden by default, shown only for Variant A / Multi (must come after .promo-eligibility-line so display:none wins in the cascade until .on is applied) */
+  .hero-eligibility { display: none; }
+  .hero-eligibility.on { display: flex; }
+
+  /* ── PROMO-21 · dropdown "don't see your utility?" fallback link ── */
+  .ldc-fallback-link { font-size: 11px; color: #5a8cbf; margin-top: 8px; }
+  .ldc-fallback-link a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+
 </style>
 </head>
 <body>
@@ -887,7 +971,13 @@
 <span class="group-lbl">Variant:</span>
 <button class="on" id="var-btn-a" onclick="setVariant('a')">A · No-LDC</button>
 <button id="var-btn-b" onclick="setVariant('b')">B · LDC-Required</button>
+<button id="var-btn-multi" onclick="setVariant('multi')">Multi · 2–3 Plans</button>
 <button id="var-btn-raf" onclick="setVariant('raf')">§3b · RAF Override</button>
+</div>
+<div class="group">
+<span class="group-lbl">Plan type:</span>
+<button class="on" id="pt-btn-fixed" onclick="setPlanType('fixed')">Fixed</button>
+<button id="pt-btn-variable" onclick="setPlanType('variable')">Variable</button>
 </div>
 <div class="group">
 <span class="group-lbl">State:</span>
@@ -896,10 +986,15 @@
 <button id="st-btn-3" onclick="setState('3')">State 3</button>
 </div>
 <div class="group">
+<span class="group-lbl">Error mode:</span>
+<button class="on" id="err-btn-none" onclick="setErrorMode('none')">None</button>
+<button id="err-btn-invalid" onclick="setErrorMode('invalid')">Invalid/Expired Code</button>
+</div>
+<div class="group">
 <span class="group-lbl">Annotations:</span>
-<button class="on" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button id="ann-btn-all" onclick="setAnnMode('all')">All</button>
 <button id="ann-btn-open" onclick="setAnnMode('open')">Open Qs only</button>
-<button id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+<button class="on" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
 </div>
 <div class="group">
 <span class="group-lbl">Chrome:</span>
@@ -926,7 +1021,7 @@
 <li><strong>OQ-P3:</strong> State 3 no-match messaging — should it be promo-specific ("This offer is only available to [LDC] customers") or a generic fallback? Confirm with legal/compliance.</li>
 <li><strong>OQ-P4 RESOLVED:</strong> Cross-market promo code namespace — each market runs on its own domain, so <code>ohionaturalgas.com/offers/save25/</code> and <code>pennsylvaniaenergy.com/offers/save25/</code> are independent pages. The same code can exist across markets without collision. A user landing on the wrong market site with a valid-but-wrong-market code is handled by the invalid/no-match state.</li>
 <li><strong>OQ-P5:</strong> Offer expiration display — should the promo page surface an expiration date/countdown? If so, where does this date come from (Prime API or static CMS field)?</li>
-<li><strong>OQ-P6:</strong> What happens when a promo code URL param is invalid or expired? Does the page render with an error state, or does it redirect to the Plans page with no promo applied?</li>
+<li><strong>OQ-P6 RESOLVED (PROMO-13, 2026-07-15):</strong> Brief explanatory state, not a silent redirect. The page renders a dedicated invalid/expired-code message with a link to Residential Plans — see the "Error mode" control-panel toggle. <code>promo_code_invalid</code> fires client-side first, preserving campaign-monitoring analytics regardless of what the visitor does next.</li>
 <li><strong>OQ-P7:</strong> For the secondary CTA "Compare All Plans" → should the Plans page suppress the promo strip's manual-entry toggle when arriving via this path (promo already confirmed), showing only the pinned promo card?</li>
 </ul>
 </div>
@@ -935,7 +1030,7 @@
        Not a visible page section — a wireframe annotation layer showing
        how users arrive on this page. Three entry paths defined.
   ───────────────────────────────────────────────────────────────── -->
-<div class="section" style="padding: 16px 28px 14px;">
+<div class="section wf-diagram-block" style="padding: 16px 28px 14px;">
 <div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">↳ Entry Paths — How Users Arrive on This Page</div>
 <div class="entry-path-row" style="margin: 0 0 14px;">
 <div class="entry-path-node">
@@ -966,7 +1061,7 @@
 </div>
 </div>
 <!-- URL ARCHITECTURE BLOCK -->
-<div class="section" style="padding: 16px 28px 18px;">
+<div class="section wf-diagram-block" style="padding: 16px 28px 18px;">
 <div style="font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px;">↳ URL Architecture — Promotional Pages</div>
 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
 <div style="background:#f5f7f8; border:1.5px solid #c0c0ba; border-radius:4px; padding:14px;">
@@ -1001,134 +1096,76 @@
 
 </div>
 </div>
-<!-- NAV HEADER -->
+<!-- NAV HEADER — PROMO-22: Simplified Nav (brand mark + customer-service phone) -->
 <div class="section" style="position:relative; margin-bottom:5px;">
-<div class="section-label" style="top:auto; transform:none; top:16px;"><div class="section-number" style="background:#555;">H</div><br/>Nav Header<br/>(Global)</div>
-<div class="navigation__mobile-note">⚑ Mobile: hamburger collapses nav links. Logo + Account icon remain visible.</div>
-<!-- Utility Row -->
-<div class="nav-utility">
-<a>Contact Us</a>
-<span class="nav-utility-phone market-display active" id="phone-ong">(888) 555-0001</span>
-<span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
-<span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
-<span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
-<span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
-</div>
-<div class="navigation" data-figma-component="Navigation">
-<div class="navigation__logo">
-<div class="navigation__logo-mark">🔥</div>
+<div class="section-label" style="top:auto; transform:none; top:16px;"><div class="section-number" style="background:#555;">H</div><br/>Nav Header<br/>(Simplified)</div>
+<div class="promo-simplenav" data-figma-component="Navigation" data-figma-variant="simplified">
+<div class="brand">
+<span class="brand-mark">🔥</span>
 <span class="market-display active" id="logo-ong">Ohio Natural Gas</span>
 <span class="market-display" id="logo-pa">Pennsylvania Energy</span>
 <span class="market-display" id="logo-gre">Grand Rapids Energy</span>
 <span class="market-display" id="logo-il">Illinois Energy</span>
 <span class="market-display" id="logo-ies">Illinois Energy Solutions</span>
 </div>
-<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
-<nav class="nav-links mkt-flex on" id="nav-standard">
-<!-- For My Home: hub link + dropdown -->
-<div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
-<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
-<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+<div class="cs-phone">
+<span class="cs-lead">Customer Service</span>
+<strong>
+<span class="market-display active" id="csphone-ong">(888) 555-0001</span>
+<span class="market-display" id="csphone-pa">(888) 555-0002</span>
+<span class="market-display" id="csphone-gre">(888) 555-0003</span>
+<span class="market-display" id="csphone-il">(888) 555-0004</span>
+<span class="market-display" id="csphone-ies">(888) 555-0005</span>
+</strong>
+<span class="hours"> · 8 a.m.–5 p.m. ET, Mon–Fri</span>
 </div>
 </div>
-<!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
-<div class="nav-item has-dropdown mkt" id="nav-fmb">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
-<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
+<div class="ann ann-b" style="margin:8px 24px 4px;"><strong>PROMO-22</strong> — Simplified Nav: brand mark + customer-service phone with hours only. No main nav links, Search, or My Account icon. Matches the client's current production promo/postcard landing-page pattern and Enrollment's simplified-nav shape — but with <em>no</em> "you'll lose your progress" exit-confirmation modal, since the Promo Page holds no in-progress form data to protect. Supersedes the prior Full Nav classification (ENR-36/ENR-37); CLAUDE.md nav-pattern table updated 2026-07-14.</div>
+</div>
+<!-- Legacy Full Nav (utility row, full/IES dropdown nav, My Account + Search cluster, hamburger, breadcrumb) removed per PROMO-22 (2026-07-14). See simplified nav above. -->
+<!-- PROMO-13 · Runtime-invalid/expired promo code arriving via URL (Path 1/3) — brief explanatory state, not a silent redirect. Toggle via control panel "Error mode." Consistent with PROMO-19's equivalent treatment on Homepage/Plans manual entry. -->
+<div class="promo-invalid-state" id="promo-invalid-state">
+<div style="max-width:560px; margin:0 auto; padding:64px 24px; text-align:center;">
+<div style="font-size:32px; margin-bottom:16px;">⚠️</div>
+<h1 style="font-size:28px; color:#1e3a5f; margin-bottom:12px; font-family:var(--type-heading-family);">That code isn't valid or may have expired</h1>
+<p style="font-size:15px; color:#444; line-height:1.6; margin-bottom:24px;">Check your mailer, email, or postcard for the correct promo code — or browse our current plans and rates below.</p>
+<a class="button button--primary" style="display:inline-block;" href="ResidentialPlans_Wireframe.html">Browse Current Plans →</a>
+<div class="ann ann-b" style="margin-top:24px; text-align:left;"><strong>PROMO-13</strong> — Runtime-invalid/expired code detected on page load (Path 1: URL param; Path 3: OOH/physical vanity link). <code>promo_code_invalid</code> fires client-side first (preserving entry_path + error_type: invalid|expired|wrong_market) so campaign-monitoring analytics survive regardless of what happens next. Resolution aligned 2026-07-15: a brief explanatory state, not an immediate redirect — the visitor understands what happened before being routed anywhere. CTA links to Residential Plans. Distinct from PROMO-18 (CMS-level page expiration — a 410/redirect case handled at the URL-architecture level, not this client-side state) and PROMO-16 (Variant B's post-LDC no-match state — a different scenario, utility-eligibility rather than code-validity). See PROMO-19 for the equivalent treatment on Homepage/Plans manual entry.</div>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
-<div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-pa">Does PE Serve My Area?</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-gre">Does GRE Serve My Area?</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-il">Does IE Serve My Area?</a>
-<a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch / Sign Up</a>
-<a class="nav-dd-item" href="LearningCenter_Wireframe.html">Managing Your Account and Bill</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-ong">Carbon Neutral Gas + Greener Life®</a>
-<a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-carbon-gre">Carbon Neutral Gas + Greener Life®</a>
-</div>
-</div>
-<!-- About Us: hub link + dropdown -->
-<div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
-<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-</div>
-</div>
-</nav>
-<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-<nav class="nav-links mkt-flex" id="nav-ies">
-<div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
-<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-</div>
-</div>
-<div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
-<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
-<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-</div>
-</div>
-</nav>
-<!-- Right: Account + Search icon + Hamburger -->
-<div class="nav-right">
-<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
-<a aria-label="Search" class="mkt" href="SearchResults_Wireframe.html" id="nav-search-std" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
-<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
-</div>
-</div>
-<div class="breadcrumb" data-figma-component="Breadcrumb" style="padding-bottom:8px;">
-<span class="market-display active" id="bc-ong">Ohio Natural Gas</span>
-<span class="market-display" id="bc-pa">Pennsylvania Energy</span>
-<span class="market-display" id="bc-gre">Grand Rapids Energy</span>
-<span class="market-display" id="bc-il">Illinois Energy</span>
-<span class="market-display" id="bc-ies">Illinois Energy Solutions</span>
-<span>›</span> <a style="color:#5a8cbf;">offers</a> <span>›</span> <strong>save25</strong>  <span style="font-size:10px; color:#bbb; font-weight:400;">(/offers/save25/)</span>
-</div>
-</div>
+<div class="promo-main-content" id="promo-main-content">
 <!-- SECTION 1: PAGE HERO -->
 <div class="section">
 <div class="section-label"><div class="section-number">1</div><br/>Page Hero<br/>(Offer ID)</div>
 <div class="page-title page-title--promo" data-figma-component="PageTitle" data-figma-variant="promo">
 <div class="tag tag--promo-code" data-figma-component="Tag" data-figma-variant="promo-code">🏷 SAVE25</div>
 <div class="page-title__heading">
-<span class="market-display active" id="h1-ong">Your Exclusive Natural Gas Offer</span>
-<span class="market-display" id="h1-pa">Your Exclusive Natural Gas Offer</span>
-<span class="market-display" id="h1-gre">Your Exclusive Natural Gas Offer</span>
-<span class="market-display" id="h1-il">Your Exclusive Natural Gas Offer</span>
-<span class="market-display" id="h1-ies">Your Exclusive Natural Gas Offer</span>
+<!-- PROMO-26 · CMS-authored per-campaign headline (mirrors the originating mailer/postcard/email). Sample copy shown; authored per promo, not per market. -->
+<span id="promo-h1" style="border-bottom:2px dotted #e8641a;">Save 25% on your natural gas rate</span>
 </div>
-<div class="page-title__subhead">A promotional rate has been reserved for you. Review the offer details below, then enroll or compare your options.</div>
+<!-- PROMO-24 · Subhead varies by plan count -->
+<div class="page-title__subhead">
+<span class="psub psub-single on">Our lowest rate, reserved just for you. Review the offer below, then enroll or compare your options.</span>
+<span class="psub psub-multi">Select the plan that works best for you — every option below includes your promotional rate.</span>
+</div>
+<!-- PROMO-30 · LDC eligibility line moved here from per-card (was duplicated across fixed/variable Variant A cards, and would repeat again under Multi). Single page-level statement; shown for Variant A / Multi only — Variant B doesn't need it (filtered LDC dropdown, PROMO-21, already structurally limits eligibility). -->
+<div class="promo-eligibility-line hero-eligibility on">
+<span>Available exclusively to <strong><span class="market-display active" id="elig-ong">Columbia Gas of Ohio</span><span class="market-display" id="elig-pa">UGI Utilities</span><span class="market-display" id="elig-gre">Consumers Energy</span><span class="market-display" id="elig-il">Nicor Gas</span><span class="market-display" id="elig-ies">Nicor Gas</span></strong> customers.</span>
+</div>
 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-
+<div class="ann ann-b"><strong>PROMO-26</strong> — H1 is a CMS-authored, per-campaign field: populate it to echo the originating mailer/postcard/email headline for message continuity, rather than the prior static generic copy ("Your Exclusive Natural Gas Offer"). Dotted underline flags a dynamic/CMS field (same cue as <code>.dyn-ldc</code>).</div>
+<div class="ann ann-b"><strong>PROMO-24</strong> — Subhead is conditional on plan count: single-plan promos (Variants A/B) show "Our lowest rate…"; multi-plan promos (Multi variant, 2–3 cards under one code) show "Select the plan that works best for you." Toggled with the Variant control.</div>
 
 
 </div>
 </div>
 </div>
+<!-- PROMO-25 · Page-level offer-expiry banner (above the offer module) -->
+<div class="promo-expiry-banner" data-figma-component="BannerAlert" data-figma-variant="expiry">
+<span class="cal">⏱</span>
+<span>Offer Expires [MM/DD/YYYY]<span class="sub"> — enroll by 11:59 PM ET to lock in this promotional rate</span></span>
+</div>
+<div class="ann ann-b" style="margin:0 0 6px;"><strong>PROMO-25</strong> — Page-level expiry banner: one authoritative expiration date above the offer module, rather than relying solely on each card's per-card expiry line. Matters most for the Multi variant, where 2–3 cards share one promo code and one expiry (avoids repeating — and risking inconsistency across — per-card dates). Date is a CMS/Prime field.</div>
 <!-- ════════════════════════════════════════════════════════════════
        VARIANT A WRAPPER · No-LDC Variant
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
@@ -1150,8 +1187,8 @@
         No LDC Identification Required — Single State · Rate confirmed on page load
       </div>
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
-<!-- Variant A · Rate-resolved promo card — unified .plan-card component, promo state per PC-D10 rev 2 -->
-<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
+<!-- Variant A · FIXED · Rate-resolved promo card — unified .plan-card component, promo state per PC-D10 rev 2 -->
+<div class="plan-card plan-card--promo ptype ptype-fixed on" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
 <div class="plan-card__head">
 <div class="plan-card__badge-row">
 <span class="tag tag--rate-fixed">● Fixed Rate</span>
@@ -1172,11 +1209,58 @@
 <li>No enrollment fee</li>
 <li>$12.50/month early termination fee if cancelled early</li>
 </ul>
-<!-- Slot K · Required disclosure line (promo state) -->
-<div class="plan-card__disclosure-line">
-              Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>Billing start timeline</h5>
+<p>Your new rate begins on the meter-read date following your utility's processing of enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+<h5>Cancellation rights</h5>
+<p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+<h5>Auto-renewal</h5>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
-<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + plan-type-specific \&quot;Promo eligibility &amp; terms\&quot; section per §14 matrix. Anchor to page-level Promo Disclosure block below.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- PROMO-15 · Variant A · VARIABLE · Intro-rate promo card (adapted from Plans Listing intro-rate pattern, PC-D10) -->
+<div class="plan-card plan-card--promo ptype ptype-variable" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-variable">Variable Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">Variable Plan with Intro Discount</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.499</div>
+<div class="plan-card__rate-unit">/ <strong><span class="market-display active" id="unitv-ong">therm</span><span class="market-display" id="unitv-pa">therm</span><span class="market-display" id="unitv-gre">Mcf</span><span class="market-display" id="unitv-il">therm</span><span class="market-display" id="unitv-ies">therm</span></strong></div>
+<div class="plan-card__rate-was">was $0.699</div>
+</div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">A guaranteed savings of at least 20% off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract.</div>
+<ul class="plan-card__points">
+<li>20%+ off the standard variable rate for the first 2 months (new customers only)</li>
+<li>No enrollment fee</li>
+<li>No early termination charge — cancel anytime</li>
+<li>After the intro period, rate moves to the standard variable rate</li>
+</ul>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>How your rate is set</h5>
+<p>Your introductory rate is 20%+ off the standard variable rate for your market, published monthly.</p>
+<h5>After the intro period</h5>
+<p>After the first two months, your plan continues at the standard variable rate — no contract, no early termination charge, cancel anytime.</p>
+<h5>Auto-renewal</h5>
+<p>Variable plans have no fixed term, so there's nothing to auto-renew. Rate changes are published monthly.</p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Savings calculated against the published standard variable rate at time of enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
 </div>
 <div class="plan-card__foot">
 <button class="button button--primary plan-card__cta">Start Enrollment →</button>
@@ -1191,6 +1275,8 @@
         </div>
 <!-- Annotation column -->
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-15</strong> — Toggle <em>Plan type: Variable</em> in the control panel to see the variable-rate promo card. Intro-rate treatment adapted from the Residential Plans component (PC-D10) — 20%+ off the standard variable rate for the first 2 months, then reverts to standard variable, no contract. Built proactively per PROMO-15 (does not wait on the OQ-P2 promo matrix).</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-20</strong> — Variant A has no on-page eligibility check, so an ineligible visitor could reach "Start Enrollment" with nothing catching it until Prime's backend check. A soft, non-blocking disclosure line informs without a functional gate or extra step. Eligible-utility name is CMS-authored per promo (rejected: silent/no-disclosure, and a yes/no confirmation gate — too much friction for this majority-case promo type). <strong>Placement updated per PROMO-30 (2026-07-15):</strong> this line now lives once in the hero, not per-card — see the top of the page.</div>
 
 
 
@@ -1225,8 +1311,60 @@
       </div>
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
 <div style="flex: 0 0 auto; max-width: 520px;">
-<!-- State 1 · Rate-pending card — unified .plan-card component, rate-pending state per PC-D11 -->
-<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="margin-bottom:12px;">
+<!-- PROMO-31 · LDC selector moves above the rate-pending card(s) — the visitor resolves the blocking input before scrolling past cards that depend on it. Card(s) retained below for message continuity (PC-D11) rather than removed. -->
+<!-- Inline LDC selector -->
+<div class="ldc-selector">
+<div class="ldc-selector__title">Which gas utility delivers to your home?</div>
+<div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to confirm your promotional rate.</div>
+<div class="ldc-selector__row">
+<div class="ldc-selector__field">
+<div class="input__label">Gas Utility</div>
+<!-- PROMO-21 · Dropdown filtered to promo-ELIGIBLE utilities only. Ineligible utilities are omitted here (reachable via the ZIP fallback below, which is unfiltered by design). -->
+<select class="input input--select">
+<option disabled="" selected="">Select your utility…</option>
+<option class="market-display active" id="ldc-opta-ong">Columbia Gas of Ohio</option>
+<option class="market-display" id="ldc-opta-pa">UGI Utilities</option>
+<option class="market-display" id="ldc-opta-gre">Consumers Energy</option>
+<option class="market-display" id="ldc-opta-il">Nicor Gas</option>
+<option class="market-display" id="ldc-opta-ies">Nicor Gas</option>
+</select>
+</div>
+<div class="button button--primary button--sm" style="white-space:nowrap;" onclick="setState('2')">Confirm Utility →</div>
+</div>
+<!-- PROMO-21 · Fallback for genuinely ineligible customers — surfaces the no-match explanation (State 3) so a missing utility doesn't read as a data error -->
+<div class="ldc-fallback-link">Don't see your utility? <a onclick="setState('3')">This offer may not be available in your area →</a></div>
+<!-- PROMO-17 · ZIP fallback (adopted wholesale from Homepage/Plans): selector-first, ZIP expander branches into single-match / multi-match / out-of-area. Multi-match shows the FULL unfiltered set (utility identification, not promo filtering); ineligible selection routes to State 3. -->
+<div style="margin-top:12px; border-top:1px dashed #c5d8f0; padding-top:10px;">
+<span class="ldc-zip-toggle" onclick="var p=document.getElementById('promo-zip-panel-b'); if(p){p.classList.add('open');} this.style.display='none';">🔍 Not sure which utility you have? Find it by ZIP code ▾</span>
+<div class="ldc-zip-panel" id="promo-zip-panel-b">
+<div style="font-size:11px; color:#555; margin-bottom:6px;">Enter your ZIP code and we'll identify your utility automatically.</div>
+<div class="ldc-zip-row">
+<div><div class="input__label">ZIP Code</div><input class="input" placeholder="e.g. 44101" readonly="" style="max-width:150px;" type="text"/></div>
+<div class="button button--primary button--sm" style="white-space:nowrap;">Find My Utility →</div>
+</div>
+<div class="ann ann-b" style="margin:10px 0 0;">The three sub-states below are shown together for review. In production only the matched result renders.</div>
+<!-- Sub-state: single match -->
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Single Utility Found</div>
+<div style="font-size:12px; color:#2e7d32; background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:8px 10px;">✓ Your utility is <strong><span class="market-display active" id="zsingle-ong">Columbia Gas of Ohio</span><span class="market-display" id="zsingle-pa">UGI Utilities</span><span class="market-display" id="zsingle-gre">Consumers Energy</span><span class="market-display" id="zsingle-il">Nicor Gas</span><span class="market-display" id="zsingle-ies">Nicor Gas</span></strong> — auto-selected above; your promotional rate is confirmed.</div>
+</div>
+<!-- Sub-state: multiple matches — full, UNFILTERED list (PROMO-17) -->
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Multiple Utilities Found (ZIP spans more than one territory)</div>
+<div style="font-size:11px; color:#555; margin-bottom:8px;">This ZIP is served by more than one utility. Which one is yours? The full, factual list is shown — not filtered to promo eligibility.</div>
+<button class="zip-ldc-opt" onclick="setState('2')"><span class="market-display active" id="zma-ong">Columbia Gas of Ohio</span><span class="market-display" id="zma-pa">UGI Utilities</span><span class="market-display" id="zma-gre">Consumers Energy</span><span class="market-display" id="zma-il">Nicor Gas</span><span class="market-display" id="zma-ies">Nicor Gas</span></button>
+<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="zmb-ong">Dominion Energy Ohio</span><span class="market-display" id="zmb-pa">Peoples Natural Gas</span><span class="market-display" id="zmb-gre">DTE Energy</span><span class="market-display" id="zmb-il">Peoples Gas</span><span class="market-display" id="zmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this offer</span></button>
+</div>
+<!-- Sub-state: out of area -->
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Out of Area</div>
+<div class="zip-out-note">⚠️ We don't currently serve your ZIP code — but we're expanding. Leave your email and we'll notify you when we do.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- State 1 · FIXED · Rate-pending card — unified .plan-card component, rate-pending state per PC-D11 -->
+<div class="plan-card plan-card--promo ptype ptype-fixed on" data-figma-component="PlanCard" data-figma-variant="promo" style="margin-bottom:12px;">
 <div class="plan-card__head">
 <div class="plan-card__badge-row">
 <span class="tag tag--rate-fixed">● Fixed Rate</span>
@@ -1246,49 +1384,67 @@
 <li>No enrollment fee</li>
 <li>$12.50/month early termination fee if cancelled early</li>
 </ul>
-<!-- Slot K · Required disclosure line (promo state) -->
-<div class="plan-card__disclosure-line">
-                Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>Billing start timeline</h5>
+<p>Your new rate begins on the meter-read date following your utility's processing of enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+<h5>Cancellation rights</h5>
+<p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+<h5>Auto-renewal</h5>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed once your utility is selected. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
-<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code')">▾ View Plan Terms &amp; Disclosures</span>
 </div>
 <div class="plan-card__foot">
 <button class="button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
 <div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
 </div>
 </div>
-<!-- Inline LDC selector -->
-<div class="ldc-selector">
-<div class="ldc-selector__title">Which gas utility delivers to your home?</div>
-<div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to confirm your promotional rate.</div>
-<div class="ldc-selector__row">
-<div class="ldc-selector__field">
-<div class="input__label">Gas Utility</div>
-<select class="input input--select">
-<option disabled="" selected="">Select your utility…</option>
-<option class="market-display active" id="ldc-opta-ong">Columbia Gas of Ohio</option>
-<option class="market-display active" id="ldc-optb-ong">Dominion Energy Ohio</option>
-<option class="market-display" id="ldc-opta-pa">UGI Utilities</option>
-<option class="market-display" id="ldc-optb-pa">Peoples Natural Gas</option>
-<option class="market-display" id="ldc-opta-gre">Consumers Energy</option>
-<option class="market-display" id="ldc-optb-gre">DTE Energy</option>
-<option class="market-display" id="ldc-opta-il">Nicor Gas</option>
-<option class="market-display" id="ldc-optb-il">Peoples Gas</option>
-<option class="market-display" id="ldc-opta-ies">Nicor Gas</option>
-<option class="market-display" id="ldc-optb-ies">Peoples Gas</option>
-</select>
+<!-- PROMO-15 · State 1 · VARIABLE · Rate-pending intro-rate card (adapted from Plans Listing intro-rate pattern, PC-D10) -->
+<div class="plan-card plan-card--promo ptype ptype-variable" data-figma-component="PlanCard" data-figma-variant="promo" style="margin-bottom:12px;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-variable">Variable Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
 </div>
-<div class="button button--primary button--sm" style="white-space:nowrap;">Confirm Utility →</div>
+<div class="plan-card__name">Variable Plan with Intro Discount</div>
 </div>
-<div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
+<div class="plan-card__body">
+<div class="plan-card__rate-pending">
+<strong>Intro discount varies by utility</strong>
+                Select your gas utility below to see your confirmed introductory rate.
+              </div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">A promotional intro discount off the standard variable rate for the first two months — then your plan continues at the standard variable rate with no contract. Confirm your utility to see your exact intro rate.</div>
+<ul class="plan-card__points">
+<li>20%+ off the standard variable rate for the first 2 months (new customers only)</li>
+<li>No enrollment fee</li>
+<li>No early termination charge — cancel anytime</li>
+<li>After the intro period, rate moves to the standard variable rate</li>
+</ul>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>How your rate is set</h5>
+<p>Your introductory rate is 20%+ off the standard variable rate for your market, published monthly, once your utility is confirmed.</p>
+<h5>After the intro period</h5>
+<p>After the first two months, your plan continues at the standard variable rate — no contract, no early termination charge, cancel anytime.</p>
+<h5>Auto-renewal</h5>
+<p>Variable plans have no fixed term, so there's nothing to auto-renew. Rate changes are published monthly.</p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Savings calculated against the published standard variable rate at time of enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
 </div>
 </div>
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
-
-
-
-
-
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-31</strong> — LDC selector moved above the rate-pending card(s) (was below both cards). The card exists pre-LDC for message continuity (PC-D11) — that's a separate decision from where it sits relative to the input it depends on. Elsewhere in the system the blocking input always comes first (Plans Listing renders no card until LDC confirmed; the RAF override shows no card at all). This brings Variant B in line with that pattern.</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-21</strong> — Primary dropdown is filtered to promo-eligible utilities only (was: full market list with the ineligible choice routing to State 3). A "don't see your utility?" fallback link surfaces the no-match explanation so a genuinely ineligible customer isn't left thinking their utility is missing due to a data error. Depends on Prime exposing a per-promo eligible-utility list (ties to OQ-P2).</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-17</strong> — ZIP fallback adopts the Homepage/Residential Plans pattern wholesale (single-match / multi-match / out-of-area). Multi-match shows the FULL, factual set of LDCs for the ZIP (identification, not promo filtering) — differs from the primary dropdown by design; selecting an ineligible utility routes to State 3. Inherits the same open Prime ZIP-data dependency as those pages (not new).</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-15</strong> — Toggle <em>Plan type: Variable</em> to see the variable-rate rate-pending card here (and its resolved form in State 2).</div>
 </div>
 </div>
 </div><!-- /state-b-1 -->
@@ -1305,8 +1461,8 @@
 <span>✓ Columbia Gas of Ohio confirmed — your rate is locked in</span>
 <span style="font-size:11px; font-weight:400; text-decoration:underline; cursor:pointer; color:#555;">Change</span>
 </div>
-<!-- State 2 · Rate-resolved post-LDC card — same .plan-card component as Variant A, LDC context resolved -->
-<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo">
+<!-- State 2 · FIXED · Rate-resolved post-LDC card — same .plan-card component as Variant A, LDC context resolved -->
+<div class="plan-card plan-card--promo ptype ptype-fixed on" data-figma-component="PlanCard" data-figma-variant="promo">
 <div class="plan-card__head">
 <div class="plan-card__badge-row">
 <span class="tag tag--rate-fixed">● Fixed Rate</span>
@@ -1327,11 +1483,58 @@
 <li>No enrollment fee</li>
 <li>$12.50/month early termination fee if cancelled early</li>
 </ul>
-<!-- Slot K · Required disclosure line (promo state) -->
-<div class="plan-card__disclosure-line">
-                Eligibility, restrictions, and full promo terms apply. <a href="#promo-disclosure">See full offer terms ↓</a>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>Billing start timeline</h5>
+<p>Your new rate begins on the meter-read date following <span class="dyn-ldc">Columbia Gas of Ohio</span>'s processing of enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+<h5>Cancellation rights</h5>
+<p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+<h5>Auto-renewal</h5>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span> under promo code <strong>SAVE25</strong>. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
-<span class="plan-card__expand-link" onclick="alert('Inline expand — 4 base sections + \&quot;Promo eligibility &amp; terms\&quot; per §14 matrix.\n\nAnalytics: plan_details_expand · promo_code · ldc')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<!-- PROMO-15 · State 2 · VARIABLE · Rate-resolved post-LDC intro-rate card -->
+<div class="plan-card plan-card--promo ptype ptype-variable" data-figma-component="PlanCard" data-figma-variant="promo">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-variable">Variable Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">Variable Plan with Intro Discount</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.499</div>
+<div class="plan-card__rate-unit">/ <strong>therm</strong></div>
+<div class="plan-card__rate-was">was $0.699</div>
+</div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">Your introductory variable rate, confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span> — at least 20% off the standard variable rate for the first two months, then your plan continues at the standard variable rate with no contract.</div>
+<ul class="plan-card__points">
+<li>20%+ off the standard variable rate for the first 2 months (new customers only)</li>
+<li>No enrollment fee</li>
+<li>No early termination charge — cancel anytime</li>
+<li>After the intro period, rate moves to the standard variable rate</li>
+</ul>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>How your rate is set</h5>
+<p>Your introductory rate is 20%+ off the standard variable rate for <span class="dyn-ldc">Columbia Gas of Ohio</span> customers, published monthly.</p>
+<h5>After the intro period</h5>
+<p>After the first two months, your plan continues at the standard variable rate — no contract, no early termination charge, cancel anytime.</p>
+<h5>Auto-renewal</h5>
+<p>Variable plans have no fixed term, so there's nothing to auto-renew. Rate changes are published monthly.</p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Savings calculated against the published standard variable rate at time of enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
 </div>
 <div class="plan-card__foot">
 <button class="button button--primary plan-card__cta">Start Enrollment →</button>
@@ -1385,6 +1588,108 @@
 </div>
 </div>
 </div><!-- /variant-b -->
+<!-- ════════════════════════════════════════════════════════════════
+       VARIANT MULTI WRAPPER · PROMO-23 (2–3 inline plan cards, one promo code)
+       New pattern (2026-07-14): 2–3 promo-state plan cards shown side by side
+       under a single promo code, sharing one offer module. Distinct from
+       Variant A (single plan) and the RAF override (multi-plan but routes
+       away to Plans Listing rather than showing cards inline).
+       Toggled via setVariant('multi'); no internal states.
+  ════════════════════════════════════════════════════════════════ -->
+<div class="variant" id="variant-multi">
+<div class="section">
+<div class="section-label"><div class="section-number">2m</div><br/>Offer Module<br/>(Multi-Plan ·<br/>2–3 Cards)</div>
+<div class="offer-module">
+<div class="offer-module-label">
+<span class="state-pill state-pill-success">Multi</span>
+        Multi-Plan Promo — 2–3 Plans Under One Code · Shown Inline, Side by Side
+      </div>
+<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:stretch;">
+<!-- Multi · Card 1 — 12-Month Fixed -->
+<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex:1 1 240px;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">12-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.599</div>
+<div class="plan-card__rate-unit">/ <strong><span class="market-display active" id="m1u-ong">therm</span><span class="market-display" id="m1u-pa">therm</span><span class="market-display" id="m1u-gre">Mcf</span><span class="market-display" id="m1u-il">therm</span><span class="market-display" id="m1u-ies">therm</span></strong></div>
+<div class="plan-card__rate-was">was $0.799</div>
+</div>
+<div class="plan-card__description">A 12-month locked promotional rate. Your rate holds for the full term once enrolled.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 12-month term</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>Billing start timeline</h5>
+<p>Your new rate begins on the meter-read date following your utility's processing of enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+<h5>Cancellation rights</h5>
+<p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+<h5>Auto-renewal</h5>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+</div>
+</div>
+<!-- Multi · Card 2 — 6-Month Fixed (same promo rate, shorter term) -->
+<div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex:1 1 240px;">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--promo">Promo SAVE25</span>
+</div>
+<div class="plan-card__name">6-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$0.599</div>
+<div class="plan-card__rate-unit">/ <strong><span class="market-display active" id="m2u-ong">therm</span><span class="market-display" id="m2u-pa">therm</span><span class="market-display" id="m2u-gre">Mcf</span><span class="market-display" id="m2u-il">therm</span><span class="market-display" id="m2u-ies">therm</span></strong></div>
+<div class="plan-card__rate-was">was $0.799</div>
+</div>
+<div class="plan-card__description">A 6-month locked promotional rate at the same price — a shorter commitment for the same savings.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 6-month term</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<!-- PROMO-29 / PC-D17 · Always-expanded — no accordion, Slot K dropped -->
+<div class="plan-card__expanded">
+<h5>Billing start timeline</h5>
+<p>Your new rate begins on the meter-read date following your utility's processing of enrollment — typically 1–2 billing cycles later. You'll continue to receive a single bill from your local utility.</p>
+<h5>Cancellation rights</h5>
+<p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
+<h5>Auto-renewal</h5>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
+</div>
+<div class="plan-card__foot">
+<button class="button button--primary plan-card__cta">Start Enrollment →</button>
+<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+</div>
+</div>
+</div>
+<div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-23</strong> — 2–3 promo-state plan cards shown inline, side by side, under one promo code (e.g., 12-month and 6-month fixed at the same rate; up to three plan types possible per code). Distinct from Variant A (single plan) and the RAF override (multi-plan but routes away to Plans Listing). Cards flex to stack on narrow viewports.</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-24</strong> — With the Multi variant active, the page-hero subhead switches to "Select the plan that works best for you."</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-25</strong> — These cards omit a per-card expiry line on purpose: the page-level "Offer Expires" banner above the module is the single source of truth for the shared code's expiration.</div>
+</div>
+</div>
+</div>
+</div><!-- /variant-multi -->
 <!-- ════════════════════════════════════════════════════════════════
        VARIANT RAF WRAPPER · §3b RAF Override (Filter-to-Plans)
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
@@ -1487,7 +1792,32 @@
 </div>
 <div class="button button--primary button--sm" style="white-space:nowrap;">View Plans →</div>
 </div>
-<div style="font-size:11px; color:#5a8cbf; margin-top:8px; font-style:italic;">Don't know your utility? <span style="text-decoration:underline; cursor:pointer;">Find it by ZIP code ↓</span></div>
+<!-- PROMO-17 · ZIP fallback (same pattern as Variant B State 1): single-match / multi-match / out-of-area. RAF is not eligibility-gated the way Variant B is, so the multi-match list is unfiltered and ineligible selections route to the RAF no-match (State 3). -->
+<div style="margin-top:12px; border-top:1px dashed #c5d8f0; padding-top:10px;">
+<span class="ldc-zip-toggle" onclick="var p=document.getElementById('promo-zip-panel-raf'); if(p){p.classList.add('open');} this.style.display='none';">🔍 Not sure which utility you have? Find it by ZIP code ▾</span>
+<div class="ldc-zip-panel" id="promo-zip-panel-raf">
+<div style="font-size:11px; color:#555; margin-bottom:6px;">Enter your ZIP code and we'll identify your utility automatically.</div>
+<div class="ldc-zip-row">
+<div><div class="input__label">ZIP Code</div><input class="input" placeholder="e.g. 44101" readonly="" style="max-width:150px;" type="text"/></div>
+<div class="button button--primary button--sm" style="white-space:nowrap;">Find My Utility →</div>
+</div>
+<div class="ann ann-b" style="margin:10px 0 0;">The three sub-states below are shown together for review. In production only the matched result renders.</div>
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Single Utility Found</div>
+<div style="font-size:12px; color:#2e7d32; background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:8px 10px;">✓ Your utility is <strong><span class="market-display active" id="rzsingle-ong">Columbia Gas of Ohio</span><span class="market-display" id="rzsingle-pa">UGI Utilities</span><span class="market-display" id="rzsingle-gre">Consumers Energy</span><span class="market-display" id="rzsingle-il">Nicor Gas</span><span class="market-display" id="rzsingle-ies">Nicor Gas</span></strong> — auto-selected above.</div>
+</div>
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Multiple Utilities Found (ZIP spans more than one territory)</div>
+<div style="font-size:11px; color:#555; margin-bottom:8px;">This ZIP is served by more than one utility. Which one is yours? The full, factual list is shown — not filtered to program eligibility.</div>
+<button class="zip-ldc-opt" onclick="setState('2')"><span class="market-display active" id="rzma-ong">Columbia Gas of Ohio</span><span class="market-display" id="rzma-pa">UGI Utilities</span><span class="market-display" id="rzma-gre">Consumers Energy</span><span class="market-display" id="rzma-il">Nicor Gas</span><span class="market-display" id="rzma-ies">Nicor Gas</span></button>
+<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="rzmb-ong">Dominion Energy Ohio</span><span class="market-display" id="rzmb-pa">Peoples Natural Gas</span><span class="market-display" id="rzmb-gre">DTE Energy</span><span class="market-display" id="rzmb-il">Peoples Gas</span><span class="market-display" id="rzmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this program</span></button>
+</div>
+<div class="zip-substate">
+<div class="zip-substate-title">Result — Out of Area</div>
+<div class="zip-out-note">⚠️ We don't currently serve your ZIP code — but we're expanding. Leave your email and we'll notify you when we do.</div>
+</div>
+</div>
+</div>
 </div>
 <div style="font-size:11px; color:#888; margin-top:10px; font-style:italic; text-align:center;">
             CTA enables once segment + utility are both selected. No rate is shown on this page — you'll pick a plan and term on the next screen.
@@ -1571,7 +1901,7 @@
 </div>
 </div><!-- /variant-raf -->
 <!-- SECTION 4: FULL PROMO JOURNEY FLOW DIAGRAM -->
-<div class="section">
+<div class="section wf-diagram-block">
 <div class="section-label"><div class="section-number">4</div><br/>Journey<br/>Flow Model<br/>(Annotation)</div>
 <div class="flow-diagram">
 <div style="font-size:11px; font-weight:800; color:#555; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Promo Journey Model — Full Flow Annotation</div>
@@ -1671,7 +2001,8 @@
 <div class="section">
 <div class="section-label"><div class="section-number">5</div><br/>Contact<br/>Card</div>
 <div style="padding: 20px 28px;">
-<div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; background:#f5f8fc; border:1.5px solid #d0dce8; border-radius:6px; padding:18px 22px;">
+<div class="promo-contact-card">
+<!-- PROMO-6 · Regulatory-note / phone columns stack vertically on mobile instead of staying side by side (see .promo-contact-card__cols) -->
 <!-- Icon -->
 <div style="font-size:28px; flex-shrink:0; margin-top:2px;">💬</div>
 <!-- Content -->
@@ -1682,7 +2013,7 @@
 <div style="margin-bottom:14px;">
 <div class="button button--primary" style="display:inline-block;">Enroll Now →</div>
 </div>
-<div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+<div class="promo-contact-card__cols">
 <!-- Regulatory note -->
 <div style="flex:1; min-width:160px;">
 <div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Licensed Supplier</div>
@@ -1694,19 +2025,16 @@
 <span class="market-display" id="reg-note-ies">Illinois Energy Solutions is a licensed alternative retail natural gas supplier regulated by the Illinois Commerce Commission (ICC).</span>
 </div>
 </div>
-<!-- Divider -->
-<div style="width:1px; background:#d0dce8; align-self:stretch; flex-shrink:0;"></div>
-<!-- Phone — secondary, de-emphasized -->
+<!-- Divider (hidden on mobile, PROMO-6) -->
+<div class="promo-contact-card__divider"></div>
+<!-- Phone — PROMO-27: explicit phone-redemption framing with promo code stated outright -->
 <div>
-<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Questions? Call Us</div>
-<div style="font-size:12px; font-weight:600; color:#666;">
-<span class="market-display active" id="contact-phone-ong">1-800-XXX-XXXX</span>
-<span class="market-display" id="contact-phone-pa">1-800-XXX-XXXX</span>
-<span class="market-display" id="contact-phone-gre">1-800-XXX-XXXX</span>
-<span class="market-display" id="contact-phone-il">1-800-XXX-XXXX</span>
-<span class="market-display" id="contact-phone-ies">1-800-XXX-XXXX</span>
-</div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:4px;">Prefer to talk? Redeem by phone</div>
+<div style="font-size:12px; color:#444; line-height:1.5;">Call
+              <strong style="color:#1e3a5f; font-weight:800;"><span class="market-display active" id="contact-phone-ong">1-800-XXX-XXXX</span><span class="market-display" id="contact-phone-pa">1-800-XXX-XXXX</span><span class="market-display" id="contact-phone-gre">1-800-XXX-XXXX</span><span class="market-display" id="contact-phone-il">1-800-XXX-XXXX</span><span class="market-display" id="contact-phone-ies">1-800-XXX-XXXX</span></strong>
+              and use promo code <strong style="color:#e8641a; font-weight:800;">SAVE25</strong> to enroll with a representative.</div>
 <div style="font-size:10px; color:#aaa; margin-top:3px;">[Hours TBD — confirm with client]</div>
+<div class="ann ann-b" style="margin-top:6px;"><strong>PROMO-27</strong> — Explicit "call and use promo code [CODE]" framing added to the existing Contact Card (no new section). Phone number and code are CMS/campaign fields.</div>
 </div>
 </div>
 </div>
@@ -1747,7 +2075,7 @@
 </div>
 </div>
 <!-- ANALYTICS REQUIREMENTS -->
-<div class="section" style="margin-top:12px;">
+<div class="section wf-diagram-block" style="margin-top:12px;">
 <div style="padding: 16px 28px;">
 <div style="font-size:12px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">⚙ Analytics Instrumentation Required</div>
 <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
@@ -1764,6 +2092,7 @@
 </div>
 </div>
 </div>
+</div><!-- /promo-main-content -->
 <!-- SITE FOOTER -->
 <div class="section" style="margin-top:12px;">
 <div class="footer" data-figma-component="Footer">
@@ -1782,7 +2111,7 @@
 </div>
 <div>
 <div class="footer__col-head">Support</div>
-<div class="footer__col-links"><a>FAQ</a><a>Contact Us</a><a>Learning Center</a></div>
+<div class="footer__col-links"><a>FAQ</a><a>Contact Us</a><a class="mkt on" id="ft-ngb">Natural Gas Basics</a></div>
 </div>
 <div>
 <div class="footer__col-head">Legal</div>
@@ -1834,12 +2163,11 @@
      Market switcher (existing — extended to use .wfctl buttons)
   */
   var MARKETS = ['ong','pa','gre','il','ies'];
+  /* PROMO-22: Full Nav removed. The Simplified Nav (brand + phone) is driven
+     entirely by the generic .market-display + [id$="-market"] logic below, so
+     there are no per-market .mkt/.mkt-flex nav elements left to toggle. */
   var MKT_ELEMENTS = {
-    ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
-    pa:  ['nav-standard','nav-search-std','nav-lc-area-pa'],
-    gre: ['nav-standard','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
-    il:  ['nav-standard','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il'],
-    ies: ['nav-ies']
+    ong: ['ft-ngb'], pa: ['ft-ngb'], gre: ['ft-ngb'], il: ['ft-ngb'], ies: []
   };
   function setMarket(market) {
     MARKETS.forEach(function(m) {
@@ -1863,10 +2191,11 @@
 
   /* ────────────────────────────────────
      Variant switcher (CLAUDE.md convention · PROMO-CONVENTION)
-     Variants: a (No-LDC) · b (LDC-Required) · raf (§3b RAF Override)
-     State buttons hidden when variant=a (no internal states).
+     Variants: a (No-LDC) · b (LDC-Required) · multi (PROMO-23, 2–3 plans) ·
+               raf (§3b RAF Override)
+     State buttons hidden when variant has no internal states (a, multi).
   */
-  var VARIANTS = ['a','b','raf'];
+  var VARIANTS = ['a','b','multi','raf'];
   var ACTIVE_VARIANT = 'a';
   function setVariant(v) {
     ACTIVE_VARIANT = v;
@@ -1876,13 +2205,34 @@
       var btn = document.getElementById('var-btn-' + k);
       if (btn) btn.classList.toggle('on', k === v);
     });
-    // State group visibility: A has none, B and RAF have 1/2/3
+    // PROMO-24: subhead varies by plan count — multi shows the multi-plan copy.
+    document.querySelectorAll('.psub-single').forEach(function(el) { el.classList.toggle('on', v !== 'multi'); });
+    document.querySelectorAll('.psub-multi').forEach(function(el) { el.classList.toggle('on', v === 'multi'); });
+    // PROMO-30: hero-level LDC eligibility line shows for Variant A / Multi only (no functional gate there); hidden for B/RAF, which structurally handle eligibility via the LDC selector.
+    document.querySelectorAll('.hero-eligibility').forEach(function(el) { el.classList.toggle('on', v === 'a' || v === 'multi'); });
+    // State group visibility: A and Multi have none; B and RAF have 1/2/3.
     var hasStates = (v === 'b' || v === 'raf');
     ['1','2','3'].forEach(function(s) {
       var b = document.getElementById('st-btn-' + s);
       if (b) b.style.display = hasStates ? '' : 'none';
     });
     if (hasStates) setState('1');
+  }
+
+  /* ────────────────────────────────────
+     Plan-type switcher (PROMO-15) — toggles fixed vs. variable-rate promo
+     cards on Variants A and B (the only variants with .ptype wrappers).
+  */
+  var PTYPES = ['fixed','variable'];
+  var ACTIVE_PTYPE = 'fixed';
+  function setPlanType(p) {
+    ACTIVE_PTYPE = p;
+    document.querySelectorAll('.ptype-fixed').forEach(function(el) { el.classList.toggle('on', p === 'fixed'); });
+    document.querySelectorAll('.ptype-variable').forEach(function(el) { el.classList.toggle('on', p === 'variable'); });
+    PTYPES.forEach(function(k) {
+      var b = document.getElementById('pt-btn-' + k);
+      if (b) b.classList.toggle('on', k === p);
+    });
   }
 
   /* ────────────────────────────────────
@@ -1916,6 +2266,21 @@
   }
 
   /* ────────────────────────────────────
+     Error mode (PROMO-13) — runtime-invalid/expired promo code arriving
+     via URL (Path 1/3). Swaps the normal page content for a brief
+     explanatory state with a link to Residential Plans, rather than a
+     silent redirect. CLAUDE.md standard "Error mode" control-panel group.
+  */
+  var ERR_MODES = ['none','invalid'];
+  function setErrorMode(mode) {
+    document.body.classList.toggle('err-invalid', mode === 'invalid');
+    ERR_MODES.forEach(function(k) {
+      var btn = document.getElementById('err-btn-' + k);
+      if (btn) btn.classList.toggle('on', k === mode);
+    });
+  }
+
+  /* ────────────────────────────────────
      Chrome / Presentation mode (CLAUDE.md convention)
      Hides all wireframe overlays; Esc exits.
   */
@@ -1938,8 +2303,9 @@
      Init
   */
   setMarket('ong');
+  setPlanType('fixed');
   setVariant('a');
-  setAnnMode('all');
+  setAnnMode('clean');
   setChrome('show');
 
   // ── NAV DROPDOWN TOGGLE ──

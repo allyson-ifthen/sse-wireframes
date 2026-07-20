@@ -1093,7 +1093,9 @@ body.reset-expired .reset-token-expired { display: block; }
 <button id="st-btn-dashboard" onclick="setState('dashboard')">Dashboard</button>
 <button id="st-btn-autorenew" onclick="setState('autorenew')">Auto-Renew Opt-Out</button>
 <button id="st-btn-cancel" onclick="goCancelStep(2, 'variable')">Cancel Flow</button>
-<button id="st-btn-raf" onclick="setState('raf')">RAF Dashboard</button>
+<button id="st-btn-raf" onclick="setState('raf'); setRafView('participant')">RAF · Participant</button>
+<button id="st-btn-raf-optin" onclick="setState('raf'); setRafView('optin')">RAF · Opt-in</button>
+<button id="st-btn-raf-pending" onclick="setState('raf'); setRafView('pending')">RAF · Pending</button>
 </div>
 <div class="wfctl-divider"></div>
 <div class="group" id="login-subtab-group" style="display:none;">
@@ -1182,16 +1184,12 @@ body.reset-expired .reset-token-expired { display: block; }
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt mkt-ong" href="GeneralInformational_Wireframe.html">Why ONG for Business</a>
-<a class="nav-dd-item mkt mkt-gre" href="GeneralInformational_Wireframe.html">Why GRE for Business</a>
-<a class="nav-dd-item mkt mkt-il" href="GeneralInformational_Wireframe.html">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
+<!-- Natural Gas Basics: direct link + pillar dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt mkt-ong" href="LearningCenter_Wireframe.html">Does ONG Serve My Area?</a>
@@ -1209,7 +1207,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -1228,7 +1226,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -2100,13 +2098,28 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="raf-code-display">ONG-J4K2M9</div>
 <div class="raf-code-meta">2 pending · $25 earned to date</div>
 </div>
-<button class="btn-out btn-sm" onclick="setState('raf')">Refer a Friend →</button>
+<button class="btn-out btn-sm" onclick="setState('raf'); setRafView('participant')">Refer a Friend →</button>
 </div>
 </div>
 
 
 
 <div class="ann ann-b"><strong>MA-76 / MA-79:</strong> RAF suppressed for IL (IE) and IES — program not available in those markets. ONG, PA, GRE show this card.</div>
+<!-- MA-109 (2026-07-20): Non-participant RAF summary-card variant — teaser. Mutually exclusive with the participant card above (PRIME RAF-participation flag decides which renders); both shown here for review. -->
+<div class="mkt mkt-ong mkt-pa mkt-gre section-block">
+<div class="section-h">Refer a Friend</div>
+<div class="raf-card">
+<div class="raf-card-head">
+<div class="raf-card-title">🎁 Refer a Friend</div>
+<div class="raf-card-sub">Refer a friend, earn $25</div>
+</div>
+<div class="raf-card-body">
+<div>Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</div>
+<button class="btn-out btn-sm" onclick="setState('raf'); setRafView('optin')">Refer a friend, earn $25 →</button>
+</div>
+</div>
+<div class="ann ann-b"><strong>MA-109:</strong> Non-participant variant — shows when the customer hasn't joined RAF yet. Routes into the RAF Dashboard <em>opt-in</em> sub-state instead of assuming a code exists. Mutually exclusive with the participant summary card above.</div>
+</div>
 </div>
 <!-- ─────────────────────────────────────────────────────
          CANCEL PLAN FLOW (MA-48: Step 1 modal / Steps 2–3 routed page)
@@ -2446,6 +2459,9 @@ body.reset-expired .reset-token-expired { display: block; }
 <button class="acct-logout" onclick="setState('dashboard')">← Back to dashboard</button>
 </div>
 <div class="layout">
+<!-- MA-109 (2026-07-20): RAF Dashboard now has three sub-states — participant (existing), opt-in, and pending. setRafView() toggles them; default = participant. How-it-works / FAQs / Legal below stay visible in all three sub-states. -->
+<!-- ─── SUB-STATE: PARTICIPANT (existing enrolled experience) ─── -->
+<div id="raf-view-participant">
 <!-- ─── HERO: incentive + code (MA-31) ─── -->
 <div class="raf-hero">
 <div>
@@ -2540,6 +2556,42 @@ body.reset-expired .reset-token-expired { display: block; }
 </tbody>
 </table>
 </div>
+</div><!-- /#raf-view-participant -->
+
+<!-- ─── SUB-STATE: OPT-IN (non-participant) — MA-109 ─── -->
+<div id="raf-view-optin" style="display:none;">
+<div class="raf-hero">
+<div>
+<div class="raf-incentive-amount">
+<span class="mkt-inline mkt-ong on">$25 for you · $25 for them</span>
+<span class="mkt-inline mkt-pa">$25 for you · $25 for them</span>
+<span class="mkt-inline mkt-gre">$25 for you · $25 for them</span>
+</div>
+<div class="raf-incentive-sub">You're not in the Refer-a-Friend program yet. Join to get your unique referral code — when friends enroll using it, you both receive a $25 digital Visa reward card when their service starts.</div>
+</div>
+</div>
+<div style="background:var(--chip,#f5f7fa); border:1px solid var(--line); border-radius:6px; padding:16px 18px; margin-top:14px;">
+<div class="raf-section-h">Join Refer a Friend</div>
+<label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; margin:10px 0 14px;">
+<input id="raf-optin-agree" type="checkbox" onchange="document.getElementById('raf-optin-submit').disabled = !this.checked;"/>
+<span>I agree to the Refer-A-Friend <a href="#raf-program-terms">Terms &amp; Conditions</a>.</span>
+</label>
+<button class="btn" disabled="" id="raf-optin-submit" onclick="setRafView('pending')">Join &amp; get my code →</button>
+</div>
+<div class="ann ann-b"><strong>MA-109:</strong> Opt-in sub-state. Uses the same Agree-checkbox + submit mechanism as the Enrollment / Plan-Change Confirmation RAF opt-in (ENR-152). On submit, PRIME creates the referral code asynchronously → pending sub-state. Cross-ref MA-80 (FAQ copy already assumes an authenticated context).</div>
+</div>
+
+<!-- ─── SUB-STATE: PENDING (just opted in) — MA-109 ─── -->
+<div id="raf-view-pending" style="display:none;">
+<div class="raf-hero">
+<div>
+<div class="raf-incentive-amount">You're in! 🎉</div>
+<div class="raf-incentive-sub">Your referral code is on its way — check back shortly. We'll email you as soon as it's ready, and you'll be able to share it and track your rewards right here.</div>
+</div>
+</div>
+<div class="ann ann-b"><strong>MA-109:</strong> Pending sub-state — native "your code is on its way" copy. This is the destination the pending message on the Enrollment / Plan-Change Confirmation screens points to (ENR-152). Specific timing language avoided per the async code-generation model; PRIME to confirm code-generation latency.</div>
+</div>
+
 <!-- ─── HOW IT WORKS (MA-43: always-visible; replaces collapsible <details>) ─── -->
 <div class="raf-how-visible">
 <div class="raf-section-h">How it works</div>
@@ -2575,7 +2627,7 @@ body.reset-expired .reset-token-expired { display: block; }
 </details>
 <div class="raf-faqs-footer">
 <a class="link" href="#">Learn more about Refer a Friend →</a>
-<div class="ann ann-b" style="margin-top:4px;"><strong>MA-81:</strong> Routes to standalone Refer a Friend page under For My Home. URL TBD. No RAF articles are currently scoped for the Learning Center.</div>
+<div class="ann ann-b" style="margin-top:4px;"><strong>MA-81:</strong> Routes to standalone Refer a Friend page under For My Home. URL TBD. No RAF articles are currently scoped for the Natural Gas Basics.</div>
 </div>
 </div>
 <!-- ─── LEGAL PLACEHOLDER (MA-43: new — content TBD, Legal owner) ─── -->
@@ -2794,6 +2846,21 @@ function setState(s) {
   if (anchor && anchor.offsetTop !== undefined) {
     window.scrollTo({ top: anchor.offsetTop, behavior: 'instant' });
   }
+}
+
+/* ────────────────────────────────────
+   MA-109: RAF Dashboard sub-state toggle (participant / opt-in / pending)
+   ──────────────────────────────────── */
+function setRafView(view) {
+  ['participant', 'optin', 'pending'].forEach(function(v) {
+    var el = document.getElementById('raf-view-' + v);
+    if (el) el.style.display = (v === view) ? '' : 'none';
+  });
+  var map = { participant: 'st-btn-raf', optin: 'st-btn-raf-optin', pending: 'st-btn-raf-pending' };
+  Object.keys(map).forEach(function(v) {
+    var b = document.getElementById(map[v]);
+    if (b) b.classList.toggle('on', v === view);
+  });
 }
 
 /* ────────────────────────────────────

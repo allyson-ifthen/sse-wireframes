@@ -951,7 +951,7 @@
 <nav aria-label="Main" class="nav-links">
 <a href="#">For My Home</a>
 <a href="#">For My Business</a>
-<a href="#">Learning Center</a>
+<a href="#">Natural Gas Basics</a>
 <a href="#">About</a>
 </nav>
 <div class="nav-right">
@@ -1379,9 +1379,16 @@
 </section>
 <!-- ====== Step 1 — Verify your service (new-customer path only — gated by setStep guard for flow-existing mode) ===== -->
 <section aria-labelledby="s1-title" class="step on" id="step-1">
+<div class="error-banner" id="err-existing-account" style="padding:14px 16px; margin-bottom:16px; background:var(--ann-r-bg); border-left:4px solid var(--ann-r-bd); border-radius:3px;">
+<strong style="color:var(--bad);">An account already exists for this gas utility account.</strong> Would you like to log in and change your plan?
+        <div style="margin-top:8px;">
+<a class="btn btn-secondary" href="/my-account/login" style="font-size:13px; padding:6px 12px;">Log In</a>
+</div>
+
+</div>
 <h2 id="s1-title">Verify your service</h2>
 <p class="step-have-ready">Have your gas account number, service address, and ZIP code ready.</p>
-<p class="step-intro">Confirm the utility delivering gas to your home so we can apply the right plan to your account.</p>
+<!-- ENR-143: orphaned step-intro copy (leftover from WTE panel removal, ENR-116) removed -->
 
 <p class="field-legend"><span class="req">*</span> Required field</p>
 <div class="fieldset">
@@ -1395,16 +1402,16 @@
 <span class="mkt mkt-gre">Consumers Energy (MI)</span>
 </span>
 </div>
-<p class="wrong-utility-note"><small style="color:var(--muted);">Wrong utility? <a href="#" onclick="event.preventDefault(); alert('Wireframe: restart to Plans page LDC selector.')">Change →</a></small></p>
+<!-- ENR-143: "Wrong utility?" link removed — routed to the same destination as "back to plans" (supersedes ENR-119 de-emphasis) -->
 
 </div>
 
 </div>
 <div class="fieldset">
-<h3>Account number</h3>
+<!-- ENR-151: shared "Account number" heading removed — was an exact echo of the field label below it ("hat on a hat"). Heading is now market-scoped: ONG (two fields) gets a task-oriented heading; PA/GRE (single field) get none, since a group heading for a group of one adds nothing the label doesn't already say. -->
 <!-- ONG: account number entered TWICE (ENR-3 confirmed by ENR-25) -->
 <div class="mkt mkt-ong on">
-
+<h3>Confirm your account number</h3>
 <div class="field-row">
 <div class="field">
 <label for="acct1-ong"><span class="req">*</span>Account number</label>
@@ -1499,13 +1506,6 @@
            the confirmation copy (§3.5). -->
 
 <!-- ENR-67B (2026-05-27): Existing-account inline error state — shown when PRIME detects account already exists -->
-<div id="err-existing-account" style="display:none; padding:14px 16px; margin-bottom:16px; background:var(--ann-r-bg); border-left:4px solid var(--ann-r-bd); border-radius:3px;">
-<strong style="color:var(--bad);">An account already exists for this gas utility account.</strong> Would you like to log in and change your plan?
-        <div style="margin-top:8px;">
-<a class="btn btn-secondary" href="/my-account/login" style="font-size:13px; padding:6px 12px;">Log In</a>
-</div>
-
-</div>
 <div class="btn-row">
 <a class="btn btn-tertiary" href="#">← Back to Plans</a>
 <div class="btn-row-right">
@@ -1639,7 +1639,17 @@
 </div>
 
 </div>
-<div class="fieldset fieldset-box" id="sec-preferences">
+<!-- ENR-145 (2026-07-17): required account-holder attestation structurally split out of "Your preferences" into its own section — mirrors the ENR-131 Supplier Authorization precedent. ENR-144 (2026-07-17): required section ordered above the optional preferences below. -->
+<div class="fieldset fieldset-box" id="sec-account-auth">
+<h3>Account Holder Authorization</h3>
+<!-- ENR-57 (2026-05-26): Required authorized-person attestation -->
+<div class="checkbox-row">
+<input id="consent-authorized-person" required="" type="checkbox"/>
+<label for="consent-authorized-person"><span class="req">*</span>I am the utility account holder or a person that has legal authorization to make decisions for this account.</label>
+</div>
+
+</div>
+<div class="fieldset fieldset-box" id="sec-preferences" style="margin-top:16px;">
 <h3>Your preferences</h3>
 
 <!-- Paperless: PA-only (ENR-10) -->
@@ -1662,13 +1672,7 @@
 <input id="consent-call" type="checkbox"/>
 <label for="consent-call">If you need to contact me about my enrollment, you may contact me at the phone number I have provided.</label>
 </div>
-
 <!-- ENR-65 (2026-05-27): "Send me occasional emails" marketing opt-in removed from Details step -->
-<!-- ENR-57 (2026-05-26): Required authorized-person attestation -->
-<div class="checkbox-row" style="margin-top:14px;">
-<input id="consent-authorized-person" required="" type="checkbox"/>
-<label for="consent-authorized-person"><span class="req">*</span>I am the utility account holder or a person that has legal authorization to make decisions for this account.</label>
-</div>
 
 </div>
 <!-- FTC disclosure removed from Step 2 per ENR-50 — subsumed by Step 3 etc-ack + T&C/LOA acceptance -->
@@ -1817,15 +1821,12 @@
 </dl>
 
 </div>
-<!-- Preferences & Disclosures section — ENR-72 updated 2026-05-27 -->
+<!-- Preferences section — ENR-72 updated 2026-05-27; ENR-145 (2026-07-17): renamed from "Preferences & Disclosures" and T&Cs/ETC/supplier rows moved to Acknowledgments below (legal confirmations don't belong under "Preferences") -->
 <div class="review-section">
-<header><h4>Preferences &amp; Disclosures</h4><a href="#" onclick="event.preventDefault(); openEditFor('preferences');">Edit →</a></header>
+<header><h4>Preferences</h4><a href="#" onclick="event.preventDefault(); openEditFor('preferences');">Edit →</a></header>
 <dl>
 <dt class="mkt-inline mkt-pa">Paperless billing</dt><dd class="mkt-inline mkt-pa">Not opted in (verify via email after enrollment)</dd>
 <dt>Consent to receive calls</dt><dd>No</dd>
-<dt>T&amp;Cs accepted</dt><dd>Yes (reviewed on Review Contract step)</dd>
-<dt class="plan-fixed">Early Termination Charges acknowledged</dt><dd class="plan-fixed">Yes (reviewed on Review Contract step)</dd>
-<dt class="mkt mkt-ong on">Authorized <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span> as supplier</dt><dd class="mkt mkt-ong on">Yes (reviewed on Review Contract step)</dd>
 </dl>
 
 </div>
@@ -1834,9 +1835,15 @@
            Supersedes the ENR-35 in-flow placement (ENR-35 / ENR-32 standalone-sign-in UX still relevant). -->
 
 <!-- ENR-131: Supplier authorization moved here from Step 3 (Accept Contract).
-     Most consequential action belongs at point of no return (Review), not grouped with T&Cs. -->
+     Most consequential action belongs at point of no return (Review), not grouped with T&Cs.
+     ENR-145 (2026-07-17): renamed "Acknowledgments" and folded in the T&Cs-accepted / ETC-acknowledged summary rows previously under "Preferences & Disclosures" — this section now covers all required legal confirmations, not just supplier auth. -->
 <div class="review-section" style="margin-top:20px;">
-<header><h4>Supplier Authorization</h4></header>
+<header><h4>Acknowledgments</h4></header>
+<dl>
+<dt>T&amp;Cs accepted</dt><dd>Yes (reviewed on Review Contract step)</dd>
+<dt class="plan-fixed">Early Termination Charges acknowledged</dt><dd class="plan-fixed">Yes (reviewed on Review Contract step)</dd>
+<dt class="mkt mkt-ong on">Authorized <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span> as supplier</dt><dd class="mkt mkt-ong on">Yes (reviewed on Review Contract step)</dd>
+</dl>
 <!-- ENR-60 (2026-05-26): Per-market supplier authorization + rescission rights -->
 <div class="mkt mkt-ong on" id="supplier-auth-ong">
 <div class="checkbox-row" style="margin-top:10px;">
@@ -1856,6 +1863,8 @@
 <button class="btn" disabled="" id="s4-submit" onclick="setStep('confirmation')">Submit enrollment →</button>
 </div>
 </div>
+<!-- ENR-87 (2026-07-20): Submit button flagged for elevated visual treatment in design phase. -->
+<div class="ann ann-b">ENR-87 · This <strong>Submit enrollment</strong> button should receive elevated visual treatment in the design phase — larger size, stronger color weight, or a distinct button style to signal the finality of the action — so it reads as more prominent than the standard step-navigation "Continue" buttons, which are styled equivalently today. (Client feedback, Jun 2026.)</div>
 
 
 
@@ -1877,25 +1886,7 @@
 <!-- ENR-92: Existing customer cancel contract option (2 routing patterns for client decision) -->
 
 </div>
-<!-- ENR-136: "What Happens Next" — horizontal 3-column timeline (reverted from ENR-132 vertical list) -->
-<h3 style="margin:24px 0 0; font-size:15px;">What happens next</h3>
-<div class="timeline">
-<div class="timeline-stage current">
-<div class="stage-dot"></div>
-<div class="stage-title">Enrollment received</div>
-<div class="stage-desc">We've received your enrollment and emailed your confirmation and contract.</div>
-</div>
-<div class="timeline-stage">
-<div class="stage-dot"></div>
-<div class="stage-title">Utility verification</div>
-<div class="stage-desc">Your gas utility reviews and approves the switch to <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>.</div>
-</div>
-<div class="timeline-stage">
-<div class="stage-dot"></div>
-<div class="stage-title">Service begins</div>
-<div class="stage-desc">Your gas supply switches to <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>. We'll email you once it's official.</div>
-</div>
-</div>
+<!-- ENR-146 (2026-07-17): "What happens next" timeline (ENR-136) removed entirely — third change of direction on this element (ENR-124 trimmed it, ENR-132/ENR-136 restored it). Client review 2026-07-07: duplicated language already in the .conf-hero copy above and made the process feel longer than it is. The .conf-hero heading + subhead are sufficient on their own; no replacement copy added. -->
 <!-- ENR-51 (2026-05-25): "Your enrollment" inline plan card removed from Confirmation.
            Sticky plan summary sidebar (right rail) carries plan name, rate, term, ETC, customer charge.
            Confirmation moment of attention = confirmation number + downloadable contract, not a duplicated card.
@@ -1907,27 +1898,10 @@
 <strong>Check your email for paperless billing verification.</strong> Once you verify, we'll stop sending paper statements and bills. Until verified, you'll receive both.
         </div>
 </div>
-<!-- ENR-141 (2026-07-06): Questions/Resource Center callout cards moved to AFTER the account-creation section (below). -->
-<!-- RAF section: Elevated to position 3 per ENR-91 (2026-06-15) — Refer a Friend elevated from last position -->
-<div class="raf-block">
-<h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
-<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-ong on">JORDAN-ONG-25</span><span class="mkt-inline mkt-pa">JORDAN-PE-25</span><span class="mkt-inline mkt-gre">JORDAN-GRE-25</span></span></div>
-<label class="raf-tos-label"><input id="raf-tos" onchange="document.querySelectorAll('.raf-share-action').forEach(el =&gt; el.disabled = !this.checked)" type="checkbox"/> I agree to the Refer-A-Friend <a href="#">Terms &amp; Conditions →</a></label>
-<div class="raf-channels">
-<button class="raf-share-action" disabled="">Email a friend</button>
-<button class="raf-share-action" disabled="">Copy link</button>
-<button class="raf-share-action" disabled="">Share on social</button>
-</div>
-<p><a href="#">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-b">ENR-126 · RAF eligibility timing open (ENR-4) — T&amp;Cs gate and share actions may need to be suppressed entirely until PRIME confirms the customer's referral code is active.</div>
-
-
-</div>
+<!-- ENR-147 (2026-07-17): account-creation section moved ahead of RAF (reverses ENR-141's WTE→RAF→account-creation order, same day it was executed). ENR-141's callout-card position (after account creation) is unaffected. -->
 <!-- ENR-52 (2026-05-25): Set-your-password inline section.
            PRIME auto-created a passwordless My Account at submit using the OTP-verified email.
-           This single-field UX completes the account; magic-link backup if the customer skips.
-           ENR-91: Moved to position 4 (after RAF). -->
+           This single-field UX completes the account; magic-link backup if the customer skips. -->
 <div id="set-password-confirmation" style="background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 6px; padding: 18px; margin: 18px 0;">
 <h3 style="margin: 0 0 6px; color: var(--accent); display: flex; align-items: center; gap: 10px;">
           Create an account to track your switch status.
@@ -1951,9 +1925,25 @@
 <!-- Maybe-later collapsed confirmation -->
 <div id="set-password-deferred" style="display:none; background: #fafbfc; border: 1px dashed var(--line); border-radius: 6px; padding: 14px 18px; margin: 18px 0; font-size: 13px; color: var(--note);">
         ✓ We'll email you a link to set your password — you can set up any time. The link expires in 7 days; "Forgot password?" on sign-in reissues it.
-        
+
 </div>
-<!-- ENR-141 (2026-07-06): Questions/Resource Center callout cards — moved here from above WTE/paperless to below the account-creation section. -->
+<!-- RAF section: per ENR-147 (2026-07-17), now renders after account creation, before the Questions/Natural Gas Basics callout cards. -->
+<div class="raf-block">
+<h3>Refer a friend, earn rewards</h3>
+<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
+<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-ong on">JORDAN-ONG-25</span><span class="mkt-inline mkt-pa">JORDAN-PE-25</span><span class="mkt-inline mkt-gre">JORDAN-GRE-25</span></span></div>
+<label class="raf-tos-label"><input id="raf-tos" onchange="document.querySelectorAll('.raf-share-action').forEach(el =&gt; el.disabled = !this.checked)" type="checkbox"/> I agree to the Refer-A-Friend <a href="#">Terms &amp; Conditions →</a></label>
+<div class="raf-channels">
+<button class="raf-share-action" disabled="">Email a friend</button>
+<button class="raf-share-action" disabled="">Copy link</button>
+<button class="raf-share-action" disabled="">Share on social</button>
+</div>
+<p><a href="#">Learn more about the Refer-A-Friend program →</a></p>
+<div class="ann ann-b">ENR-126 · RAF eligibility timing open (ENR-4) — T&amp;Cs gate and share actions may need to be suppressed entirely until PRIME confirms the customer's referral code is active. **ENR-150 open:** whether RAF belongs on this page at all is still unresolved — Allyson to investigate further.</div>
+
+
+</div>
+<!-- ENR-141 (2026-07-06): Questions/Natural Gas Basics callout cards — render below RAF/account-creation section. -->
 <div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd); display:flex; gap:16px; flex-wrap:wrap;">
   <!-- Card A: Customer support — all markets -->
   <div style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
@@ -1963,13 +1953,13 @@
     </div>
     <a href="ContactFormUtility_Wireframe.html" style="font-size:13px;">Contact us →</a>
   </div>
-  <!-- Card B: Learning Center — ONG / PA / GRE only (suppress for IES) -->
+  <!-- Card B: Natural Gas Basics — ONG / PA / GRE only (suppress for IES) -->
   <div class="mkt mkt-ong mkt-pa mkt-gre on" style="flex:1; min-width:220px; padding:16px; border:1px solid var(--border, var(--line)); border-radius:6px;">
-    <strong style="display:block; margin-bottom:6px;">Visit our Resource Center</strong>
+    <strong style="display:block; margin-bottom:6px;">Visit our Natural Gas Basics</strong>
     <a href="LearningCenter_Wireframe.html" style="font-size:13px;">Explore articles →</a>
   </div>
 </div>
-<div class="ann ann-b"><strong>ENR-132 · Side-by-side callout cards:</strong> Replaced ENR-115 "Need anything?" section. Card A (customer support + market phone) visible all markets. Card B (Learning Center) wrapped in .mkt-ong/.mkt-pa/.mkt-gre — suppressed for IES. Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff.</div>
+<div class="ann ann-b"><strong>ENR-132 · Side-by-side callout cards:</strong> Replaced ENR-115 "Need anything?" section. Card A (customer support + market phone) visible all markets. Card B (Natural Gas Basics) wrapped in .mkt-ong/.mkt-pa/.mkt-gre — suppressed for IES. Phone numbers are placeholder — update with confirmed market-variable numbers before client handoff.</div>
 <!-- ENR-91 (2026-06-15): Welcome letter section removed; print/download consolidated into hero.
            Welcome Letter + Contract document section — moved to hero confirmation section (consolidated with print/download). -->
 <!-- ENR-132.4: Removed secondary "Back to home" button; single primary CTA routes to Homepage_Wireframe.html -->
@@ -2003,7 +1993,7 @@
 </div>
 <div class="footer-col">
 <strong>Resources</strong>
-<a href="#">Learning Center</a>  · 
+<a href="#">Natural Gas Basics</a>  · 
       <a href="#">Contact</a>  · 
       <a href="#">Legal</a>
 </div>

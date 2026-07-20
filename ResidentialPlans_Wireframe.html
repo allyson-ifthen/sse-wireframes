@@ -46,6 +46,24 @@
     border-color: #e8641a;
     color: #fff;
   }
+  /* ── GUIDANCE VARIANT SWITCHER — RP-11 (Filters+Badges vs. Sort+Badges+Greener Life) ── */
+  .variant-switcher { display: flex; gap: 6px; align-items: center; padding-left: 16px; border-left: 1px solid #444; }
+  .variant-switcher-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .05em; margin-right: 2px; }
+  .variant-btn {
+    background: #333;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 5px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .variant-btn:hover, .variant-btn.active {
+    background: #2e7d32;
+    border-color: #2e7d32;
+    color: #fff;
+  }
   .legend { display: flex; gap: 16px; align-items: center; font-size: 11px; }
   .legend-item { display: flex; align-items: center; gap: 5px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
@@ -264,6 +282,14 @@
     margin-bottom: 6px;
     line-height: 1.2;
   }
+  .hero-rate-line {
+    font-size: 13px;
+    color: #1e3a5f;
+    line-height: 1.5;
+    margin-top: 8px;
+    max-width: 600px;
+  }
+  .hero-rate-line strong { font-weight: 800; }
   .hero-sub {
     font-size: 14px;
     color: #555;
@@ -426,6 +452,9 @@
   .badge-fixed { background: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; border-radius: 3px; padding: 2px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
   .badge-variable { background: #f5f5f5; color: #666; border: 1px solid #ccc; border-radius: 3px; padding: 2px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
   .badge-popular { background: #e8641a; color: #fff; border-radius: 3px; padding: 2px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-newcust { background: #5a8cbf; color: #fff; border-radius: 3px; padding: 2px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+  /* ── SORT BAR — Variant B (RP-11) ── */
+  .sort-bar-note { font-size: 10px; color: #888; width: 100%; line-height: 1.5; margin-top: 4px; }
   /* Legacy .plan-card / .plan-* rules removed during B1 propagation (2026-05-14) — all
      card markup migrated to the unified .pc component. .plan-cards grid wrapper retained. */
 
@@ -846,6 +875,11 @@
 <button class="market-btn" onclick="setMarket('il')">IL Energy</button>
 <button class="market-btn" onclick="setMarket('ies')">IL Energy Solutions</button>
 </div>
+<div class="variant-switcher">
+<span class="variant-switcher-label">Guidance (ONG only)</span>
+<button class="variant-btn active" onclick="setGuidanceVariant('a', this)">A — Filters</button>
+<button class="variant-btn" onclick="setGuidanceVariant('b', this)">B — Sort</button>
+</div>
 </div>
 <div class="legend">
 <div class="legend-item"><div class="legend-dot dot-approved"></div> Approved direction</div>
@@ -893,7 +927,7 @@
 <div class="annotations-panel">
 <h4>⚑ Open Questions — must resolve before wireframes finalize</h4>
 <ul class="open-q-list">
-<li style="text-decoration:line-through; color:#aaa;"><strong>#1 RESOLVED</strong> LDC identification mechanism: selector-first (no API needed for primary path) + inline ZIP fallback (API needed for fallback only). Learning Center ZIP tool reframed as educational, not transactional.</li>
+<li style="text-decoration:line-through; color:#aaa;"><strong>#1 RESOLVED</strong> LDC identification mechanism: selector-first (no API needed for primary path) + inline ZIP fallback (API needed for fallback only). Natural Gas Basics ZIP tool reframed as educational, not transactional.</li>
 <li><strong>#2</strong> PRIME rate update frequency — live API or scheduled manual updates? Staleness is a legal and trust risk — confirm with Lee / Susan before rate display pattern is locked</li>
 <li><strong>#9</strong> Full plan catalog per market — how many plans exist at launch per LDC? Determines whether filter bar shows, whether "see more" expand is needed, and whether Contract Length filter has more than one valid option.</li>
 <li><strong>#10</strong> Filter bar for small plan sets — if a market has only 2 plans (e.g. Fixed + Variable), hide filter bar entirely or keep it but disable non-applicable chips? Recommend: hide bar when fewer than 3 plans. Confirm with Prime/dev.</li>
@@ -947,16 +981,12 @@
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-ong">Why ONG for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-gre">Why GRE for Business</a>
-<a class="nav-dd-item mkt" href="GeneralInformational_Wireframe.html" id="nav-whybiz-il">Why IE for Business</a>
-<a class="nav-dd-item" href="ContactFormUtility_Wireframe.html">B2B Contact</a>
 </div>
 </div>
-<!-- Learning Center: direct link + pillar dropdown -->
+<!-- Natural Gas Basics: direct link + pillar dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
-<button aria-label="Open Learning Center submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<button aria-label="Open Natural Gas Basics submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
 <a class="nav-dd-item mkt" href="LearningCenter_Wireframe.html" id="nav-lc-area-ong">Does ONG Serve My Area?</a>
@@ -974,7 +1004,7 @@
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -993,7 +1023,7 @@
 <a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
 <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
 </div>
@@ -1015,22 +1045,27 @@
 <div class="market-display active" id="h1-ong">
 <div class="hero-h1">Natural Gas Plans in Ohio — Fixed &amp; Variable Rate Options from Ohio Natural Gas</div>
 <div class="hero-sub">Lock in a predictable rate and protect your household budget — no surprise gas bills.</div>
+<div class="hero-rate-line">Supply rates from <strong>$5.570/CCF</strong> in Ohio, based on average residential usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="annot annot-yellow" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">⚑</span> RP-12 — phrasing change from client's original "final rate depends on your utility," needs confirmation</span></div>
 </div>
 <div class="market-display" id="h1-pa">
 <div class="hero-h1">Pennsylvania Natural Gas Plans — Fixed &amp; Variable Rates from Pennsylvania Energy</div>
 <div class="hero-sub">Choose the rate plan that fits your household — backed by a Pennsylvania-licensed gas supplier.</div>
+<div class="hero-rate-line">Supply rates from <strong>[$ TBD]/therm</strong> in Pennsylvania, based on average residential usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="annot annot-yellow" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">⚑</span> RP-12 — rate pending confirmed PRIME plan data</span></div>
 </div>
 <div class="market-display" id="h1-gre">
 <div class="hero-h1">Michigan Natural Gas Plans — Fixed &amp; Variable Rate Options from Grand Rapids Energy</div>
 <div class="hero-sub">Budget certainty for Michigan homeowners — know exactly what you'll pay each month.</div>
+<div class="hero-rate-line">Supply rates from <strong>[$ TBD]/Mcf</strong> in Michigan, based on average residential usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="annot annot-yellow" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">⚑</span> RP-12 — rate pending confirmed PRIME plan data</span></div>
 </div>
 <div class="market-display" id="h1-il">
 <div class="hero-h1">Illinois Natural Gas Plans — Fixed &amp; Variable Rates from Illinois Energy</div>
 <div class="hero-sub">Predictable natural gas rates for Illinois households — licensed by the Illinois Commerce Commission.</div>
+<div class="hero-rate-line">Supply rates from <strong>[$ TBD]/therm</strong> in Illinois, based on average residential usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="annot annot-yellow" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">⚑</span> RP-12 — rate pending confirmed PRIME plan data</span></div>
 </div>
 <div class="market-display" id="h1-ies">
 <div class="hero-h1">Fixed Bill Natural Gas Plans — Simplified Energy Budgeting from Illinois Energy Solutions</div>
 <div class="hero-sub">One predictable monthly bill — no surprises, no variable rate exposure.</div>
+<div class="hero-rate-line">Fixed Bill pricing is calculated from your usage — no per-therm rate to estimate. See your personalized amount when you enroll. <span class="annot annot-blue" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">↳</span> RP-12 — IES exception: no $/unit rate exists for this product, so the standard hero-rate formula doesn't apply</span></div>
 </div>
 <!-- Single regulatory credential — the one trust signal universal across all five brands.
            BBB excluded: not all brands accredited or in good standing.
@@ -1200,9 +1235,9 @@
 </div>
 <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
 <div class="annot annot-green"><span class="annot-icon">✓</span> Selector-first: one tap for users who know their utility (majority of targeted traffic)</div>
-<div class="annot annot-green"><span class="annot-icon">✓</span> ZIP fallback resolves inline — no page navigation, no Learning Center round-trip</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> ZIP fallback resolves inline — no page navigation, no Natural Gas Basics round-trip</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> ZIP result auto-selects utility button + collapses form — single confirmed state</div>
-<div class="annot annot-green"><span class="annot-icon">✓</span> LDC above plan cards — not buried in Learning Center (Client feedback March 31)</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> LDC above plan cards — not buried in Natural Gas Basics (Client feedback March 31)</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> LDC-to-plan mapping: static lookup table sufficient for selector (no API needed for primary path)</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> ZIP API still required for fallback path — confirm lookup table vs. live API with Prime team</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Cookie to persist LDC selection across session — confirm with Prime team</div>
@@ -1303,6 +1338,7 @@
 <div class="annot annot-green"><span class="annot-icon">✓</span> State B handles edge-case direct-navigation users with a physical code who bypassed the Promo Page — collapsed by default so it doesn't compete with plan cards. Branches on LDC status at time of submission: LDC selected → State A; no LDC → State C. Less common since promo campaigns now route to Promo Page first.</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> State C handles edge case: code entered before LDC selection. Prime validates the code independently of LDC. Code stored in session; customer prompted to select utility. Discount auto-applies on LDC confirm — no re-entry required. Less likely now that LDC-required promos resolve LDC on the Promo Page.</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> Invalid/expired code (State B or State C attempt) shows inline message and displays standard rates — no silent failure, no redirect.</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> <strong>PROMO-19 (2026-07-15):</strong> confirmed this inline message treatment already matches the direction aligned for the Promo Page's runtime-invalid-code case (PROMO-13) — a brief explanatory state, not a redirect. No change needed here; noted for consistency across all three entry points (Promo Page, Homepage, Residential Plans).</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> State C session storage: confirm with dev how the validated promo code is held between LDC selection and plan card render — URL param, session storage, or server-side session. Must survive the LDC selection event without requiring page reload.</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> OQ-P7 (from Promo Page): Should State B manual-entry toggle be suppressed when user arrives via the Promo Page secondary CTA (State A already active)? Showing both may confuse users who already have an offer applied.</div>
 </div>
@@ -1395,7 +1431,7 @@
            Dynamically filters plan cards; hides when ≤2 plans exist
            Filter counter excludes pinned promo card (counted separately above)
       ────────────────────────────────────────────────────── -->
-<div class="filter-bar">
+<div class="filter-bar" id="filter-bar-a">
 <div class="filter-group">
 <span class="filter-label">Plan Type</span>
 <div class="filter-chips">
@@ -1423,10 +1459,10 @@
 <div class="filter-group">
 <span class="filter-label">Greener Life®</span>
 <div class="filter-chips">
-<button class="filter-chip green-chip">🌱 Show Greener Life Plans</button>
+<button class="filter-chip green-chip" id="greenerlife-chip-a" onclick="toggleGreenerLifeFilterA(this)">🌱 Show Greener Life Plans</button>
 </div>
 </div>
-<div class="filter-results">
+<div class="filter-results" id="filter-results-a">
           Showing <strong>3</strong> of 3 plans
           <span class="filter-reset" style="display:none;">Clear filters ✕</span>
 </div>
@@ -1437,11 +1473,45 @@
           Promo active: filter counter ("Showing X of Y plans") reflects only the browsable catalog below — pinned promo card above is excluded from the count. Filters do not affect the pinned zone.
         </div>
 </div>
+<!-- ─────────────────────────────────────────────────────
+           SORT BAR — Variant B (RP-11). Replaces the filter bar above when
+           Guidance Variant B is active. No plan is ever hidden by sort;
+           the Greener Life button below is an isolate toggle (mirrors the
+           "View Greener Life Plans only" pattern live on ohionaturalgas.com),
+           not part of the sort dropdown itself.
+           Built for ONG only in this pass — see RP-11.
+      ────────────────────────────────────────────────────── -->
+<div class="filter-bar" id="sort-bar" style="display:none;">
+<div class="filter-group">
+<span class="filter-label">Sort by</span>
+<select id="sort-select" onchange="applySort()" style="font-size:12px; padding:6px 10px; border:1.5px solid #ccc; border-radius:20px; color:#555; font-weight:600;">
+<option value="recommended">Recommended</option>
+<option value="price-asc">Price: Low to High</option>
+<option value="term-asc">Term Length: Shortest to Longest</option>
+<option value="term-desc">Term Length: Longest to Shortest</option>
+</select>
+</div>
+<div class="filter-divider"></div>
+<div class="filter-group">
+<span class="filter-label">Greener Life®</span>
+<div class="filter-chips">
+<button class="filter-chip green-chip" id="greenerlife-toggle-b" onclick="toggleGreenerLifeB(this)">🌱 View Greener Life Plans only</button>
+</div>
+</div>
+<div class="filter-results" id="sort-results-count">
+          Showing <strong>6</strong> of 6 plans
+</div>
+<div class="sort-bar-note">
+          ⚙ Sort reorders plan cards — no plan is ever hidden. "Recommended" order and its ranking logic need a named business owner before this ships (RP-11 open item).<br/>
+          Month-to-month plans (Variable, Variable with Discount) are treated as the shortest possible term in Term Length sorts, labeled "Month-to-month" rather than left blank.<br/>
+          Greener Life toggle isolates the 3 Greener Life plans (replaces the standard 6, does not merge with them) — same behavior as the existing live-site toggle. Deep-link parameter to pre-set this toggle from other pages is not yet implemented here (annotated only, see RP-11).
+        </div>
+</div>
 <!-- ONG Plan Cards — unified .pc component per PlanCard_Wireframe.html -->
 <div class="market-display active" id="cards-ong">
-<div class="plan-cards">
+<div class="plan-cards" id="ong-main-cards">
 <!-- 12-Month Fixed (featured) -->
-<div class="pc featured">
+<div class="pc featured" data-term="12" data-price="5.570">
 <div class="pc-head">
 <div class="pc-badge-row">
 <span class="pc-badge badge-fixed">● Fixed Rate</span>
@@ -1469,7 +1539,7 @@
 </div>
 </div>
 <!-- 24-Month Fixed -->
-<div class="pc">
+<div class="pc" data-term="24" data-price="5.970">
 <div class="pc-head">
 <div class="pc-badge-row">
 <span class="pc-badge badge-fixed">● Fixed Rate</span>
@@ -1496,7 +1566,7 @@
 </div>
 </div>
 <!-- Variable -->
-<div class="pc">
+<div class="pc" data-term="0" data-price="6.390">
 <div class="pc-head">
 <div class="pc-badge-row">
 <span class="pc-badge badge-variable">Variable Rate</span>
@@ -1524,7 +1594,7 @@
 </div>
 <!-- SAME-PAGE REVEAL: Only shown when a market has additional plans beyond the initial 3-card grid.
              Markets with ≤3 plans show all cards immediately — no "see more" needed. -->
-<div class="see-more-plans">
+<div class="see-more-plans" id="ong-see-more">
 <div class="see-more-plans-text">
 <strong>Showing 3 of 6 Ohio Natural Gas plans.</strong>
             Filters above may be hiding additional options — or expand to see all plans.
@@ -1536,7 +1606,7 @@
 <div class="hidden-plans-reveal" id="ong-extra-plans">
 <div class="plan-cards">
 <!-- 6-Month Fixed Plan -->
-<div class="pc">
+<div class="pc" data-term="6" data-price="5.370">
 <div class="pc-head">
 <div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
 <div class="pc-name">6-Month Fixed Plan</div>
@@ -1561,7 +1631,7 @@
 </div>
 </div>
 <!-- 18-Month Fixed Plan -->
-<div class="pc">
+<div class="pc" data-term="18" data-price="5.770">
 <div class="pc-head">
 <div class="pc-badge-row"><span class="pc-badge badge-fixed">● Fixed Rate</span></div>
 <div class="pc-name">18-Month Fixed Plan</div>
@@ -1586,11 +1656,11 @@
 </div>
 </div>
 <!-- Variable Plan with Discount — intro-rate state (promo treatment per PC-D10) -->
-<div class="pc promo">
+<div class="pc promo" data-term="0" data-price="3.990">
 <div class="pc-head">
 <div class="pc-badge-row">
 <span class="pc-badge badge-variable">Variable Rate</span>
-<span class="pc-badge badge-promo">Intro Discount</span>
+<span class="pc-badge badge-newcust">New Customer</span>
 </div>
 <div class="pc-name">Variable Plan with Discount</div>
 </div>
@@ -1620,6 +1690,102 @@
 </div>
 </div>
 </div>
+<!-- ─────────────────────────────────────────────────────
+             GREENER LIFE® PLANS — 3 distinct plan types (2 Fixed + 1 Variable),
+             per client direction 2026-07-08. Rates are placeholders pending
+             Prime/client confirmation (open Q#3 above still applies).
+             Shown via: Variant A's "Show Greener Life Plans" filter chip (isolate),
+             or Variant B's "View Greener Life Plans only" toggle (isolate, in sorted grid).
+        ────────────────────────────────────────────────────── -->
+<div class="plan-cards" id="ong-greenerlife-plans" style="display:none;">
+<div class="pc" data-term="12" data-price="5.670">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+<span class="pc-badge badge-greener">Greener Life</span>
+</div>
+<div class="pc-name">Greener Life® 12-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$X.XXX</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">Lock in your price for 12 months while making your home's natural gas usage carbon neutral.</div>
+<ul class="pc-points">
+<li>Your price won't change for 12 months</li>
+<li>100% carbon-neutral gas supply</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early <span style="color:#c0392b; font-size:10px;">⚑ rate TBD</span></li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<div class="pc" data-term="24" data-price="6.070">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+<span class="pc-badge badge-greener">Greener Life</span>
+</div>
+<div class="pc-name">Greener Life® 24-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$X.XXX</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">Our longest carbon-neutral commitment — lock in your price for two full years while offsetting your home's gas usage.</div>
+<ul class="pc-points">
+<li>Your price won't change for 24 months</li>
+<li>100% carbon-neutral gas supply</li>
+<li>No sign-up fees</li>
+<li>Early termination: $12.50/month if cancelled early <span style="color:#c0392b; font-size:10px;">⚑ rate TBD</span></li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+<div class="pc" data-term="0" data-price="6.490">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+<span class="pc-badge badge-greener">Greener Life</span>
+</div>
+<div class="pc-name">Greener Life® Variable Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row">
+<div class="pc-rate">$X.XXX</div>
+<div class="pc-rate-unit">/ <strong>CCF</strong></div>
+</div>
+<div class="pc-desc">A month-to-month carbon-neutral plan with no long-term commitment. Your rate may change or stay the same each month.</div>
+<ul class="pc-points">
+<li>100% carbon-neutral gas supply</li>
+<li>No sign-up fees</li>
+<li>No Early Termination Charges — cancel anytime</li>
+</ul>
+<span class="pc-expand-link" onclick="alert('Inline expand — 4 base sections per PlanCard_Wireframe.html §8.\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta">Start Enrollment →</button>
+<div class="pc-rate-updated">Rate last updated: Apr 2026</div>
+</div>
+</div>
+</div>
+<div class="ann ann-y" style="font-size:10px; margin:6px 0 0;">⚑ Greener Life® plan names, terms, and rates above are placeholders — confirm exact catalog with Prime/client before this leaves the wireframe stage (see open Q#3).</div>
+<!-- ─────────────────────────────────────────────────────
+             SORTED GRID — Variant B render target. Populated by applySort();
+             clones cards from ong-main-cards / ong-extra-plans / ong-greenerlife-plans
+             so the source markup above stays intact for Variant A.
+        ────────────────────────────────────────────────────── -->
+<div class="plan-cards" id="ong-cards-sorted" style="display:none;"></div>
 </div>
 <!-- GRE Plan Cards (Michigan — Mcf unit) — unified .pc component -->
 <div class="market-display" id="cards-gre">
@@ -1951,9 +2117,9 @@
 <div class="links-section">
 <h3>Explore More</h3>
 <div class="links-grid">
-<div class="link-card"><span class="link-arrow">→</span> Understanding Natural Gas Rates<br/><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 1</span></div>
-<div class="link-card"><span class="link-arrow">→</span> How to Switch Natural Gas Suppliers<br/><span style="color:#aaa; font-size:10px;">Learning Center · Pillar 3</span></div>
-<div class="link-card"><span class="link-arrow">→</span> Finding Your Utility Company<br/><span style="color:#aaa; font-size:10px;">Learning Center · Service Area &amp; Your Utility</span></div>
+<div class="link-card"><span class="link-arrow">→</span> Understanding Natural Gas Rates<br/><span style="color:#aaa; font-size:10px;">Natural Gas Basics · Pillar 1</span></div>
+<div class="link-card"><span class="link-arrow">→</span> How to Switch Natural Gas Suppliers<br/><span style="color:#aaa; font-size:10px;">Natural Gas Basics · Pillar 3</span></div>
+<div class="link-card"><span class="link-arrow">→</span> Finding Your Utility Company<br/><span style="color:#aaa; font-size:10px;">Natural Gas Basics · Service Area &amp; Your Utility</span></div>
 <div class="link-card"><span class="link-arrow">→</span> Greener Life® Plans<br/><span style="color:#aaa; font-size:10px;">Carbon-neutral natural gas plan details</span></div>
 <div class="link-card" style="background:#fff8f5; border-color:#e8641a;"><span class="link-arrow">→</span> <strong>Start Enrollment</strong><br/><span style="color:#aaa; font-size:10px;">Primary CTA · Step 1</span></div>
 <div class="link-card"><span class="link-arrow">→</span> Contact &amp; Customer Service<br/><span style="color:#aaa; font-size:10px;">Support &amp; regulatory compliance</span></div>
@@ -2016,6 +2182,103 @@
     }
   }
 
+  // ── GUIDANCE VARIANT A/B — RP-11 ──
+  function applyGreenerFilterADisplay(active) {
+    var mainCards = document.getElementById('ong-main-cards');
+    var seeMore = document.getElementById('ong-see-more');
+    var extraReveal = document.getElementById('ong-extra-plans');
+    var greenerSection = document.getElementById('ong-greenerlife-plans');
+    var resultsEl = document.getElementById('filter-results-a');
+    if (active) {
+      mainCards.style.display = 'none';
+      seeMore.style.display = 'none';
+      extraReveal.style.display = 'none';
+      greenerSection.style.display = '';
+      resultsEl.innerHTML = 'Showing <strong>3</strong> Greener Life® plans <span class="filter-reset" style="display:none;">Clear filters ✕</span>';
+    } else {
+      mainCards.style.display = '';
+      seeMore.style.display = (extraReveal.style.display === 'block') ? 'none' : '';
+      greenerSection.style.display = 'none';
+      resultsEl.innerHTML = 'Showing <strong>3</strong> of 3 plans <span class="filter-reset" style="display:none;">Clear filters ✕</span>';
+    }
+  }
+
+  function toggleGreenerLifeFilterA(btn) {
+    btn.classList.toggle('active');
+    applyGreenerFilterADisplay(btn.classList.contains('active'));
+  }
+
+  function getOngStandardCards() {
+    var main = document.querySelectorAll('#ong-main-cards > .pc[data-term]');
+    var extra = document.querySelectorAll('#ong-extra-plans .pc[data-term]');
+    return Array.prototype.slice.call(main).concat(Array.prototype.slice.call(extra));
+  }
+
+  function getOngGreenerCards() {
+    return Array.prototype.slice.call(document.querySelectorAll('#ong-greenerlife-plans .pc[data-term]'));
+  }
+
+  function toggleGreenerLifeB(btn) {
+    btn.classList.toggle('active');
+    applySort();
+  }
+
+  function applySort() {
+    var sortSelect = document.getElementById('sort-select');
+    var sortValue = sortSelect ? sortSelect.value : 'recommended';
+    var greenerToggle = document.getElementById('greenerlife-toggle-b');
+    var greenerOnly = greenerToggle && greenerToggle.classList.contains('active');
+    var cards = greenerOnly ? getOngGreenerCards() : getOngStandardCards();
+    var sorted = cards.slice();
+
+    if (sortValue === 'price-asc') {
+      sorted.sort(function(a, b) { return parseFloat(a.dataset.price) - parseFloat(b.dataset.price); });
+    } else if (sortValue === 'term-asc') {
+      sorted.sort(function(a, b) { return parseFloat(a.dataset.term) - parseFloat(b.dataset.term); });
+    } else if (sortValue === 'term-desc') {
+      sorted.sort(function(a, b) { return parseFloat(b.dataset.term) - parseFloat(a.dataset.term); });
+    }
+    // 'recommended' — left in original authored document order (no comparator applied)
+
+    var target = document.getElementById('ong-cards-sorted');
+    target.innerHTML = '';
+    sorted.forEach(function(c) { target.appendChild(c.cloneNode(true)); });
+
+    var countEl = document.getElementById('sort-results-count');
+    if (countEl) {
+      countEl.innerHTML = greenerOnly
+        ? 'Showing <strong>' + sorted.length + '</strong> Greener Life® plans'
+        : 'Showing <strong>' + sorted.length + '</strong> of 6 plans';
+    }
+  }
+
+  function setGuidanceVariant(variant, btn) {
+    document.querySelectorAll('.variant-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    var filterBar = document.getElementById('filter-bar-a');
+    var sortBar = document.getElementById('sort-bar');
+    var sortedGrid = document.getElementById('ong-cards-sorted');
+    var greenerChipA = document.getElementById('greenerlife-chip-a');
+
+    if (variant === 'a') {
+      filterBar.style.display = '';
+      sortBar.style.display = 'none';
+      sortedGrid.style.display = 'none';
+      // Restore whatever Variant A's own Greener Life chip state already was
+      applyGreenerFilterADisplay(greenerChipA.classList.contains('active'));
+    } else {
+      filterBar.style.display = 'none';
+      sortBar.style.display = '';
+      document.getElementById('ong-main-cards').style.display = 'none';
+      document.getElementById('ong-see-more').style.display = 'none';
+      document.getElementById('ong-extra-plans').style.display = 'none';
+      document.getElementById('ong-greenerlife-plans').style.display = 'none';
+      sortedGrid.style.display = '';
+      applySort();
+    }
+  }
+
   function toggleZipFallback() {
     const el = document.getElementById('zip-fallback');
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
@@ -2038,10 +2301,10 @@
   }
 
   var MKT_ELEMENTS = {
-    ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-whybiz-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
+    ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
     pa:  ['nav-standard','nav-search-std','nav-lc-area-pa'],
-    gre: ['nav-standard','nav-fmb','nav-gl-gre','nav-whybiz-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
-    il:  ['nav-standard','nav-fmb','nav-whybiz-il','nav-search-std','nav-lc-area-il'],
+    gre: ['nav-standard','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
+    il:  ['nav-standard','nav-fmb','nav-search-std','nav-lc-area-il'],
     ies: ['nav-ies']
   };
 

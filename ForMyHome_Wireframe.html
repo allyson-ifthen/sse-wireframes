@@ -197,11 +197,6 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .step-num { width: 32px; height: 32px; background: #1e3a5f; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin-bottom: 10px; }
 .step-label { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
 .step-body { font-size: 11px; color: #555; line-height: 1.6; }
-.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.why-card { border: 1.5px solid #e8e8e4; border-radius: 5px; padding: 18px 16px; }
-.why-icon { font-size: 26px; margin-bottom: 8px; }
-.why-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
-.why-copy { font-size: 11px; color: #666; line-height: 1.55; }
 .gl-callout { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; padding: 28px 32px; border-radius: 5px; margin-bottom: 0; }
 .gl-callout-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: rgba(255,255,255,.7); margin-bottom: 5px; }
 .gl-callout-heading { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 8px; }
@@ -239,9 +234,6 @@ body.viewport-mobile .plan-type-grid { grid-template-columns: 1fr; }
 
 /* §5 How It Works — 3-col → 1-col */
 body.viewport-mobile .steps-grid { grid-template-columns: 1fr; }
-
-/* §6 Why Choose — 3-col → 1-col */
-body.viewport-mobile .why-grid { grid-template-columns: 1fr; }
 
 /* §7 Greener Life callout — stack button + link */
 body.viewport-mobile .gl-callout { padding: 22px 18px; }
@@ -339,7 +331,6 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
       <li>Greener Life GRE mechanism details — copy uses generic language until client confirms GRE-specific offset/carbon mechanism (Open Item #2).</li>
       <li>Hero images — lifestyle photography (home interior / family); client to supply per market. No text overlays.</li>
       <li>"Not affiliated" disclaimer wording — pending legal review; required in footer adjacent to entity attribution for all 4 markets (Open Item #9).</li>
-      <li>Alternate third "Why Choose" proof point for PA and GRE — BBB badge is ONG / IL only; client to supply replacement for PA and GRE.</li>
     </ul>
   </div>
 
@@ -413,9 +404,9 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           </div>
         </div>
 
-        <!-- Learning Center -->
+        <!-- Natural Gas Basics -->
         <div class="nav-item has-dropdown">
-          <a class="nav-link">Learning Center</a>
+          <a class="nav-link">Natural Gas Basics</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
             <a class="nav-dd-item" href="#">Understanding Gas Rates</a>
@@ -428,7 +419,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <a class="nav-link">About Us</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Company History</a>
+            <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
             <a class="nav-dd-item" href="#">Your Rights as a Customer</a>
           </div>
         </div>
@@ -490,7 +481,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
       <div class="ann-row">
         <span class="ann ann-g">✓ H1 is market-specific and state-named — precision for E-E-A-T / entity disambiguation</span>
         <span class="ann ann-y">⚑ Trust signal: founding year TBD per market — suppress until client confirms</span>
-        <span class="ann ann-b">◈ `.gi-hero` component — single-CTA variant (GLB-HERO-1 reference implementation). Homepage hero omits CTA because the LDC widget is the primary action; For My Home has no LDC-gating constraint. See ForMyBusiness_Wireframe.html (dual-CTA: button + text link) and WhyBrandForBusiness_Wireframe.html (dual-button variant) for other variants. Per FMH-1.</span>
+        <span class="ann ann-b">◈ `.gi-hero` component — single-CTA variant (GLB-HERO-1 reference implementation). Homepage hero omits CTA because the LDC widget is the primary action; For My Home has no LDC-gating constraint. See ForMyBusiness_Wireframe.html (dual-CTA: button + text link) for another variant. (Why Brand for Business's dual-button variant retired 2026-07-13 per CIA-2 — page moved to Wireframes/_Retired/.) Per FMH-1.</span>
       </div>
     </div>
   </div><!-- /section hero -->
@@ -621,60 +612,23 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
        SECTION: WHY CHOOSE
   ══════════════════════════════════════════════════════ -->
   <div class="section">
-    <span class="section-label"><span class="sec-num">6</span><br>Why Choose</span>
+    <span class="section-label"><span class="sec-num">6</span><br>Proof Point</span>
     <div class="p">
-      <div class="h2">Why Choose
-        <span class="mkt-inline" id="why-brand-ong">Ohio Natural Gas</span>
-        <span class="mkt-inline" id="why-brand-pa">Pennsylvania Energy</span>
-        <span class="mkt-inline" id="why-brand-gre">Grand Rapids Energy</span>
-        <span class="mkt-inline" id="why-brand-il">Illinois Energy</span>
+      <div style="font-size:14px; color:#333; line-height:1.6; max-width:640px;">
+        <span class="mkt-inline on" id="trust-ong">Licensed to operate in Ohio, with [XX]+ years serving Ohio households.</span>
+        <span class="mkt-inline" id="trust-pa">Licensed by the Pennsylvania Public Utility Commission (PA PUC), with [XX]+ years serving Pennsylvania households.</span>
+        <span class="mkt-inline" id="trust-gre">Licensed by the Michigan Public Service Commission (MPSC), with [XX]+ years serving Michigan households.</span>
+        <span class="mkt-inline" id="trust-il">Licensed by the Illinois Commerce Commission (ICC), with [XX]+ years serving Illinois households.</span>
       </div>
-
-      <div class="why-grid">
-
-        <!-- Card 1: Regulated -->
-        <div class="why-card">
-          <div class="why-icon">⚖️</div>
-          <div class="why-title">Licensed by
-            <span class="mkt-inline" id="why-reg-ong">PUCO.</span>
-            <span class="mkt-inline" id="why-reg-pa">PA PUC.</span>
-            <span class="mkt-inline" id="why-reg-gre">MPSC.</span>
-            <span class="mkt-inline" id="why-reg-il">ICC.</span>
-          </div>
-          <div class="why-copy">
-            <span class="mkt-inline" id="why-reg-copy-ong">Ohio Natural Gas is a licensed natural gas supplier in Ohio, licensed by the Public Utilities Commission of Ohio (PUCO). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-pa">Pennsylvania Energy is a licensed natural gas supplier in Pennsylvania, licensed by the Pennsylvania Public Utility Commission (PA PUC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-gre">Grand Rapids Energy is a licensed natural gas supplier in Michigan, licensed by the Michigan Public Service Commission (MPSC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-            <span class="mkt-inline" id="why-reg-copy-il">Illinois Energy is a licensed natural gas supplier in Illinois, licensed by the Illinois Commerce Commission (ICC). Your plan terms, rate disclosures, and rights are governed by state law.</span>
-          </div>
-        </div>
-
-        <!-- Card 2: Rates Shown -->
-        <div class="why-card">
-          <div class="why-icon">💰</div>
-          <div class="why-title">Rates Shown Before You Commit.</div>
-          <div class="why-copy">You see your rate — and any Early Termination Charge — before you click Enroll. No surprises after the fact.</div>
-        </div>
-
-        <!-- Card 3: Trusted -->
-        <div class="why-card">
-          <div class="why-icon">⭐</div>
-          <div class="why-title">Trusted by
-            <span class="mkt-inline" id="why-state-ong">Ohio</span>
-            <span class="mkt-inline" id="why-state-pa">Pennsylvania</span>
-            <span class="mkt-inline" id="why-state-gre">Michigan</span>
-            <span class="mkt-inline" id="why-state-il">Illinois</span>
-            Households.
-          </div>
-          <div class="why-copy">[PLACEHOLDER: review rating · count · source — pending client confirmation] · [PLACEHOLDER: X+ years serving — pending founding year confirmation per market].</div>
-        </div>
-
-      </div><!-- /why-grid -->
-
+      <a class="wf-btn-out" href="GeneralInformational_Wireframe.html" style="margin-top:12px;">About
+        <span class="mkt-inline on" id="trustbtn-ong">Ohio Natural Gas</span>
+        <span class="mkt-inline" id="trustbtn-pa">Pennsylvania Energy</span>
+        <span class="mkt-inline" id="trustbtn-gre">Grand Rapids Energy</span>
+        <span class="mkt-inline" id="trustbtn-il">Illinois Energy</span>
+      </a>
       <div class="ann-row">
-        <span class="ann ann-b">◈ Shared component with Homepage §5 — same 3-card structure and CSS. CMS copy should be residential-tailored for this page: seasonal bill protection, switching simplicity for renters and homeowners, residential consumer rights. Content team: do not reuse Homepage §5 copy verbatim. Per FMH-2.</span>
-        <span class="ann ann-b">◈ BBB badge: ONG ✓ / IL ✓ — show. PA ✗ / GRE ✗ — suppress; client to supply alternate third proof point.</span>
-        <span class="ann ann-y">⚑ All trust signal values require confirmed data per market before writing — do not publish placeholders</span>
+        <span class="ann ann-b">◈ Trust-module tiering (GLB-TRUST-1 / FMH-4): the full "Why Choose" trust module was removed from this supporting page — the full module now lives only on Homepage and About Us. This one-line proof point + "About [Brand]" link replaces it, so the same "licensed &amp; accountable" claim isn't repeated on every page (client overengineering/redundancy pushback, cf. HP-14). Button links to About Us (General Informational).</span>
+        <span class="ann ann-y">⚑ [XX]+ reuses the trust-band years-in-market placeholder — single find-and-replace once client confirms years in market per market.</span>
       </div>
     </div>
   </div><!-- /section why choose -->
@@ -813,7 +767,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <div class="footer-col-head">Help &amp; Account</div>
           <div class="footer-col-links">
             <a>My Account</a>
-            <a>Learning Center</a>
+            <a>Natural Gas Basics</a>
             <a>Contact Us</a>
             <a>About
               <span class="mkt-inline" id="foot-about-ong">Ohio Natural Gas</span>

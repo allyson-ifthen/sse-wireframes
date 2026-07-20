@@ -179,12 +179,6 @@ body.chrome-hidden .presentation-hint { display: block !important; }
 .timeline-year { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; color: #e8641a; margin-bottom: 4px; }
 .timeline-label { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
 .timeline-text { font-size: 12px; color: #555; line-height: 1.6; }
-/* TRUST BAND */
-.trust-band { background: #1e3a5f; padding: 20px 32px; }
-.trust-band-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.trust-item { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 4px; padding: 14px 12px; text-align: center; }
-.trust-val { font-size: 16px; font-weight: 900; color: #7ec8e3; line-height: 1.2; margin-bottom: 4px; }
-.trust-lbl { font-size: 10px; color: #aac4d9; line-height: 1.4; }
 /* ENROLL BAND */
 .enroll-band { background: linear-gradient(135deg, #e8641a, #c04000); color: #fff; padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .enroll-band h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
@@ -347,14 +341,13 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           </div>
         </div>
         <div class="nav-item">
-          <a class="nav-link" href="LearningCenter_Wireframe.html">Learning Center</a>
+          <a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
         </div>
         <div class="nav-item has-dropdown">
           <a class="nav-link active">About Us</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9662;</button>
           <div class="nav-dropdown">
             <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Why Choose Us</a>
             <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
           </div>
         </div>
@@ -381,7 +374,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
     <div class="nav-mobile-note">Mobile: hamburger menu. About Us is active. IES: simplified 2-item nav (Fixed Bill Plan + About Us).</div>
     <div class="ann-row" style="padding:0 24px 10px;">
       <span class="ann ann-g">&#10003; Nav active state: About Us / Company History</span>
-      <span class="ann ann-g">&#10003; IES uses simplified nav (no For My Business, no Learning Center, no Search)</span>
+      <span class="ann ann-g">&#10003; IES uses simplified nav (no For My Business, no Natural Gas Basics, no Search)</span>
     </div>
   </div>
 
@@ -623,8 +616,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <div class="footer-col-head">About</div>
           <div class="footer-col-links">
             <a>Company History</a>
-            <a>Why Choose Us</a>
-            <a>Learning Center</a>
+            <a class="mkt on" id="ft-ngb">Natural Gas Basics</a>
             <a>Contact Us</a>
           </div>
         </div>
@@ -674,10 +666,10 @@ function setMarket(m) {
     if (el.classList.contains('mkt') || el.classList.contains('mkt-flex')) el.classList.add('on');
   });
   var NAV_MKT = {
-    ong: ['nav-standard','nav-fmb','nav-search-std'],
-    pa:  ['nav-standard','nav-search-std'],
-    gre: ['nav-standard','nav-fmb','nav-search-std'],
-    il:  ['nav-standard','nav-fmb','nav-search-std'],
+    ong: ['nav-standard','nav-fmb','nav-search-std','ft-ngb'],
+    pa:  ['nav-standard','nav-search-std','ft-ngb'],
+    gre: ['nav-standard','nav-fmb','nav-search-std','ft-ngb'],
+    il:  ['nav-standard','nav-fmb','nav-search-std','ft-ngb'],
     ies: ['nav-ies']
   };
   (NAV_MKT[m] || []).forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.add('on'); });
