@@ -1867,7 +1867,7 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 </div>
 <div class="plan-action-row">
-<a class="btn-out btn-sm" href="#">Switch Plan</a>
+<button class="btn-out btn-sm" onclick="switchPlanFromDashboard()" type="button">Switch Plan</button>
 <button class="btn-out btn-sm" onclick="openCancelModal()" style="color:var(--bad); border-color:var(--bad);">Cancel Plan</button>
 </div>
 <!-- Auto-renewal opt-out notice (MA-82 · MA-90: moved below CTAs 2026-06-17) -->
@@ -2978,6 +2978,13 @@ function switchPlanFromCancel() {
   // In production, route to enrollment flow per MA-21
   console.log('Route to: Enrollment flow (MA-21)');
   alert('In production, this would navigate to Enrollment flow.');
+}
+
+// MA-105: Switch Plan from authenticated Dashboard (was a dead href="#" link — no handler)
+function switchPlanFromDashboard() {
+  // In production, route to existing-customer enrollment pre-flow per MA-21 / ENR-42
+  console.log('Route to: Enrollment pre-flow, existing customer (MA-21 / ENR-42)');
+  alert('In production, this would navigate to the enrollment pre-flow (existing customer, PII pre-filled).');
 }
 
 // MA-51: Continue with cancellation — open routed page (Step 2)
