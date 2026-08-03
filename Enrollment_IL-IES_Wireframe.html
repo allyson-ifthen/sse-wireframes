@@ -320,6 +320,21 @@
     font-size: 10px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.06em;
   }
+  /* ENRIL-354: Quote-step sidebar accent for Scen C — mirrors the Review "Final step" treatment,
+     scoped to body.scen-c.flow-step-quote so it doesn't persist past Quote. Bridges the desktop
+     discoverability gap between the heading and the sidebar-only GB rate (no inline plan card on Scen A/C). */
+  body.scen-c.flow-step-quote .plan-summary {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 4px 12px -2px rgba(0,0,0,0.08);
+  }
+  body.scen-c.flow-step-quote .plan-summary::before {
+    content: "Your quote";
+    display: inline-block; margin-bottom: 10px;
+    padding: 2px 8px; border-radius: 3px;
+    background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
 
   /* ENRIL-308: Switch screen (Quote step, Scen B/D) — hide sticky plan card and expand
      content to full width. Mirrors OPG PF-4 "Confirm your switch" pattern. The
@@ -492,6 +507,9 @@
   body.scen-b .scen-hide-existing, body.scen-d .scen-hide-existing { display: none; }
   /* ENRIL-251: Hide only in Scen B (show for A/C/D) */
   body.scen-b .scen-hide-b { display: none; }
+  /* ENRIL-353: Hide only in Scen C (show for A/B/D) — phone field + consent-to-call move off
+     Lookup for Scen C (collected on the Details step instead); Preferences box hidden too. */
+  body.scen-c .scen-hide-c { display: none; }
   /* Commercial terminal */
   .commercial-only { display: none; }
   body.is-commercial .commercial-only { display: block; }
@@ -1629,6 +1647,8 @@
 <!-- ENRIL-290: Scen D heading updated to match "Quote" chip label -->
 <span class="scen-only-d-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
 </h2>
+<!-- ENRIL-354 (2026-07-21): inline rate line under the heading (Scen C only) — bridges the heading to the sidebar-only GB rate on desktop, addressing a discoverability gap (no inline plan card on Scen A/C). Placeholder rate per file convention. -->
+<p class="scen-only-c" style="font-size: 15px; margin: 0 0 8px;">Your monthly rate: <strong>$XX.XX</strong> — full details in the summary to the left ←</p>
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
      ENRIL-309 (2026-07-06): scen-hide-gb → scen-only-a so it's also hidden for Scen B (existing customer, already authenticated). Now shows for brand-new customers (Scen A) only. -->
 <p class="step-have-ready scen-only-a">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
@@ -1715,7 +1735,8 @@
 <div class="fieldset plan-fixed" style="margin-top: 12px;">
 <div class="checkbox-row">
 <input id="q-etc-ack" onchange="validateQuote()" type="checkbox"/>
-<label for="q-etc-ack"><strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
+<!-- ENRIL-351: leading asterisk added (required for existing + fixed-plan customers via validateQuote). -->
+<label for="q-etc-ack"><span class="req">*</span> <strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
 </div>
 </div>
 <p style="font-size: 13px; color: var(--muted); margin-top: 12px;"><strong>Effective switch date:</strong> Your new plan starts on your utility's next meter-read after enrollment validation completes (typically 1–2 billing cycles).</p>
@@ -1748,7 +1769,8 @@
 <!-- ENRIL-40: Checkbox confirmed (Legal approved single-checkbox form element) -->
 <div class="checkbox-row" style="margin-bottom: 14px;">
 <input id="q-language-attest" onchange="validateQuote()" type="checkbox"/>
-<label for="q-language-attest"><strong>I attest that I understand this disclosure is in English</strong> and I am requesting service in English. <span class="req">*</span> </label>
+<!-- ENRIL-352: asterisk moved to front for consistency with every other required checkbox in the flow. -->
+<label for="q-language-attest"><span class="req">*</span> <strong>I attest that I understand this disclosure is in English</strong> and I am requesting service in English. </label>
 </div>
 
 
@@ -1845,7 +1867,8 @@
 </div>
 <div class="checkbox-row scen-hide-b">
 <input id="bundle-authorized-nonb" onchange="validateBundle()" type="checkbox"/>
-<label for="bundle-authorized-nonb"><span class="req">*</span> <strong>I am authorized to make account changes</strong> for this gas utility account. </label>
+<!-- ENRIL-355 (2026-07-21): copy replaced with account-holder/legal-authorization language. Scope: nonb only; Scen B's bundle-authorized statement is untouched. -->
+<label for="bundle-authorized-nonb"><span class="req">*</span> <strong>I am the utility account holder or a person that has legal authorization to make decisions for this account.</strong> </label>
 </div>
 
 
@@ -1898,43 +1921,30 @@
 <input aria-required="true" id="l-email" oninput="validateLookup()" type="email"/>
 
 </div>
-<div class="field">
+<!-- ENRIL-353: Phone hidden for Scen C on Lookup — collected on the Details step instead (Scen C visits step-info; phone was being collected twice). Scen A keeps it here. -->
+<div class="field scen-hide-c">
 <label for="l-phone"><span class="req">*</span>Phone</label>
 <input aria-required="true" id="l-phone" oninput="validateLookup()" type="tel"/>
 
 </div>
 </div>
-<!-- ENRIL-256: escape hatch for existing GB customers — repositioned below input fields, copy aligned to Scen A ENRIL-136 pattern -->
-<!-- ENRIL-275: box treatment removed — plain text + hyperlink only (same fix as ENRIL-270 on Scen A Quote step) -->
-<div class="scen-only-c" style="margin: 16px 0; font-size: 13px; color: var(--muted);">
-        Already an <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> customer? Manage or change your plan in My Account.
-          <a href="#" onclick="event.preventDefault(); setScenario('d'); setStep('selectplan');" style="margin-left: 6px; color: var(--accent); text-decoration: underline;">Sign in →</a>
-<div class="ann ann-b" style="margin-top: 8px;"><strong>ENRIL-229 · ENRIL-256 · ENRIL-275:</strong> Escape hatch for existing GB customers who land on Scen C (GB New) flow. Repositioned below input fields per ENRIL-256. Box styling removed per ENRIL-275. Routes to Scen D (GB Existing) Select Plan.</div>
-</div>
+<!-- ENRIL-348 (2026-07-21): escape hatch relocated to the bottom of the consent block, just before the "Send verification code" button (see below). -->
 <div class="ann ann-b"><strong>ENRIL-243 · Billing address fieldset removed from Lookup — service address is returned by PRIME on <code>step-account</code>; mailing address (if different) collected inline on Review (ENRIL-239).</strong></div>
 
 <div class="fieldset">
-<!-- ENRIL-319: heading renamed to match OPG "Required acknowledgments"; checkboxes grouped in .fieldset-box (OPG ENR-128 pattern) -->
+<!-- ENRIL-319: heading renamed to match OPG "Required acknowledgments"; checkboxes grouped in .fieldset-box (OPG ENR-128 pattern). ENRIL-349 (2026-07-21): consent-to-call moved out to a separate Preferences box below — an optional preference shouldn't sit alongside required disclosures. -->
 <h3>Required acknowledgments</h3>
 <div class="fieldset-box">
 <!-- GBPQ disclosure: Scen C only per ENRIL-62 + ENRIL-188 (Scen D already acknowledged in preflow2) -->
 <div class="checkbox-row scen-only-c">
 <input id="l-disc-gbpq" onchange="validateLookup()" required type="checkbox"/>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-275: required added. -->
-<label for="l-disc-gbpq"><strong>I acknowledge the <span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span> Plan Quote Disclosure.</strong> I understand that a quote is a personalized estimate based on my service profile and is not yet a contract or enrollment. </label>
-</div>
-<!-- ENRIL-141 + ENRIL-220: Consent to call reinstated (all scenarios, including GB) — ENRIL-36 reversed. ENRIL-275: NOT required (opt-in only). -->
-<div class="checkbox-row">
-<input id="l-disc-call" onchange="validateLookup()" type="checkbox"/>
-<!-- ENRIL-257: .mkt → .mkt-inline inside label to prevent block-level gaps mid-sentence -->
-<label for="l-disc-call"><strong>I consent to receive calls from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> about my service and account. </label>
-<!-- ENRIL-220: Yellow annotation per change log -->
-
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-275: required added. ENRIL-351: leading asterisk added (functionally required). -->
+<label for="l-disc-gbpq"><span class="req">*</span> <strong>I acknowledge the <span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span> Plan Quote Disclosure.</strong> I understand that a quote is a personalized estimate based on my service profile and is not yet a contract or enrollment. </label>
 </div>
 <div class="checkbox-row scen-only-a scen-only-c">
 <input id="l-disc-email" onchange="validateLookup()" required type="checkbox"/>
-<!-- ENRIL-257: .mkt → .mkt-inline inside label. ENRIL-275: required added. -->
-<label for="l-disc-email"><strong>I consent to receive email from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> about my service and account, <strong>including the authentication code required to verify my identity</strong>. </label>
+<!-- ENRIL-257: .mkt → .mkt-inline inside label. ENRIL-275: required added. ENRIL-351: leading asterisk added (functionally required). -->
+<label for="l-disc-email"><span class="req">*</span> <strong>I consent to receive email from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> about my service and account, <strong>including the authentication code required to verify my identity</strong>. </label>
 </div>
 <!-- ENRIL-124: English language attestation for GB (Scen C/D) relocated to Lookup Step 1. ENRIL-275: required added. -->
 <div class="checkbox-row scen-only-gb">
@@ -1942,7 +1952,17 @@
 <label for="l-disc-language-attest"><span class="req">*</span> <strong>I attest that I understand this disclosure is in English</strong> and I am requesting service in English. </label>
 </div>
 </div>
-
+</div>
+<!-- ENRIL-349 (2026-07-21): Preferences box — consent-to-call only (optional, no asterisk), split out of Required acknowledgments. Scen A only — hidden for Scen C per ENRIL-353 (consent-to-call moves to the Details step). Scen B/D never visit Lookup. -->
+<div class="fieldset scen-hide-c">
+<h3>Preferences</h3>
+<div class="fieldset-box">
+<!-- ENRIL-141 + ENRIL-220: Consent to call reinstated (ENRIL-36 reversed). ENRIL-275/ENRIL-350: opt-in only — never gates Continue. ENRIL-257: .mkt → .mkt-inline inside label. -->
+<div class="checkbox-row">
+<input id="l-disc-call" onchange="validateLookup()" type="checkbox"/>
+<label for="l-disc-call"><strong>I consent to receive calls from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> about my service and account. </label>
+</div>
+</div>
 </div>
 <!-- ENRIL-236: "By submitting" authorization checkbox moved to Lookup from Bundle -->
 <div class="checkbox-row scen-only-a" style="margin-top: 16px;">
@@ -1959,7 +1979,13 @@
 <!-- Email-mismatch error -->
 <div class="error-banner" id="err-email-mismatch" style="display:none;">
 <strong>The email address you entered doesn't match what we have on file.</strong> Please check your email and try again, or call <strong>1-877-292-9363</strong> for assistance.
-        
+
+</div>
+<!-- ENRIL-348 (2026-07-21): escape hatch relocated here — bottom of the consent block, after the Required Acknowledgements + Preferences boxes and the "By submitting" line, immediately before the Send verification code button. Copy/styling unchanged from ENRIL-256/ENRIL-275/ENRIL-318. -->
+<div class="scen-only-c" style="margin: 16px 0; font-size: 13px; color: var(--muted);">
+        Already an <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> customer? Manage or change your plan in My Account.
+          <a href="#" onclick="event.preventDefault(); setScenario('d'); setStep('selectplan');" style="margin-left: 6px; color: var(--accent); text-decoration: underline;">Sign in →</a>
+<div class="ann ann-b" style="margin-top: 8px;"><strong>ENRIL-229 · ENRIL-256 · ENRIL-275 · ENRIL-348:</strong> Escape hatch for existing GB customers who land on Scen C (GB New) flow. Repositioned to the bottom of the consent block per ENRIL-348. Box styling removed per ENRIL-275. Routes to Scen D (GB Existing) Select Plan.</div>
 </div>
 <div class="btn-row">
 <button class="btn btn-tertiary scen-only-a" onclick="setStep('bundle')">← Back</button>
@@ -2365,6 +2391,11 @@
 <input aria-required="true" id="i-phone" oninput="validateInfo()" type="tel"/>
 </div>
 </div>
+<!-- ENRIL-353 (2026-07-21): consent-to-call moved off Lookup for Scen C — collected here on Details instead (was collected twice). Optional: not wired into validateInfo() gating, consistent with ENRIL-350's "never blocks Continue" decision. Scen C only. -->
+<div class="checkbox-row scen-only-c" style="margin-top: 12px;">
+<input id="i-disc-call" type="checkbox"/>
+<label for="i-disc-call"><strong>I consent to receive calls from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> about my service and account. </label>
+</div>
 </div>
 <div class="fieldset">
 <!-- ENRIL-339: "(read-only per IL spec)" internal note removed from heading (behavior unchanged — service address stays read-only). -->
@@ -2537,12 +2568,14 @@
 <!-- ETC acknowledgment — conditional (plan-fixed existing customers). ENRIL-274: only the final-authorization checkbox + this ETC-ack remain live here. -->
 <div class="checkbox-row plan-fixed scen-only-existing" id="r-etc-consent">
 <input id="r-etc-ack" onchange="validateReview()" type="checkbox"/>
-<label for="r-etc-ack"><strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
+<!-- ENRIL-351: leading asterisk added (required for existing + fixed-plan customers via validateReview). -->
+<label for="r-etc-ack"><span class="req">*</span> <strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
 </div>
 <!-- Final authorization (ENRIL-254 scenario split: Scen B "plan change", others "enrollment"). -->
 <div class="checkbox-row scen-hide-b">
 <input id="r-authorize" onchange="validateReview()" type="checkbox"/>
-<label for="r-authorize"><span class="req">*</span> <strong>I am ready to submit this enrollment</strong> and authorize <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to begin the contract switch with my utility. </label>
+<!-- ENRIL-356 (2026-07-21): full label replacement — LOA rescission-rights authorization copy. Market split: full brand name + abbreviation on first mention, abbreviation on later mentions. Scope: r-authorize only (r-authorize-b, Scen B, untouched). Asterisk retained per ENRIL-317/331. -->
+<label for="r-authorize"><span class="req">*</span> <strong>I authorize <span class="mkt-inline mkt-il on">Illinois Energy (IE)</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions (IES)</span> to be my alternative natural gas supplier</strong> and to process with my natural gas utility this request to enroll in a new contract with <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span>. If I am a new <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span> customer, I understand that my natural gas utility will be sending me a confirmation notice of the transfer of service. I also understand that I may rescind my enrollment without penalty any time before midnight of the third business day after receipt of the Letter of Agency and Terms and Conditions by contacting <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span>. </label>
 </div>
 <div class="checkbox-row scen-only-b">
 <input id="r-authorize-b" onchange="validateReview()" type="checkbox"/>
@@ -2876,10 +2909,12 @@
       if (b) b.classList.toggle('on', k === target);
     });
 
-    // ENRIL-343: sync the Review "Preferences" consent-to-call value from the Lookup checkbox.
+    // ENRIL-343: sync the Review "Preferences" consent-to-call value from the consent checkbox.
+    // ENRIL-353: scenario-aware source — Scen C collects consent-to-call on the Details step (i-disc-call);
+    // all other scenarios use the Lookup checkbox (l-disc-call).
     if (target === 'review') {
       var pc = document.getElementById('review-consent-call');
-      var lc = document.getElementById('l-disc-call');
+      var lc = document.getElementById(document.body.classList.contains('scen-c') ? 'i-disc-call' : 'l-disc-call');
       if (pc) pc.textContent = (lc && lc.checked) ? 'Yes' : 'No';
     }
 
@@ -3004,7 +3039,9 @@
   })();
   function validateLookup() {
     // ENRIL-158: l-email-confirm removed — ENRIL-142 removed the confirm email field.
-    var f = ['l-lname','l-zip','l-email','l-phone'];
+    // ENRIL-353: Phone moves off Lookup for Scen C (collected on the Details step) — drop l-phone from the required set for Scen C.
+    var isScenC = document.body.classList.contains('scen-c');
+    var f = isScenC ? ['l-lname','l-zip','l-email'] : ['l-lname','l-zip','l-email','l-phone'];
     var ok = f.every(function(id){
       var el = document.getElementById(id);
       return el && el.value && el.value.trim();
@@ -3012,13 +3049,11 @@
     var d1 = document.getElementById('l-disc-gbpq');
     var d2 = document.getElementById('l-disc-email');
     var d3 = document.getElementById('l-disc-language-attest');
-    var dCall = document.getElementById('l-disc-call');
     // GBPQ + email consent required for all; for GB also require language attestation (ENRIL-124)
-    var isGB = document.body.classList.contains('scen-c') || document.body.classList.contains('scen-d');
+    var isGB = isScenC || document.body.classList.contains('scen-d');
     ok = ok && d2 && d2.checked;
     if (isGB) ok = ok && d1 && d1.checked && d3 && d3.checked;
-    // Consent-to-call (l-disc-call) is required when the checkbox is present and visible (ENRIL-141 · all scenarios)
-    if (dCall && dCall.offsetParent !== null) ok = ok && dCall.checked;
+    // ENRIL-350: l-disc-call (consent-to-call) is opt-in only — it never gates the Send verification code button.
     var btn = document.getElementById('lookup-request-code-btn');
     if (btn) btn.disabled = !ok;
   }
