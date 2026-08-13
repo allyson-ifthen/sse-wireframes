@@ -1029,6 +1029,22 @@ body.dash-sub-cancel .dash-active-view { display: none; }
 body.dash-sub-cancel .dash-pending-view { display: none; }
 body.dash-sub-cancel .cancel-flow-container { display: block; }
 
+/* ── PAY NOW MODAL (MA-110 / MA-112, IL) — lightweight confirm-and-redirect, mirrors Cancel Flow Step 1 modal precedent ── */
+.pay-now-modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6); display: none; z-index: 100;
+  align-items: center; justify-content: center;
+}
+.pay-now-modal.active { display: flex; }
+
+/* ── BILLING HISTORY DASHBOARD SUB-STATE (MA-111 / MA-112, IL) ──
+   .dash-main-view = normal dashboard content (applied to the existing .layout wrapper);
+   hidden/shown via body.dash-sub-billing rather than the .mkt/.mkt-il on/off mechanism,
+   to avoid the specificity collision documented at setMarket() ("Pitfall 1"). */
+body.dash-sub-billing .dash-main-view { display: none; }
+.dash-billing-view { display: none; }
+body.dash-sub-billing .dash-billing-view { display: block; }
+
 /* MA-101: premise switcher — conditional on multi-premise account */
 .multi-premise-switcher { display: none; }
 body.has-multi-premise .multi-premise-switcher { display: block; }
@@ -1110,6 +1126,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <button id="dash-btn-variable" onclick="setDashSub('variable')">D · Variable plan</button>
 <button id="dash-btn-renewing" onclick="setDashSub('renewing')">D · Renewal window</button>
 <button id="dash-btn-ending" onclick="setDashSub('ending')">D · Non-renewing</button>
+<button id="dash-btn-billing" onclick="openBillingHistory()">D · Billing History (IL)</button>
 <button onclick="document.body.classList.toggle('has-multi-premise')">Toggle multi-premise</button>
 </div>
 <div class="group" id="ca-substep-group" style="display:none;">
@@ -1776,7 +1793,7 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <button class="acct-logout">Log out</button>
 </div>
-<div class="layout">
+<div class="layout dash-main-view">
 <!-- Standalone renewal banner removed per MA-29. Renewal state moved into the plan card below
          (.sc-renewing chip + .plan-renewal-line callout). -->
 <!-- MA-101: Premise switcher — conditional on PRIME returning multiple premises -->
@@ -2004,11 +2021,12 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="info-label">Amount Due</div>
 <div class="bill-amount">$84.50</div>
 <div style="font-size:11px; color:var(--muted); margin:4px 0 14px;">Due May 15, 2026 · Last payment: $82.10 (Apr 3)</div>
-<a class="btn btn-pay" href="#" style="background:#6a1b9a;">Pay Now →</a>
-<div style="margin-top:10px;"><a class="link" href="#">View billing history →</a></div>
+<a class="btn btn-pay" href="#" onclick="openPayNowModal(); return false;" style="background:#6a1b9a;">Pay Now →</a>
+<div style="margin-top:10px;"><a class="link" href="#" onclick="openBillingHistory(); return false;">View billing history →</a></div>
 </div>
 </div>
 </div><!-- /dash-grid -->
+<div class="ann ann-b"><strong>MA-110 / MA-111:</strong> Pay Now and View Billing History were previously dead <code>href="#"</code> stubs with no click behavior. Cross-ref MA-6 (superseded in part).</div>
 
 
 
@@ -2162,7 +2180,84 @@ body.reset-expired .reset-token-expired { display: block; }
 
 </div>
 </div><!-- /cancel-step-1-modal -->
+<!-- ─────────────────────────────────────────────────────
+         PAY NOW MODAL (MA-110 / MA-112, IL) — confirm-and-redirect interstitial before external payment portal handoff
+         ──────────────────────────────────────────────────── -->
+<div class="pay-now-modal" id="pay-now-modal">
+<div class="cancel-modal-card">
+<div class="cancel-modal-title">You're leaving SouthStar's site</div>
+<div class="cancel-modal-subtitle">To complete your payment, you'll be redirected to our secure payment partner. Your account and amount due will be sent along automatically.</div>
+<div class="cancel-plan-summary">
+<div class="cancel-plan-summary-title">Payment Summary</div>
+<div class="cancel-plan-meta">
+<div class="cancel-plan-meta-item">
+<span class="cancel-plan-meta-label">Amount Due</span>
+<span class="cancel-plan-meta-val">$84.50</span>
+</div>
+<div class="cancel-plan-meta-item">
+<span class="cancel-plan-meta-label">Due Date</span>
+<span class="cancel-plan-meta-val">May 15, 2026</span>
+</div>
+</div>
+</div>
+<div class="cancel-action-row">
+<button class="btn btn-outline" onclick="closePayNowModal()" type="button">Cancel</button>
+<button class="btn" onclick="continueToPayment()" style="background:#6a1b9a;" type="button">Continue to Payment →</button>
+</div>
+</div>
+</div><!-- /pay-now-modal -->
+<div class="ann ann-b mkt mkt-il"><strong>MA-110:</strong> Pay Now replicates current production behavior (confirmed via live-site screenshot review) — hands off to an external payment portal (Fiserv-pattern) rather than collecting payment method/amount natively in-app. This interstitial is the only new step vs. production. UI treatment mirrors the existing Cancel Flow Step 1 modal per MA-112.</div>
+<div class="ann ann-y mkt mkt-il"><strong>Open (2026-08-13):</strong> Interstitial copy above is a first draft — not yet confirmed whether a formal "leaving SouthStar's site" disclosure is required here. Internal review (Allyson) only; not yet client-reviewed.</div>
 </div><!-- /layout: main dashboard -->
+<!-- ─────────────────────────────────────────────────────
+         BILLING HISTORY (MA-111 / MA-112, IL) — Dashboard sub-state, not a modal
+         Reached from the Bill Pay card's "View billing history →" link.
+         Unlike current production (single "View My Bill" card, often "No bills available
+         for display" per live-site screenshot review), shows a full historical list.
+         ──────────────────────────────────────────────────── -->
+<div class="dash-billing-view">
+<div class="layout">
+<div class="section-block">
+<div class="section-h" style="display:flex; align-items:center; justify-content:space-between;">
+<span>💳 Billing History</span>
+<button class="link" onclick="closeBillingHistory()" style="font-size:13px;" type="button">← Back to Dashboard</button>
+</div>
+<div style="font-size:11px; color:var(--muted); margin:-8px 0 18px;">Illinois Energy · Billing managed by SouthStar</div>
+
+<div class="doc-row">
+<div><div class="doc-title">May 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $84.50 · Paid via external payment portal on May 12, 2026</div></div>
+<a class="link" href="#"><strong>↓ Download PDF</strong></a>
+</div>
+<div class="doc-row">
+<div><div class="doc-title">Apr 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $82.10 · Paid via external payment portal on Apr 3, 2026</div></div>
+<a class="link" href="#"><strong>↓ Download PDF</strong></a>
+</div>
+<div class="doc-row">
+<div><div class="doc-title">Mar 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $91.35 · Paid via external payment portal on Mar 10, 2026</div></div>
+<a class="link" href="#"><strong>↓ Download PDF</strong></a>
+</div>
+<div class="doc-row">
+<div><div class="doc-title">Feb 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $103.20 · Paid via external payment portal on Feb 14, 2026</div></div>
+<a class="link" href="#"><strong>↓ Download PDF</strong></a>
+</div>
+<div class="doc-row">
+<div><div class="doc-title">Jan 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $97.65 · Paid via external payment portal on Jan 15, 2026</div></div>
+<a class="link" href="#"><strong>↓ Download PDF</strong></a>
+</div>
+
+<div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-top:20px;">
+<button class="btn btn-out btn-sm" disabled type="button">← Prev</button>
+<button class="btn btn-sm" type="button">1</button>
+<button class="btn btn-out btn-sm" type="button">2</button>
+<button class="btn btn-out btn-sm" type="button">3</button>
+<button class="btn btn-out btn-sm" type="button">Next →</button>
+</div>
+
+<div class="ann ann-b" style="margin-top:20px;"><strong>MA-111:</strong> Redesign shows a full historical list (dates, amounts, downloadable statements, pagination) vs. current production's single bill-status card. Cross-ref MA-6, MA-112 (UI treatment — dashboard sub-state, not a modal, since a real list needs its own screen real estate).</div>
+<div class="ann ann-y"><strong>Open (2026-08-13):</strong> Row field set above (date, amount, paid-via-portal note, PDF download) is a draft — exact columns/format not yet confirmed with client. Internal review (Allyson) only.</div>
+</div>
+</div>
+</div><!-- /dash-billing-view -->
 </div><!-- /state: dashboard -->
 <!-- ════════════════════════════════════════════════════════════════════════════
      STATE H: AUTO-RENEWAL OPT-OUT — Available Options (/my-account/auto-renew/)
@@ -2819,6 +2914,13 @@ function setState(s) {
   if (s !== 'reset') {
     document.body.classList.remove('reset-expired');
   }
+  // MA-111/MA-112: reset Billing History sub-state and Pay Now modal on any state change
+  // so they don't leak back in when returning to the dashboard (mirrors exitCancelFlow above).
+  document.body.classList.remove('dash-sub-billing');
+  var billingBtn = document.getElementById('dash-btn-billing');
+  if (billingBtn) billingBtn.classList.remove('on');
+  var payModal = document.getElementById('pay-now-modal');
+  if (payModal) payModal.classList.remove('active');
   document.querySelectorAll('.state').forEach(function(el) {
     el.classList.remove('on');
   });
@@ -3075,6 +3177,43 @@ function exitCancelFlow() {
   if (container) container.classList.remove('active');
   // Reset to dashboard active view
   setDashSub('active');
+}
+
+/* ────────────────────────────────────
+   Pay Now modal (MA-110 / MA-112, IL) — confirm-and-redirect interstitial
+   ──────────────────────────────────── */
+function openPayNowModal() {
+  var modal = document.getElementById('pay-now-modal');
+  if (modal) modal.classList.add('active');
+  document.addEventListener('keydown', handlePayNowModalEsc);
+}
+function closePayNowModal() {
+  var modal = document.getElementById('pay-now-modal');
+  if (modal) modal.classList.remove('active');
+  document.removeEventListener('keydown', handlePayNowModalEsc);
+}
+function handlePayNowModalEsc(e) {
+  if (e.key === 'Escape') closePayNowModal();
+}
+function continueToPayment() {
+  closePayNowModal();
+  // In production: hand off to the external payment portal (Fiserv-pattern) per MA-110 — no in-app payment form
+  console.log('Route to: external payment portal (Fiserv-pattern, MA-110)');
+  alert('In production, this would redirect to the external payment portal.');
+}
+
+/* ────────────────────────────────────
+   Billing History dashboard sub-state (MA-111 / MA-112, IL)
+   ──────────────────────────────────── */
+function openBillingHistory() {
+  document.body.classList.add('dash-sub-billing');
+  var btn = document.getElementById('dash-btn-billing');
+  if (btn) btn.classList.add('on');
+}
+function closeBillingHistory() {
+  document.body.classList.remove('dash-sub-billing');
+  var btn = document.getElementById('dash-btn-billing');
+  if (btn) btn.classList.remove('on');
 }
 
 /* ────────────────────────────────────
