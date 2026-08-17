@@ -161,6 +161,14 @@
   .brand-clickable:hover { filter: brightness(1.08); }
   .topbar-simplified .nav-right { margin-left: auto; }
   .topbar-simplified .phone strong { color: var(--bad); font-weight: 700; }
+  /* ENRIL-452 (2026-08-16): Simplified Nav — authenticated variant, Scen B/D. Simplified Nav
+     (brand mark + phone only) was designed for anonymous/mid-flow-auth contexts (Enrollment,
+     Part 512, Promo Page); Scen B/D land here already signed in from My Account, so a generic,
+     non-personalized account icon + Logout link signals authenticated state without a personalized
+     greeting (test env's "Welcome, GABRIELA" pattern was declined) or pulling in Full Nav's My
+     Account icon. New nav variant — flag for a note in CLAUDE.md's Nav patterns spec. */
+  .nav-authed-indicator { display: none; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); margin-right: 16px; }
+  body.scen-b .nav-authed-indicator, body.scen-d .nav-authed-indicator { display: inline-flex; }
   @media (max-width: 600px) {
     .topbar-simplified { flex-wrap: wrap; gap: 10px; }
     .topbar-simplified .phone { font-size: 12px; line-height: 1.4; }
@@ -434,6 +442,11 @@
      below the checkbox. ENRIL-296's rule list didn't include the .scen-only-gb combo. */
   body.scen-c .scen-only-gb.checkbox-row,
   body.scen-d .scen-only-gb.checkbox-row { display: flex; }
+  /* ENRIL-488 (2026-08-16): same ENRIL-296/320 fix, now for .scen-only-existing.checkbox-row — needed once
+     bundle-acr-ack widened from scen-only-b to scen-only-existing; otherwise body.scen-b/d .scen-only-existing's
+     base display:block reveal clobbers the row's flex, dropping the label below the checkbox. */
+  body.scen-b .scen-only-existing.checkbox-row,
+  body.scen-d .scen-only-existing.checkbox-row { display: flex; }
 
   /* -- Buttons ------------------------------------------------------------ */
   .btn {
@@ -529,6 +542,22 @@
   body.scen-d.flow-step-review .plan-rate,
   body.scen-c.flow-step-confirmation .plan-rate,
   body.scen-d.flow-step-confirmation .plan-rate { display: block; }
+
+  /* ENRIL-496 (2026-08-16): "Building your custom quote" messaging fills the same pre-quote gap ENRIL-85 leaves
+     empty — visible exactly while .plan-rate above is hidden (Scen C/D, before the Quote step), hidden once the
+     rate is known. Directional content only; visual treatment left to design. */
+  .quote-pending-msg { display: block; }
+  body.scen-c.flow-step-quote .quote-pending-msg,
+  body.scen-d.flow-step-quote .quote-pending-msg,
+  body.scen-c.flow-step-bundle .quote-pending-msg,
+  body.scen-d.flow-step-bundle .quote-pending-msg,
+  body.scen-c.flow-step-info .quote-pending-msg,
+  body.scen-d.flow-step-info .quote-pending-msg,
+  body.scen-c.flow-step-review .quote-pending-msg,
+  body.scen-d.flow-step-review .quote-pending-msg,
+  body.scen-c.flow-step-confirmation .quote-pending-msg,
+  body.scen-d.flow-step-confirmation .quote-pending-msg { display: none; }
+  body:not(.scen-c):not(.scen-d) .quote-pending-msg { display: none; }
 
   /* -- Error overlays (ENRIL-13) ----------------------------------------- */
   .error-banner {
@@ -978,6 +1007,12 @@
   /* ENRIL-292: Scen D Review step — suppress "current plan" summary block; only "Your plan" shows */
   body.scen-d.flow-step-review .plan-summary-current { display: none; }
 
+  /* ENRIL-458 (2026-08-16): the always-rendering "Your plan" block had no wrapper of its own, so it
+     stacked below .plan-summary-current on Select Plan (both "Your current plan" and "Your plan"
+     showing at once) — same category of bug ENRIL-295 fixed for the other current-plan block.
+     Wrapped in .plan-summary-new so it can be suppressed on Select Plan the same way. */
+  body.flow-step-selectplan .plan-summary-new { display: none; }
+
   @media print {
     .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline { display: none !important; }
     .step:not(#step-confirmation) { display: none !important; }
@@ -1118,6 +1153,26 @@
 <button id="creditcheck-btn-required" onclick="setCreditCheckRequired(true)">Required — show modal</button>
 </div>
 <div class="scenario-drop-row">
+<!-- ENRIL-474 (2026-08-16): simulates the silent Account-in-Good-Standing check at Scen B's OTP → Review transition (otpContinueScenB()). Mirrors the Credit check (Scen A/C) toggle above but fires from a different hook point, since Scen B has no Confirm Account step. -->
+<span class="scenario-drop-lbl">Good standing (Scen B)</span>
+<button class="on" id="goodstanding-btn-clear" onclick="setScenBGoodStanding('clear')">Clear (default)</button>
+<button id="goodstanding-btn-not-in-good" onclick="setScenBGoodStanding('not-in-good')">Not in good standing</button>
+<button id="goodstanding-btn-credit-fail" onclick="setScenBGoodStanding('credit-fail')">Credit check fail</button>
+</div>
+<div class="scenario-drop-row">
+<!-- ENRIL-486 (2026-08-16): extends ENRIL-474's Good-Standing toggle to Scen D, hooked at the OTP → Quote transition (otpContinueScenD()) since D's step order has otp before quote. -->
+<span class="scenario-drop-lbl">Good standing (Scen D)</span>
+<button class="on" id="goodstanding-btn-d-clear" onclick="setScenDGoodStanding('clear')">Clear (default)</button>
+<button id="goodstanding-btn-d-not-in-good" onclick="setScenDGoodStanding('not-in-good')">Not in good standing</button>
+<button id="goodstanding-btn-d-credit-fail" onclick="setScenDGoodStanding('credit-fail')">Credit check fail</button>
+</div>
+<div class="scenario-drop-row">
+<!-- ENRIL-468 (2026-08-14): reveals the multi-address selector ported from ONG-PA-GRE's ENR-114 (same reviewer-demo mechanism as that file's own toggle — not wired to a real PRIME response count). -->
+<span class="scenario-drop-lbl">Multi-address (Scen A/C, ENRIL-468)</span>
+<button onclick="event.stopPropagation(); setScenario('a'); setStep('account'); var el=document.getElementById('multi-address-selector-a'); if(el){ el.style.display='block'; }">Toggle (A)</button>
+<button onclick="event.stopPropagation(); setScenario('c'); setStep('account'); var el=document.getElementById('multi-address-selector-c'); if(el){ el.style.display='block'; }">Toggle (C)</button>
+</div>
+<div class="scenario-drop-row">
 <span class="scenario-drop-lbl">Error mode</span>
 <button class="on" id="err-btn-none" onclick="setError('none')">None</button>
 <button id="err-btn-language-decline" onclick="setError('language-decline')">Lang decline</button>
@@ -1139,7 +1194,7 @@
 <!-- ENRIL-421 (2026-08-11): RAF three-state toggle, ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152 reviewer toggle. -->
 <span class="scenario-drop-lbl">RAF state (ENRIL-421)</span>
 <button class="on" id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
-<button id="raf-btn-pending" onclick="setConfRafView('pending')">Pending</button>
+<button id="raf-btn-pending" onclick="setConfRafView('pending')">Just joined</button>
 <button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
 </div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
@@ -1163,6 +1218,8 @@
 <span class="mkt mkt-ies">Illinois Energy Solutions</span>
 </button>
 <div class="nav-right">
+<!-- ENRIL-452 (2026-08-16): authenticated-state indicator, Scen B/D — no personalized name, matches production's need for some signed-in signal without Full Nav's My Account icon. -->
+<span class="nav-authed-indicator"><span aria-hidden="true">👤</span> <a href="#" onclick="event.preventDefault(); alert('Production: sign out of authenticated session');">Logout</a></span>
 <span class="phone">
 <strong>Contact Us</strong> ·
       <span class="mkt mkt-il on">1-800-XXX-ILGAS</span>
@@ -1374,6 +1431,8 @@
 <button class="btn" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:12px;">Keep current plan</button>
 
 </div>
+<!-- ENRIL-458 (2026-08-16): wrapped in .plan-summary-new so it can be suppressed on Select Plan (was an unwrapped sibling with no way to target it cleanly, causing it to stack with .plan-summary-current). -->
+<div class="plan-summary-new">
 <h3><span class="plan-label-new">Your plan</span><span class="plan-label-confirmation">Your selected plan</span></h3>
 <div class="plan-name-row">
 <div class="plan-name">
@@ -1391,6 +1450,15 @@
 <span class="scen-only-b-inline">$0.74 <small>/ therm</small></span>
 <span class="scen-only-gb">$97 <small>/ month</small></span>
 </div>
+<!-- ENRIL-496 (2026-08-16): directional content guidance for GB's pre-quote steps (Look Up → Verify → Account →
+     Confirm Details, Scen C; Verify, Scen D) — fills the gap left when the rate is hidden (ENRIL-85) so the
+     sidebar doesn't read as sparse while PRIME collects the info needed to generate the quote. Content direction
+     only, per Allyson's scope note 2026-08-16 — visual treatment (progress indicator, animation, etc.) is left to
+     design; not a finished component. Uses the same scen-c/scen-d + flow-step pairing as ENRIL-85's rate-hide rule. -->
+<div class="quote-pending-msg" style="font-size: 13px; color: var(--muted); padding: 4px 0 2px;">
+Building your custom quote&hellip; <span style="display:block; margin-top:2px;">We're personalizing your quote based on your address and usage history.</span>
+</div>
+<div class="ann ann-y scen-only-gb" style="margin-top: 8px;"><strong>ENRIL-496 · Open — directional content only.</strong> Raised in the 2026-08-12 client-review meeting as a parking-lot idea to reduce perceived friction before the GB rate reveal. Content direction ("Building your custom quote…") is set; visual treatment is left to design.</div>
 <dl>
 <dt>Term</dt><dd>12 months</dd>
 <dt>Type</dt><dd>
@@ -1407,8 +1475,11 @@
 <span>Your utility: <strong><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span></strong></span>
 </div>
 <div class="acr-callout">
-<strong>Renews automatically.</strong> Your plan continues at the end of its term — we'll send you a renewal notice in advance so you can review or change your options.
+<!-- ENRIL-497 (2026-08-16): drops "or change" — the renewal notice lets a customer review their options, not change
+     them via that notice; the prior copy overstated what it actually enables. -->
+<strong>Renews automatically.</strong> Your plan continues at the end of its term. We'll send you a renewal notice in advance so you can review your options.
     </div>
+</div>
 
 </aside>
 <main class="content">
@@ -1573,6 +1644,7 @@
 <p class="step-intro">
         Pick the plan you'd like to switch to. Your current plan stays in place — and you can keep it — until you finish enrolling in the new one.
       </p>
+<div class="ann ann-b"><strong>ENRIL-467 · Dev note — premise context.</strong> Select Plan is the entry point for the dominant already-authenticated existing-customer path (My Account "Switch Plan," per CL-010 — Pre-flow 1 is skipped entirely for this session). The active service premise is established upstream in My Account before enrollment begins — My Account auth fires the multi-premise selector (<code>MA-61</code>) when PRIME returns 2+ addresses for the authenticated session, and the enrollment flow inherits that active premise. No premise re-selection occurs within the enrollment flow. Cross-ref Enrollment_ONG-PA-GRE_Wireframe.html's own ENR-98 note (same reasoning, ONG/PA/GRE). Documents, not reverses, ENRIL-211's removal of the Account # step from Scenario B.</div>
 
 <h3 style="margin-top: 22px;">
 <span class="scen-only-b-inline">Plans available to switch to</span>
@@ -1583,6 +1655,14 @@
         Filtered to your market (<span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>) and utility
         (<span class="mkt-inline mkt-il on">Nicor / North Shore / Peoples — per customer record</span><span class="mkt-inline mkt-ies">Nicor</span>).
       </p>
+<!-- ENRIL-454 (2026-08-14): promo code entry, IL/IES only for now — test env shows "Please select a new plan or enter your Promo Code" here. Cross-market extension to ONG/PA/GRE's own plan-change flow not yet scoped (open question); how frequently this applies in practice also not confirmed. -->
+<div class="field" style="max-width: 360px; margin: 0 0 18px;">
+<label for="sp-promo-code">Or enter a promo code</label>
+<div style="display: flex; gap: 8px;">
+<input id="sp-promo-code" placeholder="Promo code" style="flex:1;" type="text"/>
+<button class="btn btn-secondary" onclick="alert('Apply promo code (wireframe placeholder)')" type="button">Apply</button>
+</div>
+</div>
 <div class="plan-pick-grid">
 <!-- Alt plan 1 — pre-selected by default to demonstrate deep-link behavior -->
 <div class="plan-pick-card selected" data-plan="il-fixed-24">
@@ -1644,19 +1724,29 @@
 <button class="btn btn-secondary btn-sm">Select this plan</button>
 </div>
 </div>
+<!-- ENRIL-397 / ENRIL-408 (2026-08-10) via ENRIL-453 (2026-08-14): abbreviated utility gas-rate disclosure line + accordion, Scen B. Test env surfaces the full multi-paragraph regulatory disclosure inline on Select Plan — this is B's placement (not Quote), resolving the deferral flagged at ENRIL-360. Same mechanism + copy verbatim as Scen A (ENRIL-360/408) and Scen C (ENRIL-397/408). Scope: Scenario B only this pass — Scenario D presumably needs the same treatment but wasn't separately confirmed. -->
+<div class="faq-item scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px;">
+<div class="faq-question" onclick="toggleFaq(this)">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective through [expiration date]. <span class="faq-chevron">▼</span></div>
+<div class="faq-answer">
+<p style="margin: 0 0 8px;"><em>[Placeholder — final copy TBD.]</em> [Utility]'s current gas supply cost is provided for comparison so you can evaluate this offer against your utility's supply rate. SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
+<p style="margin: 0 0 8px;">For more information on comparing supplier offers, see the Illinois Commerce Commission's consumer education site. This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+</div>
+</div>
 <!-- ENRIL-247: Consent fieldset moved below plan-pick-grid — customer selects plan first, then confirms consents before clicking Continue.
-     ENRIL-306 (2026-07-06): scoped scen-only-existing → scen-only-d. Both checkboxes inside are Scen D-only (email/OTP consent + GBPQ don't apply to Scen B, which is already authenticated and skips OTP), so Scen B was rendering an empty "Before you continue" box. English attestation still reaches Scen B on the Quote step. -->
-<div class="fieldset scen-only-d" style="margin-top: 20px;">
+     ENRIL-306 (2026-07-06): scoped scen-only-existing → scen-only-d. Both checkboxes inside are Scen D-only (email/OTP consent + GBPQ don't apply to Scen B, which is already authenticated and skips OTP), so Scen B was rendering an empty "Before you continue" box. English attestation still reaches Scen B on the Quote step.
+     ENRIL-473 (2026-08-16): scen-only-d → scen-only-existing — corrects ENRIL-306's stale premise; Scen B does not skip OTP, it just reaches it later in the flow (after Documents), so it needs the email-consent checkbox too. -->
+<div class="fieldset scen-only-existing" style="margin-top: 20px;">
 <!-- ENRIL-423 (2026-08-11): heading renamed from "Before you continue" to "Required acknowledgments", for parity with Look Up (ENRIL-319) and OPG. -->
 <h3>Required acknowledgments</h3>
-<!-- ENRIL-289: scen-hide-b → scen-only-d so email consent only renders for Scen D (Scen B users consented earlier in pre-flow) -->
-<div class="checkbox-row scen-only-d">
-<input id="sp-disc-email" type="checkbox"/>
+<!-- ENRIL-289: scen-hide-b → scen-only-d so email consent only renders for Scen D (Scen B users consented earlier in pre-flow).
+     ENRIL-473 (2026-08-16): scen-only-d dropped — Scen B does need this checkbox (see fieldset-level note above). sp-disc-gbpq below stays scen-only-d only (GBPQ is GB-specific, doesn't apply to Non-GB Scen B). Also wired onchange to validateSelectPlan() — previously unwired, so a "required" consent never actually gated Continue. -->
+<div class="checkbox-row">
+<input id="sp-disc-email" onchange="validateSelectPlan()" type="checkbox"/>
 <label for="sp-disc-email"><strong>I consent to receive email</strong> from <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> about my service and account, including the authentication code required to verify my identity. </label>
 </div>
 
 <div class="checkbox-row scen-only-d">
-<input id="sp-disc-gbpq" type="checkbox"/>
+<input id="sp-disc-gbpq" onchange="validateSelectPlan()" type="checkbox"/>
 <!-- ENRIL-206: IES "Fixed Bill" branding split -->
 <label for="sp-disc-gbpq"><strong>I acknowledge the <span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span> Plan Quote Disclosure.</strong> I understand that a new quote is a personalized estimate and that proceeding does not create a contract until I accept it at Review. </label>
 </div>
@@ -1676,8 +1766,9 @@
 <button class="btn btn-outline" onclick="alert('Keep current plan — return to My Account')">Keep current plan</button>
 <div class="btn-row-right">
 <!-- ENRIL-307 (2026-07-06): relabel "Continue to pricing" → "Continue with selected plan" (matches OPG existing-customer flow; clearer when choosing between two plan options on this screen) -->
-<button class="btn scen-only-b-inline" onclick="setStep('quote')">Continue with selected plan →</button>
-<button class="btn scen-only-d-inline" onclick="setStep('otp')">Continue to verification →</button>
+<!-- ENRIL-473 (2026-08-16): ids + disabled state added — Continue was never actually gated on the "Required acknowledgments" checkboxes above; wired to validateSelectPlan(). -->
+<button class="btn scen-only-b-inline" disabled="" id="selectplan-continue-btn-b" onclick="setStep('quote')">Continue with selected plan →</button>
+<button class="btn scen-only-d-inline" disabled="" id="selectplan-continue-btn-d" onclick="setStep('otp')">Continue to verification →</button>
 </div>
 </div>
 </section>
@@ -1864,13 +1955,15 @@
 <!-- ENRIL-268: Scen D plan-change framing aligned to Scen C GBP acknowledgement pattern -->
 <label for="q-continue-gb-d"><span class="req">*</span> <strong>I want to switch to this <span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span> plan</strong> and understand that my current plan will be replaced on my utility's next meter-read. </label>
 </div>
-<!-- ENRIL-127: Attestation hidden for GB (Scen C/D) — relocated to step-lookup per ENRIL-124 -->
-<div class="scen-hide-gb">
+<!-- ENRIL-127: Attestation hidden for GB (Scen C) — relocated to step-lookup per ENRIL-124.
+     ENRIL-484 (2026-08-16): narrowed from scen-hide-gb (C+D) to scen-hide-c (C only) — Scen D has no
+     lookup step to carry an equivalent, so this is D's only Language Confirmation surface. -->
+<div class="scen-hide-c">
 <!-- ENRIL-359 (2026-08-10): converted from checkbox to Yes/No radio, per internal-team review + Alicia's original spec preference (§3.10.4 Step 1). New lead-in copy gives context before the question since answering "No" stops the flow. -->
 <div style="margin-bottom: 14px;">
 <p style="font-size: 13px; color: var(--muted); margin: 0 0 10px;">This enrollment is conducted in English. If you answer &ldquo;No&rdquo; below, we won&rsquo;t be able to complete your enrollment online, and you&rsquo;ll need to call us for assistance.</p>
-<!-- ENRIL-411 (2026-08-11): field-legend relocated here from above the step-intro — now that q-continue is removed (ENRIL-358), the attestation is the only required field on this step. -->
-<p class="field-legend"><span class="req">*</span> Required field</p>
+<!-- ENRIL-411 (2026-08-11): field-legend relocated here from above the step-intro — now that q-continue is removed (ENRIL-358), the attestation is the only required field on this step.
+     ENRIL-492 (2026-08-16): field-legend removed — redundant since the attestation below is already asterisked and (for A/B) the only actionable field on this step. Narrow, screen-specific fix — not a flow-wide required-field-labeling audit; the asterisk stays on the field itself. -->
 <p style="font-size: 13px; font-weight: 600; margin: 0 0 8px;"><span class="req">*</span> Do you speak and understand English?</p>
 <div class="radio-row">
 <input id="q-language-attest-yes" name="q-language-attest" onchange="validateQuote()" type="radio" value="yes"/>
@@ -1883,6 +1976,15 @@
 </div>
 
 
+</div>
+<!-- ENRIL-476 (2026-08-16): bundle-authorized relocated here from Documents (step-bundle) — Documents isn't Scen B's
+     "submitting this information" moment (contract review, not PII entry); step-quote's "Confirm your switch" heading
+     (ENRIL-207) is. Revises ENRIL-471/251's Documents placement, which rested on ENRIL-140's rule ("authorization
+     belongs before PII collection") — a rule that assumes a PII-collection step follows, which is never true for
+     Scen B. Wired to validateQuote() (was validateBundle()). -->
+<div class="checkbox-row scen-only-b">
+<input id="bundle-authorized" onchange="validateQuote()" type="checkbox"/>
+<label for="bundle-authorized"><span class="req">*</span> <strong>By submitting my information, I affirm that I am authorized to change my gas service to <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> and give the company permission to access the above-referenced utility's account information and payment history. I understand that at the point of enrollment for the above-referenced account, I will be able to print and save my enrollment information and the terms and conditions of the energy plan I am enrolling in. </label>
 </div>
 </div>
 <!-- ENRIL-298 (2026-07-06): Existing-customer link — relocated here (was above plan-switch-compare) and relabeled with market brand name, consistent with the step-lookup existing-customer callout. Scen A only. -->
@@ -1974,12 +2076,18 @@
          ENRIL-28 · ENRIL-50
          ==================================================================== -->
 <section class="step residential-only" id="step-bundle">
-<h2>Preview the sample contract documents</h2>
+<!-- ENRIL-490 (2026-08-16): documents are the customer's real terms, not a sample/preview — Susan flagged real customer
+     confusion in other expanded markets where downloading here was mistaken for completing enrollment. Only the LOA
+     carries variable fields (name, date, timestamp), populated at submission; Plan Contract and ACR are already final.
+     Heading, disclaimer, doc-bundle label, LOA note, checkbox copy updated; download/PDF button removed; finalized-copy
+     line added above the scroll-gate checkbox. Applies to this shared step (Scen A/B/D) per Allyson's decision 2026-08-16
+     that the fix is a factual correction about the documents themselves, not scenario-specific. -->
+<h2>Review your contract documents</h2>
 <!-- Disclaimer moved to top — customer reads framing before opening the docs -->
 <div class="pdf-disclaimer" style="margin: 0 0 18px;">
-<strong>This is a sample for your review — not your final contract.</strong>
-        The personalized version you'll receive after enrollment will include your name, your actual contract start and end dates, and your unique authentication code. Review the sample documents below before continuing.
-        
+<strong>These are your contract documents for this plan.</strong>
+        Review them below before continuing. Your Letter of Agency will be finalized with your name, the date, and a timestamp when you submit your enrollment.
+
 </div>
 
 
@@ -1992,20 +2100,20 @@
 <!-- Live HTML document bundle (replaces dark-toolbar PDF viewer). ENRIL-335: jump-link TOC dropped; body constrained to a fixed-height scroll box (OPG parity). -->
 <div class="doc-bundle">
 <div class="doc-bundle-header">
-<span class="lbl">Sample contract documents · 3 sections · non-personalized preview</span>
+<span class="lbl">Your contract documents · 3 sections</span>
 <span style="font-size:11px; color:var(--muted);">Scroll to read all sections</span>
 </div>
 <div class="doc-bundle-body" id="bundle-doc-scroll" style="max-height:240px; overflow-y:auto;">
 <div class="doc-section" id="doc-loa-sample">
-<h4>1. Letter of Agency (LOA) — sample</h4>
-<p class="doc-placeholder">Sample LOA template. Your personalized version (at Confirmation) will include your name, enrollment timestamp, and authentication code. Per Prime design doc · Non-Customer Specific LOA Generation.</p>
+<h4>1. Letter of Agency (LOA)</h4>
+<p class="doc-placeholder">Your name, the date, and a timestamp will be added to this document when you submit your enrollment.</p>
 <p>By signing electronically at the Review step, you will authorize [SouthStar Energy Services / Illinois Energy / Illinois Energy Solutions] to act as your natural gas supplier and to coordinate with your local distribution company on your behalf as of the contract effective date.</p>
 <p class="doc-placeholder">[Full Part 512–compliant LOA copy authored by Client / Legal.]</p>
 </div>
 <div class="doc-section" id="doc-plan-contract-sample">
 <h4>2. Plan Contract</h4>
-<p>Plan-specific terms based on the representative product for this plan category. Your personalized version (generated at enrollment by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>) will include your actual contract start and end dates and the ETF amount applicable to your plan.</p>
-<p class="doc-placeholder">[Plan Contract body — sample-product representative copy. Final copy authored by Client / Legal.]</p>
+<p>These are the final terms and conditions for the natural gas supply plan you selected, including your contract start and end dates and the early termination fee (ETF) that applies to your plan.</p>
+<p class="doc-placeholder">[Plan Contract body — final copy authored by Client / Legal.]</p>
 </div>
 <div class="doc-section" id="doc-acr-sample">
 <h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
@@ -2013,30 +2121,34 @@
 <p class="doc-placeholder">[Part 512 ACR disclosure body — final copy authored by Client / Legal.]</p>
 </div>
 </div>
-<!-- ENRIL-334: download restyled to OPG shared footer-bar — muted "Need a copy?" left, small btn-secondary Download PDF right. -->
-<div style="padding:10px 18px; background:#fafbfc; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center;">
-<span style="font-size:12px; color:var(--muted);">Need a copy for your records?</span>
-<button class="btn btn-secondary" onclick="alert('Download bundled sample contract (PDF)')" style="font-size:12px; padding:6px 12px;" type="button">⬇ Download PDF</button>
 </div>
-</div>
+<!-- ENRIL-490 (2026-08-16): finalized-copy line replaces the removed download/PDF button — explains why there's no
+     download here and reinforces that reviewing these documents isn't the same as completing enrollment. -->
+<p style="font-size:12px; color:var(--muted); margin: 10px 0 14px;">You'll receive a finalized, downloadable copy of these documents once you complete your enrollment.</p>
 <div class="checkbox-row">
 <input id="bundle-ack" onchange="validateBundle()" type="checkbox"/>
-<label for="bundle-ack"><span class="req">*</span> <strong>I have reviewed the sample contract documents (Preview only</strong> — your personalized version will be available after enrollment). </label>
+<label for="bundle-ack"><span class="req">*</span> <strong>I have reviewed these contract documents.</strong> </label>
 </div>
-<!-- ENRIL-140: Authorized person checkbox moved here from Standing (Step 5B).
-           Per compliant flow (2026-06-04): authorized-person acknowledgement belongs at
-           sample-contract acceptance, before PII collection. -->
-<!-- ENRIL-251: Scen B gets the full "By submitting" authorization copy (matches ENRIL-236 on Lookup for Scen A).
-           Scen B skips Lookup entirely, so Documents is the only authorized-person consent touchpoint for Scen B. -->
-<div class="checkbox-row scen-only-b">
-<input id="bundle-authorized" onchange="validateBundle()" type="checkbox"/>
-<label for="bundle-authorized"><span class="req">*</span> <strong>By submitting my information, I affirm that I am authorized to change my gas service to <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> and give the company permission to access the above-referenced utility's account information and payment history. I understand that at the point of enrollment for the above-referenced account, I will be able to print and save my enrollment information and the terms and conditions of the energy plan I am enrolling in. </label>
+<!-- ENRIL-140 / ENRIL-251: the "By submitting my information, I affirm..." authorization checkbox (bundle-authorized)
+     that lived here for Scen B is REMOVED — relocated to step-quote's Required Acknowledgments fieldset per
+     ENRIL-476 (2026-08-16). Documents is contract review, not a "submitting information" moment; ENRIL-140's
+     placement rule assumed a PII-collection step follows, which is never true for Scen B. No duplicate left here. -->
+<!-- ENRIL-477 (2026-08-16): new, distinct Automatic Contract Renewal (ACR) acknowledgment, Scen B only — a new
+     pattern, not ported from an existing precedent (no scenario currently splits ACR out of the combined
+     sample-contract-review consent; ENRIL-363/432 note test env doesn't collect it as a distinct consent either).
+     Copy mirrors q-etc-ack's acknowledgment pattern; subject to final legal review (per ENRIL-479).
+     ENRIL-488 (2026-08-16): widened scen-only-b to scen-only-existing (B+D) — test env's Scen D Documents screen
+     shows the same distinct ACR checkbox alongside bundle-authorized-nonb. Copy still pending final legal review. -->
+<div class="checkbox-row scen-only-existing">
+<input id="bundle-acr-ack" onchange="validateBundle()" type="checkbox"/>
+<label for="bundle-acr-ack"><span class="req">*</span> <strong>I acknowledge my plan will automatically renew at the end of its term unless I opt out.</strong> <span style="color:var(--muted); font-weight:400;">[Placeholder — final copy pending legal review.]</span> </label>
 </div>
 <!-- ENRIL-362 (2026-08-10): scoped to GB only (Scen C/D) — Scen A's equivalent acknowledgment already lives at Lookup (l-by-submitting, ENRIL-236); this was a leftover duplicate for Scen A. -->
 <div class="checkbox-row scen-only-gb">
 <input id="bundle-authorized-nonb" onchange="validateBundle()" type="checkbox"/>
-<!-- ENRIL-355 (2026-07-21): copy replaced with account-holder/legal-authorization language. Scope: nonb only; Scen B's bundle-authorized statement is untouched. -->
-<label for="bundle-authorized-nonb"><span class="req">*</span> <strong>I am the utility account holder or a person that has legal authorization to make decisions for this account.</strong> </label>
+<!-- ENRIL-355 (2026-07-21): copy replaced with account-holder/legal-authorization language. Scope: nonb only; Scen B's bundle-authorized statement is untouched.
+     ENRIL-487 (2026-08-16): upgraded to the fuller authorization copy (matches bundle-authorized/l-by-submitting) to align with test env for Scen D — this scen-only-gb block only renders for D in practice, since Scen C no longer visits step-bundle (ENRIL-399/405 merge). Placement unchanged; copy pending final legal review. -->
+<label for="bundle-authorized-nonb"><span class="req">*</span> <strong>By submitting my information, I affirm that I am authorized to change my gas service to <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> and give the company permission to access the above-referenced utility's account information and payment history. I understand that at the point of enrollment for the above-referenced account, I will be able to print and save my enrollment information and the terms and conditions of the energy plan I am enrolling in. </label>
 </div>
 
 
@@ -2091,6 +2203,7 @@
 </div>
 <!-- ENRIL-365 (2026-08-10): Phone field removed from Lookup, Scenario A — collecting phone number here was a mistaken requirement early in this process; test env has no equivalent field. Scenario C's phone (moved off Lookup per ENRIL-353) is unaffected. -->
 </div>
+<div class="ann ann-g"><strong>ENRIL-494 (2026-08-16) · Client-aligned — single email field, no change.</strong> Allyson raised whether Illinois requires double email entry (as test env currently shows); Susan didn't cite a regulatory requirement for it. Client is aligned with the redesign's standing single-entry approach.</div>
 <!-- ENRIL-348 (2026-07-21): escape hatch relocated to the bottom of the consent block, just before the "Send verification code" button (see below). -->
 <div class="ann ann-b"><strong>ENRIL-243 · Billing address fieldset removed from Lookup — service address is returned by PRIME on <code>step-account</code>; mailing address (if different) collected inline on Review (ENRIL-239).</strong></div>
 
@@ -2220,6 +2333,59 @@
 
 
 </div>
+<!-- ENRIL-474 (2026-08-16): silent Account-in-Good-Standing check, Scenario B — fires on "Verify and continue →"
+     via otpContinueScenB(), mirroring Scen A/C's post-Confirm-Account GetQuotes/credit-check-modal simulation
+     (ENRIL-395/435), but Scen B has no Confirm Account step to hang it on (account is on file from sign-in,
+     ENRIL-211/467) — this hooks the OTP → Review transition instead. Reuses err-not-in-good/err-credit-fail's
+     copy (ENRIL-191), ported here since those banners live inside step-account, which Scen B never visits.
+     Reviewer toggle: wfctl "Good standing (Scen B)" group. Scenario D carries the identical gap but is
+     explicitly out of scope this pass — D's own check should be confirmed once D's screens come up. -->
+<div class="stop-screen scen-only-b" id="otp-goodstanding-stop" style="display: none;">
+<div id="otp-goodstanding-notgood-msg" style="display: none;">
+<h2>We can't complete your enrollment online</h2>
+<p>Your account has been flagged and requires manual review. Please contact us to discuss your options.</p>
+<span class="phone-big">1-877-292-9363</span>
+<p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
+<ul style="font-size: 12px; color: var(--muted); padding-left: 20px;">
+<li>No flowing gas (service may be disconnected)</li>
+<li>$50+ in arrears</li>
+<li>Account flagged as a write-off</li>
+<li>1-year enrollment restriction</li>
+</ul>
+</div>
+<div id="otp-goodstanding-creditfail-msg" style="display: none;">
+<h2>We can't offer this plan online</h2>
+<p>The soft credit check did not pass. Please contact us to discuss your options.</p>
+<span class="phone-big">1-877-292-9363</span>
+<p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
+</div>
+</div>
+<!-- ENRIL-486 (2026-08-16): silent Account-in-Good-Standing check, Scenario D — extends ENRIL-474's Scen B build,
+     which explicitly scoped D out pending screenshots. D's step order (selectplan, otp, quote, bundle, review,
+     confirmation) has otp BEFORE quote, so this hooks the OTP → Quote transition instead of OTP → Review — this
+     also matches the diagram's own sequence (Account Number → GB Quote → Good Standing? → Agrees to enroll) more
+     precisely than B's placement did. Reuses the same err-not-in-good/err-credit-fail copy, ported here (own ids,
+     since B's version already occupies the shared ones). Reviewer toggle: wfctl "Good standing (Scen D)" group. -->
+<div class="stop-screen scen-only-d" id="otp-goodstanding-stop-d" style="display: none;">
+<div id="otp-goodstanding-notgood-msg-d" style="display: none;">
+<h2>We can't complete your enrollment online</h2>
+<p>Your account has been flagged and requires manual review. Please contact us to discuss your options.</p>
+<span class="phone-big">1-877-292-9363</span>
+<p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
+<ul style="font-size: 12px; color: var(--muted); padding-left: 20px;">
+<li>No flowing gas (service may be disconnected)</li>
+<li>$50+ in arrears</li>
+<li>Account flagged as a write-off</li>
+<li>1-year enrollment restriction</li>
+</ul>
+</div>
+<div id="otp-goodstanding-creditfail-msg-d" style="display: none;">
+<h2>We can't offer this plan online</h2>
+<p>The soft credit check did not pass. Please contact us to discuss your options.</p>
+<span class="phone-big">1-877-292-9363</span>
+<p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
+</div>
+</div>
 <!-- OTP errors -->
 <div class="error-banner" id="err-otp-mismatch">
 <strong>That code doesn't match.</strong> Check your email and try again. <a href="#">Resend code</a>.
@@ -2239,8 +2405,10 @@
 <button class="btn btn-tertiary scen-only-d" onclick="setStep('selectplan')">← Back</button>
 <div class="btn-row-right">
 <button class="btn scen-only-a scen-only-c" onclick="setStep('account')">Verify and continue →</button>
-<button class="btn scen-only-b" onclick="setStep('review')">Verify and continue →</button>
-<button class="btn scen-only-d" onclick="setStep('quote')">Verify and continue →</button>
+<!-- ENRIL-474 (2026-08-16): routes through the silent Good-Standing check before advancing to Review. -->
+<button class="btn scen-only-b" onclick="otpContinueScenB()">Verify and continue →</button>
+<!-- ENRIL-486 (2026-08-16): routes through the silent Good-Standing check before advancing to Quote. -->
+<button class="btn scen-only-d" onclick="otpContinueScenD()">Verify and continue →</button>
 </div>
 </div>
 
@@ -2299,7 +2467,24 @@
               </p>
 
 </div>
-
+<!-- ENRIL-468 (2026-08-14): ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-114 — conditional on PRIME
+     returning 2+ service addresses for one utility account number (landlord/property-manager case), a separate
+     mechanism from MA-61 (which is a login/session-level premise question, not an account-number-entry one).
+     Hidden by default; reviewer toggle reveals it below. -->
+<div id="multi-address-selector-a" style="display:none; margin-top:18px; padding:16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:4px;">
+<p style="margin:0 0 12px; font-size:14px; font-weight:600;">We found multiple service addresses for this account. Please select the one you'd like to enroll:</p>
+<div style="display:flex; flex-direction:column; gap:10px;">
+<label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line); border-radius:4px; cursor:pointer;">
+<input name="service-address-a" style="margin-top:2px;" type="radio" value="addr-1"/>
+<span>123 Maple Street, Chicago IL 60601<br/><span style="font-size:12px; color:var(--muted);">Nicor Gas · Account ····3829</span></span>
+</label>
+<label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line); border-radius:4px; cursor:pointer;">
+<input name="service-address-a" style="margin-top:2px;" type="radio" value="addr-2"/>
+<span>456 Oak Avenue, Evanston IL 60201<br/><span style="font-size:12px; color:var(--muted);">Nicor Gas · Account ····5104</span></span>
+</label>
+</div>
+<div class="ann ann-b" style="margin-top:10px;"><strong>ENRIL-468 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. Single-address verifications skip this selector entirely. Cross-ref ENR-114 (ONG-PA-GRE) — confirm with Girish that PRIME returns an address array on the account-verification call (same open confirmation ONG-PA-GRE itself is still carrying).</div>
+</div>
 
 </div>
 </div>
@@ -2354,6 +2539,21 @@
                 Can't find your account number? Call <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>: <strong>1-877-292-9363</strong> — we can help you locate it.
               </p>
 
+</div>
+<!-- ENRIL-468 (2026-08-14): ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-114 — same mechanism as acct-entry-a above. -->
+<div id="multi-address-selector-c" style="display:none; margin-top:18px; padding:16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:4px;">
+<p style="margin:0 0 12px; font-size:14px; font-weight:600;">We found multiple service addresses for this account. Please select the one you'd like to enroll:</p>
+<div style="display:flex; flex-direction:column; gap:10px;">
+<label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line); border-radius:4px; cursor:pointer;">
+<input name="service-address-c" style="margin-top:2px;" type="radio" value="addr-1"/>
+<span>123 Maple Street, Chicago IL 60601<br/><span style="font-size:12px; color:var(--muted);">Nicor Gas · Account ····3829</span></span>
+</label>
+<label style="display:flex; align-items:flex-start; gap:10px; padding:12px; background:#fff; border:1px solid var(--line); border-radius:4px; cursor:pointer;">
+<input name="service-address-c" style="margin-top:2px;" type="radio" value="addr-2"/>
+<span>456 Oak Avenue, Evanston IL 60201<br/><span style="font-size:12px; color:var(--muted);">Nicor Gas · Account ····5104</span></span>
+</label>
+</div>
+<div class="ann ann-b" style="margin-top:10px;"><strong>ENRIL-468 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. Single-address verifications skip this selector entirely. Cross-ref ENR-114 (ONG-PA-GRE) — confirm with Girish that PRIME returns an address array on the account-verification call (same open confirmation ONG-PA-GRE itself is still carrying).</div>
 </div>
 
 </div>
@@ -2781,33 +2981,34 @@
 <div class="ann ann-b"><strong>ENRIL-449 · Phone inline-editable — reversed from ENRIL-238's blanket lock, 2026-08-12. Rationale: Phone carries no upstream verification/lookup dependency (unlike Name/Email/Account number), so it's low-risk to edit in place, matching the existing mailing-address-inline pattern (ENRIL-239).</strong></div>
 </div>
 <!-- ENRIL-120: Personalized contract documents component — same as Confirmation step -->
-<h3 style="margin-top: 28px;">Your personalized contract documents</h3>
+<!-- ENRIL-491 (2026-08-16): personalized LOA removed from Review entirely (not just its download) — PRIME doesn't
+     finalize the customer's name/date/timestamp on the LOA until submission, so showing a "final" personalized LOA
+     here risked producing a copy that could mismatch what's later on file in PRIME (a problem if a dispute arose).
+     The LOA now appears for the first time at Confirmation, read-only + print/download, after PRIME finalizes it
+     (see doc-loa-final in step-confirmation, already built). Plan Contract and ACR are unaffected — they were never
+     subject to this timing risk, per Allyson's decision 2026-08-16. -->
+<h3 style="margin-top: 28px;">Your contract terms</h3>
 
 <!-- ENRIL-341: same doc-container treatment as Documents step (ENRIL-334/335) — jump-link TOC dropped, body constrained to a fixed-height scroll box, download moved to footer bar. No scroll-to-unlock here: reading isn't gated at Review (that gating already happened at Documents). -->
 <div class="doc-bundle" style="margin-bottom: 24px;">
 <div class="doc-bundle-header">
-<span class="lbl">Your personalized enrollment documents · pre-submission preview</span>
+<span class="lbl">Your plan contract · pre-submission review</span>
 </div>
 <div class="doc-bundle-body" style="max-height:240px; overflow-y:auto;">
-<div class="doc-section" id="doc-loa-review">
-<h4>1. Letter of Agency · personalized</h4>
-<p class="doc-meta"><strong>Customer:</strong> Jane Doe  ·  <strong>Auth code:</strong> 847291  ·  <strong>Pending submission timestamp</strong></p>
-<p>I, Jane Doe, authorize [SouthStar Energy Services] to act as my natural gas supplier and to coordinate with my local distribution company on my behalf as of the enrollment timestamp.</p>
-<p class="doc-placeholder">[Full personalized LOA body — same as Confirmation step. Personalization values: name, timestamp (pending), authentication code.]</p>
-</div>
 <div class="doc-section" id="doc-plan-contract-review">
-<h4>2. Plan Contract</h4>
+<h4>1. Plan Contract</h4>
 <p class="doc-placeholder">[Plan-specific contract terms with customer-specific dates. Same as Confirmation step.]</p>
 </div>
 <div class="doc-section" id="doc-acr-review">
-<h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
+<h4>2. Automatic Contract Renewal (ACR) Disclosure</h4>
 <p><strong>Your plan renews automatically.</strong> Your plan continues at the end of its term unless you opt out. You'll receive a renewal notice in advance.</p>
 </div>
 </div>
-<!-- ENRIL-341: footer-bar download (matches Documents step / OPG). Print button dropped for parity — browser print + the Confirmation-step Print remain available. -->
+<!-- ENRIL-341: footer-bar download (matches Documents step / OPG). Print button dropped for parity — browser print + the Confirmation-step Print remain available.
+     ENRIL-491 (2026-08-16): download scoped to Plan Contract + ACR only — the LOA isn't finalized/shown here anymore. -->
 <div style="padding:10px 18px; background:#fafbfc; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center;">
 <span style="font-size:12px; color:var(--muted);">Need a copy for your records?</span>
-<button class="btn btn-secondary" onclick="alert('Download personalized contract (PDF) — available after submission per ENRIL-120 pending engineering confirmation')" style="font-size:12px; padding:6px 12px;" type="button">⬇ Download PDF</button>
+<button class="btn btn-secondary" onclick="alert('Download Plan Contract + ACR (PDF) — LOA available after submission at Confirmation')" style="font-size:12px; padding:6px 12px;" type="button">⬇ Download PDF</button>
 </div>
 </div>
 <!-- ENRIL-431 (2026-08-11): "Preferences" review-section removed entirely, all scenarios — its one row, "Consent to receive calls," has read "No" unconditionally in every scenario since ENRIL-365 (Scen A)/ENRIL-429 (Scen C) removed the underlying checkboxes; Scen B/D never collected this consent. -->
@@ -2832,19 +3033,16 @@
 <!-- ENRIL-351: leading asterisk added (required for existing + fixed-plan customers via validateReview). -->
 <label for="r-etc-ack"><span class="req">*</span> <strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
 </div>
-<!-- ENRIL-419 (2026-08-11): divider + "Review and Authorize" subheading added above the final authorization checkbox, matching test env's presentation — distinguishes this checkbox's binding rescission-rights language from the status-pill recap above. Scope: r-authorize (Scen A/C/D, scen-hide-b) — r-authorize-b (Scen B) not addressed, flagged as a follow-up scope question. -->
+<!-- ENRIL-419 (2026-08-11): divider + "Review and Authorize" subheading added above the final authorization checkbox, matching test env's presentation — distinguishes this checkbox's binding rescission-rights language from the status-pill recap above.
+     ENRIL-478 (2026-08-16): scen-hide-b dropped from both the subheading and the checkbox-row below — test env's active Scen B checkbox reads near-verbatim identical to r-authorize's existing LOA rescission-rights copy (including the "If I am a new [brand] customer..." conditional clause), not the shorter r-authorize-b "plan change" copy ENRIL-254 wrote specifically for B. r-authorize-b block removed entirely (see below); Scen B now renders and gates on r-authorize like every other scenario. Copy pending final legal review, same caveat as most authorization copy in this flow. -->
 <hr style="border: none; border-top: 1px solid var(--line-soft); margin: 16px 0;"/>
-<h4 class="scen-hide-b" style="margin: 0 0 10px;">Review and Authorize</h4>
-<!-- Final authorization (ENRIL-254 scenario split: Scen B "plan change", others "enrollment"). -->
-<div class="checkbox-row scen-hide-b">
+<h4 style="margin: 0 0 10px;">Review and Authorize</h4>
+<div class="checkbox-row">
 <input id="r-authorize" onchange="validateReview()" type="checkbox"/>
-<!-- ENRIL-356 (2026-07-21): full label replacement — LOA rescission-rights authorization copy. Market split: full brand name + abbreviation on first mention, abbreviation on later mentions. Scope: r-authorize only (r-authorize-b, Scen B, untouched). Asterisk retained per ENRIL-317/331. -->
+<!-- ENRIL-356 (2026-07-21): full label replacement — LOA rescission-rights authorization copy. Market split: full brand name + abbreviation on first mention, abbreviation on later mentions. Asterisk retained per ENRIL-317/331. ENRIL-478 (2026-08-16): now used by all scenarios, including Scen B. -->
 <label for="r-authorize"><span class="req">*</span> <strong>I authorize <span class="mkt-inline mkt-il on">Illinois Energy (IE)</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions (IES)</span> to be my alternative natural gas supplier</strong> and to process with my natural gas utility this request to enroll in a new contract with <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span>. If I am a new <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span> customer, I understand that my natural gas utility will be sending me a confirmation notice of the transfer of service. I also understand that I may rescind my enrollment without penalty any time before midnight of the third business day after receipt of the Letter of Agency and Terms and Conditions by contacting <span class="mkt-inline mkt-il on">IE</span><span class="mkt-inline mkt-ies">IES</span>. </label>
 </div>
-<div class="checkbox-row scen-only-b">
-<input id="r-authorize-b" onchange="validateReview()" type="checkbox"/>
-<label for="r-authorize-b"><span class="req">*</span> <strong>I am ready to submit my plan change</strong> and authorize <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to begin the contract switch with my utility. </label>
-</div>
+<!-- ENRIL-478 (2026-08-16): r-authorize-b ("I am ready to submit my plan change...", ENRIL-254) removed entirely — Scen B now uses r-authorize above, matching test env. -->
 </div>
 <!-- ENRIL-106/120: Optional marketing section removed per review-page simplification -->
 <!-- ENRIL-93 (2026-05-25): Step 6 in-flow account-creation block removed.
@@ -2951,6 +3149,17 @@
 </p>
 <!-- ENRIL-291: Scen B/D "Keep my current plan" section removed from Confirmation — not applicable post-submission -->
 
+<!-- ENRIL-495 (2026-08-16): non-functional placeholder autopay box, Guaranteed Bill only — discussion prop for the
+     next client conversation, not a finalized feature. Susan noted IL doesn't offer paperless billing and GB
+     autopay runs through either the customer's bank or Fiserv (likely an off-flow redirect); she needs to confirm
+     with Ashley how autopay is actually handled for GB before this can be scoped. No logic/copy/flow behind it yet. -->
+<div class="scen-only-gb" style="margin-top: 32px; padding: 18px; border: 1px dashed var(--line); border-radius: 6px; background: #fafbfc;">
+<h3 style="margin: 0 0 8px;">Set up autopay <span style="font-size:11px; font-weight:600; color:var(--muted); background:var(--line-soft); padding:2px 8px; border-radius:10px; text-transform:uppercase; letter-spacing:0.04em;">Placeholder</span></h3>
+<p class="sub" style="margin: 0 0 12px; color: var(--muted); font-size: 13px;">[Placeholder — autopay handling for Guaranteed Bill is still being scoped with SouthStar. This box is a discussion prop only; no functionality behind it yet.]</p>
+<button class="btn btn-secondary" disabled="" style="opacity: 0.5; cursor: not-allowed;" type="button">Set up autopay →</button>
+<div class="ann ann-y" style="margin-top: 12px;">ENRIL-495 · Open — placeholder/discussion prop only. Illinois doesn't offer paperless billing; GB autopay runs through either the customer's bank or Fiserv (likely requiring an off-flow redirect). Susan needs to confirm with Ashley how autopay is actually handled for GB before this is scoped further.</div>
+</div>
+
 <!-- ENRIL-421 (2026-08-11): RAF ("Refer a friend, earn rewards") tile, ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-block-confirmation (ENR-141/147/152) — extends ENRIL-416's RAF reversal (RAF confirmed available for IL/IES) to Confirmation. Renders after account creation, before the Questions/Natural Gas Basics callout cards, same order OPG settled on at ENR-147. Scope: all four scenarios (A/B/C/D) — step-confirmation isn't scenario-scoped, so this renders identically for all four. Carried-over open flag from OPG (ENR-152): whether PRIME can expose an "already a participant" flag at Plan-Change Confirmation is unconfirmed for Scen B/D — build assumes yes, falls back to Optin/Pending states only if PRIME says the flag isn't queryable here. -->
 <div class="raf-block" id="raf-block-confirmation">
 
@@ -2966,11 +3175,22 @@
 <div class="ann ann-b">ENRIL-421 · "Learn more" is a placeholder dead link, same as OPG's ENR-152 — will repoint once a standalone Refer-a-Friend page exists.</div>
 </div>
 
-<!-- ── STATE: PENDING (just opted in, code issuance async) ── -->
+<!-- ── STATE: JUST JOINED (code issued immediately, no async gap) ── -->
+<!-- ENRIL-493 (2026-08-16): pending/loading state removed — Susan confirmed the code issues immediately, no
+     PRIME turnaround wait ("it pulls in from Prime... right then and there"). Visual only, for the dev team —
+     doesn't resolve whether generating/showing the code inline is feasible vs. requiring a redirect to My Account;
+     that feasibility question remains open (owner: Allyson + dev team). -->
 <div id="conf-raf-view-pending" style="display:none;">
 <h3>You're in! 🎉</h3>
-<p style="margin:0 0 14px;">Your referral code will be ready in My Account within <strong>[X business days]</strong>. We won't email it — check back in My Account and you'll be able to share it and track your rewards there.</p>
-<div class="ann ann-b">ENRIL-421 · Turnaround time is a bracketed placeholder — swap in the real figure once PRIME confirms it (non-blocking). No email promise, matching OPG's ENR-90 precedent.</div>
+<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
+<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-il on">JORDAN-IL-25</span><span class="mkt-inline mkt-ies">JORDAN-IES-25</span></span></div>
+<div class="raf-channels">
+<button class="raf-share-action">Email a friend</button>
+<button class="raf-share-action">Copy link</button>
+<button class="raf-share-action">Share on social</button>
+</div>
+<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
+<div class="ann ann-y">ENRIL-493 · Visual only — shows the code issuing immediately, no pending state. Doesn't resolve whether inline code generation/display is technically feasible within Enrollment vs. requiring a redirect to My Account; that feasibility question remains open (owner: Allyson + dev team).</div>
 </div>
 
 <!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
@@ -3121,6 +3341,29 @@
       var b = document.getElementById('scen-btn-' + k);
       if (b) b.classList.toggle('on', k === s);
     });
+    // ENRIL-499/500/501 (2026-08-17): some Error-mode / Step buttons have no real equivalent for the
+    // active scenario (e.g. B/D have no 'account' step, so "Acct not found" can't mean anything for
+    // them; Scen C's Documents content is merged into Quote, so its own 'bundle' step is never visited).
+    // Disable rather than let them silently render a broken/contradictory screen (ENRIL-500/501 findings).
+    var isBD = (s === 'b' || s === 'd');
+    ['acct-not-found','already-enrolled','multi-address'].forEach(function(k){
+      var b = document.getElementById('err-btn-' + k);
+      if (b) b.disabled = isBD;
+    });
+    // Scen B's OTP-step email is read-only (from PRIME) — mismatch can't happen. Scen D's is editable,
+    // so mismatch stays available there (rerouted to 'otp' in setError() below).
+    var emailMismatchBtn = document.getElementById('err-btn-email-mismatch');
+    if (emailMismatchBtn) emailMismatchBtn.disabled = (s === 'b');
+    var bundleStepBtn = document.getElementById('step-btn-bundle');
+    if (bundleStepBtn) bundleStepBtn.disabled = (s === 'c');
+    // If the currently active error mode just became invalid for this scenario, reset to 'none'
+    // rather than leave a disabled-looking option "on" with a stale error state underneath it.
+    var activeErr = document.body.className.match(/error-(\S+)/);
+    if (activeErr) {
+      var k2 = activeErr[1];
+      var stillValidBtn = document.getElementById('err-btn-' + k2);
+      if (stillValidBtn && stillValidBtn.disabled) setError('none');
+    }
     // Determine the default starting step for each scenario.
     // For existing-customer scenarios (B/D), honor the current entry-state toggle
     // so a reviewer can demo the dashboard-skip and deep-link landing variants.
@@ -3220,6 +3463,20 @@
       document.body.classList.add('flow-step-' + target);
       // ENRIL-310: reset OTP send-state on (re)entry so Scen B/D always start at "Confirm where to send your code".
       document.body.classList.remove('otp-code-sent');
+      // ENRIL-474 (2026-08-16): reset the Scen B good-standing stop screen on (re)entry, so a prior toggle doesn't persist.
+      // ENRIL-486 (2026-08-16): same reset extended to Scen D's stop screen.
+      if (target === 'otp') {
+        var gsStop = document.getElementById('otp-goodstanding-stop');
+        var gsStopD = document.getElementById('otp-goodstanding-stop-d');
+        var gsSend = document.getElementById('otp-confirm-send');
+        var gsCode = document.getElementById('otp-enter-code');
+        var gsBtnRow = document.querySelector('#step-otp .btn-row');
+        if (gsStop) gsStop.style.display = 'none';
+        if (gsStopD) gsStopD.style.display = 'none';
+        if (gsSend) gsSend.style.display = '';
+        if (gsCode) gsCode.style.display = '';
+        if (gsBtnRow) gsBtnRow.style.display = '';
+      }
     } else {
       console.warn('Step not found:', target);
       return;
@@ -3259,6 +3516,8 @@
     // ENRIL-399/405 (2026-08-10): re-validate on entry — Quote's gating is scenario-conditional
     // (Scen C also gates on the merged Documents content), so a stale scenario's result can't leak in.
     if (target === 'quote') validateQuote();
+    // ENRIL-473 (2026-08-16): re-validate on entry, same reasoning — gbpq requirement is scenario-conditional.
+    if (target === 'selectplan') validateSelectPlan();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -3311,6 +3570,28 @@
       if (b) b.classList.toggle('on', k === e);
     });
 
+    // ENRIL-498/500/501 (2026-08-17): Scenarios B/D have no 'account' or 'lookup' step, so the
+    // default errorStepMap routing (below) would show those nonexistent, contradictory screens.
+    // Route the scenario-appropriate subset through the real mechanism instead. The other options
+    // routed to 'account' (acct-not-found/already-enrolled/multi-address) and email-mismatch-for-B
+    // have no real equivalent for B/D at all — those buttons are disabled in setScenario(), so
+    // setError() should never receive them for B/D in practice.
+    var scen = getScenario();
+    var isBD = (scen === 'b' || scen === 'd');
+    if (isBD && (e === 'not-in-good' || e === 'credit-fail')) {
+      setStep('otp');
+      if (scen === 'b') { setScenBGoodStanding(e); otpContinueScenB(); }
+      else { setScenDGoodStanding(e); otpContinueScenD(); }
+      return;
+    }
+    // Leaving the dropdown-driven good-standing state for any other selection (including 'none') —
+    // reset the underlying toggle so OTP's "Verify and continue" behaves normally next time, keeping
+    // the main dropdown and the dedicated Scen B/D toggles mutually consistent either direction.
+    if (scen === 'b' && scenBGoodStanding !== 'clear') setScenBGoodStanding('clear');
+    if (scen === 'd' && scenDGoodStanding !== 'clear') setScenDGoodStanding('clear');
+    if (isBD && (e === 'prime-timeout' || e === 'email-down')) { setStep('otp'); return; }
+    if (scen === 'd' && e === 'email-mismatch') { setStep('otp'); return; }
+
     if (e in errorStepMap) setStep(errorStepMap[e]);
   }
 
@@ -3334,11 +3615,12 @@
     // ENRIL-358 (2026-08-10): q-continue (Scen A) / q-continue-b (Scen B) removed — not part of the gate for Non-GB.
     var isScentC = document.body.classList.contains('scen-c');
     var isScentD = document.body.classList.contains('scen-d');
-    var isGB = isScentC || isScentD;
     var isExisting = document.body.classList.contains('scen-b') || isScentD;
     var continueChecked = isScentC ? (c1gb && c1gb.checked) : isScentD ? (c1gbd && c1gbd.checked) : true;
     // ENRIL-359 (2026-08-10): language attestation converted from checkbox to Yes/No radio.
-    var attestOk = isGB || (langAttestChecked && langAttestChecked.value === 'yes');
+    // ENRIL-484 (2026-08-16): gate narrowed from isGB to isScentC — Scen D's attestation now renders on this
+    // step (scen-hide-c, not scen-hide-gb), so D must actually answer it rather than auto-passing.
+    var attestOk = isScentC || (langAttestChecked && langAttestChecked.value === 'yes');
     // ENRIL-207: Check q-etc-ack when visible (plan-fixed existing customers — same pattern as ENRIL-191 validateReview)
     var etcAckOk = true;
     if (isExisting && document.body.classList.contains('is-fixed-plan')) {
@@ -3354,7 +3636,13 @@
       var bundleAckC = document.getElementById('bundle-ack-c');
       docsOk = bundleAckC && bundleAckC.checked && isBundleScrolledToBottom('bundle-doc-scroll-c');
     }
-    if (btn) btn.disabled = !(continueChecked && attestOk && etcAckOk && docsOk);
+    // ENRIL-476 (2026-08-16): Scen B's bundle-authorized checkbox relocated here from Documents (step-bundle) — now gates Quote instead of validateBundle().
+    var authOkB = true;
+    if (document.body.classList.contains('scen-b')) {
+      var authB = document.getElementById('bundle-authorized');
+      authOkB = authB && authB.checked;
+    }
+    if (btn) btn.disabled = !(continueChecked && attestOk && etcAckOk && docsOk && authOkB);
     // Language decline error: handled via error-mode toggle (ENRIL-13).
   }
   // ENRIL-333: scroll-to-unlock — Continue also requires scrolling to the bottom of the
@@ -3368,20 +3656,28 @@
     return box.scrollTop + box.clientHeight >= box.scrollHeight - 10;
   }
   function validateBundle() {
-    // ENRIL-160: also require bundle-authorized checkbox (GBP document bundle has two required acknowledgements).
+    // ENRIL-160: also require an authorization/acknowledgment checkbox (GBP document bundle has two required acknowledgements).
     // ENRIL-208: enable/disable all four scenario-specific continue buttons.
-    // ENRIL-251: Scen B uses bundle-authorized; Scen C/D use bundle-authorized-nonb.
+    // ENRIL-476/477 (2026-08-16): Scen B's bundle-authorized moved to step-quote (now gates validateQuote() instead) —
+    // Documents now gates on the new bundle-acr-ack checkbox in its place. Scen D uses both bundle-acr-ack (per
+    // ENRIL-488) and bundle-authorized-nonb; Scen C doesn't visit this step at all.
     // ENRIL-362 (2026-08-10): Scen A no longer has a Documents-step authorization checkbox at all — l-by-submitting at Lookup already covers it.
     // ENRIL-333: also require scroll-to-bottom of the sample-contract container.
     var ack = document.getElementById('bundle-ack');
     var isScenA = document.body.classList.contains('scen-a');
     var isScenB = document.body.classList.contains('scen-b');
+    var isScenD = document.body.classList.contains('scen-d');
+    var acrAck = document.getElementById('bundle-acr-ack');
+    var authNonb = document.getElementById('bundle-authorized-nonb');
     var authOk = true;
+    // ENRIL-488 (2026-08-16): Scen D now has both bundle-acr-ack (widened from Scen-B-only) and
+    // bundle-authorized-nonb live at Documents — both are required. Scen B keeps acr-ack only
+    // (its authorized checkbox moved to Quote per ENRIL-476); Scen C doesn't visit this step.
     if (isScenB) {
-      var authB = document.getElementById('bundle-authorized');
-      authOk = authB && authB.checked;
+      authOk = acrAck && acrAck.checked;
+    } else if (isScenD) {
+      authOk = (acrAck && acrAck.checked) && (authNonb && authNonb.checked);
     } else if (!isScenA) {
-      var authNonb = document.getElementById('bundle-authorized-nonb');
       authOk = authNonb && authNonb.checked;
     }
     var enabled = ack && ack.checked && authOk && isBundleScrolledToBottom();
@@ -3399,6 +3695,20 @@
     var boxC = document.getElementById('bundle-doc-scroll-c');
     if (boxC) boxC.addEventListener('scroll', validateQuote);
   })();
+  // ENRIL-473 (2026-08-16): gates step-selectplan's Continue on the "Required acknowledgments"
+  // checkboxes — sp-disc-email (Scen B + D) and sp-disc-gbpq (Scen D only). Previously unwired.
+  function validateSelectPlan() {
+    var emailBox = document.getElementById('sp-disc-email');
+    var gbpqBox = document.getElementById('sp-disc-gbpq');
+    var isScenD = document.body.classList.contains('scen-d');
+    var emailOk = emailBox ? emailBox.checked : true;
+    var gbpqOk = isScenD ? (gbpqBox && gbpqBox.checked) : true;
+    var ok = emailOk && gbpqOk;
+    ['selectplan-continue-btn-b', 'selectplan-continue-btn-d'].forEach(function(id) {
+      var btn = document.getElementById(id);
+      if (btn) btn.disabled = !ok;
+    });
+  }
   function validateLookup() {
     // ENRIL-158: l-email-confirm removed — ENRIL-142 removed the confirm email field.
     // ENRIL-365 (2026-08-10): l-phone removed from Lookup entirely (Scen A) — no longer part of the required set for any scenario.
@@ -3424,10 +3734,8 @@
     // ENRIL-244: Single supplier-auth checkbox (r-disc-1) + final authorization (r-authorize). r-disc-2/3/4 removed from DOM.
     // ENRIL-253: Updated checks array — r-disc-2/3/4 no longer exist in DOM after ENRIL-244 revision.
     // r-etc-ack is conditional (plan-fixed + existing) — checked separately via element visibility before adding.
-    // ENRIL-254: Scen B uses r-authorize-b ("plan change" copy); other scenarios use r-authorize
-    var isScenB = document.body.classList.contains('scen-b');
-    var authorizeId = isScenB ? 'r-authorize-b' : 'r-authorize';
-    var checks = [authorizeId]; // ENRIL-274: r-disc-1 removed from DOM; only final authorization checkbox required
+    // ENRIL-478 (2026-08-16): r-authorize-b removed — all scenarios, including Scen B, now use r-authorize.
+    var checks = ['r-authorize']; // ENRIL-274: r-disc-1 removed from DOM; only final authorization checkbox required
     var ok = checks.every(function(id){
       var el = document.getElementById(id);
       return el && el.checked;
@@ -3499,6 +3807,7 @@
   validateLookup();
   validateReview();
   validateInfo();
+  validateSelectPlan();
   setConfRafView('optin'); // ENRIL-421: default RAF state = not yet opted in, for all scenarios
 
   // ---------- Scenario drawer toggle ----------
@@ -3590,6 +3899,63 @@
   function confirmCreditCheckModal() {
     closeCreditCheckModal();
     setStep(stepAfterConfirmAccount());
+  }
+
+  // ---------- ENRIL-474: Scen B silent Account-in-Good-Standing check, OTP → Review transition ----------
+  // Mirrors Scen A/C's post-Confirm-Account GetQuotes/credit-check-modal simulation above, but Scen B has no
+  // Confirm Account step to hang it on (account is on file from sign-in, ENRIL-211/467) — hooks Scen B's OTP
+  // "Verify and continue" button instead. Reviewer toggle: wfctl "Good standing (Scen B)" group.
+  var scenBGoodStanding = 'clear'; // 'clear' | 'not-in-good' | 'credit-fail'
+  function setScenBGoodStanding(state) {
+    scenBGoodStanding = state;
+    ['clear', 'not-in-good', 'credit-fail'].forEach(function(s) {
+      var b = document.getElementById('goodstanding-btn-' + s);
+      if (b) b.classList.toggle('on', s === state);
+    });
+  }
+  function otpContinueScenB() {
+    if (scenBGoodStanding === 'clear') { setStep('review'); return; }
+    var stop = document.getElementById('otp-goodstanding-stop');
+    var notGood = document.getElementById('otp-goodstanding-notgood-msg');
+    var creditFail = document.getElementById('otp-goodstanding-creditfail-msg');
+    var sendPanel = document.getElementById('otp-confirm-send');
+    var codePanel = document.getElementById('otp-enter-code');
+    var btnRow = document.querySelector('#step-otp .btn-row');
+    if (sendPanel) sendPanel.style.display = 'none';
+    if (codePanel) codePanel.style.display = 'none';
+    if (btnRow) btnRow.style.display = 'none';
+    if (stop) stop.style.display = 'block';
+    if (notGood) notGood.style.display = (scenBGoodStanding === 'not-in-good') ? 'block' : 'none';
+    if (creditFail) creditFail.style.display = (scenBGoodStanding === 'credit-fail') ? 'block' : 'none';
+  }
+
+  // ---------- ENRIL-486: Scen D silent Account-in-Good-Standing check, OTP → Quote transition ----------
+  // Extends ENRIL-474 to Scenario D, which carries the identical gap (no Confirm Account step) but was
+  // explicitly scoped out of that build pending screenshots. D's step order puts otp before quote, so this
+  // hooks "Verify and continue" on step-otp and, when clear, advances to quote (D's next step) rather than
+  // review. Reviewer toggle: wfctl "Good standing (Scen D)" group.
+  var scenDGoodStanding = 'clear'; // 'clear' | 'not-in-good' | 'credit-fail'
+  function setScenDGoodStanding(state) {
+    scenDGoodStanding = state;
+    ['clear', 'not-in-good', 'credit-fail'].forEach(function(s) {
+      var b = document.getElementById('goodstanding-btn-d-' + s);
+      if (b) b.classList.toggle('on', s === state);
+    });
+  }
+  function otpContinueScenD() {
+    if (scenDGoodStanding === 'clear') { setStep('quote'); return; }
+    var stop = document.getElementById('otp-goodstanding-stop-d');
+    var notGood = document.getElementById('otp-goodstanding-notgood-msg-d');
+    var creditFail = document.getElementById('otp-goodstanding-creditfail-msg-d');
+    var sendPanel = document.getElementById('otp-confirm-send');
+    var codePanel = document.getElementById('otp-enter-code');
+    var btnRow = document.querySelector('#step-otp .btn-row');
+    if (sendPanel) sendPanel.style.display = 'none';
+    if (codePanel) codePanel.style.display = 'none';
+    if (btnRow) btnRow.style.display = 'none';
+    if (stop) stop.style.display = 'block';
+    if (notGood) notGood.style.display = (scenDGoodStanding === 'not-in-good') ? 'block' : 'none';
+    if (creditFail) creditFail.style.display = (scenDGoodStanding === 'credit-fail') ? 'block' : 'none';
   }
 
   // ---------- ENRIL-100: Current-plan-type toggle (gates ETF callout in Select plan) ----------
