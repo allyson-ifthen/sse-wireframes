@@ -106,6 +106,7 @@ body.ann-mode-clean .nav-mobile-note { display: none !important; }
 .footer-copyright { font-size: 10px; color: #555; }
 .footer-legal-links { display: flex; gap: 12px; }
 .footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.footer-license { font-size: 10px; color: #3a3a3a; line-height: 1.6; padding-top: 8px; border-top: 1px solid #222; }
 .mkt { display: none; } .mkt.on { display: block; }
 .mkt-inline { display: none; } .mkt-inline.on { display: inline; }
 .mkt-flex { display: none; } .mkt-flex.on { display: flex; }
@@ -409,9 +410,9 @@ body.ann-mode-clean .nav-mobile-note { display: none !important; }
 <div class="section-label"><div class="sec-num">1</div><br/>Search Bar</div>
 <div class="search-bar-section">
 <div class="search-bar-row">
-<input class="search-bar-input" type="text" value="fixed rate natural gas plan"/>
-<button class="search-bar-btn">🔍 Search</button>
-<a class="search-bar-clear">Clear</a>
+<input class="search-bar-input" id="search-bar-input" type="text" value="fixed rate natural gas plan" onkeydown="if(event.key==='Enter') submitInPageSearch()"/>
+<button class="search-bar-btn" onclick="submitInPageSearch()">🔍 Search</button>
+<a class="search-bar-clear" onclick="clearInPageSearch()">Clear</a>
 </div>
 <div class="search-meta page-view on" id="meta-populated">Showing <strong>6 results</strong> for <strong>"fixed rate natural gas plan"</strong></div>
 <div class="search-meta page-view" id="meta-empty">No results for <strong>"aggregation contract override"</strong></div>
@@ -533,14 +534,9 @@ body.ann-mode-clean .nav-mobile-note { display: none !important; }
 <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input checked="" type="checkbox"/> Legal (1)</label>
 </div>
 </div>
-<!-- Customer Type -->
-<div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #e0e0e0;">
-<div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#888; margin-bottom:6px;">Customer Type</div>
-<div style="display:flex; gap:6px;">
-<label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#1e3a5f; border:1.5px solid #1e3a5f; border-radius:3px; padding:4px 10px; color:#fff; font-weight:700;"><input checked="" name="custype" style="accent-color:#fff;" type="radio"/> Residential</label>
-<label style="display:flex; align-items:center; gap:5px; font-size:11px; cursor:pointer; background:#fff; border:1.5px solid #d0dce8; border-radius:3px; padding:4px 10px; color:#888;"><input name="custype" type="radio"/> Commercial</label>
-</div>
-</div>
+<!-- SR-6 (2026-08-24, Claude Code): standalone Customer Type toggle removed — Residential vs.
+     Commercial is now conveyed via inline badges on plan results (Open Question #3, resolved),
+     not a separate sidebar filter. -->
 <div style="padding-top:12px; border-top:1px dashed #e0e0e0;">
 
 <div style="font-size:11px; font-weight:700; color:#1e3a5f; margin-bottom:6px;">Need more help?</div>
@@ -629,7 +625,15 @@ body.ann-mode-clean .nav-mobile-note { display: none !important; }
 <div><div class="footer-col-head">My Account</div><div class="footer-col-links"><a>Log In</a><a>Enroll</a></div></div>
 <div><div class="footer-col-head">Legal</div><div class="footer-col-links"><a>Terms &amp; Conditions</a><a>Privacy Policy</a></div></div>
 </div>
-<div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div></div>
+<div class="footer-bottom"><div class="footer-bottom-row"><div class="footer-copyright">© 2026 SouthStar Energy Services.</div><div class="footer-legal-links"><a>Terms</a><a>Privacy</a></div></div>
+<!-- HP-19 (2026-08-24, Claude Code): IE utility gas-supply-cost disclosure — global site footer, all Full-nav templates.
+     Actual current-site copy per 2026-07-14 scope confirmation. Hard-coded stop-gap; expect a manual monthly authoring update
+     until CMS/API integration. -->
+<div class="footer-license">
+<span class="mkt" id="ft-hp19-il">Illinois Energy is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy's credit and payment policies, and other eligibility requirements.</span>
+<span class="mkt" id="ft-hp19-ies">Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.</span>
+</div>
+</div>
 </div>
 </div>
 <div class="doc-footer">Search Results — Wireframe Sketch · 4037-25 · IfThen Digital · April 2026</div>
@@ -775,6 +779,22 @@ function selectSearchSuggestion(text) {
   input.value = text;
   submitSearchOverlay();
 }
+// SR-5 (2026-08-24, Claude Code): shared routing so the overlay (GLB-SEARCHICON-2) and the
+// persistent in-page Search Bar (Section 1) both land on the same Populated/Empty/Loading
+// state machine for a submitted query — only the entry point differs, per GLB-SEARCH.
+function goToPopulatedResults(q) {
+  document.querySelectorAll('.page-view').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('[id^="meta-"]').forEach(el => el.classList.remove('on'));
+  const meta = document.getElementById('meta-populated');
+  meta.innerHTML = 'Showing <strong>6 results</strong> for <strong>"' + q + '"</strong>';
+  meta.classList.add('on');
+  document.getElementById('state-populated').classList.add('on');
+  document.querySelectorAll('.btn-state').forEach(b => b.classList.remove('active'));
+  const firstStateBtn = document.querySelector('.btn-state');
+  if (firstStateBtn) firstStateBtn.classList.add('active');
+  const bar = document.getElementById('search-bar-input');
+  if (bar) bar.value = q;
+}
 function submitSearchOverlay() {
   const input = document.getElementById('search-overlay-input');
   const q = input.value.trim();
@@ -782,15 +802,20 @@ function submitSearchOverlay() {
   if (!q) return;
   // Simulate transitioning from the overlay into the existing Populated results state —
   // the overlay only changes the entry point; the results experience is unchanged (GLB-SEARCH).
-  document.querySelectorAll('.page-view').forEach(el => el.classList.remove('on'));
-  document.querySelectorAll('[id^="meta-"]').forEach(el => el.classList.remove('on'));
-  document.getElementById('meta-populated').classList.add('on');
-  document.getElementById('state-populated').classList.add('on');
-  document.querySelectorAll('.btn-state').forEach(b => b.classList.remove('active'));
-  const firstStateBtn = document.querySelector('.btn-state');
-  if (firstStateBtn) firstStateBtn.classList.add('active');
-  const bar = document.querySelector('.search-bar-input');
-  if (bar) bar.value = q;
+  goToPopulatedResults(q);
+}
+function submitInPageSearch() {
+  const input = document.getElementById('search-bar-input');
+  const q = input.value.trim();
+  if (!q) return;
+  goToPopulatedResults(q);
+}
+function clearInPageSearch() {
+  const input = document.getElementById('search-bar-input');
+  if (input) { input.value = ''; input.focus(); }
+  // No dedicated "empty query" state is defined for this page — Clear resets to the
+  // Populated state's default demo query rather than leaving a blank/undefined view.
+  goToPopulatedResults('fixed rate natural gas plan');
 }
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeSearchOverlay();

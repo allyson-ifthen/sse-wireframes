@@ -910,7 +910,6 @@
 <div class="scenario-drop-row">
 <span class="scenario-drop-lbl">RAF state (ENR-152)</span>
 <button id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
-<button id="raf-btn-pending" onclick="setConfRafView('pending')">Pending</button>
 <button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
 </div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
@@ -1029,7 +1028,8 @@
      ========================================================================== -->
 <div class="page-title-wrap">
 <div class="page-title">
-<span class="flow-only-new-inline">Enroll in PriceGuard 12<sup style="font-size:0.55em">®</sup><small> — 12-month fixed rate</small></span>
+<span class="flow-only-new-inline"><!-- ENR-159 (2026-08-24): renamed from "PriceGuard 12" to "12-Month Fixed Plan" to resolve a name mismatch with the sticky plan-card sidebar (was showing "PriceGuard 24" for the same plan) — a likely source of the PriceGuard-naming confusion flagged in Enrollment-ONG_UserTestFindings_2026-08-10.md. -->
+Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="flow-only-existing-inline">Change your plan<small> — Existing customer</small></span>
 </div>
 <!-- ENR-43: account-type confirmation line. Determined upstream by entry path. -->
@@ -1119,7 +1119,8 @@
 <dt>Term</dt><dd><span class="plan-fixed-inline">12 months</span><span class="plan-variable-inline">Month-to-month</span></dd>
 <dt>Rate type</dt><dd><span class="plan-fixed-inline">Fixed</span><span class="plan-variable-inline">Variable</span></dd>
 <dt>Customer charge</dt><dd>$X.XX / mo</dd>
-<dt class="plan-fixed-row">ETC</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
+<!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
+<dt class="plan-fixed-row">Early Termination Charge</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
 </dl>
 <div class="ldc-row">
 <span>
@@ -1137,18 +1138,20 @@
 </div>
 <div class="plan-summary-new">
 <h3><span class="plan-label-new">Your new plan</span><span class="plan-label-confirmation" style="display:none;">Your selected plan</span></h3>
+<!-- ENR-159 (2026-08-24): renamed "PriceGuard 24" → "12-Month Fixed Plan" + corrected rate/term to match the "12-Month Fixed Plan" now named in the page headline (was showing a different, mismatched plan — a likely source of the PriceGuard-naming confusion in Enrollment-ONG_UserTestFindings_2026-08-10.md). -->
 <div class="plan-name-row">
-<div class="plan-name">PriceGuard 24<sup>®</sup></div>
+<div class="plan-name">12-Month Fixed Plan</div>
 </div>
 <div class="plan-rate">
-        $0.689
+        $0.749
         <small>/ <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></small>
 </div>
 <dl>
-<dt>Term</dt><dd>24 months</dd>
+<dt>Term</dt><dd>12 months</dd>
 <dt>Rate type</dt><dd>Fixed</dd>
 <dt>Customer charge</dt><dd>$X.XX / mo</dd>
-<dt class="plan-fixed-row">ETC</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
+<!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
+<dt class="plan-fixed-row">Early Termination Charge</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
 </dl>
 <div class="ldc-row">
 <span>
@@ -1230,7 +1233,9 @@
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="alert('Production behavior: navigate to My Account dashboard.');">← Back to My Account</button>
 <div class="btn-row-right">
-<button class="btn" onclick="setStep('pf2')">Sign in →</button>
+<!-- ENR-153 (2026-08-18): routes to pf3, not pf2 — PF-2 ("Review your current plan") is no longer part of
+     the production path per ENR-67/ENR-98; it stays reachable only via its own wfctl Step button. -->
+<button class="btn" onclick="setStep('pf3')">Sign in →</button>
 </div>
 </div>
 </section>
@@ -1618,20 +1623,6 @@
            PRIME auto-creates a passwordless My Account at submit using the OTP-verified email.
            Step 2 stays focused on enrollment-required PII + operational preferences. -->
 
-<!-- ENR-58 (2026-05-26): Optional RAF promo code field — ENR-76 suppressed for existing customers — ENR-86: extended to PA/GRE (2026-06-15) -->
-<!-- ENR-109: divider above RAF fieldset -->
-<hr style="border:none; border-top:1px solid var(--line,#ddd); margin:20px 0;"/>
-<div class="mkt mkt-ong mkt-pa mkt-gre flow-only-new" id="raf-promo-section">
-<div class="fieldset">
-<h3>Refer a Friend</h3>
-<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">If a friend referred you, enter their referral code below. This is optional and won't affect your enrollment.</p>
-<div class="field">
-<label for="raf-promo-code"><span class="req">*</span>Referral code</label>
-<input autocomplete="off" id="raf-promo-code" placeholder="e.g. JORDAN-ONG-25" type="text"/>
-</div>
-
-</div>
-</div>
 <!-- ENR-111: "How did you hear about us?" field -->
 <div class="fieldset">
 <div class="field">
@@ -1687,6 +1678,22 @@
 
 <!-- ENR-30: Legal-requested fields 1 & 2 REMOVED per client review 2026-05-13.
            IL-specific legal fields will be handled in a separate IL wireframe. -->
+
+<!-- ENR-58 (2026-05-26): Optional RAF promo code field — ENR-76 suppressed for existing customers — ENR-86: extended to PA/GRE (2026-06-15).
+     ENR-158 (2026-08-24): moved from mid-form (between Mailing address and "How did you hear about us?") to the end of Step 2, per user-testing finding (P4: "referring a friend in the middle of setup is a little wonky"). -->
+<hr style="border:none; border-top:1px solid var(--line,#ddd); margin:20px 0;"/>
+<div class="mkt mkt-ong mkt-pa mkt-gre flow-only-new" id="raf-promo-section">
+<div class="fieldset">
+<h3>Refer a Friend</h3>
+<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">If a friend referred you, enter their referral code below. This is optional and won't affect your enrollment.</p>
+<div class="field">
+<!-- ENR-156 (2026-08-24): removed stray required-field asterisk — field is optional per ENR-58/ENR-76 and the help text directly above it. -->
+<label for="raf-promo-code">Referral code</label>
+<input autocomplete="off" id="raf-promo-code" placeholder="e.g. JORDAN-ONG-25" type="text"/>
+</div>
+
+</div>
+</div>
 
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep(1)">← Back</button>
@@ -1880,8 +1887,10 @@
 <!-- ====== Confirmation =============================================== -->
 <section aria-labelledby="conf-title" class="step" id="confirmation">
 <div class="conf-hero">
-<h2 id="conf-title">We've received your enrollment request</h2>
-<p style="margin:6px 0 0; color:var(--muted);">Your utility will confirm your switch within 1–2 business days. We'll email when it's official — or contact you if your account couldn't be verified.</p>
+<!-- ENR-157 (2026-08-24, Claude Code): hero copy reframed per Allyson's final copy decision — does not reopen
+     ENR-146's decision to drop a separate "what happens next" timeline component. -->
+<h2 id="conf-title">You're all set. We'll take it from here.</h2>
+<p style="margin:6px 0 0; color:var(--muted);">We're now confirming your switch with your utility, usually within 1–2 business days. We'll email you the moment it's official — or contact you if your account couldn't be verified.</p>
 <div class="conf-num">
 <small>Confirmation number</small>
           SSE-2026-051234
@@ -1951,18 +1960,15 @@
 <p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
 <label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="#raf-program-terms">Program Terms</a></label>
 <div class="raf-channels">
-<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('pending')">Join &amp; get my code →</button>
+<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
 </div>
 <p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
 <div class="ann ann-b">ENR-152 · "Learn more" is a placeholder dead link pending GLB-RAF-1 (standalone Refer-a-Friend page, not yet built/prioritized) — will repoint once that page exists, same as the nav's "Refer a Friend" item.</div>
 </div>
 
-<!-- ── STATE: PENDING (just opted in, code issuance async) ── -->
-<div id="conf-raf-view-pending" style="display:none;">
-<h3>You're in! 🎉</h3>
-<p style="margin:0 0 14px;">Your referral code will be ready in My Account within <strong>[X business days]</strong>. We won't email it — check back in My Account and you'll be able to share it and track your rewards there.</p>
-<div class="ann ann-b">ENR-152 · Turnaround time is a bracketed placeholder — swap in the real figure once PRIME confirms it (non-blocking). No email promise, per ENR-90's no-timing-promises precedent.</div>
-</div>
+<!-- ENR-154 (2026-08-24, Claude Code): PENDING state removed — MA-115 confirmed referral-code issuance
+     is near-instantaneous once a customer agrees to the RAF T&Cs, so there's no real-world window where
+     a customer sits in a "your code is on its way" pending state. Join now resolves straight to Participant. -->
 
 <!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
 <div id="conf-raf-view-participant" style="display:none;">
@@ -2136,9 +2142,15 @@
 
   // ---------- ENR-42 · Entry-state for existing-customer flow ------------------
   // 'unauth'   — customer arrives at /enroll/?from=my-account without a session → PF-1 Sign in
-  // 'signedin' — customer taps "Switch Plan" from My Account dashboard (has session) → PF-2 Confirm current
+  //              → (after signing in) PF-3 Select new plan, per ENR-153
+  // 'signedin' — customer taps "Switch Plan" from My Account dashboard (has session) → PF-3 Select new plan
   // 'deeplink' — customer taps a promo "Switch to this plan" CTA while signed in → PF-3 Select new plan
   //              (with deep-linked plan pre-selected)
+  // ENR-153 (2026-08-18): PF-2 ("Review your current plan — keep or change") is no longer a landing
+  // point for any production path — ENR-67/ENR-98 already documented PF-3 as the intended entry point
+  // for both existing-customer paths, but setEntryState() hadn't been updated to match. PF-1 and PF-2
+  // remain in the file as reviewer-demo-only screens, independently reachable via their own wfctl Step
+  // buttons (step-btn-pf1 / step-btn-pf2) — this fix only changes what the default paths land on.
   // The toggle is meaningful only when flow=existing; clicking it implicitly enables existing flow.
   var currentEntryState = 'unauth';
   function setEntryState(state) {
@@ -2159,9 +2171,11 @@
     });
     // For signed-in entry, mark prior pre-flow steps as completed so chips render 'done'
     // — the customer truly skipped them, not just hasn't reached them yet.
-    var landingStep = { unauth: 'pf1', signedin: 'pf2', deeplink: 'pf3' }[state] || 'pf1';
+    // ENR-153: 'signedin' now lands on pf3 (same as 'deeplink') — PF-2 is skipped, not shown.
+    var landingStep = { unauth: 'pf1', signedin: 'pf3', deeplink: 'pf3' }[state] || 'pf1';
     if (state === 'signedin') {
       if (completedSteps.indexOf('pf1') < 0) completedSteps.push('pf1');
+      if (completedSteps.indexOf('pf2') < 0) completedSteps.push('pf2');
     } else if (state === 'deeplink') {
       if (completedSteps.indexOf('pf1') < 0) completedSteps.push('pf1');
       if (completedSteps.indexOf('pf2') < 0) completedSteps.push('pf2');
@@ -2528,17 +2542,17 @@
     if (db) db.classList.toggle('on', state === 'deferred');
   }
 
-  // ---------- ENR-152: Confirmation RAF three-state model (optin / pending / participant) ----------
-  // Mirrors MA-109's My Account RAF Dashboard sub-states. Default = optin for both New and Existing
-  // flows (a brand-new customer can never land on "participant" — no prior account — so that state
-  // is reachable here only via the reviewer toggle). Reviewer toggle: "RAF state (ENR-152)" in the
-  // Scenario drawer.
+  // ---------- ENR-152/ENR-154: Confirmation RAF two-state model (optin / participant) ----------
+  // Mirrors MA-115's My Account RAF Dashboard sub-states (pending state removed — instantaneous
+  // issuance). Default = optin for both New and Existing flows (a brand-new customer can never land
+  // on "participant" — no prior account — so that state is reachable here only via the reviewer
+  // toggle). Reviewer toggle: "RAF state (ENR-152)" in the Scenario drawer.
   function setConfRafView(view) {
-    ['optin', 'pending', 'participant'].forEach(function(v) {
+    ['optin', 'participant'].forEach(function(v) {
       var el = document.getElementById('conf-raf-view-' + v);
       if (el) el.style.display = (v === view) ? '' : 'none';
     });
-    var map = { optin: 'raf-btn-optin', pending: 'raf-btn-pending', participant: 'raf-btn-participant' };
+    var map = { optin: 'raf-btn-optin', participant: 'raf-btn-participant' };
     Object.keys(map).forEach(function(v) {
       var b = document.getElementById(map[v]);
       if (b) b.classList.toggle('on', v === view);

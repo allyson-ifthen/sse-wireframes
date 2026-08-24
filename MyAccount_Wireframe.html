@@ -1111,7 +1111,6 @@ body.reset-expired .reset-token-expired { display: block; }
 <button id="st-btn-cancel" onclick="goCancelStep(2, 'variable')">Cancel Flow</button>
 <button id="st-btn-raf" onclick="setState('raf'); setRafView('participant')">RAF · Participant</button>
 <button id="st-btn-raf-optin" onclick="setState('raf'); setRafView('optin')">RAF · Opt-in</button>
-<button id="st-btn-raf-pending" onclick="setState('raf'); setRafView('pending')">RAF · Pending</button>
 </div>
 <div class="wfctl-divider"></div>
 <div class="group" id="login-subtab-group" style="display:none;">
@@ -2021,12 +2020,17 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="info-label">Amount Due</div>
 <div class="bill-amount">$84.50</div>
 <div style="font-size:11px; color:var(--muted); margin:4px 0 14px;">Due May 15, 2026 · Last payment: $82.10 (Apr 3)</div>
+<div style="display:flex; align-items:center; gap:6px; font-size:11px; margin-bottom:14px;">
+<span style="width:8px; height:8px; border-radius:50%; background:#2e7d32; display:inline-block;"></span>
+<span style="color:var(--muted);">Autopay: <strong style="color:var(--ink);">Enrolled</strong></span>
+</div>
 <a class="btn btn-pay" href="#" onclick="openPayNowModal(); return false;" style="background:#6a1b9a;">Pay Now →</a>
 <div style="margin-top:10px;"><a class="link" href="#" onclick="openBillingHistory(); return false;">View billing history →</a></div>
 </div>
 </div>
 </div><!-- /dash-grid -->
 <div class="ann ann-b"><strong>MA-110 / MA-111:</strong> Pay Now and View Billing History were previously dead <code>href="#"</code> stubs with no click behavior. Cross-ref MA-6 (superseded in part).</div>
+<div class="ann ann-b mkt mkt-il"><strong>MA-113:</strong> Autopay status indicator (Enrolled / Not Enrolled dot + label) is a placeholder/mock — rendered as a static "Enrolled" state, not wired to live data. Depends on confirming Fiserv/PRIME exposes autopay enrollment status back to SouthStar's system; today autopay is managed entirely inside the Fiserv portal with zero visibility on SouthStar's own site (per live-site screenshot review). Owner: Dev (Girish/PRIME) for feasibility. Not yet client-reviewed. Cross-ref MA-68 (same reframing pattern), MA-6, MA-110.</div>
 
 
 
@@ -2671,20 +2675,9 @@ body.reset-expired .reset-token-expired { display: block; }
 <input id="raf-optin-agree" type="checkbox" onchange="document.getElementById('raf-optin-submit').disabled = !this.checked;"/>
 <span>I agree to the Refer-A-Friend <a href="#raf-program-terms">Terms &amp; Conditions</a>.</span>
 </label>
-<button class="btn" disabled="" id="raf-optin-submit" onclick="setRafView('pending')">Join &amp; get my code →</button>
+<button class="btn" disabled="" id="raf-optin-submit" onclick="setRafView('participant')">Join &amp; get my code →</button>
 </div>
-<div class="ann ann-b"><strong>MA-109:</strong> Opt-in sub-state. Uses the same Agree-checkbox + submit mechanism as the Enrollment / Plan-Change Confirmation RAF opt-in (ENR-152). On submit, PRIME creates the referral code asynchronously → pending sub-state. Cross-ref MA-80 (FAQ copy already assumes an authenticated context).</div>
-</div>
-
-<!-- ─── SUB-STATE: PENDING (just opted in) — MA-109 ─── -->
-<div id="raf-view-pending" style="display:none;">
-<div class="raf-hero">
-<div>
-<div class="raf-incentive-amount">You're in! 🎉</div>
-<div class="raf-incentive-sub">Your referral code is on its way — check back shortly. We'll email you as soon as it's ready, and you'll be able to share it and track your rewards right here.</div>
-</div>
-</div>
-<div class="ann ann-b"><strong>MA-109:</strong> Pending sub-state — native "your code is on its way" copy. This is the destination the pending message on the Enrollment / Plan-Change Confirmation screens points to (ENR-152). Specific timing language avoided per the async code-generation model; PRIME to confirm code-generation latency.</div>
+<div class="ann ann-b"><strong>MA-109/MA-115:</strong> Opt-in sub-state. Uses the same Agree-checkbox + submit mechanism as the Enrollment / Plan-Change Confirmation RAF opt-in (ENR-152). Referral-code issuance is near-instantaneous once the customer agrees to the RAF Terms &amp; Conditions (confirmed by client 2026-08-19), so submit resolves straight to the participant sub-state — the interim "pending" sub-state (code is on its way) was removed per MA-115. Cross-ref MA-80 (FAQ copy already assumes an authenticated context).</div>
 </div>
 
 <!-- ─── HOW IT WORKS (MA-43: always-visible; replaces collapsible <details>) ─── -->
@@ -2710,15 +2703,15 @@ body.reset-expired .reset-token-expired { display: block; }
 </details>
 <details class="raf-faq-item">
 <summary>How do I get rewarded for referring my friends?</summary>
-<div class="raf-faq-body">Referring your friends is easy! First, get your unique Referral Code <a href="#">here</a>, and then share it with your friends. Each time a friend signs up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> on an eligible price plan, provides your Referral Code during their enrollment, and then begins burning gas on that eligible price plan, you'll earn rewards. See <a href="#raf-program-terms">Refer-a-Friend Program Terms and Conditions</a> for additional requirements. Some exclusions apply.</div>
+<div class="raf-faq-body">Referring your friends is easy! Use your referral code above, and share it with your friends. Each time a friend signs up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> on an eligible price plan, provides your Referral Code during their enrollment, and then begins burning gas on that eligible price plan, you'll earn rewards. See <a href="#raf-program-terms">Refer-a-Friend Program Terms and Conditions</a> for additional requirements. Some exclusions apply.</div>
 </details>
 <details class="raf-faq-item">
 <summary>How do I get my personal Referral Code?</summary>
-<div class="raf-faq-body">Your referral code is available online. Log in <a href="#">here</a> and view your Referral Code. You can also use our easy sharing tools to begin referring friends today.</div>
+<div class="raf-faq-body">Your referral code is shown above — no need to look it up elsewhere. You can also use the sharing tools above to begin referring friends today.</div>
 </details>
 <details class="raf-faq-item">
 <summary>How do I share my Referral Code?</summary>
-<div class="raf-faq-body">Sharing your personal Referral Code is easy. We've even built some easy-to-use tools to help you. Log in <a href="#">here</a> and access the following tools: <strong>1. Share by Email:</strong> Simply input your friends' email addresses, and we'll send them a custom email with all the information they need to easily sign up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. <strong>2. Share Socially:</strong> Use Facebook and X to share your Referral Code with your friends. Just click on the social media icon in your Refer-a-Friend account here to post a customized message to your feeds.</div>
+<div class="raf-faq-body">Sharing your personal Referral Code is easy. We've even built some easy-to-use tools to help you, available above: <strong>1. Share by Email:</strong> Simply input your friends' email addresses, and we'll send them a custom email with all the information they need to easily sign up with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span><span class="mkt-inline mkt-il">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>. <strong>2. Share Socially:</strong> Use Facebook and X to share your Referral Code with your friends. Just click on the social media icon in your Refer-a-Friend account here to post a customized message to your feeds.</div>
 </details>
 <div class="raf-faqs-footer">
 <a class="link" href="#">Learn more about Refer a Friend →</a>
@@ -2813,6 +2806,13 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="mkt mkt-gre">MPSC Licensed Supplier · License [#]</span>
 <span class="mkt mkt-il">ICC Certified Supplier · License [#]</span>
 <span class="mkt mkt-ies">ICC Certified Supplier · License [#]</span>
+</div>
+<!-- HP-19 (2026-08-24, Claude Code): IE utility gas-supply-cost disclosure — global site footer, all Full-nav templates.
+     Actual current-site copy per 2026-07-14 scope confirmation. Hard-coded stop-gap; expect a manual monthly authoring update
+     until CMS/API integration. -->
+<div class="footer-license">
+<span class="mkt mkt-il">Illinois Energy is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy's credit and payment policies, and other eligibility requirements.</span>
+<span class="mkt mkt-ies">Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.</span>
 </div>
 <div class="footer-emergency">
 <strong>Gas emergency?</strong> Call your utility — not us.<br/>
@@ -2954,11 +2954,11 @@ function setState(s) {
    MA-109: RAF Dashboard sub-state toggle (participant / opt-in / pending)
    ──────────────────────────────────── */
 function setRafView(view) {
-  ['participant', 'optin', 'pending'].forEach(function(v) {
+  ['participant', 'optin'].forEach(function(v) {
     var el = document.getElementById('raf-view-' + v);
     if (el) el.style.display = (v === view) ? '' : 'none';
   });
-  var map = { participant: 'st-btn-raf', optin: 'st-btn-raf-optin', pending: 'st-btn-raf-pending' };
+  var map = { participant: 'st-btn-raf', optin: 'st-btn-raf-optin' };
   Object.keys(map).forEach(function(v) {
     var b = document.getElementById(map[v]);
     if (b) b.classList.toggle('on', v === view);

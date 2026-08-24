@@ -111,6 +111,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .footer-copyright { font-size: 10px; color: #555; }
 .footer-legal-links { display: flex; gap: 12px; }
 .footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.footer-license { font-size: 10px; color: #3a3a3a; line-height: 1.6; padding-top: 8px; border-top: 1px solid #222; }
 
 /* ── MARKET VISIBILITY ── */
 .mkt { display: none; } .mkt.on { display: block; }
@@ -207,6 +208,21 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 
 /* ── SERVICE AREA ── */
 .service-area-section { margin-bottom: 16px; }
+
+/* ── LDC IDENTIFIER WIDGET (GI-5 — mirrors Homepage Section 2 pattern) ── */
+.body-sm { font-size: 12px; color: #555; line-height: 1.6; }
+.wf-input { background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 12px; color: #aaa; font-style: italic; }
+.ldc-widget { background: #f0f6ff; border: 2px solid #7aabda; border-radius: 6px; padding: 18px 20px; margin-top: 12px; }
+.ldc-widget-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 4px; }
+.ldc-widget-sub { font-size: 12px; color: #666; margin-bottom: 12px; }
+.ldc-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.ldc-btn { background: #fff; border: 2px solid #1e3a5f; color: #1e3a5f; padding: 9px 18px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all .12s; }
+.ldc-btn:hover, .ldc-btn.selected { background: #1e3a5f; color: #fff; }
+.ldc-zip-toggle { font-size: 11px; color: #5a8cbf; font-weight: 600; cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; }
+.ldc-zip-panel { background: #f7f9ff; border: 1.5px solid #c5d8f0; border-radius: 4px; padding: 12px 14px; margin-top: 10px; display: none; }
+.ldc-zip-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; margin-top: 8px; }
+.ldc-confirm-state { background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; padding: 10px 14px; margin-top: 12px; font-size: 12px; color: #2e7d32; }
+.ldc-out-state { background: #fff8e1; border: 1px solid #f5c842; border-radius: 4px; padding: 10px 14px; margin-top: 12px; font-size: 12px; color: #7a6000; }
 
 /* ── REGULATORY LICENSING GRID ── */
 .reg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
@@ -513,11 +529,70 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
             Your utility keeps delivering your gas and responding to emergencies — we handle your supply rate. Are you with one of these utilities?
           </div>
 <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:4px;">
-<a href="ResidentialPlans_Wireframe.html" class="wf-btn-sm" style="text-decoration:none;">View Plans →</a>
+<span id="gi-ldc-toggle" class="wf-btn-sm" style="cursor:pointer;" onclick="document.getElementById('gi-ldc-widget').style.display='block'; this.style.display='none';">Find plans for your utility →</span>
 <a href="LearningCenter_Wireframe.html" style="font-size:12px; color:#5a8cbf; font-weight:700; text-decoration:none; cursor:pointer;">Learn more about service area in your market →</a>
 </div>
+<!-- GI-5: LDC Identifier Widget, wired directly onto this page — mirrors Homepage Section 2 (ldc-widget) so a visitor
+       never has to leave General Informational just to find out whether their utility is covered. -->
+<div class="ldc-widget" id="gi-ldc-widget" style="display:none;">
+<div class="ldc-widget-title">Who is your natural gas utility?</div>
+<div class="ldc-widget-sub">Select your utility — we'll take you straight to the plans available for your address.</div>
+<div class="mkt on" id="gi-ldc-ong">
+<div class="ldc-selector">
+<div class="ldc-btn">Columbia Gas</div>
+<div class="ldc-btn">Dominion Energy Ohio</div>
+<div class="ldc-btn">Duke Energy Ohio</div>
+<div class="ldc-btn">Enbridge Gas Ohio</div>
+</div>
+</div>
+<div class="mkt" id="gi-ldc-pa">
+<div class="ldc-selector">
+<div class="ldc-btn">UGI Utilities</div>
+<div class="ldc-btn">Peoples Natural Gas</div>
+<div class="ldc-btn">Philadelphia Gas Works</div>
+<div class="ldc-btn">Columbia Gas of PA</div>
+</div>
+</div>
+<div class="mkt" id="gi-ldc-gre">
+<div class="ldc-selector">
+<div class="ldc-btn">DTE Energy</div>
+<div class="ldc-btn">Consumers Energy</div>
+</div>
+</div>
+<div class="mkt" id="gi-ldc-il">
+<div class="ldc-selector">
+<div class="ldc-btn">Nicor Gas</div>
+<div class="ldc-btn">Peoples Gas</div>
+<div class="ldc-btn">North Shore Gas</div>
+</div>
+</div>
+<!-- IES: static Nicor display (no selector), matching Homepage's ldc-ies pattern -->
+<div class="mkt" id="gi-ldc-ies">
+<div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:14px 16px; margin-bottom:4px;">
+<div style="font-size:12px; color:#2e7d32; font-weight:600;">Your utility: <strong>Nicor Gas</strong></div>
+<div style="font-size:11px; color:#558b2f; margin-top:4px;">Illinois Energy Solutions is available for Nicor Gas customers.</div>
+</div>
+</div>
+<!-- ZIP fallback — the point of GI-5 is that a prospect whose county isn't in the LDC list above still has a path in -->
+<div style="margin-top:10px; border-top:1px dashed #b8d4f0; padding-top:10px;">
+<span class="ldc-zip-toggle" onclick="document.getElementById('gi-ldc-zip-panel').style.display='block'; this.style.display='none';">🔍 Not sure which utility you have? Find by zip code ▾</span>
+<div class="ldc-zip-panel" id="gi-ldc-zip-panel">
+<div class="body-sm" style="margin-bottom:8px;">Enter your zip code and we'll identify your utility automatically.</div>
+<div class="ldc-zip-row">
+<div><div style="font-size:10px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px;">Zip Code</div><input class="wf-input" placeholder="e.g. 44101" readonly="" style="max-width:150px;" type="text"/></div>
+<div class="wf-btn-sm" style="padding:8px 16px; font-size:12px;">Find My Utility →</div>
+</div>
+<div class="ldc-confirm-state">✓ <strong>Result state:</strong> "Your utility is Columbia Gas." — auto-selects the matching button above; routes to Residential Plans with LDC pre-set.</div>
+<div class="ldc-out-state">⚠️ <strong>Out-of-area state:</strong> "We don't currently serve your zip code — but we're expanding." + email capture + "Notify Me" (this is the case GI-5 exists for: a visitor whose county isn't listed still gets a path forward instead of a dead end).</div>
+</div>
+</div>
+<div class="ldc-confirm-state" style="margin-top:12px;">✓ <strong>After selection:</strong> routes directly to Residential Plans with the selected LDC pre-set — same destination the old "View Plans" link pointed to, now reached without leaving this page to re-select a utility a second time.</div>
+</div>
 <div class="ann-row" style="margin-top:10px;">
-<span class="ann ann-b">Dev: SEO/GEO coverage signal is carried primarily by the Organization schema's <code>areaServed</code> field above — populate with this market's LDC list. This section is intentionally lightweight (LDC names only, no county-level detail, no map) rather than a maintained territory table. Button intentionally framed as "View Plans," not an address checker — the underlying tool matches by utility/LDC (with zip-code assist), not literal address-level coverage verification. Full "do we serve you" answers live in the interactive LDC/zip selector (Homepage + Residential Plans — GI-5 tracks wiring the selector directly onto this page, at which point the button above can become in-page) and in Natural Gas Basics' "Does [Brand] Serve My Area?" articles (Pillar 2). Aligned 2026-07-09 — see GI-9/GI-10; supersedes GI-6 (map exploration).</span>
+<span class="ann ann-g">✓ GI-5 (2026-08-03, Claude Code): LDC selector + zip-code fallback wired directly onto this page, mirroring the Homepage Section 2 (<code>ldc-widget</code>) pattern exactly — same CSS classes, same per-market button sets, same zip-fallback/out-of-area copy. "View Plans →" is now "Find plans for your utility →," which expands the widget in place instead of linking straight out to Residential Plans; the zip fallback specifically resolves the "avoid turning away prospects whose county isn't listed" goal in the original GI-5 entry. Per this item's own cross-reference, the button is now in-page.</span>
+</div>
+<div class="ann-row" style="margin-top:6px;">
+<span class="ann ann-b">Dev: SEO/GEO coverage signal is carried primarily by the Organization schema's <code>areaServed</code> field above — populate with this market's LDC list. This section is intentionally lightweight (LDC names only, no county-level detail, no map) rather than a maintained territory table. The underlying tool matches by utility/LDC (with zip-code assist), not literal address-level coverage verification. Widget behavior (button click → route to Plans with LDC pre-set; zip lookup → same) is illustrative/annotated per this project's standard wireframe convention (Homepage Section 2, Residential Plans), not live JS — matches Natural Gas Basics' "Does [Brand] Serve My Area?" articles (Pillar 2) for the narrative answer. Aligned 2026-07-09 — see GI-9/GI-10; supersedes GI-6 (map exploration).</span>
 </div>
 
 </div>
@@ -609,6 +684,13 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="footer-bottom-row">
 <span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
 <div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+</div>
+<!-- HP-19 (2026-08-24, Claude Code): IE utility gas-supply-cost disclosure — global site footer, all Full-nav templates.
+     Actual current-site copy per 2026-07-14 scope confirmation. Hard-coded stop-gap; expect a manual monthly authoring update
+     until CMS/API integration. -->
+<div class="footer-license">
+<span class="mkt" id="ft-hp19-il">Illinois Energy is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy's credit and payment policies, and other eligibility requirements.</span>
+<span class="mkt" id="ft-hp19-ies">Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.</span>
 </div>
 </div>
 </div>

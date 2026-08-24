@@ -592,9 +592,33 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="mkt" id="sub-gre"><div class="subhead" style="margin-bottom:16px;">Choose from fixed, variable, or Greener Life® plans — billed in MCF by your local utility. Rates shown upfront before you enroll.</div></div>
 <div class="mkt" id="sub-il"><div class="subhead" style="margin-bottom:16px;">Choose from fixed and variable plans — with rates shown before you enroll. Your utility still delivers the gas; we handle the price.</div></div>
 <div class="mkt" id="sub-ies"><div class="subhead" style="margin-bottom:16px;">One predictable monthly charge — no commodity rate exposure, no seasonal swings. Your utility still delivers the gas; we handle the pricing.</div></div>
-<!-- No hero CTA button — LDC widget (Section 2) is the primary action.
-           A button here would route to the Plans page bypassing LDC context.
-           The widget below is the call to action. See annotation. -->
+<!-- HP-18 (2026-08-04, Claude Code): explicit hero CTA restored per client direction (Josh: "I think we do need
+           to have a 'view plans' CTA somewhere higher up than this one shows"). Given HP-11 (keep audience-segmented
+           nav), the primary CTA routes to Residential Plans by default; a de-prioritized "Looking for business
+           plans?" secondary link sits beneath it so B2B visibility isn't lost without splitting the hero CTA.
+           This is additive to, not a replacement for, the LDC widget (Section 2) below — the CTA is a fast path
+           for visitors who already know they want to browse plans; the widget remains the path for visitors who
+           want LDC-matched results first. PA and IES have no commercial product, so the secondary link is
+           market-conditional (ONG/GRE/IL only). IES's plan page is still a TBD hub link (see nav-ies dropdown),
+           so its CTA points at the same placeholder rather than inventing a destination. -->
+<div class="mkt on" id="hero-cta-ong" style="margin-top:14px;">
+<a class="wf-btn-lg" href="ResidentialPlans_Wireframe.html" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; text-decoration:none;">View Plans →</a>
+<div style="margin-top:8px;"><a href="CommercialPlans_Wireframe.html" style="font-size:12px; color:#5a8cbf; font-weight:600; text-decoration:none; cursor:pointer;">Looking for business plans? →</a></div>
+</div>
+<div class="mkt" id="hero-cta-pa" style="margin-top:14px;">
+<a class="wf-btn-lg" href="ResidentialPlans_Wireframe.html" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; text-decoration:none;">View Plans →</a>
+</div>
+<div class="mkt" id="hero-cta-gre" style="margin-top:14px;">
+<a class="wf-btn-lg" href="ResidentialPlans_Wireframe.html" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; text-decoration:none;">View Plans →</a>
+<div style="margin-top:8px;"><a href="CommercialPlans_Wireframe.html" style="font-size:12px; color:#5a8cbf; font-weight:600; text-decoration:none; cursor:pointer;">Looking for business plans? →</a></div>
+</div>
+<div class="mkt" id="hero-cta-il" style="margin-top:14px;">
+<a class="wf-btn-lg" href="ResidentialPlans_Wireframe.html" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; text-decoration:none;">View Plans →</a>
+<div style="margin-top:8px;"><a href="CommercialPlans_Wireframe.html" style="font-size:12px; color:#5a8cbf; font-weight:600; text-decoration:none; cursor:pointer;">Looking for business plans? →</a></div>
+</div>
+<div class="mkt" id="hero-cta-ies" style="margin-top:14px;">
+<a class="wf-btn-lg" data-hub-tip="Hub page — wireframe TBD" href="#" style="background:#e8641a; font-size:14px; padding:11px 26px; display:inline-block; text-decoration:none;">View Fixed Bill Plan →</a>
+</div>
 <!-- Trust micro-badge — single regulatory credential, universal across all five brands.
            BBB excluded: not all brands accredited or in good standing.
            "Serving Since [year]" excluded: varies by brand, creates inconsistency risk.
@@ -639,6 +663,9 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="wf-btn-sm" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">See My Offer →</div>
 </div>
+<!-- HP-23 (2026-08-04, Claude Code): OOH/billboard visitors who saw an offer but don't have the code get a
+     no-code recovery path — mirrors the equivalent addition on Residential Plans (RP-13). -->
+<div style="margin-top:8px;"><a href="PromoPage_Wireframe.html#ldc-lookup" style="font-size:11px; color:#7a6030; font-weight:600; text-decoration:underline; cursor:pointer;">Forgot the promotional code? Find it by your utility →</a></div>
 <!-- Valid code routing logic -->
 <div class="ldc-confirm-state" style="margin-top:12px;">
             ✓ <strong>Valid code — no LDC selected:</strong> Routes to <code>/campaign/[code]</code>. Campaign page confirms the offer and collects utility selection before proceeding to Plans.
@@ -1007,7 +1034,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="vp-card" style="border-top:3px solid #4caf50;">
 <div class="vp-icon">✅</div>
-<div class="vp-title">Licensed, Regulated, &amp; Accountable</div>
+<div class="vp-title">Licensed &amp; Accountable</div>
 <div class="vp-desc">
 <span class="mkt on" id="vpd2-ong">Ohio Natural Gas is a PUCO-certified supplier. Your utility (Columbia Gas or Dominion) still delivers your gas — we handle your commodity rate.</span>
 <span class="mkt" id="vpd2-pa">Pennsylvania Energy is PA PUC-certified. Your utility (UGI, Peoples, or PECO) still delivers your gas — we handle your commodity rate.</span>
@@ -1018,8 +1045,19 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <div class="vp-card" style="border-top:3px solid #e8641a;">
 <div class="vp-icon">🎯</div>
-<div class="vp-title">Choose Your Supplier. Own Your Rate.</div>
-<div class="vp-desc">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+<!-- IES-HP-5 (2026-08-04, Claude Code): IES's Fixed Bill product isn't a "choose your rate" pitch — deregulation/rate-choice
+     framing doesn't fit a product built around not thinking about the rate at all. Rewritten for IES with a billing-transparency
+     / consumer-control frame instead, per the confirmed IES-HP-5 direction. ONG/PA/GRE/IL keep the existing supplier-choice framing. -->
+<div class="vp-title mkt on" id="vp3-ong">Choose Your Supplier. Own Your Rate.</div>
+<div class="vp-title mkt" id="vp3-pa">Choose Your Supplier. Own Your Rate.</div>
+<div class="vp-title mkt" id="vp3-gre">Choose Your Supplier. Own Your Rate.</div>
+<div class="vp-title mkt" id="vp3-il">Choose Your Supplier. Own Your Rate.</div>
+<div class="vp-title mkt" id="vp3-ies">Predictable Billing. On Your Terms.</div>
+<div class="vp-desc mkt on" id="vpd3-ong">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+<div class="vp-desc mkt" id="vpd3-pa">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+<div class="vp-desc mkt" id="vpd3-gre">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+<div class="vp-desc mkt" id="vpd3-il">Natural gas deregulation gives you the right to choose your commodity supplier — not just accept a default rate. We compete for your business with transparent options and no hidden fees, so the choice stays yours.</div>
+<div class="vp-desc mkt" id="vpd3-ies">No confusing commodity math, no surprise swings — just one flat monthly charge you can count on, in plain language you can verify against every bill. And the choice stays yours: standard contract terms let you switch plans or providers whenever the Fixed Bill plan stops working for you.</div>
 </div>
 </div>
 <!-- ── Part B: Trust Strip ──────────────────────────────────
@@ -1236,7 +1274,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <span class="mkt" id="ft-disc-pa">Pennsylvania Energy LLC is licensed by the Pennsylvania Public Utility Commission (PA PUC). License [#]. Not affiliated with UGI Utilities, Peoples Natural Gas, or PECO Energy. Rates shown are commodity charges only and do not include utility delivery, taxes, or fees. <span style="color:#f5c842;">⚑ PA-specific disclosure language TBD — confirm with compliance</span></span>
 <span class="mkt" id="ft-disc-gre">Grand Rapids Energy LLC is licensed by the Michigan Public Service Commission (MPSC). License [#]. Not affiliated with Consumers Energy or SEMCO Energy. <strong style="color:#666;">Rates billed in MCF by your utility.</strong> Rates shown are commodity charges only and do not include utility delivery, taxes, or fees.</span>
 <span class="mkt" id="ft-disc-il">Illinois Energy LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. SB651 / 83 Ill. Adm. Code Part 512 disclosure required — confirm full disclosure text with compliance. Rates shown are commodity charges only.</span>
-<span class="mkt" id="ft-disc-ies" style="display:none;"><strong>Illinois Energy Solutions LLC — ICC Licensing &amp; Billing Disclosure (Expanded Region):</strong> Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill Product Disclosure:</strong> Illinois Energy Solutions offers a Fixed Bill plan — a monthly charge structure that is NOT a per-unit commodity rate. Your monthly bill amount is fixed and does not vary with market pricing or usage (subject to the terms in your contract). [<span style="color:#f5c842;">Expanded ICC mandatory disclosure copy pending Legal/Regulatory approval — current placeholder for layout testing</span>]</span>
+<span class="mkt" id="ft-disc-ies"><strong>Illinois Energy Solutions LLC — ICC Licensing &amp; Billing Disclosure (Expanded Region):</strong> Illinois Energy Solutions LLC is a certified alternative gas supplier (AGS) licensed by the Illinois Commerce Commission (ICC). License [#]. Not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas. <strong style="color:#666;">Fixed Bill Product Disclosure:</strong> Illinois Energy Solutions offers a Fixed Bill plan — a monthly charge structure that is NOT a per-unit commodity rate. Your monthly bill amount is fixed and does not vary with market pricing or usage (subject to the terms in your contract). [<span style="color:#f5c842;">Expanded ICC mandatory disclosure copy pending Legal/Regulatory approval — current placeholder for layout testing</span>]</span>
+</div>
+<!-- HP-19 (2026-08-24, Claude Code): IE utility gas-supply-cost disclosure — global site footer, all Full-nav templates.
+     Actual current-site copy per 2026-07-14 scope confirmation. Hard-coded stop-gap; expect a manual monthly authoring
+     update until CMS/API integration. Distinct from the ICC licensing/Fixed-Bill disclosure above (ft-disc-ies, IES-HP-9)
+     and from ENRIL-20 (Illinois regulatory footer band, Enrollment-flow screens only) — additive, not a replacement. -->
+<div class="footer-license">
+<span class="mkt" id="ft-hp19-il">Illinois Energy is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy's credit and payment policies, and other eligibility requirements.</span>
+<span class="mkt" id="ft-hp19-ies">Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.</span>
 </div>
 </div><!-- /footer-bottom -->
 </div><!-- /site-footer -->
@@ -1276,8 +1322,8 @@ const MKT_ELEMENTS = {
   ong: ['nav-standard','logo-ong','h1-ong','sub-ong','lic-ong','srv-ong','ldc-ong','dest-ong','vp-brand-ong','vp1-ong','vpd1-ong','vpd2-ong','ts-state-ong','ts-reg-ong','ts-bbb','gl-section','gl-desc-ong','lc-section','lc-brand-ong','lc2-ong','fc-ong','fd-ong','tab-commercial-ong','ldc-comm-ong','ft-logo-ong','ft-lic-ong','ft-copy-ong','ft-disc-ong','ft-em-ong','ft-plan-std','ft-comm-ong','ft-gl-ong','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong','pb-orient-ong'],
   pa:  ['nav-standard','logo-pa','h1-pa','sub-pa','lic-pa','srv-pa','ldc-pa','dest-pa','vp-brand-pa','vp1-pa','vpd1-pa','vpd2-pa','ts-state-pa','ts-reg-pa','ts-bbb','gl-section','gl-desc-pa','lc-section','lc-brand-pa','lc2-pa','fc-pa','fd-pa','ft-logo-pa','ft-lic-pa','ft-copy-pa','ft-disc-pa','ft-em-pa','ft-plan-std','ft-gl-pa','nav-search-std','nav-lc-area-pa','pb-orient-pa'],
   gre: ['nav-standard','logo-gre','h1-gre','sub-gre','lic-gre','srv-gre','ldc-gre','dest-gre','vp-brand-gre','vp1-gre','vpd1-gre','vpd2-gre','ts-state-gre','ts-reg-gre','ts-bbb','gl-section','gl-desc-gre','lc-section','lc-brand-gre','lc2-gre','fc-gre','fd-gre','tab-commercial-gre','ldc-comm-gre','ft-logo-gre','ft-lic-gre','ft-copy-gre','ft-disc-gre','ft-em-gre','ft-vr-gre','ft-plan-std','ft-comm-gre','ft-gl-gre','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre','pb-orient-gre'],
-  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','ts-bbb','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il','nav-fmb','nav-search-std','nav-lc-area-il','pb-orient-il'],
-  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-em-ies','ft-plan-ies','pb-orient-ies']
+  il:  ['nav-standard','logo-il','h1-il','sub-il','lic-il','srv-il','ldc-il','dest-il','vp-brand-il','vp1-il','vpd1-il','vpd2-il','ts-state-il','ts-reg-il','ts-bbb','gl-section','gl-desc-il','lc-section','lc-brand-il','lc2-il','fc-il','fd-il','tab-commercial-il','ldc-comm-il','ft-logo-il','ft-lic-il','ft-copy-il','ft-disc-il','ft-hp19-il','ft-em-il','ft-plan-std','ft-comm-il','ft-gl-il','nav-fmb','nav-search-std','nav-lc-area-il','pb-orient-il'],
+  ies: ['nav-ies','logo-ies','h1-ies','sub-ies','lic-ies','srv-ies','ldc-ies','dest-ies','vp-brand-ies','vp1-ies','vpd1-ies','vpd2-ies','ts-state-ies','ts-reg-ies','ldc-ies','ft-logo-ies','ft-lic-ies','ft-copy-ies','ft-disc-ies','ft-hp19-ies','ft-em-ies','ft-plan-ies','pb-orient-ies']
   // IES: no nav-search-std (IES has no search in nav per Redesign-Site-Map.md)
   // IES: nav-ies (simplified 3-item nav); static Nicor utility (no selector); no commercial tab or Greener Life section
 };

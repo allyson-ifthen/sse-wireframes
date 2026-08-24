@@ -777,7 +777,8 @@
   /* -- ENRIL-83 / ENRIL-91 · Side-by-side plan switch compare (Scen B/D Review) -- */
   /* Shared treatment with OPG PF-4 (ENR-42 / ENR-46).
      Unified class names: .plan-switch-compare · .plan-switch-compare-col ·
-     .plan-switch-compare-arrow · .plan-switch-compare-label · .plan-switch-compare-etf */
+     .plan-switch-compare-arrow · .plan-switch-compare-label
+     ENRIL-529 (2026-08-17): .plan-switch-compare-etf removed from this list — no longer used, ETC subsystem retired. */
   .plan-switch-compare {
     display: grid; grid-template-columns: 1fr 24px 1fr; gap: 12px;
     align-items: stretch; margin: 12px 0;
@@ -805,11 +806,6 @@
   .plan-switch-compare .plan-switch-compare-arrow {
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; color: var(--accent);
-  }
-  .plan-switch-compare-etf {
-    background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
-    padding: 10px 12px; border-radius: 3px; margin: 8px 0;
-    font-size: 12px;
   }
   .plan-switch-compare-effective {
     font-size: 12px; color: var(--muted); margin-top: 6px;
@@ -849,21 +845,6 @@
   .plan-pick-card .pp-rate { font-size: 22px; font-weight: 700; color: var(--accent); }
   .plan-pick-card .pp-rate small { font-size: 12px; color: var(--muted); font-weight: 400; }
   .plan-pick-card .pp-term { font-size: 12px; color: var(--muted); }
-  .plan-pick-card .pp-etf-callout {
-    background: var(--ann-y-bg); border-left: 3px solid var(--ann-y-bd);
-    border-radius: 3px; padding: 8px 10px; font-size: 11px; margin-top: 4px;
-    display: none;  /* ENRIL-100: hidden unless current plan is fixed-term */
-  }
-  body.is-fixed-plan .plan-pick-card .pp-etf-callout { display: block; }  /* ENRIL-100 */
-  /* ENRIL-513 (2026-08-17): bug fix — .plan-fixed (Quote step's ETC callout + acknowledgment) had no
-     display rule at all, so it rendered unconditionally regardless of the Fixed/Variable toggle.
-     Same show/hide pattern as .pp-etf-callout above. */
-  .plan-fixed { display: none; }
-  body.is-fixed-plan .plan-fixed { display: block; }
-  /* ENRIL-516 (2026-08-17): IES Fixed Bill contract (Section 5) — no early-termination fee ever applies
-     to an IES customer's current plan. IL's own Guaranteed Bill terms not yet confirmed — scope this
-     suppression to mkt-ies only, Scenario D. */
-  body.mkt-ies.scen-d .plan-fixed { display: none; }
   .plan-pick-card .btn { margin-top: 8px; }
   .plan-pick-card .selected-badge {
     display: none; align-self: flex-start; padding: 2px 8px;
@@ -871,13 +852,6 @@
     font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
   }
   .plan-pick-card.selected .selected-badge { display: inline-block; }
-
-  /* ENRIL-191: ETC consent on Review — visible only when is-fixed-plan + existing customer (scen-b or scen-d) */
-  #r-etc-consent { display: none; }
-  body.is-fixed-plan.scen-b #r-etc-consent,
-  body.is-fixed-plan.scen-d #r-etc-consent { display: flex; }
-  /* ENRIL-516 (2026-08-17): same IES no-ETC scoping as the Quote-step .plan-fixed rule above. */
-  body.mkt-ies.scen-d #r-etc-consent { display: none; }
 
   /* -- Scenario-conditional chip (B/D drops some chips) ------------------- */
   body.scen-b .chip-b-drop, body.scen-d .chip-d-drop { display: none; }
@@ -1162,11 +1136,6 @@
 <button id="ctype-btn-com" onclick="setCustomerType('commercial')">Commercial</button>
 </div>
 <div class="scenario-drop-row">
-<span class="scenario-drop-lbl">Current plan</span>
-<button class="on" id="fixedplan-btn-var" onclick="setIsFixedPlan(false)">Variable (no ETF)</button>
-<button id="fixedplan-btn-fix" onclick="setIsFixedPlan(true)">Fixed (ETF applies)</button>
-</div>
-<div class="scenario-drop-row">
 <!-- ENRIL-395 (2026-08-10) / ENRIL-435 (2026-08-11): simulates the silent post-confirmation GetQuotes response for the Confirm Account step, Scen A + Scen C. -->
 <span class="scenario-drop-lbl">Credit check (Scen A/C)</span>
 <button class="on" id="creditcheck-btn-clear" onclick="setCreditCheckRequired(false)">Clear — skip (default)</button>
@@ -1216,7 +1185,6 @@
 <!-- ENRIL-421 (2026-08-11): RAF three-state toggle, ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152 reviewer toggle. -->
 <span class="scenario-drop-lbl">RAF state (ENRIL-421)</span>
 <button class="on" id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
-<button id="raf-btn-pending" onclick="setConfRafView('pending')">Just joined</button>
 <button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
 </div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
@@ -1433,7 +1401,8 @@
 </div>
 <dl style="margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 12px;">
 <dt style="color: var(--muted);">Rate</dt><dd style="margin: 0; font-weight: 500;"><span class="scen-only-b-inline">$0.74 / therm</span><span class="scen-only-d-inline">$XXX.XX / month</span></dd>
-<dt style="color: var(--muted);">Term</dt><dd style="margin: 0; font-weight: 500;"><span class="scen-only-b-inline">12 months</span><span class="scen-only-d-inline">12 months</span></dd>
+<!-- ENRIL-528: Term row removed for Scen D — Guaranteed Bill/Fixed Bill is termless -->
+<dt class="scen-only-b" style="color: var(--muted);">Term</dt><dd class="scen-only-b" style="margin: 0; font-weight: 500;">12 months</dd>
 </dl>
 </div>
 <!-- ENRIL-201: Current plan in sidebar for Select Plan step (ENR-93 pattern) -->
@@ -1442,14 +1411,15 @@
 <div class="plan-name">
 <span class="scen-only-b-inline">12-Month PriceGuard Plan</span>
 <!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan · 12-month term</span><span class="mkt-inline mkt-ies">Fixed Bill Plan · 12-month term</span></span>
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Fixed Bill Plan</span></span>
 </div>
 <div class="plan-rate">
 <span class="scen-only-b-inline">$0.74 <small>/ therm · Fixed</small></span>
 <span class="scen-only-d-inline">$XXX.XX <small>/ month (guaranteed)</small></span>
 </div>
 <dl>
-<dt>Term</dt><dd>12-month</dd>
+<!-- ENRIL-528: Term row removed for Scen D — Guaranteed Bill/Fixed Bill is termless -->
+<dt class="scen-only-b">Term</dt><dd class="scen-only-b">12-month</dd>
 <dt>Expires</dt><dd>Feb 28, 2027</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
@@ -1494,7 +1464,6 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <span class="scen-only-gb"><span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span></span>
 </dd>
 <dt>Monthly customer charge</dt><dd>$X.XX</dd>
-<dt>Early termination charge</dt><dd></dd>
 </dl>
 <div class="ldc-row">
 <span>Your utility: <strong><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">[IES LDC]</span></strong></span>
@@ -1612,7 +1581,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <dl>
 <dt>Plan type</dt><dd>
 <span class="scen-only-b-inline">Fixed-rate · 12-month term</span>
-<span class="scen-only-d-inline">Guaranteed Bill · 12-month term</span>
+<!-- ENRIL-528: term label removed — Guaranteed Bill/Fixed Bill is termless -->
+<span class="scen-only-d-inline">Guaranteed Bill</span>
 </dd>
 <dt>Rate</dt><dd>
 <span class="scen-only-b-inline">$0.74 / therm</span>
@@ -1620,7 +1590,6 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </dd>
 <dt>Effective date</dt><dd>March 1, 2026</dd>
 <dt>Expiration date</dt><dd>February 28, 2027</dd>
-<dt>Early termination charge</dt><dd></dd>
 <dt>Auto-renewal</dt><dd>Yes · plan continues at end of term — notice sent in advance</dd>
 <dt>Account number</dt><dd>···· ···· 3829 </dd>
 </dl>
@@ -1707,58 +1676,59 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <span class="selected-badge">Selected</span>
 <h4>
 <span class="scen-only-b-inline">24-Month PriceGuard Plan</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">24-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">24-Month Fixed Bill Plan</span></span>
+<!-- ENRIL-527 (2026-08-17): replaced fake "24-Month Guaranteed Bill Plan" — SouthStar has exactly one
+     Guaranteed Bill product, no term variations. Real distinct product: PriceGuard 12-month, reusing the
+     $0.74/therm rate already established via Scenario B's current-plan example. Not market-split (IL vs
+     IES) — client decision named these products without a market distinction. -->
+<span class="scen-only-d-inline">PriceGuard 12-month Plan</span>
 </h4>
 <div class="pp-rate">
 <span class="scen-only-b-inline">$0.69 <small>/ therm</small></span>
-<span class="scen-only-d-inline">$XXX.XX <small>/ month (guaranteed)</small></span>
+<span class="scen-only-d-inline">$0.74 <small>/ therm</small></span>
 </div>
 <div class="pp-term">
 <span class="scen-only-b-inline">Fixed · 24-month term · Locks in your rate longer</span>
-<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill · 24-month term</span><span class="mkt-inline mkt-ies">Fixed Bill · 24-month term</span></span>
+<span class="scen-only-d-inline">Fixed · 12-month term · Predictable rate for a full year</span>
 </div>
-<div class="pp-etf-callout">
-<strong>Switching may incur an early-termination fee.</strong>
-
-            Applied to your final bill for your current plan.
-          </div>
+<!-- ENRIL-529 (2026-08-17): .pp-etf-callout removed — client confirmed no IL/IES product carries an ETC -->
 <!-- ENRIL-288: "Continue with this plan" removed — plan selection is confirmed via the bottom btn-row Continue button, not per-card CTA -->
 </div>
 <!-- Alt plan 2 -->
 <div class="plan-pick-card" data-plan="il-fixed-6">
 <h4>
 <span class="scen-only-b-inline">6-Month PriceGuard Plan</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">6-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">6-Month Fixed Bill Plan</span></span>
+<!-- ENRIL-527 (2026-08-17): replaced fake "6-Month Guaranteed Bill Plan" with TruBalance (blended
+     fixed/variable), per the plan-type list already named in this file's own rate-disclosure copy. -->
+<span class="scen-only-d-inline">TruBalance Plan</span>
 </h4>
 <div class="pp-rate">
 <span class="scen-only-b-inline">$0.77 <small>/ therm</small></span>
-<span class="scen-only-d-inline">$XXX.XX <small>/ month (guaranteed)</small></span>
+<span class="scen-only-d-inline">$0.XX <small>/ therm</small></span>
 </div>
 <div class="pp-term">
 <span class="scen-only-b-inline">Fixed · 6-month term · Shorter commitment</span>
-<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill · 6-month term</span><span class="mkt-inline mkt-ies">Fixed Bill · 6-month term</span></span>
+<span class="scen-only-d-inline">Blended fixed/variable · Rate protection with market flexibility</span>
 </div>
-<div class="pp-etf-callout">
-<strong>Switching may incur an early-termination fee.</strong>
-
-            Applied to your final bill for your current plan.
-          </div>
+<!-- ENRIL-529 (2026-08-17): .pp-etf-callout removed — client confirmed no IL/IES product carries an ETC -->
 <button class="btn btn-secondary btn-sm">Select this plan</button>
 </div>
-<!-- Alt plan 3 — Scen B only (cross-plan-type switch to variable not offered for Scen D) -->
-<div class="plan-pick-card scen-only-b" data-plan="il-variable">
-<h4>Variable Rate Plan</h4>
-<div class="pp-rate">$0.XX <small>/ therm</small></div>
-<div class="pp-term">Variable · Month-to-month · No term commitment</div>
-<div class="pp-etf-callout">
-<strong>Switching may incur an early-termination fee.</strong>
-
-            Applied to your final bill for your current plan.
-          </div>
+<!-- Alt plan 3 — ENRIL-527 (2026-08-17): now shared B/D. Build question resolved 2026-08-17: PriceCap
+     (variable, capped) satisfies "give D a variable option" on its own — the generic Variable Rate Plan
+     stays Scenario-B-only rather than adding a 4th, overlapping variable product to D's grid. -->
+<div class="plan-pick-card" data-plan="il-variable">
+<h4>
+<span class="scen-only-b-inline">Variable Rate Plan</span>
+<span class="scen-only-d-inline">PriceCap Plan</span>
+</h4>
+<div class="pp-rate">
+<span class="scen-only-b-inline">$0.XX <small>/ therm</small></span>
+<span class="scen-only-d-inline">$0.XX <small>/ therm</small></span>
+</div>
+<div class="pp-term">
+<span class="scen-only-b-inline">Variable · Month-to-month · No term commitment</span>
+<span class="scen-only-d-inline">Variable · Rate capped — never pay above the ceiling</span>
+</div>
+<!-- ENRIL-529 (2026-08-17): .pp-etf-callout removed — client confirmed no IL/IES product carries an ETC -->
 <button class="btn btn-secondary btn-sm">Select this plan</button>
 </div>
 </div>
@@ -1929,8 +1899,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div class="plan-switch-compare-label">Switching from</div>
 <h4>
 <span class="scen-only-b-inline">12-Month PriceGuard Plan</span>
-<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan · 12-month term</span><span class="mkt-inline mkt-ies">Fixed Bill Plan · 12-month term</span></span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper. ENRIL-528: term label removed — Guaranteed Bill/Fixed Bill is termless -->
+<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Fixed Bill Plan</span></span>
 </h4>
 <dl>
 <dt>Type</dt>
@@ -1946,7 +1916,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <span class="scen-only-b-inline">$0.74 / therm</span>
 <span class="scen-only-d-inline">$XXX.XX / month (guaranteed)</span>
 </dd>
-<dt>Term</dt><dd>12-month</dd>
+<!-- ENRIL-528: Term row removed for Scen D — Guaranteed Bill/Fixed Bill is termless -->
+<dt class="scen-only-b">Term</dt><dd class="scen-only-b">12-month</dd>
 <dt>Term ends</dt><dd>Feb 28, 2027</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
@@ -1979,20 +1950,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </dl>
 </div>
 </div>
-<!-- ETC callout — conditional: current plan is fixed within term -->
-<div class="plan-switch-compare-etf plan-fixed">
-<strong>Early-termination fee applies.</strong> Switching from your current fixed plan before the term ends may incur a fee.
-          
-          This will be applied to your final bill for your current plan.
-        </div>
-<!-- ETC acknowledgment — conditional -->
-<div class="fieldset plan-fixed" style="margin-top: 12px;">
-<div class="checkbox-row">
-<input id="q-etc-ack" onchange="validateQuote()" type="checkbox"/>
-<!-- ENRIL-351: leading asterisk added (required for existing + fixed-plan customers via validateQuote). -->
-<label for="q-etc-ack"><span class="req">*</span> <strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
-</div>
-</div>
+<!-- ENRIL-529 (2026-08-17): ETC callout + q-etc-ack acknowledgment removed — client confirmed no IL/IES product carries an early-termination charge. -->
 <p style="font-size: 13px; color: var(--muted); margin-top: 12px;"><strong>Effective switch date:</strong> Your new plan starts on your utility's next meter-read after enrollment validation completes (typically 1–2 billing cycles).</p>
 
 </div>
@@ -2086,7 +2044,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <div class="doc-section" id="doc-plan-contract-sample-c">
 <h4>2. Plan Contract</h4>
-<p>Plan-specific terms based on the representative product for this plan category. Your personalized version (generated at enrollment by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>) will include your actual contract start and end dates and the ETF amount applicable to your plan.</p>
+<!-- ENRIL-529 (2026-08-17): "ETF amount applicable to your plan" dropped — no IL/IES product carries an ETC. -->
+<p>Plan-specific terms based on the representative product for this plan category. Your personalized version (generated at enrollment by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>) will include your actual contract start and end dates.</p>
 <p class="doc-placeholder">[Plan Contract body — sample-product representative copy. Final copy authored by Client / Legal.]</p>
 </div>
 <div class="doc-section" id="doc-acr-sample-c">
@@ -2191,7 +2150,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <div class="doc-section" id="doc-plan-contract-sample">
 <h4>2. Plan Contract</h4>
-<p>These are the final terms and conditions for the natural gas supply plan you selected, including your contract start and end dates and the early termination fee (ETF) that applies to your plan.</p>
+<!-- ENRIL-529 (2026-08-17): "early termination fee (ETF) that applies to your plan" dropped — no IL/IES product carries an ETC. -->
+<p>These are the final terms and conditions for the natural gas supply plan you selected, including your contract start and end dates.</p>
 <p class="doc-placeholder">[Plan Contract body — final copy authored by Client / Legal.]</p>
 </div>
 <div class="doc-section" id="doc-acr-sample">
@@ -2781,13 +2741,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 
 </section>
 <!-- ====================================================================
-         STEP 5B: STANDING (credit check + outcome + ETC)
+         STEP 5B: STANDING (credit check + outcome)
          ENRIL-66 · ENRIL-67 · ENRIL-69 · ENRIL-71 (result reveals here) · ENRIL-47
          ENRIL-191: This step has been REMOVED from all production step orders.
          Retained here for reviewer reference only. Not reachable via normal step navigation.
          ==================================================================== -->
 <section class="step residential-only" id="step-standing">
-<div class="ann ann-b"><strong>ENRIL-191 · RETAINED FOR REVIEWER REFERENCE ONLY.</strong> This step has been removed from all production step orders. Stop screens now surface inline on Account # (Scen A/B/C) and OTP (Scen D). ETC consent moved to Review step. Not reachable via normal step navigation.</div>
+<div class="ann ann-b"><strong>ENRIL-191 · RETAINED FOR REVIEWER REFERENCE ONLY.</strong> This step has been removed from all production step orders. Stop screens now surface inline on Account # (Scen A/B/C) and OTP (Scen D). Not reachable via normal step navigation. <strong>ENRIL-529:</strong> ETC consent (formerly moved to Review step) removed entirely — no IL/IES product carries an ETC.</div>
 <h2>Account standing</h2>
 <p class="step-intro scen-hide-gb">Your account has been verified. Confirm your information and review the disclosures below.</p>
 <p class="step-intro scen-only-gb">Your account standing has been confirmed. Continue to your personalized quote.</p>
@@ -2840,27 +2800,16 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <h3>Disclosures</h3>
 <!-- ENRIL-140: "Authorized to make account changes" moved to Documents step (2026-06-04) -->
 <!-- ENRIL-187: s-credit-consent removed from N-GBP Standing — good-standing check is a system action; explicit credit consent checkbox not present on staging; asking consent for a mandatory PRIME check is over-engineering. Legal open question: Is explicit credit consent required by Part 512, or implicit in proceeding? See ann-y below. -->
-
-<div class="checkbox-row">
-<input id="s-etc-consent" type="checkbox"/>
-<label for="s-etc-consent">I acknowledge any Early Termination Charge that may apply if I am switching from an existing contract. </label>
-</div>
-
+<!-- ENRIL-529 (2026-08-17): s-etc-consent removed — no IL/IES product carries an ETC. -->
 
 </div>
 </div>
 <!-- GBP only (Scen C/D): credit consent and authorization checkboxes removed per ENRIL-186 + ENRIL-187 -->
 <!-- ENRIL-186: s-authorized-gb removed — duplicates bundle-authorized on Documents step; Documents is the correct consolidation point. -->
 <!-- ENRIL-187: c-credit-consent-standing + d-credit-consent removed — credit check is a PRIME system action; staging does not include explicit consent checkbox; explicit consent now pre-collected on step-confirmaccount (Scen C, ENRIL-231) before GetQuotes is called. -->
+<!-- ENRIL-529 (2026-08-17): "Early termination / Renewal window (conditional)" stage (ENRIL-69) removed — under this
+     decision PRIME would never flag ETC for IL/IES, making the section permanently dead for this file. -->
 <div class="scen-only-gb" id="standing-content">
-<!-- ETC / Renewal window (conditional) -->
-<div class="subflow-stage">
-<h4>Early termination <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(conditional · only if your current contract has an ETF)</span></h4>
-<p class="scen-only-c">Not applicable — you're enrolling in a new plan, no existing contract.</p>
-<p class="scen-only-d">If your current contract has an Early Termination Charge, we'll show it here. By continuing, you acknowledge any charges that may apply.</p>
-<div class="ann ann-b"><strong>ENRIL-69 · wireframe-mode:</strong> This Early termination / renewal-window stage is conditional — it only renders when PRIME flags ETC or renewal-window restrictions in the standing-check response. Hidden in production unless triggered by PRIME data. The wireframe shows it as a persistent stage for reviewer reference only.</div>
-
-</div>
 </div>
 <!-- ENRIL-191: err-not-in-good, err-credit-fail, err-already-enrolled moved to step-account — see above -->
 <div class="ann ann-b" style="margin-bottom: 12px;"><strong>ENRIL-191 · REFERENCE ONLY:</strong> Stop screens and error banners for standing-check failures (err-not-in-good, err-credit-fail, err-already-enrolled) have been moved to step-account. They are no longer defined here.</div>
@@ -2946,19 +2895,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <div class="ann ann-b"><strong>ENRIL-34:</strong> Billing address is editable. Same-as-service checkbox defaults ON.</div>
 </div>
-<!-- ENRIL-416 (2026-08-11): "Refer a Friend" field added — reverses ENRIL-249/373's "not available in IL" determination per internal-team confirmation; ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-promo-section (ENR-58/86/109), both scenarios. Not yet client-confirmed. -->
+<!-- ENRIL-376 (Scen A) / ENRIL-402 (Scen C), both 2026-08-10: "How did you hear about us?" — ported from Enrollment_ONG-PA-GRE_Wireframe.html (ENR-111), IL/IES market swap on the regulator-site option (PUCO → ICC). Shown for both scenarios — same field, not scenario-scoped. ENRIL-415 (2026-08-11): moved out of the Contact fieldset. ENRIL-418 (2026-08-11) originally reordered this after Refer a Friend; ENRIL-533 (2026-08-24) moves Refer a Friend to the end of the step instead (see below), so this field now follows Billing address directly. -->
 <hr style="border: none; border-top: 1px solid var(--line-soft); margin: 20px 0;"/>
-<div class="fieldset" id="raf-promo-il">
-<h3>Refer a Friend</h3>
-<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">If a friend referred you, enter their referral code below. This is optional and won't affect your enrollment.</p>
-<div class="field">
-<label for="i-raf-promo-code">Referral code</label>
-<input autocomplete="off" id="i-raf-promo-code" placeholder="e.g. JORDAN-IL-25" type="text"/>
-</div>
-</div>
-<!-- ENRIL-436 (2026-08-11): divider added below Refer a Friend, closing bookend to ENRIL-416's divider above it. -->
-<hr style="border: none; border-top: 1px solid var(--line-soft); margin: 20px 0;"/>
-<!-- ENRIL-376 (Scen A) / ENRIL-402 (Scen C), both 2026-08-10: "How did you hear about us?" — ported from Enrollment_ONG-PA-GRE_Wireframe.html (ENR-111), IL/IES market swap on the regulator-site option (PUCO → ICC). Shown for both scenarios — same field, not scenario-scoped. ENRIL-415 (2026-08-11): moved out of the Contact fieldset; ENRIL-418 (2026-08-11): reordered here, after Refer a Friend, per final field-sequence decision (Contact → Service address → Billing address → Refer a Friend → How did you hear about us → authorization checkbox). -->
 <div class="fieldset">
 <div class="field">
 <label for="i-hear-about-us">How did you hear about us?</label>
@@ -2981,6 +2919,18 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <input id="l-by-submitting" onchange="validateInfo()" type="checkbox"/>
 <label for="l-by-submitting"><span class="req">*</span> <strong>By submitting my information, I affirm that I am authorized to change my gas service to <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> and give the company permission to access the above-referenced utility's account information and payment history. I understand that at the point of enrollment for the above-referenced account, I will be able to print and save my enrollment information and the terms and conditions of the energy plan I am enrolling in.</label>
 </div>
+<!-- ENRIL-416 (2026-08-11): "Refer a Friend" field added — reverses ENRIL-249/373's "not available in IL" determination per internal-team confirmation; ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-promo-section (ENR-58/86/109), both scenarios. Not yet client-confirmed.
+     ENRIL-533 (2026-08-24): moved from mid-form (between Billing address and "How did you hear about us?") to the end of the step, matching the same fix applied to Enrollment_ONG-PA-GRE_Wireframe.html (ENR-158) per user-testing finding (P4, ONG round: "referring a friend in the middle of setup is a little wonky"). Not yet re-verified with IL/IES-specific user testing, but same underlying mid-form-interruption problem applies to this file's identical field. -->
+<hr style="border: none; border-top: 1px solid var(--line-soft); margin: 20px 0;"/>
+<div class="fieldset" id="raf-promo-il">
+<h3>Refer a Friend</h3>
+<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">If a friend referred you, enter their referral code below. This is optional and won't affect your enrollment.</p>
+<div class="field">
+<label for="i-raf-promo-code">Referral code</label>
+<input autocomplete="off" id="i-raf-promo-code" placeholder="e.g. JORDAN-IL-25" type="text"/>
+</div>
+</div>
+
 <div class="btn-row">
 <!-- ENRIL-399/405 (2026-08-10): Scen C's Info step now follows the merged Quote+Documents step directly (no separate 'bundle' step) — Back routes to 'quote' for C. ENRIL-434 (2026-08-11): reverses ENRIL-374-380 — Scen A's Info step now follows 'confirmaccount' (its own Confirm Account step) — Back routes there instead of 'account'. -->
 <button class="btn btn-tertiary" onclick="setStep(document.body.classList.contains('scen-c') ? 'quote' : 'confirmaccount')">← Back</button>
@@ -3014,8 +2964,9 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
         <div class="ann ann-b"><strong>ENRIL-214 · ENR-14 / §3.6:</strong> PRIME timeout state. Email-the-confirmation fallback. Hidden until timeout triggers.</div>
 </div>
 <!-- ENRIL-90: Scen A/C inline plan-card removed. Sticky sidebar (right rail) already
-           carries Plan name · Rate · Term · Type · Monthly customer charge · ETF · LDC +
-           Change-plan affordance · ACR callout. Auto-renewal row was fully duplicated by
+           carries Plan name · Rate · Term · Type · Monthly customer charge · LDC +
+           Change-plan affordance · ACR callout. (ENRIL-529: ETF dropped from this list — no IL/IES
+           product carries an ETC.) Auto-renewal row was fully duplicated by
            the sidebar ACR callout (per ENRIL-15) — safe to drop on Scen A/C without losing
            the disclosure. "Change plan →" affordance absorbed onto sidebar via .plan-name-row.
 
@@ -3123,12 +3074,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-433 (2026-08-11): dev-note, no build — when the "Terms and Conditions of Service" page/copy exists, either (a) append an inline link inside this pill's dd — <span class="status-pill">Agreed</span> · <a href="LegalCompliance_Wireframe.html">Terms and Conditions of Service</a> — or (b) if Legal's copy requires the granular ACR-specific language test env shows, split a separate "Automatic Contract Renewal" pill out of this one and attach the link there instead. Revisit which applies once the actual copy/page exists. -->
 <dt>Documents reviewed</dt><dd><span class="status-pill">Agreed</span></dd>
 </dl>
-<!-- ETC acknowledgment — conditional (plan-fixed existing customers). ENRIL-274: only the final-authorization checkbox + this ETC-ack remain live here. -->
-<div class="checkbox-row plan-fixed scen-only-existing" id="r-etc-consent">
-<input id="r-etc-ack" onchange="validateReview()" type="checkbox"/>
-<!-- ENRIL-351: leading asterisk added (required for existing + fixed-plan customers via validateReview). -->
-<label for="r-etc-ack"><span class="req">*</span> <strong>I acknowledge the early-termination fee shown above.</strong> I understand it will be applied to my final bill for my current plan. </label>
-</div>
+<!-- ENRIL-529 (2026-08-17): r-etc-consent/r-etc-ack removed — client confirmed no IL/IES product carries an early-termination charge. -->
 <!-- ENRIL-419 (2026-08-11): divider + "Review and Authorize" subheading added above the final authorization checkbox, matching test env's presentation — distinguishes this checkbox's binding rescission-rights language from the status-pill recap above.
      ENRIL-478 (2026-08-16): scen-hide-b dropped from both the subheading and the checkbox-row below — test env's active Scen B checkbox reads near-verbatim identical to r-authorize's existing LOA rescission-rights copy (including the "If I am a new [brand] customer..." conditional clause), not the shorter r-authorize-b "plan change" copy ENRIL-254 wrote specifically for B. r-authorize-b block removed entirely (see below); Scen B now renders and gates on r-authorize like every other scenario. Copy pending final legal review, same caveat as most authorization copy in this flow. -->
 <hr style="border: none; border-top: 1px solid var(--line-soft); margin: 16px 0;"/>
@@ -3211,9 +3157,53 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </dl>
 </div>
 </div>
+<!-- ENRIL-526 (2026-08-17): personalized contract documents moved here, directly below the Service & account
+     / Address boxes — was previously all the way at the bottom of the step (after account-creation, RAF, and
+     the callout cards). Content/markup unchanged, position only. -->
+<!-- ENRIL-506 (2026-08-17): visible by default now — reverses ENRIL-245's suppression. Review's own document
+     preview was removed in the same pass (the underlying document is one bundled PDF, not separable
+     sections), so this in-page reader is the only place customers can read the full bundle before
+     Print/Download, not just a reviewer-toggled demo extra. -->
+<div class="confirmation-docs">
+<h3 style="margin-top: 32px;">Your personalized contract documents</h3>
+
+
+<div class="doc-bundle">
+<div class="doc-bundle-header">
+<span class="lbl">Your personalized contract · 3 sections · 1 bundled PDF</span>
+<!-- ENRIL-192: Redundant Download button removed. Print + Save buttons in hero are the canonical affordances per ENRIL-150 -->
+</div>
+<div class="doc-bundle-toc">
+<strong>In this bundle:</strong>
+<a href="#doc-loa-final">1. Letter of Agency (personalized)</a> ·
+          <a href="#doc-plan-contract-final">2. Plan Contract</a> ·
+          <a href="#doc-acr-final">3. Auto-Renewal Disclosure</a>
+</div>
+<div class="doc-bundle-body">
+<div class="doc-section" id="doc-loa-final">
+<h4>1. Letter of Agency · personalized</h4>
+<p class="doc-meta"><strong>Customer:</strong> Jane Doe  ·  <strong>Enrolled:</strong> 2025-02-14 13:22:04 CT  ·  <strong>Auth code:</strong> 847291</p>
+<p>I, Jane Doe, authorize [SouthStar Energy Services] to act as my natural gas supplier and to coordinate with my local distribution company on my behalf as of the enrollment timestamp above.</p>
+<p class="doc-placeholder">[Full personalized LOA body. Per Part 512 + Prime design doc: the three personalization values above are mandatory and constitute the audit-trail evidence package — name, timestamp, authentication code.]</p>
+</div>
+<div class="doc-section" id="doc-plan-contract-final">
+<!-- ENRIL-332: plan name + rate made scenario-aware — GB (Scen C/D) shows the Guaranteed/Fixed Bill plan name and monthly guaranteed rate; this block was hardcoded to the Scen A per-therm format for every scenario. -->
+<h4>2. Plan Contract</h4>
+<p class="scen-hide-gb">Plan: 12-Month PriceGuard · Term: March 1, 2026 — February 28, 2027 · Rate: $0.74 / therm.</p>
+<p class="scen-only-gb"><span class="mkt-inline mkt-il on">Plan: Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Plan: Fixed Bill Plan</span> · Term: March 1, 2026 — February 28, 2027 · Rate: $97.00 / month (guaranteed).</p>
+<p class="doc-placeholder">[Plan-specific contract terms with customer-specific dates. Generated by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>.]</p>
+</div>
+<div class="doc-section" id="doc-acr-final">
+<h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
+<p><strong>Your plan renews automatically.</strong> Your plan continues at the end of its term unless you opt out. You'll receive a renewal notice in advance so you can review or change your options.</p>
+<p class="doc-placeholder">[Full Part 512 ACR disclosure body. Includes the IL "all plans auto-renew, including variable" provision.]</p>
+</div>
+</div>
+</div>
+
+</div><!-- end .confirmation-docs (ENRIL-245/526) -->
 <!-- ENRIL-347: "What happens next" timeline removed for OPG parity (matches ENR-146, 2026-07-17). It duplicated the hero subhead's "utility confirms within 1–2 business days" timing (ENRIL-344) and made the process feel longer than it is; heading + subhead are sufficient. -->
 
-<!-- ENRIL-197: Document bundle moved to bottom (after callouts section) -->
 <!-- ENRIL-93 (2026-05-25): Set-your-password inline section (single-field UX).
            PRIME auto-created a passwordless My Account at submit using the OTP-verified email.
            Refactored from ENRIL-74's reminder/CTA into the canonical password-setup surface. -->
@@ -3265,29 +3255,16 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
 <label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="#raf-program-terms">Program Terms</a></label>
 <div class="raf-channels">
-<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('pending')">Join &amp; get my code →</button>
+<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
 </div>
 <p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
 <div class="ann ann-b">ENRIL-421 · "Learn more" is a placeholder dead link, same as OPG's ENR-152 — will repoint once a standalone Refer-a-Friend page exists.</div>
 </div>
 
-<!-- ── STATE: JUST JOINED (code issued immediately, no async gap) ── -->
-<!-- ENRIL-493 (2026-08-16): pending/loading state removed — Susan confirmed the code issues immediately, no
-     PRIME turnaround wait ("it pulls in from Prime... right then and there"). Visual only, for the dev team —
-     doesn't resolve whether generating/showing the code inline is feasible vs. requiring a redirect to My Account;
-     that feasibility question remains open (owner: Allyson + dev team). -->
-<div id="conf-raf-view-pending" style="display:none;">
-<h3>You're in! 🎉</h3>
-<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
-<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-il on">JORDAN-IL-25</span><span class="mkt-inline mkt-ies">JORDAN-IES-25</span></span></div>
-<div class="raf-channels">
-<button class="raf-share-action">Email a friend</button>
-<button class="raf-share-action">Copy link</button>
-<button class="raf-share-action">Share on social</button>
-</div>
-<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-y">ENRIL-493 · Visual only — shows the code issuing immediately, no pending state. Doesn't resolve whether inline code generation/display is technically feasible within Enrollment vs. requiring a redirect to My Account; that feasibility question remains open (owner: Allyson + dev team).</div>
-</div>
+<!-- ENRIL-531 (2026-08-24, Claude Code): "Just joined" (formerly pending) state removed — aligns with
+     ENR-154/MA-115's instantaneous-issuance model. Join now resolves straight to Participant, all 4 scenarios.
+     ENRIL-493's open feasibility question (inline code display vs. My Account redirect) carries forward
+     unchanged since the Participant state below already shows the code inline. -->
 
 <!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
 <div id="conf-raf-view-participant" style="display:none;">
@@ -3324,51 +3301,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <a class="btn" href="Homepage_Wireframe.html">Back to homepage</a>
 </div>
 
-
-
-<!-- ENRIL-197: Your personalized contract documents (moved to bottom) -->
-<!-- ENRIL-506 (2026-08-17): visible by default now — reverses ENRIL-245's suppression. Review's own document
-     preview was removed in the same pass (the underlying document is one bundled PDF, not separable
-     sections), so this in-page reader is the only place customers can read the full bundle before
-     Print/Download, not just a reviewer-toggled demo extra. -->
-<div class="confirmation-docs">
-<h3 style="margin-top: 32px;">Your personalized contract documents</h3>
-
-
-<div class="doc-bundle">
-<div class="doc-bundle-header">
-<span class="lbl">Your personalized contract · 3 sections · 1 bundled PDF</span>
-<!-- ENRIL-192: Redundant Download button removed. Print + Save buttons in hero are the canonical affordances per ENRIL-150 -->
-</div>
-<div class="doc-bundle-toc">
-<strong>In this bundle:</strong>
-<a href="#doc-loa-final">1. Letter of Agency (personalized)</a> ·
-          <a href="#doc-plan-contract-final">2. Plan Contract</a> ·
-          <a href="#doc-acr-final">3. Auto-Renewal Disclosure</a>
-</div>
-<div class="doc-bundle-body">
-<div class="doc-section" id="doc-loa-final">
-<h4>1. Letter of Agency · personalized</h4>
-<p class="doc-meta"><strong>Customer:</strong> Jane Doe  ·  <strong>Enrolled:</strong> 2025-02-14 13:22:04 CT  ·  <strong>Auth code:</strong> 847291</p>
-<p>I, Jane Doe, authorize [SouthStar Energy Services] to act as my natural gas supplier and to coordinate with my local distribution company on my behalf as of the enrollment timestamp above.</p>
-<p class="doc-placeholder">[Full personalized LOA body. Per Part 512 + Prime design doc: the three personalization values above are mandatory and constitute the audit-trail evidence package — name, timestamp, authentication code.]</p>
-</div>
-<div class="doc-section" id="doc-plan-contract-final">
-<!-- ENRIL-332: plan name + rate made scenario-aware — GB (Scen C/D) shows the Guaranteed/Fixed Bill plan name and monthly guaranteed rate; this block was hardcoded to the Scen A per-therm format for every scenario. -->
-<h4>2. Plan Contract</h4>
-<p class="scen-hide-gb">Plan: 12-Month PriceGuard · Term: March 1, 2026 — February 28, 2027 · Rate: $0.74 / therm.</p>
-<p class="scen-only-gb"><span class="mkt-inline mkt-il on">Plan: Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Plan: Fixed Bill Plan</span> · Term: March 1, 2026 — February 28, 2027 · Rate: $97.00 / month (guaranteed).</p>
-<p class="doc-placeholder">[Plan-specific contract terms with customer-specific dates. Generated by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>.]</p>
-</div>
-<div class="doc-section" id="doc-acr-final">
-<h4>3. Automatic Contract Renewal (ACR) Disclosure</h4>
-<p><strong>Your plan renews automatically.</strong> Your plan continues at the end of its term unless you opt out. You'll receive a renewal notice in advance so you can review or change your options.</p>
-<p class="doc-placeholder">[Full Part 512 ACR disclosure body. Includes the IL "all plans auto-renew, including variable" provision.]</p>
-</div>
-</div>
-</div>
-
-</div><!-- end .confirmation-docs (ENRIL-245) -->
+<!-- ENRIL-526 (2026-08-17): personalized contract documents (.confirmation-docs) relocated from here to
+     directly below the Service & account / Address boxes, near the top of this step — see there. -->
 </section>
 </main>
 </div>
@@ -3753,7 +3687,6 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     var isScenA = document.body.classList.contains('scen-a');
     var isScentC = document.body.classList.contains('scen-c');
     var isScentD = document.body.classList.contains('scen-d');
-    var isExisting = document.body.classList.contains('scen-b') || isScentD;
     var continueChecked = isScentC ? (c1gb && c1gb.checked) : isScentD ? (c1gbd && c1gbd.checked) : true;
     // ENRIL-359 (2026-08-10): language attestation converted from checkbox to Yes/No radio.
     // ENRIL-484 (2026-08-16): gate narrowed from isGB to isScentC — Scen D's attestation now renders on this
@@ -3762,14 +3695,6 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     // Plan (see validateSelectPlan()'s sp-language-attest gate); this Quote-step radio group is now
     // scen-only-a in the markup, so it's the only scenario left that answers it here.
     var attestOk = !isScenA || (langAttestChecked && langAttestChecked.value === 'yes');
-    // ENRIL-207: Check q-etc-ack when visible (plan-fixed existing customers — same pattern as ENRIL-191 validateReview)
-    // ENRIL-516 (2026-08-17): gate on actual visibility (offsetParent), not just is-fixed-plan — mkt-ies.scen-d
-    // now force-hides .plan-fixed via CSS, and requiring a checkbox no customer can see/check would deadlock Continue.
-    var etcAckOk = true;
-    if (isExisting && document.body.classList.contains('is-fixed-plan')) {
-      var etcAck = document.getElementById('q-etc-ack');
-      if (etcAck && etcAck.offsetParent !== null) etcAckOk = etcAck.checked;
-    }
     // ENRIL-399/405 (2026-08-10): Scen C's Documents content is merged into this step — also gate on its
     // bundle-ack-c checkbox and scroll-to-bottom of its own doc-bundle container.
     // ENRIL-444 (2026-08-12): bundle-authorized-nonb-c reference removed — that checkbox was removed
@@ -3792,7 +3717,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       var authD = document.getElementById('bundle-authorized-nonb');
       authOkD = authD && authD.checked;
     }
-    if (btn) btn.disabled = !(continueChecked && attestOk && etcAckOk && docsOk && authOkB && authOkD);
+    if (btn) btn.disabled = !(continueChecked && attestOk && docsOk && authOkB && authOkD);
     // Language decline error: handled via error-mode toggle (ENRIL-13).
   }
   // ENRIL-333: scroll-to-unlock — Continue also requires scrolling to the bottom of the
@@ -3887,19 +3812,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
   function validateReview() {
     // ENRIL-244: Single supplier-auth checkbox (r-disc-1) + final authorization (r-authorize). r-disc-2/3/4 removed from DOM.
     // ENRIL-253: Updated checks array — r-disc-2/3/4 no longer exist in DOM after ENRIL-244 revision.
-    // r-etc-ack is conditional (plan-fixed + existing) — checked separately via element visibility before adding.
     // ENRIL-478 (2026-08-16): r-authorize-b removed — all scenarios, including Scen B, now use r-authorize.
+    // ENRIL-529 (2026-08-17): r-etc-ack gate removed along with its markup — no IL/IES product carries an ETC.
     var checks = ['r-authorize']; // ENRIL-274: r-disc-1 removed from DOM; only final authorization checkbox required
     var ok = checks.every(function(id){
       var el = document.getElementById(id);
       return el && el.checked;
     });
-    // ENRIL-191: ETC consent required when visible (plan-fixed + existing customer)
-    var etcConsent = document.getElementById('r-etc-consent');
-    var etcAck = document.getElementById('r-etc-ack');
-    if (etcConsent && etcConsent.offsetParent !== null) {
-      if (!etcAck || !etcAck.checked) { ok = false; }
-    }
     var btn = document.getElementById('r-submit-btn');
     if (btn) btn.disabled = !ok;
   }
@@ -3929,16 +3848,16 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     }
   }
 
-  // ---------- ENRIL-421: Confirmation RAF three-state model (optin / pending / participant) ----------
-  // Ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152. Default = optin for all scenarios (a
-  // brand-new customer can never land on "participant" — no prior account — so that state is reachable
+  // ---------- ENRIL-421/ENRIL-531: Confirmation RAF two-state model (optin / participant) ----------
+  // Ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152/ENR-154. Default = optin for all scenarios
+  // (a brand-new customer can never land on "participant" — no prior account — so that state is reachable
   // here only via the reviewer toggle). Reviewer toggle: "RAF state (ENRIL-421)" in the Scenario drawer.
   function setConfRafView(view) {
-    ['optin', 'pending', 'participant'].forEach(function(v) {
+    ['optin', 'participant'].forEach(function(v) {
       var el = document.getElementById('conf-raf-view-' + v);
       if (el) el.style.display = (v === view) ? '' : 'none';
     });
-    var map = { optin: 'raf-btn-optin', pending: 'raf-btn-pending', participant: 'raf-btn-participant' };
+    var map = { optin: 'raf-btn-optin', participant: 'raf-btn-participant' };
     Object.keys(map).forEach(function(v) {
       var b = document.getElementById(map[v]);
       if (b) b.classList.toggle('on', v === view);
@@ -4152,15 +4071,6 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     if (stop) stop.style.display = 'block';
     if (notGood) notGood.style.display = (scenDGoodStanding === 'not-in-good') ? 'block' : 'none';
     if (creditFail) creditFail.style.display = (scenDGoodStanding === 'credit-fail') ? 'block' : 'none';
-  }
-
-  // ---------- ENRIL-100: Current-plan-type toggle (gates ETF callout in Select plan) ----------
-  function setIsFixedPlan(fixed) {
-    document.body.classList.toggle('is-fixed-plan', fixed);
-    var vb = document.getElementById('fixedplan-btn-var');
-    var fb = document.getElementById('fixedplan-btn-fix');
-    if (vb) vb.classList.toggle('on', !fixed);
-    if (fb) fb.classList.toggle('on',  fixed);
   }
 
   // ---------- ENRIL-102: Session persistence (ENR-39 equivalent for IL) ----------
