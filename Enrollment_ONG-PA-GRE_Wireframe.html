@@ -1161,6 +1161,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="num">6</span> Confirm
   </button>
 </div>
+<div class="ann ann-b">
+<strong>ENR-198 (2026-08-25) — production stepper navigation/validation rule.</strong> `ENR-56` left every chip above freely clickable at all times, scoped as "reviewer navigation freedom; production validation separate" (IL's `ENRIL-109` carries the identical carve-out) — the wireframe's chips stay that way intentionally, for reviewer convenience. The real production rule, decided but not built here: (1) a customer cannot advance to a step without completing the prior step(s) — no forward skip-ahead; (2) once a step is completed, the customer can navigate back to it via the stepper; (3) editing a completed step re-locks that step <strong>and every step after it</strong> — the customer re-confirms (taps Continue on) each remaining step in order on their way back to Review, without re-entering data. This is how a customer corrects a CustomerLookup-verified field (e.g. the now-locked "Service &amp; account" section, `ENR-197`) — go back to Step 1 via the stepper and resubmit, which forces re-verification. Functionally equivalent to IL's "start over" framing (`ENRIL-303`) without a literal restart. Also closes a document-accuracy gap: without this, a customer could edit data after already checking Accept Contract's consent boxes, submitting a contract that no longer matches what they affirmed. See `ENR-199` for the related edit-return-banner fix. Applies to both steppers above (New Customer chip-1–chip-4; Existing Customer chip-pf3–chip-4-ex).
+</div>
 <!-- =========================================================================
      Main two-column layout (ENR-80: plan summary on left, content on right)
      ========================================================================== -->
@@ -1483,6 +1486,15 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </section>
 <!-- ====== Step 1 — Verify your service (new-customer path only — gated by setStep guard for flow-existing mode) ===== -->
 <section aria-labelledby="s1-title" class="step on" id="step-1">
+<!-- ENR-199 (2026-08-25): banner added here — previously only existed inside #step-2, so editing
+     "Service & account" from Review (which routes to Step 1) showed no edit-in-progress banner at
+     all. Same markup/copy as the Step 2 banner. ENR-201 (2026-08-25): the old per-section
+     "Edit →" jump-with-focus links (and their now-fully-unreferenced openEditFor() function) were
+     removed once every Review section lost its Edit link — the stepper's own back-navigation is
+     now the only path back, and setStep()'s auto-banner (ENR-200) covers it. -->
+<div class="edit-return-banner">
+<div><strong>Editing your details.</strong> Changing this may affect the steps that follow — tap Continue to save your changes and confirm each remaining step.</div>
+</div>
 <!-- ENR-67B (2026-05-27): Existing-account inline error state (hard-stop / forced-login-redirect demo).
      ENR-183 (2026-08-24): No longer the DEFAULT outcome for this detection path — CustomerLookup
      detecting an existing account during the new-customer flow now routes to a soft, non-blocking
@@ -1650,7 +1662,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="btn-row">
 <a class="btn btn-tertiary" href="#">← Back to Plans</a>
 <div class="btn-row-right">
-<button class="btn" disabled="" id="s1-continue" onclick="prefillExistingCustomer(); setStep(2);">Continue to Your Details →</button>
+<button class="btn" disabled="" id="s1-continue" onclick="prefillExistingCustomer(); setEditReturn(false); setStep(2);">Continue to Your Details →</button>
 </div>
 </div>
 <!-- ENR-55 (2026-05-26) / ENR-62 (2026-05-27): Existing-customer link moved above to under LDC field per ENR-62 -->
@@ -1659,9 +1671,12 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </section><!-- /#step-1 -->
 <!-- ====== Step 2 — Your details ==================================== -->
 <section aria-labelledby="s2-title" class="step" id="step-2">
+<!-- ENR-199 (2026-08-25): "Save & Return to Review" button removed — it called setStep(3)
+     (Accept Contract), not Review, and bypassed this step's own Continue/validation, which
+     conflicts with ENR-198's "must resubmit via that step" cascade model. Rely on the step's
+     own Continue button instead. -->
 <div class="edit-return-banner">
-<div><strong>Editing your details.</strong> Make your changes, then return to review.</div>
-<button class="btn btn-secondary" onclick="setStep(3); setEditReturn(false);">Save &amp; Return to Review</button>
+<div><strong>Editing your details.</strong> Changing this may affect the steps that follow — tap Continue to save your changes and confirm each remaining step.</div>
 </div>
 <h2 id="s2-title">Your details</h2>
 <p class="step-intro">Tell us a bit about you. We'll use this information to set up your enrollment.</p>
@@ -1889,7 +1904,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep(1)">← Back</button>
 <div class="btn-row-right">
-<button class="btn" id="s2-continue" onclick="setStep(3)">Continue to Accept Contract →</button>
+<button class="btn" id="s2-continue" onclick="setEditReturn(false); setStep(3)">Continue to Accept Contract →</button>
 </div>
 </div>
 </section><!-- /#step-2 -->
@@ -1900,11 +1915,6 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <p class="field-legend"><span class="req">*</span> Required field</p>
 <!-- Required acknowledgments fieldset — consolidated regulatory authorization (ENR-50, ENR-70, ENR-77) -->
 <div class="fieldset">
-<h3>Required acknowledgments</h3>
-
-
-
-
 <div style="padding:12px 14px; background:var(--accent-soft); border:1px solid var(--accent); border-radius:4px; margin-bottom:14px; font-size:12px; color:var(--accent);">
 <strong>Please read the full agreement below before continuing.</strong> You must scroll through all sections to enable the button below.
         </div>
@@ -1947,7 +1957,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 <!-- ENR-85: LDC-variable content blocks (CMS deliverable) -->
 
-<div style="padding:12px 14px; background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; margin-bottom:14px; font-size:12px;">
+<div class="ann ann-y" style="padding:12px 14px; background:var(--ann-y-bg); border:1px solid var(--ann-y-bd); border-radius:4px; margin-bottom:14px; font-size:12px;">
 <p style="margin:0 0 8px;"><strong>[CMS Placeholder — LDC-Variable Contract Terms]</strong></p>
 <p style="margin:0 0 6px;">Language and disclosures vary by LDC:</p>
 <ul style="margin:0; padding-left:20px; font-size:11px; color:var(--muted);">
@@ -1957,14 +1967,17 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </ul>
 </div>
 <!-- ENR-128: Consent checkboxes wrapped in bordered inset box -->
+<!-- ENR-196 (2026-08-25): "Required acknowledgments" heading moved here (was atop the contract-
+     documents fieldset above) to sit directly above the checkboxes it actually labels. -->
+<h3>Required acknowledgments</h3>
 <div class="fieldset-box">
 <!-- ENR-84: Communication consent checkbox.
      ENR-171 (2026-08-24): pre-checked default REMOVED — no consent checkbox may be pre-checked
      in this wireframe (Playbook Pitfall 3 / ENR-9 / B2). Gated authorized-person checkbox
      (Step 2, sec-account-auth) is unaffected by this item. -->
 <div class="checkbox-row" style="background:#e6eff7; border-color:#2b5d8a;">
-<input id="consent-comms" type="checkbox"/>
-<label for="consent-comms">I agree that I am contracting electronically and agree to the above Ohio Natural Gas Disclosure Statement and Terms and Conditions of Service, and any applicable early termination charges. </label>
+<input id="consent-comms" required="" type="checkbox"/>
+<label for="consent-comms"><span class="req">*</span>I agree that I am contracting electronically and agree to the above Ohio Natural Gas Disclosure Statement and Terms and Conditions of Service, and any applicable early termination charges. </label>
 </div>
 
 <div class="checkbox-row">
@@ -2017,27 +2030,35 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
            the first genuinely editable section: Service & account. -->
 <p class="field-legend"><span class="req">*</span> Required field</p>
 <!-- Service & account section (ENR-48/43: ZIP + Account type removed from this recap; ENR-162
-     re-added them as Step 1 INPUT fields, not recap rows here) -->
+     re-added them as Step 1 INPUT fields, not recap rows here). ENR-197 (2026-08-25): "Edit →"
+     link removed — this data is CustomerLookup-verified (ENR-168), same category IL/IES already
+     locks with no Edit link (ENRIL-238/239). To correct it, the customer goes back via the
+     stepper and resubmits Step 1, which forces re-verification (ENR-198). -->
 <div class="review-section">
-<header><h4>Service &amp; account</h4><a href="#" onclick="event.preventDefault(); openEditFor('service-account');">Edit →</a></header>
+<header><h4>Service &amp; account</h4></header>
 <dl>
 <dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
 <!-- ENR-175 (2026-08-24): unmasked — matches the IL/IES wireframe's equivalent, which also doesn't mask. -->
 <dt>Account number</dt><dd>123456789</dd>
 </dl>
 </div>
-<!-- Address section (ENR-29: editable, captured on Step 2) — ENR-88: moved before Contact -->
+<!-- Address section (ENR-29: editable, captured on Step 2) — ENR-88: moved before Contact.
+     ENR-200 (2026-08-25): "Edit →" link removed — Service address is CustomerLookup-sourced
+     (same category as the now-locked "Service & account" section, ENR-197). To correct it, the
+     customer navigates back via the stepper to Step 2, which now shows the edit-return banner
+     (see setStep()'s auto-trigger, added for this item) instead of a direct jump-with-focus link. -->
 <div class="review-section">
-<header><h4>Address</h4><a href="#" onclick="event.preventDefault(); openEditFor('address');">Edit →</a></header>
+<header><h4>Address</h4></header>
 <dl>
 <dt>Service address</dt><dd>123 Main Street, <span class="mkt-inline mkt-ong on">Columbus, OH 43210</span><span class="mkt-inline mkt-pa">Pittsburgh, PA 15201</span><span class="mkt-inline mkt-gre">Grand Rapids, MI 49503</span></dd>
 <dt>Mailing address</dt><dd>Same as service address</dd>
 </dl>
 
 </div>
-<!-- Contact section — ENR-88: moved after Address -->
+<!-- Contact section — ENR-88: moved after Address. ENR-200 (2026-08-25): "Edit →" link removed
+     — Name is CustomerLookup-sourced, same rationale as Address above. -->
 <div class="review-section">
-<header><h4>Contact</h4><a href="#" onclick="event.preventDefault(); openEditFor('contact');">Edit →</a></header>
+<header><h4>Contact</h4></header>
 <dl>
 <dt>Name</dt><dd>Jordan Sample</dd>
 <dt>Email</dt><dd>jordan@example.com</dd>
@@ -2045,9 +2066,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </dl>
 
 </div>
-<!-- Preferences section — ENR-72 updated 2026-05-27; ENR-145 (2026-07-17): renamed from "Preferences & Disclosures" and T&Cs/ETC/supplier rows moved to Acknowledgments below (legal confirmations don't belong under "Preferences") -->
+<!-- Preferences section — ENR-72 updated 2026-05-27; ENR-145 (2026-07-17): renamed from "Preferences & Disclosures" and T&Cs/ETC/supplier rows moved to Acknowledgments below (legal confirmations don't belong under "Preferences"). ENR-201 (2026-08-25): "Edit →" link removed for consistency with Service & account/Address/Contact (ENR-197/ENR-200) — all Review sections now lock the same way, relying on the edit-return banner via stepper back-navigation instead of a per-section jump-with-focus link. -->
 <div class="review-section">
-<header><h4>Preferences</h4><a href="#" onclick="event.preventDefault(); openEditFor('preferences');">Edit →</a></header>
+<header><h4>Preferences</h4></header>
 <dl>
 <dt class="mkt-inline mkt-pa">Paperless billing</dt><dd class="mkt-inline mkt-pa">Not opted in (verify via email after enrollment)</dd>
 <dt>Consent to receive calls</dt><dd>No</dd>
@@ -2515,6 +2536,19 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
       target = 'pf3';
     }
 
+    // ENR-200 (2026-08-25): auto-show the edit-return banner when navigating backward from Accept
+    // Contract, Review, or Confirmation to an earlier step — via the stepper, not just an explicit
+    // "Edit →" link. Needed once Service & account (ENR-197), Address, and Contact (ENR-200) all
+    // lost their per-section Edit links: the stepper is now the only way back to fix that data, so
+    // it has to carry the same "you're editing, this may affect later steps" signal the old links did.
+    var LATE_STEPS_ENR200 = [3, 4, 'confirmation'];
+    if (LATE_STEPS_ENR200.indexOf(currentStep) >= 0) {
+      var orderForBanner = getStepOrder();
+      var prevIndexForBanner = orderForBanner.indexOf(currentStep);
+      var newIndexForBanner = orderForBanner.indexOf(target);
+      if (newIndexForBanner >= 0 && newIndexForBanner < prevIndexForBanner) setEditReturn(true);
+    }
+
     // hide all step sections
     document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('on'); });
 
@@ -2631,35 +2665,17 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     validateStep1();
   }
 
-  // ---------- Edit-return banner (Step 3 Edit link returns to Step 2 with banner) ----------
+  // ---------- Edit-return banner (shown on Step 1 or Step 2 when the customer arrives there via
+  // backward stepper navigation from a later step — ENR-200's setStep() auto-trigger, now that no
+  // Review section has a per-field "Edit →" link left, ENR-197/199/200/201; ENR-199 (2026-08-25):
+  // no auto-return shortcut — banner clears when the customer taps that step's own Continue
+  // button, per the ENR-198 cascade model) ----------
   function setEditReturn(on) {
     document.body.classList.toggle('editing', on);
     var off = document.getElementById('edit-btn-off');
     var ono = document.getElementById('edit-btn-on');
     if (off) off.classList.toggle('on', !on);
     if (ono) ono.classList.toggle('on', on);
-  }
-
-  // ---------- Step 3 Edit links: jump-with-focus + auto-return CTA (ENR-2) ----------
-  function openEditFor(section) {
-    // map review section to destination step + target field
-    var map = {
-      'service-account': { step: 1, focus: 'acct1-ong' },  // ENR-48/ENR-162: Last Name + ZIP re-added at Step 1; focus account number
-      'contact':         { step: 2, focus: 'fname' },
-      'address':         { step: 2, focus: 'same-as-service' },
-      'preferences':     { step: 2, focus: 'consent-call' }
-      // ENR-50: 'ftc' edit target removed — Step 2 ftc-ack subsumed into Step 3 etc-ack + T&C/LOA acceptance
-    };
-    var t = map[section] || { step: 2, focus: 'fname' };
-    setEditReturn(true);
-    setStep(t.step);
-    setTimeout(function(){
-      var el = document.getElementById(t.focus);
-      if (el) {
-        el.scrollIntoView({ behavior:'smooth', block:'center' });
-        try { el.focus(); } catch(e) {}
-      }
-    }, 250);
   }
 
   // ---------- ENR-39: Tier 1 session persistence (sessionStorage) ----------
@@ -2879,15 +2895,17 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     function checkScrollPosition() {
       // Check if user has scrolled to within ~10px of bottom
       var scrolled = docBundle.scrollTop + docBundle.clientHeight >= docBundle.scrollHeight - 10;
-      // Unlock button only if T&C checkbox is also checked
+      // Unlock button only if both required checkboxes are also checked (ENR-195: consent-comms
+      // added to this gate alongside tos-accept — previously only tos-accept was enforced).
       var tosAccept = document.getElementById('tos-accept');
-      btn.disabled = !(scrolled && tosAccept && tosAccept.checked);
+      var consentComms = document.getElementById('consent-comms');
+      btn.disabled = !(scrolled && tosAccept && tosAccept.checked && consentComms && consentComms.checked);
     }
 
     docBundle.addEventListener('scroll', checkScrollPosition);
     // Also update on checkbox change
     document.addEventListener('change', function(e) {
-      if (e.target.id === 'tos-accept') checkScrollPosition();
+      if (e.target.id === 'tos-accept' || e.target.id === 'consent-comms') checkScrollPosition();
     });
 
     // Initial state: button disabled
@@ -2929,10 +2947,12 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     if (btn) btn.disabled = !ok;
   }
   function validateStep3() {
-    // ENR-85: ETC acknowledgement removed; only T&C and scroll-to-unlock matter now.
+    // ENR-85: ETC acknowledgement removed; T&C, consent-comms, and scroll-to-unlock matter now.
     // Scroll-to-unlock is handled by setupScrollToUnlock() above.
+    // ENR-195: consent-comms added to this gate alongside tos-accept — previously only tos-accept was enforced.
     var tos = document.getElementById('tos-accept');
-    var ok = tos && tos.checked;
+    var consentComms = document.getElementById('consent-comms');
+    var ok = tos && tos.checked && consentComms && consentComms.checked;
     var btn = document.getElementById('s3-submit');
     if (btn) btn.disabled = !ok;
   }
