@@ -348,13 +348,17 @@
     width: 100%; padding: 10px 12px; font: inherit;
     border: 1px solid var(--line); border-radius: 3px; background: #fafbfc;
   }
-  /* Read-only display for system-derived fields (ENR-44: State, etc.) */
+  /* Read-only display for system-derived fields (ENR-44: State, etc.).
+     ENR-186/ENR-190 (2026-08-24): muted text + a background clearly distinct from
+     active fields (#fafbfc), so locked fields read as inactive rather than editable.
+     Also applied to Step 1's Gas Utility Company field (ENR-186), consolidating both
+     under one shared treatment instead of separate ad hoc styling. */
   .field .readonly-field {
     padding: 10px 12px;
-    background: var(--line-soft);
+    background: #e3e6ea;
     border: 1px solid var(--line);
     border-radius: 3px;
-    color: var(--ink);
+    color: var(--muted);
   }
   .field .field-help { font-size: 12px; color: var(--muted); margin-top: 4px; }
   .field .field-help a { font-size: 12px; }
@@ -1171,7 +1175,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <h3>Your current plan</h3>
 
 <div class="plan-name-row">
-<div class="plan-name">PriceGuard 12<sup>®</sup></div>
+<div class="plan-name">12-Month Fixed Plan</div>
 </div>
 <div class="plan-rate">
         $0.749
@@ -1317,7 +1321,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 
 <!-- Current contract panel -->
 <div class="current-contract-panel">
-<h4>Currently enrolled · <span class="plan-fixed-inline">12-Month PriceGuard Plan</span><span class="plan-variable-inline">Variable Rate Plan</span></h4>
+<h4>Currently enrolled · <span class="plan-fixed-inline">12-Month Fixed Plan</span><span class="plan-variable-inline">Variable Rate Plan</span></h4>
 <dl>
 <dt>Plan type</dt><dd><span class="plan-fixed-inline">Fixed-rate · 12-month term</span><span class="plan-variable-inline">Variable · Month-to-month</span></dd>
 <dt>Rate</dt><dd>$0.749 / <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></dd>
@@ -1379,7 +1383,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- Alternative plan card 1 (preselected from deep-link by default for demo) -->
 <div class="plan-pick-card selected" data-plan="fixed-24">
 <span class="selected-badge">Selected</span>
-<h4>24-Month PriceGuard Plan</h4>
+<h4>24-Month Fixed Plan</h4>
 <div class="pp-rate">$0.689 <small>/ <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></small></div>
 <div class="pp-term">Fixed · 24-month term · Locks in your rate longer</div>
 <div class="pp-etf-callout plan-fixed">
@@ -1389,7 +1393,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
           </div>
 </div>
 <div class="plan-pick-card" data-plan="fixed-6">
-<h4>6-Month PriceGuard Plan</h4>
+<h4>6-Month Fixed Plan</h4>
 <div class="pp-rate">$0.769 <small>/ <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></small></div>
 <div class="pp-term">Fixed · 6-month term · Shorter commitment</div>
 <div class="pp-etf-callout plan-fixed">
@@ -1431,7 +1435,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="plan-switch-compare">
 <div class="plan-switch-compare-col from">
 <div class="plan-switch-compare-label">Switching from</div>
-<h4><span class="plan-fixed-inline">12-Month PriceGuard Plan</span><span class="plan-variable-inline">Variable Rate Plan</span></h4>
+<h4><span class="plan-fixed-inline">12-Month Fixed Plan</span><span class="plan-variable-inline">Variable Rate Plan</span></h4>
 <dl>
 <dt>Type</dt><dd><span class="plan-fixed-inline">Fixed-rate</span><span class="plan-variable-inline">Variable</span></dd>
 <dt>Rate</dt><dd>$0.749 / <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></dd>
@@ -1443,12 +1447,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div aria-hidden="true" class="plan-switch-compare-arrow">→</div>
 <div class="plan-switch-compare-col to">
 <div class="plan-switch-compare-label">To</div>
-<h4>24-Month PriceGuard Plan</h4>
+<h4>24-Month Fixed Plan</h4>
 <dl>
 <dt>Type</dt><dd>Fixed-rate</dd>
 <dt>Rate</dt><dd>$0.689 / <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></dd>
 <dt>Term</dt><dd>24-month fixed</dd>
-<dt>Effective</dt><dd>Next utility meter-read</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
 </div>
@@ -1512,7 +1515,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <h3>Your utility</h3>
 <div class="field">
 <label>Gas Utility Company</label>
-<div style="padding:10px 12px; background:#fafbfc; border:1px solid var(--line); border-radius:3px; display:flex; justify-content:space-between; align-items:center;">
+<!-- ENR-186 (2026-08-24): switched from ad hoc inline read-only styling to the shared
+     .readonly-field treatment (also updated by ENR-190) so this reads clearly as fixed,
+     non-editable information rather than an active field. -->
+<div class="readonly-field" style="display:flex; justify-content:space-between; align-items:center;">
 <span>
 <span class="mkt mkt-ong on">CenterPoint Energy Ohio</span>
 <span class="mkt mkt-pa">Peoples Natural Gas</span>
@@ -1525,10 +1531,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 
 </div>
 <div class="fieldset">
-<!-- ENR-151: shared "Account number" heading removed — was an exact echo of the field label below it ("hat on a hat"). Heading is now market-scoped: ONG (two fields) gets a task-oriented heading; PA/GRE (single field) get none, since a group heading for a group of one adds nothing the label doesn't already say. -->
+<!-- ENR-151: shared "Account number" heading removed — was an exact echo of the field label below it ("hat on a hat"). ENR-187 (2026-08-24): heading re-added, now expanded to head the full identity-verification block (account number field(s) + Last Name + ZIP) for all three markets — PA/GRE's fieldset is no longer "a group of one" either now that Last Name + ZIP are shared fields (ENR-162). -->
+<h3>Confirm your account information</h3>
 <!-- ONG: account number entered TWICE (ENR-3 confirmed by ENR-25) -->
 <div class="mkt mkt-ong on">
-<h3>Confirm your account number</h3>
 <div class="field-row">
 <div class="field">
 <label for="acct1-ong"><span class="req">*</span>Account number</label>
@@ -1564,6 +1570,33 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 
 </div>
+<!-- ENR-188 (2026-08-24): moved up to sit directly beneath the account-number field(s), ahead of
+     Last Name/ZIP — this is contextual help for locating the account number specifically, and
+     previously sat below Last Name/ZIP and the multi-address selector, reading as detached from
+     the field it actually helps with. -->
+<!-- ENR-26 / ENR-83: Account-number help is ALWAYS-EXPOSED (text + call line).
+             Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation.
+             ENR-129: width:100% added to outer container to ensure full-width rendering. -->
+<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px; width:100%; max-width:none; display:block;">
+<p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
+<!-- Sample bill image with expand icon (ENR-83) -->
+<div onclick="document.getElementById('bill-image-modal').hidden = false;" style="margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--line); border-radius:3px; display:flex; gap:8px; align-items:center; cursor:pointer;">
+<span style="flex:1; font-size:12px; color:var(--muted);">[Bill image thumbnail]</span>
+<button aria-label="Expand bill image" style="background:transparent; border:none; cursor:pointer; font-size:14px;" title="Expand to full size" type="button">⇱</button>
+</div>
+
+<!-- ENR-133: full-width fix — mkt-inline on phone spans so they render inline (not display:block) inside the paragraph -->
+<p style="margin:12px 0 10px; font-size:12px; width:100%; max-width:none; display:block;">
+            Can't find your <span class="mkt-inline mkt-ong on">account number</span><span class="mkt-inline mkt-pa">account number / Service Point ID</span><span class="mkt-inline mkt-gre">account number</span>? Call SSE:
+            <strong>
+<span class="mkt-inline mkt-ong on">1-888-466-4427</span>
+<span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
+<span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
+</strong>
+            — we can help you locate it. (Do NOT call your Gas Utility Company for this — call SSE.)
+          </p>
+
+</div>
 <!-- ENR-162 (2026-08-24): Last Name on Gas Utility Account + ZIP Code re-added, all 3 markets.
      Corrects ENR-48's premise — the CustomerLookup API actually takes account# + last name + ZIP
      as combined INPUT (not just account# alone returning name/ZIP as output). Shared across
@@ -1592,29 +1625,6 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </label>
 </div>
 <div class="ann ann-b" style="margin-top:10px;"><strong>ENR-114 · Multi-address inline expansion:</strong> Renders only when PRIME returns 2+ service addresses for the verified LDC account number. The account number is the utility/LDC account — a landlord or property manager may have multiple addresses on one utility account. Single-address verifications skip this selector entirely. Continue button remains disabled until one address is selected. Confirm with Girish that PRIME returns address array on account-verification call. Cross-ref MA-101 (Dashboard premise switcher).</div>
-</div>
-<!-- ENR-26 / ENR-83: Account-number help is ALWAYS-EXPOSED (text + call line).
-             Bill image thumbnail with expand icon; clicking opens modal with larger image + annotation.
-             ENR-129: width:100% added to outer container to ensure full-width rendering. -->
-<div style="margin-top:14px; padding:14px; background:#fafbfc; border:1px solid var(--line-soft); border-radius:4px; font-size:13px; width:100%; max-width:none; display:block;">
-<p style="margin:0 0 8px;"><strong>Where to find your account number:</strong> it appears in the upper-right corner of your gas bill, above the billing address.</p>
-<!-- Sample bill image with expand icon (ENR-83) -->
-<div onclick="document.getElementById('bill-image-modal').hidden = false;" style="margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--line); border-radius:3px; display:flex; gap:8px; align-items:center; cursor:pointer;">
-<span style="flex:1; font-size:12px; color:var(--muted);">[Bill image thumbnail]</span>
-<button aria-label="Expand bill image" style="background:transparent; border:none; cursor:pointer; font-size:14px;" title="Expand to full size" type="button">⇱</button>
-</div>
-
-<!-- ENR-133: full-width fix — mkt-inline on phone spans so they render inline (not display:block) inside the paragraph -->
-<p style="margin:12px 0 10px; font-size:12px; width:100%; max-width:none; display:block;">
-            Can't find your <span class="mkt-inline mkt-ong on">account number</span><span class="mkt-inline mkt-pa">account number / Service Point ID</span><span class="mkt-inline mkt-gre">account number</span>? Call SSE:
-            <strong>
-<span class="mkt-inline mkt-ong on">1-888-466-4427</span>
-<span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
-<span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
-</strong>
-            — we can help you locate it. (Do NOT call your Gas Utility Company for this — call SSE.)
-          </p>
-
 </div>
 
 </div>
@@ -1713,12 +1723,16 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="field-row">
 <div class="field">
 <label for="email"><span class="req">*</span>Email address</label>
-<input aria-required="true" class="flow-existing-prefilled" id="email" placeholder="jane.doe@example.com" type="email" value="jane.doe@example.com"/>
+<!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — Email genuinely stays manual-entry
+     for new customers (not part of the lookup response), so it shouldn't render faded regardless of flow. -->
+<input aria-required="true" id="email" placeholder="jane.doe@example.com" type="email" value="jane.doe@example.com"/>
 <div class="field-help">Used for your SouthStar account login, your confirmation email, and billing notifications.</div>
 </div>
 <div class="field">
 <label for="phone"><span class="req">*</span>Phone</label>
-<input aria-required="true" class="flow-existing-prefilled" id="phone" placeholder="(614) 555-0147" type="tel" value="(614) 555-0147"/>
+<!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — Phone genuinely stays manual-entry
+     for new customers (not part of the lookup response), so it shouldn't render faded regardless of flow. -->
+<input aria-required="true" id="phone" placeholder="(614) 555-0147" type="tel" value="(614) 555-0147"/>
 <div class="field-help">Used for customer service communication.</div>
 </div>
 </div>
@@ -1751,37 +1765,53 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 <div class="field">
 <label for="addr-zip"><span class="req">*</span>ZIP</label>
-<input aria-required="true" autocomplete="postal-code" class="flow-existing-prefilled" id="addr-zip" inputmode="numeric" maxlength="5" placeholder="43215" type="text" value="43215"/>
+<!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — ZIP is now collected directly at
+     Step 1 for everyone (ENR-162), so it shouldn't render faded regardless of flow. -->
+<input aria-required="true" autocomplete="postal-code" id="addr-zip" inputmode="numeric" maxlength="5" placeholder="43215" type="text" value="43215"/>
 </div>
 </div>
 <h3 style="margin-top:18px;">Mailing address</h3>
 <div class="field">
 <div class="checkbox-row">
-<input checked="" id="same-as-service" type="checkbox"/>
+<!-- ENR-191 (2026-08-24): wired — unchecking reveals #mailing-address-fields below. -->
+<input checked="" id="same-as-service" onchange="toggleMailingAddress(this)" type="checkbox"/>
 <label for="same-as-service">Same as service address</label>
 </div>
 <div class="field-help">Uncheck if your bills should be sent somewhere else.</div>
+</div>
+<div id="mailing-address-fields" style="display:none;">
+<div class="field">
+<label for="mail-street"><span class="req">*</span>Street address</label>
+<input aria-required="true" autocomplete="address-line1" id="mail-street" placeholder="123 Maple Street" type="text"/>
+</div>
+<div class="field">
+<label for="mail-street2">Apt / Unit / Suite</label>
+<input autocomplete="address-line2" id="mail-street2" placeholder="" type="text"/>
+</div>
+<div class="field-row">
+<div class="field">
+<label for="mail-city"><span class="req">*</span>City</label>
+<input aria-required="true" autocomplete="address-level2" id="mail-city" placeholder="Columbus" type="text"/>
+</div>
+<div class="field">
+<label>State</label>
+<div class="readonly-field">
+<span class="mkt-inline mkt-ong on">Ohio</span>
+<span class="mkt-inline mkt-pa">Pennsylvania</span>
+<span class="mkt-inline mkt-gre">Michigan</span>
+</div>
+</div>
+<div class="field">
+<label for="mail-zip"><span class="req">*</span>ZIP</label>
+<input aria-required="true" autocomplete="postal-code" id="mail-zip" inputmode="numeric" maxlength="5" placeholder="43215" type="text"/>
+</div>
+</div>
 </div>
 </div>
 <!-- ENR-52 (2026-05-25): Account creation no longer surfaces inside the funnel.
            PRIME auto-creates a passwordless My Account at submit using the OTP-verified email.
            Step 2 stays focused on enrollment-required PII + operational preferences. -->
 
-<!-- ENR-111: "How did you hear about us?" field -->
-<div class="fieldset">
-<div class="field">
-<label for="hear-about-us">How did you hear about us?</label>
-<select id="hear-about-us" name="hear-about-us">
-<option value="">Select one</option>
-<option value="direct-mail">Direct Mail</option>
-<option value="online">Online</option>
-<option value="friend">Friend</option>
-<option value="puco">PUCO Apples to Apples Website</option>
-<option value="other">Other</option>
-</select>
-</div>
-
-</div>
 <!-- ENR-145 (2026-07-17): required account-holder attestation structurally split out of "Your preferences" into its own section — mirrors the ENR-131 Supplier Authorization precedent. ENR-144 (2026-07-17): required section ordered above the optional preferences below. -->
 <div class="fieldset fieldset-box" id="sec-account-auth">
 <h3>Account Holder Authorization</h3>
@@ -1823,6 +1853,23 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-30: Legal-requested fields 1 & 2 REMOVED per client review 2026-05-13.
            IL-specific legal fields will be handled in a separate IL wireframe. -->
 
+<!-- ENR-111: "How did you hear about us?" field.
+     ENR-192 (2026-08-24): moved to sit immediately above Refer a Friend, with nothing between them —
+     was previously right after Mailing address, ahead of Account Holder Authorization and Preferences. -->
+<div class="fieldset">
+<div class="field">
+<label for="hear-about-us">How did you hear about us?</label>
+<select id="hear-about-us" name="hear-about-us">
+<option value="">Select one</option>
+<option value="direct-mail">Direct Mail</option>
+<option value="online">Online</option>
+<option value="friend">Friend</option>
+<option value="puco">PUCO Apples to Apples Website</option>
+<option value="other">Other</option>
+</select>
+</div>
+
+</div>
 <!-- ENR-58 (2026-05-26): Optional RAF promo code field — ENR-76 suppressed for existing customers — ENR-86: extended to PA/GRE (2026-06-15).
      ENR-158 (2026-08-24): moved from mid-form (between Mailing address and "How did you hear about us?") to the end of Step 2, per user-testing finding (P4: "referring a friend in the middle of setup is a little wonky"). -->
 <hr style="border:none; border-top:1px solid var(--line,#ddd); margin:20px 0;"/>
@@ -1879,7 +1926,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <p style="margin:0 0 12px;">This letter, together with the enclosed Disclosure Statement and Terms and Conditions of Service, constitute the contract that will govern your service with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>.</p>
 <p style="margin:0 0 12px;">If you are a tax-exempt entity, please contact <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span> to arrange to provide your tax exemption certificate.</p>
 <h4 style="margin:14px 0 8px; font-size:13px;">1. Uniform Disclosure Statement</h4>
-<p style="margin:0 0 12px;"><strong>Plan:</strong> PriceGuard 12<sup>®</sup> · <strong>Rate:</strong> $0.749 / Ccf · <strong>Term:</strong> 12 months · <strong>Monthly customer charge:</strong> $X.XX (Gas Utility Company-set, passes through) · <strong>Early Termination Fee:</strong>
+<p style="margin:0 0 12px;"><strong>Plan:</strong> 12-Month Fixed Plan · <strong>Rate:</strong> $0.749 / Ccf · <strong>Term:</strong> 12 months · <strong>Monthly customer charge:</strong> $X.XX (Gas Utility Company-set, passes through) · <strong>Early Termination Fee:</strong>
 <span class="mkt-inline mkt-ong on">$12.50 per month remaining</span><span class="mkt-inline mkt-pa">$10.00 per month remaining</span><span class="mkt-inline mkt-gre"></span>.</p>
 <p style="margin:0 0 12px;">[CMS placeholder: full state-prescribed UDS disclosure copy. Legal owner.]</p>
 <h4 style="margin:14px 0 8px; font-size:13px;">2. Plan Contract</h4>
@@ -2357,6 +2404,12 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
         el.value = ''; // email / phone / addr-zip: not part of new-customer CustomerLookup, stay blank
       }
     }
+  }
+
+  // ENR-191 (2026-08-24) · Mailing address — reveal fields when "Same as service address" is unchecked
+  function toggleMailingAddress(cb) {
+    var fields = document.getElementById('mailing-address-fields');
+    if (fields) fields.style.display = cb.checked ? 'none' : 'block';
   }
 
   // ENR-96 · Renewal-window toggle
