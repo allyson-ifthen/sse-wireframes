@@ -319,8 +319,8 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
   <div class="oq-panel">
     <h4>Open Questions — Greener Life® Plan Page</h4>
     <ul class="oq-list">
-      <li><strong>GL-01:</strong> Certification standard — GNG uses Green-e® Climate. Confirm ONG and GRE use same before publishing Section 5 with named standard.</li>
-      <li><strong>GL-02:</strong> Specific offset project types/geographic focus — blocks Section 5 ¶3.</li>
+      <li class="closed"><strong>GL-01 (CLOSED):</strong> Certification standard — RESOLVED 2026-08-24: Green-e® Climate cannot be used for ONG/GRE (client-confirmed). Section 7 rebuilt as named offset projects instead of a certification claim — see GLP-9.</li>
+      <li class="closed"><strong>GL-02 (CLOSED):</strong> Specific offset project types/geographic focus — RESOLVED 2026-08-24: addressed directly via the 3 named projects (type + location) in the rebuilt Section 7 — see GLP-9.</li>
       <li><strong>GL-03:</strong> ONG utility names for FAQ Q1 — blocks FAQ Q1 ONG answer.</li>
       <li><strong>GL-04:</strong> GRE utility names for FAQ Q1 — blocks FAQ Q1 GRE answer.</li>
       <li><strong>GL-05:</strong> ETC terms and offset retirement timing — confirm against plan agreement before publishing FAQ Q4.</li>
@@ -422,9 +422,6 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <button class="wf-btn">View Greener Life Plans &rarr;</button>
         <a href="#how-it-works" style="color:rgba(255,255,255,.85); font-size:13px; font-weight:600; text-decoration:none;">How It Works &darr;</a>
       </div>
-      <div class="gi-hero-trust" style="margin-top:10px;">
-        [PLACEHOLDER: offset certification standard — e.g. "Green-e® Climate certified offsets" · client must confirm ONG/GRE certification standard (GL-01) before publishing. Suppress this line entirely if no verifiable certification standard can be cited — do not substitute a generic claim.]
-      </div>
       <div style="margin-top:16px;">
         <div class="wf-box">&#128247; Hero imagery &mdash; nature/landscape. Avoid wind turbines, solar panels, renewable energy imagery. No &lsquo;green&rsquo; stock clich&eacute;s. Client to supply.</div>
       </div>
@@ -435,6 +432,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <span class="ann ann-g">&#10003; H1 approved across both markets — names outcome + product</span>
         <span class="ann ann-r">&#9888; Do NOT include rate claim — Greener Life carries a premium</span>
         <span class="ann ann-r">&#9888; Do NOT use 990M+ lbs carbon offset figure — GNG-specific (GL-07 closed)</span>
+        <span class="ann ann-g">&#10003; Hero trust line removed (was GL-01 cert-standard placeholder) — per its own suppress rule, since no certification standard is being cited. Not replaced with a generic claim. See GLP-9.</span>
       </div>
     </div>
   </div><!-- /section 3 hero -->
@@ -452,7 +450,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
       <div class="ann-row">
         <span class="ann ann-r">&#9888; &ldquo;Carbon neutral&rdquo; MUST appear with mechanism explanation in same section &mdash; never standalone (compliance)</span>
         <span class="ann ann-r">&#9888; Para 3 (scope limitation) is REQUIRED &mdash; omitting creates misleading impression; compliance risk</span>
-        <span class="ann ann-y">&#9888; Para 4 BLOCKED GL-01 &mdash; do not publish named certification standard until client confirms ONG/GRE use Green-e&reg; Climate</span>
+        <span class="ann ann-g">&#10003; GL-01 resolved 2026-08-24 (Green-e cannot be used) — this section cites no certification standard, so no change needed here; the prior "Para 4" this flag referenced was already cut under GLP-4</span>
       </div>
     </div>
   </div><!-- /section 4 what is -->
@@ -537,26 +535,69 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
     </div>
   </div><!-- /section 6 plan options -->
 
-  <!-- ── SECTION 7: OFFSET CERTIFICATION ── -->
+  <!-- ── SECTION 7: FEATURED OFFSET PROJECTS ── -->
   <div class="section">
-    <div class="section-label"><div class="sec-num">7</div><br>Offset<br>Certification</div>
+    <div class="section-label"><div class="sec-num">7</div><br>Featured<br>Offset Projects</div>
     <div class="p">
-      <div class="h2">What Makes an Offset &ldquo;Certified&rdquo;?</div>
+      <div class="h2">The Projects Behind Your Greener Life&reg; Offset</div>
+      <p class="body-para">Every Greener Life&reg; plan retires carbon offsets from real, verified projects &mdash; not just certificates. Here&rsquo;s where your impact goes.</p>
 
-      <div class="cert-block">
-        <div class="cert-title">Certification Standard</div>
-        <p class="body-para">[PLACEHOLDER: GNG uses Green-e&reg; Climate (Center for Resource Solutions) &mdash; client must confirm ONG and GRE use same standard before publishing with named standard (GL-01). If unconfirmed, use &ldquo;independently certified offsets&rdquo; as holding phrase &mdash; do not name a standard.]</p>
-        <p class="body-para" style="font-size:12px; color:#555; margin-top:8px;">Certified offsets meet independently verified standards for additionality, permanence, and measurability. <a href="LearningCenter_Wireframe.html" style="color:#2e7d32; font-weight:600;">How carbon offsets work — and how to verify them →</a></p>
+      <div class="gl-projects-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin:14px 0;">
+
+        <!-- Project 1: Allagash Headwaters -->
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div class="wf-box" style="margin-bottom:10px;">&#128247; Project photo &mdash; forest/landscape. Client to supply.</div>
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Maine</div>
+          <div style="font-size:14px; font-weight:700; color:#1b5e20; margin-bottom:8px; line-height:1.4;">Allagash Headwaters</div>
+          <p style="font-size:12px; color:#333; line-height:1.5; margin:0 0 10px;">A 14,500-acre forestry project in northern Maine that promotes sustainable harvesting, accelerates carbon sequestration, and protects habitat for species like the Canada lynx.</p>
+          <dl style="font-size:11px; color:#555; margin:0; border-top:1px solid #c8e6c9; padding-top:8px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Program ID No.</dt><dd style="margin:0;">ACR754</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Endorsed Program</dt><dd style="margin:0;">American Carbon Registry</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Project Type</dt><dd style="margin:0;">Forest Carbon</dd></div>
+            <div style="display:flex; justify-content:space-between;"><dt style="font-weight:700;">Project Start</dt><dd style="margin:0;">2021</dd></div>
+          </dl>
+        </div>
+
+        <!-- Project 2: Wolf Creek Landfill -->
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div class="wf-box" style="margin-bottom:10px;">&#128247; Project photo &mdash; nature/creek. Client to supply.</div>
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Georgia</div>
+          <div style="font-size:14px; font-weight:700; color:#1b5e20; margin-bottom:8px; line-height:1.4;">Wolf Creek Landfill</div>
+          <p style="font-size:12px; color:#333; line-height:1.5; margin:0 0 10px;">Captures methane gas from a landfill and converts it into green energy for the local power grid &mdash; keeping a potent greenhouse gas out of the atmosphere.</p>
+          <dl style="font-size:11px; color:#555; margin:0; border-top:1px solid #c8e6c9; padding-top:8px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Program ID No.</dt><dd style="margin:0;">CAR498</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Endorsed Program</dt><dd style="margin:0;">Climate Action Reserve</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Project Type</dt><dd style="margin:0;">Landfill Gas Capture/Combustion</dd></div>
+            <div style="display:flex; justify-content:space-between;"><dt style="font-weight:700;">Project Start</dt><dd style="margin:0;">2010</dd></div>
+          </dl>
+        </div>
+
+        <!-- Project 3: HFC Reclamation -->
+        <div style="border:1.5px solid #c8e6c9; border-radius:5px; padding:16px 14px; background:#f1f8e9;">
+          <div class="wf-box" style="margin-bottom:10px;">&#128247; Project photo &mdash; industrial/skyline. Client to supply.</div>
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#2e7d32; margin-bottom:6px;">Illinois</div>
+          <div style="font-size:14px; font-weight:700; color:#1b5e20; margin-bottom:8px; line-height:1.4;">HFC Reclamation</div>
+          <p style="font-size:12px; color:#333; line-height:1.5; margin:0 0 10px;">Recovers and repurposes hydrofluorocarbon (HFC) refrigerants, cutting demand for newly manufactured HFCs used in HVAC equipment.</p>
+          <dl style="font-size:11px; color:#555; margin:0; border-top:1px solid #c8e6c9; padding-top:8px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Program ID No.</dt><dd style="margin:0;">ACR818</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Endorsed Program</dt><dd style="margin:0;">American Carbon Registry</dd></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><dt style="font-weight:700;">Project Type</dt><dd style="margin:0;">Industrial Process Emissions</dd></div>
+            <div style="display:flex; justify-content:space-between;"><dt style="font-weight:700;">Project Start</dt><dd style="margin:0;">2021</dd></div>
+          </dl>
+        </div>
+
       </div>
 
-      <div class="wf-box">&#128683; [PLACEHOLDER: specific project types and geographic focus &mdash; pending client and legal review (GL-02). Do not publish this paragraph until confirmed.]</div>
+      <p class="body-para" style="font-size:12px; color:#555;">Certified offsets meet independently verified standards for additionality, permanence, and measurability. <a href="LearningCenter_Wireframe.html" style="color:#2e7d32; font-weight:600;">How carbon offsets work — and how to verify them →</a></p>
 
       <div class="ann-row">
-        <span class="ann ann-r">&#9888; SECTION BLOCKED (GL-01, GL-02) &mdash; Do not publish with placeholder text. All paragraphs require client/legal confirmation.</span>
-        <span class="ann ann-y">&#9888; GL-01: Confirm ONG/GRE use Green-e&reg; Climate. GL-02: Project types/geographic focus needed.</span>
+        <span class="ann ann-g">&#10003; GL-01/GL-02 resolved &mdash; Green-e certification claim replaced with named, verifiable offset projects (client-approved 2026-08-24, GLP-9)</span>
+        <span class="ann ann-b">&#9432; Source: gng.com screenshots provided by Allyson 2026-08-24. Same offset-purchasing program confirmed to apply across ONG/GRE &mdash; not GNG-specific.</span>
+        <span class="ann ann-y">&#9888; Open question: does the featured project set rotate on a periodic (e.g. annual retirement) cycle? If so this becomes CMS-managed content, not a static 3-project list.</span>
+        <span class="ann ann-b">&#9432; Facts block (Program ID / Endorsed Program / Project Type / Project Start) marked up as a semantic &lt;dl&gt; for visible-DOM machine-readability. JSON-LD structured data (additionalProperty/PropertyValue, following the CompanyHistory Organization/hasCredential convention) intentionally deferred &mdash; see GLP-10. When that work happens, do not use schema:Certification/hasCertification for the Endorsed Program field &mdash; would reintroduce a certification-flavored claim in structured form.</span>
       </div>
     </div>
-  </div><!-- /section 7 certification -->
+  </div><!-- /section 7 featured offset projects -->
 
   <!-- ── SECTION 8: FAQ ── -->
   <div class="section">
