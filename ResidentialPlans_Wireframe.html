@@ -1301,6 +1301,9 @@
 </div>
 <div class="wf-btn" style="padding:8px 20px; font-size:12px; background:#7a6030; border-color:#7a6030;">Apply →</div>
 </div>
+<!-- RP-13 (2026-08-25, Claude Code): OOH/billboard visitors who saw an offer but don't have the code get a
+     no-code recovery path — mirrors the equivalent addition on Homepage (HP-23). -->
+<div style="margin-top:8px;"><a href="PromoPage_Wireframe.html#ldc-lookup" style="font-size:11px; color:#7a6030; font-weight:600; text-decoration:underline; cursor:pointer;">Forgot the promotional code? Find it by your utility →</a></div>
 <div style="margin-top:10px; background:#e8f5e9; border:1px solid #4caf50; border-radius:3px; padding:8px 12px; font-size:12px; color:#2e7d32;">
             ✓ <strong>Valid code — LDC already selected:</strong> Transitions to State A auto-apply — "Promotional offer SAVE25 applied." Plans update to reflect offer immediately.<br/>
 <span style="color:#1565c0; margin-top:5px; display:block;">✓ <strong>Valid code — no LDC selected yet:</strong> Transitions to State C (see below) — code stored, prompt to select utility. Discount auto-applies once LDC is confirmed.</span>
@@ -1339,6 +1342,7 @@
 <div class="annot annot-green"><span class="annot-icon">✓</span> State C handles edge case: code entered before LDC selection. Prime validates the code independently of LDC. Code stored in session; customer prompted to select utility. Discount auto-applies on LDC confirm — no re-entry required. Less likely now that LDC-required promos resolve LDC on the Promo Page.</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> Invalid/expired code (State B or State C attempt) shows inline message and displays standard rates — no silent failure, no redirect.</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> <strong>PROMO-19 (2026-07-15):</strong> confirmed this inline message treatment already matches the direction aligned for the Promo Page's runtime-invalid-code case (PROMO-13) — a brief explanatory state, not a redirect. No change needed here; noted for consistency across all three entry points (Promo Page, Homepage, Residential Plans).</div>
+<div class="annot annot-green"><span class="annot-icon">✓</span> <strong>RP-13 (2026-08-25):</strong> added a "Forgot the promotional code? Find it by your utility →" link to the State B manual-entry panel, routing to PromoPage_Wireframe.html's new PROMO-32 "find your offer by LDC" entry path (<code>#ldc-lookup</code>) — mirrors the equivalent link on Homepage (HP-23). No promo code required; LDC match resolves the visitor's active offer.</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> State C session storage: confirm with dev how the validated promo code is held between LDC selection and plan card render — URL param, session storage, or server-side session. Must survive the LDC selection event without requiring page reload.</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> OQ-P7 (from Promo Page): Should State B manual-entry toggle be suppressed when user arrives via the Promo Page secondary CTA (State A already active)? Showing both may confuse users who already have an offer applied.</div>
 </div>

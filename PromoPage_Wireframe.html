@@ -921,6 +921,15 @@
   body.err-invalid .promo-invalid-state { display: block; }
   body.err-invalid .promo-main-content { display: none; }
 
+  /* ── PROMO-32 · Codeless entry — "Find your offer by LDC" — 4th entry path into this template
+       (Path 1: ?promo=CODE · Path 2: manual code entry on Homepage/Plans · Path 3: PROMO-13 invalid code · Path 4: this).
+       Toggled via control panel "Entry path" group, independent of Error mode. ── */
+  .promo-nocode-state, .promo-nocode-nomatch-state { display: none; }
+  body.entry-nocode-lookup .promo-nocode-state { display: block; }
+  body.entry-nocode-lookup .promo-main-content { display: none; }
+  body.entry-nocode-nomatch .promo-nocode-nomatch-state { display: block; }
+  body.entry-nocode-nomatch .promo-main-content { display: none; }
+
   /* ── PROMO-17 · ZIP fallback expander (adopted wholesale from Homepage/Plans pattern) ── */
   .ldc-zip-toggle { font-size: 11px; color: #5a8cbf; font-weight: 600; cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-style: italic; }
   .ldc-zip-panel { background: #f7f9ff; border: 1.5px solid #c5d8f0; border-radius: 4px; padding: 12px 14px; margin-top: 10px; display: none; }
@@ -989,6 +998,12 @@
 <span class="group-lbl">Error mode:</span>
 <button class="on" id="err-btn-none" onclick="setErrorMode('none')">None</button>
 <button id="err-btn-invalid" onclick="setErrorMode('invalid')">Invalid/Expired Code</button>
+</div>
+<div class="group">
+<span class="group-lbl">Entry path (PROMO-32):</span>
+<button class="on" id="entry-btn-default" onclick="setEntryMode('default')">Code-driven (default)</button>
+<button id="entry-btn-lookup" onclick="setEntryMode('lookup')">No Code · Find by LDC</button>
+<button id="entry-btn-nomatch" onclick="setEntryMode('nomatch')">No Code · No Active Offer</button>
 </div>
 <div class="group">
 <span class="group-lbl">Annotations:</span>
@@ -1131,6 +1146,63 @@
 <p style="font-size:15px; color:#444; line-height:1.6; margin-bottom:24px;">Check your mailer, email, or postcard for the correct promo code — or browse our current plans and rates below.</p>
 <a class="button button--primary" style="display:inline-block;" href="ResidentialPlans_Wireframe.html">Browse Current Plans →</a>
 <div class="ann ann-b" style="margin-top:24px; text-align:left;"><strong>PROMO-13</strong> — Runtime-invalid/expired code detected on page load (Path 1: URL param; Path 3: OOH/physical vanity link). <code>promo_code_invalid</code> fires client-side first (preserving entry_path + error_type: invalid|expired|wrong_market) so campaign-monitoring analytics survive regardless of what happens next. Resolution aligned 2026-07-15: a brief explanatory state, not an immediate redirect — the visitor understands what happened before being routed anywhere. CTA links to Residential Plans. Distinct from PROMO-18 (CMS-level page expiration — a 410/redirect case handled at the URL-architecture level, not this client-side state) and PROMO-16 (Variant B's post-LDC no-match state — a different scenario, utility-eligibility rather than code-validity). See PROMO-19 for the equivalent treatment on Homepage/Plans manual entry.</div>
+<!-- PROMO-33 · Second recovery option alongside Browse Plans — a dead code is the same position as never having had one -->
+<div style="margin-top:14px;"><a onclick="setEntryMode('lookup')" style="font-size:13px; color:#5a8cbf; font-weight:600; text-decoration:underline; cursor:pointer;">Or, find your offer by your utility →</a></div>
+<div class="ann ann-b" style="margin-top:10px; text-align:left;"><strong>PROMO-33</strong> — Added the PROMO-32 "find your offer by LDC" entry point as a second recovery option here, alongside the existing "Browse Current Plans" link. A visitor who typed a dead code is in the same position as one who never had a code at all.</div>
+</div>
+</div>
+<!-- PROMO-32 · Codeless entry — "Find your offer by LDC." A visitor with no promo code (OOH/billboard, or a "forgot the code" link from Homepage/Residential Plans) self-identifies their utility and is routed straight to their LDC's active offer, same full hero/plan-card/terms treatment as a code-driven arrival. Toggle via control panel "Entry path" group. -->
+<div class="promo-nocode-state" id="promo-nocode-state">
+<div style="max-width:640px; margin:0 auto; padding:64px 24px 40px;">
+<h1 id="ldc-lookup" style="font-size:28px; color:#1e3a5f; margin-bottom:10px; font-family:var(--type-heading-family);">Find your offer by utility</h1>
+<p style="font-size:15px; color:#444; line-height:1.6; margin-bottom:24px;">No promo code? No problem — tell us your gas utility and we'll show you the active offer for your area, if one's currently running.</p>
+<div class="ldc-selector" style="text-align:left;">
+<div class="ldc-selector__title">Which gas utility delivers to your home?</div>
+<div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to find your offer.</div>
+<div class="ldc-selector__row">
+<div class="ldc-selector__field">
+<div class="input__label">Gas Utility</div>
+<!-- Filtered to promo-eligible utilities only, same as PROMO-21's Variant B dropdown -->
+<select class="input input--select">
+<option disabled="" selected="">Select your utility…</option>
+<option class="market-display active" id="ldc32-opt-ong">Columbia Gas of Ohio</option>
+<option class="market-display" id="ldc32-opt-pa">UGI Utilities</option>
+<option class="market-display" id="ldc32-opt-gre">Consumers Energy</option>
+<option class="market-display" id="ldc32-opt-il">Nicor Gas</option>
+<option class="market-display" id="ldc32-opt-ies">Nicor Gas</option>
+</select>
+</div>
+<div class="button button--primary button--sm" style="white-space:nowrap;" onclick="setEntryMode('default')">Find My Offer →</div>
+</div>
+<div class="ldc-fallback-link">Don't see your utility? <a onclick="setEntryMode('nomatch')">This utility may not have an active offer right now →</a></div>
+<div style="margin-top:12px; border-top:1px dashed #c5d8f0; padding-top:10px;">
+<span class="ldc-zip-toggle" onclick="var p=document.getElementById('promo32-zip-panel'); if(p){p.classList.add('open');} this.style.display='none';">🔍 Not sure which utility you have? Find it by ZIP code ▾</span>
+<div class="ldc-zip-panel" id="promo32-zip-panel">
+<div style="font-size:11px; color:#555; margin-bottom:6px;">Enter your ZIP code and we'll identify your utility automatically.</div>
+<div class="ldc-zip-row">
+<div><div class="input__label">ZIP Code</div><input class="input" placeholder="e.g. 44101" readonly="" style="max-width:150px;" type="text"/></div>
+<div class="button button--primary button--sm" style="white-space:nowrap;" onclick="setEntryMode('default')">Find My Utility →</div>
+</div>
+<div class="ann ann-b" style="margin:10px 0 0;">Same single-match / multi-match / out-of-area sub-state pattern as Variant B State 1's ZIP fallback (PROMO-17) — collapsed here to a single representative row rather than duplicating all three sub-states, since the underlying pattern is already fully spec'd there.</div>
+<div class="zip-substate">
+<button class="zip-ldc-opt" onclick="setEntryMode('default')">Columbia Gas of Ohio</button>
+<button class="zip-ldc-opt" onclick="setEntryMode('nomatch')">Dominion Energy Ohio <span class="inel">— no active offer right now</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="ann ann-b" style="margin-top:24px; text-align:left;"><strong>PROMO-32</strong> — Codeless entry path: a visitor who saw an offer (OOH/billboard, direct mail) but doesn't have or remember the code self-identifies their utility and is routed straight to their LDC's active offer — full hero/plan-card/terms treatment, same as arriving via <code>?promo=CODE</code>. LDC match is the qualifying input; no promo code is ever required. Depends on PROMO-34 (Prime LDC→active-code reverse lookup) — reads as feasible per IfThen internal review, not yet SouthStar/PRIME-confirmed. Does not reopen the locked "no browsable <code>/offers/</code> index" decision — this is a single LDC-resolved lookup, not a list.</div>
+</div>
+</div>
+<!-- PROMO-32 · Friendly "no active offer for this LDC" fallback — same brief-explanatory-not-a-dead-end pattern as PROMO-13, distinct scenario (no offer currently live for this LDC at all, vs. an invalid/expired code) -->
+<div class="promo-nocode-nomatch-state" id="promo-nocode-nomatch-state">
+<div style="max-width:560px; margin:0 auto; padding:64px 24px; text-align:center;">
+<div style="font-size:32px; margin-bottom:16px;">🔍</div>
+<h1 style="font-size:28px; color:#1e3a5f; margin-bottom:12px; font-family:var(--type-heading-family);">No active offer for your utility right now</h1>
+<p style="font-size:15px; color:#444; line-height:1.6; margin-bottom:24px;">We don't have a promotional offer running for your utility at the moment — but we do have great everyday plans available.</p>
+<a class="button button--primary" style="display:inline-block; margin-right:10px;" href="ResidentialPlans_Wireframe.html">Browse Current Plans →</a>
+<div style="margin-top:14px;"><a onclick="setEntryMode('lookup')" style="font-size:13px; color:#5a8cbf; font-weight:600; text-decoration:underline; cursor:pointer;">Wrong utility? Try again →</a></div>
+<div class="ann ann-b" style="margin-top:24px; text-align:left;"><strong>PROMO-32</strong> — LDC-resolved no-match: this LDC has no active offer at all right now, a different scenario from Variant B State 3 (this specific promo isn't available for your utility, but others may be) or PROMO-13 (a dead code). Same non-dead-end, brief-explanatory tone as both.</div>
 </div>
 </div>
 <div class="promo-main-content" id="promo-main-content">
@@ -1166,6 +1238,9 @@
 <span>Offer Expires [MM/DD/YYYY]<span class="sub"> — enroll by 11:59 PM ET to lock in this promotional rate</span></span>
 </div>
 <div class="ann ann-b" style="margin:0 0 6px;"><strong>PROMO-25</strong> — Page-level expiry banner: one authoritative expiration date above the offer module, rather than relying solely on each card's per-card expiry line. Matters most for the Multi variant, where 2–3 cards share one promo code and one expiry (avoids repeating — and risking inconsistency across — per-card dates). Date is a CMS/Prime field.</div>
+<!-- PROMO-37 · Softened secondary link — no "compare" framing (promo codes aren't always a discount against evergreen rates) -->
+<div class="promo-secondary-link" style="font-size:12px; color:#555; margin:2px 0 14px;">Want to see more plans? <a href="ResidentialPlans_Wireframe.html" style="color:#5a8cbf; text-decoration:underline; font-weight:600;">View All Residential Plans.</a></div>
+<div class="ann ann-b" style="margin:0 0 6px;"><strong>PROMO-37</strong> — Placed here (under the page-level expiry banner), not next to the card-level "Rate expires" text by Start Enrollment. Copy deliberately drops "compare" framing — promo codes aren't always a discount against evergreen rates, and Aimee's 2026-06-25 Batch 1 objection to an earlier "compare all plans" journey (struck-through promo pricing) is why the CTA itself was already renamed once, "Compare all plans" → "View all plans." Reintroducing "compare" language here would reopen that objection.</div>
 <!-- ════════════════════════════════════════════════════════════════
        VARIANT A WRAPPER · No-LDC Variant
        Wrapped per CLAUDE.md control panel convention (PROMO-CONVENTION).
@@ -2270,6 +2345,9 @@
      via URL (Path 1/3). Swaps the normal page content for a brief
      explanatory state with a link to Residential Plans, rather than a
      silent redirect. CLAUDE.md standard "Error mode" control-panel group.
+     Mutually exclusive with Entry path (PROMO-32) — both are full-page
+     content overrides, so switching into one clears the other; otherwise
+     their state divs can stack (both display:block at once).
   */
   var ERR_MODES = ['none','invalid'];
   function setErrorMode(mode) {
@@ -2278,6 +2356,24 @@
       var btn = document.getElementById('err-btn-' + k);
       if (btn) btn.classList.toggle('on', k === mode);
     });
+    if (mode === 'invalid') setEntryMode('default');
+  }
+
+  /* ────────────────────────────────────
+     Entry path (PROMO-32) — codeless "find your offer by LDC" path.
+     default = normal code-driven content; lookup = LDC self-identification
+     screen; nomatch = friendly "no active offer for this LDC" fallback.
+     Mutually exclusive with Error mode — see note above setErrorMode.
+  */
+  var ENTRY_MODES = ['default','lookup','nomatch'];
+  function setEntryMode(mode) {
+    document.body.classList.toggle('entry-nocode-lookup', mode === 'lookup');
+    document.body.classList.toggle('entry-nocode-nomatch', mode === 'nomatch');
+    ENTRY_MODES.forEach(function(k) {
+      var btn = document.getElementById('entry-btn-' + k);
+      if (btn) btn.classList.toggle('on', k === mode);
+    });
+    if (mode !== 'default' && document.body.classList.contains('err-invalid')) setErrorMode('none');
   }
 
   /* ────────────────────────────────────
@@ -2307,6 +2403,9 @@
   setVariant('a');
   setAnnMode('clean');
   setChrome('show');
+  setEntryMode('default');
+  // Incoming "forgot the code" links from Homepage/Residential Plans land on #ldc-lookup — open the lookup screen directly.
+  if (window.location.hash === '#ldc-lookup') setEntryMode('lookup');
 
   // ── NAV DROPDOWN TOGGLE ──
   function toggleNavDropdown(chevronBtn) {
