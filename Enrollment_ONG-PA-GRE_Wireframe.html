@@ -1505,7 +1505,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="error-banner" id="err-existing-account" style="padding:14px 16px; margin-bottom:16px; background:var(--ann-r-bg); border-left:4px solid var(--ann-r-bd); border-radius:3px;">
 <strong style="color:var(--bad);">An account already exists for this gas utility account.</strong> Would you like to log in and change your plan?
         <div style="margin-top:8px;">
-<a class="btn btn-secondary" href="/my-account/login" style="font-size:13px; padding:6px 12px;">Log In</a>
+<a class="btn btn-secondary" href="MyAccount_Wireframe.html?market=ong&amp;state=login" style="font-size:13px; padding:6px 12px;">Log In</a>
 </div>
 
 </div>
@@ -1643,7 +1643,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-69 (2026-05-27): Existing-customer self-identification link — moved below Account Number fieldset -->
 <div style="margin-top:16px; font-size:13px; color:var(--muted);">
         Already a SouthStar customer?
-        <button class="link" onclick="window.location.href='/my-account/login';" style="font-size:13px; color:var(--accent); background:transparent; border:none; cursor:pointer; padding:0; text-decoration:underline;" type="button">Existing customer? Log in →</button>
+        <button class="link" onclick="window.location.href='MyAccount_Wireframe.html?market=ong&amp;state=login';" style="font-size:13px; color:var(--accent); background:transparent; border:none; cursor:pointer; padding:0; text-decoration:underline;" type="button">Existing customer? Log in →</button>
 <span class="ann ann-b">ENR-69 — Routes to regular Log In screen (MyAccount_Wireframe.html login state), outside enrollment flow. Returns to PF-3 post-auth. Placed after account-number fieldset so returning customers recognize the moment to switch to existing-customer path.</span>
 </div>
 <!-- ENR-43: Account type toggle REMOVED. The customer's path (Residential Plans
@@ -2236,12 +2236,14 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div id="conf-raf-view-optin">
 <h3>Refer a friend, earn rewards</h3>
 <p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
-<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="#raf-program-terms">Program Terms</a></label>
+<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="ReferAFriendTerms_Wireframe.html">Program Terms</a></label>
 <div class="raf-channels">
 <button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
 </div>
 <p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
 <div class="ann ann-b">ENR-152 · "Learn more" is a placeholder dead link pending GLB-RAF-1 (standalone Refer-a-Friend page, not yet built/prioritized) — will repoint once that page exists, same as the nav's "Refer a Friend" item.</div>
+<div class="ann ann-y"><strong>§A.18 (2026-08-28) — GLB-RAF-2 dead-link fix:</strong> The "Program Terms" checkbox link above previously pointed to <code>#raf-program-terms</code>, an in-page anchor with no matching id anywhere in this file. Repointed to <code>ReferAFriendTerms_Wireframe.html</code> — the same not-yet-built placeholder destination <code>ReferAFriend_Wireframe.html</code> (NP-11) already uses for its own Program Terms link-outs. Still a placeholder page, not yet built.</div>
+<div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
 </div>
 
 <!-- ENR-154 (2026-08-24, Claude Code): PENDING state removed — MA-115 confirmed referral-code issuance
@@ -2988,6 +2990,58 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
       showResumeModal(savedState);
     }
   })();
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>

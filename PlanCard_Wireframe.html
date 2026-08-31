@@ -1836,5 +1836,57 @@
     });
   });
 </script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
+</script>
 </body>
 </html>

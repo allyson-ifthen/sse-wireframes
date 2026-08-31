@@ -1185,18 +1185,19 @@ body.reset-expired .reset-token-expired { display: block; }
 <nav aria-label="Main" class="nav-links mkt-flex on" id="nav-standard">
 <!-- For My Home: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<a class="nav-link nav-hub-link" href="ForMyHome_Wireframe.html?market=ong">For My Home</a>
 <button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
 <a class="nav-dd-item mkt mkt-ong" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
 <a class="nav-dd-item mkt mkt-gre" href="ResidentialPlans_Wireframe.html">Greener Life Plan</a>
-<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+<!-- Repointed to ReferAFriend_Wireframe.html per §A.18, 2026-08-28 (was MyAccount_Wireframe.html placeholder per GLB-RAF-1) -->
+<a class="nav-dd-item" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
 </div>
 </div>
 <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
 <div class="nav-item has-dropdown mkt mkt-ong mkt-gre mkt-il">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<a class="nav-link nav-hub-link" href="ForMyBusiness_Wireframe.html?market=ong">For My Business</a>
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
@@ -1220,7 +1221,7 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <!-- About Us: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -1231,15 +1232,15 @@ body.reset-expired .reset-token-expired { display: block; }
 <!-- IES 2-item nav (simplified per CLAUDE.md) -->
 <nav aria-label="Main" class="nav-links mkt-flex" id="nav-ies">
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
 <button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 </div>
 </div>
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -1258,7 +1259,7 @@ body.reset-expired .reset-token-expired { display: block; }
      PAGE TITLE + BREADCRUMB
 ═════════════════════════════════════ -->
 <div class="page-title-wrap">
-<div class="breadcrumb"><a href="#">Home</a> › My Account</div>
+<div class="breadcrumb"><a href="Homepage_Wireframe.html">Home</a> › My Account</div>
 <div class="page-title">My Account</div>
 </div>
 <!-- ════════════════════════════════════
@@ -1327,7 +1328,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="form-row">
 <label class="form-label" for="login-acct"><span class="req">*</span>Account number <span class="req-lbl">Required</span></label>
 <input aria-required="true" class="form-input" id="login-acct" placeholder="Your utility account number" type="text"/>
-<div class="form-hint">Find this on your utility bill · <a class="link" href="#" onclick="var d=document.getElementById('li-acct-help'); d.style.display=d.style.display==='none'?'':'none'; return false;" style="display:inline;">Where's my account number? ↓</a></div>
+<div class="form-hint">Your account number is on your utility bill. <a class="link" href="#" onclick="var d=document.getElementById('li-acct-help'); d.style.display=d.style.display==='none'?'':'none'; return false;" style="display:inline;">See an example ↓</a></div>
 <div id="li-acct-help" style="display:none; background:var(--surface-alt); border:1px solid var(--line-soft); border-radius:4px; padding:12px 14px; margin-top:8px; font-size:12px; line-height:1.6;">
 <strong>Where to find your account number:</strong> Your account number appears on your gas bill, usually in the upper-right area above the billing address. It may also be labeled "Choice Service ID" or "Customer Account Number" depending on your utility.
             <!-- MA-98: bill image placeholder in account number help drawer -->
@@ -1365,7 +1366,7 @@ body.reset-expired .reset-token-expired { display: block; }
         Already a customer? <button class="link" onclick="setState('create')" type="button">Set up your email login →</button>
 <br/>
 <span style="display:inline-block; margin-top:8px;">
-          Not a customer yet? <a class="link" href="#">View plans →</a> <span class="ann ann-b" style="display:inline; font-size:11px;"><strong>MA-65:</strong> Routes to <code>/residential-plans/</code>. Not market-specific.</span>
+          Not a customer yet? <a class="link" href="ResidentialPlans_Wireframe.html">View plans →</a> <span class="ann ann-b" style="display:inline; font-size:11px;"><strong>MA-65:</strong> Routes to <code>/residential-plans/</code>. Not market-specific.</span>
 </span>
 </div>
 </div>
@@ -1896,7 +1897,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="plan-ending-notice" style="margin-top:8px;">
 <div class="plan-renewal-line">
 <strong>⚑ Action required:</strong> Your contract expires on <strong>June 30, 2026</strong> and is <strong>not</strong> set to auto-renew. To continue service without interruption, select a new plan before your expiration date.
-                <div><a class="link" href="#">View available plans →</a></div>
+                <div><a class="link" href="ResidentialPlans_Wireframe.html">View available plans →</a></div>
 </div>
 
 </div>
@@ -2102,8 +2103,8 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <!-- Plan-change URL architecture diagram removed 2026-05-26 per MA-40. Routing surfaces as Open Q #11 in the OQ panel; will be re-introduced once engineering confirms final URL conventions. -->
 <!-- Standalone Bill Pay section removed per MA-30; Bill Pay now lives in the dashboard right slot (IL only). -->
-<!-- RAF Summary Card — suppressed for IL and IES (MA-76 / MA-79) -->
-<div class="mkt mkt-ong mkt-pa mkt-gre section-block">
+<!-- RAF Summary Card — renders for all 5 markets per §A.18/ENRIL-416 (2026-08-28); previously suppressed for IL/IES under MA-76/MA-79 -->
+<div class="mkt mkt-ong mkt-pa mkt-gre mkt-il mkt-ies section-block">
 <div class="section-h">Refer a Friend</div>
 <div class="raf-card">
 <div class="raf-card-head">
@@ -2112,6 +2113,8 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="mkt-inline mkt-ong on">Earn $25 for you and your friend</span>
 <span class="mkt-inline mkt-pa">Earn $25 for you and your friend</span>
 <span class="mkt-inline mkt-gre">Earn $25 for you and your friend</span>
+<span class="mkt-inline mkt-il">Earn $25 for you and your friend</span>
+<span class="mkt-inline mkt-ies">Earn $25 for you and your friend</span>
 </div>
 </div>
 <div class="raf-card-body">
@@ -2126,9 +2129,10 @@ body.reset-expired .reset-token-expired { display: block; }
 
 
 
-<div class="ann ann-b"><strong>MA-76 / MA-79:</strong> RAF suppressed for IL (IE) and IES — program not available in those markets. ONG, PA, GRE show this card.</div>
+<div class="ann ann-y"><strong>§A.18 (2026-08-28) — supersedes MA-76/MA-79:</strong> MA-76/MA-79 (2026-06-15) suppressed this card for IL (IE) and IES, on the basis that "program not available in those markets." That call is reversed per ENRIL-416 (2026-08-11, Enrollment_IL-IES_Wireframe.html) — RAF is coming to IL and IES, so this card now renders for all 5 markets (ONG, PA, GRE, IL, IES), matching ONG/PA/GRE's existing treatment. Internal-team confirmation via Allyson only — <strong>not yet client-confirmed.</strong></div>
+<div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward amount shown here is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
 <!-- MA-109 (2026-07-20): Non-participant RAF summary-card variant — teaser. Mutually exclusive with the participant card above (PRIME RAF-participation flag decides which renders); both shown here for review. -->
-<div class="mkt mkt-ong mkt-pa mkt-gre section-block">
+<div class="mkt mkt-ong mkt-pa mkt-gre mkt-il mkt-ies section-block">
 <div class="section-h">Refer a Friend</div>
 <div class="raf-card">
 <div class="raf-card-head">
@@ -2140,7 +2144,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <button class="btn-out btn-sm" onclick="setState('raf'); setRafView('optin')">Refer a friend, earn $25 →</button>
 </div>
 </div>
-<div class="ann ann-b"><strong>MA-109:</strong> Non-participant variant — shows when the customer hasn't joined RAF yet. Routes into the RAF Dashboard <em>opt-in</em> sub-state instead of assuming a code exists. Mutually exclusive with the participant summary card above.</div>
+<div class="ann ann-b"><strong>MA-109:</strong> Non-participant variant — shows when the customer hasn't joined RAF yet. Routes into the RAF Dashboard <em>opt-in</em> sub-state instead of assuming a code exists. Mutually exclusive with the participant summary card above. Now applies to all 5 markets per §A.18/ENRIL-416.</div>
 </div>
 </div>
 <!-- ─────────────────────────────────────────────────────
@@ -2521,9 +2525,10 @@ body.reset-expired .reset-token-expired { display: block; }
 <div style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px;">
             We're sorry to see you go. However, please keep us in mind if your natural gas needs should change. Thank you.
           </div>
-<div class="cancel-raf-notice mkt mkt-ong mkt-pa mkt-gre">
+<div class="cancel-raf-notice mkt mkt-ong mkt-pa mkt-gre mkt-il mkt-ies">
 <strong>⚠ Refer-a-Friend notice:</strong> Your referral code (ONG-J4K2M9) is now inactive. You will not earn rewards for new referrals after your cancellation is complete. Pending referrals will be forfeited.
           </div>
+<div class="ann ann-y mkt mkt-il mkt-ies" style="margin-top:-4px;"><strong>§A.18 (2026-08-28):</strong> Extended to IL/IES for consistency now that RAF Dashboard/summary card render for those markets per ENRIL-416 — not explicitly called out in MA-76/MA-79's original ONG/PA/GRE-only scope, added here so the cancel flow doesn't contradict RAF's new availability. Not yet client-confirmed.</div>
 <div style="margin-top:28px; text-align:center;">
 <button class="btn" onclick="exitCancelFlow()">← Back to my account</button>
 </div>
@@ -2540,10 +2545,10 @@ body.reset-expired .reset-token-expired { display: block; }
 <!-- MA-94 (2026-06-17): Removed mkt mkt-ong mkt-pa mkt-gre classes from state wrapper — they caused state-raf to bleed through on State H (autorenew) and other states when market was ONG/PA/GRE because .mkt.on { display:block } fired on the state div regardless of which state was active. Market conditionality now handled by inner wrapper below. -->
 <div class="state-divider"><strong>State F</strong> — Authenticated · Refer a Friend Dashboard <span style="opacity:0.7; font-weight:400;">· /my-account/refer/</span></div>
 
-<div class="ann ann-b"><strong>MA-79:</strong> RAF Dashboard suppressed for IL (IE) and IES — program not available. Renders for ONG, PA, GRE only. Cross-ref MA-76 (Dashboard summary card suppression).</div>
+<div class="ann ann-y"><strong>§A.18 (2026-08-28) — supersedes MA-79:</strong> MA-79 (2026-06-15) suppressed the RAF Dashboard for IL (IE) and IES, "program not available," rendering for ONG/PA/GRE only (cross-ref MA-76, Dashboard summary card suppression). Reversed per ENRIL-416 (2026-08-11, Enrollment_IL-IES_Wireframe.html) — RAF Dashboard now renders for all 5 markets. Internal-team confirmation via Allyson only — <strong>not yet client-confirmed.</strong></div>
 
-<!-- Inner market wrapper — ONG/PA/GRE only; IL/IES see nothing (RAF not available) -->
-<div class="mkt mkt-ong mkt-pa mkt-gre">
+<!-- Inner market wrapper — all 5 markets per §A.18/ENRIL-416 (2026-08-28). Previously ONG/PA/GRE only under MA-79; IL/IES saw nothing. NOTE: per MA-94 above, do NOT add mkt classes to the #state-raf wrapper itself — only to this inner wrapper — to avoid the display:block bleed-through bug MA-94 fixed. -->
+<div class="mkt mkt-ong mkt-pa mkt-gre mkt-il mkt-ies">
 <div class="acct-header" style="background:#1a3a5f;">
 <div>
 <div class="acct-welcome">Refer a Friend</div>
@@ -2665,6 +2670,8 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="mkt-inline mkt-ong on">$25 for you · $25 for them</span>
 <span class="mkt-inline mkt-pa">$25 for you · $25 for them</span>
 <span class="mkt-inline mkt-gre">$25 for you · $25 for them</span>
+<span class="mkt-inline mkt-il">$25 for you · $25 for them</span>
+<span class="mkt-inline mkt-ies">$25 for you · $25 for them</span>
 </div>
 <div class="raf-incentive-sub">You're not in the Refer-a-Friend program yet. Join to get your unique referral code — when friends enroll using it, you both receive a $25 digital Visa reward card when their service starts.</div>
 </div>
@@ -2723,10 +2730,10 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="raf-section-h">Refer a Friend Program Terms</div>
 <div class="raf-legal-placeholder-note">⚐ Placeholder — Legal owner (Mollie/Josh). Final RAF program terms / eligibility / fine print TBD.</div>
 <div class="raf-legal-body">
-        Program terms, eligibility requirements, reward calculation rules, customer-state restrictions (e.g., must be an active customer in good standing), referral limits, payout timing, regulatory disclosures per market, and any change-of-terms language will live here. Per-market variants may apply — see ENRIL-53 cross-reference for IL/IES suppression.
+        Program terms, eligibility requirements, reward calculation rules, customer-state restrictions (e.g., must be an active customer in good standing), referral limits, payout timing, regulatory disclosures per market, and any change-of-terms language will live here. Per-market variants may apply — ENRIL-53's IL/IES suppression note is superseded per §A.18/ENRIL-416 (2026-08-28); IL/IES are now in scope for RAF, not suppressed.
       </div>
 </div>
-</div><!-- /mkt mkt-ong mkt-pa mkt-gre: RAF content wrapper (MA-94) -->
+</div><!-- /mkt mkt-ong mkt-pa mkt-gre mkt-il mkt-ies: RAF content wrapper (MA-94; extended to IL/IES per §A.18/ENRIL-416, 2026-08-28) -->
 
 
 
@@ -2765,27 +2772,27 @@ body.reset-expired .reset-token-expired { display: block; }
 <div>
 <div class="footer-col-head">Products &amp; Plans</div>
 <div class="footer-col-links">
-<a class="mkt mkt-ong on" href="#">Residential Gas Plans</a>
-<a class="mkt mkt-pa" href="#">Residential Gas Plans</a>
-<a class="mkt mkt-gre" href="#">Residential Gas Plans</a>
-<a class="mkt mkt-il" href="#">Residential Gas Plans</a>
-<a class="mkt mkt-ies" href="#">Fixed Bill Plan</a>
-<a class="mkt mkt-ong" href="#">Commercial Plans</a>
-<a class="mkt mkt-gre" href="#">Commercial Plans</a>
-<a class="mkt mkt-il" href="#">Commercial Plans</a>
-<a class="mkt mkt-ong" href="#">Greener Life® Plans</a>
+<a class="mkt mkt-ong on" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
+<a class="mkt mkt-pa" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
+<a class="mkt mkt-gre" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
+<a class="mkt mkt-il" href="ResidentialPlans_Wireframe.html">Residential Gas Plans</a>
+<a class="mkt mkt-ies" href="ResidentialPlans_Wireframe.html">Fixed Bill Plan</a>
+<a class="mkt mkt-ong" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="mkt mkt-gre" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="mkt mkt-il" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+<a class="mkt mkt-ong" href="ResidentialPlans_Wireframe.html">Greener Life® Plans</a>
 </div>
 </div>
 <!-- Col 3: Help & Account -->
 <div>
 <div class="footer-col-head">Help &amp; Account</div>
 <div class="footer-col-links">
-<a href="#">My Account</a>
-<a class="mkt mkt-il" href="#">Pay My Bill</a>
-<a href="#">FAQ</a>
-<a href="#">Refer a Friend</a>
-<a href="#">Contact Us</a>
-<a href="#">About</a>
+<a href="MyAccount_Wireframe.html">My Account</a>
+<a class="mkt mkt-il" href="MyAccount_Wireframe.html">Pay My Bill</a>
+<a href="LearningCenter_Wireframe.html">FAQ</a>
+<a href="MyAccount_Wireframe.html">Refer a Friend</a>
+<a href="ContactFormUtility_Wireframe.html">Contact Us</a>
+<a href="GeneralInformational_Wireframe.html">About</a>
 </div>
 </div>
 <!-- Col 4: Support — Customer Service phone (HP-1) + License + Emergency -->
@@ -2836,9 +2843,9 @@ body.reset-expired .reset-token-expired { display: block; }
         All rights reserved.
       </div>
 <div class="footer-legal-links">
-<a href="#">Terms of Use</a>
-<a href="#">Privacy Policy</a>
-<a href="#">Sitemap</a>
+<a href="LegalCompliance_Wireframe.html">Terms of Use</a>
+<a href="LegalCompliance_Wireframe.html">Privacy Policy</a>
+<a href="SearchResults_Wireframe.html">Sitemap</a>
 </div>
 </div>
 </div>
@@ -3336,6 +3343,58 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>

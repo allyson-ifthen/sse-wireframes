@@ -343,14 +343,14 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
 
     <!-- nav-utility -->
     <div class="nav-utility">
-      <a href="#">Contact Us</a>
+      <a>Contact Us</a>
       <span class="nav-utility-phone">
         <span class="mkt-inline" id="nav-phone-ong">1.888.466.4427</span>
         <span class="mkt-inline" id="nav-phone-gre">1.800.841.1541</span>
       </span>
     </div>
 
-    <!-- nav-header -->
+    <!-- nav-header — full nav wired 2026-08-31 per §A.20 (GreenerLifePlan-1): every link was a stub `href="#"`; hrefs ported from ResidentialPlans_Wireframe.html's equivalent Full-nav block, adapted to this page's ONG/GRE-only market set. -->
     <div class="nav-header">
       <div class="nav-logo">
         <div class="nav-logo-mark">&#9650;</div>
@@ -361,31 +361,40 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
       <nav class="nav-links" id="main-nav-links">
         <!-- For My Home -->
         <div class="nav-item">
-          <a class="nav-link active" href="#">For My Home</a>
+          <a class="nav-link active nav-hub-link" href="ForMyHome_Wireframe.html?market=ong">For My Home</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9660;</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Residential Plans</a>
-            <a class="nav-dd-item current-page" href="#">Greener Life® Plan</a>
-            <a class="nav-dd-item" href="#">Refer a Friend</a>
+            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+            <a class="nav-dd-item current-page" href="GreenerLifePlan_Wireframe.html?market=ong">Greener Life® Plan</a>
+            <a class="nav-dd-item" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
           </div>
         </div>
-        <!-- For My Business (ONG only) -->
-        <div class="nav-item mkt" id="nav-fmb-gl-ong">
-          <a class="nav-link" href="#">For My Business</a>
+        <!-- For My Business: both ONG and GRE have Commercial Plans (per Redesign-Site-Map.md) — corrected 2026-08-31 from the prior ONG-only id/gating, which pre-dated this §A.20 nav-wiring pass and would have hidden this item for GRE -->
+        <div class="nav-item">
+          <a class="nav-link nav-hub-link" href="ForMyBusiness_Wireframe.html?market=ong">For My Business</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9660;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+          </div>
         </div>
         <!-- Natural Gas Basics -->
         <div class="nav-item">
-          <a class="nav-link" href="#">Natural Gas Basics</a>
+          <a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
         </div>
         <!-- About Us -->
         <div class="nav-item">
-          <a class="nav-link" href="#">About Us</a>
+          <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
+          <button class="nav-chevron" onclick="toggleNavDropdown(this)">&#9660;</button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+          </div>
         </div>
       </nav>
 
       <div class="nav-right">
-        <a href="#" style="font-size:12px; color:#444; font-weight:600; text-decoration:none;">&#128100; My Account</a>
-        <a href="#" style="font-size:12px; color:#444; font-weight:600; text-decoration:none; margin-left:6px;">&#128269; Search</a>
+        <a class="nav-account" href="MyAccount_Wireframe.html" style="font-size:12px; color:#444; font-weight:600; text-decoration:none;">&#128100; My Account</a>
+        <a aria-label="Search" href="SearchResults_Wireframe.html" style="font-size:12px; color:#444; font-weight:600; text-decoration:none; margin-left:6px;">&#128269; Search</a>
         <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">&#9776;</button>
       </div>
     </div>
@@ -717,27 +726,27 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <div>
           <div class="footer-col-head">Plans</div>
           <div class="footer-col-links">
-            <a href="#">Residential Plans</a>
-            <a href="#">Greener Life&reg; Plans</a>
-            <div class="mkt" id="footer-commercial-ong"><a href="#">Commercial Plans</a></div>
+            <a href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+            <a href="GreenerLifePlan_Wireframe.html?market=ong">Greener Life&reg; Plans</a>
+            <div><a href="CommercialPlans_Wireframe.html">Commercial Plans</a></div>
           </div>
         </div>
         <!-- Learn col -->
         <div>
           <div class="footer-col-head">Learn</div>
           <div class="footer-col-links">
-            <a href="#">Natural Gas Basics</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
+            <a href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+            <a href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
+            <a href="ContactFormUtility_Wireframe.html">Contact Us</a>
           </div>
         </div>
         <!-- Support col -->
         <div>
           <div class="footer-col-head">Support</div>
           <div class="footer-col-links">
-            <a href="#">Customer Service: <span class="mkt-inline" id="footer-phone-ong">1.888.466.4427</span><span class="mkt-inline" id="footer-phone-gre">1.800.841.1541</span></a>
-            <a href="#" style="color:#666;">[Hours: placeholder]</a>
-            <a href="#" style="color:#ef9a9a; font-size:10px;">&#9888; Gas Emergency? Call your utility &mdash; not us. [LDC name]: [PLACEHOLDER: verify number before publishing (GL-12)]</a>
+            <span>Customer Service: <span class="mkt-inline" id="footer-phone-ong">1.888.466.4427</span><span class="mkt-inline" id="footer-phone-gre">1.800.841.1541</span></span>
+            <span style="color:#666;">[Hours: placeholder]</span>
+            <span style="color:#ef9a9a; font-size:10px;">&#9888; Gas Emergency? Call your utility &mdash; not us. [LDC name]: [PLACEHOLDER: verify number before publishing (GL-12)]</span>
           </div>
         </div>
       </div>
@@ -745,9 +754,9 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
         <div class="footer-bottom-row">
           <div class="footer-copyright">&copy; 2025 SouthStar Energy Services. All rights reserved.</div>
           <div class="footer-legal-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Accessibility</a>
+            <a href="LegalCompliance_Wireframe.html">Privacy Policy</a>
+            <a href="LegalCompliance_Wireframe.html">Terms of Service</a>
+            <a href="LegalCompliance_Wireframe.html">Accessibility</a>
           </div>
         </div>
       </div>
@@ -786,9 +795,8 @@ function setMarket(m) {
   document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
 }
 setMarket('ong');
-setAnnMode('clean');
-
 const ANN_MODES = ['all','open','clean'];
+setAnnMode('clean');
 
 function setAnnMode(mode) {
   ANN_MODES.forEach(function(k) {
@@ -847,6 +855,58 @@ document.addEventListener('click', function(e) {
     if (btn) btn.textContent = '☰';
   }
 });
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>

@@ -131,6 +131,12 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 /* ── VARIANT VISIBILITY ── */
 .variant { display: none; } .variant.on { display: block; }
 
+/* ── ARTICLE-INSTANCE VISIBILITY (NP-3/NP-5/NP-6, §A.17 Batch 2) ──
+   Nested one level inside .variant#v-article — a distinct class name from
+   .variant on purpose so a body/ancestor toggle can never collide with it
+   (Playbook §9 Pitfall 1 / Pitfall 9). */
+.lc-article-instance { display: none; } .lc-article-instance.on { display: block; }
+
 /* ── SHARED LAYOUT ── */
 .breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
 .breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
@@ -334,6 +340,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <button class="btn-variant" onclick="setVariant('article',event)">LC Article</button>
 </div>
 </div>
+<div>
+<div class="vsw-label">Article (when LC Article variant)</div>
+<div class="subpage-switcher">
+<button class="btn-variant btn-subpage active" onclick="setArticle('fxvsvar',event)">Fixed vs. Variable (demo)</button>
+<button class="btn-variant btn-subpage" onclick="setArticle('np3',event)">NP-3 · Rate Predictability (IE)</button>
+<button class="btn-variant btn-subpage" onclick="setArticle('np5',event)">NP-5 · Peoples Historic Pricing (PA)</button>
+<button class="btn-variant btn-subpage" onclick="setArticle('np6',event)">NP-6 · UGI Historic Pricing (PA)</button>
+</div>
+</div>
 </div>
 <div class="legend">
 <span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
@@ -458,18 +473,19 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <nav class="nav-links mkt-flex on" id="nav-standard">
 <!-- For My Home: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<a class="nav-link nav-hub-link" href="ForMyHome_Wireframe.html?market=ong">For My Home</a>
 <button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
-<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+<a class="nav-dd-item mkt" href="GreenerLifePlan_Wireframe.html?market=ong" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="GreenerLifePlan_Wireframe.html?market=ong" id="nav-gl-gre">Greener Life Plan</a>
+<!-- Repointed to ReferAFriend_Wireframe.html per §A.18, 2026-08-28 (was MyAccount_Wireframe.html placeholder per GLB-RAF-1) -->
+<a class="nav-dd-item" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
 </div>
 </div>
 <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
 <div class="nav-item has-dropdown mkt" id="nav-fmb">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<a class="nav-link nav-hub-link" href="ForMyBusiness_Wireframe.html?market=ong">For My Business</a>
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
@@ -493,7 +509,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <!-- About Us: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -504,15 +520,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
 <nav class="nav-links mkt-flex" id="nav-ies">
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
 <button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 </div>
 </div>
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -842,6 +858,8 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div class="cms-type-stripe">
       CMS Content Type: <span>LC Article</span> · Many per market · URL: /learning-center/[pillar-slug]/[article-slug]/ · noindex: no
     </div>
+<!-- ═══ ARTICLE INSTANCE: Fixed Rate vs. Variable Rate (original template demo article) ═══ -->
+<div class="lc-article-instance on" id="art-inst-fxvsvar">
 <!-- Breadcrumb -->
 <div class="section">
 <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
@@ -1061,6 +1079,449 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <div><div class="m-val">4–5 min</div><div class="m-lbl">Target read time</div></div>
 </div>
 </div>
+</div><!-- /art-inst-fxvsvar -->
+
+<!-- ═══ ARTICLE INSTANCE: NP-3 — Understanding Rate Predictability in Illinois (IE/IL only) ═══ -->
+<div class="lc-article-instance" id="art-inst-np3">
+<div class="ann-row" style="padding:8px 24px 0;">
+<span class="ann ann-b">NP-3 · Single-market article (Illinois Energy only) — no other market has this page, so brand name/market context is written as static copy rather than toggled via mkt-inline. Selecting this article in the control panel auto-syncs the Market toggle to IL (see setArticle() in the JS). XP-3 (NGB_OpenItems.md): no Pillar Hub Card Description field on this article, consistent with the rest of Pillar 1 — that field was never retrofitted to the 7 pre-existing Pillar 1 articles.</span>
+</div>
+<div class="ann-row" style="padding:4px 24px 0;">
+<span class="ann ann-b">Voice &amp; Tone guardrail (new 2026-08-27, NGB-ICCDisclosure_ContentTemplate.md): no comparative/superlative language about the two rates anywhere in this article ("cheaper," "better," "your best option") — ties to Universal Guidance §1 "Sell Predictability, Not Price." Applied throughout the copy below.</span>
+</div>
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Natural Gas Basics</a> › <a>Understanding Gas Rates</a> › Understanding Rate Predictability in Illinois</div>
+</div>
+<!-- Pillar Hero Band -->
+<div class="section" style="background:#1e3a5f; border-color:#1e3a5f;">
+<div style="padding:16px 24px; display:flex; align-items:center; gap:14px;">
+<span style="font-size:28px; flex-shrink:0;">💡</span>
+<div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#7ec8e3; margin-bottom:3px;">Natural Gas Basics</div>
+<div style="font-size:15px; font-weight:800; color:#fff;">Understanding Gas Rates · Illinois Energy</div>
+</div>
+</div>
+</div>
+<!-- Article Header -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Article Header</span>
+<div class="article-header">
+<div class="article-meta-bar">
+<span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+<span>4 min read</span>
+<span>Updated August 2026</span>
+<span style="background:#fff3e0;border:1px solid #ef6c00;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#e65100;">Illinois</span>
+</div>
+<div class="article-h1">Understanding Rate Predictability in Illinois</div>
+<div class="article-sub">Why you'll see your utility's rate mentioned here — and what a fixed-term contract actually protects you from.</div>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
+<span class="ann ann-b">NP-3 · Retitled 2026-08-27 from "Current Utility Rates and IE Rates (ICC Disclosure)" — see Wireframe_ChangeLog_Active.md §A.16 NP-3. This is not the ICC-required compliance surface; that lives on ResidentialPlans_Wireframe.html's IL Regulatory Comparison Bar and its disclosures toggle. This article is the discovery-driven explanatory/counter-narrative companion to it.</span>
+</div>
+</div>
+<!-- Content + Side Rail -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content + Side Rail</span>
+<div style="display:grid; grid-template-columns:1fr 240px;">
+<div class="content-main">
+<!-- Key Takeaways Box -->
+<div class="ai-extract-box">
+<div class="ai-extract-label">✦ Key Takeaways</div>
+<div class="ai-extract-text">A fixed-term supply contract locks in your rate for the length of the term, so that part of your bill won't change no matter what happens in the market. Your utility's default rate works differently — it resets on a regular basis and can move from month to month. This page explains that difference; it isn't where you'll find today's actual rate numbers. For the current side-by-side rate comparison, visit the Residential Plans page.</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-3 · NGB_OpenItems.md (ICC Disclosure article) Items #1–#2:</strong> all disclosure language in this article — including this box — requires SouthStar legal sign-off before publication; the ICC disclosure wording/format used here is IfThen's plain-language interpretation, not confirmed regulatory language.</span>
+</div>
+<!-- Article Sections -->
+<div class="article-section">
+<div class="article-section-h2">What Rate Predictability Means</div>
+<p class="body-para">A fixed-term natural gas supply contract sets one rate per therm for the length of your term. That rate doesn't move — not if wholesale gas prices climb, and not if they fall. You'll know what that part of your bill looks like for as long as the term lasts.</p>
+<p class="body-para">Your utility's own default supply rate works on a different rhythm. It isn't locked to a term at all — it resets on a regular schedule and moves with the market, in much the same way a variable-rate supply plan would. Neither approach is right or wrong on its own; they're two different ways of pricing the same product, and each behaves differently over time.</p>
+<p class="body-para">Illinois Energy offers both fixed- and variable-rate plans, so predictability describes the fixed-rate option specifically — not the brand as a whole.</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Why You'll See the Utility's Rate Mentioned</div>
+<p class="body-para">Illinois Energy is a supplier licensed and regulated by the Illinois Commerce Commission (ICC). Part of that regulation requires that a licensed supplier's marketing show the utility's current rate alongside the supplier's own information — a customer-protection rule the ICC put in place, not a marketing choice SouthStar made.</p>
+<p class="body-para">Here's the fact that makes this worth explaining: the utility's rate isn't fixed. It resets monthly, and the exact number depends on which of Illinois's three local utilities — Nicor Gas, Peoples Gas, or North Shore Gas — delivers gas to your home. The number you see elsewhere on this site reflects this month only; it's a snapshot, not a fixed baseline.</p>
+<p class="body-para">Link out: (1) the Residential Plans page's rate-comparison section, (2) the ICC's consumer-education site.</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-3 · NGB_OpenItems.md (ICC Disclosure article) Item #3:</strong> both link destinations above (Residential Plans rate-comparison anchor; ICC consumer-education site URL) are unconfirmed. Per the logged 2026-07-14 decision, no specific utility rate dollar figure appears anywhere in this article — that figure lives only on the Residential Plans page's disclosure component.</span>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Is Switching to a Supplier Right for Me?</div>
+<p class="body-para">If you're not sure whether switching suppliers is worth it, that uncertainty is reasonable — Illinois's deregulated gas market is genuinely confusing, and not understanding it right away isn't a failing on your part.</p>
+<p class="body-para">Here's what actually changes if you switch: the supply-rate charge on your bill, and whether that charge is fixed or variable. Here's what doesn't change: gas delivery, emergency response, and your relationship with your utility — that stays exactly the same no matter who supplies your gas.</p>
+<p class="body-para">A common worry is getting talked into something through pressure tactics — and that worry is fair; it's a real problem this market has had. Illinois's rules exist specifically to guard against it: suppliers must be licensed by the ICC, and every new enrollment goes through a verification call after you sign up, before it's finalized. (See How Switching Works — Step by Step for what that call covers.)</p>
+<p class="body-para">If you look at all of this and decide staying with your utility's default rate is the right call for your household, that's a completely reasonable choice too.</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-3 · NGB_OpenItems.md (ICC Disclosure article) Item #4:</strong> "[Utility name]" dynamic token (resolving to the customer's confirmed LDC) is not yet confirmed feasible with Dev — using the brief's generic "your utility" fallback here.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>Item #7:</strong> cross-link destination for the sales verification call is a context mention only per brief — confirm which page (How Switching Works — Step by Step, linked above) actually carries the full explanation.</span>
+</div>
+<!-- FAQ Schema Section -->
+<div class="article-section faq-schema-section">
+<div class="article-section-h2">Common Questions <span class="faq-schema-badge">FAQ Schema</span></div>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+                Why doesn't this page show the current rate? <span class="faq-q-toggle">+</span>
+</div>
+<div class="faq-a">Rates change monthly and vary by utility, so we keep the live comparison in one place: the Residential Plans page. This page explains what the comparison means, not what today's number is.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+                Does a fixed-term contract mean a lower rate than the utility's? <span class="faq-q-toggle">+</span>
+</div>
+<div class="faq-a">Not necessarily. A fixed-term rate means predictability — the same rate for the whole term — not a guarantee that it's lower than the utility's rate at any given moment.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+                Will switching affect my gas delivery or emergency response? <span class="faq-q-toggle">+</span>
+</div>
+<div class="faq-a">No. Your local utility continues to deliver your gas and respond to emergencies no matter who supplies it. Switching only changes the supply charge on your bill.</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+                What happens after I enroll — will someone call me? <span class="faq-q-toggle">+</span>
+</div>
+<div class="faq-a">Most enrollments include a short verification call after signup. See How Switching Works — Step by Step for what to expect.</div>
+</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-3 · NGB_OpenItems.md (ICC Disclosure article) Item #5:</strong> these FAQ questions are drafted from the counter-narrative brief, not validated against call-center query volume like the rest of this batch — recommend validating before finalizing.</span>
+</div>
+</div><!-- /content-main -->
+<!-- Right side rail — related articles (desktop) -->
+<div style="padding: 20px 16px 20px 16px; border-left: 1px solid #e8e8e4;">
+<div style="position: sticky; top: 72px;">
+<div class="sidebar-head">Related Articles</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">What You're Paying For: Therms Explained</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Fixed Rate vs. Variable Rate: Which Is Right for You?</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">5 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">How Switching Works — Step by Step</a>
+<span class="pillar-badge pb-p3" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 3</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
+</div>
+</div>
+</div>
+</div><!-- /side-rail -->
+</div>
+</div>
+<!-- End-of-Article CTA -->
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>End-of-Article<br/>CTA</span>
+<div class="p">
+<div class="end-article-cta">
+<div class="end-article-cta-text">
+<div class="end-article-cta-eyebrow">Curious how the numbers compare?</div>
+<div class="end-article-cta-heading">See the current rate comparison for your area</div>
+<div class="end-article-cta-sub">Take a look at Illinois Energy's plans alongside your utility's current rate — no pressure, just the numbers.</div>
+</div>
+<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; flex-shrink:0;">
+<div class="wf-btn" style="font-size:12px; padding:9px 18px; white-space:nowrap;">View Rate Comparison →</div>
+</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-b">NP-3 · Deliberately low-pressure — routes to the Residential Plans page, not directly to Enrollment, per the brief's Section 5 callout not to undercut Section 3's reassuring tone with a sudden push to enroll.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>NGB_OpenItems.md (ICC Disclosure article) Item #6:</strong> CTA destination (Residential Plans page generally, vs. a specific rate-comparison anchor) not yet confirmed.</span>
+</div>
+</div>
+</div>
+<div class="section">
+<span class="section-label"><span class="sec-num">6</span>Related Articles</span>
+<div class="p">
+<div class="h3" style="margin-bottom:12px;">Keep Reading</div>
+<div class="related-articles-grid">
+<div class="ra-card">What You're Paying For: Therms Explained<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Fixed Rate vs. Variable Rate: Which Is Right for You?<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">How Switching Works — Step by Step<small>How to Switch or Sign Up</small><span class="pillar-badge pb-p3" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 3</span></div>
+</div>
+</div>
+</div>
+<!-- Metrics bar -->
+<div class="section">
+<span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
+<div class="metrics-bar">
+<div><div class="m-val">FAQ Schema</div><div class="m-lbl">Rich result eligible</div><div class="m-tgt">Every Q&amp;A pair</div></div>
+<div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
+<div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Educational content</div></div>
+<div><div class="m-val">IE only</div><div class="m-lbl">Market scope</div><div class="m-tgt">Single-market article</div></div>
+</div>
+</div>
+</div><!-- /art-inst-np3 -->
+
+<!-- ═══ ARTICLE INSTANCE: NP-5 — Peoples Natural Gas: Historic Variable Rate Prices (PA only) ═══ -->
+<div class="lc-article-instance" id="art-inst-np5">
+<div class="ann-row" style="padding:8px 24px 0;">
+<span class="ann ann-r"><strong>PC-3 · NGB_OpenItems.md:</strong> this article's inclusion in the final site is UNCONFIRMED — the site map logs both PA historic-pricing articles as "may not include." Drafted per Allyson's 2026-08-21 direction to draft now rather than hold; do not treat this copy as final or populate real data until confirmed.</span>
+</div>
+<div class="ann-row" style="padding:4px 24px 0;">
+<span class="ann ann-b">NP-5 · Single-market article (PA, Peoples Natural Gas territory only) — brand/market context is static copy, not mkt-inline toggled. Selecting this article auto-syncs the Market toggle to PA. "Peoples Natural Gas" (this PA utility) is not the same entity as "Peoples Gas" (an Illinois LDC referenced elsewhere in this file) — do not conflate. No enrollment CTA anywhere in this article per brief (data-reference/research article, not a conversion page) — end-of-article CTA section intentionally omitted.</span>
+</div>
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Natural Gas Basics</a> › <a>Understanding Gas Rates</a> › Peoples Natural Gas: Historic Variable Rate Prices</div>
+</div>
+<!-- Pillar Hero Band -->
+<div class="section" style="background:#1e3a5f; border-color:#1e3a5f;">
+<div style="padding:16px 24px; display:flex; align-items:center; gap:14px;">
+<span style="font-size:28px; flex-shrink:0;">💡</span>
+<div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#7ec8e3; margin-bottom:3px;">Natural Gas Basics</div>
+<div style="font-size:15px; font-weight:800; color:#fff;">Understanding Gas Rates · Pennsylvania Energy</div>
+</div>
+</div>
+</div>
+<!-- Article Header -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Article Header</span>
+<div class="article-header">
+<div class="article-meta-bar">
+<span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+<span>4 min read</span>
+<span>Updated July 2026</span>
+<span style="background:#e3f2fd;border:1px solid #1565c0;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#0d47a1;">Pennsylvania</span>
+</div>
+<div class="article-h1">Peoples Natural Gas: Historic Variable Rate Prices</div>
+<div class="article-sub">How variable rates have moved over time in Peoples Natural Gas territory — and what that history means for choosing between fixed and variable plans.</div>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
+<span class="ann ann-y"><strong>NP-5 · NGB_OpenItems.md (Peoples Natural Gas article) Item #1:</strong> confirm final H1/title phrasing and article slug once inclusion (PC-3) is resolved.</span>
+</div>
+</div>
+<!-- Content + Side Rail -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content + Side Rail</span>
+<div style="display:grid; grid-template-columns:1fr 240px;">
+<div class="content-main">
+<!-- Key Takeaways Box -->
+<div class="ai-extract-box">
+<div class="ai-extract-label">✦ Key Takeaways</div>
+<div class="ai-extract-text">Historic rate data for Peoples Natural Gas territory: [Historic rate data — TBD, confirm source with client]. In general, variable supply rates in this territory have moved up and down from month to month along with wholesale market conditions — they can rise as easily as they can fall. Historical data like this is one input for thinking through a fixed-vs-variable decision, not a prediction of next year's rate.</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-5 · PC-5 (NGB_OpenItems.md):</strong> every figure, date, and percentage in this article is a placeholder pending sourcing and client/legal verification — do not estimate or round.</span>
+</div>
+<!-- Article Sections -->
+<div class="article-section">
+<div class="article-section-h2">Why Historic Pricing Context Matters</div>
+<p class="body-para">Variable natural gas rates change every month, driven by wholesale market conditions rather than a fixed schedule. Looking at how a territory's rate has moved historically can help you get a feel for the range of outcomes you might see with a variable-rate plan — the typical seasonal pattern, and how far rates have swung during unusual periods.</p>
+<p class="body-para">That said, past movement doesn't predict future movement. A calm year in the historical record doesn't guarantee a calm year ahead, and a volatile stretch doesn't mean volatility is now the norm. (Pennsylvania customers also have a 3-day right to rescind a new enrollment — full details live in your enrollment confirmation.)</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Peoples Natural Gas Territory: Historic Variable Rate Trend</div>
+<p class="body-para">[Historic rate data — TBD, confirm source with client.] Over the period shown, Peoples Natural Gas territory's variable supply rate has followed the general seasonal pattern common to natural gas markets — higher during winter heating months, lower in the shoulder and summer seasons — with occasional sharper spikes tied to extreme weather or supply disruptions. [Chart/table presentation — final design TBD with design/dev.]</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>PC-1 (NGB_OpenItems.md):</strong> PA's utility-to-unit mapping (MCF vs. CCF) is unconfirmed project-wide; Peoples Natural Gas' specific unit is unconfirmed — do not assume therms.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>NP-5 Item #2:</strong> historic data date range, source (PUC filings / SouthStar billing data / EIA / other), and update cadence not yet confirmed.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>PC-4:</strong> this section may duplicate the required Plans-page historical-pricing disclosure (Universal Guidance §8, PA) — scope not finalized independently of that resolution.</span>
+</div>
+<div class="article-section">
+<div class="article-section-h2">What Drives Variable Rate Changes</div>
+<p class="body-para">A few general market forces move variable rates month to month:</p>
+<p class="body-para">• Seasonal heating demand — winter usage typically runs several times higher than summer usage<br/>• Wholesale natural gas market prices and weather events that affect supply<br/>• Pipeline capacity and supply disruptions</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Using This History to Choose Between Fixed and Variable</div>
+<p class="body-para">Fixed and variable rates represent a genuine tradeoff, not a right-or-wrong answer. A fixed-term rate gives you a set number for the length of the contract — helpful if a predictable, unchanging bill matters to your budget. A variable rate moves with the market, which means it can be lower than a fixed rate in some months and higher in others.</p>
+<p class="body-para">Which one fits depends on your own risk tolerance and how much month-to-month variation your budget can absorb. Fixed Rate vs. Variable Rate: Which Is Right for You? walks through that tradeoff in more depth.</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>PC-2 (NGB_OpenItems.md):</strong> the "Fixed Rate vs. Variable Rate" cross-link's final slug/URL depends on that article's URL being locked in the site map.</span>
+</div>
+</div><!-- /content-main -->
+<!-- Right side rail — related articles (desktop) -->
+<div style="padding: 20px 16px 20px 16px; border-left: 1px solid #e8e8e4;">
+<div style="position: sticky; top: 72px;">
+<div class="sidebar-head">Related Articles</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Fixed Rate vs. Variable Rate: Which Is Right for You?</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">5 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Why Gas Prices Change Throughout the Year</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">How to Compare Supplier Rates</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">3 min read</div>
+</div>
+</div>
+</div>
+</div><!-- /side-rail -->
+</div>
+</div>
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>Related Articles</span>
+<div class="p">
+<div class="h3" style="margin-bottom:12px;">Keep Reading</div>
+<div class="related-articles-grid">
+<div class="ra-card">Fixed Rate vs. Variable Rate: Which Is Right for You?<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">How to Compare Supplier Rates<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+</div>
+</div>
+</div>
+<!-- Metrics bar -->
+<div class="section">
+<span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
+<div class="metrics-bar">
+<div><div class="m-val">No CTA</div><div class="m-lbl">Conversion intent</div><div class="m-tgt">Data-reference article</div></div>
+<div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
+<div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Pending PC-3</div></div>
+<div><div class="m-val">PA only</div><div class="m-lbl">Market scope</div><div class="m-tgt">Peoples Natural Gas territory</div></div>
+</div>
+</div>
+</div><!-- /art-inst-np5 -->
+
+<!-- ═══ ARTICLE INSTANCE: NP-6 — UGI Utilities: Historic Variable Rate Prices (PA only) ═══ -->
+<div class="lc-article-instance" id="art-inst-np6">
+<div class="ann-row" style="padding:8px 24px 0;">
+<span class="ann ann-r"><strong>PC-3 · NGB_OpenItems.md:</strong> this article's inclusion in the final site is UNCONFIRMED — the site map logs both PA historic-pricing articles as "may not include." Drafted per Allyson's 2026-08-21 direction to draft now rather than hold; do not treat this copy as final or populate real data until confirmed.</span>
+</div>
+<div class="ann-row" style="padding:4px 24px 0;">
+<span class="ann ann-b">NP-6 · Single-market article (PA, UGI Utilities territory only) — brand/market context is static copy, not mkt-inline toggled. Selecting this article auto-syncs the Market toggle to PA. Structurally parallel to the NP-5 (Peoples Natural Gas) companion article per its brief — same purpose, same open-question status, same section order; only territory-specific facts differ. No enrollment CTA anywhere in this article per brief — end-of-article CTA section intentionally omitted.</span>
+</div>
+<!-- Breadcrumb -->
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm"><a>Home</a> › <a>Natural Gas Basics</a> › <a>Understanding Gas Rates</a> › UGI Utilities: Historic Variable Rate Prices</div>
+</div>
+<!-- Pillar Hero Band -->
+<div class="section" style="background:#1e3a5f; border-color:#1e3a5f;">
+<div style="padding:16px 24px; display:flex; align-items:center; gap:14px;">
+<span style="font-size:28px; flex-shrink:0;">💡</span>
+<div>
+<div style="font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#7ec8e3; margin-bottom:3px;">Natural Gas Basics</div>
+<div style="font-size:15px; font-weight:800; color:#fff;">Understanding Gas Rates · Pennsylvania Energy</div>
+</div>
+</div>
+</div>
+<!-- Article Header -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Article Header</span>
+<div class="article-header">
+<div class="article-meta-bar">
+<span class="pillar-badge pb-p1">💡 Understanding Gas Rates</span>
+<span>4 min read</span>
+<span>Updated July 2026</span>
+<span style="background:#e3f2fd;border:1px solid #1565c0;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;color:#0d47a1;">Pennsylvania</span>
+</div>
+<div class="article-h1">UGI Utilities: Historic Variable Rate Prices</div>
+<div class="article-sub">How variable rates have moved over time in UGI Utilities territory — and what that history means for choosing between fixed and variable plans.</div>
+</div>
+<div class="ann-row" style="padding:0 24px 10px;">
+<span class="ann ann-y"><strong>NP-6 · NGB_OpenItems.md (UGI Utilities article) Item #1:</strong> confirm final H1/title phrasing and article slug once inclusion (PC-3) is resolved.</span>
+<span class="ann ann-b" style="margin-top:4px;">"UGI Utilities" is the correct full LDC name for this territory — don't shorten to "UGI" alone on first reference (brief callout).</span>
+</div>
+</div>
+<!-- Content + Side Rail -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content + Side Rail</span>
+<div style="display:grid; grid-template-columns:1fr 240px;">
+<div class="content-main">
+<!-- Key Takeaways Box -->
+<div class="ai-extract-box">
+<div class="ai-extract-label">✦ Key Takeaways</div>
+<div class="ai-extract-text">Historic rate data for UGI Utilities territory: [Historic rate data — TBD, confirm source with client]. In general, variable supply rates in this territory have moved up and down from month to month along with wholesale market conditions — they can rise as easily as they can fall. Historical data like this is one input for thinking through a fixed-vs-variable decision, not a prediction of next year's rate.</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>NP-6 · PC-5 (NGB_OpenItems.md):</strong> every figure, date, and percentage in this article is a placeholder pending sourcing and client/legal verification — do not estimate or round.</span>
+</div>
+<!-- Article Sections -->
+<div class="article-section">
+<div class="article-section-h2">Why Historic Pricing Context Matters</div>
+<p class="body-para">Variable natural gas rates change every month, driven by wholesale market conditions rather than a fixed schedule. Looking at how a territory's rate has moved historically can help you get a feel for the range of outcomes you might see with a variable-rate plan — the typical seasonal pattern, and how far rates have swung during unusual periods.</p>
+<p class="body-para">That said, past movement doesn't predict future movement. A calm year in the historical record doesn't guarantee a calm year ahead, and a volatile stretch doesn't mean volatility is now the norm. (Pennsylvania customers also have a 3-day right to rescind a new enrollment — full details live in your enrollment confirmation.)</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">UGI Utilities Territory: Historic Variable Rate Trend</div>
+<p class="body-para">[Historic rate data — TBD, confirm source with client.] Over the period shown, UGI Utilities territory's variable supply rate has followed the general seasonal pattern common to natural gas markets — higher during winter heating months, lower in the shoulder and summer seasons — with occasional sharper spikes tied to extreme weather or supply disruptions. [Chart/table presentation — final design TBD with design/dev.]</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>PC-1 (NGB_OpenItems.md):</strong> PA's utility-to-unit mapping (MCF vs. CCF) is unconfirmed project-wide; UGI Utilities' specific unit is unconfirmed — do not assume therms, and do not guess based on the Peoples Natural Gas companion article's unit.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>NP-6 Item #2:</strong> historic data date range, source, and update cadence not yet confirmed.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>NP-6 Item #3:</strong> confirm whether UGI Utilities' multiple PA service divisions require a sub-regional pricing breakdown, or whether one aggregate trend is sufficient.</span>
+<span class="ann ann-y" style="margin-top:4px;"><strong>PC-4:</strong> this section may duplicate the required Plans-page historical-pricing disclosure (Universal Guidance §8, PA) — scope not finalized independently of that resolution.</span>
+</div>
+<div class="article-section">
+<div class="article-section-h2">What Drives Variable Rate Changes</div>
+<p class="body-para">A few general market forces move variable rates month to month:</p>
+<p class="body-para">• Seasonal heating demand — winter usage typically runs several times higher than summer usage<br/>• Wholesale natural gas market prices and weather events that affect supply<br/>• Pipeline capacity and supply disruptions</p>
+</div>
+<div class="article-section">
+<div class="article-section-h2">Using This History to Choose Between Fixed and Variable</div>
+<p class="body-para">Fixed and variable rates represent a genuine tradeoff, not a right-or-wrong answer. A fixed-term rate gives you a set number for the length of the contract — helpful if a predictable, unchanging bill matters to your budget. A variable rate moves with the market, which means it can be lower than a fixed rate in some months and higher in others.</p>
+<p class="body-para">Which one fits depends on your own risk tolerance and how much month-to-month variation your budget can absorb. Fixed Rate vs. Variable Rate: Which Is Right for You? walks through that tradeoff in more depth.</p>
+</div>
+<div class="ann-row">
+<span class="ann ann-y"><strong>PC-2 (NGB_OpenItems.md):</strong> the "Fixed Rate vs. Variable Rate" cross-link's final slug/URL depends on that article's URL being locked in the site map.</span>
+</div>
+</div><!-- /content-main -->
+<!-- Right side rail — related articles (desktop) -->
+<div style="padding: 20px 16px 20px 16px; border-left: 1px solid #e8e8e4;">
+<div style="position: sticky; top: 72px;">
+<div class="sidebar-head">Related Articles</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Fixed Rate vs. Variable Rate: Which Is Right for You?</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">5 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Why Gas Prices Change Throughout the Year</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
+</div>
+<div style="border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 12px; background: #fff;">
+<a style="font-size: 12px; font-weight: 700; color: #1e3a5f; line-height: 1.4; cursor: pointer; display: block; margin-bottom: 5px;">Peoples Natural Gas: Historic Variable Rate Prices</a>
+<span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size: 8px; padding: 1px 5px; margin-bottom: 4px; display: inline-flex;">Pillar 1</span>
+<div style="font-size: 10px; color: #aaa; margin-top: 3px;">4 min read</div>
+</div>
+</div>
+</div>
+</div><!-- /side-rail -->
+</div>
+</div>
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>Related Articles</span>
+<div class="p">
+<div class="h3" style="margin-bottom:12px;">Keep Reading</div>
+<div class="related-articles-grid">
+<div class="ra-card">Fixed Rate vs. Variable Rate: Which Is Right for You?<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Why Gas Prices Change Throughout the Year<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+<div class="ra-card">Peoples Natural Gas: Historic Variable Rate Prices<small>Understanding Gas Rates</small><span class="pillar-badge pb-p1" onclick="openPillarFromTag(event)" role="link" tabindex="0" title="Browse this pillar →" style="font-size:8px;padding:1px 5px;">Pillar 1</span></div>
+</div>
+</div>
+</div>
+<!-- Metrics bar -->
+<div class="section">
+<span class="section-label"><span class="sec-num">6</span>SEO / Metrics</span>
+<div class="metrics-bar">
+<div><div class="m-val">No CTA</div><div class="m-lbl">Conversion intent</div><div class="m-tgt">Data-reference article</div></div>
+<div><div class="m-val">Article</div><div class="m-lbl">Schema type</div></div>
+<div><div class="m-val">Index</div><div class="m-lbl">Crawl status</div><div class="m-tgt">Pending PC-3</div></div>
+<div><div class="m-val">PA only</div><div class="m-lbl">Market scope</div><div class="m-tgt">UGI Utilities territory</div></div>
+</div>
+</div>
+</div><!-- /art-inst-np6 -->
 </div><!-- /v-article -->
 <!-- ─── FOOTER (shared across all variants) ─── -->
 <div class="section">
@@ -1174,6 +1635,35 @@ function setVariant(v, e) {
   if (vEl) vEl.classList.add('on');
 }
 
+/* §A.17 Batch 2 (NP-3/NP-5/NP-6): which article instance is shown inside the
+   LC Article variant (id="v-article"). Kept as its own class/id namespace
+   (.lc-article-instance / art-inst-*), never as a body-level class, so it can't
+   collide with a body-modifier display rule (Playbook §9 Pitfall 1). */
+var curArticle = 'fxvsvar';
+var ARTICLE_FORCE_MARKET = { np3: 'il', np5: 'pa', np6: 'pa' };
+
+function setArticle(id, e) {
+  curArticle = id;
+  document.querySelectorAll('.btn-subpage').forEach(b => b.classList.remove('active'));
+  if (e) e.target.classList.add('active');
+
+  document.querySelectorAll('.lc-article-instance').forEach(el => el.classList.remove('on'));
+  var el = document.getElementById('art-inst-' + id);
+  if (el) el.classList.add('on');
+
+  // NP-3/NP-5/NP-6 are single-market pages (IE/IL-only or PA-only) — auto-sync
+  // the Market toggle so the control panel never implies a market this page
+  // doesn't actually exist for.
+  var forced = ARTICLE_FORCE_MARKET[id];
+  if (forced) {
+    setMarket(forced, null);
+    document.querySelectorAll('.btn-market').forEach(function(b) {
+      var onclickAttr = b.getAttribute('onclick') || '';
+      b.classList.toggle('active', onclickAttr.indexOf("'" + forced + "'") !== -1);
+    });
+  }
+}
+
 /* LC-8 (2026-07-20): tapping a pillar tag on an article card routes to that pillar's
    own Pillar Hub — a browse action to a citable/indexable URL — NOT to Search Results
    with the pillar pre-filtered. In this wireframe there is one representative Pillar Hub
@@ -1249,6 +1739,58 @@ document.addEventListener('click', function(e) {
     closeMobileNav();
   }
 });
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>

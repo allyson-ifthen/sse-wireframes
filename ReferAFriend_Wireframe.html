@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refer a Friend — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+
+/* ── TOOLBAR ── */
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.market-switcher, .mode-group { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market, .btn-mode { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.btn-mode:hover, .btn-mode.active { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-r { background: #e53935; } .dot-b { background: #4a7adf; }
+
+/* ── CANVAS ── */
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+
+/* ── SECTIONS ── */
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; position: absolute; left: -24px; top: 8px; }
+.p { padding: 18px 24px; } .p-sm { padding: 12px 24px; } .p-lg { padding: 28px 36px; }
+
+/* ── WF PRIMITIVES ── */
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 11px 24px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; text-decoration: none; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 9px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; text-decoration: none; }
+.soft-link { font-size: 12px; color: #5a8cbf; font-weight: 700; text-decoration: none; cursor: pointer; }
+
+/* ── ANNOTATIONS ── */
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 6px 10px; border-radius: 3px; font-size: 11px; line-height: 1.45; margin: 6px 0; }
+.ann-block { display: flex; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+
+/* Annotation visibility modes (CLAUDE.md standard toggle) */
+body.mode-ann-openq .ann-g, body.mode-ann-openq .ann-b { display: none !important; }
+body.mode-ann-clean .ann, body.mode-ann-clean .ann-row, body.mode-ann-clean .oq-panel { display: none !important; }
+
+/* Chrome / presentation mode (CLAUDE.md standard toggle) */
+body.is-chrome-hidden .toolbar, body.is-chrome-hidden .legend, body.is-chrome-hidden .oq-panel,
+body.is-chrome-hidden .ann, body.is-chrome-hidden .ann-row, body.is-chrome-hidden .doc-footer,
+body.is-chrome-hidden .cms-banner, body.is-chrome-hidden .sec-num { display: none !important; }
+#esc-hint { display: none; position: fixed; bottom: 16px; right: 16px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 7px 14px; border-radius: 4px; z-index: 2000; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+body.is-chrome-hidden #esc-hint { display: block; }
+
+/* ── OQ PANEL ── */
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.45; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+
+/* ── CMS BANNER ── */
+.cms-banner { background: #1b5e20; color: #fff; border-radius: 4px; padding: 13px 18px; margin-bottom: 10px; font-size: 12px; line-height: 1.65; border: 2px solid #2e7d32; }
+
+/* ── NAV HEADER ── */
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; line-height: 1; transition: color .15s, transform .15s; }
+.nav-chevron:hover, .nav-item:hover .nav-chevron { color: #1e3a5f; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 210px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .1s; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-dd-item.active { color: #e8641a; font-weight: 700; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+}
+
+/* ── FOOTER ── */
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; text-decoration: none; }
+.footer-col-links a.current { color: #e8641a; font-weight: 700; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.footer-license { font-size: 10px; color: #3a3a3a; line-height: 1.6; padding-top: 8px; border-top: 1px solid #222; }
+
+/* ── MARKET VISIBILITY ── */
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+
+/* ── SHARED LAYOUT ── */
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ── TYPE SCALE ── */
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 620px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+.faq-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
+.faq-a { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 16px; }
+
+/* ── RAF HERO ── */
+.raf-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 34px 36px; }
+.raf-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.2; }
+.raf-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 600px; margin-bottom: 20px; }
+.raf-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.raf-hero-ctas .wf-btn-out { color: #fff; border-color: rgba(255,255,255,.6); }
+.raf-hero-ctas .wf-btn-out:hover { border-color: #fff; }
+
+/* ── HOW IT WORKS ── */
+.step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 10px 0 6px; }
+.step-card { border: 1.5px solid #e8e8e4; border-radius: 6px; padding: 16px 16px 14px; background: #fafbfc; }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: #1e3a5f; color: #fff; border-radius: 50%; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
+.step-title { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 5px; }
+.step-body { font-size: 12px; color: #555; line-height: 1.55; }
+@media (max-width: 720px) { .step-grid { grid-template-columns: 1fr; } }
+
+/* ── REWARD BOX ── */
+.reward-box { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 6px; padding: 18px 20px; margin: 10px 0; }
+.reward-figure-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 12px 0 4px; }
+.reward-figure { text-align: center; }
+.reward-figure-val { font-size: 20px; font-weight: 900; color: #b84800; font-style: italic; }
+.reward-figure-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
+
+/* ── T&Cs SUMMARY BOX ── */
+.tcs-box { background: #fff; border: 1.5px solid #e8e8e4; border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
+
+/* ── CTA BAND ── */
+.cta-band { background: #f5f8fc; border-top: 1.5px solid #d0dce8; padding: 30px 36px; text-align: center; }
+.cta-band-title { font-size: 19px; font-weight: 900; color: #1e3a5f; margin-bottom: 6px; }
+.cta-band-sub { font-size: 13px; color: #666; margin-bottom: 20px; max-width: 560px; margin-left: auto; margin-right: auto; }
+.cta-pair { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+.cta-option { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 260px; }
+.cta-option-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #888; }
+</style>
+</head>
+<body class="mkt-ong mode-ann-all">
+<div id="esc-hint">Press Esc to exit presentation mode</div>
+
+<!-- ═══════════════════════════════════════════
+     TOOLBAR (wireframe meta + control panel + legend, combined per current NP-family convention)
+     ═══════════════════════════════════════════ -->
+<div class="toolbar">
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">NP-11 · Refer a Friend · General Informational template · ONG/PA/GRE/IL/IES · Source: Wireframe_ChangeLog_Active.md §A.16 NP-11 / §A.17 Batch 4 / §A.18 (IES added 2026-08-28)</span>
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" id="mkt-btn-ong" onclick="setMarket('ong')">ONG</button>
+<button class="btn-market" id="mkt-btn-pa" onclick="setMarket('pa')">PA</button>
+<button class="btn-market" id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+<button class="btn-market" id="mkt-btn-il" onclick="setMarket('il')">IE (IL)</button>
+<button class="btn-market" id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Annotations</div>
+<div class="mode-group">
+<button class="btn-mode active" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button class="btn-mode" id="ann-btn-openq" onclick="setAnnMode('openq')">Open Qs only</button>
+<button class="btn-mode" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Chrome</div>
+<div class="mode-group">
+<button class="btn-mode active" id="chrome-btn-show" onclick="setChrome('show')">Show</button>
+<button class="btn-mode" id="chrome-btn-hide" onclick="setChrome('hide')">Hide</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open / pending</span>
+<span class="legend-item"><span class="dot dot-r"></span> Blocker / warning</span>
+<span class="legend-item"><span class="dot dot-b"></span> Shared component / dev note</span>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CANVAS
+     ═══════════════════════════════════════════ -->
+<div class="canvas">
+
+<!-- GLOBAL PROMOTIONAL PENCIL BANNER — shared component, appears on GI-family templates per CLAUDE.md -->
+<div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+<div class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner appears here — shared component (see Homepage wireframe for full implementation). CMS-managed copy per active promotion. This page follows the General Informational template family, which shows the banner (per CLAUDE.md).</div>
+</div>
+
+<!-- CMS TEMPLATE TYPE BANNER -->
+<div class="cms-banner">
+<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Refer a Friend (NP-11)</strong>
+Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1. Leads with the incentive and the how-it-works mechanic before any T&amp;Cs detail, per the Content Tracker's "legalistic, repetitive, buries the offer" audit finding on the current live pages (GRE-005, PE-004). No login, no opt-in action here — opt-in stays in My Account per MA-109. Built per §A.17 Batch 4, using GI's structural shell (Hero + Content Body + CTA band + footer), no trust-signal/schema modules. Source: <code>Content-Templates/ReferAFriend_ContentTemplate.md</code>.
+</div>
+
+<!-- OPEN QUESTIONS PANEL -->
+<div class="oq-panel">
+<h4>⚑ Open Questions — Refer a Friend (NP-11)</h4>
+<ul class="oq-list">
+<li><strong>Open Item #1 — BLOCKING (Client):</strong> 2026 program terms are unconfirmed — reward amount, program cap (previously $500), and active dates (previous cycle ran 1/1/2025–12/31/2025 and has expired). Every dependent figure on this page is a bracketed placeholder; the expired 2025 figures are not carried forward and no new figures have been invented. See Sections 1 and 3.</li>
+<li><strong>Open Item #2 (Client):</strong> Pathward/Visa reward-card fulfillment timeline is unconfirmed — Section 2 ("How It Works") deliberately does not state a specific window (e.g., "4–6 weeks").</li>
+<li><strong>Open Item #3 (Allyson / Client):</strong> PA's T&amp;Cs page consolidation approach (PE-059 — PA's standalone terms page is being retired, folded into this page + FAQ) is not yet finalized. PA's Section 4 variant below is a working assumption, not a confirmed approach.</li>
+<li><strong>Open Item #4 (Allyson):</strong> IE (market ID <code>il</code>, Illinois Energy) has no dedicated content-tracker row for this page — it appears only in the consolidated Template Matrix's Page–Template Map, confirmed for inclusion 2026-08-21. IE's promo code, T&amp;Cs page status, and any IE-specific program variation are unconfirmed. Treat IE's inclusion on this page as less solidly sourced than ONG/PA/GRE, not equally confirmed.</li>
+<li><strong>Open Item #5 (Legal):</strong> T&amp;Cs summary language (Section 4) requires legal review before publish.</li>
+<li><strong>Open Item #6 (Allyson) — added 2026-08-28, IES market scope:</strong> IES (Illinois Energy Solutions, Fixed Bill Plan) has been added to this page's market scope per §A.18/ENRIL-416 (2026-08-28) — see toolbar-meta. IES has <strong>no content-tracker row at all</strong> for this page, thinner sourcing than even IE's (Open Item #4, which at least has a confirmed Template Matrix entry). IES's promo code, T&amp;Cs page status, and any Fixed-Bill-specific program variation (reward mechanic is referral-link-based regardless of rate structure, but eligibility/cap specifics are unconfirmed) are unsourced. Treat IES's inclusion as less solidly sourced than IE's, not equal to it. See Section 4 IES note.</li>
+<li><strong>Cross-ref flag (GLB-RAF-2, §A.GLOBAL):</strong> the canonical full Program Terms page this page's Section 4 links out to (proposed <code>ReferAFriendTerms_Wireframe.html</code>) has not been built yet. Section 4's link-outs below point to that filename as a placeholder destination only — annotated <span class="ann ann-y" style="display:inline-flex; margin:0 2px; padding:2px 6px;">pending build</span> rather than fabricating full legal text inline.</li>
+<li><strong>Cross-ref flag (GLB-RAF-2 / MA-76 / MA-79 — resolved 2026-08-28 per §A.18):</strong> This item previously flagged that GLB-RAF-2 scoped the canonical Program Terms page to "ONG/PA/GRE only," because MA-76/MA-79 suppressed the RAF Dashboard in My Account for IL/IES — a direct conflict with this page's confirmed IE(IL) inclusion. <strong>Resolved:</strong> per §A.18 (2026-08-28), MA-76/MA-79 are reversed — <code>MyAccount_Wireframe.html</code>'s RAF Dashboard and summary card now render for IL and IES too, so an IE or IES visitor who clicks "Log in to manage your referrals" now reaches a working RAF Dashboard. Still internal-only, not yet client-confirmed.</li>
+<li><strong>Cross-ref flag — resolved 2026-08-28 per §A.18:</strong> previously flagged that <code>Enrollment_IL-IES_Wireframe.html</code>'s Confirmation-screen RAF join teaser (ENRIL-421) stated a concrete "$25 reward" figure predating the finding (Open Item #1) that all 2026 reward figures are unconfirmed program-wide. <strong>Addressed:</strong> that file (and <code>Enrollment_ONG-PA-GRE_Wireframe.html</code>'s equivalent ENR tile, and this project's <code>MyAccount_Wireframe.html</code>) now carry an <code>.ann-y</code> citing this page's Open Item #1, rather than stating $25 as settled.</li>
+<li><strong>Cross-ref flag — resolved 2026-08-28 per §A.18:</strong> previously flagged that the Confirmation screen's opt-in checkbox (<code>conf-raf-agree</code>) in both <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> and <code>Enrollment_IL-IES_Wireframe.html</code> linked to <code>#raf-program-terms</code>, an in-page anchor with no matching id in either file — a dead link (GLB-RAF-2). <strong>Addressed:</strong> both checkboxes now point at the same <code>ReferAFriendTerms_Wireframe.html</code> placeholder destination this page's own Section 4 links use, consistent with the "pending build" placeholder convention rather than a fabricated in-page anchor.</li>
+</ul>
+</div>
+
+<!-- ─── NAV HEADER ─── -->
+<div class="section">
+<span class="sec-num">1</span>
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span class="mkt-inline on" id="nl-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="nl-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="nl-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="nl-il">Illinois Energy</span>
+<span class="mkt-inline" id="nl-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Full nav (ONG/PA/GRE/IL). IES uses nav-ies below — added 2026-08-28 per §A.18 (RAF markets are now ONG/PA/GRE/IE/IES). IES gets the simplified 2-item nav (Fixed Bill Plan · About Us) per CLAUDE.md's Nav patterns section, matching CustomerRights_Wireframe.html's pattern: My Account via the standard nav-right icon below, same as every other market, and there's no Search. (Reverted 2026-08-31 from a since-superseded 3-item build — see Wireframe_ChangeLog_Active.md §A.19.) -->
+<nav class="nav-links mkt-flex on" id="nav-standard" aria-label="Main">
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="ForMyHome_Wireframe.html">For My Home</a>
+<button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
+<a class="nav-dd-item active" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<!-- For My Business: ONG/GRE/IL only — suppressed for PA, matching GeneralInformational_Wireframe.html's existing pattern -->
+<div class="nav-item mkt" id="nav-fmb">
+<a class="nav-link nav-hub-link" href="ForMyBusiness_Wireframe.html">For My Business</a>
+<button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+</div>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+</div>
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html">About</a>
+<button aria-label="Open About submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- IES simplified 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" build — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. No For My Home/For My Business/Natural Gas Basics/About, no Search — per CLAUDE.md IES nav exception. My Account via the standard nav-right icon below, same as every other market. -->
+<nav class="nav-links mkt-flex" id="nav-ies" aria-label="Main">
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item active" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<!-- Right: Account + Search — Search suppressed for IES (no Search per IES exception); My Account icon shows for all markets including IES -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" href="SearchResults_Wireframe.html" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. "Refer a Friend" is the active dropdown item under For My Home (or Fixed Bill Plan, for IES). Customer Service phone lives in the footer Support column and the utility row above only — not in nav-right, per Full-nav convention (HP-1 / MA-34). Dev note: every other Full-nav wireframe still points its own "Refer a Friend" dropdown item at <code>MyAccount_Wireframe.html</code> as a placeholder (per NP-11's own cross-ref) — repointing those to this new file is a separate, not-yet-started follow-up, out of scope for this build.</div>
+</div>
+
+<!-- ─── BREADCRUMB ─── -->
+<div class="section">
+<span class="sec-num">2</span>
+<div class="breadcrumb p-sm">
+<a href="Homepage_Wireframe.html">Home</a> ›
+<span class="mkt-inline on" id="bc-hub-ong"><a href="ForMyHome_Wireframe.html">For My Home</a></span><span class="mkt-inline" id="bc-hub-pa"><a href="ForMyHome_Wireframe.html">For My Home</a></span><span class="mkt-inline" id="bc-hub-gre"><a href="ForMyHome_Wireframe.html">For My Home</a></span><span class="mkt-inline" id="bc-hub-il"><a href="ForMyHome_Wireframe.html">For My Home</a></span><span class="mkt-inline" id="bc-hub-ies"><a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a></span>
+› Refer a Friend
+</div>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="section">
+<span class="sec-num">3</span>
+<div class="raf-hero">
+<div class="raf-hero-title">
+Give Your Friends a Reason to Switch — You Both Get Rewarded
+</div>
+<div class="raf-hero-sub">
+Share your referral link with friends and family. When they enroll with
+<span class="mkt-inline on" id="hero-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="hero-brand-pa">Pennsylvania Energy</span><span class="mkt-inline" id="hero-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="hero-brand-il">Illinois Energy</span><span class="mkt-inline" id="hero-brand-ies">Illinois Energy Solutions</span>
+using your code, you'll both receive a reward once their enrollment is confirmed. <em>(Reward amount — <span style="font-style:italic;">[TBD, pending 2026 program confirmation — see Open Item #1]</span>.)</em>
+</div>
+<div class="raf-hero-ctas">
+<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals</a>
+<a class="wf-btn-out enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html">New here? Enroll now</a>
+</div>
+</div>
+<div style="padding:10px 24px;">
+<div class="ann ann-b mkt on" id="hero-note-gre">Dev: GRE's live referral promo code is <strong>RAF25</strong> (confirmed live, per <code>Market Variations at a Glance</code> table in <code>ReferAFriend_ContentTemplate.md</code>). ONG, PA, IE, and IES codes are not sourced — this page does not display a specific code since the mechanic is "your unique link/code," generated per referrer, not one shared promo code.</div>
+</div>
+</div>
+
+<!-- ─── CONTENT BODY ─── -->
+<div class="section">
+<span class="sec-num">4</span>
+<div style="padding: 24px;">
+
+<!-- Section 2: How It Works -->
+<div class="h2" style="margin-bottom: 4px;">How It Works</div>
+<div class="body-para" style="margin-bottom: 4px;">Three steps, start to finish.</div>
+<div class="step-grid">
+<div class="step-card">
+<div class="step-num">1</div>
+<div class="step-title">Share your link</div>
+<div class="step-body">Log in to My Account to get your unique referral link or code, then share it with a friend by email, text, or social media.</div>
+</div>
+<div class="step-card">
+<div class="step-num">2</div>
+<div class="step-title">Your friend enrolls</div>
+<div class="step-body">Your friend enters your referral code during enrollment — it's the "Referral code" field near the end of the sign-up form, and it's optional so it never blocks their enrollment.</div>
+</div>
+<div class="step-card">
+<div class="step-num">3</div>
+<div class="step-title">You both get rewarded</div>
+<div class="step-body">Once your friend's enrollment is confirmed by their utility, you'll both receive your reward. Confirmation can take a little longer than sign-up itself.</div>
+</div>
+</div>
+<div class="ann ann-y">Open Item #2 (Client): exact fulfillment timeline for the reward card (Pathward/Visa reward partner) is unconfirmed — not stating a specific window (e.g., "4–6 weeks") until confirmed.</div>
+<div class="ann ann-b">Dev: Step 2's referral-code field already exists in the enrollment flow — see <code>raf-promo-section</code> / <code>#raf-promo-code</code> at the end of Step 2 in <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> (ENR-58/86), and <code>#raf-promo-il</code> / <code>#i-raf-promo-code</code> in <code>Enrollment_IL-IES_Wireframe.html</code> (ENRIL-416). No new field is needed on Enrollment for this page's mechanic to work.</div>
+
+<!-- Section 3: Reward Details -->
+<div class="h2" style="margin: 26px 0 4px;">Reward Details</div>
+<div class="reward-box">
+<div class="body-para" style="margin-bottom: 0;">
+When your friend enrolls using your referral link and their enrollment is confirmed by their utility, you'll both receive a reward — historically issued as a Visa reward card, matching the current program's pattern. The specific amount, any per-referral or annual cap, and the reward-card issuer/mechanism for 2026 are not yet confirmed.
+</div>
+<div class="reward-figure-row">
+<div class="reward-figure">
+<div class="reward-figure-val">$[TBD]</div>
+<div class="reward-figure-lbl">Reward amount</div>
+</div>
+<div class="reward-figure">
+<div class="reward-figure-val">$[TBD]</div>
+<div class="reward-figure-lbl">Program cap</div>
+</div>
+<div class="reward-figure">
+<div class="reward-figure-val">[TBD]</div>
+<div class="reward-figure-lbl">2026 program dates</div>
+</div>
+</div>
+</div>
+<div class="ann ann-r">
+<i>⛔</i>
+<div><strong>Open Item #1 — BLOCKING (Client):</strong> reward amount, program cap, and active 2026 dates are all unconfirmed. The previous cycle's $500 cap and 1/1/2025–12/31/2025 dates expired 12/31/2025 and are <strong>not</strong> carried forward as current figures — the bracketed placeholders above are the only acceptable state until Client confirms 2026 terms. Do not fill these in with an assumed or invented number.</div>
+</div>
+<div class="ann ann-y mkt" id="reward-note-il">Open Item #4 (Allyson): whether Illinois Energy's reward structure (amount, cap, mechanism) matches ONG/PA/GRE, or differs, is unconfirmed — IE has no dedicated content-tracker row for this page. Do not assume parity with the other three markets.</div>
+<div class="ann ann-y mkt" id="reward-note-ies">Open Item #6 (Allyson, added 2026-08-28): whether Illinois Energy Solutions' reward structure (amount, cap, mechanism) matches ONG/PA/GRE/IE, or differs, is unconfirmed — IES has no content-tracker row for this page at all, thinner sourcing than even IE's. The referral mechanic (share a link, friend enrolls, both get a reward) works the same regardless of the Fixed Bill Plan's flat-monthly-charge structure, but do not assume reward-figure parity with the other four markets.</div>
+
+<!-- Section 4: T&Cs Summary (market-specific variant per market) -->
+<div class="h2" style="margin: 26px 0 4px;">Terms &amp; Conditions Summary</div>
+
+<!-- ONG -->
+<div class="tcs-box mkt on" id="tcs-ong">
+<div class="body-para" style="margin-bottom: 8px;">
+To qualify, your friend must be a new Ohio Natural Gas customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). Full program terms, including complete eligibility rules and reward timing, are available on our dedicated Program Terms page.
+</div>
+<a class="soft-link" href="ReferAFriendTerms_Wireframe.html#ong">Read the full Refer a Friend Program Terms →</a>
+<div class="ann ann-y" style="margin-top:8px;"><strong>GLB-RAF-2:</strong> <code>ReferAFriendTerms_Wireframe.html</code> has not been built yet — this link is a placeholder destination, not a live page. ONG's existing live terms page (<code>ohionaturalgas.com/refer-a-friend-tandcs/</code>, ONG-057) needs legal review before its content can be ported into the new canonical page.</div>
+</div>
+
+<!-- GRE -->
+<div class="tcs-box mkt" id="tcs-gre">
+<div class="body-para" style="margin-bottom: 8px;">
+To qualify, your friend must be a new Grand Rapids Energy customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). Full program terms, including complete eligibility rules and reward timing, are available on our dedicated Program Terms page.
+</div>
+<a class="soft-link" href="ReferAFriendTerms_Wireframe.html#gre">Read the full Refer a Friend Program Terms →</a>
+<div class="ann ann-y" style="margin-top:8px;"><strong>GLB-RAF-2:</strong> <code>ReferAFriendTerms_Wireframe.html</code> has not been built yet — this link is a placeholder destination, not a live page. GRE currently has its own separate, live T&amp;Cs page (<code>grandrapidsenergy.com/refer-a-friend-tandcs/</code>, GRE-047, needs legal review) — per GLB-RAF-2's 2026-08-25 decision, GRE is expected to consolidate onto the shared canonical page once built, same as ONG/PA. Not yet executed.</div>
+</div>
+
+<!-- PA — market-specific variant per PE-059, not a blanket link-out -->
+<div class="tcs-box mkt" id="tcs-pa">
+<div class="body-para" style="margin-bottom: 8px;">
+Pennsylvania Energy's Refer a Friend terms are summarized in full below, rather than on a separate terms page — Pennsylvania Energy's standalone Terms &amp; Conditions page is being retired and its content consolidated into this page and the FAQ section (per PE-059). To qualify, your friend must be a new Pennsylvania Energy customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). If a shared, multi-market Program Terms page is built per GLB-RAF-2, Pennsylvania Energy's terms may move there too — not yet decided.
+</div>
+<div class="ann ann-y" style="margin-top:8px;"><strong>Open Item #3 (Allyson / Client):</strong> PA's PE-059 consolidation approach is not yet finalized — this expanded, self-contained summary (rather than a link-out) is a working assumption for this page, pending confirmation of how PA's retired terms page content is actually redistributed between this page and the FAQ.</div>
+</div>
+
+<!-- IL / IE -->
+<div class="tcs-box mkt" id="tcs-il">
+<div class="body-para" style="margin-bottom: 8px;">
+Illinois Energy's Refer a Friend terms and conditions page status is not yet scoped — there is no confirmed destination to link to, and no confirmed statement of eligibility rules specific to Illinois Energy beyond the general mechanic described above (new-customer referral, reward after confirmed enrollment). This section intentionally does not state Illinois Energy-specific eligibility or cap details until they're sourced.
+</div>
+<div class="ann ann-r">
+<i>⛔</i>
+<div><strong>Open Item #4 (Allyson):</strong> IE has no dedicated content-tracker row for this page at all — confirm IE's promo code, T&amp;Cs page status, and any IE-specific program variation before this section can be finalized. Do not treat IE's terms as identical to ONG/PA/GRE by default.</div>
+</div>
+</div>
+
+<!-- IES — added 2026-08-28 per §A.18/ENRIL-416 -->
+<div class="tcs-box mkt" id="tcs-ies">
+<div class="body-para" style="margin-bottom: 8px;">
+Illinois Energy Solutions' Refer a Friend terms and conditions page status is not yet scoped — there is no confirmed destination to link to, and no confirmed statement of eligibility rules specific to Illinois Energy Solutions beyond the general mechanic described above (new-customer referral, reward after confirmed enrollment). The Fixed Bill Plan's flat monthly-charge structure doesn't change the referral mechanic itself — the reward is triggered by a confirmed enrollment, not by rate type — but this section intentionally does not state Illinois Energy Solutions-specific eligibility or cap details until they're sourced.
+</div>
+<div class="ann ann-r">
+<i>⛔</i>
+<div><strong>Open Item #6 (Allyson):</strong> IES has no content-tracker row for this page at all — thinner sourcing than even IE's (Open Item #4), which at least has a confirmed Template Matrix entry. IES's inclusion here follows from §A.18/ENRIL-416's RAF-availability reversal, not from any IES-specific RAF content brief. Confirm IES's promo code, T&amp;Cs page status, and program variation before this section can be finalized. Do not treat IES's terms as identical to ONG/PA/GRE/IE by default.</div>
+</div>
+</div>
+
+<!-- Section 5: Common Questions -->
+<div class="h2" style="margin: 26px 0 4px;">Common Questions</div>
+<div class="faq-q">Does my friend need to be a new customer?</div>
+<div class="faq-a">Yes. Your friend needs to be a new customer who isn't already enrolled with us — the program rewards bringing in someone new, not an existing account switching plans.</div>
+<div class="faq-q">When do I get my reward?</div>
+<div class="faq-a">After your friend's enrollment is confirmed by their utility — not right when they sign up. Utility confirmation runs on a nightly batch, so it can take a little longer than the enrollment itself. <span class="soft-link" style="cursor:default; text-decoration:none; color:#888; font-weight:600;">(Exact fulfillment timeline: see Open Item #2 above.)</span></div>
+<div class="faq-q">Is there a limit to how many friends I can refer?</div>
+<div class="faq-a">There may be a limit on how many rewards you can earn — but the current program cap for 2026 hasn't been confirmed yet (see Open Item #1 above), so we can't state a specific number here until it is.</div>
+<div class="faq-q">What if my friend doesn't complete enrollment?</div>
+<div class="faq-a">No reward is issued unless your friend's enrollment goes through and their utility confirms the switch. If they don't finish enrolling, or the switch can't be validated, that referral doesn't earn a reward.</div>
+<div class="faq-q">How do I check my referral status?</div>
+<div class="faq-a">Log in to My Account to see your referral status and reward history. <a class="soft-link login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals →</a></div>
+<div class="ann ann-b">Dev: per the content brief's Section 5 callout, the last FAQ answer routes to My Account rather than explaining the RAF Dashboard's mechanics on this page.</div>
+
+</div>
+</div>
+
+<!-- ─── EXIT CTA BAND ─── -->
+<div class="section">
+<span class="sec-num">5</span>
+<div class="cta-band">
+<div class="cta-band-title">Ready to start referring — or ready to switch?</div>
+<div class="cta-band-sub">These are two different journeys. Pick the one that's yours.</div>
+<div class="cta-pair">
+<div class="cta-option">
+<div class="cta-option-lbl">Already a customer</div>
+<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals</a>
+</div>
+<div class="cta-option">
+<div class="cta-option-lbl">Not a customer yet</div>
+<a class="wf-btn-out enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html" style="color:#1e3a5f; border-color:#1e3a5f;">New here? Enroll now</a>
+</div>
+</div>
+<div class="ann ann-b" style="margin-top:16px; text-align:left; display:inline-flex;">Dev: per the content brief's Section 6 callout, these two CTAs are kept visually distinct (separate labeled columns) rather than blended into one generic "Get Started" button — existing customers referring a friend and new prospects who were referred need different paths.</div>
+</div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<div class="section">
+<span class="sec-num">—</span>
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">
+<span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="ft-il">Illinois Energy</span>
+<span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+</div>
+<div class="footer-parent">A SouthStar Energy Services company<br/>A subsidiary of Southern Company (NYSE: SO)</div>
+</div>
+<div>
+<div class="footer-col-head">Plans</div>
+<div class="footer-col-links">
+<a href="ResidentialPlans_Wireframe.html" id="fp-plans-link">Residential Plans</a>
+<a href="CommercialPlans_Wireframe.html" id="fp-commercial-link">Commercial Plans</a>
+<a class="current" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Learn</div>
+<div class="footer-col-links">
+<a href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<a href="GeneralInformational_Wireframe.html">About Us</a>
+<a href="ContactFormUtility_Wireframe.html">Contact Us</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Support</div>
+<div class="footer-col-links">
+<span class="mkt-inline on" id="ftphone-ong">(888) 555-0001</span>
+<span class="mkt-inline" id="ftphone-pa">(888) 555-0002</span>
+<span class="mkt-inline" id="ftphone-gre">(888) 555-0003</span>
+<span class="mkt-inline" id="ftphone-il">(888) 555-0004</span>
+<span class="mkt-inline" id="ftphone-ies">(888) 555-0005</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+<div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="doc-footer">
+NP-11 · Refer a Friend · General Informational template (GI shell, no trust-signal/schema modules) · ONG / PA / GRE / IE(IL) / IES · 4037-25 · IfThen Digital · Built per §A.17 Batch 4, 2026-08-28; IES market scope added same-day per §A.18. Draft status: Internal review (Allyson) only — not yet seen by SouthStar. Source: <code>Content-Templates/ReferAFriend_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-11 / §A.17 Batch 4 / §A.18.
+</div>
+</div><!-- /canvas -->
+
+<script>
+var MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+var ENROLL_TARGET = { ong: 'Enrollment_ONG-PA-GRE_Wireframe.html', pa: 'Enrollment_ONG-PA-GRE_Wireframe.html', gre: 'Enrollment_ONG-PA-GRE_Wireframe.html', il: 'Enrollment_IL-IES_Wireframe.html', ies: 'Enrollment_IL-IES_Wireframe.html' };
+
+function setMarket(m) {
+  if (MARKETS.indexOf(m) === -1) return;
+
+  MARKETS.forEach(function(k) {
+    var b = document.getElementById('mkt-btn-' + k);
+    if (b) b.classList.toggle('active', k === m);
+  });
+
+  document.body.classList.remove('mkt-ong', 'mkt-pa', 'mkt-gre', 'mkt-il', 'mkt-ies');
+  document.body.classList.add('mkt-' + m);
+
+  document.querySelectorAll('.mkt, .mkt-flex').forEach(function(el) {
+    el.classList.remove('on');
+  });
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(function(el) {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-flex')) el.classList.add('on');
+  });
+
+  document.querySelectorAll('.mkt-inline').forEach(function(el) {
+    el.classList.remove('on');
+  });
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(function(el) {
+    el.classList.add('on');
+  });
+
+  // "For My Business" nav item: ONG/GRE/IL only, suppressed for PA — id "nav-fmb" has no market
+  // suffix, so it's handled explicitly here rather than via the generic id-suffix pass above,
+  // matching GeneralInformational_Wireframe.html's existing NAV_MKT approach for the same rule.
+  var fmb = document.getElementById('nav-fmb');
+  if (fmb) fmb.classList.toggle('on', m !== 'pa' && m !== 'ies');
+
+  // IES simplified 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 3-item build — see
+  // §A.19) — mirrors CustomerRights_Wireframe.html's pattern: nav-standard/nav-ies ids don't carry
+  // market suffixes, so handled explicitly rather than via the generic id-suffix pass above.
+  // nav-right-block (My Account icon + Search) is no longer market-toggled — it shows for every
+  // market including IES now that My Account isn't folded into nav-ies.
+  var navStd = document.getElementById('nav-standard');
+  var navIes = document.getElementById('nav-ies');
+  if (m === 'ies') {
+    if (navStd) navStd.classList.remove('on');
+    if (navIes) navIes.classList.add('on');
+  } else {
+    if (navIes) navIes.classList.remove('on');
+    if (navStd) navStd.classList.add('on');
+  }
+
+  updateEnrollLinks(m);
+  updateLoginLinks(m);
+  updateFooterPlansLink(m);
+}
+
+// Footer "Plans" column — IES uses "Fixed Bill Plan" (no Residential/Commercial Plans split);
+// added 2026-08-28 per §A.18. Not handled via .mkt id-suffix (same element swaps label + href
+// rather than showing/hiding a duplicate element).
+function updateFooterPlansLink(m) {
+  var plansLink = document.getElementById('fp-plans-link');
+  var commLink = document.getElementById('fp-commercial-link');
+  if (plansLink) {
+    if (m === 'ies') {
+      plansLink.textContent = 'Fixed Bill Plan';
+      plansLink.setAttribute('href', 'FixedBillPlanHub_Wireframe.html');
+    } else {
+      plansLink.textContent = 'Residential Plans';
+      plansLink.setAttribute('href', 'ResidentialPlans_Wireframe.html');
+    }
+  }
+  if (commLink) commLink.style.display = (m === 'ies') ? 'none' : '';
+}
+
+function updateEnrollLinks(m) {
+  var target = ENROLL_TARGET[m] || ENROLL_TARGET.ong;
+  document.querySelectorAll('.enroll-link').forEach(function(a) { a.setAttribute('href', target); });
+}
+
+function updateLoginLinks(m) {
+  document.querySelectorAll('.login-link').forEach(function(a) { a.setAttribute('href', 'MyAccount_Wireframe.html?market=' + m); });
+}
+
+function setAnnMode(mode) {
+  document.body.classList.remove('mode-ann-all', 'mode-ann-openq', 'mode-ann-clean');
+  document.body.classList.add('mode-ann-' + mode);
+  ['all', 'openq', 'clean'].forEach(function(k) {
+    var b = document.getElementById('ann-btn-' + k);
+    if (b) b.classList.toggle('active', k === mode);
+  });
+}
+
+function setChrome(state) {
+  var hidden = state === 'hide';
+  document.body.classList.toggle('is-chrome-hidden', hidden);
+  var showBtn = document.getElementById('chrome-btn-show');
+  var hideBtn = document.getElementById('chrome-btn-hide');
+  if (showBtn) showBtn.classList.toggle('active', !hidden);
+  if (hideBtn) hideBtn.classList.toggle('active', hidden);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('is-chrome-hidden')) setChrome('show');
+});
+
+// ── NAV DROPDOWN TOGGLE ──
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  }
+});
+
+// ── MOBILE NAV TOGGLE ──
+function closeMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  document.querySelectorAll('.nav-links.mobile-open').forEach(function(nav) { nav.classList.remove('mobile-open'); });
+  if (btn) btn.textContent = '☰';
+}
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  const isOpen = nav.classList.contains('mobile-open');
+  if (isOpen) { closeMobileNav(); return; }
+  nav.classList.add('mobile-open');
+  btn.textContent = '✕';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    closeMobileNav();
+  }
+});
+
+// Init
+setMarket('ong');
+setAnnMode('all');
+setChrome('show');
+</script>
+</body>
+</html>

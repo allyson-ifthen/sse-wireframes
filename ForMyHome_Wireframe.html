@@ -380,11 +380,12 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <a class="nav-link active" style="border-bottom-color:#e8641a;">For My Home</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Residential Plans</a>
+            <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
             <!-- Greener Life shown for ONG and GRE only -->
-            <a class="nav-dd-item mkt on" id="dd-gl-ong" href="#">Greener Life Plan</a>
-            <a class="nav-dd-item mkt" id="dd-gl-gre" href="#">Greener Life Plan</a>
-            <a class="nav-dd-item" href="#">Refer a Friend</a>
+            <a class="nav-dd-item mkt on" id="dd-gl-ong" href="GreenerLifePlan_Wireframe.html">Greener Life Plan</a>
+            <a class="nav-dd-item mkt" id="dd-gl-gre" href="GreenerLifePlan_Wireframe.html">Greener Life Plan</a>
+            <!-- Repointed to ReferAFriend_Wireframe.html per §A.18, 2026-08-28 (was MyAccount_Wireframe.html placeholder per GLB-RAF-1) -->
+            <a class="nav-dd-item" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
           </div>
         </div>
 
@@ -393,8 +394,8 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <a class="nav-link">For My Business</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Commercial Plans</a>
-            <a class="nav-dd-item" href="#">Why
+            <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
+            <a class="nav-dd-item" href="ForMyBusiness_Wireframe.html">Why
               <span class="mkt-inline" id="biz-brand-ong">Ohio Natural Gas</span>
               <span class="mkt-inline" id="biz-brand-pa">Pennsylvania Energy</span>
               <span class="mkt-inline" id="biz-brand-gre">Grand Rapids Energy</span>
@@ -409,8 +410,8 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <a class="nav-link">Natural Gas Basics</a>
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
-            <a class="nav-dd-item" href="#">Understanding Gas Rates</a>
-            <a class="nav-dd-item" href="#">How to Switch</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">Understanding Gas Rates</a>
+            <a class="nav-dd-item" href="LearningCenter_Wireframe.html">How to Switch</a>
           </div>
         </div>
 
@@ -420,7 +421,7 @@ body.viewport-mobile .section-label { padding-top: 20px; font-size: 9px; }
           <button class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
           <div class="nav-dropdown">
             <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
-            <a class="nav-dd-item" href="#">Your Rights as a Customer</a>
+            <a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
           </div>
         </div>
 
@@ -838,8 +839,8 @@ function setMarket(m) {
   document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(el => el.classList.add('on'));
 }
 setMarket('ong');
-setAnnMode('clean');
 const ANN_MODES = ['all','open','clean'];
+setAnnMode('clean');
 
 function setAnnMode(mode) {
   ANN_MODES.forEach(function(k) {
@@ -901,5 +902,57 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <div class="presentation-hint">Press <kbd>Esc</kbd> to exit presentation mode</div>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
+</script>
 </body>
 </html>

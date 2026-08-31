@@ -2919,8 +2919,9 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <input id="l-by-submitting" onchange="validateInfo()" type="checkbox"/>
 <label for="l-by-submitting"><span class="req">*</span> <strong>By submitting my information, I affirm that I am authorized to change my gas service to <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span></strong> and give the company permission to access the above-referenced utility's account information and payment history. I understand that at the point of enrollment for the above-referenced account, I will be able to print and save my enrollment information and the terms and conditions of the energy plan I am enrolling in.</label>
 </div>
-<!-- ENRIL-416 (2026-08-11): "Refer a Friend" field added — reverses ENRIL-249/373's "not available in IL" determination per internal-team confirmation; ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-promo-section (ENR-58/86/109), both scenarios. Not yet client-confirmed.
-     ENRIL-533 (2026-08-24): moved from mid-form (between Billing address and "How did you hear about us?") to the end of the step, matching the same fix applied to Enrollment_ONG-PA-GRE_Wireframe.html (ENR-158) per user-testing finding (P4, ONG round: "referring a friend in the middle of setup is a little wonky"). Not yet re-verified with IL/IES-specific user testing, but same underlying mid-form-interruption problem applies to this file's identical field. -->
+<!-- ENRIL-416 (2026-08-11): "Refer a Friend" field added — reverses ENRIL-249/373's "not available in IL" determination per internal-team confirmation; ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-promo-section (ENR-58/86/109), both scenarios.
+     ENRIL-533 (2026-08-24): moved from mid-form (between Billing address and "How did you hear about us?") to the end of the step, matching the same fix applied to Enrollment_ONG-PA-GRE_Wireframe.html (ENR-158) per user-testing finding (P4, ONG round: "referring a friend in the middle of setup is a little wonky"). Not yet re-verified with IL/IES-specific user testing, but same underlying mid-form-interruption problem applies to this file's identical field.
+     ENRIL-537 (2026-08-27): "Not yet client-confirmed" flag cleared — client has confirmed RAF for IL/IES. Field is locked in, no longer provisional. -->
 <hr style="border: none; border-top: 1px solid var(--line-soft); margin: 20px 0;"/>
 <div class="fieldset" id="raf-promo-il">
 <h3>Refer a Friend</h3>
@@ -2993,60 +2994,37 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div class="review-section">
 <header>
 <h4>Address</h4>
-<!-- ENRIL-239: Edit → link removed — mailing address is now editable inline below; service address is read-only -->
+<!-- ENRIL-536 (2026-08-27): Edit → link removed, and ENRIL-239's inline mailing-address edit retired —
+     Review is now fully locked (no edit affordance of any kind), matching OPG's Step 4 Address section
+     (ENR-200) exactly. Both fields are static, read-only text. -->
 </header>
 <dl>
 <dt>Service address</dt><dd><span style="color: var(--muted);">123 Maple Street, Chicago IL 60601</span> </dd>
-<dt>Mailing address</dt><dd>
-<!-- ENRIL-239: inline mailing address edit — replaces Edit → back-navigation -->
-<div class="mailing-address-inline">
-<label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:8px;">
-<input checked="" id="same-as-service" onchange="document.getElementById('mailing-address-form').style.display = this.checked ? 'none' : 'block'" type="checkbox"/>
-<span>Same as service address</span>
-</label>
-<div id="mailing-address-form" style="display:none; margin-top:8px;">
-<div class="field"><label for="r-mail-street">Street address</label><input id="r-mail-street" placeholder="Street address" type="text"/></div>
-<div class="field"><label for="r-mail-city">City</label><input id="r-mail-city" placeholder="City" type="text"/></div>
-<div class="field" style="display:flex; gap:12px;">
-<div style="flex:1;"><label for="r-mail-state">State</label><input id="r-mail-state" maxlength="2" placeholder="IL" type="text"/></div>
-<div style="flex:1;"><label for="r-mail-zip">ZIP</label><input id="r-mail-zip" maxlength="5" placeholder="XXXXX" type="text"/></div>
-</div>
-</div>
-<div class="ann ann-b">ENRIL-239 · Inline mailing address edit — replaces the "Edit →" back-navigation link. Service address is read-only (PRIME SearchCustomers). Mailing address defaults to "Same as service"; unchecking expands inline form. No back-routing needed.</div>
-</div>
-</dd>
+<dt>Mailing address</dt><dd>Same as service address</dd>
 </dl>
 </div>
 <div class="review-section">
 <header>
 <!-- ENRIL-213: "Contact info" → "Contact" -->
 <h4>Contact</h4>
-<!-- ENRIL-238: Edit → link removed — Name/Email are read-only for all scenarios (name from PRIME SearchCustomers; email OTP-verified on Lookup). ENRIL-449: Phone is no longer in this category — see its own inline-edit affordance below. -->
+<!-- ENRIL-238: Edit → link removed — Name/Email are read-only for all scenarios (name from PRIME SearchCustomers; email OTP-verified on Lookup).
+     ENRIL-536 (2026-08-27): Phone's ENRIL-449 inline-edit exception retired too — Review is now fully locked,
+     no edit affordance anywhere, matching OPG's Step 4 Contact section (ENR-200) exactly. -->
 
 </header>
 <!-- ENRIL-238: Name and email are read-only — no in-flow editing permitted for any scenario.
-     ENRIL-449 (2026-08-12): Phone partially reverses this — split by risk (2026-08-12 Review-step editability
-     discussion): Name (PRIME pre-fill) and Email (OTP-verified) stay locked; Phone is low-risk and now inline-editable. -->
+     ENRIL-536 (2026-08-27): Phone is now locked the same way — see dev note below for the full rationale
+     for reversing ENRIL-449. -->
 <dl>
 <dt>Name</dt><dd><span class="read-only-field">Jane Doe</span></dd>
 <dt>Email</dt><dd>
 <span class="read-only-field">jane.doe@example.com</span> <span class="status-pill">✓ Verified</span>
 </dd>
-<dt>Phone</dt><dd>
-<!-- ENRIL-449 (2026-08-12): Phone converted to inline-editable, same in-place-edit pattern as mailing address
-     (ENRIL-239) — no back-navigation to another step. -->
-<div class="phone-inline-edit">
-<span id="r-phone-display" class="read-only-field">(312) 555-0123</span>
-<a href="#" id="r-phone-edit-link" onclick="event.preventDefault(); document.getElementById('r-phone-display').style.display='none'; document.getElementById('r-phone-edit-link').style.display='none'; document.getElementById('r-phone-edit').style.display='block';" style="margin-left: 10px; font-size: 12px;">Edit</a>
-<div id="r-phone-edit" style="display:none; margin-top:8px;">
-<div class="field"><label for="r-phone">Phone</label><input id="r-phone" type="tel" value="(312) 555-0123"/></div>
-</div>
-</div>
-</dd>
+<dt>Phone</dt><dd><span class="read-only-field">(312) 555-0123</span></dd>
 </dl>
 
 <div class="ann ann-b"><strong>ENRIL-238 · Name and email read-only — name from PRIME SearchCustomers; email OTP-verified on Lookup. No in-flow editing permitted for either, any scenario.</strong></div>
-<div class="ann ann-b"><strong>ENRIL-449 · Phone inline-editable — reversed from ENRIL-238's blanket lock, 2026-08-12. Rationale: Phone carries no upstream verification/lookup dependency (unlike Name/Email/Account number), so it's low-risk to edit in place, matching the existing mailing-address-inline pattern (ENRIL-239).</strong></div>
+<div class="ann ann-b"><strong>ENRIL-536 (2026-08-27) · Phone locked too, reversing ENRIL-449 — Review now has zero editable fields across Service &amp; account / Address / Contact, matching OPG's Step 4 (ENR-197/200/201) exactly. Decided during the Enrollment Figma-handoff alignment session: the asymmetry (OPG fully locked; IL/IES allowing inline edit on Mailing address + Phone) wasn't a deliberate design decision, just independent drift, and there's no PRIME-desync reason specific to Phone that doesn't also apply to OPG's equivalent fields. The stepper's own back-navigation is the path back for any Review-stage correction, same as OPG.</strong></div>
 </div>
 <!-- ENRIL-506 (2026-08-17): the entire "Your contract terms" doc-bundle preview (Plan Contract + ACR, plus its
      Download button) is removed from Review — corrects ENRIL-491's scope, which read the 2026-08-12 client
@@ -3253,12 +3231,14 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div id="conf-raf-view-optin">
 <h3>Refer a friend, earn rewards</h3>
 <p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
-<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="#raf-program-terms">Program Terms</a></label>
+<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="ReferAFriendTerms_Wireframe.html">Program Terms</a></label>
 <div class="raf-channels">
 <button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
 </div>
 <p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
 <div class="ann ann-b">ENRIL-421 · "Learn more" is a placeholder dead link, same as OPG's ENR-152 — will repoint once a standalone Refer-a-Friend page exists.</div>
+<div class="ann ann-y"><strong>§A.18 (2026-08-28) — GLB-RAF-2 dead-link fix:</strong> The "Program Terms" checkbox link above previously pointed to <code>#raf-program-terms</code>, an in-page anchor with no matching id anywhere in this file (same defect as OPG's equivalent checkbox). Repointed to <code>ReferAFriendTerms_Wireframe.html</code> — the same not-yet-built placeholder destination <code>ReferAFriend_Wireframe.html</code> (NP-11) already uses for its own Program Terms link-outs. Still a placeholder page, not yet built.</div>
+<div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
 </div>
 
 <!-- ENRIL-531 (2026-08-24, Claude Code): "Just joined" (formerly pending) state removed — aligns with

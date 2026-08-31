@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fixed Bill Plan Hub — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.btn-mode { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-mode:hover, .btn-mode.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.mode-group { display: flex; gap: 5px; flex-wrap: wrap; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-r { background: #e53935; } .dot-b { background: #4a7adf; }
+
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p-sm { padding: 12px 24px; }
+
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; text-decoration: none; }
+.wf-btn-out { background: transparent; color: #1e3a5f; border: 2px solid #1e3a5f; padding: 8px 18px; font-weight: 600; font-size: 12px; border-radius: 3px; cursor: pointer; display: inline-block; }
+.soft-link { font-size: 12px; color: #5a8cbf; font-weight: 700; text-decoration: none; cursor: pointer; }
+
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; margin: 4px 0; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+
+body.ann-mode-openq .ann-g, body.ann-mode-openq .ann-b { display: none; }
+body.ann-mode-clean .ann, body.ann-mode-clean .ann-row, body.ann-mode-clean .oq-panel { display: none; }
+
+body.chrome-hidden .toolbar, body.chrome-hidden .legend, body.chrome-hidden .oq-panel,
+body.chrome-hidden .section-label, body.chrome-hidden .ann, body.chrome-hidden .ann-row,
+body.chrome-hidden .doc-footer, body.chrome-hidden .cms-banner { display: none !important; }
+#esc-hint { display: none; position: fixed; bottom: 14px; right: 14px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 7px 12px; border-radius: 4px; z-index: 2000; }
+body.chrome-hidden #esc-hint { display: block; }
+
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; line-height: 1; transition: color .15s, transform .15s; }
+.nav-chevron:hover, .nav-item:hover .nav-chevron { color: #1e3a5f; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 230px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .1s; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+}
+
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; text-decoration: none; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.footer-license { font-size: 10px; color: #3a3a3a; line-height: 1.6; padding-top: 8px; border-top: 1px solid #222; }
+
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 620px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+
+.fbp-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 36px 36px 32px; }
+.fbp-hero-title { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.fbp-hero-sub { font-size: 15px; color: #aac4d9; line-height: 1.6; max-width: 600px; margin-bottom: 18px; }
+
+/* 3-card router */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 10px 0 16px; }
+.route-card { border: 1.5px solid #d0cfc9; border-radius: 6px; padding: 18px 16px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
+.route-card-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #1e3a5f; color: #fff; font-size: 11px; font-weight: 800; }
+.route-card-title { font-size: 14px; font-weight: 800; color: #1e3a5f; line-height: 1.3; }
+.route-card-blurb { font-size: 12px; color: #555; line-height: 1.55; flex: 1; }
+.route-card-link { font-size: 12px; font-weight: 700; color: #e8641a; text-decoration: none; }
+@media (max-width: 760px) { .card-grid { grid-template-columns: 1fr; } }
+
+.trust-strip { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 14px 18px; margin: 14px 0; }
+.trust-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #1e3a5f; background: #fff; border: 1px solid #d0dce8; border-radius: 4px; padding: 6px 12px; }
+.trust-strip-note { font-size: 11px; color: #888; }
+
+.cta-band { background: #1e3a5f; color: #fff; padding: 28px 32px; text-align: center; }
+.cta-band .h2 { color: #fff; margin-bottom: 6px; }
+.cta-band p { font-size: 13px; color: #cfe0f0; margin-bottom: 16px; }
+
+.cms-banner { background: #1b5e20; color: #fff; border-radius: 4px; padding: 13px 18px; margin-bottom: 10px; font-size: 12px; line-height: 1.65; border: 2px solid #2e7d32; }
+</style>
+</head>
+<body>
+<div id="esc-hint">Press Esc to exit</div>
+
+<div class="toolbar">
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">NP-10 · Fixed Bill Plan Hub · General Informational template (L1 nav hub) · IES only</span>
+<div>
+<div class="vsw-label">Market</div>
+<div class="mode-group"><button class="btn-mode active" disabled style="cursor:default; opacity:.85;">IES (single-market page — no switcher)</button></div>
+</div>
+<div>
+<div class="vsw-label">Annotations</div>
+<div class="mode-group">
+<button class="btn-mode active" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button class="btn-mode" id="ann-btn-openq" onclick="setAnnMode('openq')">Open Qs only</button>
+<button class="btn-mode" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Chrome</div>
+<div class="mode-group">
+<button class="btn-mode active" id="chrome-btn-show" onclick="toggleChrome(false)">Show</button>
+<button class="btn-mode" id="chrome-btn-hide" onclick="toggleChrome(true)">Hide</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open / pending</span>
+<span class="legend-item"><span class="dot dot-r"></span> Blocker / warning</span>
+<span class="legend-item"><span class="dot dot-b"></span> Shared component / dev note</span>
+</div>
+</div>
+
+<div class="canvas">
+
+<div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+<div class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner appears here — shared component. CMS-managed copy per active promotion. General Informational template family shows the banner (per CLAUDE.md).</div>
+</div>
+
+<div class="cms-banner">
+<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Cluster (NP-10)</strong>
+IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the IES Enrollment entry point. Not present in the Template Matrix's Page–Template Map at all; mapped to General Informational per the About Us Hub precedent, confirmed 2026-08-21. Register: customer-centricity leading with clarity over sales pressure — the biggest risk on this page is confusion, not under-selling.
+</div>
+
+<div class="oq-panel">
+<h4>⚑ Open Questions — Fixed Bill Plan Hub (NP-10)</h4>
+<ul class="oq-list">
+<li><strong>Open Item #1</strong> (Client/IfThen): product messaging / Fixed Bill value proposition language is not yet finalized — this build provides structure and constraints per the brief, not final hero copy.</li>
+<li><strong>Open Item #2</strong> (Allyson): CTA/card routing order (How It Works → Right for Me → Understanding Bill Predictability, used below) needs confirmation now that this page is wireframed, since it affects the Section 3 card order.</li>
+</ul>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">1</span>Nav Header</span>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span>Illinois Energy Solutions</span>
+</div>
+<nav class="nav-links" aria-label="Main">
+<div class="nav-item">
+<a class="nav-link nav-hub-link active" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Understanding Bill Predictability</a>
+</div>
+</div>
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. IES 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" text — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. My Account via the standard nav-right 👤 icon above, same as every other market. Customer Service phone lives in footer only. This page is the "Fixed Bill Plan" nav item's own hub destination.</div>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm">
+<a href="GeneralInformational_Wireframe.html?market=ies">Home</a> › Fixed Bill Plan
+</div>
+</div>
+
+<!-- ─── HERO (Section 1 of brief) ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Hero</span>
+<div class="fbp-hero">
+<div class="fbp-hero-title">The Fixed Bill Plan</div>
+<div class="fbp-hero-sub">One flat monthly charge instead of a per-therm rate — a predictable monthly bill from Illinois Energy Solutions.</div>
+<a class="wf-btn" href="FixedBillPlan_RightForMe_Wireframe.html">See if Fixed Bill is right for me →</a>
+</div>
+<div class="ann-row" style="padding:8px 24px 12px;">
+<span class="ann ann-r">Content rule — do not use "fixed rate" or "lock in your rate" anywhere on this page. This is a billing-model distinction, not a rate type, per Universal Guidance §1. Use "Fixed Bill plan," "predictable monthly charge," "flat monthly bill," "one bill, one number."</span>
+<span class="ann ann-b">Dev: primary CTA routes to NP-8 (Is the Fixed Bill Plan Right for Me?), not straight to enrollment, per the brief.</span>
+<span class="ann ann-y">NP-10 Open Item #1 (Client/IfThen): hero copy above is structural/placeholder — final value-proposition language not yet set.</span>
+</div>
+</div>
+
+<!-- ─── CONTENT BODY ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content Body</span>
+<div style="padding: 24px;">
+
+<div class="h3" style="margin-bottom:8px;">What Makes Fixed Bill Different</div>
+<div class="body-para">With the Fixed Bill plan, your monthly natural gas charge is set once, based on your home's usage history, and stays the same for the length of your plan term — regardless of how cold the winter gets or how much gas you use in any single month. It's reviewed and reset at renewal, not adjusted mid-term.</div>
+<div class="body-para">For a lot of households, the hardest part of a gas bill isn't the total cost over a year — it's not knowing what a single month's bill will be. A surprise cold snap can turn into a surprise bill. Fixed Bill removes that uncertainty by giving you one number to plan around, every month, all term long.</div>
+<div class="ann ann-b">Dev: mechanism explained only at a high level here — deep mechanics are NP-7's job, per the brief's callout that this section "sets up why it matters, not how it works."</div>
+
+<div class="h3" style="margin:22px 0 10px;">Explore Fixed Bill</div>
+<div class="card-grid">
+<div class="route-card">
+<span class="route-card-num">1</span>
+<div class="route-card-title">How the Fixed Bill Plan Works</div>
+<div class="route-card-blurb">See exactly how your monthly charge gets set, what happens at renewal, and how your utility relationship stays the same.</div>
+<a class="route-card-link" href="FixedBillPlan_HowItWorks_Wireframe.html">Read the mechanics →</a>
+</div>
+<div class="route-card">
+<span class="route-card-num">2</span>
+<div class="route-card-title">Is the Fixed Bill Plan Right for Me?</div>
+<div class="route-card-blurb">A genuine self-assessment — including when Fixed Bill might cost you more, not just when it helps.</div>
+<a class="route-card-link" href="FixedBillPlan_RightForMe_Wireframe.html">Check your fit →</a>
+</div>
+<div class="route-card">
+<span class="route-card-num">3</span>
+<div class="route-card-title">Understanding Bill Predictability with the Fixed Bill Plan</div>
+<div class="route-card-blurb">See how Fixed Bill compares to your utility's current rate, and why the comparison works differently here.</div>
+<a class="route-card-link" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">See the comparison →</a>
+</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-b">Dev: cards ordered by likely visitor intent per the brief — mechanics first, self-assessment second, rate transparency third — not alphabetically or by page priority. Card 3 framed as transparency/compliance, not a sales angle.</span>
+<span class="ann ann-y">NP-10 Open Item #2 (Allyson): this ordering is the brief's suggested default, used here as the working assumption — routing order still needs explicit confirmation now that the page is wireframed.</span>
+</div>
+
+<div class="h3" style="margin:22px 0 8px;">Your Utility Relationship Doesn't Change</div>
+<div class="body-para">Illinois Energy Solutions is not your gas utility. Your utility — Nicor Gas, Peoples Gas, or North Shore Gas, depending on your service territory — still delivers your gas, reads your meter, and responds to any gas emergency. Illinois Energy Solutions supplies the gas itself and bills you for it under the Fixed Bill structure; nothing about who shows up at your home changes.</div>
+<div class="ann-row">
+<span class="ann ann-b">Dev: mandatory ICC content per IES-009/IES-010 — not optional, not trimmed for space. Uses "utility," never "gas company," per Universal Guidance §2.</span>
+<span class="ann ann-y">Cross-reference flag (surfaced from NP-9 Open Item #2): this paragraph names North Shore Gas as an IES utility territory per this page's own brief instruction, but NP-9's Open Item #2 questions whether North Shore Gas actually serves any IES territory (Universal Guidance §9 lists it under IE, not IES). Written as instructed here; not independently confirmed.</span>
+</div>
+
+<div class="h3" style="margin:22px 0 8px;">Trust &amp; Compliance</div>
+<div class="trust-strip">
+<span class="trust-badge">✓ ICC Licensed Supplier</span>
+<span class="trust-strip-note">Illinois Energy Solutions is not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas.</span>
+<a class="soft-link" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">See how our Fixed Bill charge relates to your utility's rate →</a>
+</div>
+<div class="ann ann-b">Dev: no BBB reference on this strip — Universal Guidance §3/§4 explicitly excludes BBB for IES under any circumstances (matches the internal-only reputational-risk note already documented on <code>GeneralInformational_Wireframe.html</code>'s About Us instance).</div>
+
+</div>
+</div>
+
+<!-- ─── CTA BAND ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>CTA Band</span>
+<div class="cta-band">
+<div class="h2">Ready to Get Started?</div>
+<p>Start enrollment whenever you're ready — no obligation to decide right now.</p>
+<a class="wf-btn" href="Enrollment_IL-IES_Wireframe.html">Start Enrollment</a>
+</div>
+<div class="ann-row" style="padding:8px 24px 12px;">
+<span class="ann ann-b">Dev: routes to <code>Enrollment_IL-IES_Wireframe.html</code>. Kept low-pressure per the brief — this is a hub page for an audience still orienting themselves, not a bottom-of-funnel page.</span>
+</div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<div class="section">
+<span class="section-label"><span class="sec-num">—</span>Footer</span>
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">Illinois Energy Solutions</div>
+<div class="footer-parent">A SouthStar Energy Services company<br/>A subsidiary of Southern Company (NYSE: SO)</div>
+</div>
+<div>
+<div class="footer-col-head">Fixed Bill Plan</div>
+<div class="footer-col-links">
+<a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
+<a href="FixedBillPlan_HowItWorks_Wireframe.html">How It Works</a>
+<a href="FixedBillPlan_RightForMe_Wireframe.html">Is It Right for Me?</a>
+<a href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Bill Predictability</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Learn</div>
+<div class="footer-col-links">
+<a href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans</a>
+<a href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
+<a href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Legal</div>
+<div class="footer-col-links">
+<a>Privacy Policy</a>
+<a>Terms of Use</a>
+<a>Enrollment Disclosures</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+<div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+</div>
+<div class="footer-license">
+Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.
+</div>
+</div>
+</div>
+</div>
+
+<div class="doc-footer">
+NP-10 · Fixed Bill Plan Hub · General Informational template (L1 nav hub, no dedicated template — About Us Hub precedent) · IES only · 4037-25 · IfThen Digital · Built per §A.17 Batch 3, 2026-08-28. Source: <code>Content-Templates/FixedBillPlan/FixedBillPlanHub_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3.
+</div>
+</div>
+
+<script>
+function setAnnMode(mode) {
+  document.body.classList.remove('ann-mode-all', 'ann-mode-openq', 'ann-mode-clean');
+  document.body.classList.add('ann-mode-' + mode);
+  document.querySelectorAll('#ann-btn-all, #ann-btn-openq, #ann-btn-clean').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('ann-btn-' + mode);
+  if (btn) btn.classList.add('active');
+}
+
+function toggleChrome(hide) {
+  document.body.classList.toggle('chrome-hidden', hide);
+  document.getElementById('chrome-btn-show').classList.toggle('active', !hide);
+  document.getElementById('chrome-btn-hide').classList.toggle('active', hide);
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) toggleChrome(false);
+});
+
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  }
+});
+
+function closeMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  document.querySelectorAll('.nav-links.mobile-open').forEach(function(nav) { nav.classList.remove('mobile-open'); });
+  if (btn) btn.textContent = '☰';
+}
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  const isOpen = nav.classList.contains('mobile-open');
+  if (isOpen) { closeMobileNav(); return; }
+  nav.classList.add('mobile-open');
+  btn.textContent = '✕';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    closeMobileNav();
+  }
+});
+
+setAnnMode('all');
+</script>
+</body>
+</html>

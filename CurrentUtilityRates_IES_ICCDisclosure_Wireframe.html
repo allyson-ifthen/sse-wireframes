@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Understanding Bill Predictability with the Fixed Bill Plan — Wireframe | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.btn-mode { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-mode:hover, .btn-mode.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.mode-group { display: flex; gap: 5px; flex-wrap: wrap; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-r { background: #e53935; } .dot-b { background: #4a7adf; }
+
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.section-label { position: absolute; left: -128px; top: 50%; transform: translateY(-50%); width: 116px; text-align: right; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; line-height: 1.4; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.p-sm { padding: 12px 24px; }
+
+.soft-link { font-size: 12px; color: #5a8cbf; font-weight: 700; text-decoration: none; cursor: pointer; }
+
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; margin: 4px 0; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e8f0fe; border: 1.5px solid #4a7adf; color: #1a3a8f; }
+.ann-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+
+body.ann-mode-openq .ann-g, body.ann-mode-openq .ann-b { display: none; }
+body.ann-mode-clean .ann, body.ann-mode-clean .ann-row, body.ann-mode-clean .oq-panel { display: none; }
+
+body.chrome-hidden .toolbar, body.chrome-hidden .legend, body.chrome-hidden .oq-panel,
+body.chrome-hidden .section-label, body.chrome-hidden .ann, body.chrome-hidden .ann-row,
+body.chrome-hidden .doc-footer, body.chrome-hidden .cms-banner { display: none !important; }
+#esc-hint { display: none; position: fixed; bottom: 14px; right: 14px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 7px 12px; border-radius: 4px; z-index: 2000; }
+body.chrome-hidden #esc-hint { display: block; }
+
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-item { position: relative; display: inline-flex; align-items: center; height: 54px; flex-shrink: 0; }
+.nav-chevron { background: none; border: none; padding: 0 6px 0 0; cursor: pointer; color: #999; font-size: 9px; height: 54px; display: inline-flex; align-items: center; line-height: 1; transition: color .15s, transform .15s; }
+.nav-chevron:hover, .nav-item:hover .nav-chevron { color: #1e3a5f; }
+.nav-item.dd-open > .nav-chevron { transform: rotate(180deg); color: #1e3a5f; }
+.nav-dropdown { display: none; position: absolute; top: 54px; left: 0; min-width: 230px; background: #fff; border: 1px solid #d0dce8; border-top: 2px solid #1e3a5f; box-shadow: 0 6px 16px rgba(0,0,0,.1); z-index: 400; padding: 6px 0; border-radius: 0 0 4px 4px; }
+.nav-item.dd-open > .nav-dropdown { display: block; }
+.nav-dd-item { display: block; font-size: 12px; font-weight: 500; color: #444; padding: 9px 16px; text-decoration: none; white-space: nowrap; transition: background .1s; }
+.nav-dd-item:hover { background: #f0f4f9; color: #1e3a5f; }
+.nav-hamburger { display: none; background: none; border: 1.5px solid #d0dce8; border-radius: 4px; padding: 5px 9px; cursor: pointer; font-size: 15px; color: #1e3a5f; line-height: 1; margin-left: 4px; }
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; border-top: 1px solid #e0e8f0; border-bottom: 2px solid #1e3a5f; z-index: 300; box-shadow: 0 6px 16px rgba(0,0,0,.12); padding: 4px 0 12px; }
+  .nav-item { height: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: stretch; width: 100%; }
+  .nav-link { height: auto; padding: 11px 20px; border-bottom: none !important; flex: 1; }
+  .nav-chevron { height: auto; padding: 11px 16px; border-left: 1px solid #eee; }
+  .nav-item.dd-open > .nav-dropdown { display: block; position: static; border: none; border-top: 1px solid #eee; box-shadow: none; background: #f5f7f8; width: 100%; border-radius: 0; padding: 4px 0; }
+  .nav-dd-item { padding: 9px 32px; }
+  .nav-hamburger { display: inline-flex; align-items: center; }
+}
+
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; text-decoration: none; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.footer-license { font-size: 10px; color: #3a3a3a; line-height: 1.6; padding-top: 8px; border-top: 1px solid #222; }
+
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 620px; }
+.body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
+.faq-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
+.faq-a { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 16px; }
+
+.fbp-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 32px 36px; }
+.fbp-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.fbp-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 600px; }
+
+.key-takeaways { background: #f5f8fc; border: 1.5px solid #d0dce8; border-left: 4px solid #1e3a5f; border-radius: 4px; padding: 14px 18px; margin-bottom: 16px; }
+.key-takeaways .h3 { color: #1e3a5f; margin-bottom: 6px; }
+
+.related-reading-block { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 16px 18px; margin-top: 10px; }
+.related-reading-links { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+
+.cms-banner { background: #1b5e20; color: #fff; border-radius: 4px; padding: 13px 18px; margin-bottom: 10px; font-size: 12px; line-height: 1.65; border: 2px solid #2e7d32; }
+</style>
+</head>
+<body>
+<div id="esc-hint">Press Esc to exit</div>
+
+<div class="toolbar">
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">NP-9 · Understanding Bill Predictability with the Fixed Bill Plan · General Informational template · IES only</span>
+<div>
+<div class="vsw-label">Market</div>
+<div class="mode-group"><button class="btn-mode active" disabled style="cursor:default; opacity:.85;">IES (single-market page — no switcher)</button></div>
+</div>
+<div>
+<div class="vsw-label">Annotations</div>
+<div class="mode-group">
+<button class="btn-mode active" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button class="btn-mode" id="ann-btn-openq" onclick="setAnnMode('openq')">Open Qs only</button>
+<button class="btn-mode" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Chrome</div>
+<div class="mode-group">
+<button class="btn-mode active" id="chrome-btn-show" onclick="toggleChrome(false)">Show</button>
+<button class="btn-mode" id="chrome-btn-hide" onclick="toggleChrome(true)">Hide</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open / pending</span>
+<span class="legend-item"><span class="dot dot-r"></span> Blocker / warning</span>
+<span class="legend-item"><span class="dot dot-b"></span> Shared component / dev note</span>
+</div>
+</div>
+
+<div class="canvas">
+
+<div style="background:#e8f0f9; border-bottom:1.5px solid #1e3a5f; padding:6px 24px;">
+<div class="ann ann-b" style="font-size:10px;">◈ Global promotional pencil banner appears here — shared component. CMS-managed copy per active promotion. General Informational template family shows the banner (per CLAUDE.md).</div>
+</div>
+
+<div class="cms-banner">
+<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Cluster (NP-9)</strong>
+<strong>This page is not the ICC compliance surface.</strong> The actual required disclosure — the utility's current supply cost rate, shown before IES's own information — lives on the IES market view of <code>ResidentialPlans_Wireframe.html</code>'s "IL Regulatory Comparison Bar." This page is the explanatory/counter-narrative companion. Retitled 2026-08-27 from "Current Utility Rates and IES Rates (ICC Mandatory Disclosure)"; template reassigned from Legal/Compliance to General Informational, matching NP-7/NP-8/NP-10. <strong>Voice &amp; Tone guardrail: no comparative or superlative language anywhere on this page</strong> ("cheaper," "better," "your best option") — ties to Universal Guidance's "Sell Predictability, Not Price" rule.
+</div>
+
+<div class="oq-panel">
+<h4>⚑ Open Questions — Understanding Bill Predictability (NP-9)</h4>
+<ul class="oq-list">
+<li><strong>Open Item #1</strong> (Client/Legal): whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's disclosure requirement on its own — the Content Tracker describes IES-012 as a standalone-page requirement, so relying on the Plans page instead of a table here is a scope interpretation needing confirmation before this page's approach is treated as settled.</li>
+<li><strong>Open Item #2 — resolved 2026-08-28:</strong> North Shore Gas does not serve IES territory. Universal Guidance §9 is authoritative here (Nicor Gas / Peoples Gas for IES; North Shore Gas is IL/IE-only) — confirms the Plans page bar's IES view does not need a third LDC row. NP-7's brief had instructed the opposite (naming North Shore Gas as an IES utility) and has been corrected to match.</li>
+<li><strong>Open Item #3</strong> (Client/Legal): whether an "effective per-therm" conversion of the Fixed Bill charge is an acceptable/accurate comparison aid for Section 3 — not attempted here; Section 3 stays qualitative only, as drafted.</li>
+<li><strong>Open Item #4</strong> (Legal): full ICC disclosure language subject to legal review before this brief's guidance can be finalized into copy.</li>
+<li><strong>Open Item #6</strong> (Dev/IfThen IA): Section 2's link to the Residential Plans page's IL Regulatory Comparison Bar has no stable anchor/section ID to point to yet — links below go to the page/market view only, not a specific in-page anchor.</li>
+</ul>
+</div>
+<div class="ann ann-g" style="margin-bottom:8px;">✓ Open Item #5 — resolved 2026-08-27 (Allyson): template reassigned from <code>LegalCompliance_Wireframe.html</code> to <code>GeneralInformational_Wireframe.html</code>, matching NP-7/NP-8/NP-10. Reflected in this build.</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">1</span>Nav Header</span>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span>Illinois Energy Solutions</span>
+</div>
+<nav class="nav-links" aria-label="Main">
+<div class="nav-item">
+<a class="nav-link nav-hub-link active" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
+<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Understanding Bill Predictability</a>
+</div>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="MyAccount_Wireframe.html">My Account</a>
+</div>
+<div class="nav-item">
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
+<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
+<div class="nav-dropdown">
+<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
+<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+</nav>
+<div class="nav-right">
+<button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
+</div>
+</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. IES 3-item nav per CLAUDE.md (corrected 2026-08-28): Fixed Bill Plan · My Account · About Us. Customer Service phone lives in footer only.</div>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
+<div class="breadcrumb p-sm">
+<a href="GeneralInformational_Wireframe.html?market=ies">Home</a> › <a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a> › Understanding Bill Predictability
+</div>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">3</span>Page Hero</span>
+<div class="fbp-hero">
+<div class="fbp-hero-title">Understanding Bill Predictability with the Fixed Bill Plan</div>
+<div class="fbp-hero-sub">How Illinois's rate-disclosure requirement works, and why the comparison looks different for a Fixed Bill customer.</div>
+</div>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">4</span>Content Body</span>
+<div style="padding: 24px;">
+
+<div class="key-takeaways">
+<div class="h3">Key Takeaways</div>
+<div class="body-para" style="margin-bottom:0;">Illinois requires natural gas suppliers to disclose the utility's current supply cost rate — you'll find that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>. Illinois Energy Solutions' Fixed Bill charge works differently: it's one flat monthly amount based on your own usage history, not a per-therm rate, so it isn't a direct side-by-side comparison.</div>
+</div>
+<div class="ann ann-b">Dev: no dollar figures and no comparative/superlative language in this box, per the brief's Voice &amp; Tone guardrail. Final wording requires legal sign-off (Open Item #4).</div>
+
+<div class="h3" style="margin:20px 0 8px;">Why Your Bill Works Differently Here</div>
+<div class="body-para">Illinois Energy Solutions is a natural gas supplier licensed by the Illinois Commerce Commission (ICC). As part of that regulation, we're required to show you your utility's current supply cost rate before presenting our own plan information — you'll see that comparison on our Residential Plans page.</div>
+<div class="body-para">That comparison works a little differently for Fixed Bill customers than it does for a standard rate plan. Most suppliers' plans charge a rate per therm, so showing the utility's per-therm rate next to a supplier's per-therm rate is a straightforward comparison. Fixed Bill doesn't have a per-therm rate at all — your charge is set from your own usage history at enrollment, which is exactly what makes it predictable from month to month.</div>
+<div class="ann ann-b">Dev: does not use "ICC-approved" — the ICC requires the disclosure ordering, it does not certify the pricing, per the brief's callout (same rule as the parallel IE article, NP-3).</div>
+
+<div class="h3" style="margin:20px 0 8px;">Why You'll See the Utility's Rate on the Plans Page</div>
+<div class="body-para">Illinois Energy Solutions is regulated by the Illinois Commerce Commission, and that regulation requires your current utility's supply cost rate — Nicor Gas or Peoples Gas, depending on your service territory — to be shown before our own charge information. You'll see that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a> rather than repeated here: the utility's rate resets monthly and varies by which utility delivers your gas, so a static table on this page would go out of date the same day it's published.</div>
+<div class="body-para" style="margin-bottom:0;">Showing it in one place, kept current, protects you from seeing two different numbers in two different spots that quietly drift apart. Think of the ordering requirement as consumer protection, not a sales comparison — it exists so you always have the utility's number in view, whichever plan you choose.</div>
+<div class="ann-row">
+<span class="ann ann-g"><strong>NP-9 Open Item #2 — resolved 2026-08-28:</strong> confirmed via Universal Guidance §9 that North Shore Gas does not serve IES territory; this paragraph's Nicor Gas / Peoples Gas naming is correct as-is.</span>
+<span class="ann ann-y"><strong>NP-9 Open Item #6 (Dev/IfThen IA):</strong> the Residential Plans page has no stable anchor/section ID for the IL Regulatory Comparison Bar yet — the link above points to the page's IES market view generally, not a specific in-page section.</span>
+<span class="ann ann-b">Dev: does not cite a specific utility rate dollar figure anywhere on this page, and does not use "ICC-approved" — both per the brief's explicit callout.</span>
+</div>
+
+<div class="h3" style="margin:20px 0 8px;">What Predictability Means for Your Bill</div>
+<div class="body-para">As a Fixed Bill customer, your monthly charge is set from your own usage history rather than tracking the utility's live per-therm rate month to month. That means there's no month where your bill moves because the broader gas market moved — your number was already set when you enrolled.</div>
+<div class="body-para" style="margin-bottom:0;">The utility rate shown on our Residential Plans page satisfies Illinois's disclosure requirement; it isn't a signal that Fixed Bill costs more or less than that rate in any given month, just that it's a different pricing model. If you want the honest picture of when Fixed Bill can cost more than a usage-based rate, see <a class="soft-link" style="display:inline;" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>, which addresses that directly.</div>
+<div class="ann-row">
+<span class="ann ann-b">Dev: this section is written to read as a genuine explanation of format difference, not a dodge — per the brief's callout that it "only works if it doesn't read as a dodge." Cross-references NP-8's Section 3 rather than re-litigating that honesty here.</span>
+<span class="ann ann-y"><strong>NP-9 Open Item #3 (Client/Legal):</strong> no "effective per-therm" conversion attempted here — comparison stays qualitative only, pending confirmation of whether such a conversion would be acceptable/accurate.</span>
+</div>
+
+<div class="h3" style="margin:20px 0 8px;">Common Questions</div>
+<div class="faq-q">Why doesn't this page show the current utility rate directly?</div>
+<div class="faq-a">Because that rate changes monthly and varies by utility, we keep one current, regularly-updated version of it on our Residential Plans page instead of a second copy here that could go stale.</div>
+<div class="faq-q">Is IES's Fixed Bill charge always higher or lower than paying the utility rate directly?</div>
+<div class="faq-a">Neither, consistently — it depends on the season and your usage pattern. Fixed Bill trades that month-to-month variation for one flat number; see Is the Fixed Bill Plan Right for Me? for the full honest breakdown.</div>
+<div class="faq-q">Where can I see the utility's current rate?</div>
+<div class="faq-a">On our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>, where Illinois law requires us to display it before our own plan information.</div>
+<div class="ann ann-b">Dev: Q2 does not overstate either direction — same honesty constraint as NP-8 Section 3, and the same no-comparative-language guardrail as the rest of this page, per the brief's callout.</div>
+
+<div class="related-reading-block">
+<div class="h3">Related Reading</div>
+<div class="related-reading-links">
+<a class="soft-link" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me? →</a>
+<a class="soft-link" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works →</a>
+</div>
+</div>
+
+<div class="ann ann-y" style="margin-top:16px;"><strong>NP-9 Open Item #1 (Client/Legal):</strong> whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's standalone-page disclosure requirement on its own is not yet confirmed — this page's whole approach (link, don't duplicate a table) rests on that being true. Not yet treated as settled.</div>
+<div class="ann ann-y" style="margin-top:6px;"><strong>NP-9 Open Item #4 (Legal):</strong> full ICC disclosure language across this page is subject to legal review before this brief's guidance can be finalized into copy.</div>
+
+</div>
+</div>
+
+<div class="section">
+<span class="section-label"><span class="sec-num">—</span>Footer</span>
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">Illinois Energy Solutions</div>
+<div class="footer-parent">A SouthStar Energy Services company<br/>A subsidiary of Southern Company (NYSE: SO)</div>
+</div>
+<div>
+<div class="footer-col-head">Fixed Bill Plan</div>
+<div class="footer-col-links">
+<a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
+<a href="FixedBillPlan_HowItWorks_Wireframe.html">How It Works</a>
+<a href="FixedBillPlan_RightForMe_Wireframe.html">Is It Right for Me?</a>
+<a href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Bill Predictability</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Learn</div>
+<div class="footer-col-links">
+<a href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans</a>
+<a href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
+<a href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Legal</div>
+<div class="footer-col-links">
+<a>Privacy Policy</a>
+<a>Terms of Use</a>
+<a>Enrollment Disclosures</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+<div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
+</div>
+<div class="footer-license">
+Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.
+</div>
+</div>
+</div>
+</div>
+
+<div class="doc-footer">
+NP-9 · Understanding Bill Predictability with the Fixed Bill Plan · General Informational template · IES only · 4037-25 · IfThen Digital · Built per §A.17 Batch 3, 2026-08-28. Source: <code>Content-Templates/FixedBillPlan/FixedBillPlan_ICCDisclosure_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-9 / §A.17 Batch 3. Links to <code>ResidentialPlans_Wireframe.html</code> IES market view for the live utility-rate comparison (IL Regulatory Comparison Bar) rather than duplicating a rate table on this page, per the 2026-08-27 Section 2 rewrite.
+</div>
+</div>
+
+<script>
+function setAnnMode(mode) {
+  document.body.classList.remove('ann-mode-all', 'ann-mode-openq', 'ann-mode-clean');
+  document.body.classList.add('ann-mode-' + mode);
+  document.querySelectorAll('#ann-btn-all, #ann-btn-openq, #ann-btn-clean').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('ann-btn-' + mode);
+  if (btn) btn.classList.add('active');
+}
+
+function toggleChrome(hide) {
+  document.body.classList.toggle('chrome-hidden', hide);
+  document.getElementById('chrome-btn-show').classList.toggle('active', !hide);
+  document.getElementById('chrome-btn-hide').classList.toggle('active', hide);
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('chrome-hidden')) toggleChrome(false);
+});
+
+function toggleNavDropdown(chevronBtn) {
+  const item = chevronBtn.closest('.nav-item');
+  const wasOpen = item.classList.contains('dd-open');
+  document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  if (!wasOpen) item.classList.add('dd-open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nav-item.dd-open').forEach(function(el) { el.classList.remove('dd-open'); });
+  }
+});
+
+function closeMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  document.querySelectorAll('.nav-links.mobile-open').forEach(function(nav) { nav.classList.remove('mobile-open'); });
+  if (btn) btn.textContent = '☰';
+}
+function toggleMobileNav() {
+  const btn = document.getElementById('nav-hamburger-btn');
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  const isOpen = nav.classList.contains('mobile-open');
+  if (isOpen) { closeMobileNav(); return; }
+  nav.classList.add('mobile-open');
+  btn.textContent = '✕';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-header') && !e.target.closest('.nav-links')) {
+    closeMobileNav();
+  }
+});
+
+setAnnMode('all');
+</script>
+</body>
+</html>

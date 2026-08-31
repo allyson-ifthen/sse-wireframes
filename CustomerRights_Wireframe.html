@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Rights as a Customer — Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.market-switcher, .page-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.btn-page { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-page:hover, .btn-page.active { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; margin: 6px 0; }
+.ann-block { display: block; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e3f2fd; border: 1.5px solid #7aabda; color: #1a3a5f; }
+.ann i { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.oq-list li { font-size: 11px; color: #5a4500; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.oq-list li::before { content: "⚑"; color: #f5c842; flex-shrink: 0; }
+.oq-list li.resolved { color: #2e7d32; }
+.oq-list li.resolved::before { content: "✓"; color: #4caf50; }
+.h1 { font-size: 26px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 8px; }
+.h2 { font-size: 17px; font-weight: 800; color: #1e3a5f; margin-bottom: 8px; }
+.h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 620px; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; position: relative; z-index: 400; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { display: flex; align-items: center; flex: 1; justify-content: center; gap: 4px; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-link.active { color: #1e3a5f; border-bottom-color: #1e3a5f; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-mobile-note { font-size: 10px; color: #aaa; background: #f7f7f5; padding: 5px 24px; border-bottom: 1px solid #ebebeb; }
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; gap: 24px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #555; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #666; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-col-links a { font-size: 11px; color: #888; cursor: pointer; }
+.footer-col-links a.current { color: #e8641a; font-weight: 700; }
+.footer-bottom { background: #111; padding: 10px 32px; }
+.footer-bottom-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-copyright { font-size: 10px; color: #555; }
+.footer-legal-links { display: flex; gap: 12px; }
+.footer-legal-links a { font-size: 10px; color: #555; text-decoration: underline; cursor: pointer; }
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+.breadcrumb { font-size: 11px; color: #999; padding: 8px 24px 0; }
+.breadcrumb a { color: #5a8cbf; text-decoration: underline; cursor: pointer; }
+.legal-layout { display: grid; grid-template-columns: 200px 1fr; gap: 0; }
+.legal-sidebar { padding: 24px 0 24px 24px; border-right: 1px solid #e8e8e4; position: relative; }
+.anchor-nav { position: sticky; top: 80px; }
+.anchor-nav-head { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #888; margin-bottom: 10px; }
+.anchor-list { display: block; font-size: 11px; color: #5a8cbf; padding: 5px 8px; border-left: 2px solid transparent; line-height: 1.35; cursor: pointer; }
+.anchor-list:hover { border-left-color: #e8641a; color: #e8641a; background: #fff8f4; }
+.legal-body { padding: 24px 28px; }
+.legal-hero { background: #f7f7f5; border-bottom: 1px solid #e0dfd9; padding: 20px 24px 18px; }
+.legal-hero-title { font-size: 24px; font-weight: 900; color: #1e3a5f; margin-bottom: 6px; }
+.legal-hero-meta { font-size: 11px; color: #999; display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+/* NOTE: intentionally no blanket ".legal-hero-meta span { display:flex }" rule here (unlike LegalCompliance_Wireframe.html's
+   version) — a bare descendant "span" selector has specificity 0-1-1, which beats .mkt-inline's 0-1-0 and silently
+   overrides its display:none regardless of the .on toggle. Confirmed via computed-style check during build; see the
+   equivalent fix note on the Related Reading .mkt/.related-grid split above (Playbook §9 Pitfall 9 class of bug). */
+.legal-section { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid #f0ede8; }
+.legal-section:last-child { border-bottom: none; }
+.legal-section-head { font-size: 14px; font-weight: 800; color: #1e3a5f; margin-bottom: 10px; padding-top: 4px; display: flex; align-items: center; gap: 8px; }
+.legal-section-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #1e3a5f; color: #fff; border-radius: 50%; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+.legal-para { font-size: 12px; color: #444; line-height: 1.75; margin-bottom: 10px; }
+.legal-para:last-child { margin-bottom: 0; }
+.legal-list { list-style: disc; padding-left: 20px; font-size: 12px; color: #444; line-height: 1.75; margin-bottom: 10px; }
+.legal-list li { margin-bottom: 5px; }
+.disclosure-box { border-left: 4px solid #e8641a; background: #fff8f4; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 4px 4px 0; }
+.disclosure-box-head { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #c0440c; margin-bottom: 5px; }
+.disclosure-box p { font-size: 12px; color: #5a2e0c; line-height: 1.65; }
+.review-notice { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 12px 16px; margin-bottom: 12px; }
+.review-notice-head { font-size: 11px; font-weight: 800; color: #7a6000; margin-bottom: 4px; }
+.review-notice p { font-size: 11px; color: #5a4500; line-height: 1.6; }
+.reg-badge { display: inline-block; background: #1e3a5f; color: #fff; border-radius: 3px; padding: 2px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; vertical-align: middle; }
+.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.related-card { border: 1.5px solid #d0dce8; border-radius: 4px; padding: 14px 16px; background: #fafbfc; }
+.related-card .rc-eyebrow { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #888; margin-bottom: 4px; }
+.related-card a { font-size: 13px; font-weight: 700; color: #1e3a5f; cursor: pointer; text-decoration: none; }
+.related-card a:hover { text-decoration: underline; }
+.related-card p { font-size: 11px; color: #666; margin-top: 5px; line-height: 1.5; }
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* ── Annotation visibility modes (CLAUDE.md standard toggle) ── */
+body.mode-ann-openq .ann-g, body.mode-ann-openq .ann-b { display: none !important; }
+body.mode-ann-clean .ann, body.mode-ann-clean .oq-panel, body.mode-ann-clean .review-notice { display: none !important; }
+
+/* ── Presentation / chrome-hide mode (CLAUDE.md standard toggle) ── */
+body.is-chrome-hidden .toolbar { display: none !important; }
+#esc-hint { display: none; position: fixed; bottom: 16px; right: 16px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 7px 14px; border-radius: 4px; z-index: 2000; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+
+@media (max-width: 860px) {
+  .legal-layout { grid-template-columns: 1fr; }
+  .legal-sidebar { display: none; }
+  .footer-brand-strip { grid-template-columns: 1fr 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body class="mkt-ong mode-ann-all">
+
+<!-- TOOLBAR (wireframe meta + control panel combined, per LegalCompliance_Wireframe.html precedent) -->
+<div class="toolbar">
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">Your Rights as a Customer (NP-1) · Legal/Compliance family · Batch 1 · Source: Wireframe_ChangeLog_Active.md §A.16 NP-1 / §A.17</span>
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" id="mkt-btn-ong" onclick="setMarket('ong')">ONG</button>
+<button class="btn-market" id="mkt-btn-pa" onclick="setMarket('pa')">PA</button>
+<button class="btn-market" id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+<button class="btn-market" id="mkt-btn-il" onclick="setMarket('il')">IL</button>
+<button class="btn-market" id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Annotations</div>
+<div class="page-switcher">
+<button class="btn-page active" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button class="btn-page" id="ann-btn-openq" onclick="setAnnMode('openq')">Open Qs only</button>
+<button class="btn-page" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Chrome</div>
+<div class="page-switcher">
+<button class="btn-page active" id="chrome-btn-show" onclick="setChrome('show')">Show</button>
+<button class="btn-page" id="chrome-btn-hide" onclick="setChrome('hide')">Hide</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open Question</span>
+<span class="legend-item"><span class="dot" style="background:#e53935;border-radius:2px;"></span> Risk / Blocker</span>
+<span class="legend-item"><span class="dot" style="background:#c7d9f0;border:1px solid #7aabda;"></span> Dev / Shared</span>
+</div>
+</div>
+<div id="esc-hint">Press Esc to exit presentation mode</div>
+
+<!-- CANVAS -->
+<div class="canvas">
+
+<!-- NAV HEADER -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">1</span>
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="phone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="phone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="phone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="phone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="phone-ies">(888) 555-0005</span>
+</div>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span class="mkt-inline on" id="nav-logo-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="nav-logo-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="nav-logo-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="nav-logo-il">Illinois Energy</span>
+<span class="mkt-inline" id="nav-logo-ies">Illinois Energy Solutions</span>
+</div>
+<!-- Standard 4-item Full nav (ONG/PA/GRE/IL) -->
+<nav class="nav-links mkt-flex on" id="nav-standard">
+<a class="nav-link" href="ForMyHome_Wireframe.html">For My Home</a>
+<a class="nav-link" href="ForMyBusiness_Wireframe.html">For My Business</a>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<a class="nav-link active" href="LegalCompliance_Wireframe.html">About</a>
+</nav>
+<!-- IES simplified 2-item nav (reverted 2026-08-31, superseding the prior 3-item build — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. My Account via the standard nav-right 👤 icon below, same as every other market; no Search per IES exception. Resolves the CLAUDE.md two-section conflict this comment previously flagged — both sections now agree on 2-item. -->
+<nav class="nav-links mkt-flex" id="nav-ies">
+<a class="nav-link" href="GeneralInformational_Wireframe.html">Fixed Bill Plan</a>
+<a class="nav-link active" href="LegalCompliance_Wireframe.html">About Us</a>
+</nav>
+<!-- Right: Account + Search — Search suppressed for IES (no Search per IES exception); My Account icon shows for all markets including IES -->
+<div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
+<a aria-label="Search" href="SearchResults_Wireframe.html" style="font-size:16px; color:#555; text-decoration:none; padding:0 4px; display:inline-flex; align-items:center; cursor:pointer; line-height:1;" title="Search">🔍</a>
+</div>
+</div>
+<div class="nav-mobile-note">Full nav template — Customer Service phone lives in the footer Support column and the utility row above only, not in nav-right (HP-1 / MA-34). Promo pencil banner suppressed on this page (footer-linked trust page, not campaign-adjacent).</div>
+</div>
+
+<!-- BREADCRUMB + PAGE HERO -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">2</span>
+<div class="breadcrumb"><a>Home</a> › <a>About</a> › Your Rights as a Customer</div>
+<div class="legal-hero">
+<div class="legal-hero-title">Your Rights as a Customer</div>
+<div class="subhead">
+<span class="mkt-inline on" id="hero-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="hero-brand-pa">Pennsylvania Energy</span><span class="mkt-inline" id="hero-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="hero-brand-il">Illinois Energy</span><span class="mkt-inline" id="hero-brand-ies">Illinois Energy Solutions</span>
+wants you to understand the protections that apply to you as a customer before you decide whether to enroll — not buried in a contract after the fact.
+</div>
+<div class="legal-hero-meta">
+<span class="mkt-inline on" id="regbadge-ong"><span class="reg-badge">PUCO</span></span><span class="mkt-inline" id="regbadge-pa"><span class="reg-badge">PA PUC</span></span><span class="mkt-inline" id="regbadge-gre"><span class="reg-badge">Michigan PSC (MPSC)</span></span><span class="mkt-inline" id="regbadge-il"><span class="reg-badge">Illinois ICC</span></span><span class="mkt-inline" id="regbadge-ies"><span class="reg-badge">Illinois ICC</span></span>
+</div>
+</div>
+<!-- Prominent structural open item — NP-1 Open Item #3 -->
+<div style="padding:14px 24px 0;">
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #3 — structure still open:</strong> This wireframe builds "Your Rights as a Customer" as one single page with the sections below, matching the current <code>Redesign-Site-Map.md</code> IA. The Content Tracker separately describes this as a hub with two child pages per market ("How to File a Complaint with [Regulator]" and "What to Do If You Were Switched Without Consent"). Which structure is correct has not been decided — flag before this goes to client review. Owner: Allyson / IfThen IA.</div>
+</div>
+</div>
+</div>
+
+<!-- OPEN QUESTIONS PANEL -->
+<div class="oq-panel" style="margin:8px 24px;">
+<h4>⚑ Open Questions — Your Rights as a Customer (NP-1)</h4>
+<ul class="oq-list">
+<li><strong>Open Item #1:</strong> Rescission / right-to-cancel window is confirmed only for PA (3 days). ONG, GRE, IE, and IES windows are not yet confirmed anywhere in the project — do not invent a number for these markets. Owner: Client / Legal.</li>
+<li><strong>Open Item #2:</strong> Regulator complaint-filing contact info (URL, phone, portal link) is not sourced for any of the 5 markets — genuine sourcing gap, same risk category as the LDC emergency-phone gap tracked under CT-HP-12. Do not publish placeholder contact info. Owner: Client / Legal.</li>
+<li><strong>Open Item #3:</strong> Single-page vs. two-child-page hub structure is unresolved — see the flag above the fold. Owner: Allyson / IfThen IA.</li>
+<li class="resolved"><strong>Open Item #4 (resolved 2026-08-21):</strong> Whether ONG and GRE get this page at all — decided: build for all 5 markets. <code>Redesign-Site-Map.md</code>'s cross-market table still needs a corrective edit to match.</li>
+</ul>
+</div>
+
+<!-- SECTION 2: RIGHT TO CHOOSE YOUR SUPPLIER -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">3</span>
+<div class="legal-body">
+<div class="legal-section">
+<div class="legal-section-head"><span class="legal-section-num">1</span> Your Right to Choose Your Supplier</div>
+<p class="legal-para">
+<span class="mkt-inline on" id="s2-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="s2-brand-pa">Pennsylvania Energy</span><span class="mkt-inline" id="s2-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="s2-brand-il">Illinois Energy</span><span class="mkt-inline" id="s2-brand-ies">Illinois Energy Solutions</span>
+is licensed by the
+<span class="mkt-inline on" id="s2-reg-ong">Public Utilities Commission of Ohio (PUCO)</span><span class="mkt-inline" id="s2-reg-pa">Pennsylvania Public Utility Commission (PA PUC)</span><span class="mkt-inline" id="s2-reg-gre">Michigan Public Service Commission (MPSC)</span><span class="mkt-inline" id="s2-reg-il">Illinois Commerce Commission (ICC)</span><span class="mkt-inline" id="s2-reg-ies">Illinois Commerce Commission (ICC)</span>
+to sell natural gas supply to customers in a state with energy choice. Energy choice means you get to pick which company supplies the actual natural gas commodity that reaches your home — it does not change who delivers it.
+</p>
+<p class="legal-para">
+Your local distribution company (LDC) —
+<strong><span class="mkt-inline on" id="s2-ldc-ong">Columbia Gas of Ohio</span><span class="mkt-inline" id="s2-ldc-pa">UGI Utilities</span><span class="mkt-inline" id="s2-ldc-gre">Consumers Energy</span><span class="mkt-inline" id="s2-ldc-il">Nicor Gas / Peoples Gas</span><span class="mkt-inline" id="s2-ldc-ies">Nicor Gas / Peoples Gas</span></strong>
+— continues to deliver your gas through the same pipeline system, read your meter, handle billing for delivery charges, and respond to emergencies no matter which supplier you choose. That relationship does not change when you enroll with, or leave,
+<span class="mkt-inline on" id="s2-brand2-ong">Ohio Natural Gas</span><span class="mkt-inline" id="s2-brand2-pa">Pennsylvania Energy</span><span class="mkt-inline" id="s2-brand2-gre">Grand Rapids Energy</span><span class="mkt-inline" id="s2-brand2-il">Illinois Energy</span><span class="mkt-inline" id="s2-brand2-ies">Illinois Energy Solutions</span>.
+</p>
+<p class="legal-para">
+You are never required to stay with us. You can switch to a different licensed supplier, or return to your utility's default supply service, at any time — subject to the terms of your current contract. See our <a style="color:#5a8cbf;text-decoration:underline;cursor:pointer;">Legal &amp; Compliance page</a> for Early Termination Fee details if you're still in a fixed-term contract.
+</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION 3: RIGHT TO CANCEL (RESCISSION WINDOW) -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">4</span>
+<div class="legal-body">
+<div class="legal-section">
+<div class="legal-section-head"><span class="legal-section-num">2</span> Your Right to Cancel (Rescission Window)</div>
+
+<!-- PA: confirmed 3-day window -->
+<div class="mkt on" id="s3-pa">
+<p class="legal-para">Pennsylvania gives you <strong>3 business days</strong> from the date you receive your enrollment confirmation to cancel your enrollment without penalty, as required by the PA PUC. To exercise this right, contact SouthStar customer service using the phone number in the footer of this page.</p>
+</div>
+
+<!-- ONG: not confirmed -->
+<div class="mkt" id="s3-ong">
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #1:</strong> Ohio's right-to-cancel window has not been confirmed for this project. Do not state a specific number of days until Legal/Client confirms it. <em>Placeholder copy below is illustrative only:</em></div>
+</div>
+<p class="legal-para">[Rescission window not yet confirmed for Ohio.] If a confirmed window exists, you will be able to cancel your enrollment within that window without penalty by contacting SouthStar customer service using the phone number in the footer of this page.</p>
+</div>
+
+<!-- GRE: not confirmed -->
+<div class="mkt" id="s3-gre">
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #1:</strong> Michigan's (GRE) right-to-cancel window has not been confirmed for this project. Do not state a specific number of days until Legal/Client confirms it. <em>Placeholder copy below is illustrative only:</em></div>
+</div>
+<p class="legal-para">[Rescission window not yet confirmed for Grand Rapids Energy / Michigan.] If a confirmed window exists, you will be able to cancel your enrollment within that window without penalty by contacting SouthStar customer service using the phone number in the footer of this page.</p>
+</div>
+
+<!-- IL: not confirmed -->
+<div class="mkt" id="s3-il">
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #1:</strong> Illinois Energy's right-to-cancel window has not been confirmed for this project (also part of the ICC SB651/Part 512 compliance checklist tracked on the Legal &amp; Compliance page). Do not state a specific number of days until Legal/Client confirms it. <em>Placeholder copy below is illustrative only:</em></div>
+</div>
+<p class="legal-para">[Rescission window not yet confirmed for Illinois Energy.] If a confirmed window exists, you will be able to cancel your enrollment within that window without penalty by contacting SouthStar customer service using the phone number in the footer of this page.</p>
+</div>
+
+<!-- IES: not confirmed -->
+<div class="mkt" id="s3-ies">
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #1:</strong> Illinois Energy Solutions' right-to-cancel window has not been confirmed for this project (also part of the ICC SB651/Part 512 compliance checklist). Do not state a specific number of days until Legal/Client confirms it. <em>Placeholder copy below is illustrative only:</em></div>
+</div>
+<p class="legal-para">[Rescission window not yet confirmed for Illinois Energy Solutions.] If a confirmed window exists, you will be able to cancel your enrollment within that window without penalty by contacting SouthStar customer service using the phone number in the footer of this page.</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- SECTION 4: WHAT TO DO IF SWITCHED WITHOUT CONSENT -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">5</span>
+<div class="legal-body">
+<div class="legal-section">
+<div class="legal-section-head"><span class="legal-section-num">3</span> What to Do If You Were Switched Without Your Consent</div>
+<p class="legal-para">
+If you believe you were enrolled with
+<span class="mkt-inline on" id="s4-brand-ong">Ohio Natural Gas</span><span class="mkt-inline" id="s4-brand-pa">Pennsylvania Energy</span><span class="mkt-inline" id="s4-brand-gre">Grand Rapids Energy</span><span class="mkt-inline" id="s4-brand-il">Illinois Energy</span><span class="mkt-inline" id="s4-brand-ies">Illinois Energy Solutions</span>
+without your permission, contact SouthStar customer service right away using the phone number in the footer of this page. Please have your account number and service address ready if you have them.
+</p>
+<p class="legal-para">
+We will look into what happened. If we confirm your enrollment wasn't authorized, we will work with your utility to reverse it and restore your prior service arrangement. This does not happen instantly — utility validation runs on a nightly batch, so a reversal can take a few business days to take effect on your account.
+</p>
+<p class="legal-para">
+If your concern isn't resolved after contacting SouthStar, you have the right to escalate a complaint to
+<span class="mkt-inline on" id="s4-reg-ong">PUCO</span><span class="mkt-inline" id="s4-reg-pa">the PA PUC</span><span class="mkt-inline" id="s4-reg-gre">the MPSC</span><span class="mkt-inline" id="s4-reg-il">the Illinois ICC</span><span class="mkt-inline" id="s4-reg-ies">the Illinois ICC</span>
+— see How to File a Complaint, below.
+</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION 5: HOW TO FILE A COMPLAINT -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">6</span>
+<div class="legal-body">
+<div class="legal-section">
+<div class="legal-section-head"><span class="legal-section-num">4</span> How to File a Complaint</div>
+<p class="legal-para">
+If you're not able to resolve a concern about your service directly with SouthStar, you can file a complaint with
+<strong><span class="mkt-inline on" id="s5-reg-ong">the Public Utilities Commission of Ohio (PUCO)</span><span class="mkt-inline" id="s5-reg-pa">the Pennsylvania Public Utility Commission (PA PUC)</span><span class="mkt-inline" id="s5-reg-gre">the Michigan Public Service Commission (MPSC)</span><span class="mkt-inline" id="s5-reg-il">the Illinois Commerce Commission (ICC)</span><span class="mkt-inline" id="s5-reg-ies">the Illinois Commerce Commission (ICC)</span></strong>,
+the state agency responsible for oversight of natural gas suppliers in your area.
+</p>
+<div class="ann ann-y ann-block">
+<i>⚑</i>
+<div><strong>NP-1 Open Item #2 — blocking:</strong> The regulator's complaint-filing method, phone number, and URL are not yet sourced anywhere in this project for any of the 5 markets. This is a genuine sourcing gap, not a copy question — do not publish placeholder contact information here. Same risk category as the LDC emergency-phone-number gap (CT-HP-12). Owner: Client / Legal.</div>
+</div>
+<div class="disclosure-box">
+<div class="disclosure-box-head">Regulator Contact — [Not Yet Sourced]</div>
+<p>[Complaint-filing URL and phone number for <span class="mkt-inline on" id="s5-regname-ong">PUCO</span><span class="mkt-inline" id="s5-regname-pa">the PA PUC</span><span class="mkt-inline" id="s5-regname-gre">the MPSC</span><span class="mkt-inline" id="s5-regname-il">the Illinois ICC</span><span class="mkt-inline" id="s5-regname-ies">the Illinois ICC</span> go here once verified — see NP-1 Open Item #2. Do not fill in with an unverified number or link.]</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 6: RELATED READING -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">7</span>
+<div class="legal-body">
+<div class="legal-section" style="margin-bottom:0; padding-bottom:0; border-bottom:none;">
+<div class="legal-section-head"><span class="legal-section-num">5</span> Related Reading</div>
+
+<!-- ONG/PA/GRE/IL: Natural Gas Basics links.
+     NOTE: the .mkt visibility class is kept on its own wrapper div, never combined directly with .related-grid —
+     .mkt{display:none} and .related-grid{display:grid} share equal CSS specificity, so putting both classes on the
+     same element lets source order (not the .on toggle) decide which display value wins (Playbook §9 Pitfall 9 /
+     ENRIL-296 class of bug). Verified via computed-style singleton check during build. -->
+<div class="mkt on" id="s6-std-ong">
+<div class="related-grid">
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">How Switching Works</a><p>What happens, step by step, when you enroll with a new supplier.</p></div>
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">Rescission vs. Early Termination</a><p>The difference between canceling right after enrollment and canceling mid-contract.</p></div>
+</div>
+</div>
+<div class="mkt" id="s6-std-pa">
+<div class="related-grid">
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">How Switching Works</a><p>What happens, step by step, when you enroll with a new supplier.</p></div>
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">Rescission vs. Early Termination</a><p>The difference between canceling right after enrollment and canceling mid-contract.</p></div>
+</div>
+</div>
+<div class="mkt" id="s6-std-gre">
+<div class="related-grid">
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">How Switching Works</a><p>What happens, step by step, when you enroll with a new supplier.</p></div>
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">Rescission vs. Early Termination</a><p>The difference between canceling right after enrollment and canceling mid-contract.</p></div>
+</div>
+</div>
+<div class="mkt" id="s6-std-il">
+<div class="related-grid">
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">How Switching Works</a><p>What happens, step by step, when you enroll with a new supplier.</p></div>
+<div class="related-card"><div class="rc-eyebrow">Natural Gas Basics</div><a href="LearningCenter_Wireframe.html">Rescission vs. Early Termination</a><p>The difference between canceling right after enrollment and canceling mid-contract.</p></div>
+</div>
+</div>
+
+<!-- IES: Fixed Bill Plan Hub + ICC Disclosure companion (NP-9), never Natural Gas Basics -->
+<div class="mkt" id="s6-ies">
+<div class="related-grid">
+<div class="related-card"><div class="rc-eyebrow">Fixed Bill Plan</div><a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a><p>Start here to learn how the Fixed Bill Plan works.</p></div>
+<div class="related-card"><div class="rc-eyebrow">Fixed Bill Plan</div><a href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Understanding Bill Predictability with the Fixed Bill Plan</a><p>How your flat monthly bill compares to the utility's changing supply rate.</p></div>
+</div>
+<div class="ann ann-b ann-block" style="margin-top:10px;">
+<i>ⓘ</i>
+<div><strong>Dev note:</strong> IES has no Natural Gas Basics section (per CLAUDE.md IES nav exception) — this market's Related Reading intentionally never references it, per the content brief's Section 6 callout.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- /canvas -->
+
+<!-- FOOTER -->
+<div class="section">
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">
+<span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="ft-il">Illinois Energy</span>
+<span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+</div>
+<div class="footer-parent">A SouthStar Energy Services company<br/>A subsidiary of Southern Company (NYSE: SO)</div>
+</div>
+<div>
+<div class="footer-col-head">Legal</div>
+<div class="footer-col-links">
+<a>Terms of Service</a>
+<a>Privacy Policy</a>
+<a class="current">Your Rights as a Customer</a>
+<a>Legal &amp; Compliance</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Quick Links</div>
+<div class="footer-col-links">
+<a>Residential Plans</a>
+<a>My Account</a>
+<a>Contact Us</a>
+</div>
+</div>
+<div>
+<div class="footer-col-head">Support</div>
+<div class="footer-col-links">
+<span class="mkt-inline on" id="ftphone-ong">(888) 555-0001</span>
+<span class="mkt-inline" id="ftphone-pa">(888) 555-0002</span>
+<span class="mkt-inline" id="ftphone-gre">(888) 555-0003</span>
+<span class="mkt-inline" id="ftphone-il">(888) 555-0004</span>
+<span class="mkt-inline" id="ftphone-ies">(888) 555-0005</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-bottom-row">
+<span class="footer-copyright">© 2026 SouthStar Energy Services LLC. All rights reserved.</span>
+<div class="footer-legal-links">
+<a>Terms of Service</a>
+<a>Privacy Policy</a>
+<a>Accessibility</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc-footer" style="max-width:980px; margin:0 auto;">
+4037-25 · SouthStar Expanded Markets Redesign · Your Rights as a Customer (NP-1) Wireframe · Batch 1 · IfThen Digital · August 2026<br/>
+For design review only — not production copy. Regulator contact info, rescission windows for ONG/GRE/IL/IES, and page structure (single page vs. hub) are open items — see Open Questions panel above.
+</div>
+
+<script>
+var MARKETS = ['ong','pa','gre','il','ies'];
+
+function setMarket(m) {
+  if (MARKETS.indexOf(m) === -1) return;
+
+  MARKETS.forEach(function(k) {
+    var b = document.getElementById('mkt-btn-' + k);
+    if (b) b.classList.toggle('active', k === m);
+  });
+
+  document.body.classList.remove('mkt-ong', 'mkt-pa', 'mkt-gre', 'mkt-il', 'mkt-ies');
+  document.body.classList.add('mkt-' + m);
+
+  document.querySelectorAll('.mkt, .mkt-flex').forEach(function(el) {
+    el.classList.remove('on');
+  });
+  document.querySelectorAll('[id$="-' + m + '"]').forEach(function(el) {
+    if (el.classList.contains('mkt') || el.classList.contains('mkt-flex')) el.classList.add('on');
+  });
+
+  document.querySelectorAll('.mkt-inline').forEach(function(el) {
+    el.classList.remove('on');
+  });
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(function(el) {
+    el.classList.add('on');
+  });
+
+  // Nav: IES gets the simplified 2-item nav (Fixed Bill Plan / About Us); nav-right icon shows for every market including IES (reverted 2026-08-31, §A.19).
+  var navStd = document.getElementById('nav-standard');
+  var navIes = document.getElementById('nav-ies');
+  if (m === 'ies') {
+    if (navStd) navStd.classList.remove('on');
+    if (navIes) navIes.classList.add('on');
+  } else {
+    if (navIes) navIes.classList.remove('on');
+    if (navStd) navStd.classList.add('on');
+  }
+}
+
+function setAnnMode(mode) {
+  document.body.classList.remove('mode-ann-all', 'mode-ann-openq', 'mode-ann-clean');
+  document.body.classList.add('mode-ann-' + mode);
+  ['all', 'openq', 'clean'].forEach(function(k) {
+    var b = document.getElementById('ann-btn-' + k);
+    if (b) b.classList.toggle('active', k === mode);
+  });
+}
+
+function setChrome(state) {
+  var hidden = state === 'hide';
+  document.body.classList.toggle('is-chrome-hidden', hidden);
+  var hint = document.getElementById('esc-hint');
+  if (hint) hint.style.display = hidden ? 'block' : 'none';
+  var showBtn = document.getElementById('chrome-btn-show');
+  var hideBtn = document.getElementById('chrome-btn-hide');
+  if (showBtn) showBtn.classList.toggle('active', !hidden);
+  if (hideBtn) hideBtn.classList.toggle('active', hidden);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') setChrome('show');
+});
+
+// Init
+setMarket('ong');
+setAnnMode('all');
+setChrome('show');
+</script>
+</body>
+</html>

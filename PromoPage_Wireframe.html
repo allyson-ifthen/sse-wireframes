@@ -1291,7 +1291,7 @@
 <h5>Cancellation rights</h5>
 <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
 <h5>Auto-renewal</h5>
-<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="LegalCompliance_Wireframe.html#contract-term-renewal">Automatic Contract Renewal info →</a></p>
 <h5>Promo eligibility &amp; terms</h5>
 <p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
@@ -1466,7 +1466,7 @@
 <h5>Cancellation rights</h5>
 <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
 <h5>Auto-renewal</h5>
-<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="LegalCompliance_Wireframe.html#contract-term-renewal">Automatic Contract Renewal info →</a></p>
 <h5>Promo eligibility &amp; terms</h5>
 <p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed once your utility is selected. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
@@ -1565,7 +1565,7 @@
 <h5>Cancellation rights</h5>
 <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
 <h5>Auto-renewal</h5>
-<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="LegalCompliance_Wireframe.html#contract-term-renewal">Automatic Contract Renewal info →</a></p>
 <h5>Promo eligibility &amp; terms</h5>
 <p>New residential customers only. Rate confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span> under promo code <strong>SAVE25</strong>. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
@@ -1708,7 +1708,7 @@
 <h5>Cancellation rights</h5>
 <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
 <h5>Auto-renewal</h5>
-<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="LegalCompliance_Wireframe.html#contract-term-renewal">Automatic Contract Renewal info →</a></p>
 <h5>Promo eligibility &amp; terms</h5>
 <p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
@@ -1746,7 +1746,7 @@
 <h5>Cancellation rights</h5>
 <p>Cancel within [TBD — confirm window per market regulation] days of receiving your written contract without penalty. After that, an early termination fee of $12.50 per remaining month applies.</p>
 <h5>Auto-renewal</h5>
-<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="#">Automatic Contract Renewal info →</a></p>
+<p>Your plan auto-renews at the end of your term. You'll receive 1–2 mailed renewal notices before expiration. <a href="LegalCompliance_Wireframe.html#contract-term-renewal">Automatic Contract Renewal info →</a></p>
 <h5>Promo eligibility &amp; terms</h5>
 <p>New residential customers only. Rate reflects promo code <strong>SAVE25</strong>, confirmed at enrollment. <a href="#promo-disclosure">See full offer terms ↓</a></p>
 </div>
@@ -2443,6 +2443,58 @@
       closeMobileNav();
     }
   });
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>

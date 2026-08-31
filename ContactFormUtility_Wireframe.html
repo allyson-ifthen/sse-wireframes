@@ -229,18 +229,19 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <nav class="nav-links mkt-flex on" id="nav-standard">
 <!-- For My Home: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Home</a>
+<a class="nav-link nav-hub-link" href="ForMyHome_Wireframe.html?market=ong">For My Home</a>
 <button aria-label="Open For My Home submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="ResidentialPlans_Wireframe.html">Residential Plans</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-ong">Greener Life Plan</a>
-<a class="nav-dd-item mkt" href="ResidentialPlans_Wireframe.html" id="nav-gl-gre">Greener Life Plan</a>
-<a class="nav-dd-item" href="MyAccount_Wireframe.html">Refer a Friend</a>
+<a class="nav-dd-item mkt" href="GreenerLifePlan_Wireframe.html?market=ong" id="nav-gl-ong">Greener Life Plan</a>
+<a class="nav-dd-item mkt" href="GreenerLifePlan_Wireframe.html?market=ong" id="nav-gl-gre">Greener Life Plan</a>
+<!-- Repointed to ReferAFriend_Wireframe.html per §A.18, 2026-08-28 (was MyAccount_Wireframe.html placeholder per GLB-RAF-1) -->
+<a class="nav-dd-item" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
 </div>
 </div>
 <!-- For My Business: ONG/GRE/IL only — suppressed for PA -->
 <div class="nav-item has-dropdown mkt" id="nav-fmb">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">For My Business</a>
+<a class="nav-link nav-hub-link" href="ForMyBusiness_Wireframe.html?market=ong">For My Business</a>
 <button aria-label="Open For My Business submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CommercialPlans_Wireframe.html">Commercial Plans</a>
@@ -264,7 +265,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </div>
 <!-- About Us: hub link + dropdown -->
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -275,15 +276,15 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
 <nav class="nav-links mkt-flex" id="nav-ies">
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">Fixed Bill Plan</a>
+<a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
 <button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="GeneralInformational_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
+<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
+<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 </div>
 </div>
 <div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" data-hub-tip="Hub page — wireframe TBD" href="#">About Us</a>
+<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
 <a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
@@ -629,6 +630,58 @@ document.addEventListener('click', function(e) {
     closeMobileNav();
   }
 });
+</script>
+<script>
+/* ── PROTOTYPE LINK PERSISTENCE (PROTO-11) ──
+   Reads ?market=/&state= from the URL on load and applies them via setMarket()/setState()
+   if those functions exist on this page, then rewrites same-page internal <a href> links
+   so the current market carries forward on click (existing query params/hashes preserved).
+   Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
+   aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
+(function() {
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var params = new URLSearchParams(window.location.search);
+  var urlMarket = params.get('market');
+  var urlState = params.get('state');
+
+  window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
+
+  function rewriteLinks() {
+    var market = window.__protoMarket;
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      if (a.closest('[aria-hidden="true"]')) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:|https?:)/i.test(href)) return;
+      var hashIdx = href.indexOf('#');
+      var hash = hashIdx !== -1 ? href.slice(hashIdx) : '';
+      var pathAndQuery = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+      var qIdx = pathAndQuery.indexOf('?');
+      var path = qIdx !== -1 ? pathAndQuery.slice(0, qIdx) : pathAndQuery;
+      var query = qIdx !== -1 ? pathAndQuery.slice(qIdx + 1) : '';
+      var qp = new URLSearchParams(query);
+      qp.set('market', market);
+      a.setAttribute('href', path + '?' + qp.toString() + hash);
+    });
+  }
+
+  if (typeof window.setMarket === 'function') {
+    var _origSetMarket = window.setMarket;
+    window.setMarket = function(mkt) {
+      _origSetMarket(mkt);
+      window.__protoMarket = mkt;
+      rewriteLinks();
+    };
+    if (urlMarket && VALID_MARKETS.indexOf(urlMarket) !== -1) {
+      window.setMarket(urlMarket);
+    }
+  }
+
+  if (urlState && typeof window.setState === 'function') {
+    window.setState(urlState);
+  }
+
+  rewriteLinks();
+})();
 </script>
 </body>
 </html>
