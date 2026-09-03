@@ -2,3 +2,10 @@ build-sheets/
 .DS_Store
 
 .fuse_hidden*
+
+# Local exploration/reference material — never part of the tracked deliverable set.
+# See CLAUDE.md "Local working files — not for GitHub" for the convention.
+Reference/
+Screenshots/
+*_Concepts_*.html
+*_LayoutConcepts_*.html
