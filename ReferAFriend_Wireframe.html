@@ -299,15 +299,14 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 </nav>
 <!-- IES simplified 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" build — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. No For My Home/For My Business/Natural Gas Basics/About, no Search — per CLAUDE.md IES nav exception. My Account via the standard nav-right icon below, same as every other market. -->
 <nav class="nav-links mkt-flex" id="nav-ies" aria-label="Main">
-<div class="nav-item">
+<div class="nav-item has-dropdown">
 <a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
 <button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
-<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 <a class="nav-dd-item active" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
 </div>
 </div>
+<!-- Dropdown kept 2026-08-31 (§A.22), unlike the other 11 Full-nav files: How the Fixed Bill Plan Works / Is It Right for Me removed (folded into the Hub, no longer genuine destinations), but Refer a Friend is a real separate page — one genuine destination still justifies the dropdown per the project's own convention (see Homepage_Wireframe.html's For My Business nav comment). -->
 <div class="nav-item">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>

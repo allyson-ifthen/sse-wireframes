@@ -1,9 +1,10 @@
+<!-- RETIRED 2026-08-31 (§A.22) — content consolidated into FixedBillPlanHub_Wireframe.html's "Is the Fixed Bill Plan Right for Me?" section (condensed; the ICC-mandated honesty panel carried over word-for-word, unshortened). Retained here for reference only; not linked from any active wireframe. See Wireframe_ChangeLog_Active.md §A.22. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Understanding Bill Predictability with the Fixed Bill Plan — Wireframe | 4037-25</title>
+<title>Is the Fixed Bill Plan Right for Me? — Wireframe | 4037-25</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
@@ -28,6 +29,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 .sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; margin-bottom: 3px; }
 .p-sm { padding: 12px 24px; }
 
+.wf-btn { background: #e8641a; color: #fff; border: none; padding: 10px 22px; font-weight: 700; font-size: 13px; border-radius: 3px; cursor: pointer; display: inline-block; text-decoration: none; }
 .soft-link { font-size: 12px; color: #5a8cbf; font-weight: 700; text-decoration: none; cursor: pointer; }
 
 .ann { display: inline-flex; align-items: flex-start; gap: 5px; padding: 5px 9px; border-radius: 3px; font-size: 11px; line-height: 1.4; margin: 4px 0; }
@@ -110,11 +112,19 @@ body.chrome-hidden #esc-hint { display: block; }
 .fbp-hero-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
 .fbp-hero-sub { font-size: 14px; color: #aac4d9; line-height: 1.6; max-width: 600px; }
 
-.key-takeaways { background: #f5f8fc; border: 1.5px solid #d0dce8; border-left: 4px solid #1e3a5f; border-radius: 4px; padding: 14px 18px; margin-bottom: 16px; }
-.key-takeaways .h3 { color: #1e3a5f; margin-bottom: 6px; }
+.fit-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 8px 0 14px; }
+.fit-list li { font-size: 12px; color: #555; line-height: 1.6; padding-left: 20px; position: relative; }
+.fit-list li::before { content: "✓"; position: absolute; left: 0; color: #2e7d32; font-weight: 700; }
 
-.related-reading-block { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 16px 18px; margin-top: 10px; }
-.related-reading-links { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+/* Section 3 — ICC-mandatory honesty panel: visually distinct, deliberately NOT styled as a warning/error to avoid looking like a defect notice, but not softened either */
+.honesty-panel { background: #fdf6ea; border: 1.5px solid #c8944a; border-radius: 5px; padding: 18px 20px; margin: 10px 0 16px; }
+.honesty-panel .h3 { color: #7a5010; }
+
+.decide-panel { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 16px 18px; margin-bottom: 14px; }
+
+.cta-band { background: #1e3a5f; color: #fff; padding: 26px 32px; text-align: center; }
+.cta-band .h2 { color: #fff; margin-bottom: 6px; }
+.cta-band p { font-size: 13px; color: #cfe0f0; margin-bottom: 16px; }
 
 .cms-banner { background: #1b5e20; color: #fff; border-radius: 4px; padding: 13px 18px; margin-bottom: 10px; font-size: 12px; line-height: 1.65; border: 2px solid #2e7d32; }
 </style>
@@ -125,7 +135,7 @@ body.chrome-hidden #esc-hint { display: block; }
 <div class="toolbar">
 <div class="toolbar-left">
 <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-<span class="toolbar-meta">NP-9 · Understanding Bill Predictability with the Fixed Bill Plan · General Informational template · IES only</span>
+<span class="toolbar-meta">NP-8 · Is the Fixed Bill Plan Right for Me? · General Informational template (GI shell, trust-signal/schema modules omitted) · IES only</span>
 <div>
 <div class="vsw-label">Market</div>
 <div class="mode-group"><button class="btn-mode active" disabled style="cursor:default; opacity:.85;">IES (single-market page — no switcher)</button></div>
@@ -161,21 +171,17 @@ body.chrome-hidden #esc-hint { display: block; }
 </div>
 
 <div class="cms-banner">
-<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Cluster (NP-9)</strong>
-<strong>This page is not the ICC compliance surface.</strong> The actual required disclosure — the utility's current supply cost rate, shown before IES's own information — lives on the IES market view of <code>ResidentialPlans_Wireframe.html</code>'s "IL Regulatory Comparison Bar." This page is the explanatory/counter-narrative companion. Retitled 2026-08-27 from "Current Utility Rates and IES Rates (ICC Mandatory Disclosure)"; template reassigned from Legal/Compliance to General Informational, matching NP-7/NP-8/NP-10. <strong>Voice &amp; Tone guardrail: no comparative or superlative language anywhere on this page</strong> ("cheaper," "better," "your best option") — ties to Universal Guidance's "Sell Predictability, Not Price" rule.
+<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Cluster (NP-8)</strong>
+Decision-support page — trustworthiness carries this page entirely; its job is to talk a wrong-fit customer out of the plan as readily as a good-fit customer into it. Built per §A.17 Batch 3, §A.16's locked template decision: GI structural shell (Hero + Content Body + CTA band + footer), <strong>About-Us trust-signal/schema Open-Questions panel explicitly omitted</strong> — not applicable to this page's content.
 </div>
 
 <div class="oq-panel">
-<h4>⚑ Open Questions — Understanding Bill Predictability (NP-9)</h4>
+<h4>⚑ Open Questions — Is the Fixed Bill Plan Right for Me? (NP-8)</h4>
 <ul class="oq-list">
-<li><strong>Open Item #1</strong> (Client/Legal): whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's disclosure requirement on its own — the Content Tracker describes IES-012 as a standalone-page requirement, so relying on the Plans page instead of a table here is a scope interpretation needing confirmation before this page's approach is treated as settled.</li>
-<li><strong>Open Item #2 — resolved 2026-08-28:</strong> North Shore Gas does not serve IES territory. Universal Guidance §9 is authoritative here (Nicor Gas / Peoples Gas for IES; North Shore Gas is IL/IE-only) — confirms the Plans page bar's IES view does not need a third LDC row. NP-7's brief had instructed the opposite (naming North Shore Gas as an IES utility) and has been corrected to match.</li>
-<li><strong>Open Item #3</strong> (Client/Legal): whether an "effective per-therm" conversion of the Fixed Bill charge is an acceptable/accurate comparison aid for Section 3 — not attempted here; Section 3 stays qualitative only, as drafted.</li>
-<li><strong>Open Item #4</strong> (Legal): full ICC disclosure language subject to legal review before this brief's guidance can be finalized into copy.</li>
-<li><strong>Open Item #6</strong> (Dev/IfThen IA): Section 2's link to the Residential Plans page's IL Regulatory Comparison Bar has no stable anchor/section ID to point to yet — links below go to the page/market view only, not a specific in-page anchor.</li>
+<li><strong>Open Item #1</strong> (Legal): ICC disclosure language for Section 3 (the honesty section below) requires legal review before publish.</li>
+<li><strong>Open Item #2</strong> (Client): whether any sourced data exists — even directional, non-numeric — on typical usage patterns that make Fixed Bill a better or worse fit, to sharpen Sections 2/3 beyond generic guidance. Not sourced as of this build; Sections 2/3 stay generic per the brief.</li>
 </ul>
 </div>
-<div class="ann ann-g" style="margin-bottom:8px;">✓ Open Item #5 — resolved 2026-08-27 (Allyson): template reassigned from <code>LegalCompliance_Wireframe.html</code> to <code>GeneralInformational_Wireframe.html</code>, matching NP-7/NP-8/NP-10. Reflected in this build.</div>
 
 <div class="section">
 <span class="section-label"><span class="sec-num">1</span>Nav Header</span>
@@ -196,9 +202,6 @@ body.chrome-hidden #esc-hint { display: block; }
 </div>
 </div>
 <div class="nav-item">
-<a class="nav-link" href="MyAccount_Wireframe.html">My Account</a>
-</div>
-<div class="nav-item">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
 <div class="nav-dropdown">
@@ -208,24 +211,25 @@ body.chrome-hidden #esc-hint { display: block; }
 </div>
 </nav>
 <div class="nav-right">
+<a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
 <button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
 </div>
 </div>
-<div class="nav-mobile-note">Mobile: hamburger menu. IES 3-item nav per CLAUDE.md (corrected 2026-08-28): Fixed Bill Plan · My Account · About Us. Customer Service phone lives in footer only.</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. IES 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" text — see Wireframe_ChangeLog_Active.md §A.19/§A.21): Fixed Bill Plan · About Us. My Account via the standard nav-right 👤 icon above, same as every other market. Customer Service phone lives in footer only.</div>
 </div>
 
 <div class="section">
 <span class="section-label"><span class="sec-num">2</span>Breadcrumb</span>
 <div class="breadcrumb p-sm">
-<a href="GeneralInformational_Wireframe.html?market=ies">Home</a> › <a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a> › Understanding Bill Predictability
+<a href="GeneralInformational_Wireframe.html?market=ies">Home</a> › <a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a> › Is It Right for Me?
 </div>
 </div>
 
 <div class="section">
 <span class="section-label"><span class="sec-num">3</span>Page Hero</span>
 <div class="fbp-hero">
-<div class="fbp-hero-title">Understanding Bill Predictability with the Fixed Bill Plan</div>
-<div class="fbp-hero-sub">How Illinois's rate-disclosure requirement works, and why the comparison looks different for a Fixed Bill customer.</div>
+<div class="fbp-hero-title">Is the Fixed Bill Plan Right for Me?</div>
+<div class="fbp-hero-sub">A genuine self-assessment, not a sales pitch — including when Fixed Bill might cost you more, not just when it helps.</div>
 </div>
 </div>
 
@@ -233,54 +237,57 @@ body.chrome-hidden #esc-hint { display: block; }
 <span class="section-label"><span class="sec-num">4</span>Content Body</span>
 <div style="padding: 24px;">
 
-<div class="key-takeaways">
-<div class="h3">Key Takeaways</div>
-<div class="body-para" style="margin-bottom:0;">Illinois requires natural gas suppliers to disclose the utility's current supply cost rate — you'll find that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>. Illinois Energy Solutions' Fixed Bill charge works differently: it's one flat monthly amount based on your own usage history, not a per-therm rate, so it isn't a direct side-by-side comparison.</div>
+<div class="h3" style="margin-bottom:8px;">Good Fit Signals</div>
+<div class="body-para" style="margin-bottom:6px;">You might like Fixed Bill if:</div>
+<ul class="fit-list">
+<li>You'd rather know your exact gas charge every month than have it swing with the weather.</li>
+<li>You manage your household budget around fixed, predictable expenses.</li>
+<li>You've been caught off guard by a big bill spike in a past winter and want to avoid that surprise again.</li>
+<li>You're comfortable paying slightly more some months and slightly less others, in exchange for one flat number all term long.</li>
+</ul>
+<div class="ann ann-b">Dev: descriptive framing only ("you might like Fixed Bill if...") — no quantified savings claims, per Universal Guidance §1 (this is a billing-model choice, not a savings product).</div>
+
+<div class="honesty-panel">
+<div class="h3">When Fixed Bill May Cost More</div>
+<div class="body-para">It's also important to understand when Fixed Bill may not be the cheapest option. Because your Fixed Bill charge is set in advance from your usage history, there will be some months — especially during a mild season, when your actual usage would have been fairly low on a standard variable rate — where you end up paying more under Fixed Bill than you would have paid on a usage-based rate that month.</div>
+<div class="body-para" style="margin-bottom:0;">That's not a flaw in the plan; it's the direct tradeoff of the plan's whole purpose. Fixed Bill exists to give you one flat, predictable number every month, not to guarantee you the lowest possible total cost in every season. If your priority is minimizing your total spend no matter what, a usage-based plan may serve that goal better than Fixed Bill will.</div>
 </div>
-<div class="ann ann-b">Dev: no dollar figures and no comparative/superlative language in this box, per the brief's Voice &amp; Tone guardrail. Final wording requires legal sign-off (Open Item #4).</div>
+<div class="ann ann-r"><strong>Content rule — do not edit without checking the brief:</strong> this section is ICC-mandatory (IES-010) and cannot be cut, softened into vagueness, or buried below the fold. It must not be followed by a "but don't worry" pivot that undercuts it — the honesty is required to stand on its own; that's what makes the Good Fit Signals section above credible. (Marked as a hard content rule per the brief's own explicit instruction, not an open item.)</div>
 
-<div class="h3" style="margin:20px 0 8px;">Why Your Bill Works Differently Here</div>
-<div class="body-para">Illinois Energy Solutions is a natural gas supplier licensed by the Illinois Commerce Commission (ICC). As part of that regulation, we're required to show you your utility's current supply cost rate before presenting our own plan information — you'll see that comparison on our Residential Plans page.</div>
-<div class="body-para">That comparison works a little differently for Fixed Bill customers than it does for a standard rate plan. Most suppliers' plans charge a rate per therm, so showing the utility's per-therm rate next to a supplier's per-therm rate is a straightforward comparison. Fixed Bill doesn't have a per-therm rate at all — your charge is set from your own usage history at enrollment, which is exactly what makes it predictable from month to month.</div>
-<div class="ann ann-b">Dev: does not use "ICC-approved" — the ICC requires the disclosure ordering, it does not certify the pricing, per the brief's callout (same rule as the parallel IE article, NP-3).</div>
-
-<div class="h3" style="margin:20px 0 8px;">Why You'll See the Utility's Rate on the Plans Page</div>
-<div class="body-para">Illinois Energy Solutions is regulated by the Illinois Commerce Commission, and that regulation requires your current utility's supply cost rate — Nicor Gas or Peoples Gas, depending on your service territory — to be shown before our own charge information. You'll see that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a> rather than repeated here: the utility's rate resets monthly and varies by which utility delivers your gas, so a static table on this page would go out of date the same day it's published.</div>
-<div class="body-para" style="margin-bottom:0;">Showing it in one place, kept current, protects you from seeing two different numbers in two different spots that quietly drift apart. Think of the ordering requirement as consumer protection, not a sales comparison — it exists so you always have the utility's number in view, whichever plan you choose.</div>
-<div class="ann-row">
-<span class="ann ann-g"><strong>NP-9 Open Item #2 — resolved 2026-08-28:</strong> confirmed via Universal Guidance §9 that North Shore Gas does not serve IES territory; this paragraph's Nicor Gas / Peoples Gas naming is correct as-is.</span>
-<span class="ann ann-y"><strong>NP-9 Open Item #6 (Dev/IfThen IA):</strong> the Residential Plans page has no stable anchor/section ID for the IL Regulatory Comparison Bar yet — the link above points to the page's IES market view generally, not a specific in-page section.</span>
-<span class="ann ann-b">Dev: does not cite a specific utility rate dollar figure anywhere on this page, and does not use "ICC-approved" — both per the brief's explicit callout.</span>
+<div class="decide-panel">
+<div class="h3">How to Decide</div>
+<div class="body-para" style="margin-bottom:0;">There's no calculator that can tell you which plan will save you more this year — nobody knows what next winter will actually look like. So the real question is what matters more to you: if knowing your exact gas bill every month, with no surprises, matters more than chasing the lowest possible total over the year, Fixed Bill is built for exactly that. If you're comfortable with your bill moving up and down some months in exchange for a shot at a lower total, a usage-based plan might suit you better.</div>
 </div>
+<div class="ann ann-b">Dev: no dollar amounts or percentages anywhere in this section, per the brief — works as a mental model, not a numbers exercise. No sourced figures exist yet (Open Item #2).</div>
 
-<div class="h3" style="margin:20px 0 8px;">What Predictability Means for Your Bill</div>
-<div class="body-para">As a Fixed Bill customer, your monthly charge is set from your own usage history rather than tracking the utility's live per-therm rate month to month. That means there's no month where your bill moves because the broader gas market moved — your number was already set when you enrolled.</div>
-<div class="body-para" style="margin-bottom:0;">The utility rate shown on our Residential Plans page satisfies Illinois's disclosure requirement; it isn't a signal that Fixed Bill costs more or less than that rate in any given month, just that it's a different pricing model. If you want the honest picture of when Fixed Bill can cost more than a usage-based rate, see <a class="soft-link" style="display:inline;" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>, which addresses that directly.</div>
-<div class="ann-row">
-<span class="ann ann-b">Dev: this section is written to read as a genuine explanation of format difference, not a dodge — per the brief's callout that it "only works if it doesn't read as a dodge." Cross-references NP-8's Section 3 rather than re-litigating that honesty here.</span>
-<span class="ann ann-y"><strong>NP-9 Open Item #3 (Client/Legal):</strong> no "effective per-therm" conversion attempted here — comparison stays qualitative only, pending confirmation of whether such a conversion would be acceptable/accurate.</span>
-</div>
+<div class="h3" style="margin:22px 0 8px;">See the Actual Numbers</div>
+<div class="body-para">Want to see the actual comparison instead of just the concept? Our <a class="soft-link" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html" style="display:inline;">Understanding Bill Predictability with the Fixed Bill Plan</a> page walks through how your utility's current rate is disclosed for comparison, without repeating that content here.</div>
+<div class="ann ann-b">Dev: this section exists purely to route to NP-9, not to restate any rate content — per the brief's explicit callout.</div>
 
-<div class="h3" style="margin:20px 0 8px;">Common Questions</div>
-<div class="faq-q">Why doesn't this page show the current utility rate directly?</div>
-<div class="faq-a">Because that rate changes monthly and varies by utility, we keep one current, regularly-updated version of it on our Residential Plans page instead of a second copy here that could go stale.</div>
-<div class="faq-q">Is IES's Fixed Bill charge always higher or lower than paying the utility rate directly?</div>
-<div class="faq-a">Neither, consistently — it depends on the season and your usage pattern. Fixed Bill trades that month-to-month variation for one flat number; see Is the Fixed Bill Plan Right for Me? for the full honest breakdown.</div>
-<div class="faq-q">Where can I see the utility's current rate?</div>
-<div class="faq-a">On our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>, where Illinois law requires us to display it before our own plan information.</div>
-<div class="ann ann-b">Dev: Q2 does not overstate either direction — same honesty constraint as NP-8 Section 3, and the same no-comparative-language guardrail as the rest of this page, per the brief's callout.</div>
+<div class="h3" style="margin:22px 0 8px;">Common Questions</div>
+<div class="faq-q">Can I switch off Fixed Bill later?</div>
+<div class="faq-a">Yes — like any plan, you can shop for a different plan or supplier once your term is up, or contact us sooner to discuss your options.</div>
+<div class="faq-q">Does Fixed Bill protect me from a bad winter?</div>
+<div class="faq-a">Yes, in the sense that your monthly charge won't spike because of one especially cold month — that's exactly the kind of swing Fixed Bill is designed to remove.</div>
+<div class="faq-q">Is Fixed Bill more expensive than my utility's rate?</div>
+<div class="faq-a">It depends on the season and your usage pattern — not a blanket yes or no. In some months a usage-based rate would cost you less; in others, more. Fixed Bill trades that month-to-month variation for one flat number all term. See "When Fixed Bill May Cost More" above for the honest version of this tradeoff.</div>
+<div class="faq-q">What if my usage changes a lot year to year?</div>
+<div class="faq-a">Your Fixed Bill charge is reviewed and reset at renewal based on more recent usage, so a meaningful change in how much gas you use will generally show up in your next term's charge rather than mid-term.</div>
+<div class="ann ann-b">Dev: Q3 answered per Section 3's framing ("it depends"), not a blanket no — matches the brief's explicit callout.</div>
 
-<div class="related-reading-block">
-<div class="h3">Related Reading</div>
-<div class="related-reading-links">
-<a class="soft-link" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me? →</a>
-<a class="soft-link" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works →</a>
 </div>
 </div>
 
-<div class="ann ann-y" style="margin-top:16px;"><strong>NP-9 Open Item #1 (Client/Legal):</strong> whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's standalone-page disclosure requirement on its own is not yet confirmed — this page's whole approach (link, don't duplicate a table) rests on that being true. Not yet treated as settled.</div>
-<div class="ann ann-y" style="margin-top:6px;"><strong>NP-9 Open Item #4 (Legal):</strong> full ICC disclosure language across this page is subject to legal review before this brief's guidance can be finalized into copy.</div>
-
+<div class="section">
+<span class="section-label"><span class="sec-num">5</span>CTA Band</span>
+<div class="cta-band">
+<div class="h2">Ready to Get Your Fixed Bill Number?</div>
+<p>Start enrollment when you're ready — no obligation to decide right now.</p>
+<a class="wf-btn" href="Enrollment_IL-IES_Wireframe.html">Start Enrollment</a>
+<div style="margin-top:14px;"><a class="soft-link" style="color:#cfe0f0;" href="FixedBillPlan_HowItWorks_Wireframe.html">Want to understand the mechanics first? See How the Fixed Bill Plan Works →</a></div>
+</div>
+<div class="ann-row" style="padding:8px 24px 12px;">
+<span class="ann ann-b">Dev: primary CTA routes to <code>Enrollment_IL-IES_Wireframe.html</code>; kept low-pressure per the brief given this page's self-assessment framing, but this is closer to the enrollment funnel than the Hub or NP-7, so it does read as an invitation with an actual CTA button (not just a text link).</span>
 </div>
 </div>
 
@@ -304,7 +311,6 @@ body.chrome-hidden #esc-hint { display: block; }
 <div>
 <div class="footer-col-head">Learn</div>
 <div class="footer-col-links">
-<a href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans</a>
 <a href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
 <a href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
@@ -331,7 +337,7 @@ Illinois Energy Solutions is not the same entity as your gas delivery company. Y
 </div>
 
 <div class="doc-footer">
-NP-9 · Understanding Bill Predictability with the Fixed Bill Plan · General Informational template · IES only · 4037-25 · IfThen Digital · Built per §A.17 Batch 3, 2026-08-28. Source: <code>Content-Templates/FixedBillPlan/FixedBillPlan_ICCDisclosure_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-9 / §A.17 Batch 3. Links to <code>ResidentialPlans_Wireframe.html</code> IES market view for the live utility-rate comparison (IL Regulatory Comparison Bar) rather than duplicating a rate table on this page, per the 2026-08-27 Section 2 rewrite.
+NP-8 · Is the Fixed Bill Plan Right for Me? · General Informational template (GI shell; About-Us trust-signal/schema modules omitted per §A.17 locked decision) · IES only · 4037-25 · IfThen Digital · Built per §A.17 Batch 3, 2026-08-28. Source: <code>Content-Templates/FixedBillPlan/FixedBillPlan_RightForMe_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-8 / §A.17 Batch 3.
 </div>
 </div>
 

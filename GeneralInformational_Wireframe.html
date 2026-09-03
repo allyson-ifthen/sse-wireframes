@@ -365,15 +365,10 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; co
 </nav>
 <!-- IES simplified 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "corrected... 3-item" text — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us, per CLAUDE.md's IES nav exception. My Account via the standard nav-right 👤 icon below, same as every other market; no Search. Fixed Bill Plan dropdown points at the real pages built in §A.17 instead of self-links. -->
 <nav class="nav-links mkt-flex" id="nav-ies">
-<div class="nav-item has-dropdown">
+<div class="nav-item">
 <a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
-<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
-<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 </div>
-</div>
+<!-- Dropdown removed 2026-08-31 (§A.22): NP-7/8 folded into the Hub, no genuine second destination left under this nav item — see Homepage_Wireframe.html's For My Business nav comment for the governing "two genuine destinations" convention. -->
 <div class="nav-item has-dropdown">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>

@@ -110,14 +110,24 @@ body.chrome-hidden #esc-hint { display: block; }
 .fbp-hero-title { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 8px; }
 .fbp-hero-sub { font-size: 15px; color: #aac4d9; line-height: 1.6; max-width: 600px; margin-bottom: 18px; }
 
-/* 3-card router */
-.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 10px 0 16px; }
-.route-card { border: 1.5px solid #d0cfc9; border-radius: 6px; padding: 18px 16px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
-.route-card-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #1e3a5f; color: #fff; font-size: 11px; font-weight: 800; }
-.route-card-title { font-size: 14px; font-weight: 800; color: #1e3a5f; line-height: 1.3; }
-.route-card-blurb { font-size: 12px; color: #555; line-height: 1.55; flex: 1; }
-.route-card-link { font-size: 12px; font-weight: 700; color: #e8641a; text-decoration: none; }
-@media (max-width: 760px) { .card-grid { grid-template-columns: 1fr; } }
+/* Steps grid — matches ForMyHome/ForMyBusiness "How It Works" step-card pattern */
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 10px 0 6px; }
+.step-card { border: 1.5px solid #d0cfc9; border-radius: 6px; padding: 16px 16px; background: #fff; }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #1e3a5f; color: #fff; font-size: 11px; font-weight: 800; margin-bottom: 8px; }
+.step-label { font-size: 13px; font-weight: 800; color: #1e3a5f; margin-bottom: 6px; line-height: 1.3; }
+.step-body { font-size: 12px; color: #555; line-height: 1.55; }
+@media (max-width: 760px) { .steps-grid { grid-template-columns: 1fr; } }
+
+.fit-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 14px; }
+.fit-list li { font-size: 12px; color: #555; line-height: 1.6; padding-left: 20px; position: relative; }
+.fit-list li::before { content: "✓"; position: absolute; left: 0; color: #2e7d32; font-weight: 700; }
+
+/* Honesty panel — ICC-mandatory (IES-010): visually distinct, not a warning/error, not softened */
+.honesty-panel { background: #fdf6ea; border: 1.5px solid #c8944a; border-radius: 5px; padding: 16px 18px; margin: 10px 0 14px; }
+.honesty-panel .h3 { color: #7a5010; }
+
+.key-takeaways { background: #f5f8fc; border: 1.5px solid #d0dce8; border-left: 4px solid #1e3a5f; border-radius: 4px; padding: 14px 18px; margin-bottom: 10px; }
+.key-takeaways .h3 { color: #1e3a5f; margin-bottom: 6px; }
 
 .trust-strip { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 5px; padding: 14px 18px; margin: 14px 0; }
 .trust-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #1e3a5f; background: #fff; border: 1px solid #d0dce8; border-radius: 4px; padding: 6px 12px; }
@@ -136,7 +146,7 @@ body.chrome-hidden #esc-hint { display: block; }
 <div class="toolbar">
 <div class="toolbar-left">
 <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-<span class="toolbar-meta">NP-10 · Fixed Bill Plan Hub · General Informational template (L1 nav hub) · IES only</span>
+<span class="toolbar-meta">NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub) · IES only</span>
 <div>
 <div class="vsw-label">Market</div>
 <div class="mode-group"><button class="btn-mode active" disabled style="cursor:default; opacity:.85;">IES (single-market page — no switcher)</button></div>
@@ -172,15 +182,16 @@ body.chrome-hidden #esc-hint { display: block; }
 </div>
 
 <div class="cms-banner">
-<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Cluster (NP-10)</strong>
-IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the IES Enrollment entry point. Not present in the Template Matrix's Page–Template Map at all; mapped to General Informational per the About Us Hub precedent, confirmed 2026-08-21. Register: customer-centricity leading with clarity over sales pressure — the biggest risk on this page is confusion, not under-selling.
+<strong style="font-size:13px;display:block;margin-bottom:4px;">CMS Content Template — General Informational / Fixed Bill Plan Hub (NP-10, consolidated)</strong>
+IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A.22):</strong> formerly parented NP-7 (How the Fixed Bill Plan Works), NP-8 (Is the Fixed Bill Plan Right for Me?), and NP-9 (Understanding Bill Predictability) as separate pages — all three are now folded into this single page as condensed sections, and their standalone files retired to <code>_Retired/</code>. Driven by two constraints: the client's push for maximum cross-market IA consistency, and IES's low traffic / single-legacy-product (Fixed Bill with Nicor) status — no appetite to overbuild this market. Structure now mirrors <code>ForMyHome_Wireframe.html</code>: one page, brief inline sections, no sub-page router. Register: customer-centricity leading with clarity over sales pressure — the biggest risk on this page is confusion, not under-selling.
 </div>
 
 <div class="oq-panel">
 <h4>⚑ Open Questions — Fixed Bill Plan Hub (NP-10)</h4>
 <ul class="oq-list">
 <li><strong>Open Item #1</strong> (Client/IfThen): product messaging / Fixed Bill value proposition language is not yet finalized — this build provides structure and constraints per the brief, not final hero copy.</li>
-<li><strong>Open Item #2</strong> (Allyson): CTA/card routing order (How It Works → Right for Me → Understanding Bill Predictability, used below) needs confirmation now that this page is wireframed, since it affects the Section 3 card order.</li>
+<li><strong>Open Item #2 — resolved by consolidation (2026-08-31):</strong> the former card-routing-order question (How It Works → Right for Me → Bill Predictability) is moot now that all three are sections on one page in that same order — no separate routing decision needed.</li>
+<li><strong>Open Item #3</strong> (Legal): ICC disclosure language in the "Is Fixed Bill Right for Me" honesty section and the Bill Predictability section below still requires legal review before this page's guidance is finalized into copy — carried over unresolved from NP-8/NP-9.</li>
 </ul>
 </div>
 
@@ -194,13 +205,6 @@ IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the
 <nav class="nav-links" aria-label="Main">
 <div class="nav-item">
 <a class="nav-link nav-hub-link active" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
-<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
-<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
-<a class="nav-dd-item" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Understanding Bill Predictability</a>
-</div>
 </div>
 <div class="nav-item">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
@@ -216,7 +220,7 @@ IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the
 <button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
 </div>
 </div>
-<div class="nav-mobile-note">Mobile: hamburger menu. IES 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" text — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. My Account via the standard nav-right 👤 icon above, same as every other market. Customer Service phone lives in footer only. This page is the "Fixed Bill Plan" nav item's own hub destination.</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. IES 2-item nav: Fixed Bill Plan · About Us. My Account via the standard nav-right 👤 icon above, same as every other market. Customer Service phone lives in footer only. <strong>Fixed Bill Plan lost its dropdown 2026-08-31 (§A.22)</strong> — now a plain link, since this page is its only destination (no more sub-pages to list); matches the project's own "dropdown only if genuine separate destinations" convention (see <code>Homepage_Wireframe.html</code>'s For My Business nav comment).</div>
 </div>
 
 <div class="section">
@@ -226,17 +230,17 @@ IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the
 </div>
 </div>
 
-<!-- ─── HERO (Section 1 of brief) ─── -->
+<!-- ─── HERO ─── -->
 <div class="section">
 <span class="section-label"><span class="sec-num">3</span>Hero</span>
 <div class="fbp-hero">
 <div class="fbp-hero-title">The Fixed Bill Plan</div>
 <div class="fbp-hero-sub">One flat monthly charge instead of a per-therm rate — a predictable monthly bill from Illinois Energy Solutions.</div>
-<a class="wf-btn" href="FixedBillPlan_RightForMe_Wireframe.html">See if Fixed Bill is right for me →</a>
+<a class="wf-btn" href="#right-for-me">See if Fixed Bill is right for me →</a>
 </div>
 <div class="ann-row" style="padding:8px 24px 12px;">
 <span class="ann ann-r">Content rule — do not use "fixed rate" or "lock in your rate" anywhere on this page. This is a billing-model distinction, not a rate type, per Universal Guidance §1. Use "Fixed Bill plan," "predictable monthly charge," "flat monthly bill," "one bill, one number."</span>
-<span class="ann ann-b">Dev: primary CTA routes to NP-8 (Is the Fixed Bill Plan Right for Me?), not straight to enrollment, per the brief.</span>
+<span class="ann ann-b">Dev: primary CTA now jumps to this same page's "Is It Right for Me" section (formerly routed to NP-8's own page) — updated for the 2026-08-31 consolidation.</span>
 <span class="ann ann-y">NP-10 Open Item #1 (Client/IfThen): hero copy above is structural/placeholder — final value-proposition language not yet set.</span>
 </div>
 </div>
@@ -249,48 +253,75 @@ IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the
 <div class="h3" style="margin-bottom:8px;">What Makes Fixed Bill Different</div>
 <div class="body-para">With the Fixed Bill plan, your monthly natural gas charge is set once, based on your home's usage history, and stays the same for the length of your plan term — regardless of how cold the winter gets or how much gas you use in any single month. It's reviewed and reset at renewal, not adjusted mid-term.</div>
 <div class="body-para">For a lot of households, the hardest part of a gas bill isn't the total cost over a year — it's not knowing what a single month's bill will be. A surprise cold snap can turn into a surprise bill. Fixed Bill removes that uncertainty by giving you one number to plan around, every month, all term long.</div>
-<div class="ann ann-b">Dev: mechanism explained only at a high level here — deep mechanics are NP-7's job, per the brief's callout that this section "sets up why it matters, not how it works."</div>
 
-<div class="h3" style="margin:22px 0 10px;">Explore Fixed Bill</div>
-<div class="card-grid">
-<div class="route-card">
-<span class="route-card-num">1</span>
-<div class="route-card-title">How the Fixed Bill Plan Works</div>
-<div class="route-card-blurb">See exactly how your monthly charge gets set, what happens at renewal, and how your utility relationship stays the same.</div>
-<a class="route-card-link" href="FixedBillPlan_HowItWorks_Wireframe.html">Read the mechanics →</a>
+<!-- ═══ HOW IT WORKS (consolidated from NP-7, 2026-08-31 §A.22) ═══ -->
+<div class="h3" id="how-it-works" style="margin:24px 0 10px;">How It Works</div>
+<div class="steps-grid">
+<div class="step-card">
+<span class="step-num">1</span>
+<div class="step-label">One Flat Number, Set From Usage History</div>
+<div class="step-body">Your monthly charge is set using your home's natural gas usage history — not a live meter read, and not a per-therm calculation applied to whatever you use that month.</div>
 </div>
-<div class="route-card">
-<span class="route-card-num">2</span>
-<div class="route-card-title">Is the Fixed Bill Plan Right for Me?</div>
-<div class="route-card-blurb">A genuine self-assessment — including when Fixed Bill might cost you more, not just when it helps.</div>
-<a class="route-card-link" href="FixedBillPlan_RightForMe_Wireframe.html">Check your fit →</a>
+<div class="step-card">
+<span class="step-num">2</span>
+<div class="step-label">Same Bill, Every Month, All Term</div>
+<div class="step-body">A colder-than-usual January or a mild March doesn't change what you owe — your charge stays the same regardless of weather swings or short-term usage changes within your term.</div>
 </div>
-<div class="route-card">
-<span class="route-card-num">3</span>
-<div class="route-card-title">Understanding Bill Predictability with the Fixed Bill Plan</div>
-<div class="route-card-blurb">See how Fixed Bill compares to your utility's current rate, and why the comparison works differently here.</div>
-<a class="route-card-link" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">See the comparison →</a>
+<div class="step-card">
+<span class="step-num">3</span>
+<div class="step-label">Reviewed and Reset at Renewal</div>
+<div class="step-body">As your term ends, we calculate a new charge from your more recent usage and let you know your options before your current term expires. Nothing happens automatically without you being notified first.</div>
 </div>
 </div>
 <div class="ann-row">
-<span class="ann ann-b">Dev: cards ordered by likely visitor intent per the brief — mechanics first, self-assessment second, rate transparency third — not alphabetically or by page priority. Card 3 framed as transparency/compliance, not a sales angle.</span>
-<span class="ann ann-y">NP-10 Open Item #2 (Allyson): this ordering is the brief's suggested default, used here as the working assumption — routing order still needs explicit confirmation now that the page is wireframed.</span>
+<span class="ann ann-b">Dev: condensed from NP-7's full-page mechanics explainer into a 3-step block matching <code>ForMyHome_Wireframe.html</code>'s "How It Works" pattern, per the 2026-08-31 consolidation (§A.22). NP-7's FAQ section and its two "not yet documented" open items (true-up/reconciliation mechanism; no-usage-history quoting) were cut rather than carried forward — a lean page states what's known and stops, per Allyson's leanness directive; if either mechanism is later sourced, it belongs here as a fourth step or a line addition, not a reopened standalone page.</span>
 </div>
 
-<div class="h3" style="margin:22px 0 8px;">Your Utility Relationship Doesn't Change</div>
-<div class="body-para">Illinois Energy Solutions is not your gas utility. Your utility — Nicor Gas, Peoples Gas, or North Shore Gas, depending on your service territory — still delivers your gas, reads your meter, and responds to any gas emergency. Illinois Energy Solutions supplies the gas itself and bills you for it under the Fixed Bill structure; nothing about who shows up at your home changes.</div>
+<!-- ═══ IS IT RIGHT FOR ME (consolidated from NP-8, 2026-08-31 §A.22) ═══ -->
+<div class="h3" id="right-for-me" style="margin:24px 0 10px;">Is the Fixed Bill Plan Right for Me?</div>
+<div class="body-para" style="margin-bottom:6px;">You might like Fixed Bill if:</div>
+<ul class="fit-list">
+<li>You'd rather know your exact gas charge every month than have it swing with the weather.</li>
+<li>You've been caught off guard by a big bill spike in a past winter and want to avoid that surprise again.</li>
+<li>You're comfortable paying slightly more some months and slightly less others, in exchange for one flat number all term long.</li>
+</ul>
+<div class="ann ann-b">Dev: condensed from NP-8's 4-item list to the 3 tightest signals. Descriptive framing only ("you might like Fixed Bill if...") — no quantified savings claims, per Universal Guidance §1.</div>
+
+<div class="honesty-panel">
+<div class="h3">When Fixed Bill May Cost More</div>
+<div class="body-para">It's also important to understand when Fixed Bill may not be the cheapest option. Because your Fixed Bill charge is set in advance from your usage history, there will be some months — especially during a mild season, when your actual usage would have been fairly low on a standard variable rate — where you end up paying more under Fixed Bill than you would have paid on a usage-based rate that month.</div>
+<div class="body-para" style="margin-bottom:0;">That's not a flaw in the plan; it's the direct tradeoff of the plan's whole purpose. Fixed Bill exists to give you one flat, predictable number every month, not to guarantee you the lowest possible total cost in every season. If your priority is minimizing your total spend no matter what, a usage-based plan may serve that goal better than Fixed Bill will.</div>
+</div>
+<div class="ann ann-r"><strong>Content rule — do not edit, shorten, or soften without checking the brief:</strong> this panel is ICC-mandatory (IES-010) and carried over word-for-word from NP-8 — it cannot be cut, softened into vagueness, buried below the fold, or followed by a "but don't worry" pivot that undercuts it. This is the one piece of NP-8 the 2026-08-31 leanness pass does NOT trim — a hard content rule, not a style choice.</div>
+
+<div class="ann-row">
+<span class="ann ann-b">Dev: NP-8's separate "How to Decide" panel and full FAQ section were cut in the 2026-08-31 consolidation (§A.22) — the Good Fit Signals list above and the honesty panel above together carry the decision-support job at hub-page length.</span>
+</div>
+
+<!-- ═══ UNDERSTANDING BILL PREDICTABILITY (consolidated from NP-9, 2026-08-31 §A.22) ═══ -->
+<div class="h3" id="bill-predictability" style="margin:24px 0 10px;">Understanding Bill Predictability</div>
+<div class="key-takeaways">
+<div class="body-para" style="margin-bottom:0;">Illinois requires natural gas suppliers to disclose the utility's current supply cost rate — you'll find that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>. Fixed Bill doesn't have a per-therm rate to compare directly: your charge is set from your own usage history, not tracked to the utility's monthly rate. That's not a signal Fixed Bill costs more or less in any given month — just a different pricing model, kept in one current, regularly-updated place rather than duplicated here.</div>
+</div>
+<div class="ann-row">
+<span class="ann ann-b">Dev: condensed from NP-9's 4-section explainer to this single Key Takeaways-style block, per the 2026-08-31 consolidation (§A.22). NP-9's separate "Why Your Bill Works Differently," "Why You'll See the Utility's Rate on the Plans Page," "What Predictability Means" sections, and its full FAQ, were cut — the load-bearing facts (comparison lives on Plans page; Fixed Bill has no per-therm rate to compare) are preserved, the surrounding explanation is not. No comparative/superlative language ("cheaper," "better," "your best option") per Universal Guidance's "Sell Predictability, Not Price" rule — same guardrail NP-9 carried.</span>
+<span class="ann ann-y">Carried over from NP-9 Open Item #1 (Client/Legal), unresolved: whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's disclosure requirement on its own — this section's whole approach (link, don't duplicate a table) rests on that being true.</span>
+</div>
+
+<div class="h3" style="margin:24px 0 8px;">Your Utility Relationship Doesn't Change</div>
+<div class="body-para">Illinois Energy Solutions is not your gas utility. Your utility — Nicor Gas — still delivers your gas, reads your meter, and responds to any gas emergency. Illinois Energy Solutions supplies the gas itself and bills you for it under the Fixed Bill structure; nothing about who shows up at your home changes.</div>
 <div class="ann-row">
 <span class="ann ann-b">Dev: mandatory ICC content per IES-009/IES-010 — not optional, not trimmed for space. Uses "utility," never "gas company," per Universal Guidance §2.</span>
-<span class="ann ann-y">Cross-reference flag (surfaced from NP-9 Open Item #2): this paragraph names North Shore Gas as an IES utility territory per this page's own brief instruction, but NP-9's Open Item #2 questions whether North Shore Gas actually serves any IES territory (Universal Guidance §9 lists it under IE, not IES). Written as instructed here; not independently confirmed.</span>
+<span class="ann ann-g">Corrected 2026-08-31 (Allyson): Nicor Gas is IES's only servicing utility — Peoples Gas and North Shore Gas both removed. <code>Wireframe_Universal_Guidance.md</code> §9 still lists "Nicor Gas · Peoples Gas" for IES and has been flagged, not yet corrected — see §A.21.</span>
 </div>
 
 <div class="h3" style="margin:22px 0 8px;">Trust &amp; Compliance</div>
 <div class="trust-strip">
 <span class="trust-badge">✓ ICC Licensed Supplier</span>
-<span class="trust-strip-note">Illinois Energy Solutions is not affiliated with Nicor Gas, Peoples Gas, or North Shore Gas.</span>
-<a class="soft-link" href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">See how our Fixed Bill charge relates to your utility's rate →</a>
+<span class="trust-strip-note">Illinois Energy Solutions is not affiliated with Nicor Gas.</span>
+<a class="soft-link" href="#bill-predictability">See how our Fixed Bill charge relates to your utility's rate →</a>
 </div>
-<div class="ann ann-b">Dev: no BBB reference on this strip — Universal Guidance §3/§4 explicitly excludes BBB for IES under any circumstances (matches the internal-only reputational-risk note already documented on <code>GeneralInformational_Wireframe.html</code>'s About Us instance).</div>
+<div class="ann ann-b">Dev: no BBB reference on this strip — Universal Guidance §3/§4 explicitly excludes BBB for IES under any circumstances (matches the internal-only reputational-risk note already documented on <code>GeneralInformational_Wireframe.html</code>'s About Us instance). Link now jumps to this same page's Bill Predictability section (formerly routed to NP-9's own page) — updated for the 2026-08-31 consolidation.</div>
 
 </div>
 </div>
@@ -321,9 +352,9 @@ IES's L1 nav hub (Content Tracker IES-008) — parents NP-7, NP-8, NP-9, and the
 <div class="footer-col-head">Fixed Bill Plan</div>
 <div class="footer-col-links">
 <a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
-<a href="FixedBillPlan_HowItWorks_Wireframe.html">How It Works</a>
-<a href="FixedBillPlan_RightForMe_Wireframe.html">Is It Right for Me?</a>
-<a href="CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html">Bill Predictability</a>
+<a href="#how-it-works">How It Works</a>
+<a href="#right-for-me">Is It Right for Me?</a>
+<a href="#bill-predictability">Bill Predictability</a>
 </div>
 </div>
 <div>
@@ -356,7 +387,7 @@ Illinois Energy Solutions is not the same entity as your gas delivery company. Y
 </div>
 
 <div class="doc-footer">
-NP-10 · Fixed Bill Plan Hub · General Informational template (L1 nav hub, no dedicated template — About Us Hub precedent) · IES only · 4037-25 · IfThen Digital · Built per §A.17 Batch 3, 2026-08-28. Source: <code>Content-Templates/FixedBillPlan/FixedBillPlanHub_ContentTemplate.md</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3.
+NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub, no dedicated template — About Us Hub precedent) · IES only · 4037-25 · IfThen Digital · Originally built per §A.17 Batch 3, 2026-08-28; consolidated with NP-7/8/9 per §A.22, 2026-08-31 (client cross-market-consistency push + IES low-traffic/single-legacy-product status). Sources: <code>Content-Templates/FixedBillPlan/FixedBillPlanHub_ContentTemplate.md</code>, <code>FixedBillPlan_HowItWorks_ContentTemplate.md</code>, <code>FixedBillPlan_RightForMe_ContentTemplate.md</code>, <code>FixedBillPlan_ICCDisclosure_ContentTemplate.md</code> — the latter three are now partially orphaned by this consolidation; content-ops follow-up flagged, not actioned this pass. Retired standalone pages: <code>_Retired/FixedBillPlan_HowItWorks_Wireframe.html</code>, <code>_Retired/FixedBillPlan_RightForMe_Wireframe.html</code>, <code>_Retired/CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3 / §A.22.
 </div>
 </div>
 
