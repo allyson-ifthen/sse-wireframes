@@ -197,6 +197,9 @@
   .pc.featured { border-color: #e8641a; border-width: 2px; }
   .pc.greener { border-color: #4caf50; border-width: 1.5px; }
   .pc.promo { border-color: #e8641a; border-width: 2px; box-shadow: 0 2px 6px rgba(232,100,26,0.12); }
+  /* PC-D16 · in-flow switch variant — "Selected" is a card-level outline state, not a badge (same
+     pattern as .featured/.promo above), using the in-app blue token rather than the marketing orange. */
+  .pc.inflow.selected { border-color: #2b5d8a; border-width: 2px; }
 
   /* Header */
   .pc-head {
@@ -540,6 +543,8 @@
     border: 1.5px solid #d0cfc9;
     cursor: not-allowed;
   }
+  /* PC-D16 · in-flow switch variant — blue in-app accent instead of marketing orange. */
+  .pc-cta.inflow { background: #2b5d8a; }
   .pc-rate-updated {
     font-size: 10px;
     color: #aaa;
@@ -753,6 +758,7 @@
 <span class="decision-chip">PC-D13 new Slot K — disclosure line</span>
 <span class="decision-chip">PC-D14 new rate-label = multi-rate only</span>
 <span class="decision-chip">PC-D15 new plan-name + badge convention · disabled-neutral CTA · commercial single phone</span>
+<span class="decision-chip">PC-D16 new in-flow switch variant</span>
 </p>
 <p>Source audit: <code>PlanCard_Audit_2026-05-14.md</code>. Build: this file. Propagation into ResidentialPlans, PromoPage, CommercialPlans wireframes follows as Batch B.</p>
 </div>
@@ -1652,6 +1658,7 @@
 <tr><td class="dec-id">PC-D13 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>New Slot K — Required disclosure line. Optional on every variant; required when promo state is active. Italic legal cue below bullets + above expand toggle, with an inline anchor to a page-level Promo Disclosure block. Full legal text lives at page bottom, not on the card. <em>Added 2026-05-14 from walkthrough — handles legal language too long for the card.</em></td><td>§1 Anatomy slot K · §4 rate-pending · §5 promo cards · §10 slot map</td></tr>
 <tr><td class="dec-id">PC-D14 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>Rate-label (the qualifier line below the rate row) is <b>optional, multi-rate only</b>. Single-rate cards never render it — was redundant with plan_name and inline rate unit. Multi-rate cards (PriceCap, TruBalance) keep it to disambiguate the primary rate. <em>Added 2026-05-14 from walkthrough.</em></td><td>§3 multi-rate (kept) · §2 §5 §6 §7 (removed) · §10 slot map</td></tr>
 <tr><td class="dec-id">PC-D15 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td>Plan-name + badge naming convention: <b>term + plan type live in the plan name; badges carry state and overrides only</b>. Term badge is omitted when plan name states the term. Promo/state/variant context lives in badges, never in the plan name (no "Promotional Rate" suffix). Max 3 badges per card. Disabled CTAs use neutral gray, not dimmed-orange. Commercial Custom phone is a single national commercial-rep number (per Contact Us wireframe), not per-market. <em>Added 2026-05-14 from §4 walkthrough.</em></td><td>§4 rate-pending + commercial custom · §5 promo cards (dedup applied) · §13 authoring guide</td></tr>
+<tr><td class="dec-id">PC-D16 <span style="font-size:9px; background:#e8f5e9; color:#1b5e20; border:1px solid #4caf50; border-radius:2px; padding:0 4px; margin-left:2px;">new</span></td><td><b>New "in-flow switch" variant — for an already-enrolled customer choosing a different plan mid-flow (Enrollment Select Plan step, both Enrollment files), not a new-customer marketing context.</b> Three changes from the standard card: (1) <b>CTA override, exception to PC-D2</b> — reads "Select this plan →" instead of "Start Enrollment →"; the card matching the customer's already-selected choice omits the CTA slot entirely (selection is confirmed via a page-level Continue button, not a per-card action). (2) <b>"Selected" is a card-level outline state, not a badge</b> — <code>.pc.inflow.selected</code> gives the card a 2px blue border, same visual mechanism as <code>.featured</code>/<code>.promo</code>'s border treatment, not a new badge-row entry; "Most Popular" (<code>badge-popular</code>) is unaffected and can still appear on any card in this grid. (3) <b>No ETC/ETF callout on the card</b> — a switching fee is triggered by leaving the customer's <i>current</i> plan, not by the alternative being displayed, so it doesn't belong on every card in the grid; that information belongs on the sticky current-plan summary (outside this component) instead, attached to the plan it actually describes. (4) <b>Color token override</b> — this variant's CTA and selected-state border use the in-app blue accent (<code>#2b5d8a</code>), not PlanCard's standard marketing orange, since it's an authenticated in-app context, not a public marketing surface. Scoped 2026-09-03 (Allyson) from patterns already ad-hoc-built (and byte-identical) in both <code>Enrollment_IL-IES_Wireframe.html</code> and <code>Enrollment_ONG-PA-GRE_Wireframe.html</code>'s Select Plan switch-to grids — those files' own dev notes always intended this component to replace their local markup. <b>Not yet done, flagged separately:</b> porting the finished enrollment files over to actually use this component, and relocating OPG's existing per-card ETC callout (<code>.pp-etf-callout</code>) to its own sticky current-plan summary to match point (3) above — see <code>Wireframe_ChangeLog_Active.md</code> ENRIL-305 for tracking.</td><td>§15 In-flow switch (new)</td></tr>
 </tbody>
 </table>
 </div>
@@ -1815,6 +1822,93 @@
 <div class="ann ann-b"><i>↳</i><span>Dev: each section is a CMS-authored block keyed to plan_type. Authors don't pick sections à la carte — section presence is determined by plan_type + state. Authors only edit copy inside each section.</span></div>
 <div class="ann ann-b"><i>↳</i><span>Analytics: expand section impressions logged via <code>plan_details_section_view</code> with <code>section_name</code> param so we can measure which sections customers actually scroll to.</span></div>
 </div>
+</div>
+</div>
+<!-- ───────────────────── SECTION 15: IN-FLOW SWITCH VARIANT (new, PC-D16) ───────────────────── -->
+<div class="section">
+<div class="section-header">
+<span class="section-num">15</span>
+<span class="section-title">In-flow switch — existing-customer plan-change grid</span>
+<span class="section-sub">Authenticated in-app context, not marketing · PC-D16</span>
+</div>
+<div class="section-body">
+<div class="col-3">
+<!-- Selected card -->
+<div>
+<div class="mobile-label">Selected — outline state, no CTA</div>
+<div class="pc inflow selected">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+</div>
+<div class="pc-name">12-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row"><span class="pc-rate">$0.74</span><span class="pc-rate-unit">/ therm</span></div>
+<div class="pc-desc">A steady per-therm rate for the full 12-month term.</div>
+<ul class="pc-points">
+<li>Rate locked for full 12-month term</li>
+<li>No enrollment fee</li>
+</ul>
+<span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<div style="font-size:11px; color:#2b5d8a; font-weight:700; text-align:center; padding:10px 0;">✓ Currently selected</div>
+</div>
+</div>
+</div>
+<!-- Alternative card, Most Popular still available in this grid -->
+<div>
+<div class="mobile-label">Alternative — Most Popular badge unaffected by selection state</div>
+<div class="pc inflow">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-variable">Variable Rate</span>
+<span class="pc-badge badge-popular">Most Popular</span>
+</div>
+<div class="pc-name">Flexible Rate Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row"><span class="pc-rate">$0.69</span><span class="pc-rate-unit">/ therm</span></div>
+<div class="pc-desc">A rate that moves with the market — no long-term commitment.</div>
+<ul class="pc-points">
+<li>No early termination fee</li>
+<li>Cancel anytime</li>
+</ul>
+<span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta inflow">Select this plan →</button>
+</div>
+</div>
+</div>
+<!-- Alternative card, plain -->
+<div>
+<div class="mobile-label">Alternative — plain, unselected</div>
+<div class="pc inflow">
+<div class="pc-head">
+<div class="pc-badge-row">
+<span class="pc-badge badge-fixed">● Fixed Rate</span>
+</div>
+<div class="pc-name">24-Month Fixed Plan</div>
+</div>
+<div class="pc-body">
+<div class="pc-rate-row"><span class="pc-rate">$0.71</span><span class="pc-rate-unit">/ therm</span></div>
+<div class="pc-desc">A longer lock-in for customers who want more rate certainty.</div>
+<ul class="pc-points">
+<li>Rate locked for full 24-month term</li>
+<li>No enrollment fee</li>
+</ul>
+<span class="pc-expand-link">▾ View Plan Terms &amp; Disclosures</span>
+</div>
+<div class="pc-foot">
+<button class="pc-cta inflow">Select this plan →</button>
+</div>
+</div>
+</div>
+</div>
+<div class="ann ann-b" style="margin-top: 14px;"><i>↳</i><span><strong>PC-D16 dev note — this is not a new component, it's a 3-property override on the standard card:</strong> <code>variant: "inflow"</code> swaps the CTA copy + accent color; <code>selected: true</code> applies the outline border state and drops the CTA slot; the ETC/ETF key-point that a standard card would otherwise carry is omitted entirely for this variant — a switching fee describes the customer's <i>current</i> plan, not whichever alternative is being displayed, so it doesn't belong in this grid at all. It belongs on a separate "current plan" sticky summary component, shown once, outside this grid — see <code>Enrollment_IL-IES_Wireframe.html</code>'s <code>.plan-summary-current</code> for the closest existing precedent of that pattern (though its own ETC field isn't populated in that market, since IL/IES has no ETC products).</span></div>
+<div class="ann ann-y" style="margin-top: 8px;"><i>↳</i><span><strong>Not yet done, flagged separately (ENRIL-305, Wireframe_ChangeLog_Active.md):</strong> neither enrollment file has been ported to actually use this component yet — both still run their own ad-hoc, pre-component markup. <code>Enrollment_ONG-PA-GRE_Wireframe.html</code>'s existing switch-to grid also still repeats an ETC callout on every alternative card (<code>.pp-etf-callout</code>), which per this variant's spec should move to that file's own sticky current-plan summary instead, shown once. Both are follow-up execution work, not resolved by this scoping pass.</span></div>
 </div>
 </div>
 </div>

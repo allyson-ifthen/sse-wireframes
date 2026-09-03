@@ -577,9 +577,7 @@
   body.error-otp-mismatch     #err-otp-mismatch,
   body.error-otp-expired      #err-otp-expired,
   body.error-acct-not-found   #err-acct-not-found,
-  body.error-not-in-good      #err-not-in-good,
   body.error-already-enrolled #err-already-enrolled,
-  body.error-credit-fail      #err-credit-fail,
   body.error-prime-timeout    #err-prime-timeout,
   body.error-email-down       #err-email-down,
   body.error-submit           #err-submit,
@@ -983,6 +981,11 @@
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
   .plan-summary-current { display: none; }
   body.flow-step-selectplan .plan-summary-current { display: block; }
+  /* ENRIL-535 (2026-09-03): promo deep-link indicator — mirrors Enrollment_ONG-PA-GRE_Wireframe.html's
+     ENR-185 fix, ported here to close the same "deep-link toggle is cosmetically identical to signed-in"
+     gap this file had. */
+  .plan-summary-promo-applied { display: none; }
+  body.entry-deeplink .plan-summary-promo-applied { display: block; }
   /* ENRIL-245: suppress older scen-only-existing current-plan block on step-selectplan (replaced by plan-summary-current) */
   body.flow-step-selectplan .plan-summary > .scen-only-existing:first-child { display: none; }
 
@@ -1110,11 +1113,16 @@
 <button id="ctype-btn-com" onclick="setCustomerType('commercial')">Commercial</button>
 </div>
 <div class="scenario-drop-row">
-<!-- ENRIL-395 (2026-08-10) / ENRIL-435 (2026-08-11): simulates the silent post-confirmation GetQuotes response for the Confirm Account step, Scen A + Scen C. -->
-<span class="scenario-drop-lbl">Credit check (Scen A/C)</span>
-<button class="on" id="creditcheck-btn-clear" onclick="setCreditCheckRequired(false)">Clear — skip (default)</button>
-<!-- ENRIL-522 (2026-08-17): now force-navigates + opens the modal immediately, instead of only arming a flag. -->
-<button id="creditcheck-btn-required" onclick="showCreditCheckModalNow()">Required — show modal</button>
+<!-- ENRIL-544 (2026-09-03): reworked from the old "Credit check (Scen A/C)" Clear/Required-modal toggle.
+     The credit-check consent modal (#credit-check-modal) is removed for all 4 scenarios (Allyson,
+     2026-09-03) — the credit check now runs silently, folded into the same post-Confirm-Account standing
+     check as everything else. This toggle now mirrors the B/D "Good standing" groups below: it simulates
+     that silent check's outcome for Scen A/C directly (Clear / Not in good standing / Credit check fail),
+     same 3-state shape, same terminal-stop-screen treatment on fail. -->
+<span class="scenario-drop-lbl">Account standing (Scen A/C)</span>
+<button class="on" id="acstanding-btn-clear" onclick="setScenACStanding('clear')">Clear (default)</button>
+<button id="acstanding-btn-not-in-good" onclick="setScenACStanding('not-in-good')">Not in good standing</button>
+<button id="acstanding-btn-credit-fail" onclick="setScenACStanding('credit-fail')">Credit check fail</button>
 </div>
 <div class="scenario-drop-row">
 <!-- ENRIL-474 (2026-08-16): simulates the silent Account-in-Good-Standing check at Scen B's OTP → Review transition (otpContinueScenB()). Mirrors the Credit check (Scen A/C) toggle above but fires from a different hook point, since Scen B has no Confirm Account step. -->
@@ -1227,27 +1235,12 @@
 </div>
 </div>
 </div>
-<!-- ENRIL-395 (2026-08-10) / ENRIL-435 (2026-08-11): conditional credit-check modal, Scen A + Scen C — revises ENRIL-231's proactive Confirm-Account checkbox (Scen C) and ENRIL-242/272/273's proactive consent-credit-scen-a checkbox (Scen A).
-     Fired only when the silent post-confirmation GetQuotes check (simulated via the reviewer toggle) flags a credit
-     check as required; explanation + consent + Confirm/Cancel all live in this one self-contained modal (no
-     interrupting round-trip back to a page with a newly-appeared checkbox, unlike current production).
-     ENRIL-507 (2026-08-17): this same modal is now also fired by Scen B/D's silent Account-in-Good-Standing
-     check (otpContinueScenB/D) — see the shared openCreditCheckModal()/creditCheckModalCallback pattern in
-     script, and the scen-only-b-inline/scen-only-d-inline copy variants below. -->
-<div aria-labelledby="ccm-title" aria-modal="true" class="leave-flow-modal" hidden="" id="credit-check-modal" role="dialog">
-<div class="leave-flow-modal__card">
-<h3 id="ccm-title" style="margin:0 0 10px;">Credit check required</h3>
-<p style="margin:0 0 14px;">Based on the account information you provided, we need your authorization to run a soft credit check before we can <span class="scen-only-a-inline">continue your enrollment</span><span class="scen-only-c-inline">generate your personalized <span class="mkt mkt-il on">Guaranteed Bill</span><span class="mkt mkt-ies">Fixed Bill</span> quote</span><!-- ENRIL-507 (2026-08-17): B/D text added — this modal now also fires from Scen B/D's silent good-standing check. --><span class="scen-only-b-inline">continue your plan change</span><span class="scen-only-d-inline">generate your personalized <span class="mkt mkt-il on">Guaranteed Bill</span><span class="mkt mkt-ies">Fixed Bill</span> quote</span>. This check does not affect your credit score.</p>
-<div class="checkbox-row">
-<input id="credit-check-modal-consent" onchange="validateCreditCheckModal()" type="checkbox"/>
-<label for="credit-check-modal-consent"><span class="req">*</span> <strong>I authorize <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to perform a soft credit check</strong> to verify my plan eligibility.</label>
-</div>
-<div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
-<button class="btn btn-tertiary" onclick="closeCreditCheckModal()">Cancel</button>
-<button class="btn" disabled="" id="credit-check-modal-confirm" onclick="confirmCreditCheckModal()">Confirm &amp; continue →</button>
-</div>
-</div>
-</div>
+<!-- ENRIL-544 (2026-09-03): #credit-check-modal removed entirely (was here, fired for Scen A/C's Confirm
+     Account transition and, per ENRIL-507, also for Scen B/D's silent good-standing check). Decision
+     (Allyson, 2026-09-03): explicit credit-check consent is no longer collected — the check now runs
+     silently as part of the same post-account-confirmation standing check for all 4 scenarios, with no
+     separate consent gate. Reopens ENRIL-395/434/435/507, all previously archived — see
+     Wireframe_ChangeLog_Active.md ENRIL-544 for full rationale. -->
 <!-- ENRIL-102: Welcome-back resume modal -->
 <div aria-labelledby="rm-title" aria-modal="true" class="leave-flow-modal" hidden="" id="resume-modal" role="dialog">
 <div class="leave-flow-modal__card">
@@ -1397,6 +1390,10 @@
 <dt>Expires</dt><dd>Feb 28, 2027</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
+<div class="plan-summary-promo-applied" style="margin-top:12px; padding:10px 12px; background: rgba(74,144,194,.10); border:1px solid var(--accent); border-radius:6px; font-size:13px;">
+<strong>Promo code applied:</strong> RAF25
+</div>
+<div class="ann ann-b"><strong>ENRIL-535 · Dev note — promo/deep-link entry use case.</strong> This line demonstrates a customer arriving via a promotional deep link (e.g., a "Switch to this plan" CTA from a marketing email or the Promo Page) while already signed in — the plan itself is pre-selected by the link, no code typed. Distinct from two other mechanisms in this file: <code>ENRIL-454</code>'s manual promo-code entry field below the plan grid (customer types in a code), and the "Refer a Friend" reward code at the Details step (<code>raf-promo-il</code>, <code>ENRIL-416</code>/<code>537</code> — a friend-referral reward, not a marketing promo, same distinction OPG's own equivalent note draws against its <code>ENR-125</code>). Real wiring — reading an actual promo code or plan-slug from a URL parameter — is a build-time concern; this wireframe documents the use case via the wfctl "Promo deep-link → selectplan" toggle without implementing full dynamic per-plan selection. Toggle the wfctl <em>"Entry state"</em> group ("Promo deep-link" vs. "Signed in") to compare. Ported from <code>Enrollment_ONG-PA-GRE_Wireframe.html</code>'s <code>ENR-185</code> fix — same gap, same pattern.</div>
 <button class="btn" onclick="alert('Keep current plan — return to My Account')" style="width:100%; margin-top:12px;">Keep current plan</button>
 
 </div>
@@ -1409,15 +1406,23 @@
 <span class="scen-hide-gb scen-only-a-inline">12-Month PriceGuard Plan<sup>®</sup></span>
 <span class="scen-hide-gb scen-only-b-inline">24-Month PriceGuard Plan<sup>®</sup></span>
 <!-- ENRIL-206: IES "Fixed Bill" branding split -->
-<!-- ENRIL-301: nest market spans inside scen-only-gb wrapper (was scen-only-gb mkt mkt-il on — .mkt.on specificity bled through in Scen A) -->
-<span class="scen-only-gb"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan<sup>®</sup></span><span class="mkt-inline mkt-ies">Fixed Bill Plan<sup>®</sup></span></span>
+<!-- ENRIL-301: nest market spans inside scen-only-c-inline wrapper (was scen-only-gb mkt mkt-il on — .mkt.on specificity bled through in Scen A) -->
+<span class="scen-only-c-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill Plan<sup>®</sup></span><span class="mkt-inline mkt-ies">Fixed Bill Plan<sup>®</sup></span></span>
+<!-- ENRIL-530 (2026-09-03): Scen D split out of scen-only-gb — a Scen D customer isn't necessarily switching
+     to a Guaranteed/Fixed Bill product anymore (ENRIL-527 gave D 3 real alternatives). Shows PriceGuard
+     12-month — the default pre-selected card in Select Plan's plan-pick-grid, and the only one of the 3
+     with a real, already-established rate ($0.74/therm). Static illustration only, matching this file's
+     existing (pre-existing, unrelated) limitation that the sidebar doesn't dynamically follow whichever
+     card is actually clicked, for any scenario — not something this fix builds. -->
+<span class="scen-only-d-inline">PriceGuard 12-month Plan</span>
 </div>
 <!-- ENRIL-300 (2026-07-06): "Change plan →" link removed entirely (matches OPG ENR-117). -->
 </div>
 <div class="plan-rate">
 <span class="scen-only-a-inline">$0.74 <small>/ therm</small></span>
 <span class="scen-only-b-inline">$0.74 <small>/ therm</small></span>
-<span class="scen-only-gb">$97 <small>/ month</small></span>
+<span class="scen-only-c-inline">$97 <small>/ month</small></span>
+<span class="scen-only-d-inline">$0.74 <small>/ therm</small></span>
 </div>
 <!-- ENRIL-496 (2026-08-16): directional content guidance for GB's pre-quote steps (Look Up → Verify → Account →
      Confirm Details, Scen C; Verify, Scen D) — fills the gap left when the rate is hidden (ENRIL-85) so the
@@ -1431,11 +1436,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <dl>
 <dt>Term</dt><dd>12 months</dd>
 <dt>Type</dt><dd>
-<!-- ENRIL-283: non-GB labels scoped to scen-only-a/scen-only-b; GB labels scoped to scen-only-gb — mutually exclusive -->
+<!-- ENRIL-283: non-GB labels scoped to scen-only-a/scen-only-b; GB labels scoped to scen-only-c-inline — mutually exclusive -->
 <span class="scen-only-a-inline">Fixed-rate</span>
 <span class="scen-only-b-inline">Fixed-rate</span>
-<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-gb wrapper (was combined scen-only-gb + mkt-inline.on, which bled through in Scen A). -->
-<span class="scen-only-gb"><span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span></span>
+<!-- ENRIL-206: IES "Fixed Bill" branding split. ENRIL-301: market spans nested inside scen-only-c-inline wrapper (was combined scen-only-gb + mkt-inline.on, which bled through in Scen A). -->
+<span class="scen-only-c-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span></span>
+<!-- ENRIL-530 (2026-09-03): Scen D now shows PriceGuard's actual type — Fixed-rate, same as A/B. -->
+<span class="scen-only-d-inline">Fixed-rate</span>
 </dd>
 <dt>Monthly customer charge</dt><dd>$X.XX</dd>
 </dl>
@@ -1605,9 +1612,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <section class="step residential-only" id="step-selectplan">
 <h2>
 <span class="scen-only-b-inline">Choose your new price plan</span>
-<!-- ENRIL-246: nest market spans inside scen-only-d-inline to prevent mkt-il.on from overriding scen-only-d-inline:hidden in Scen B -->
-<span class="scen-only-d-inline"><span class="mkt mkt-il on">Choose your new Guaranteed Bill plan</span></span>
-<span class="scen-only-d-inline"><span class="mkt mkt-ies">Choose your new Fixed Bill plan</span></span>
+<!-- ENRIL-246: nest market spans inside scen-only-d-inline to prevent mkt-il.on from overriding scen-only-d-inline:hidden in Scen B. ENRIL-530 (2026-09-03): dropped the "Guaranteed Bill"/"Fixed Bill" assertion — no longer accurate now that D's grid below offers PriceGuard/TruBalance/PriceCap (ENRIL-527), none of which are Guaranteed/Fixed Bill; matches B's neutral "new price plan" wording instead. -->
+<span class="scen-only-d-inline">Choose your new price plan</span>
 </h2>
 <p class="step-intro">
         Pick the plan you'd like to switch to. Your current plan stays in place — and you can keep it — until you finish enrolling in the new one.
@@ -1620,16 +1626,25 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      question not addressed by this item. -->
 <!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — client (Susan Hodge) confirmed this is regulator-mandated language that cannot be collapsed. Evidenced against IL test env + IGS Energy + Nordic Energy screenshots, all three showing this content as plain always-visible text, never an accordion. Still pending Legal confirmation of the exact minimum-required copy — same open flag already sitting on RP-7/RP-16. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-selectplan), anchor-linked from here. -->
 <div class="rate-disclosure-mandated scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
-<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
+<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
+     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
+     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
+     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
+     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
+     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
+<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
+<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
+<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
 <p class="scen-only-b" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-selectplan">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <div class="ann ann-b"><strong>ENRIL-467 · Dev note — premise context.</strong> Select Plan is the entry point for the dominant already-authenticated existing-customer path (My Account "Switch Plan," per CL-010 — Pre-flow 1 is skipped entirely for this session). The active service premise is established upstream in My Account before enrollment begins — My Account auth fires the multi-premise selector (<code>MA-61</code>) when PRIME returns 2+ addresses for the authenticated session, and the enrollment flow inherits that active premise. No premise re-selection occurs within the enrollment flow. Cross-ref Enrollment_ONG-PA-GRE_Wireframe.html's own ENR-98 note (same reasoning, ONG/PA/GRE). Documents, not reverses, ENRIL-211's removal of the Account # step from Scenario B.</div>
 
 <h3 style="margin-top: 22px;">
 <span class="scen-only-b-inline">Plans available to switch to</span>
-<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill plans available to switch to</span><span class="mkt-inline mkt-ies">Fixed Bill plans available to switch to</span></span>
+<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper. ENRIL-530 (2026-09-03): dropped the
+     "Guaranteed Bill"/"Fixed Bill" assertion for the same reason as the step heading above — matches B's
+     neutral wording, since none of the 3 cards below are Guaranteed/Fixed Bill products. -->
+<span class="scen-only-d-inline">Plans available to switch to</span>
 </h3>
 <p style="font-size: 13px; color: var(--muted); margin: -8px 0 12px;">
         Filtered to your market (<span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>) and utility
@@ -1805,9 +1820,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <!-- ENRIL-395 (2026-08-10) / ENRIL-435 (2026-08-11): revises ENRIL-231 — the proactive credit-check consent checkbox that lived here (and Scen A's consent-credit-scen-a on Account #, ENRIL-435) is
      removed. Confirm Account itself now carries no credit-check content (matches production/test env exactly), for both Scen A and Scen C.
-     After confirmation, a silent GetQuotes check runs; only if it flags a credit check as required does a
-     conditional, self-contained modal (#credit-check-modal, above) interrupt the flow. Most customers are
-     "Clear" and skip straight ahead with no interruption at all. -->
+     After confirmation, a silent standing check (which now folds in the credit check too, ENRIL-544) runs;
+     most customers are "Clear" and skip straight ahead with no interruption. **ENRIL-544 (2026-09-03):** the
+     consent modal this comment used to reference is gone — a Not-in-good/Credit-fail outcome now shows a
+     full stop-screen takeover instead. That takeover targets step-account's live inline confirm panels
+     (acct-confirm-panel-a/-c) specifically — this retired reference-only step (not reachable via normal
+     navigation, see ENRIL-451 above) won't visually show it if reached via its own debug button; not
+     rebuilt here since this step is explicitly out of live rotation. -->
 <div class="btn-row">
 <button class="btn btn-tertiary" onclick="setStep('account')">← Try Again</button>
 <div class="btn-row-right">
@@ -1831,16 +1850,25 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-206: IES "Fixed Bill" branding split -->
 <!-- ENRIL-228: Nest market spans inside scen-only wrapper to fix CSS specificity bleed -->
 <span class="scen-only-c-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
-<!-- ENRIL-290: Scen D heading updated to match "Quote" chip label -->
-<span class="scen-only-d-inline"><span class="mkt mkt-il on">Your Guaranteed Bill quote</span><span class="mkt mkt-ies">Your Fixed Bill quote</span></span>
+<!-- ENRIL-290: Scen D heading updated to match "Quote" chip label. ENRIL-530 (2026-09-03): dropped the
+     "Guaranteed Bill"/"Fixed Bill" assertion — D can now be quoting PriceGuard/TruBalance/PriceCap
+     (ENRIL-527), not necessarily a Guaranteed/Fixed Bill product. -->
+<span class="scen-only-d-inline">Your quote</span>
 </h2>
 <!-- ENRIL-354 (2026-07-21): inline rate line under the heading (Scen C only) — bridges the heading to the sidebar-only GB rate on desktop, addressing a discoverability gap (no inline plan card on Scen A/C). Placeholder rate per file convention. -->
 <p class="scen-only-c" style="font-size: 15px; margin: 0 0 8px;">Your monthly rate: <strong>$XX.XX</strong> — full details in the summary to the left ←</p>
 <!-- ENRIL-397 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen C. Same mechanism as Scen A (ENRIL-360/408) and same copy verbatim (Allyson, 2026-08-10: content is about the utility's regulatory comparison rate and SouthStar's full plan lineup, not specific to the customer's selected plan, so no GB-specific rewording needed). Lives in this combined Quote+Documents step per the Scen-C-only merge (ENRIL-399/405). -->
 <!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
 <div class="rate-disclosure-mandated scen-only-c" id="quote-rate-disclosure-c" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
-<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
+<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
+     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
+     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
+     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
+     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
+     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
+<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
+<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
+<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
 <p class="scen-only-c" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
@@ -1849,8 +1877,15 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-360 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen A. Test env surfaces multiple paragraphs of regulatory/rate-plan disclosure inline; rather than replicate the full block, an abbreviated line expands in place via accordion (ported from ResidentialPlans_Wireframe.html's FAQ pattern, ENRIL-408 — supersedes ENRIL-360's original anchor-link approach). Rate/date/utility are placeholders per file convention. Scen B/C/D: see ENRIL-397 for Scen C; B/D placement still deferred. -->
 <!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
 <div class="rate-disclosure-mandated scen-only-a" id="quote-rate-disclosure-a" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
-<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
+<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
+     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
+     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
+     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
+     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
+     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
+<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
+<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
+<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
 <p class="scen-only-a" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <!-- ENRIL-207: step-intro made scenario-aware; Scen A keeps original; Scen B/D get new intro; Scen C/GB keeps original -->
@@ -1904,24 +1939,26 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div class="plan-switch-compare-label">To</div>
 <h4>
 <span class="scen-only-b-inline">24-Month PriceGuard Plan</span>
-<!-- ENRIL-301: market spans nested inside scen-only-d-inline wrapper -->
-<span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">24-Month Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">24-Month Fixed Bill Plan</span></span>
+<!-- ENRIL-530 (2026-09-03): replaces the leftover fake "24-Month Guaranteed Bill Plan" — the exact old
+     GB-term-variant product ENRIL-527 had already eliminated from the plan-pick-grid cards above, but
+     missed here. Shows PriceGuard 12-month, matching this grid's own default-selected card (data-plan
+     "il-fixed-24") and its real, already-established rate. Static illustration, not wired to whichever
+     card is actually clicked — see the sidebar's matching ENRIL-530 note for the same caveat. -->
+<span class="scen-only-d-inline">PriceGuard 12-month Plan</span>
 </h4>
 <dl>
 <dt>Type</dt>
 <dd>
 <span class="scen-only-b-inline">Fixed-rate</span>
-<span class="scen-only-d-inline">
-<span class="mkt-inline mkt-il on">Guaranteed Bill</span>
-<span class="mkt-inline mkt-ies">Fixed Bill</span>
-</span>
+<span class="scen-only-d-inline">Fixed-rate</span>
 </dd>
 <dt>Rate</dt>
 <dd>
 <span class="scen-only-b-inline">$0.69 / therm</span>
-<span class="scen-only-d-inline">$XXX.XX / month (guaranteed)</span>
+<span class="scen-only-d-inline">$0.74 / therm</span>
 </dd>
-<dt>Term</dt><dd>24-month</dd>
+<dt class="scen-only-b">Term</dt><dd class="scen-only-b">24-month</dd>
+<dt class="scen-only-d">Term</dt><dd class="scen-only-d">12-month</dd>
 <dt>Effective</dt><dd>Next utility meter-read</dd>
 <dt>Auto-renewal</dt><dd>Yes</dd>
 </dl>
@@ -1942,8 +1979,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-425 (2026-08-11): q-continue-gb (Scen C) relocated out of this shared top fieldset to the bottom of Scenario C's merged Quote & Documents page — see the new "Required Acknowledgments" fieldset below the sample-contract scroll box. Scope: Scen C's merged page only; Scen D's q-continue-gb-d below is unaffected. -->
 <div class="checkbox-row scen-only-d">
 <input id="q-continue-gb-d" onchange="validateQuote()" type="checkbox"/>
-<!-- ENRIL-268: Scen D plan-change framing aligned to Scen C GBP acknowledgement pattern -->
-<label for="q-continue-gb-d"><span class="req">*</span> <strong>I want to switch to this <span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span> plan</strong> and understand that my current plan will be replaced on my utility's next meter-read. </label>
+<!-- ENRIL-268: Scen D plan-change framing aligned to Scen C GBP acknowledgement pattern. ENRIL-530
+     (2026-09-03): dropped the hardcoded "Guaranteed Bill/Fixed Bill" product mention — no longer
+     universally accurate now that D can switch to PriceGuard/TruBalance/PriceCap (ENRIL-527); the
+     plan-switch-compare "To" panel directly above already names the actual selected product, so the
+     checkbox doesn't need to repeat it. id kept as q-continue-gb-d (internal only, not customer-facing;
+     renaming would touch validateQuote()'s reference and comments elsewhere for no functional gain). -->
+<label for="q-continue-gb-d"><span class="req">*</span> <strong>I want to switch to this plan</strong> and understand that my current plan will be replaced on my utility's next meter-read. </label>
 </div>
 <!-- ENRIL-521 (2026-08-17): relocated here from Documents (step-bundle), paired with q-continue-gb-d —
      resolves the D-placement question ENRIL-476 left open. D's Quote heading is a rate reveal, not a
@@ -2541,8 +2583,10 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <!-- ENRIL-451 (2026-08-12): inline confirm panel — replaces the standalone Confirm Account step for Scen A.
      Revealed via acctLookupContinue('a') in place of the entry fieldset above; "Try Again" (acctTryAgain)
-     re-opens the entry fieldset and re-triggers the lookup on next Continue. Confirming still routes through
-     the existing confirmAccountContinue() → conditional #credit-check-modal flow, unchanged. -->
+     re-opens the entry fieldset and re-triggers the lookup on next Continue. Confirming routes through
+     confirmAccountContinue() — ENRIL-544 (2026-09-03): no more consent modal; the silent standing check's
+     outcome (reviewer: "Account standing (Scen A/C)" toggle) either continues straight through or shows a
+     full stop-screen takeover (showAcctStandingStop()) in this panel's place. -->
 <div class="fieldset" hidden="" id="acct-confirm-panel-a">
 <h4>Confirm your account details</h4>
 <p class="step-intro">We found the following account. Please confirm this is correct before we continue.</p>
@@ -2611,8 +2655,10 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 <!-- ENRIL-451 (2026-08-12): inline confirm panel — replaces the standalone Confirm Account step for Scen C.
      Revealed via acctLookupContinue('c') in place of the entry fieldset above; "Try Again" (acctTryAgain)
-     re-opens the entry fieldset and re-triggers the lookup on next Continue. Confirming still routes through
-     the existing confirmAccountContinue() → conditional #credit-check-modal flow, unchanged. -->
+     re-opens the entry fieldset and re-triggers the lookup on next Continue. Confirming routes through
+     confirmAccountContinue() — ENRIL-544 (2026-09-03): no more consent modal; the silent standing check's
+     outcome (reviewer: "Account standing (Scen A/C)" toggle) either continues straight through or shows a
+     full stop-screen takeover (showAcctStandingStop()) in this panel's place. -->
 <div class="fieldset" hidden="" id="acct-confirm-panel-c">
 <h4>Confirm your account details</h4>
 <p class="step-intro">We found the following account. Please confirm this is correct before we continue.</p>
@@ -2662,7 +2708,17 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       </div>
 <!-- ENRIL-191: Stop-screen annotation — standing check runs silently after account confirmation -->
 
-<!-- Standing check stop screens — moved here from step-standing per ENRIL-191 -->
+<!-- ENRIL-544 (2026-09-03): resolves the placement question ENRIL-435 left open. These two full
+     .stop-screen takeovers were previously dead markup (nothing ever set them visible — only the
+     .error-banner versions below were reachable, via the old body.error-* CSS pattern). Now wired to fire
+     off the post-Confirm-Account standing check (the same transition the credit check itself was moved to
+     by ENRIL-434/435) via confirmAccountContinue() → showAcctStandingStop(), gated by the scenACStanding
+     state (reviewer: "Account standing (Scen A/C)" toggle, or the global Error-mode dropdown's "Not good
+     standing"/"Credit fail" entries, both routed here by setError()). The former .error-banner alternatives
+     (err-not-in-good, err-credit-fail) are removed — a failure here is genuinely terminal (same category as
+     ENRIL-518's language-decline stop screens), so it gets the full takeover treatment, not an inline
+     banner, matching how Scen B/D already handle the identical outcome at their own OTP transition
+     (otpContinueScenB/D's otp-goodstanding-stop). -->
 <div class="stop-screen" id="acct-stop-not-in-good" style="display: none;">
 <h2>We can't complete your enrollment online</h2>
 <p>Your account has been flagged and requires manual review. Please contact us to discuss your options.</p>
@@ -2675,26 +2731,11 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <li>1-year enrollment restriction</li>
 </ul>
 </div>
-<!-- ENRIL-435 (2026-08-11) open flag, not decided here: this stop screen (and err-credit-fail below) live on step-account per ENRIL-191, on the assumption the credit check ran at account entry. Now that the check runs after the later Confirm Account step (ENRIL-395/435, both scenarios), these fail-outcome screens likely need to move to fire off that later transition instead. Left as-is pending a placement decision — see Wireframe_ChangeLog_Active.md ENRIL-435. -->
 <div class="stop-screen" id="acct-stop-credit-fail" style="display: none;">
 <h2>We can't offer this plan online</h2>
 <p>The soft credit check did not pass. Please contact us to discuss your options.</p>
 <span class="phone-big">1-877-292-9363</span>
 <p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
-</div>
-<div class="error-banner" id="err-not-in-good">
-<strong>We can't complete your enrollment online at this time.</strong> Your account has been flagged. Please call <strong>1-877-292-9363</strong>.
-        <ul style="margin: 8px 0 0; padding-left: 20px; font-size: 12px;">
-<li><strong>No flowing gas</strong> — service may be disconnected.</li>
-<li><strong>$50+ in arrears</strong> — please bring your account current first.</li>
-<li><strong>Account flagged as a write-off</strong></li>
-<li><strong>1-year enrollment restriction</strong> (from PRIME Stop message)</li>
-</ul>
-
-</div>
-<div class="error-banner" id="err-credit-fail">
-<strong>We can't offer this plan to you online.</strong> The soft credit check did not pass. Please call <strong>1-877-292-9363</strong>.
-
 </div>
 <!-- ENRIL-514 / ENRIL-519 (2026-08-17): err-already-enrolled + err-acct-not-found repositioned to sit
      directly below the account-number field/field-help, above — see there for the rebuilt markup. -->
@@ -2706,7 +2747,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div class="error-banner" id="err-prime-timeout">
 <strong>This is taking longer than expected.</strong> We couldn't reach our system. Your information is saved. Reference: <code>PRIME-TIMEOUT-3C9B</code>.
       </div>
-<!-- ENRIL-435 (2026-08-11): consent-credit-scen-a checkbox (ENRIL-242/272/273) removed — reverses the proactive-consent pattern for Scen A, replaced by the conditional #credit-check-modal fired off the new Confirm Account → Info transition (ENRIL-434), same mechanism already built for Scen C (ENRIL-395). -->
+<!-- ENRIL-435 (2026-08-11): consent-credit-scen-a checkbox (ENRIL-242/272/273) removed — reverses the proactive-consent pattern for Scen A, replaced by a silent check off the Confirm Account → Info transition (ENRIL-434), same mechanism already built for Scen C (ENRIL-395). ENRIL-544 (2026-09-03): the conditional consent-modal step this comment used to describe is also gone now — no explicit consent at all, see acct-stop-not-in-good/acct-stop-credit-fail above. -->
 <!-- ENRIL-302 (2026-07-06): "Almost there" next-step-announce container removed (Scen A/C). Copy was misleading — implied near-completion when several steps remain, and this isn't where standing/credit checks run. Orphaned .next-step-announce CSS removed too. -->
 <!-- ENRIL-523 (2026-08-17): id added so acctLookupContinue() can hide this row too — previously only the
      entry fieldset was hidden on Continue, leaving this outer row stacked above the confirm panel's own
@@ -3159,10 +3200,11 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p class="doc-placeholder">[Full personalized LOA body. Per Part 512 + Prime design doc: the three personalization values above are mandatory and constitute the audit-trail evidence package — name, timestamp, authentication code.]</p>
 </div>
 <div class="doc-section" id="doc-plan-contract-final">
-<!-- ENRIL-332: plan name + rate made scenario-aware — GB (Scen C/D) shows the Guaranteed/Fixed Bill plan name and monthly guaranteed rate; this block was hardcoded to the Scen A per-therm format for every scenario. -->
+<!-- ENRIL-332: plan name + rate made scenario-aware — GB (Scen C/D) shows the Guaranteed/Fixed Bill plan name and monthly guaranteed rate; this block was hardcoded to the Scen A per-therm format for every scenario. ENRIL-530 (2026-09-03): narrowed to scen-only-c — Scen D split out to its own paragraph below, no longer necessarily a Guaranteed/Fixed Bill product. -->
 <h4>2. Plan Contract</h4>
 <p class="scen-hide-gb">Plan: 12-Month PriceGuard · Term: March 1, 2026 — February 28, 2027 · Rate: $0.74 / therm.</p>
-<p class="scen-only-gb"><span class="mkt-inline mkt-il on">Plan: Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Plan: Fixed Bill Plan</span> · Term: March 1, 2026 — February 28, 2027 · Rate: $97.00 / month (guaranteed).</p>
+<p class="scen-only-c"><span class="mkt-inline mkt-il on">Plan: Guaranteed Bill Plan</span><span class="mkt-inline mkt-ies">Plan: Fixed Bill Plan</span> · Term: March 1, 2026 — February 28, 2027 · Rate: $97.00 / month (guaranteed).</p>
+<p class="scen-only-d">Plan: PriceGuard 12-month · Term: March 1, 2026 — February 28, 2027 · Rate: $0.74 / therm.</p>
 <p class="doc-placeholder">[Plan-specific contract terms with customer-specific dates. Generated by <code>EnrollCustomer</code> with <code>AcceptLetterActionCode=3</code>.]</p>
 </div>
 <div class="doc-section" id="doc-acr-final">
@@ -3412,6 +3454,9 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       var b = document.getElementById('entry-btn-' + k);
       if (b) b.classList.toggle('on', k === state);
     });
+    // ENRIL-535 (2026-09-03): ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-185 fix — without this,
+    // 'deeplink' was cosmetically identical to 'signedin' (same landing step, nothing else differed).
+    document.body.classList.toggle('entry-deeplink', state === 'deeplink');
     // If currently on a new-customer scenario (A or C), switch to the existing-customer
     // equivalent (B respectively D) so the entry-state has somewhere to apply.
     var scen = getScenario();
@@ -3550,15 +3595,16 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
   }
 
   // ---------- Error mode toggle (ENRIL-13 inventory) ----------
+  // ENRIL-544 (2026-09-03): 'not-in-good'/'credit-fail' removed from this map — setError() now intercepts
+  // both explicitly (below, same shape as the existing isBD interception) and routes them to the full
+  // stop-screen takeover on step-account instead of falling through to this generic step-navigation map.
   var errorStepMap = {
     'language-decline':  'quote',
     'email-mismatch':    'lookup',
     'otp-mismatch':      'otp',
     'otp-expired':       'otp',
     'acct-not-found':    'account',
-    'not-in-good':       'account',   // ENRIL-191: moved from standing → account
     'already-enrolled':  'account',   // ENRIL-191: moved from standing → account
-    'credit-fail':       'account',   // ENRIL-191: moved from standing → account
     'prime-timeout':     'account',
     'email-down':        'lookup',
     'submit':            'review',   // ENRIL-325
@@ -3631,11 +3677,27 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       else { setScenDGoodStanding(e); otpContinueScenD(); }
       return;
     }
+    // ENRIL-544 (2026-09-03): Scen A/C equivalent of the isBD branch above — routes the global Error-mode
+    // dropdown's "Not good standing"/"Credit fail" entries to the same full stop-screen takeover as the
+    // "Account standing (Scen A/C)" wfctl toggle, force-navigating to step-account and revealing whichever
+    // scenario's confirm panel is relevant first (mirrors the old showCreditCheckModalNow()'s force-navigate
+    // convenience, now superseded).
+    if (!isBD && (e === 'not-in-good' || e === 'credit-fail')) {
+      setStep('account');
+      setScenACStanding(e);
+      var acPanel = document.getElementById('acct-confirm-panel-' + scen);
+      if (!acPanel || acPanel.hidden) acctLookupContinue(scen);
+      showAcctStandingStop();
+      return;
+    }
     // Leaving the dropdown-driven good-standing state for any other selection (including 'none') —
     // reset the underlying toggle so OTP's "Verify and continue" behaves normally next time, keeping
     // the main dropdown and the dedicated Scen B/D toggles mutually consistent either direction.
     if (scen === 'b' && scenBGoodStanding !== 'clear') setScenBGoodStanding('clear');
     if (scen === 'd' && scenDGoodStanding !== 'clear') setScenDGoodStanding('clear');
+    // ENRIL-544 (2026-09-03): same reset, Scen A/C side — leaving the stop-screen state for any other
+    // selection restores the confirm panel (acctTryAgain also clears the stop screens themselves).
+    if (!isBD && scenACStanding !== 'clear') { setScenACStanding('clear'); acctTryAgain(scen); }
     if (isBD && (e === 'prime-timeout' || e === 'email-down')) { setStep('otp'); return; }
     // ENRIL-525 (2026-08-17): extended to Scen B, now that its OTP email is editable (ENRIL-504) — both
     // use the err-email-mismatch-otp instance ENRIL-524 added (B/D never visit Lookup).
@@ -3909,20 +3971,19 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     alert('Production behavior: navigate to homepage (wireframe demo only).');
   }
 
-  // ---------- ENRIL-395 / ENRIL-435: conditional credit-check modal off Confirm Account, Scen A + Scen C ----------
-  // Reviewer toggle simulates the silent post-confirmation GetQuotes response (see wfctl "Credit check" group).
-  // Most real customers are Clear — Required is the edge case, per Allyson's read of the flow.
-  // ENRIL-435 (2026-08-11): extends this Scen-C-only mechanism to Scen A, replacing its proactive
-  // consent-credit-scen-a checkbox (removed from Account #). Next-step routing after the check differs by
-  // scenario: Scen C continues to 'quote' (unaffected); Scen A continues to 'info' (ENRIL-434 — Scen A already
-  // completed Quote earlier in its own flow).
-  var creditCheckRequired = false;
-  function setCreditCheckRequired(required) {
-    creditCheckRequired = required;
-    var clearBtn = document.getElementById('creditcheck-btn-clear');
-    var reqBtn = document.getElementById('creditcheck-btn-required');
-    if (clearBtn) clearBtn.classList.toggle('on', !required);
-    if (reqBtn) reqBtn.classList.toggle('on', required);
+  // ---------- ENRIL-544 (2026-09-03): silent standing check off Confirm Account, Scen A + Scen C ----------
+  // Supersedes ENRIL-395/434/435/507's conditional credit-check-modal mechanism, removed entirely — no more
+  // explicit consent gate for any scenario. Reviewer toggle simulates the silent check's outcome directly
+  // (see wfctl "Account standing (Scen A/C)" group) — same 3-state shape (Clear / Not in good standing /
+  // Credit check fail) as the existing Scen B/D "Good standing" groups below, and the same full-stop-screen
+  // treatment on fail (mirrors otpContinueScenB/D's otp-goodstanding-stop pattern).
+  var scenACStanding = 'clear'; // 'clear' | 'not-in-good' | 'credit-fail'
+  function setScenACStanding(state) {
+    scenACStanding = state;
+    ['clear', 'not-in-good', 'credit-fail'].forEach(function(s) {
+      var b = document.getElementById('acstanding-btn-' + s);
+      if (b) b.classList.toggle('on', s === state);
+    });
   }
   function stepAfterConfirmAccount() {
     return document.body.classList.contains('scen-a') ? 'info' : 'quote';
@@ -3943,56 +4004,36 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     var entry = document.getElementById('acct-entry-' + scen);
     var panel = document.getElementById('acct-confirm-panel-' + scen);
     var outerRow = document.getElementById('acct-outer-btnrow');
+    var stopNotGood = document.getElementById('acct-stop-not-in-good');
+    var stopCreditFail = document.getElementById('acct-stop-credit-fail');
     if (panel) panel.hidden = true;
     if (entry) entry.hidden = false;
     if (outerRow) outerRow.style.display = '';
+    // ENRIL-544 (2026-09-03): also reset the stop-screen takeover — "Try Again" can now be reached from a
+    // stopped state via the global Error-mode dropdown switching to an unrelated mode (see setError()).
+    if (stopNotGood) stopNotGood.style.display = 'none';
+    if (stopCreditFail) stopCreditFail.style.display = 'none';
   }
-  // ENRIL-507 (2026-08-17): shared modal-open helper + pending-callback pattern — lets the same
-  // #credit-check-modal serve Scen A/C's Confirm Account flow AND Scen B/D's silent good-standing check
-  // (below), each resuming its own next step once consent is given.
-  var creditCheckModalCallback = null;
-  function openCreditCheckModal(onConfirm) {
-    creditCheckModalCallback = onConfirm;
-    var modal = document.getElementById('credit-check-modal');
-    var consent = document.getElementById('credit-check-modal-consent');
-    var confirmBtn = document.getElementById('credit-check-modal-confirm');
-    if (consent) consent.checked = false;
-    if (confirmBtn) confirmBtn.disabled = true;
-    if (modal) { modal.hidden = false; var firstBtn = modal.querySelector('button'); if (firstBtn) firstBtn.focus(); }
+  // ENRIL-544 (2026-09-03): full stop-screen takeover for Scen A/C's post-Confirm-Account standing-check
+  // fail outcomes — hides the confirm panel + outer button row, shows the matching .stop-screen. Called
+  // from confirmAccountContinue() (normal flow) and from setError()'s Scen A/C routing (reviewer shortcut).
+  function showAcctStandingStop() {
+    var scen = getScenario();
+    var panel = document.getElementById('acct-confirm-panel-' + scen);
+    var outerRow = document.getElementById('acct-outer-btnrow');
+    var stopNotGood = document.getElementById('acct-stop-not-in-good');
+    var stopCreditFail = document.getElementById('acct-stop-credit-fail');
+    if (panel) panel.hidden = true;
+    if (outerRow) outerRow.style.display = 'none';
+    if (stopNotGood) stopNotGood.style.display = (scenACStanding === 'not-in-good') ? 'block' : 'none';
+    if (stopCreditFail) stopCreditFail.style.display = (scenACStanding === 'credit-fail') ? 'block' : 'none';
   }
   function confirmAccountContinue() {
-    if (creditCheckRequired) {
-      openCreditCheckModal(function(){ setStep(stepAfterConfirmAccount()); });
-    } else {
+    if (scenACStanding === 'clear') {
       setStep(stepAfterConfirmAccount());
+    } else {
+      showAcctStandingStop();
     }
-  }
-  function closeCreditCheckModal() {
-    var modal = document.getElementById('credit-check-modal');
-    if (modal) modal.hidden = true;
-  }
-  function validateCreditCheckModal() {
-    var consent = document.getElementById('credit-check-modal-consent');
-    var btn = document.getElementById('credit-check-modal-confirm');
-    if (btn) btn.disabled = !(consent && consent.checked);
-  }
-  function confirmCreditCheckModal() {
-    closeCreditCheckModal();
-    var cb = creditCheckModalCallback;
-    creditCheckModalCallback = null;
-    if (cb) cb();
-  }
-  // ENRIL-522 (2026-08-17): "Required — show modal" (wfctl Credit check group) now previews the modal
-  // immediately on click, force-navigating to Scen A's Confirm Account panel if needed, rather than only
-  // arming a flag that doesn't visibly fire until a reviewer separately clicks through to that panel's own
-  // Continue button. Mirrors the "Toggle (A)"/"Toggle (C)" multi-address buttons' force-navigate convenience.
-  function showCreditCheckModalNow() {
-    setCreditCheckRequired(true);
-    setScenario('a');
-    setStep('account');
-    var panel = document.getElementById('acct-confirm-panel-a');
-    if (!panel || panel.hidden) acctLookupContinue('a');
-    openCreditCheckModal(function(){ setStep(stepAfterConfirmAccount()); });
   }
 
   // ---------- ENRIL-474: Scen B silent Account-in-Good-Standing check, OTP → Review transition ----------
@@ -4007,11 +4048,11 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       if (b) b.classList.toggle('on', s === state);
     });
   }
-  // ENRIL-507 (2026-08-17): "Verify and continue" now opens the shared credit-check consent modal first —
-  // B's silent good-standing check had no consent step at all, unlike A/C's explicit modal. Consenting
-  // resumes the actual check below via the shared callback.
+  // ENRIL-544 (2026-09-03): "Verify and continue" now runs the standing check directly — supersedes
+  // ENRIL-507's shared credit-check-modal-first treatment, removed along with the modal itself (no more
+  // explicit consent gate for any scenario).
   function otpContinueScenB() {
-    openCreditCheckModal(runOtpContinueScenB);
+    runOtpContinueScenB();
   }
   function runOtpContinueScenB() {
     if (scenBGoodStanding === 'clear') { setStep('review'); return; }
@@ -4042,9 +4083,9 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
       if (b) b.classList.toggle('on', s === state);
     });
   }
-  // ENRIL-507 (2026-08-17): same consent-modal-first treatment as Scen B above.
+  // ENRIL-544 (2026-09-03): same direct-to-check treatment as Scen B above — no more consent modal.
   function otpContinueScenD() {
-    openCreditCheckModal(runOtpContinueScenD);
+    runOtpContinueScenD();
   }
   function runOtpContinueScenD() {
     if (scenDGoodStanding === 'clear') { setStep('quote'); return; }

@@ -1884,8 +1884,17 @@
      (ARGS-licensed-supplier sentence + historical-pricing "Plug-In Illinois" link) moves to the bottom of this
      market's content block — see below. -->
 <div style="background:#f5f8fc; border-left:3px solid #888; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#444; line-height:1.6;">
-<p style="margin:0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> Your utility (<span class="market-display active" id="il-ldc-ref">Nicor Gas</span><span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy®, USA, LLC, and you are not required to enroll with Illinois Energy to receive natural gas service — you may remain with your utility's supply service at any time.</p>
-<p style="margin:0;">Current default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Illinois Commerce Commission's website →</a></p>
+<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — companion fix to
+     Enrollment_IL-IES_Wireframe.html's ENRIL-545, same evidence/rationale. Confirmed for Nicor Gas only. -->
+<!-- ENRIL-545 (2026-09-03): fixed id="il-ldc-ref" → "ldc-ref-il" — setMarket()'s selector is
+     `[id$="-" + market]`, and "il-ldc-ref" doesn't end in "-il" (its sibling "il-ldc-ref-ies" happened to
+     work only because it coincidentally ends in "-ies"). Pre-existing bug, invisible while this paragraph
+     was still an unconfirmed placeholder — surfaced once this became real customer-facing copy: after any
+     market-button click, this span lost its hardcoded default "active" class and never got it back, so the
+     IL card silently rendered "Your utility ()" with an empty parenthetical. -->
+<p style="margin:0 0 6px;">Your utility (<span class="market-display active" id="ldc-ref-il">Nicor Gas</span><span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy, and you are not required to enroll with Illinois Energy to receive natural gas service — you may remain with your utility's supply service at any time. Illinois Energy's price may be higher than traditional utility service at any time during the term of your agreement.</p>
+<p style="margin:0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
+<div class="ann ann-y" style="margin-top: 8px; padding: 8px 10px; background: #fffde7; border: 1.5px solid #f5c842; border-radius: 3px; font-size: 11px; color: #7a6000;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> Same gap as the companion Enrollment fix — rate/dates above are Nicor-specific only; no LDC-level selector exists on this page to swap them for a North Shore/Peoples customer. Owner: Allyson/Legal.</div>
 </div>
 <div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
 <b style="color:#1e3a5f;">Illinois Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong>. Plan types: Guaranteed Bill (quote-only), PriceGuard (Fixed, multiple terms), FlexPlan (Variable), <b>PriceCap</b> (multi-rate · primary+secondary), <b>TruBalance</b> (multi-rate · equal-weight stacked). Multi-rate plans are <b style="color:#b71c1c;">legacy · sunset planned</b> per PC-D4 — do not combine with Greener Life, Most Popular, Promo, or rate-pending. ICC SB651/Part 512 disclosure above is page-level and LDC-aware.
@@ -1908,8 +1917,13 @@
      ICC-mandated paragraph, shown plainly and always visible — no collapse/toggle. Same decision/evidence as
      the cards-il instance above; see the dev note there for full rationale. -->
 <div style="background:#f5f8fc; border-left:3px solid #888; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#444; line-height:1.6;">
-<p style="margin:0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> Your utility (<span class="market-display active" id="ies-ldc-ref">Nicor Gas</span>) is not the same company as Illinois Energy Solutions, and you are not required to enroll with Illinois Energy Solutions to receive natural gas service — you may remain with your utility's supply service at any time.</p>
-<p style="margin:0;">Current default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Illinois Commerce Commission's website →</a></p>
+<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — companion fix to
+     Enrollment_IL-IES_Wireframe.html's ENRIL-545, same evidence/rationale. Confirmed for Nicor Gas only
+     (IES's only servicing utility, per §A.21). -->
+<!-- ENRIL-545 (2026-09-03): fixed id="ies-ldc-ref" → "ldc-ref-ies" — same id-suffix bug as the IL card's
+     "il-ldc-ref" above ("ies-ldc-ref" doesn't end in "-ies"), same fix. -->
+<p style="margin:0 0 6px;">Your utility (<span class="market-display active" id="ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy Solutions, and you are not required to enroll with Illinois Energy Solutions to receive natural gas service — you may remain with your utility's supply service at any time. Illinois Energy Solutions's price may be higher than traditional utility service at any time during the term of your agreement.</p>
+<p style="margin:0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
 </div>
 <!-- IES Fixed Bill — new card per PC-D9 rev 2. Single-product market: one card, no grid. -->
 <div style="max-width:380px; margin:0 auto;">
