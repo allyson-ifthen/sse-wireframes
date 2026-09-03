@@ -132,8 +132,16 @@ body.is-chrome-hidden #esc-hint { display: block; }
 .h3 { font-size: 12px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
 .subhead { font-size: 14px; color: #555; line-height: 1.55; max-width: 620px; }
 .body-para { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; }
-.faq-q { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
-.faq-a { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 16px; }
+/* RAF-4: Common Questions accordion — <details>-based, matching MyAccount_Wireframe.html's own .raf-faq-item pattern (MA-43) rather than the ResidentialPlans/LearningCenter .faq-item/toggleFaq() JS pattern, so the project's two RAF-specific surfaces share one accordion convention. */
+.raf-faqs { border: 1.5px solid #e8e8e4; border-radius: 6px; padding: 4px 20px; margin: 10px 0 6px; background: #fafbfc; }
+.raf-faq-item { border-top: 1px solid #e8e8e4; }
+.raf-faq-item:first-of-type { border-top: none; }
+.raf-faq-item summary { padding: 13px 0; font-size: 13px; font-weight: 700; color: #1e3a5f; cursor: pointer; list-style: none; user-select: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.raf-faq-item summary::-webkit-details-marker { display: none; }
+.raf-faq-item summary::after { content: "+"; color: #888; font-size: 18px; font-weight: 300; flex-shrink: 0; }
+.raf-faq-item[open] summary::after { content: "−"; }
+.raf-faq-item summary:hover { color: #e8641a; }
+.raf-faq-body { padding: 0 0 15px; font-size: 12px; color: #555; line-height: 1.6; }
 
 /* ── RAF HERO ── */
 .raf-hero { background: linear-gradient(135deg, #1e3a5f, #0e2240); color: #fff; padding: 34px 36px; }
@@ -151,23 +159,27 @@ body.is-chrome-hidden #esc-hint { display: block; }
 .step-body { font-size: 12px; color: #555; line-height: 1.55; }
 @media (max-width: 720px) { .step-grid { grid-template-columns: 1fr; } }
 
-/* ── REWARD BOX ── */
-.reward-box { background: #f5f8fc; border: 1.5px solid #d0dce8; border-radius: 6px; padding: 18px 20px; margin: 10px 0; }
-.reward-figure-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 12px 0 4px; }
-.reward-figure { text-align: center; }
-.reward-figure-val { font-size: 20px; font-weight: 900; color: #b84800; font-style: italic; }
-.reward-figure-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
+/* ── DISCLOSURE BOX (RAF-5, §A.25) — converges Reward Details + T&Cs Summary onto the project's
+   established disclosure-adjacent-summary pattern (Legal/Compliance, Customer Rights), replacing
+   the one-off .reward-box/.tcs-box/.reward-figure componentry. Byte-identical base rule to those
+   files so this is a true convergence, not a re-skinned one-off. */
+.disclosure-box { border-left: 4px solid #e8641a; background: #fff8f4; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 4px 4px 0; }
+.disclosure-box-head { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #c0440c; margin-bottom: 5px; }
+.disclosure-box p { font-size: 12px; color: #5a2e0c; line-height: 1.65; }
+/* Justified stat-figure row — new variant, no prior .disclosure-box precedent carries one (RAF-5 build note) */
+.disclosure-figure-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0d9c8; }
+.disclosure-figure { text-align: center; flex: 1; min-width: 100px; }
+.disclosure-figure-val { font-size: 20px; font-weight: 900; color: #c0440c; font-style: italic; }
+.disclosure-figure-lbl { font-size: 10px; color: #8a5a3a; text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
 
-/* ── T&Cs SUMMARY BOX ── */
-.tcs-box { background: #fff; border: 1.5px solid #e8e8e4; border-radius: 6px; padding: 16px 18px; margin: 10px 0; }
-
-/* ── CTA BAND ── */
-.cta-band { background: #f5f8fc; border-top: 1.5px solid #d0dce8; padding: 30px 36px; text-align: center; }
-.cta-band-title { font-size: 19px; font-weight: 900; color: #1e3a5f; margin-bottom: 6px; }
-.cta-band-sub { font-size: 13px; color: #666; margin-bottom: 20px; max-width: 560px; margin-left: auto; margin-right: auto; }
-.cta-pair { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
-.cta-option { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 260px; }
-.cta-option-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #888; }
+/* ── CTA BAND (RAF-6, §A.25) ── standard dark-filled .cta-band, matching FixedBillPlanHub_Wireframe.html's
+   markup exactly (background/.h2/p rules), rather than the prior light/border-top redefinition. One primary
+   .wf-btn + one de-prioritized secondary .soft-link, per Promo Page's locked precedent — replaces the
+   unprecedented .cta-pair/.cta-option two-equal-buttons pattern. */
+.cta-band { background: #1e3a5f; color: #fff; padding: 30px 36px; text-align: center; }
+.cta-band .h2 { color: #fff; margin-bottom: 6px; }
+.cta-band p { font-size: 13px; color: #cfe0f0; margin-bottom: 20px; max-width: 560px; margin-left: auto; margin-right: auto; }
+.cta-band .soft-link { color: #9dc4e8; }
 </style>
 </head>
 <body class="mkt-ong mode-ann-all">
@@ -179,7 +191,7 @@ body.is-chrome-hidden #esc-hint { display: block; }
 <div class="toolbar">
 <div class="toolbar-left">
 <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-<span class="toolbar-meta">NP-11 · Refer a Friend · General Informational template · ONG/PA/GRE/IL/IES · Source: Wireframe_ChangeLog_Active.md §A.16 NP-11 / §A.17 Batch 4 / §A.18 (IES added 2026-08-28)</span>
+<span class="toolbar-meta">NP-11 · Refer a Friend · General Informational template · ONG/PA/GRE/IL/IES · Source: Wireframe_ChangeLog_Active.md §A.16 NP-11 / §A.17 Batch 4 / §A.18 (IES added 2026-08-28) / §A.25 (IE/IES client-approved 2026-09-03, componentry pass)</span>
 <div>
 <div class="vsw-label">Market</div>
 <div class="market-switcher">
@@ -241,7 +253,7 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 <li><strong>Open Item #5 (Legal):</strong> T&amp;Cs summary language (Section 4) requires legal review before publish.</li>
 <li><strong>Open Item #6 (Allyson) — added 2026-08-28, IES market scope:</strong> IES (Illinois Energy Solutions, Fixed Bill Plan) has been added to this page's market scope per §A.18/ENRIL-416 (2026-08-28) — see toolbar-meta. IES has <strong>no content-tracker row at all</strong> for this page, thinner sourcing than even IE's (Open Item #4, which at least has a confirmed Template Matrix entry). IES's promo code, T&amp;Cs page status, and any Fixed-Bill-specific program variation (reward mechanic is referral-link-based regardless of rate structure, but eligibility/cap specifics are unconfirmed) are unsourced. Treat IES's inclusion as less solidly sourced than IE's, not equal to it. See Section 4 IES note.</li>
 <li><strong>Cross-ref flag (GLB-RAF-2, §A.GLOBAL):</strong> the canonical full Program Terms page this page's Section 4 links out to (proposed <code>ReferAFriendTerms_Wireframe.html</code>) has not been built yet. Section 4's link-outs below point to that filename as a placeholder destination only — annotated <span class="ann ann-y" style="display:inline-flex; margin:0 2px; padding:2px 6px;">pending build</span> rather than fabricating full legal text inline.</li>
-<li><strong>Cross-ref flag (GLB-RAF-2 / MA-76 / MA-79 — resolved 2026-08-28 per §A.18):</strong> This item previously flagged that GLB-RAF-2 scoped the canonical Program Terms page to "ONG/PA/GRE only," because MA-76/MA-79 suppressed the RAF Dashboard in My Account for IL/IES — a direct conflict with this page's confirmed IE(IL) inclusion. <strong>Resolved:</strong> per §A.18 (2026-08-28), MA-76/MA-79 are reversed — <code>MyAccount_Wireframe.html</code>'s RAF Dashboard and summary card now render for IL and IES too, so an IE or IES visitor who clicks "Log in to manage your referrals" now reaches a working RAF Dashboard. Still internal-only, not yet client-confirmed.</li>
+<li><strong>Cross-ref flag (GLB-RAF-2 / MA-76 / MA-79 — resolved 2026-08-28 per §A.18; client-approved 2026-09-03 per §A.25 RAF-3):</strong> This item previously flagged that GLB-RAF-2 scoped the canonical Program Terms page to "ONG/PA/GRE only," because MA-76/MA-79 suppressed the RAF Dashboard in My Account for IL/IES — a direct conflict with this page's confirmed IE(IL) inclusion. <strong>Resolved:</strong> per §A.18 (2026-08-28), MA-76/MA-79 are reversed — <code>MyAccount_Wireframe.html</code>'s RAF Dashboard and summary card now render for IL and IES too, so an IE or IES visitor who clicks "Log in to manage your referrals" now reaches a working RAF Dashboard. <strong>Client-approved (Allyson, 2026-09-03, §A.25 RAF-3):</strong> SouthStar has explicitly confirmed RAF isn't live on IE/IES's current production sites today but will launch for both markets by the time the redesign ships — the market scope on this page (ONG/PA/GRE/IE/IES) is no longer an internal-only call. Open Item #1 (reward amount/cap/2026 dates) and Open Item #6 (IES sourcing) remain separately unconfirmed.</li>
 <li><strong>Cross-ref flag — resolved 2026-08-28 per §A.18:</strong> previously flagged that <code>Enrollment_IL-IES_Wireframe.html</code>'s Confirmation-screen RAF join teaser (ENRIL-421) stated a concrete "$25 reward" figure predating the finding (Open Item #1) that all 2026 reward figures are unconfirmed program-wide. <strong>Addressed:</strong> that file (and <code>Enrollment_ONG-PA-GRE_Wireframe.html</code>'s equivalent ENR tile, and this project's <code>MyAccount_Wireframe.html</code>) now carry an <code>.ann-y</code> citing this page's Open Item #1, rather than stating $25 as settled.</li>
 <li><strong>Cross-ref flag — resolved 2026-08-28 per §A.18:</strong> previously flagged that the Confirmation screen's opt-in checkbox (<code>conf-raf-agree</code>) in both <code>Enrollment_ONG-PA-GRE_Wireframe.html</code> and <code>Enrollment_IL-IES_Wireframe.html</code> linked to <code>#raf-program-terms</code>, an in-page anchor with no matching id in either file — a dead link (GLB-RAF-2). <strong>Addressed:</strong> both checkboxes now point at the same <code>ReferAFriendTerms_Wireframe.html</code> placeholder destination this page's own Section 4 links use, consistent with the "pending build" placeholder convention rather than a fabricated in-page anchor.</li>
 </ul>
@@ -388,22 +400,23 @@ using your code, you'll both receive a reward once their enrollment is confirmed
 
 <!-- Section 3: Reward Details -->
 <div class="h2" style="margin: 26px 0 4px;">Reward Details</div>
-<div class="reward-box">
-<div class="body-para" style="margin-bottom: 0;">
+<div class="disclosure-box">
+<div class="disclosure-box-head">Reward Amount &amp; Program Terms</div>
+<p>
 When your friend enrolls using your referral link and their enrollment is confirmed by their utility, you'll both receive a reward — historically issued as a Visa reward card, matching the current program's pattern. The specific amount, any per-referral or annual cap, and the reward-card issuer/mechanism for 2026 are not yet confirmed.
+</p>
+<div class="disclosure-figure-row">
+<div class="disclosure-figure">
+<div class="disclosure-figure-val">$[TBD]</div>
+<div class="disclosure-figure-lbl">Reward amount</div>
 </div>
-<div class="reward-figure-row">
-<div class="reward-figure">
-<div class="reward-figure-val">$[TBD]</div>
-<div class="reward-figure-lbl">Reward amount</div>
+<div class="disclosure-figure">
+<div class="disclosure-figure-val">$[TBD]</div>
+<div class="disclosure-figure-lbl">Program cap</div>
 </div>
-<div class="reward-figure">
-<div class="reward-figure-val">$[TBD]</div>
-<div class="reward-figure-lbl">Program cap</div>
-</div>
-<div class="reward-figure">
-<div class="reward-figure-val">[TBD]</div>
-<div class="reward-figure-lbl">2026 program dates</div>
+<div class="disclosure-figure">
+<div class="disclosure-figure-val">[TBD]</div>
+<div class="disclosure-figure-lbl">2026 program dates</div>
 </div>
 </div>
 </div>
@@ -418,36 +431,40 @@ When your friend enrolls using your referral link and their enrollment is confir
 <div class="h2" style="margin: 26px 0 4px;">Terms &amp; Conditions Summary</div>
 
 <!-- ONG -->
-<div class="tcs-box mkt on" id="tcs-ong">
-<div class="body-para" style="margin-bottom: 8px;">
+<div class="disclosure-box mkt on" id="tcs-ong">
+<div class="disclosure-box-head">Ohio Natural Gas — Terms Summary</div>
+<p>
 To qualify, your friend must be a new Ohio Natural Gas customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). Full program terms, including complete eligibility rules and reward timing, are available on our dedicated Program Terms page.
-</div>
+</p>
 <a class="soft-link" href="ReferAFriendTerms_Wireframe.html#ong">Read the full Refer a Friend Program Terms →</a>
 <div class="ann ann-y" style="margin-top:8px;"><strong>GLB-RAF-2:</strong> <code>ReferAFriendTerms_Wireframe.html</code> has not been built yet — this link is a placeholder destination, not a live page. ONG's existing live terms page (<code>ohionaturalgas.com/refer-a-friend-tandcs/</code>, ONG-057) needs legal review before its content can be ported into the new canonical page.</div>
 </div>
 
 <!-- GRE -->
-<div class="tcs-box mkt" id="tcs-gre">
-<div class="body-para" style="margin-bottom: 8px;">
+<div class="disclosure-box mkt" id="tcs-gre">
+<div class="disclosure-box-head">Grand Rapids Energy — Terms Summary</div>
+<p>
 To qualify, your friend must be a new Grand Rapids Energy customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). Full program terms, including complete eligibility rules and reward timing, are available on our dedicated Program Terms page.
-</div>
+</p>
 <a class="soft-link" href="ReferAFriendTerms_Wireframe.html#gre">Read the full Refer a Friend Program Terms →</a>
 <div class="ann ann-y" style="margin-top:8px;"><strong>GLB-RAF-2:</strong> <code>ReferAFriendTerms_Wireframe.html</code> has not been built yet — this link is a placeholder destination, not a live page. GRE currently has its own separate, live T&amp;Cs page (<code>grandrapidsenergy.com/refer-a-friend-tandcs/</code>, GRE-047, needs legal review) — per GLB-RAF-2's 2026-08-25 decision, GRE is expected to consolidate onto the shared canonical page once built, same as ONG/PA. Not yet executed.</div>
 </div>
 
 <!-- PA — market-specific variant per PE-059, not a blanket link-out -->
-<div class="tcs-box mkt" id="tcs-pa">
-<div class="body-para" style="margin-bottom: 8px;">
+<div class="disclosure-box mkt" id="tcs-pa">
+<div class="disclosure-box-head">Pennsylvania Energy — Terms Summary</div>
+<p>
 Pennsylvania Energy's Refer a Friend terms are summarized in full below, rather than on a separate terms page — Pennsylvania Energy's standalone Terms &amp; Conditions page is being retired and its content consolidated into this page and the FAQ section (per PE-059). To qualify, your friend must be a new Pennsylvania Energy customer — not someone already enrolled with us. Your reward is issued after your friend's enrollment is confirmed, not at the moment they sign up, and it's one reward per successful, confirmed referral (any additional per-account or annual limit is part of the unconfirmed 2026 program terms above). If a shared, multi-market Program Terms page is built per GLB-RAF-2, Pennsylvania Energy's terms may move there too — not yet decided.
-</div>
+</p>
 <div class="ann ann-y" style="margin-top:8px;"><strong>Open Item #3 (Allyson / Client):</strong> PA's PE-059 consolidation approach is not yet finalized — this expanded, self-contained summary (rather than a link-out) is a working assumption for this page, pending confirmation of how PA's retired terms page content is actually redistributed between this page and the FAQ.</div>
 </div>
 
 <!-- IL / IE -->
-<div class="tcs-box mkt" id="tcs-il">
-<div class="body-para" style="margin-bottom: 8px;">
+<div class="disclosure-box mkt" id="tcs-il">
+<div class="disclosure-box-head">Illinois Energy — Terms Summary</div>
+<p>
 Illinois Energy's Refer a Friend terms and conditions page status is not yet scoped — there is no confirmed destination to link to, and no confirmed statement of eligibility rules specific to Illinois Energy beyond the general mechanic described above (new-customer referral, reward after confirmed enrollment). This section intentionally does not state Illinois Energy-specific eligibility or cap details until they're sourced.
-</div>
+</p>
 <div class="ann ann-r">
 <i>⛔</i>
 <div><strong>Open Item #4 (Allyson):</strong> IE has no dedicated content-tracker row for this page at all — confirm IE's promo code, T&amp;Cs page status, and any IE-specific program variation before this section can be finalized. Do not treat IE's terms as identical to ONG/PA/GRE by default.</div>
@@ -455,10 +472,11 @@ Illinois Energy's Refer a Friend terms and conditions page status is not yet sco
 </div>
 
 <!-- IES — added 2026-08-28 per §A.18/ENRIL-416 -->
-<div class="tcs-box mkt" id="tcs-ies">
-<div class="body-para" style="margin-bottom: 8px;">
+<div class="disclosure-box mkt" id="tcs-ies">
+<div class="disclosure-box-head">Illinois Energy Solutions — Terms Summary</div>
+<p>
 Illinois Energy Solutions' Refer a Friend terms and conditions page status is not yet scoped — there is no confirmed destination to link to, and no confirmed statement of eligibility rules specific to Illinois Energy Solutions beyond the general mechanic described above (new-customer referral, reward after confirmed enrollment). The Fixed Bill Plan's flat monthly-charge structure doesn't change the referral mechanic itself — the reward is triggered by a confirmed enrollment, not by rate type — but this section intentionally does not state Illinois Energy Solutions-specific eligibility or cap details until they're sourced.
-</div>
+</p>
 <div class="ann ann-r">
 <i>⛔</i>
 <div><strong>Open Item #6 (Allyson):</strong> IES has no content-tracker row for this page at all — thinner sourcing than even IE's (Open Item #4), which at least has a confirmed Template Matrix entry. IES's inclusion here follows from §A.18/ENRIL-416's RAF-availability reversal, not from any IES-specific RAF content brief. Confirm IES's promo code, T&amp;Cs page status, and program variation before this section can be finalized. Do not treat IES's terms as identical to ONG/PA/GRE/IE by default.</div>
@@ -467,17 +485,29 @@ Illinois Energy Solutions' Refer a Friend terms and conditions page status is no
 
 <!-- Section 5: Common Questions -->
 <div class="h2" style="margin: 26px 0 4px;">Common Questions</div>
-<div class="faq-q">Does my friend need to be a new customer?</div>
-<div class="faq-a">Yes. Your friend needs to be a new customer who isn't already enrolled with us — the program rewards bringing in someone new, not an existing account switching plans.</div>
-<div class="faq-q">When do I get my reward?</div>
-<div class="faq-a">After your friend's enrollment is confirmed by their utility — not right when they sign up. Utility confirmation runs on a nightly batch, so it can take a little longer than the enrollment itself. <span class="soft-link" style="cursor:default; text-decoration:none; color:#888; font-weight:600;">(Exact fulfillment timeline: see Open Item #2 above.)</span></div>
-<div class="faq-q">Is there a limit to how many friends I can refer?</div>
-<div class="faq-a">There may be a limit on how many rewards you can earn — but the current program cap for 2026 hasn't been confirmed yet (see Open Item #1 above), so we can't state a specific number here until it is.</div>
-<div class="faq-q">What if my friend doesn't complete enrollment?</div>
-<div class="faq-a">No reward is issued unless your friend's enrollment goes through and their utility confirms the switch. If they don't finish enrolling, or the switch can't be validated, that referral doesn't earn a reward.</div>
-<div class="faq-q">How do I check my referral status?</div>
-<div class="faq-a">Log in to My Account to see your referral status and reward history. <a class="soft-link login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals →</a></div>
-<div class="ann ann-b">Dev: per the content brief's Section 5 callout, the last FAQ answer routes to My Account rather than explaining the RAF Dashboard's mechanics on this page.</div>
+<div class="raf-faqs">
+<details class="raf-faq-item" open>
+<summary>Does my friend need to be a new customer?</summary>
+<div class="raf-faq-body">Yes. Your friend needs to be a new customer who isn't already enrolled with us — the program rewards bringing in someone new, not an existing account switching plans.</div>
+</details>
+<details class="raf-faq-item">
+<summary>When do I get my reward?</summary>
+<div class="raf-faq-body">After your friend's enrollment is confirmed by their utility — not right when they sign up. Utility confirmation runs on a nightly batch, so it can take a little longer than the enrollment itself. <span style="color:#888; font-weight:600;">(Exact fulfillment timeline: see Open Item #2 above.)</span></div>
+</details>
+<details class="raf-faq-item">
+<summary>Is there a limit to how many friends I can refer?</summary>
+<div class="raf-faq-body">There may be a limit on how many rewards you can earn — but the current program cap for 2026 hasn't been confirmed yet (see Open Item #1 above), so we can't state a specific number here until it is.</div>
+</details>
+<details class="raf-faq-item">
+<summary>What if my friend doesn't complete enrollment?</summary>
+<div class="raf-faq-body">No reward is issued unless your friend's enrollment goes through and their utility confirms the switch. If they don't finish enrolling, or the switch can't be validated, that referral doesn't earn a reward.</div>
+</details>
+<details class="raf-faq-item">
+<summary>How do I check my referral status?</summary>
+<div class="raf-faq-body">Log in to My Account to see your referral status and reward history. <a class="soft-link login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals →</a></div>
+</details>
+</div>
+<div class="ann ann-b">Dev: per the content brief's Section 5 callout, the last FAQ answer routes to My Account rather than explaining the RAF Dashboard's mechanics on this page. <strong>RAF-4 (§A.25, 2026-09-03):</strong> converted from flat always-visible divs to a collapsible accordion — matching <code>MyAccount_Wireframe.html</code>'s own RAF FAQ block (<code>.raf-faq-item</code>, <code>&lt;details&gt;</code>-based, MA-43) rather than Residential Plans/Learning Center's <code>.faq-item</code>/<code>toggleFaq()</code> JS pattern, so the project's two RAF-specific surfaces share one accordion convention. First item open by default so the section doesn't read empty on load.</div>
 
 </div>
 </div>
@@ -486,19 +516,15 @@ Illinois Energy Solutions' Refer a Friend terms and conditions page status is no
 <div class="section">
 <span class="sec-num">5</span>
 <div class="cta-band">
-<div class="cta-band-title">Ready to start referring — or ready to switch?</div>
-<div class="cta-band-sub">These are two different journeys. Pick the one that's yours.</div>
-<div class="cta-pair">
-<div class="cta-option">
-<div class="cta-option-lbl">Already a customer</div>
+<div class="h2">Ready to Start Referring?</div>
+<p>Share your link and start earning rewards on referrals you send. Not a customer yet? You can enroll instead.</p>
 <a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals</a>
-</div>
-<div class="cta-option">
-<div class="cta-option-lbl">Not a customer yet</div>
-<a class="wf-btn-out enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html" style="color:#1e3a5f; border-color:#1e3a5f;">New here? Enroll now</a>
+<div style="margin-top:14px;">
+<a class="soft-link enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html">New here? Enroll now →</a>
 </div>
 </div>
-<div class="ann ann-b" style="margin-top:16px; text-align:left; display:inline-flex;">Dev: per the content brief's Section 6 callout, these two CTAs are kept visually distinct (separate labeled columns) rather than blended into one generic "Get Started" button — existing customers referring a friend and new prospects who were referred need different paths.</div>
+<div class="ann-row" style="padding:8px 24px 12px;">
+<span class="ann ann-b"><strong>RAF-6 (§A.25, 2026-09-03):</strong> rebuilt on the standard dark-filled <code>.cta-band</code> (matching Fixed Bill Plan Hub) with one primary <code>.wf-btn</code> + a de-prioritized secondary <code>.soft-link</code>, replacing the unprecedented <code>.cta-pair</code>/<code>.cta-option</code> two-equal-buttons markup. <strong>Login kept primary:</strong> this page's own hero CTAs already lead with "Log in to manage your referrals" as the primary action (this page is fundamentally about referring, which requires being logged in) — enrollment is the secondary path, for a prospect who landed here without an existing account.</span>
 </div>
 </div>
 
