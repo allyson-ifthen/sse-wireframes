@@ -2152,6 +2152,18 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
           849
         </div>
 <div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 10px;">Confirmed on August 24, 2026 at 2:47 p.m. ET</div>
+<!-- ENR-205 (2026-09-02): Account number / Gas Utility Company / Service address folded into the hero as quiet
+     meta text, same style as the "Confirmed on" line above — replaces the boxed "Service & account" / "Address"
+     review-section cards below (ENR-179), which are removed. Billing/mailing address is dropped entirely, not
+     folded in: service address is the substantive fact being confirmed — the premise receiving gas — while
+     billing is just payment routing, not part of what's being confirmed (Allyson, 2026-09-02). Ported from
+     Enrollment_IL-IES_Wireframe.html's equivalent fold, ENRIL-542.
+     Correction to ENR-205's original log entry: it assumed this file's Address recap already showed service
+     address only with no mailing line to drop — the file actually carried a "Mailing address: Same as service
+     address" line (see ENR-179 below, now removed). The same underlying decision (billing/mailing isn't part of
+     what's being confirmed) applies regardless, so it's dropped here too, matching IL/IES. -->
+<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Account number 123456789 · Gas Utility Company <span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></div>
+<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Service address: 123 Main Street, <span class="mkt-inline mkt-ong on">Columbus, OH 43210</span><span class="mkt-inline mkt-pa">Pittsburgh, PA 15201</span><span class="mkt-inline mkt-gre">Grand Rapids, MI 49503</span></div>
 <div class="conf-actions">
 <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
 <button class="btn btn-secondary">⬇ Download PDF</button>
@@ -2160,27 +2172,12 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-92: Existing customer cancel contract option (2 routing patterns for client decision) -->
 
 </div>
-<!-- ENR-179 (2026-08-24): "Service & account" + "Address" recap boxes — static/read-only,
-     receipt-style. Mirrors Step 4 Review's .review-section markup/pattern (same class, same
-     dl/dt/dd structure), IL/IES precedent (ENRIL-420/443). No inline edit links — Confirmation is
-     a receipt, not an editable step. Documents/doc-bundle intentionally NOT re-added here —
-     stays suppressed per the ENR-91 decision (deliberate, not an oversight). -->
-<div class="review-section-row">
-<div class="review-section">
-<header><h4>Service &amp; account</h4></header>
-<dl>
-<dt>Account number</dt><dd>123456789</dd>
-<dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
-</dl>
-</div>
-<div class="review-section">
-<header><h4>Address</h4></header>
-<dl>
-<dt>Service address</dt><dd>123 Main Street, <span class="mkt-inline mkt-ong on">Columbus, OH 43210</span><span class="mkt-inline mkt-pa">Pittsburgh, PA 15201</span><span class="mkt-inline mkt-gre">Grand Rapids, MI 49503</span></dd>
-<dt>Mailing address</dt><dd>Same as service address</dd>
-</dl>
-</div>
-</div>
+<!-- ENR-179 (2026-08-24): "Service & account" + "Address" recap boxes — REMOVED 2026-09-02 per ENR-205 (folded
+     into .conf-hero above instead, see the dev note there). Originally static/read-only, receipt-style,
+     mirroring Step 4 Review's .review-section markup/pattern (same class, same dl/dt/dd structure), IL/IES
+     precedent (ENRIL-420/443). No inline edit links — Confirmation is a receipt, not an editable step.
+     Documents/doc-bundle intentionally NOT re-added here — stays suppressed per the ENR-91 decision (deliberate,
+     not an oversight); this scope note still applies after the ENR-205 fold. -->
 <!-- ENR-146 (2026-07-17): "What happens next" timeline (ENR-136) removed entirely — third change of direction on this element (ENR-124 trimmed it, ENR-132/ENR-136 restored it). Client review 2026-07-07: duplicated language already in the .conf-hero copy above and made the process feel longer than it is. The .conf-hero heading + subhead are sufficient on their own; no replacement copy added. -->
 <!-- ENR-51 (2026-05-25): "Your enrollment" inline plan card removed from Confirmation.
            Sticky plan summary sidebar (right rail) carries plan name, rate, term, ETC, customer charge.

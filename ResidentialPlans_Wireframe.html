@@ -1012,14 +1012,10 @@
 </nav>
 <!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
 <nav class="nav-links mkt-flex" id="nav-ies">
-<div class="nav-item has-dropdown">
+<div class="nav-item">
 <a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
-<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="FixedBillPlan_HowItWorks_Wireframe.html">How the Fixed Bill Plan Works</a>
-<a class="nav-dd-item" href="FixedBillPlan_RightForMe_Wireframe.html">Is the Fixed Bill Plan Right for Me?</a>
 </div>
-</div>
+<!-- Dropdown removed 2026-08-31 (§A.22): NP-7/8 folded into the Hub, no genuine second destination left under this nav item — see Homepage_Wireframe.html's For My Business nav comment for the governing "two genuine destinations" convention. -->
 <div class="nav-item has-dropdown">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
@@ -1879,41 +1875,41 @@
 </div>
 </div>
 <div class="market-display" id="cards-il">
-<!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
-<div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-<div style="font-size:12px; color:#555; line-height:1.5;">
-<strong>For comparison:</strong> Current
-            <span class="market-display active" id="il-ldc-ref">Nicor Gas</span>
-<span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>
-            default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>. Illinois Energy's plans are shown below.
-          </div>
-<a onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';" style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;">View rate &amp; plan disclosures ▾</a>
+<!-- RP-16 (2026-09-02): compact bar + "View rate & plan disclosures ▾" collapsible replaced with the full
+     ICC-mandated paragraph, shown plainly and always visible — no collapse/toggle. Client (Susan Hodge) pushed
+     back that this is mandated ICC language that can't be modified; companion item to
+     Enrollment_IL-IES_Wireframe.html's ENRIL-541 (same evidence — IL test env + IGS Energy + Nordic Energy
+     screenshots, all three showing this content as plain always-visible text, never an accordion). Still
+     pending Legal confirmation of the exact minimum-required copy. The panel's remaining non-mandated content
+     (ARGS-licensed-supplier sentence + historical-pricing "Plug-In Illinois" link) moves to the bottom of this
+     market's content block — see below. -->
+<div style="background:#f5f8fc; border-left:3px solid #888; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#444; line-height:1.6;">
+<p style="margin:0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> Your utility (<span class="market-display active" id="il-ldc-ref">Nicor Gas</span><span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy®, USA, LLC, and you are not required to enroll with Illinois Energy to receive natural gas service — you may remain with your utility's supply service at any time.</p>
+<p style="margin:0;">Current default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Illinois Commerce Commission's website →</a></p>
 </div>
 <div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
 <b style="color:#1e3a5f;">Illinois Energy plan cards</b> — render the same <code>.pc</code> component as ONG. Per-plan content per PRIME plan catalog. Unit: <strong>therms</strong>. Plan types: Guaranteed Bill (quote-only), PriceGuard (Fixed, multiple terms), FlexPlan (Variable), <b>PriceCap</b> (multi-rate · primary+secondary), <b>TruBalance</b> (multi-rate · equal-weight stacked). Multi-rate plans are <b style="color:#b71c1c;">legacy · sunset planned</b> per PC-D4 — do not combine with Greener Life, Most Popular, Promo, or rate-pending. ICC SB651/Part 512 disclosure above is page-level and LDC-aware.
         </div>
-<!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
-<div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
-<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
-<p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
-<p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
-<p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
+<!-- RP-16 (2026-09-02): non-mandated content relocated here from the collapsible panel above, which now
+     carries only the mandated paragraph. No collapse/toggle — shown plainly. -->
+<div style="margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
+<p style="margin:0 0 8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
+<p style="margin:0;">Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
 <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm which elements of the mandated paragraph above (and this section) are ICC/SB651 minimum requirements vs. additional protective language, and the exact final copy for both. Do not author final content without this review. Same open flag as Enrollment_IL-IES_Wireframe.html's ENRIL-541.</span>
 <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ RP-16 · A fuller IL plan-type explainer for this page is still unscoped (Allyson has separately been debating adding one). Whoever scopes it should know TruBalance and PriceCap are marked legacy/sunset-planned per PC-D4 before investing in detailed copy for either.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ RP-16 · This collapsible pattern was originally built "per client direction" (not one of this project's four standard review-status categories — review source ambiguous). Reversing it to always-visible text is a bigger step than an internal-only call; Allyson confirmed proceeding, but this may be worth Susan seeing again specifically, not just Legal.</span>
 </div>
 </div>
 </div>
 <div class="market-display" id="cards-ies">
-<!-- IL/IES: Compact utility rate reference — ICC requirement, displayed before supplier rates -->
-<div style="background:#f5f8fc; border-left:3px solid #888; padding:8px 14px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-<div style="font-size:12px; color:#555; line-height:1.5;">
-<strong>For comparison:</strong> Current
-            <span class="market-display active" id="ies-ldc-ref">Nicor Gas</span>
-            default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>. Illinois Energy's plans are shown below.
-          </div>
-<a onclick="this.closest('.section').querySelector('.il-disclosures-panel').style.display = this.closest('.section').querySelector('.il-disclosures-panel').style.display === 'none' ? 'block' : 'none';" style="font-size:11px; color:#5a8cbf; text-decoration:underline; cursor:pointer; white-space:nowrap;">View rate &amp; plan disclosures ▾</a>
+<!-- RP-16 (2026-09-02): compact bar + "View rate & plan disclosures ▾" collapsible replaced with the full
+     ICC-mandated paragraph, shown plainly and always visible — no collapse/toggle. Same decision/evidence as
+     the cards-il instance above; see the dev note there for full rationale. -->
+<div style="background:#f5f8fc; border-left:3px solid #888; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#444; line-height:1.6;">
+<p style="margin:0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> Your utility (<span class="market-display active" id="ies-ldc-ref">Nicor Gas</span>) is not the same company as Illinois Energy Solutions, and you are not required to enroll with Illinois Energy Solutions to receive natural gas service — you may remain with your utility's supply service at any time.</p>
+<p style="margin:0;">Current default gas supply cost — <strong>[current utility rate — TBD, sourced from ICC/utility] per therm</strong>, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Illinois Commerce Commission's website →</a></p>
 </div>
 <!-- IES Fixed Bill — new card per PC-D9 rev 2. Single-product market: one card, no grid. -->
 <div style="max-width:380px; margin:0 auto;">
@@ -1949,16 +1945,15 @@
 <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Custom-amount quote-block copy needs client direction — currently "Custom monthly amount · Calculated from your usage." Possible enhancements: "Based on your home's past 12 months of natural gas usage."</span>
 <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ Commercial IES Open Q — likely remains phone-only quote-only state. Confirm with client whether commercial IES enrollment moves online at launch.</span>
 </div>
-<!-- IL/IES: Collapsible full regulatory disclosures — ICC/SB651 requirement -->
-<div class="il-disclosures-panel" style="display:none; background:#f9f9f8; border:1px solid #e0e0e0; border-radius:4px; padding:14px 16px; margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
-<div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:8px;">Rate &amp; Plan Disclosures — Illinois</div>
-<p style="margin-bottom:8px;">[Full ICC-required disclosure text — TBD. Must be confirmed by SouthStar legal/compliance team. Content from current live site is a starting point but may contain language beyond the minimum SB651/Part 512 requirement. Legal team to confirm minimum required content before authoring.]</p>
-<p style="margin-bottom:8px;">Illinois Energy is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy's rates may be higher or lower than the utility's default supply rate in any given month.</p>
-<p>Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
+<!-- RP-16 (2026-09-02): non-mandated content relocated here from the collapsible panel above, which now
+     carries only the mandated paragraph. No collapse/toggle — shown plainly. -->
+<div style="margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
+<p style="margin:0 0 8px;">Illinois Energy Solutions is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy Solutions' rates may be higher or lower than the utility's default supply rate in any given month.</p>
+<p style="margin:0;">Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
 <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ Layered disclosure approach: minimum required content visible above plans (utility rate + one sentence); full regulatory language in collapsible section. Consistent with industry practice — Constellation, Just Energy, Nicor Gas Customer Select all use similar layered approaches.</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm (1) which elements of the current live site disclosure are ICC/SB651 minimum requirements vs. additional protective language, (2) whether the collapsible placement satisfies the "displayed before" requirement, and (3) the exact copy for both the compact bar and the full disclosure panel. Do not author final content without this review.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm which elements of the mandated paragraph above (and this section) are ICC/SB651 minimum requirements vs. additional protective language, and the exact final copy for both. Do not author final content without this review. Same open flag as Enrollment_IL-IES_Wireframe.html's ENRIL-541.</span>
 <span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
+<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ RP-16 · This collapsible pattern was originally built "per client direction" (review source ambiguous). Reversing it to always-visible text is a bigger step than an internal-only call; Allyson confirmed proceeding, but this may be worth Susan seeing again specifically, not just Legal.</span>
 </div>
 </div>
 </div>

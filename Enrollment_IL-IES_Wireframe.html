@@ -1016,35 +1016,9 @@
      so it's visible by default instead of gated behind the reviewer-only "Toggle doc bundle" demo control. */
   .confirmation-docs { display: block; }
 
-  /* ENRIL-408 (2026-08-10): rate-disclosure accordion, ported from ResidentialPlans_Wireframe.html's FAQ pattern.
-     Used by the Quote step's abbreviated rate-disclosure line (Scen A: ENRIL-360; Scen C: ENRIL-397), reusing the
-     same component rather than introducing a second disclosure mechanism (anchor link, ENRIL-360's original approach). */
-  .faq-item { border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
-  .faq-question {
-    padding: 12px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    color: #1e3a5f;
-    background: #f9f9f8;
-  }
-  .faq-question:hover { background: #f0f0ed; }
-  .faq-chevron { color: #aaa; font-size: 12px; }
-  .faq-answer {
-    padding: 10px 14px;
-    font-size: 12px;
-    color: #555;
-    background: #fff;
-    border-top: 1px solid #eee;
-    line-height: 1.6;
-    display: none;
-  }
-  /* ENRIL-409 (2026-08-11): explicit top-alignment for expanded accordion content — shared class, covers Scen A (#quote-rate-disclosure-a) and Scen C (#quote-rate-disclosure-c) per ENRIL-408's shared-component decision. */
-  .faq-item.open .faq-answer { display: flex; flex-direction: column; justify-content: flex-start; }
-  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  /* ENRIL-408/409 accordion CSS removed (2026-09-02, ENRIL-541) — the rate-disclosure accordion it styled
+     (quote-rate-disclosure-a/-b/-c) was replaced with a plain always-visible mandated paragraph; no other
+     element in this file used .faq-item. */
 </style>
 </head>
 <body class="mkt-il scen-a ann-mode-clean">
@@ -1644,13 +1618,12 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      requested; Scenario D's Select Plan doesn't carry this disclosure at all (unconfirmed/not separately
      built) — whether D should get the same treatment, and in the same position, remains a related open
      question not addressed by this item. -->
-<div class="faq-item scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px;">
-<div class="faq-question" onclick="toggleFaq(this)">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective through [expiration date]. <span class="faq-chevron">▼</span></div>
-<div class="faq-answer">
-<p style="margin: 0 0 8px;"><em>[Placeholder — final copy TBD.]</em> [Utility]'s current gas supply cost is provided for comparison so you can evaluate this offer against your utility's supply rate. SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
-<p style="margin: 0 0 8px;">For more information on comparing supplier offers, see the Illinois Commerce Commission's consumer education site. This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — client (Susan Hodge) confirmed this is regulator-mandated language that cannot be collapsed. Evidenced against IL test env + IGS Energy + Nordic Energy screenshots, all three showing this content as plain always-visible text, never an accordion. Still pending Legal confirmation of the exact minimum-required copy — same open flag already sitting on RP-7/RP-16. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-selectplan), anchor-linked from here. -->
+<div class="rate-disclosure-mandated scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
+<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
+<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
 </div>
-</div>
+<p class="scen-only-b" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-selectplan">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <div class="ann ann-b"><strong>ENRIL-467 · Dev note — premise context.</strong> Select Plan is the entry point for the dominant already-authenticated existing-customer path (My Account "Switch Plan," per CL-010 — Pre-flow 1 is skipped entirely for this session). The active service premise is established upstream in My Account before enrollment begins — My Account auth fires the multi-premise selector (<code>MA-61</code>) when PRIME returns 2+ addresses for the authenticated session, and the enrollment flow inherits that active premise. No premise re-selection occurs within the enrollment flow. Cross-ref Enrollment_ONG-PA-GRE_Wireframe.html's own ENR-98 note (same reasoning, ONG/PA/GRE). Documents, not reverses, ENRIL-211's removal of the Account # step from Scenario B.</div>
 
 <h3 style="margin-top: 22px;">
@@ -1778,6 +1751,12 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
 </div>
 <div class="ann ann-b" style="margin-top: 14px;"><strong>Plan card component:</strong> Production should use the standard <code>PlanCard_Wireframe.html</code> component. Filtered to customer's market (IL or IES) and LDC. Current plan filtered from the alternatives list. Inline markup here is wireframe-only placeholder.</div>
+<!-- ENRIL-541 (2026-09-02): non-mandated plan-type/NGI-formula copy relocated here from the disclosure accordion above (quote-rate-disclosure-b), which now carries only the ICC-mandated paragraph. -->
+<div class="fieldset scen-only-b" id="plan-type-info-selectplan" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); line-height: 1.6;">
+<h3 style="font-size: 13px;">About SouthStar's plan types</h3>
+<p style="margin: 0 0 8px;">SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
+<p style="margin: 0;">This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+</div>
 
 
 
@@ -1858,24 +1837,22 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-354 (2026-07-21): inline rate line under the heading (Scen C only) — bridges the heading to the sidebar-only GB rate on desktop, addressing a discoverability gap (no inline plan card on Scen A/C). Placeholder rate per file convention. -->
 <p class="scen-only-c" style="font-size: 15px; margin: 0 0 8px;">Your monthly rate: <strong>$XX.XX</strong> — full details in the summary to the left ←</p>
 <!-- ENRIL-397 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen C. Same mechanism as Scen A (ENRIL-360/408) and same copy verbatim (Allyson, 2026-08-10: content is about the utility's regulatory comparison rate and SouthStar's full plan lineup, not specific to the customer's selected plan, so no GB-specific rewording needed). Lives in this combined Quote+Documents step per the Scen-C-only merge (ENRIL-399/405). -->
-<div class="faq-item scen-only-c" id="quote-rate-disclosure-c" style="margin-bottom: 14px;">
-<div class="faq-question" onclick="toggleFaq(this)">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective through [expiration date]. <span class="faq-chevron">▼</span></div>
-<div class="faq-answer">
-<p style="margin: 0 0 8px;"><em>[Placeholder — final copy TBD.]</em> [Utility]'s current gas supply cost is provided for comparison so you can evaluate this offer against your utility's supply rate. SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
-<p style="margin: 0 0 8px;">For more information on comparing supplier offers, see the Illinois Commerce Commission's consumer education site. This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
+<div class="rate-disclosure-mandated scen-only-c" id="quote-rate-disclosure-c" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
+<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
+<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
 </div>
-</div>
+<p class="scen-only-c" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
      ENRIL-309 (2026-07-06): scen-hide-gb → scen-only-a so it's also hidden for Scen B (existing customer, already authenticated). Now shows for brand-new customers (Scen A) only. -->
 <p class="step-have-ready scen-only-a">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
 <!-- ENRIL-360 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen A. Test env surfaces multiple paragraphs of regulatory/rate-plan disclosure inline; rather than replicate the full block, an abbreviated line expands in place via accordion (ported from ResidentialPlans_Wireframe.html's FAQ pattern, ENRIL-408 — supersedes ENRIL-360's original anchor-link approach). Rate/date/utility are placeholders per file convention. Scen B/C/D: see ENRIL-397 for Scen C; B/D placement still deferred. -->
-<div class="faq-item scen-only-a" id="quote-rate-disclosure-a" style="margin-bottom: 14px;">
-<div class="faq-question" onclick="toggleFaq(this)">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective through [expiration date]. <span class="faq-chevron">▼</span></div>
-<div class="faq-answer">
-<p style="margin: 0 0 8px;"><em>[Placeholder — final copy TBD.]</em> [Utility]'s current gas supply cost is provided for comparison so you can evaluate this offer against your utility's supply rate. SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
-<p style="margin: 0 0 8px;">For more information on comparing supplier offers, see the Illinois Commerce Commission's consumer education site. This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
+<div class="rate-disclosure-mandated scen-only-a" id="quote-rate-disclosure-a" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
+<p style="margin: 0 0 6px;"><em>[Placeholder — exact mandated copy TBD, pending Legal confirmation.]</em> [Utility] is not the same company as <span class="mkt-inline mkt-il on">Illinois Energy®, USA, LLC</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>, and you are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> to receive natural gas service — you may remain with [Utility]'s supply service at any time.</p>
+<p style="margin: 0;">[Utility]'s current gas supply cost rate is <strong>$X.XXXX</strong> per therm, effective [effective date] through [expiration date]. For more information on comparing supplier offers, see the <a href="#" style="color:#5a8cbf; text-decoration:underline;">Illinois Commerce Commission's website →</a></p>
 </div>
-</div>
+<p class="scen-only-a" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
 <!-- ENRIL-207: step-intro made scenario-aware; Scen A keeps original; Scen B/D get new intro; Scen C/GB keeps original -->
 <!-- ENRIL-228: Nest market spans inside scen-only class to fix CSS specificity bleed -->
 <!-- ENRIL-410 (2026-08-11): Scen A step-intro line removed — read as filler ahead of the disclosure accordion and English-attestation question. (Superseded copy history: ENRIL-358 corrected "two things" to "one thing" before this line was removed entirely.) -->
@@ -2083,6 +2060,12 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      Also reached by Scen C via setError()'s default routing — a pre-existing placement quirk (C's own
      attestation lives at Lookup, physically far from this Quote-step element) flagged but not resolved
      by this item. -->
+<!-- ENRIL-541 (2026-09-02): non-mandated plan-type/NGI-formula copy relocated here from the disclosure accordions above (quote-rate-disclosure-a / -c), which now carry only the ICC-mandated paragraph. Shared single instance — both scenarios' anchor links point to #plan-type-info-quote. -->
+<div class="fieldset" id="plan-type-info-quote" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); line-height: 1.6;">
+<h3 style="font-size: 13px;">About SouthStar's plan types</h3>
+<p style="margin: 0 0 8px;">SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
+<p style="margin: 0;">This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
+</div>
 <div class="stop-screen" id="lang-decline-stop-a" style="display: none;">
 <h2>Enrollment cannot continue</h2>
 <p>At this time, we are unable to continue your enrollment online. Please call us so we can assist you.</p>
@@ -2395,7 +2378,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <button class="resend-btn" id="resend-btn" onclick="alert('Resend triggered — new code sent (prior code invalidated). Per ENRIL-30: limits on resends — numeric limit TBD with engineering.');">📧 Resend code</button>
 <span class="spam-text">Don't see it? Check your spam folder.</span>
 </div>
-<div class="resend-secondary"><a href="#">Need help?</a></div>
+<!-- ENRIL-540 (2026-09-02): wired to the in-flow support number (same one used in this step's email-mismatch banner above and the Account# step's lookup help copy). Removal was considered and rejected — the simplified nav's support-phone pattern exists for exactly this distressed-checkout case. -->
+<div class="resend-secondary"><a href="tel:18772929363">Need help? Call 1-877-292-9363</a></div>
 
 
 
@@ -2890,10 +2874,36 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <div class="fieldset">
 <h3>Billing address</h3>
 <div class="checkbox-row">
-<input checked="" id="i-same-as-service" type="checkbox"/>
+<!-- ENRIL-538 (2026-09-02): wired — unchecking reveals #billing-address-fields below. Pattern ported from Enrollment_ONG-PA-GRE_Wireframe.html's toggleMailingAddress/#mailing-address-fields (ENR-191). -->
+<input checked="" id="i-same-as-service" onchange="toggleBillingAddress(this)" type="checkbox"/>
 <label for="i-same-as-service">Same as service address</label>
 </div>
-<div class="ann ann-b"><strong>ENRIL-34:</strong> Billing address is editable. Same-as-service checkbox defaults ON.</div>
+<div class="field-help">Uncheck if your bills should be sent somewhere else.</div>
+<div id="billing-address-fields" style="display:none;">
+<div class="field">
+<label for="i-bill-street"><span class="req">*</span>Street address</label>
+<input aria-required="true" autocomplete="address-line1" id="i-bill-street" placeholder="123 Maple Street" type="text"/>
+</div>
+<div class="field">
+<label for="i-bill-street2">Apt / Unit / Suite</label>
+<input autocomplete="address-line2" id="i-bill-street2" placeholder="" type="text"/>
+</div>
+<div class="field-row">
+<div class="field">
+<label for="i-bill-city"><span class="req">*</span>City</label>
+<input aria-required="true" autocomplete="address-level2" id="i-bill-city" placeholder="Chicago" type="text"/>
+</div>
+<div class="field">
+<label>State</label>
+<div class="readonly-field">Illinois</div>
+</div>
+<div class="field">
+<label for="i-bill-zip"><span class="req">*</span>ZIP</label>
+<input aria-required="true" autocomplete="postal-code" id="i-bill-zip" inputmode="numeric" maxlength="5" placeholder="60601" type="text"/>
+</div>
+</div>
+</div>
+<div class="ann ann-b"><strong>ENRIL-34:</strong> Billing address is editable. Same-as-service checkbox defaults ON. <strong>ENRIL-538 (2026-09-02):</strong> billing-address-fields block added — previously no fields existed to reveal on uncheck.</div>
 </div>
 <!-- ENRIL-376 (Scen A) / ENRIL-402 (Scen C), both 2026-08-10: "How did you hear about us?" — ported from Enrollment_ONG-PA-GRE_Wireframe.html (ENR-111), IL/IES market swap on the regulator-site option (PUCO → ICC). Shown for both scenarios — same field, not scenario-scoped. ENRIL-415 (2026-08-11): moved out of the Contact fieldset. ENRIL-418 (2026-08-11) originally reordered this after Refer a Friend; ENRIL-533 (2026-08-24) moves Refer a Friend to the end of the step instead (see below), so this field now follows Billing address directly. -->
 <hr style="border: none; border-top: 1px solid var(--line-soft); margin: 20px 0;"/>
@@ -3000,7 +3010,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </header>
 <dl>
 <dt>Service address</dt><dd><span style="color: var(--muted);">123 Maple Street, Chicago IL 60601</span> </dd>
-<dt>Mailing address</dt><dd>Same as service address</dd>
+<!-- ENRIL-539 (2026-09-02): "Mailing address" → "Billing address", matching the entry-screen fieldset's heading (~line 2891). -->
+<dt>Billing address</dt><dd>Same as service address</dd>
 </dl>
 </div>
 <div class="review-section">
@@ -3041,16 +3052,26 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <header>
 <h4>Acknowledgments</h4>
 </header>
+<!-- ENRIL-543 (2026-09-02): each row's "Agreed" status pill replaced with a plain-language summary of what was
+     actually agreed to, sourced from the underlying checkbox copy (not invented) — a link/modal/inline-expand
+     to the full checkbox text was considered and rejected, since (a) Review is deliberately locked to static
+     text (ENRIL-536) and even a non-editing "view" affordance cuts against that, and (b) this client has twice
+     pushed back on duplicated-content patterns (Aimee's Step 1 "hat on a hat" comment; Confirmation's "what
+     happens next" box, cut for the same reason) — a full-text reveal in any form would repeat that mistake.
+     The "Agreed" text is dropped; only a compact ✓ indicator (still the .status-pill component) remains.
+     Applies to all 4 scenarios — this recap is shared markup, not scenario-gated (ENRIL-506). Supersedes
+     ENRIL-433's dev-note below (a Terms-and-Conditions link-out is now moot — copy is sourced directly from
+     checkboxes already in this file, not an external page). -->
 <dl>
-<dt>English language attestation</dt><dd><span class="status-pill">Agreed</span></dd>
-<dt>Consent to receive communications</dt><dd><span class="status-pill">Agreed</span></dd>
-<dt>Authorization to make account changes</dt><dd><span class="status-pill">Agreed</span></dd>
+<dt>English language attestation</dt><dd><span class="status-pill">✓</span> Confirmed you can complete this enrollment in English.</dd>
+<dt>Consent to receive communications</dt><dd><span class="status-pill">✓</span> Agreed to receive email about your service and account, including your authentication code.</dd>
+<dt>Authorization to make account changes</dt><dd><span class="status-pill">✓</span> Confirmed you're authorized to change gas service on this account and allowed us to access your utility account and payment history.</dd>
 <!-- ENRIL-508 (2026-08-17): corrects ENRIL-217 — credit checks fire on all 4 scenarios, not just GB (confirmed
      via internal dev-team meeting), so this pill now shows unconditionally rather than only for Scen C/D. -->
-<dt>Credit authorization</dt><dd><span class="status-pill">Agreed</span></dd>
+<dt>Credit authorization</dt><dd><span class="status-pill">✓</span> Authorized a soft credit check to verify your plan eligibility.</dd>
 <!-- ENRIL-432 (2026-08-11): "Documents reviewed" status pill added, all scenarios — reflects the existing bundle-ack (Scen A/B/D)/bundle-ack-c (Scen C) checkbox, not previously represented in this recap. Single pill, matching the single underlying checkbox (not split into LOA/Plan Contract/ACR lines — test env doesn't collect those as distinct consents either, per ENRIL-363). -->
-<!-- ENRIL-433 (2026-08-11): dev-note, no build — when the "Terms and Conditions of Service" page/copy exists, either (a) append an inline link inside this pill's dd — <span class="status-pill">Agreed</span> · <a href="LegalCompliance_Wireframe.html">Terms and Conditions of Service</a> — or (b) if Legal's copy requires the granular ACR-specific language test env shows, split a separate "Automatic Contract Renewal" pill out of this one and attach the link there instead. Revisit which applies once the actual copy/page exists. -->
-<dt>Documents reviewed</dt><dd><span class="status-pill">Agreed</span></dd>
+<!-- ENRIL-433 (2026-08-11): dev-note, no build — SUPERSEDED by ENRIL-543 above; retained for history only. Originally proposed linking out to a "Terms and Conditions of Service" page once it exists — moot now that this row's copy is sourced directly from the doc-bundle's own table-of-contents labels rather than an external page. -->
+<dt>Documents reviewed</dt><dd><span class="status-pill">✓</span> Confirmed you reviewed your Letter of Agency, Plan Contract, and Automatic Contract Renewal disclosure.</dd>
 </dl>
 <!-- ENRIL-529 (2026-08-17): r-etc-consent/r-etc-ack removed — client confirmed no IL/IES product carries an early-termination charge. -->
 <!-- ENRIL-419 (2026-08-11): divider + "Review and Authorize" subheading added above the final authorization checkbox, matching test env's presentation — distinguishes this checkbox's binding rescission-rights language from the status-pill recap above.
@@ -3101,43 +3122,16 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
           199987
         </div>
 <div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 10px;">Confirmed on February 14, 2025 at 1:22 p.m. CT</div>
-<div class="conf-actions">
-<button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
-<button class="btn btn-secondary" onclick="alert('Download and save personalized contract (PDF)')">⬇ Download PDF</button>
-<div class="ann ann-b">ENRIL-264 · Download PDF = bundled PDF download (LOA + Plan Contract + ACR). Two-button pattern (Print + Download PDF) required by IL §3.10.4. ENRIL-346: label updated from "Save" to "Download PDF" for OPG parity.</div>
+<!-- ENRIL-542 (2026-09-02): Account number / Gas Utility Company / Service address folded into the hero as quiet meta text, same style as the "Confirmed on" line above — replaces the boxed "Service & account" / "Address" review-section cards below (ENRIL-420/443), which are removed (reverses those two items). Billing/mailing address is dropped entirely, not folded in: service address is the substantive fact being confirmed — the premise receiving gas — while billing is just payment routing, not part of what's being confirmed (Allyson, 2026-09-02). Same fold ported to Enrollment_ONG-PA-GRE_Wireframe.html as ENR-205. -->
+<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Account number 0012345678901234 · Gas Utility Company <span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span></div>
+<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Service address: 123 Maple Street, Chicago IL 60601</div>
 </div>
-<!-- ENRIL-172: Required copy per spec §3.10.4 — "Please save or print these important documents for your records." -->
-<p style="margin-top: 12px; font-size: 14px;">Please save or print these important documents for your records.</p>
-
-
-</div>
-<!-- ENRIL-420 (2026-08-11): "Service & account" + "Address" recap boxes added — corrects ENRIL-387's premise (it assumed this content already existed on step-confirmation and just needed to stay; checking the file directly showed nothing was ever built). Mirrors Review's review-section markup/pattern, including the same masked/unmasked-per-scenario account-number treatment (ENRIL-400/403). Static/read-only here (no inline mailing-address edit form) — Confirmation serves a receipt/record purpose distinct from Review's pre-submission check. -->
-<!-- ENRIL-443 (2026-08-11): wrapped in .review-section-row so these two boxes render side by side on desktop instead of stacked; stacks back to full-width on mobile. Scope: Confirmation step only — Review's own three review-section boxes (ENRIL-340) are untouched. -->
-<div class="review-section-row">
-<div class="review-section">
-<header>
-<h4>Service &amp; account</h4>
-</header>
-<!-- ENRIL-448 (2026-08-12): masked/unmasked-per-scenario split (ENRIL-400/403) removed — extends the same
-     no-PCI-obligation, already-verified reasoning to A/B/D. Single unmasked display for all scenarios. -->
-<dl>
-<dt>Account number</dt><dd>0012345678901234</dd>
-<dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span></dd>
-</dl>
-</div>
-<div class="review-section">
-<header>
-<h4>Address</h4>
-</header>
-<dl>
-<dt>Service address</dt><dd><span style="color: var(--muted);">123 Maple Street, Chicago IL 60601</span></dd>
-<dt>Mailing address</dt><dd><span style="color: var(--muted);">Same as service address</span></dd>
-</dl>
-</div>
-</div>
-<!-- ENRIL-526 (2026-08-17): personalized contract documents moved here, directly below the Service & account
-     / Address boxes — was previously all the way at the bottom of the step (after account-creation, RAF, and
-     the callout cards). Content/markup unchanged, position only. -->
+<!-- ENRIL-526 (2026-08-17): personalized contract documents moved here, directly below the hero — was previously
+     all the way at the bottom of the step (after account-creation, RAF, and the callout cards). Content/markup
+     unchanged, position only.
+     ENRIL-542 (2026-09-02): now sits directly under the hero (the "Service & account" / "Address" boxes that
+     used to separate them are removed — see the dev note in .conf-hero above). Print/Download PDF buttons +
+     the required "please save or print" copy moved to below this block — see there. -->
 <!-- ENRIL-506 (2026-08-17): visible by default now — reverses ENRIL-245's suppression. Review's own document
      preview was removed in the same pass (the underlying document is one bundled PDF, not separable
      sections), so this in-page reader is the only place customers can read the full bundle before
@@ -3180,6 +3174,19 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 
 </div><!-- end .confirmation-docs (ENRIL-245/526) -->
+<!-- ENRIL-542 (2026-09-02): Print + Download PDF buttons, and the required "please save or print" copy, moved
+     here from .conf-hero (ENRIL-150/172's original placement) — sequenced after the documents so customers see
+     what they're downloading before being offered the action. Does not reopen ENRIL-150/192's "exactly two
+     affordances" resolution: the same single Print/Save button pair is relocated together, not duplicated or
+     added to — buttons-inside-the-document-viewer was discussed and set aside, since that would re-litigate
+     the client's own twice-raised "why do we need both a Save button and a Download button" confusion. -->
+<div class="conf-actions" style="margin-top: 20px;">
+<button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
+<button class="btn btn-secondary" onclick="alert('Download and save personalized contract (PDF)')">⬇ Download PDF</button>
+<div class="ann ann-b">ENRIL-264 · Download PDF = bundled PDF download (LOA + Plan Contract + ACR). Two-button pattern (Print + Download PDF) required by IL §3.10.4. ENRIL-346: label updated from "Save" to "Download PDF" for OPG parity.</div>
+</div>
+<!-- ENRIL-172: Required copy per spec §3.10.4 — "Please save or print these important documents for your records." -->
+<p style="margin-top: 12px; font-size: 14px;">Please save or print these important documents for your records.</p>
 <!-- ENRIL-347: "What happens next" timeline removed for OPG parity (matches ENR-146, 2026-07-17). It duplicated the hero subhead's "utility confirms within 1–2 business days" timing (ENRIL-344) and made the process feel longer than it is; heading + subhead are sufficient. -->
 
 <!-- ENRIL-93 (2026-05-25): Set-your-password inline section (single-field UX).
@@ -3452,11 +3459,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
          : 'd';
   }
 
-  // ENRIL-408 (2026-08-10): rate-disclosure accordion toggle, ported from ResidentialPlans_Wireframe.html's toggleFaq().
-  function toggleFaq(el) {
-    var item = el.parentElement;
-    item.classList.toggle('open');
-  }
+  // ENRIL-408's toggleFaq() removed (2026-09-02, ENRIL-541) — the accordion it toggled was replaced with a
+  // plain always-visible mandated disclosure paragraph.
 
   function setStep(target) {
     // hide all step containers
@@ -3801,6 +3805,11 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
     });
     var btn = document.getElementById('r-submit-btn');
     if (btn) btn.disabled = !ok;
+  }
+  // ENRIL-538 (2026-09-02) · Billing address — reveal fields when "Same as service address" is unchecked. Ported from Enrollment_ONG-PA-GRE_Wireframe.html's toggleMailingAddress (ENR-191).
+  function toggleBillingAddress(cb) {
+    var fields = document.getElementById('billing-address-fields');
+    if (fields) fields.style.display = cb.checked ? 'none' : 'block';
   }
   // ENRIL-330: gate the Info-step Continue on Name + Phone + Email.
   // ENRIL-440/441/442 (2026-08-11): Name, Email, and Scen A's Phone are all editable now (no longer read-only pre-fill), so all are added to the required-field gating; Scen C's phone (i-phone) stays required manual entry as before.
