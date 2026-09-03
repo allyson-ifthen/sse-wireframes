@@ -1624,7 +1624,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      requested; Scenario D's Select Plan doesn't carry this disclosure at all (unconfirmed/not separately
      built) — whether D should get the same treatment, and in the same position, remains a related open
      question not addressed by this item. -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — client (Susan Hodge) confirmed this is regulator-mandated language that cannot be collapsed. Evidenced against IL test env + IGS Energy + Nordic Energy screenshots, all three showing this content as plain always-visible text, never an accordion. Still pending Legal confirmation of the exact minimum-required copy — same open flag already sitting on RP-7/RP-16. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-selectplan), anchor-linked from here. -->
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — client (Susan Hodge) confirmed this is regulator-mandated language that cannot be collapsed. Evidenced against IL test env + IGS Energy + Nordic Energy screenshots, all three showing this content as plain always-visible text, never an accordion. Still pending Legal confirmation of the exact minimum-required copy — same open flag already sitting on RP-7/RP-16. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-selectplan) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
 <div class="rate-disclosure-mandated scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
 <!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
      Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
@@ -1636,7 +1636,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
 <div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
-<p class="scen-only-b" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-selectplan">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
+<!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed — pointed at the plan-types fieldset removed above. -->
 <div class="ann ann-b"><strong>ENRIL-467 · Dev note — premise context.</strong> Select Plan is the entry point for the dominant already-authenticated existing-customer path (My Account "Switch Plan," per CL-010 — Pre-flow 1 is skipped entirely for this session). The active service premise is established upstream in My Account before enrollment begins — My Account auth fires the multi-premise selector (<code>MA-61</code>) when PRIME returns 2+ addresses for the authenticated session, and the enrollment flow inherits that active premise. No premise re-selection occurs within the enrollment flow. Cross-ref Enrollment_ONG-PA-GRE_Wireframe.html's own ENR-98 note (same reasoning, ONG/PA/GRE). Documents, not reverses, ENRIL-211's removal of the Account # step from Scenario B.</div>
 
 <h3 style="margin-top: 22px;">
@@ -1766,12 +1766,10 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p>Mon–Fri, 8 a.m.–6 p.m. CT</p>
 </div>
 <div class="ann ann-b" style="margin-top: 14px;"><strong>Plan card component:</strong> Production should use the standard <code>PlanCard_Wireframe.html</code> component. Filtered to customer's market (IL or IES) and LDC. Current plan filtered from the alternatives list. Inline markup here is wireframe-only placeholder.</div>
-<!-- ENRIL-541 (2026-09-02): non-mandated plan-type/NGI-formula copy relocated here from the disclosure accordion above (quote-rate-disclosure-b), which now carries only the ICC-mandated paragraph. -->
-<div class="fieldset scen-only-b" id="plan-type-info-selectplan" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); line-height: 1.6;">
-<h3 style="font-size: 13px;">About SouthStar's plan types</h3>
-<p style="margin: 0 0 8px;">SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
-<p style="margin: 0;">This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
-</div>
+<!-- ENRIL-546 (2026-09-03): "About SouthStar's plan types" fieldset removed entirely (was here, relocated
+     from the rate-disclosure accordion by ENRIL-541 the day before) — Allyson's call that this content is
+     better suited to Residential Plans, where a customer is comparing plans, not mid-enrollment. Source
+     copy preserved as material for RP-17 (Wireframe_ChangeLog_Active.md §A.3), not discarded. -->
 
 
 
@@ -1858,7 +1856,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-354 (2026-07-21): inline rate line under the heading (Scen C only) — bridges the heading to the sidebar-only GB rate on desktop, addressing a discoverability gap (no inline plan card on Scen A/C). Placeholder rate per file convention. -->
 <p class="scen-only-c" style="font-size: 15px; margin: 0 0 8px;">Your monthly rate: <strong>$XX.XX</strong> — full details in the summary to the left ←</p>
 <!-- ENRIL-397 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen C. Same mechanism as Scen A (ENRIL-360/408) and same copy verbatim (Allyson, 2026-08-10: content is about the utility's regulatory comparison rate and SouthStar's full plan lineup, not specific to the customer's selected plan, so no GB-specific rewording needed). Lives in this combined Quote+Documents step per the Scen-C-only merge (ENRIL-399/405). -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-quote) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
 <div class="rate-disclosure-mandated scen-only-c" id="quote-rate-disclosure-c" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
 <!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
      Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
@@ -1870,12 +1868,12 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
 <div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
-<p class="scen-only-c" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
+<!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed (Scen C instance) — pointed at the plan-types fieldset removed above. -->
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
      ENRIL-309 (2026-07-06): scen-hide-gb → scen-only-a so it's also hidden for Scen B (existing customer, already authenticated). Now shows for brand-new customers (Scen A) only. -->
 <p class="step-have-ready scen-only-a">Have your utility account number, service address, ZIP code, and access to your email ready.</p>
 <!-- ENRIL-360 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen A. Test env surfaces multiple paragraphs of regulatory/rate-plan disclosure inline; rather than replicate the full block, an abbreviated line expands in place via accordion (ported from ResidentialPlans_Wireframe.html's FAQ pattern, ENRIL-408 — supersedes ENRIL-360's original anchor-link approach). Rate/date/utility are placeholders per file convention. Scen B/C/D: see ENRIL-397 for Scen C; B/D placement still deferred. -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy relocated to the bottom of this step (#plan-type-info-quote), anchor-linked from here. -->
+<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-quote) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
 <div class="rate-disclosure-mandated scen-only-a" id="quote-rate-disclosure-a" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
 <!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
      Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
@@ -1887,7 +1885,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
 <div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
 </div>
-<p class="scen-only-a" style="font-size: 12px; margin: 0 0 14px;"><a href="#plan-type-info-quote">Learn more about SouthStar's plan types &amp; how variable rates are calculated ↓</a></p>
+<!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed (Scen A instance) — pointed at the plan-types fieldset removed above. -->
 <!-- ENRIL-207: step-intro made scenario-aware; Scen A keeps original; Scen B/D get new intro; Scen C/GB keeps original -->
 <!-- ENRIL-228: Nest market spans inside scen-only class to fix CSS specificity bleed -->
 <!-- ENRIL-410 (2026-08-11): Scen A step-intro line removed — read as filler ahead of the disclosure accordion and English-attestation question. (Superseded copy history: ENRIL-358 corrected "two things" to "one thing" before this line was removed entirely.) -->
@@ -2102,12 +2100,9 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      Also reached by Scen C via setError()'s default routing — a pre-existing placement quirk (C's own
      attestation lives at Lookup, physically far from this Quote-step element) flagged but not resolved
      by this item. -->
-<!-- ENRIL-541 (2026-09-02): non-mandated plan-type/NGI-formula copy relocated here from the disclosure accordions above (quote-rate-disclosure-a / -c), which now carry only the ICC-mandated paragraph. Shared single instance — both scenarios' anchor links point to #plan-type-info-quote. -->
-<div class="fieldset" id="plan-type-info-quote" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); line-height: 1.6;">
-<h3 style="font-size: 13px;">About SouthStar's plan types</h3>
-<p style="margin: 0 0 8px;">SouthStar offers several plan types: <strong>PriceGuard</strong> (fixed rate for the contract term), <strong>Guaranteed Bill</strong> (fixed monthly payment regardless of usage), <strong>FlexPlan</strong> (variable rate tied to market conditions), <strong>TruBalance</strong> (blended fixed/variable rate), and <strong>PriceCap</strong> (variable rate with a not-to-exceed ceiling).</p>
-<p style="margin: 0;">This offer references the NGI First of Month (FOM) index, a published monthly natural gas price index.</p>
-</div>
+<!-- ENRIL-546 (2026-09-03): "About SouthStar's plan types" fieldset removed entirely (was here, shared by
+     Scen A/C, relocated from the rate-disclosure accordions by ENRIL-541 the day before) — same removal as
+     the Select Plan step's instance above; see that comment for full rationale. -->
 <div class="stop-screen" id="lang-decline-stop-a" style="display: none;">
 <h2>Enrollment cannot continue</h2>
 <p>At this time, we are unable to continue your enrollment online. Please call us so we can assist you.</p>
