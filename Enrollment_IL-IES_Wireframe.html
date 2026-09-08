@@ -3161,13 +3161,28 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-542 (2026-09-02): Account number / Gas Utility Company / Service address folded into the hero as quiet meta text, same style as the "Confirmed on" line above — replaces the boxed "Service & account" / "Address" review-section cards below (ENRIL-420/443), which are removed (reverses those two items). Billing/mailing address is dropped entirely, not folded in: service address is the substantive fact being confirmed — the premise receiving gas — while billing is just payment routing, not part of what's being confirmed (Allyson, 2026-09-02). Same fold ported to Enrollment_ONG-PA-GRE_Wireframe.html as ENR-205. -->
 <div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Account number 0012345678901234 · Gas Utility Company <span class="mkt-inline mkt-il on">Nicor Gas</span><span class="mkt-inline mkt-ies">Nicor Gas</span></div>
 <div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Service address: 123 Maple Street, Chicago IL 60601</div>
+<!-- ENRIL-550 (2026-09-08): Print/Download buttons + required "please save or print" copy moved back into
+     .conf-hero, positioned directly after the account/service meta lines above (copy first, then buttons).
+     Reverts the button-position portion of ENRIL-542 (which had relocated this pair below .confirmation-docs);
+     ENRIL-542's other decisions (recap-card removal, viewer directly below hero) are unchanged. Restores
+     IL/IES's own pre-ENRIL-542 pattern, which matches Enrollment_ONG-PA-GRE_Wireframe.html's current,
+     unchanged hero-embedded .conf-actions pattern (ENR-91/ENR-205) — confirmed no OPG-side change needed,
+     since OPG's .conf-actions never moved out of its hero. -->
+<p style="margin-top: 12px; font-size: 14px;">Please save or print these important documents for your records.</p>
+<div class="conf-actions" style="margin-top: 8px;">
+<button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
+<button class="btn btn-secondary" onclick="alert('Download and save personalized contract (PDF)')">⬇ Download PDF</button>
+<div class="ann ann-b">ENRIL-264 · Download PDF = bundled PDF download (LOA + Plan Contract + ACR). Two-button pattern (Print + Download PDF) required by IL §3.10.4. ENRIL-346: label updated from "Save" to "Download PDF" for OPG parity.</div>
+</div>
 </div>
 <!-- ENRIL-526 (2026-08-17): personalized contract documents moved here, directly below the hero — was previously
      all the way at the bottom of the step (after account-creation, RAF, and the callout cards). Content/markup
      unchanged, position only.
      ENRIL-542 (2026-09-02): now sits directly under the hero (the "Service & account" / "Address" boxes that
-     used to separate them are removed — see the dev note in .conf-hero above). Print/Download PDF buttons +
-     the required "please save or print" copy moved to below this block — see there. -->
+     used to separate them are removed — see the dev note in .conf-hero above).
+     ENRIL-551 (2026-09-08): document viewer body below is now height-bounded/scrollable (see .doc-bundle-body
+     inline style) rather than fully unrolled — does not reverse ENRIL-506's separate "visible by default, not
+     toggle-gated" decision. -->
 <!-- ENRIL-506 (2026-08-17): visible by default now — reverses ENRIL-245's suppression. Review's own document
      preview was removed in the same pass (the underlying document is one bundled PDF, not separable
      sections), so this in-page reader is the only place customers can read the full bundle before
@@ -3187,7 +3202,11 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
           <a href="#doc-plan-contract-final">2. Plan Contract</a> ·
           <a href="#doc-acr-final">3. Auto-Renewal Disclosure</a>
 </div>
-<div class="doc-bundle-body">
+<!-- ENRIL-551 (2026-09-08): bounded/scrollable, reversing the fully-unrolled display from ENRIL-506. Taller
+     than the 240px Review-step doc-bundle precedent (id="bundle-doc-scroll(-c)") since this is the full
+     3-section bundle, not a single-document preview — bounding it still gives the block below the
+     Print/Download buttons (now in .conf-hero, ENRIL-550) a clear edge instead of an open-ended scroll. -->
+<div class="doc-bundle-body" id="bundle-doc-scroll-confirm" style="max-height:480px; overflow-y:auto;">
 <div class="doc-section" id="doc-loa-final">
 <h4>1. Letter of Agency · personalized</h4>
 <p class="doc-meta"><strong>Customer:</strong> Jane Doe  ·  <strong>Enrolled:</strong> 2025-02-14 13:22:04 CT  ·  <strong>Auth code:</strong> 847291</p>
@@ -3211,19 +3230,8 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </div>
 
 </div><!-- end .confirmation-docs (ENRIL-245/526) -->
-<!-- ENRIL-542 (2026-09-02): Print + Download PDF buttons, and the required "please save or print" copy, moved
-     here from .conf-hero (ENRIL-150/172's original placement) — sequenced after the documents so customers see
-     what they're downloading before being offered the action. Does not reopen ENRIL-150/192's "exactly two
-     affordances" resolution: the same single Print/Save button pair is relocated together, not duplicated or
-     added to — buttons-inside-the-document-viewer was discussed and set aside, since that would re-litigate
-     the client's own twice-raised "why do we need both a Save button and a Download button" confusion. -->
-<div class="conf-actions" style="margin-top: 20px;">
-<button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
-<button class="btn btn-secondary" onclick="alert('Download and save personalized contract (PDF)')">⬇ Download PDF</button>
-<div class="ann ann-b">ENRIL-264 · Download PDF = bundled PDF download (LOA + Plan Contract + ACR). Two-button pattern (Print + Download PDF) required by IL §3.10.4. ENRIL-346: label updated from "Save" to "Download PDF" for OPG parity.</div>
-</div>
-<!-- ENRIL-172: Required copy per spec §3.10.4 — "Please save or print these important documents for your records." -->
-<p style="margin-top: 12px; font-size: 14px;">Please save or print these important documents for your records.</p>
+<!-- ENRIL-550 (2026-09-08): Print/Download buttons + "please save or print" copy that previously lived here
+     (per ENRIL-542) have moved back into .conf-hero — see the dev note there. -->
 <!-- ENRIL-347: "What happens next" timeline removed for OPG parity (matches ENR-146, 2026-07-17). It duplicated the hero subhead's "utility confirms within 1–2 business days" timing (ENRIL-344) and made the process feel longer than it is; heading + subhead are sufficient. -->
 
 <!-- ENRIL-93 (2026-05-25): Set-your-password inline section (single-field UX).
