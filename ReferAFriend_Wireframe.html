@@ -246,7 +246,7 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 <div class="oq-panel">
 <h4>⚑ Open Questions — Refer a Friend (NP-11)</h4>
 <ul class="oq-list">
-<li><strong>Open Item #1 — BLOCKING (Client):</strong> 2026 program terms are unconfirmed — reward amount, program cap (previously $500), and active dates (previous cycle ran 1/1/2025–12/31/2025 and has expired). Every dependent figure on this page is a bracketed placeholder; the expired 2025 figures are not carried forward and no new figures have been invented. See Sections 1 and 3.</li>
+<li><strong>Open Item #1 — BLOCKING (Client):</strong> 2026 reward amount and program cap are unconfirmed (previously $500/year). The program itself is always-on, with no start/end date facing the customer — the cap resets on an annual cadence, so this is no longer a dated-cycle question, just unconfirmed dollar figures. Every dependent figure on this page is a bracketed placeholder; the prior program year's $500 figure is not carried forward and no new figure has been invented. See Sections 1 and 3.</li>
 <li><strong>Open Item #2 (Client):</strong> Pathward/Visa reward-card fulfillment timeline is unconfirmed — Section 2 ("How It Works") deliberately does not state a specific window (e.g., "4–6 weeks").</li>
 <li><strong>Open Item #3 (Allyson / Client):</strong> PA's T&amp;Cs page consolidation approach (PE-059 — PA's standalone terms page is being retired, folded into this page + FAQ) is not yet finalized. PA's Section 4 variant below is a working assumption, not a confirmed approach.</li>
 <li><strong>Open Item #4 (Allyson):</strong> IE (market ID <code>il</code>, Illinois Energy) has no dedicated content-tracker row for this page — it appears only in the consolidated Template Matrix's Page–Template Map, confirmed for inclusion 2026-08-21. IE's promo code, T&amp;Cs page status, and any IE-specific program variation are unconfirmed. Treat IE's inclusion on this page as less solidly sourced than ONG/PA/GRE, not equally confirmed.</li>
@@ -311,14 +311,10 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 </nav>
 <!-- IES simplified 2-item nav (reverted 2026-08-31, superseding the 2026-08-28 "3-item" build — see Wireframe_ChangeLog_Active.md §A.19): Fixed Bill Plan · About Us. No For My Home/For My Business/Natural Gas Basics/About, no Search — per CLAUDE.md IES nav exception. My Account via the standard nav-right icon below, same as every other market. -->
 <nav class="nav-links mkt-flex" id="nav-ies" aria-label="Main">
-<div class="nav-item has-dropdown">
+<div class="nav-item">
 <a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
-<button aria-label="Open Fixed Bill Plan submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item active" href="ReferAFriend_Wireframe.html">Refer a Friend</a>
 </div>
-</div>
-<!-- Dropdown kept 2026-08-31 (§A.22), unlike the other 11 Full-nav files: How the Fixed Bill Plan Works / Is It Right for Me removed (folded into the Hub, no longer genuine destinations), but Refer a Friend is a real separate page — one genuine destination still justifies the dropdown per the project's own convention (see Homepage_Wireframe.html's For My Business nav comment). -->
+<!-- Dropdown reversed 2026-09-08/09 (RAF-11, §A.30) — supersedes §A.22's dropdown-keep. "Fixed Bill Plan" is a specific product name, not a category, so nesting an unrelated referral program under it hurt findability; standardized on the same footer + My Account only precedent CustomerRights_Wireframe.html and FixedBillPlanHub_Wireframe.html already set (§A.18/§B.16). Plain link, no chevron, matching those two files exactly. -->
 <div class="nav-item">
 <a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html">About Us</a>
 <button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
@@ -335,7 +331,7 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 <button aria-label="Open navigation menu" class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()">☰</button>
 </div>
 </div>
-<div class="nav-mobile-note">Mobile: hamburger menu. "Refer a Friend" is the active dropdown item under For My Home (or Fixed Bill Plan, for IES). Customer Service phone lives in the footer Support column and the utility row above only — not in nav-right, per Full-nav convention (HP-1 / MA-34). Dev note: every other Full-nav wireframe still points its own "Refer a Friend" dropdown item at <code>MyAccount_Wireframe.html</code> as a placeholder (per NP-11's own cross-ref) — repointing those to this new file is a separate, not-yet-started follow-up, out of scope for this build.</div>
+<div class="nav-mobile-note">Mobile: hamburger menu. "Refer a Friend" is the active dropdown item under For My Home for ONG/PA/GRE/IL. IES has no nav-level entry point for Refer a Friend (RAF-11, §A.30) — reachable via footer + My Account only, matching CustomerRights_Wireframe.html/FixedBillPlanHub_Wireframe.html's plain "Fixed Bill Plan" link. Customer Service phone lives in the footer Support column and the utility row above only — not in nav-right, per Full-nav convention (HP-1 / MA-34). Dev note: every other Full-nav wireframe still points its own "Refer a Friend" dropdown item at <code>MyAccount_Wireframe.html</code> as a placeholder (per NP-11's own cross-ref) — repointing those to this new file is a separate, not-yet-started follow-up, out of scope for this build.</div>
 </div>
 
 <!-- ─── BREADCRUMB ─── -->
@@ -353,7 +349,7 @@ Public, unauthenticated program-overview page — supersedes/executes GLB-RAF-1.
 <span class="sec-num">3</span>
 <div class="raf-hero">
 <div class="raf-hero-title">
-Give Your Friends a Reason to Switch — You Both Get Rewarded
+Refer a Friend, You Both Get Rewarded.
 </div>
 <div class="raf-hero-sub">
 Share your referral link with friends and family. When they enroll with
@@ -361,7 +357,7 @@ Share your referral link with friends and family. When they enroll with
 using your code, you'll both receive a reward once their enrollment is confirmed. <em>(Reward amount — <span style="font-style:italic;">[TBD, pending 2026 program confirmation — see Open Item #1]</span>.)</em>
 </div>
 <div class="raf-hero-ctas">
-<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals</a>
+<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Manage My Referrals</a>
 <a class="wf-btn-out enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html">New here? Enroll now</a>
 </div>
 </div>
@@ -412,23 +408,19 @@ When your friend enrolls using your referral link and their enrollment is confir
 </div>
 <div class="disclosure-figure">
 <div class="disclosure-figure-val">$[TBD]</div>
-<div class="disclosure-figure-lbl">Program cap</div>
-</div>
-<div class="disclosure-figure">
-<div class="disclosure-figure-val">[TBD]</div>
-<div class="disclosure-figure-lbl">2026 program dates</div>
+<div class="disclosure-figure-lbl">Program cap per year</div>
 </div>
 </div>
 </div>
 <div class="ann ann-r">
 <i>⛔</i>
-<div><strong>Open Item #1 — BLOCKING (Client):</strong> reward amount, program cap, and active 2026 dates are all unconfirmed. The previous cycle's $500 cap and 1/1/2025–12/31/2025 dates expired 12/31/2025 and are <strong>not</strong> carried forward as current figures — the bracketed placeholders above are the only acceptable state until Client confirms 2026 terms. Do not fill these in with an assumed or invented number.</div>
+<div><strong>Open Item #1 — BLOCKING (Client):</strong> reward amount and annual program cap are unconfirmed for 2026. The program is always-on (no start/end date); the cap resets annually rather than the program running on a dated cycle. The prior program year's $500 cap is <strong>not</strong> carried forward as a current figure — the bracketed placeholders above are the only acceptable state until Client confirms 2026 terms. Do not fill these in with an assumed or invented number.</div>
 </div>
 <div class="ann ann-y mkt" id="reward-note-il">Open Item #4 (Allyson): whether Illinois Energy's reward structure (amount, cap, mechanism) matches ONG/PA/GRE, or differs, is unconfirmed — IE has no dedicated content-tracker row for this page. Do not assume parity with the other three markets.</div>
 <div class="ann ann-y mkt" id="reward-note-ies">Open Item #6 (Allyson, added 2026-08-28): whether Illinois Energy Solutions' reward structure (amount, cap, mechanism) matches ONG/PA/GRE/IE, or differs, is unconfirmed — IES has no content-tracker row for this page at all, thinner sourcing than even IE's. The referral mechanic (share a link, friend enrolls, both get a reward) works the same regardless of the Fixed Bill Plan's flat-monthly-charge structure, but do not assume reward-figure parity with the other four markets.</div>
 
 <!-- Section 4: T&Cs Summary (market-specific variant per market) -->
-<div class="h2" style="margin: 26px 0 4px;">Terms &amp; Conditions Summary</div>
+<div class="h2" style="margin: 26px 0 4px;">Program Rules</div>
 
 <!-- ONG -->
 <div class="disclosure-box mkt on" id="tcs-ong">
@@ -504,7 +496,7 @@ Illinois Energy Solutions' Refer a Friend terms and conditions page status is no
 </details>
 <details class="raf-faq-item">
 <summary>How do I check my referral status?</summary>
-<div class="raf-faq-body">Log in to My Account to see your referral status and reward history. <a class="soft-link login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals →</a></div>
+<div class="raf-faq-body">Log in to My Account to see your referral status and reward history. <a class="soft-link login-link" href="MyAccount_Wireframe.html?market=ong">Manage My Referrals →</a></div>
 </details>
 </div>
 <div class="ann ann-b">Dev: per the content brief's Section 5 callout, the last FAQ answer routes to My Account rather than explaining the RAF Dashboard's mechanics on this page. <strong>RAF-4 (§A.25, 2026-09-03):</strong> converted from flat always-visible divs to a collapsible accordion — matching <code>MyAccount_Wireframe.html</code>'s own RAF FAQ block (<code>.raf-faq-item</code>, <code>&lt;details&gt;</code>-based, MA-43) rather than Residential Plans/Learning Center's <code>.faq-item</code>/<code>toggleFaq()</code> JS pattern, so the project's two RAF-specific surfaces share one accordion convention. First item open by default so the section doesn't read empty on load.</div>
@@ -518,7 +510,7 @@ Illinois Energy Solutions' Refer a Friend terms and conditions page status is no
 <div class="cta-band">
 <div class="h2">Ready to Start Referring?</div>
 <p>Share your link and start earning rewards on referrals you send. Not a customer yet? You can enroll instead.</p>
-<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Log in to manage your referrals</a>
+<a class="wf-btn login-link" href="MyAccount_Wireframe.html?market=ong">Manage My Referrals</a>
 <div style="margin-top:14px;">
 <a class="soft-link enroll-link" href="Enrollment_ONG-PA-GRE_Wireframe.html">New here? Enroll now →</a>
 </div>

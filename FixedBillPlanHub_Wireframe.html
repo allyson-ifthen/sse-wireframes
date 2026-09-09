@@ -133,6 +133,15 @@ body.chrome-hidden #esc-hint { display: block; }
 .trust-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #1e3a5f; background: #fff; border: 1px solid #d0dce8; border-radius: 4px; padding: 6px 12px; }
 .trust-strip-note { font-size: 11px; color: #888; }
 
+/* FBP-3 (§A.28) — Right for Me fit-list / honesty-panel side-by-side layout, and Good to Know 3-card grid */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 14px; }
+@media (max-width: 760px) { .compare-grid { grid-template-columns: 1fr; } }
+.caution-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0; }
+.caution-list li { font-size: 12px; color: #5a2e0c; line-height: 1.6; padding-left: 20px; position: relative; }
+.caution-list li::before { content: "!"; position: absolute; left: 3px; top: 0; color: #c8944a; font-weight: 900; }
+.info-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 10px; }
+@media (max-width: 760px) { .info-cards-grid { grid-template-columns: 1fr; } }
+
 .cta-band { background: #1e3a5f; color: #fff; padding: 28px 32px; text-align: center; }
 .cta-band .h2 { color: #fff; margin-bottom: 6px; }
 .cta-band p { font-size: 13px; color: #cfe0f0; margin-bottom: 16px; }
@@ -146,7 +155,7 @@ body.chrome-hidden #esc-hint { display: block; }
 <div class="toolbar">
 <div class="toolbar-left">
 <span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
-<span class="toolbar-meta">NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub) · IES only</span>
+<span class="toolbar-meta">NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub) · IES only · Source: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3 / §A.22 (consolidation) / §A.26–§A.28 / §A.31 (2026-09-08/09 restructure)</span>
 <div>
 <div class="vsw-label">Market</div>
 <div class="mode-group"><button class="btn-mode active" disabled style="cursor:default; opacity:.85;">IES (single-market page — no switcher)</button></div>
@@ -189,9 +198,9 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 <div class="oq-panel">
 <h4>⚑ Open Questions — Fixed Bill Plan Hub (NP-10)</h4>
 <ul class="oq-list">
-<li><strong>Open Item #1</strong> (Client/IfThen): product messaging / Fixed Bill value proposition language is not yet finalized — this build provides structure and constraints per the brief, not final hero copy.</li>
+<li><strong>Open Item #1</strong> (Client/IfThen): product messaging / Fixed Bill value proposition language is not yet finalized. <strong>Narrowed 2026-09-08/09 (FBP-4, §A.31):</strong> hero subhead reworked to state plainly that the exact amount is confirmed at enrollment — that piece is now internal-review-ready copy, not a placeholder. Hero title ("The Fixed Bill Plan") and final client sign-off on value-proposition language remain open.</li>
 <li><strong>Open Item #2 — resolved by consolidation (2026-08-31):</strong> the former card-routing-order question (How It Works → Right for Me → Bill Predictability) is moot now that all three are sections on one page in that same order — no separate routing decision needed.</li>
-<li><strong>Open Item #3</strong> (Legal): ICC disclosure language in the "Is Fixed Bill Right for Me" honesty section and the Bill Predictability section below still requires legal review before this page's guidance is finalized into copy — carried over unresolved from NP-8/NP-9.</li>
+<li><strong>Open Item #3</strong> (Legal): <strong>Reclassified 2026-09-08 (FBP-2, §A.26):</strong> the "When Fixed Bill May Cost More" honesty content and "Your Utility Doesn't Change" section were previously flagged as an ICC-mandated legal requirement — traced to source and found unconfirmed (both content-tracker rows read "No" under Compliance/Legal Review Required, and no ICC statute/rule citation exists anywhere in the project's docs for this framing). Reclassified to content-strategy-recommended trust content; still worth eventual Legal/SouthStar confirmation before treating as fully settled for client-facing copy, but no longer a hard content-lock mandate.</li>
 </ul>
 </div>
 
@@ -235,13 +244,13 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 <span class="section-label"><span class="sec-num">3</span>Hero</span>
 <div class="fbp-hero">
 <div class="fbp-hero-title">The Fixed Bill Plan</div>
-<div class="fbp-hero-sub">One flat monthly charge instead of a per-therm rate — a predictable monthly bill from Illinois Energy Solutions.</div>
-<a class="wf-btn" href="#right-for-me">See if Fixed Bill is right for me →</a>
+<div class="fbp-hero-sub">One flat monthly charge, based on your own home's usage — no per-therm rate to shop or compare. Your exact amount is confirmed when you enroll.</div>
+<a class="wf-btn" href="Enrollment_IL-IES_Wireframe.html">Start Enrollment →</a>
 </div>
 <div class="ann-row" style="padding:8px 24px 12px;">
 <span class="ann ann-r">Content rule — do not use "fixed rate" or "lock in your rate" anywhere on this page. This is a billing-model distinction, not a rate type, per Universal Guidance §1. Use "Fixed Bill plan," "predictable monthly charge," "flat monthly bill," "one bill, one number."</span>
-<span class="ann ann-b">Dev: primary CTA now jumps to this same page's "Is It Right for Me" section (formerly routed to NP-8's own page) — updated for the 2026-08-31 consolidation.</span>
-<span class="ann ann-y">NP-10 Open Item #1 (Client/IfThen): hero copy above is structural/placeholder — final value-proposition language not yet set.</span>
+<span class="ann ann-b"><strong>FBP-4 (§A.31, 2026-09-08/09):</strong> primary CTA now goes straight to Enrollment ("Start Enrollment →," matching the CTA Band below and the plan card formerly on Residential Plans, removed per RP-18) rather than jumping to this page's "Is It Right for Me" section — on a single consolidated page, that content is already in normal scroll order regardless of the CTA's destination, so the in-page jump wasn't protecting or gating any exposure to it.</span>
+<span class="ann ann-y">NP-10 Open Item #1 (Client/IfThen): hero subhead reworked 2026-09-08/09 (FBP-4, §A.31) to state plainly that the exact amount is confirmed at enrollment — narrows, but doesn't fully close, this item. Subhead is now internal-review-ready copy, not just a structural placeholder, but has not been client-reviewed, and the hero title ("The Fixed Bill Plan") remains a working placeholder pending final value-proposition language.</span>
 </div>
 </div>
 
@@ -250,13 +259,10 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 <span class="section-label"><span class="sec-num">4</span>Content Body</span>
 <div style="padding: 24px;">
 
-<div class="h3" style="margin-bottom:8px;">What Makes Fixed Bill Different</div>
-<div class="body-para">With the Fixed Bill plan, your monthly natural gas charge is set once, based on your home's usage history, and stays the same for the length of your plan term — regardless of how cold the winter gets or how much gas you use in any single month. It's reviewed and reset at renewal, not adjusted mid-term.</div>
-<div class="body-para">For a lot of households, the hardest part of a gas bill isn't the total cost over a year — it's not knowing what a single month's bill will be. A surprise cold snap can turn into a surprise bill. Fixed Bill removes that uncertainty by giving you one number to plan around, every month, all term long.</div>
-
-<!-- ═══ HOW IT WORKS (consolidated from NP-7, 2026-08-31 §A.22) ═══ -->
-<div class="h3" id="how-it-works" style="margin:24px 0 10px;">How It Works</div>
-<div class="steps-grid">
+<!-- ═══ 1. WHAT FIXED BILL IS (FBP-3, §A.28 — merges "What Makes Fixed Bill Different"'s 2 intro paragraphs into the How It Works step grid) ═══ -->
+<div class="h3" id="what-fixed-bill-is" style="margin-bottom:8px;">What Fixed Bill Is</div>
+<div class="body-para">Fixed Bill gives you one flat monthly charge — set from your home's natural gas usage history, not a live meter read or a per-therm rate — so a cold snap or a mild month never changes what you owe.</div>
+<div class="steps-grid" id="how-it-works" style="margin-top:14px;">
 <div class="step-card">
 <span class="step-num">1</span>
 <div class="step-label">One Flat Number, Set From Usage History</div>
@@ -274,54 +280,57 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 </div>
 </div>
 <div class="ann-row">
-<span class="ann ann-b">Dev: condensed from NP-7's full-page mechanics explainer into a 3-step block matching <code>ForMyHome_Wireframe.html</code>'s "How It Works" pattern, per the 2026-08-31 consolidation (§A.22). NP-7's FAQ section and its two "not yet documented" open items (true-up/reconciliation mechanism; no-usage-history quoting) were cut rather than carried forward — a lean page states what's known and stops, per Allyson's leanness directive; if either mechanism is later sourced, it belongs here as a fourth step or a line addition, not a reopened standalone page.</span>
+<span class="ann ann-b"><strong>FBP-3 (§A.28, 2026-09-08):</strong> "What Makes Fixed Bill Different"'s 2 intro paragraphs restated the same 3 facts this step grid already covers — condensed to the one-line framing above rather than carried forward as a separate section. Grid itself unchanged from the 2026-08-31 consolidation (§A.22); NP-7's FAQ section and its two "not yet documented" open items (true-up/reconciliation mechanism; no-usage-history quoting) remain cut, per Allyson's leanness directive.</span>
 </div>
 
-<!-- ═══ IS IT RIGHT FOR ME (consolidated from NP-8, 2026-08-31 §A.22) ═══ -->
-<div class="h3" id="right-for-me" style="margin:24px 0 10px;">Is the Fixed Bill Plan Right for Me?</div>
-<div class="body-para" style="margin-bottom:6px;">You might like Fixed Bill if:</div>
+<!-- ═══ 2. IS THE FIXED BILL PLAN RIGHT FOR ME (FBP-3, §A.28 — fit-list and honesty caveat placed side by side, condensed to 3 bullets) ═══ -->
+<div class="h3" id="right-for-me" style="margin:26px 0 10px;">Is the Fixed Bill Plan Right for Me?</div>
+<div class="compare-grid">
+<div>
+<div class="h3" style="margin-bottom:8px; font-size:11px;">You Might Like Fixed Bill If</div>
 <ul class="fit-list">
 <li>You'd rather know your exact gas charge every month than have it swing with the weather.</li>
 <li>You've been caught off guard by a big bill spike in a past winter and want to avoid that surprise again.</li>
 <li>You're comfortable paying slightly more some months and slightly less others, in exchange for one flat number all term long.</li>
 </ul>
-<div class="ann ann-b">Dev: condensed from NP-8's 4-item list to the 3 tightest signals. Descriptive framing only ("you might like Fixed Bill if...") — no quantified savings claims, per Universal Guidance §1.</div>
-
-<div class="honesty-panel">
-<div class="h3">When Fixed Bill May Cost More</div>
-<div class="body-para">It's also important to understand when Fixed Bill may not be the cheapest option. Because your Fixed Bill charge is set in advance from your usage history, there will be some months — especially during a mild season, when your actual usage would have been fairly low on a standard variable rate — where you end up paying more under Fixed Bill than you would have paid on a usage-based rate that month.</div>
-<div class="body-para" style="margin-bottom:0;">That's not a flaw in the plan; it's the direct tradeoff of the plan's whole purpose. Fixed Bill exists to give you one flat, predictable number every month, not to guarantee you the lowest possible total cost in every season. If your priority is minimizing your total spend no matter what, a usage-based plan may serve that goal better than Fixed Bill will.</div>
 </div>
-<div class="ann ann-r"><strong>Content rule — do not edit, shorten, or soften without checking the brief:</strong> this panel is ICC-mandatory (IES-010) and carried over word-for-word from NP-8 — it cannot be cut, softened into vagueness, buried below the fold, or followed by a "but don't worry" pivot that undercuts it. This is the one piece of NP-8 the 2026-08-31 leanness pass does NOT trim — a hard content rule, not a style choice.</div>
-
-<div class="ann-row">
-<span class="ann ann-b">Dev: NP-8's separate "How to Decide" panel and full FAQ section were cut in the 2026-08-31 consolidation (§A.22) — the Good Fit Signals list above and the honesty panel above together carry the decision-support job at hub-page length.</span>
+<div class="honesty-panel" style="margin:0;">
+<div class="h3" style="margin-bottom:8px;">When Fixed Bill May Cost More</div>
+<ul class="caution-list">
+<li>During a mild month, you may pay more on Fixed Bill than you would have on a usage-based rate that month — that's the tradeoff for one predictable number, not a flaw in the plan.</li>
+<li>Fixed Bill is built to guarantee predictability, not the lowest possible total cost every season.</li>
+<li>If minimizing total spend matters more to you than predictability, a usage-based plan may fit better.</li>
+</ul>
 </div>
-
-<!-- ═══ UNDERSTANDING BILL PREDICTABILITY (consolidated from NP-9, 2026-08-31 §A.22) ═══ -->
-<div class="h3" id="bill-predictability" style="margin:24px 0 10px;">Understanding Bill Predictability</div>
-<div class="key-takeaways">
-<div class="body-para" style="margin-bottom:0;">Illinois requires natural gas suppliers to disclose the utility's current supply cost rate — you'll find that comparison on our <a class="soft-link" style="display:inline;" href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans page</a>. Fixed Bill doesn't have a per-therm rate to compare directly: your charge is set from your own usage history, not tracked to the utility's monthly rate. That's not a signal Fixed Bill costs more or less in any given month — just a different pricing model, kept in one current, regularly-updated place rather than duplicated here.</div>
 </div>
 <div class="ann-row">
-<span class="ann ann-b">Dev: condensed from NP-9's 4-section explainer to this single Key Takeaways-style block, per the 2026-08-31 consolidation (§A.22). NP-9's separate "Why Your Bill Works Differently," "Why You'll See the Utility's Rate on the Plans Page," "What Predictability Means" sections, and its full FAQ, were cut — the load-bearing facts (comparison lives on Plans page; Fixed Bill has no per-therm rate to compare) are preserved, the surrounding explanation is not. No comparative/superlative language ("cheaper," "better," "your best option") per Universal Guidance's "Sell Predictability, Not Price" rule — same guardrail NP-9 carried.</span>
-<span class="ann ann-y">Carried over from NP-9 Open Item #1 (Client/Legal), unresolved: whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) actually satisfies IES-012's disclosure requirement on its own — this section's whole approach (link, don't duplicate a table) rests on that being true.</span>
+<span class="ann ann-b">Dev: fit-list condensed from NP-8's 4-item list to the 3 tightest signals (unchanged from the 2026-08-31 consolidation). Descriptive framing only ("you might like Fixed Bill if...") — no quantified savings claims, per Universal Guidance §1.</span>
+<span class="ann ann-b"><strong>FBP-2 / FBP-3 (§A.26 / §A.28):</strong> "When Fixed Bill May Cost More" condensed from 2 paragraphs to 3 bullets and placed side by side with the fit-list — kept in its own visually distinct amber panel, not softened or buried. <strong>Reclassified 2026-09-08 (§A.26):</strong> previously flagged "ICC-mandatory (IES-010), carried over word-for-word, cannot be cut/shortened" — tracing IES-009/IES-010 to source found their own "Compliance / Legal Review Required?" column reads "No," and no ICC statute/rule citation exists anywhere in the project's docs for this framing. Reclassified to content-strategy-recommended trust content: worth keeping for consumer-protection/trust reasons, open to condensing/re-layout, no longer under a hard content-lock rule. Recommend flagging for eventual Legal/SouthStar confirmation before treating as fully settled for client-facing copy.</span>
 </div>
 
-<div class="h3" style="margin:24px 0 8px;">Your Utility Relationship Doesn't Change</div>
-<div class="body-para">Illinois Energy Solutions is not your gas utility. Your utility — Nicor Gas — still delivers your gas, reads your meter, and responds to any gas emergency. Illinois Energy Solutions supplies the gas itself and bills you for it under the Fixed Bill structure; nothing about who shows up at your home changes.</div>
+<!-- ═══ 3. GOOD TO KNOW (FBP-3, §A.28 — merges Bill Predictability + Utility Relationship + Trust strip into one heading, 3 cards) ═══ -->
+<div class="h3" id="good-to-know" style="margin:26px 0 10px;">Good to Know</div>
+<div class="info-cards-grid">
+<div class="step-card">
+<div class="step-label">How Pricing Compares</div>
+<div class="step-body">Fixed Bill doesn't have a per-therm rate to compare directly — your charge is set from your own usage history, not tracked to the utility's monthly rate. For reference, Nicor Gas' current supply cost rate is $0.33 per therm (through 9/30/2026).</div>
+</div>
+<div class="step-card">
+<div class="step-label">Your Utility Doesn't Change</div>
+<div class="step-body">Nicor Gas still delivers your gas, reads your meter, and responds to gas emergencies. Illinois Energy Solutions supplies the gas and bills you under the Fixed Bill structure — nothing about who shows up at your home changes.</div>
+</div>
+<div class="step-card">
+<div class="step-label">Licensed &amp; Independent</div>
+<div class="step-body">✓ ICC Licensed Supplier. Illinois Energy Solutions is not affiliated with Nicor Gas.</div>
+</div>
+</div>
 <div class="ann-row">
-<span class="ann ann-b">Dev: mandatory ICC content per IES-009/IES-010 — not optional, not trimmed for space. Uses "utility," never "gas company," per Universal Guidance §2.</span>
+<span class="ann ann-b"><strong>FBP-3 (§A.28, 2026-09-08):</strong> merges the former "Understanding Bill Predictability," "Your Utility Relationship Doesn't Change," and the separate Trust &amp; Compliance strip into these 3 cards — condensed from 6 h3 sections + a trust strip down to 3 sections total on this page. Card 1 drops the prior in-body link to <code>ResidentialPlans_Wireframe.html?market=ies</code> (removed entirely per RP-18, §A.29 — that page's IES market view is orphaned relative to the site map) and states the utility rate inline instead; earlier draft phrasing ("Illinois requires suppliers to show...") read as regulator-voiced, rewritten to lead with what the fact means for the customer. Card 3 carries over the trust-strip's badge + note; its own "see how our Fixed Bill charge relates to your utility's rate" link is dropped as now-circular with Card 1.</span>
+<span class="ann ann-b"><strong>FBP-2 (§A.26):</strong> "Your Utility Doesn't Change" (formerly "Your Utility Relationship Doesn't Change") was previously flagged "mandatory ICC content per IES-009/IES-010 — not optional, not trimmed for space." Same reclassification as the honesty panel above applies — content-strategy-recommended trust content, not a confirmed legal mandate; recommend flagging for eventual Legal/SouthStar confirmation.</span>
 <span class="ann ann-g">Corrected 2026-08-31 (Allyson): Nicor Gas is IES's only servicing utility — Peoples Gas and North Shore Gas both removed. <code>Wireframe_Universal_Guidance.md</code> §9 still lists "Nicor Gas · Peoples Gas" for IES and has been flagged, not yet corrected — see §A.21.</span>
+<span class="ann ann-y">Carried over from NP-9 Open Item #1 (Client/Legal): whether the Residential Plans page's IL Regulatory Comparison Bar (IES market view) satisfied IES-012's disclosure requirement is now moot — that market view is being removed entirely per RP-18 (§A.29) rather than kept as the comparison's source of truth. Card 1 above states the rate inline instead.</span>
+<span class="ann ann-r"><i>⚑</i> <strong>New finding, this Execute pass:</strong> this page's own footer legal disclosure (below) still stated Nicor Gas' rate as $0.36/therm (6/1–6/30/2026) and still listed Peoples Gas and North Shore Gas — both stale relative to §A.21's Nicor-only correction above. Synced the footer to Nicor-Gas-only + $0.33/therm (9/1–9/30/2026), matching the figure already in use in <code>Enrollment_IL-IES_Wireframe.html</code> and <code>ResidentialPlans_Wireframe.html</code> per ENRIL-545 (2026-09-03) — not a new figure, just propagating the already-current one to this page's footer, which had gone stale. Flagging rather than treating as pre-aligned, since this wasn't one of today's logged items.</span>
 </div>
-
-<div class="h3" style="margin:22px 0 8px;">Trust &amp; Compliance</div>
-<div class="trust-strip">
-<span class="trust-badge">✓ ICC Licensed Supplier</span>
-<span class="trust-strip-note">Illinois Energy Solutions is not affiliated with Nicor Gas.</span>
-<a class="soft-link" href="#bill-predictability">See how our Fixed Bill charge relates to your utility's rate →</a>
-</div>
-<div class="ann ann-b">Dev: no BBB reference on this strip — Universal Guidance §3/§4 explicitly excludes BBB for IES under any circumstances (matches the internal-only reputational-risk note already documented on <code>GeneralInformational_Wireframe.html</code>'s About Us instance). Link now jumps to this same page's Bill Predictability section (formerly routed to NP-9's own page) — updated for the 2026-08-31 consolidation.</div>
 
 </div>
 </div>
@@ -354,13 +363,12 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 <a href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan Hub</a>
 <a href="#how-it-works">How It Works</a>
 <a href="#right-for-me">Is It Right for Me?</a>
-<a href="#bill-predictability">Bill Predictability</a>
+<a href="#good-to-know">Good to Know</a>
 </div>
 </div>
 <div>
 <div class="footer-col-head">Learn</div>
 <div class="footer-col-links">
-<a href="ResidentialPlans_Wireframe.html?market=ies">Residential Plans</a>
 <a href="GeneralInformational_Wireframe.html?market=ies">About Us</a>
 <a href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
 </div>
@@ -380,14 +388,14 @@ IES's L1 nav hub (Content Tracker IES-008). <strong>Consolidated 2026-08-31 (§A
 <div class="footer-legal-links"><a>Terms of Use</a><a>Privacy Policy</a><a>Accessibility</a></div>
 </div>
 <div class="footer-license">
-Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 6/1/2026, the Nicor Gas' gas supply cost rate is $0.36 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the North Shore Gas' gas supply cost rate is $0.4237 per therm. The utility gas supply cost will expire on 6/30/2026. Beginning on 6/1/2026, the Peoples Gas' gas supply cost rate is $0.3676 per therm. The utility gas supply cost will expire on 6/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.
+Illinois Energy Solutions is not the same entity as your gas delivery company. You are not required to enroll with Illinois Energy Solutions. Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is $0.3300. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at www.icc.illinois.gov/ags/consumereducation.aspx. Enrollment eligibility is subject to Illinois Energy Solutions' credit and payment policies, and other eligibility requirements.
 </div>
 </div>
 </div>
 </div>
 
 <div class="doc-footer">
-NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub, no dedicated template — About Us Hub precedent) · IES only · 4037-25 · IfThen Digital · Originally built per §A.17 Batch 3, 2026-08-28; consolidated with NP-7/8/9 per §A.22, 2026-08-31 (client cross-market-consistency push + IES low-traffic/single-legacy-product status). Sources: <code>Content-Templates/FixedBillPlan/FixedBillPlanHub_ContentTemplate.md</code>, <code>FixedBillPlan_HowItWorks_ContentTemplate.md</code>, <code>FixedBillPlan_RightForMe_ContentTemplate.md</code>, <code>FixedBillPlan_ICCDisclosure_ContentTemplate.md</code> — the latter three are now partially orphaned by this consolidation; content-ops follow-up flagged, not actioned this pass. Retired standalone pages: <code>_Retired/FixedBillPlan_HowItWorks_Wireframe.html</code>, <code>_Retired/FixedBillPlan_RightForMe_Wireframe.html</code>, <code>_Retired/CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3 / §A.22.
+NP-10 · Fixed Bill Plan Hub (consolidated) · General Informational template (L1 nav hub, no dedicated template — About Us Hub precedent) · IES only · 4037-25 · IfThen Digital · Originally built per §A.17 Batch 3, 2026-08-28; consolidated with NP-7/8/9 per §A.22, 2026-08-31 (client cross-market-consistency push + IES low-traffic/single-legacy-product status). Content body restructured from 6 sections + a trust strip to 3 sections (What Fixed Bill Is / Is the Fixed Bill Plan Right for Me? / Good to Know), ICC-mandate framing on the honesty panel and utility-relationship content corrected to content-strategy-recommended, and hero subhead + primary CTA reworked per §A.26/§A.28/§A.31 — built this Execute session, 2026-09-09. Sources: <code>Content-Templates/FixedBillPlan/FixedBillPlanHub_ContentTemplate.md</code>, <code>FixedBillPlan_HowItWorks_ContentTemplate.md</code>, <code>FixedBillPlan_RightForMe_ContentTemplate.md</code>, <code>FixedBillPlan_ICCDisclosure_ContentTemplate.md</code> — the latter three are now partially orphaned by this consolidation; content-ops follow-up flagged, not actioned this pass. Retired standalone pages: <code>_Retired/FixedBillPlan_HowItWorks_Wireframe.html</code>, <code>_Retired/FixedBillPlan_RightForMe_Wireframe.html</code>, <code>_Retired/CurrentUtilityRates_IES_ICCDisclosure_Wireframe.html</code>. Logged: Wireframe_ChangeLog_Active.md §A.16 NP-10 / §A.17 Batch 3 / §A.22 / §A.26 / §A.28 / §A.31.
 </div>
 </div>
 

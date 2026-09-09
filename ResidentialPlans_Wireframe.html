@@ -873,8 +873,8 @@
 <button class="market-btn" onclick="setMarket('pa')">Pennsylvania</button>
 <button class="market-btn" onclick="setMarket('gre')">GRE (Michigan)</button>
 <button class="market-btn" onclick="setMarket('il')">IL Energy</button>
-<button class="market-btn" onclick="setMarket('ies')">IL Energy Solutions</button>
 </div>
+<!-- RP-18 (§A.29, 2026-09-08): IES market-switcher button removed — Redesign-Site-Map.md has no "Residential Plans" page for IES at all; this market view was orphaned wiring, not a real page. See FixedBillPlanHub_Wireframe.html for IES's actual plans-adjacent content. -->
 <div class="variant-switcher">
 <span class="variant-switcher-label">Guidance (ONG only)</span>
 <button class="variant-btn active" onclick="setGuidanceVariant('a', this)">A — Filters</button>
@@ -931,7 +931,7 @@
 <li><strong>#2</strong> PRIME rate update frequency — live API or scheduled manual updates? Staleness is a legal and trust risk — confirm with Lee / Susan before rate display pattern is locked</li>
 <li><strong>#9</strong> Full plan catalog per market — how many plans exist at launch per LDC? Determines whether filter bar shows, whether "see more" expand is needed, and whether Contract Length filter has more than one valid option.</li>
 <li><strong>#10</strong> Filter bar for small plan sets — if a market has only 2 plans (e.g. Fixed + Variable), hide filter bar entirely or keep it but disable non-applicable chips? Recommend: hide bar when fewer than 3 plans. Confirm with Prime/dev.</li>
-<li><strong>#3</strong> Greener Life plan availability per market — ONG confirmed; PA, GRE, IL, and IES TBD. Confirm with Aimee Henderson which markets will offer Greener Life plans at launch. Plan rates (not a differential — standalone pricing) must be sourced from Prime/client once availability is confirmed.</li>
+<li><strong>#3</strong> Greener Life plan availability per market — ONG confirmed; PA, GRE, and IL TBD (IES out of scope for this page per RP-18, §A.29 — no Residential Plans page exists for that market). Confirm with Aimee Henderson which markets will offer Greener Life plans at launch. Plan rates (not a differential — standalone pricing) must be sourced from Prime/client once availability is confirmed.</li>
 <li><strong>#4</strong> Promo code error states — error message, silent failure, or "no active promo" state? Defines UX of promo field</li>
 <li><strong>#5</strong> Greener Life collective impact data — Ohio-level or SouthStar-wide stats? Confirm with marketing / Lee</li>
 <li><strong>#6</strong> Third-party review aggregates (Google / BBB / Trustpilot) — do any exist per market? If not, sourcing plan needed before Trust Band can be designed</li>
@@ -951,7 +951,6 @@
 <span class="nav-utility-phone market-display" id="phone-pa">(888) 555-0002</span>
 <span class="nav-utility-phone market-display" id="phone-gre">(888) 555-0003</span>
 <span class="nav-utility-phone market-display" id="phone-il">(888) 555-0004</span>
-<span class="nav-utility-phone market-display" id="phone-ies">(888) 555-0005</span>
 </div>
 <div style="background:#fff; border-bottom:2px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:54px; gap:16px; flex-wrap:wrap;">
 <div style="font-size:14px; font-weight:900; color:#1e3a5f; display:flex; align-items:center; gap:8px; flex-shrink:0;">
@@ -960,9 +959,8 @@
 <span class="market-display" id="nav-logo-pa">Pennsylvania Energy</span>
 <span class="market-display" id="nav-logo-gre">Grand Rapids Energy</span>
 <span class="market-display" id="nav-logo-il">Illinois Energy</span>
-<span class="market-display" id="nav-logo-ies">Illinois Energy Solutions</span>
 </div>
-<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES uses nav-ies below. -->
+<!-- Primary Nav — Full nav (ONG/PA/GRE/IL). IES has no Residential Plans page (RP-18, §A.29) — removed. -->
 <nav class="nav-links mkt-flex on" id="nav-standard">
 <!-- For My Home: hub link + dropdown -->
 <div class="nav-item has-dropdown">
@@ -1010,21 +1008,7 @@
 </div>
 </div>
 </nav>
-<!-- IES simplified 2-item nav: Fixed Bill Plan · About Us -->
-<nav class="nav-links mkt-flex" id="nav-ies">
-<div class="nav-item">
-<a class="nav-link nav-hub-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
-</div>
-<!-- Dropdown removed 2026-08-31 (§A.22): NP-7/8 folded into the Hub, no genuine second destination left under this nav item — see Homepage_Wireframe.html's For My Business nav comment for the governing "two genuine destinations" convention. -->
-<div class="nav-item has-dropdown">
-<a class="nav-link nav-hub-link" href="GeneralInformational_Wireframe.html?market=ong">About Us</a>
-<button aria-label="Open About Us submenu" class="nav-chevron" onclick="toggleNavDropdown(this)">▾</button>
-<div class="nav-dropdown">
-<a class="nav-dd-item" href="CompanyHistory_Wireframe.html">Company History</a>
-<a class="nav-dd-item" href="LegalCompliance_Wireframe.html">Your Rights as a Customer</a>
-</div>
-</div>
-</nav>
+<!-- IES simplified nav removed (RP-18, §A.29, 2026-09-08) — this page no longer has an IES market view for it to serve. -->
 <!-- Right: Account + Search icon + Hamburger -->
 <div class="nav-right">
 <a class="nav-account" href="MyAccount_Wireframe.html">👤 My Account</a>
@@ -1059,11 +1043,7 @@
 <div class="hero-sub">Predictable natural gas rates for Illinois households — licensed by the Illinois Commerce Commission.</div>
 <div class="hero-rate-line">Supply rates from <strong>[$ TBD]/therm</strong> in Illinois, based on average residential usage. Rate and availability vary by utility — your utility's delivery charge is billed separately. <span class="annot annot-yellow" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">⚑</span> RP-12 — rate pending confirmed PRIME plan data</span></div>
 </div>
-<div class="market-display" id="h1-ies">
-<div class="hero-h1">Fixed Bill Natural Gas Plans — Simplified Energy Budgeting from Illinois Energy Solutions</div>
-<div class="hero-sub">One predictable monthly bill — no surprises, no variable rate exposure.</div>
-<div class="hero-rate-line">Fixed Bill pricing is calculated from your usage — no per-therm rate to estimate. See your personalized amount when you enroll. <span class="annot annot-blue" style="font-size:9px; padding:2px 6px;"><span class="annot-icon">↳</span> RP-12 — IES exception: no $/unit rate exists for this product, so the standard hero-rate formula doesn't apply</span></div>
-</div>
+<!-- IES hero copy removed (RP-18, §A.29, 2026-09-08) — see FixedBillPlanHub_Wireframe.html's own hero instead. -->
 <!-- Single regulatory credential — the one trust signal universal across all five brands.
            BBB excluded: not all brands accredited or in good standing.
            "Serving Since [year]" excluded: varies by brand, creates inconsistency risk.
@@ -1074,7 +1054,6 @@
 <div class="badge market-display" id="badge-pa">✓ PA PUC Licensed Supplier</div>
 <div class="badge market-display" id="badge-gre">✓ MPSC Licensed Supplier</div>
 <div class="badge market-display" id="badge-il">✓ ICC Licensed Supplier</div>
-<div class="badge market-display" id="badge-ies">✓ ICC Licensed Supplier</div>
 </div>
 <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
 <div class="annot annot-green"><span class="annot-icon">✓</span> No hero image — clean data-forward header preferred on transactional page</div>
@@ -1138,13 +1117,7 @@
 <div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
 </div>
 </div>
-<div class="market-display" id="ldc-sel-ies">
-<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
-<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Nicor Gas</div>
-<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">Peoples Gas</div>
-<div class="wf-btn-outline" style="font-size:13px; padding:10px 20px;">North Shore Gas</div>
-</div>
-</div>
+<!-- IES LDC selector removed (RP-18, §A.29, 2026-09-08) — no IES market view remains on this page. -->
 <!-- FALLBACK: ZIP code inline expander -->
 <div style="margin-top:12px; border-top:1px dashed #b8d4f0; padding-top:12px;">
 <div onclick="toggleZipFallback()" style="font-size:12px; color:#5a8cbf; font-weight:600; cursor:pointer;">
@@ -1355,14 +1328,12 @@
 <span class="market-display" id="plans-h2-pa">Pennsylvania Energy Plans</span>
 <span class="market-display" id="plans-h2-gre">Grand Rapids Energy Plans</span>
 <span class="market-display" id="plans-h2-il">Illinois Energy Plans</span>
-<span class="market-display" id="plans-h2-ies">Illinois Energy Solutions Plans</span>
 </h2>
 <div class="ldc-confirmed">
 <span class="market-display active" id="ldc-badge-ong">✓ Columbia Gas service area</span>
 <span class="market-display" id="ldc-badge-pa">✓ UGI service area</span>
 <span class="market-display" id="ldc-badge-gre">✓ Consumers Energy service area</span>
 <span class="market-display" id="ldc-badge-il">✓ Nicor Gas service area</span>
-<span class="market-display" id="ldc-badge-ies">✓ Nicor Gas service area</span>
 </div>
 </div>
 <!-- ─────────────────────────────────────────────────────
@@ -1469,7 +1440,7 @@
 </div>
 <div class="filter-bar-note">
           ⚙ Filters update plan cards instantly (no Apply button). Filter bar hides automatically when a market has ≤2 plans — no point filtering 2 items.<br/>
-          Greener Life filter chip hidden for markets where availability is unconfirmed (PA, GRE, IL, IES — TBD ⚑).<br/>
+          Greener Life filter chip hidden for markets where availability is unconfirmed (PA, GRE, IL — TBD ⚑).<br/>
           Greener Life pre-LDC edge case: if user taps "Filter: Greener Life® Plans ↑" in Section 6 before selecting an LDC, the button scrolls up to the LDC selector with a contextual prompt — same scroll-and-prompt pattern as promo State C. Filter bar is not rendered pre-LDC; State 1 / State 2 toggle in the Greener Life module handles the gate.<br/>
           Promo active: filter counter ("Showing X of Y plans") reflects only the browsable catalog below — pinned promo card above is excluded from the count. Filters do not affect the pinned zone.
         </div>
@@ -1853,7 +1824,7 @@
           </div>
 </div>
 </div>
-<!-- PA, IL, IES — simplified placeholders -->
+<!-- PA, IL — simplified placeholders (IES market view removed per RP-18, §A.29) -->
 <!-- PA Plan Cards — render same .pc component as ONG · unit: therms -->
 <div class="market-display" id="cards-pa">
 <div style="border:1.5px dashed #c0bfb9; border-radius:5px; padding:18px 22px; background:#f9f9f8; font-size:12px; color:#555; line-height:1.6;">
@@ -1887,12 +1858,13 @@
 <!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — companion fix to
      Enrollment_IL-IES_Wireframe.html's ENRIL-545, same evidence/rationale. Confirmed for Nicor Gas only. -->
 <!-- ENRIL-545 (2026-09-03): fixed id="il-ldc-ref" → "ldc-ref-il" — setMarket()'s selector is
-     `[id$="-" + market]`, and "il-ldc-ref" doesn't end in "-il" (its sibling "il-ldc-ref-ies" happened to
-     work only because it coincidentally ends in "-ies"). Pre-existing bug, invisible while this paragraph
+     `[id$="-" + market]`, and "il-ldc-ref" doesn't end in "-il". Pre-existing bug, invisible while this paragraph
      was still an unconfirmed placeholder — surfaced once this became real customer-facing copy: after any
      market-button click, this span lost its hardcoded default "active" class and never got it back, so the
-     IL card silently rendered "Your utility ()" with an empty parenthetical. -->
-<p style="margin:0 0 6px;">Your utility (<span class="market-display active" id="ldc-ref-il">Nicor Gas</span><span class="market-display" id="il-ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy, and you are not required to enroll with Illinois Energy to receive natural gas service — you may remain with your utility's supply service at any time. Illinois Energy's price may be higher than traditional utility service at any time during the term of your agreement.</p>
+     IL card silently rendered "Your utility ()" with an empty parenthetical. RP-18 (§A.29, 2026-09-08): also
+     removed a stray duplicate "il-ldc-ref-ies" span that had been sitting in this IL-market paragraph — dead
+     weight even before today, since this whole block only renders when market is "il," never "ies." -->
+<p style="margin:0 0 6px;">Your utility (<span class="market-display active" id="ldc-ref-il">Nicor Gas</span>) is not the same company as Illinois Energy, and you are not required to enroll with Illinois Energy to receive natural gas service — you may remain with your utility's supply service at any time. Illinois Energy's price may be higher than traditional utility service at any time during the term of your agreement.</p>
 <p style="margin:0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
 <div class="ann ann-y" style="margin-top: 8px; padding: 8px 10px; background: #fffde7; border: 1.5px solid #f5c842; border-radius: 3px; font-size: 11px; color: #7a6000;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> Same gap as the companion Enrollment fix — rate/dates above are Nicor-specific only; no LDC-level selector exists on this page to swap them for a North Shore/Peoples customer. Owner: Allyson/Legal.</div>
 </div>
@@ -1912,65 +1884,11 @@
 </div>
 </div>
 </div>
-<div class="market-display" id="cards-ies">
-<!-- RP-16 (2026-09-02): compact bar + "View rate & plan disclosures ▾" collapsible replaced with the full
-     ICC-mandated paragraph, shown plainly and always visible — no collapse/toggle. Same decision/evidence as
-     the cards-il instance above; see the dev note there for full rationale. -->
-<div style="background:#f5f8fc; border-left:3px solid #888; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#444; line-height:1.6;">
-<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — companion fix to
-     Enrollment_IL-IES_Wireframe.html's ENRIL-545, same evidence/rationale. Confirmed for Nicor Gas only
-     (IES's only servicing utility, per §A.21). -->
-<!-- ENRIL-545 (2026-09-03): fixed id="ies-ldc-ref" → "ldc-ref-ies" — same id-suffix bug as the IL card's
-     "il-ldc-ref" above ("ies-ldc-ref" doesn't end in "-ies"), same fix. -->
-<p style="margin:0 0 6px;">Your utility (<span class="market-display active" id="ldc-ref-ies">Nicor Gas</span>) is not the same company as Illinois Energy Solutions, and you are not required to enroll with Illinois Energy Solutions to receive natural gas service — you may remain with your utility's supply service at any time. Illinois Energy Solutions's price may be higher than traditional utility service at any time during the term of your agreement.</p>
-<p style="margin:0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
-</div>
-<!-- IES Fixed Bill — new card per PC-D9 rev 2. Single-product market: one card, no grid. -->
-<div style="max-width:380px; margin:0 auto;">
-<div class="pc">
-<div class="pc-head">
-<div class="pc-badge-row">
-<span class="pc-badge badge-fixedbill">● Fixed Bill</span>
-</div>
-<div class="pc-name">Fixed Bill Plan</div>
-</div>
-<div class="pc-body">
-<div class="pc-quote">
-<div class="pc-quote-label">Custom monthly amount</div>
-<div class="pc-quote-phone" style="font-size:14px; font-weight:700;">Calculated from your usage</div>
-<div style="font-size:10px; color:#888; margin-top:3px;">Your exact amount is confirmed during enrollment</div>
-</div>
-<div class="pc-desc">Pay the same flat amount every month for 12 months — your bill doesn't move with weather or market prices. Your <span class="dyn-ldc">Nicor Gas</span> delivery doesn't change; the Fixed Bill amount appears as a line on your existing Nicor Gas statement.</div>
-<ul class="pc-points">
-<li>Same monthly amount for 12 months</li>
-<li>Protects against weather and price spikes</li>
-<li>Appears on your existing <span class="dyn-ldc">Nicor Gas</span> bill</li>
-<li>Total may be higher than utility default — not guaranteed savings</li>
-</ul>
-<span class="pc-expand-link" onclick="alert('Inline expand — per §14 matrix: \&quot;How your monthly amount is calculated\&quot; (replaces Billing start) · Eligibility (LIHEAP/PIPP restrictions) · Cancellation rights · Auto-renewal (incl. Slot H · ACR info link) · Contract &amp; disclosures (incl. ICC \&quot;may not save money\&quot; brief caveat).\n\nAnalytics: plan_details_expand')">▾ View Plan Terms &amp; Disclosures</span>
-</div>
-<div class="pc-foot">
-<button class="pc-cta">Start Enrollment →</button>
-</div>
-</div>
-</div>
-<div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#e8f5e9; border:1.5px solid #4caf50; color:#2e7d32;">✓ PC-D9 rev 2 — IES Fixed Bill card now built (replaces prior placeholder). Inline enrollment canonical from launch. Phone fallback link dropped (nav phone is sufficient). Service mark stripped from plan name. New "Eligibility" section in expand covers LIHEAP/PIPP restrictions.</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Custom-amount quote-block copy needs client direction — currently "Custom monthly amount · Calculated from your usage." Possible enhancements: "Based on your home's past 12 months of natural gas usage."</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ Commercial IES Open Q — likely remains phone-only quote-only state. Confirm with client whether commercial IES enrollment moves online at launch.</span>
-</div>
-<!-- RP-16 (2026-09-02): non-mandated content relocated here from the collapsible panel above, which now
-     carries only the mandated paragraph. No collapse/toggle — shown plainly. -->
-<div style="margin-top:16px; font-size:11px; color:#666; line-height:1.7;">
-<p style="margin:0 0 8px;">Illinois Energy Solutions is a licensed Alternative Retail Gas Supplier (ARGS) certified by the Illinois Commerce Commission (ICC). Illinois Energy Solutions' rates may be higher or lower than the utility's default supply rate in any given month.</p>
-<p style="margin:0;">Historical prices to compare for the preceding 12 months are available on the <a style="color:#5a8cbf; text-decoration:underline; cursor:pointer;">Plug-In Illinois website maintained by the ICC →</a></p>
-<div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ LEGAL REVIEW REQUIRED: SouthStar's legal/compliance team must confirm which elements of the mandated paragraph above (and this section) are ICC/SB651 minimum requirements vs. additional protective language, and the exact final copy for both. Do not author final content without this review. Same open flag as Enrollment_IL-IES_Wireframe.html's ENRIL-541.</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#fffde7; border:1.5px solid #f5c842; color:#7a6000;">⚑ Utility rate value is a CMS field requiring regular updates — confirm data source (ICC website, utility API, or manual update) and update cadence with client and dev team.</span>
-<span style="display:inline-flex; align-items:flex-start; gap:5px; padding:5px 9px; border-radius:3px; font-size:11px; line-height:1.4; background:#ffebee; border:1.5px solid #e57373; color:#b71c1c;">⚑ RP-16 · This collapsible pattern was originally built "per client direction" (review source ambiguous). Reversing it to always-visible text is a bigger step than an internal-only call; Allyson confirmed proceeding, but this may be worth Susan seeing again specifically, not just Legal.</span>
-</div>
-</div>
-</div>
+<!-- IES plan card + Nicor Gas rate-disclosure paragraph removed entirely (RP-18, §A.29, 2026-09-08) —
+     Redesign-Site-Map.md has no "Residential Plans" page for IES; this market view was orphaned wiring,
+     not a real page. IES's only plans-adjacent page is FixedBillPlanHub_Wireframe.html, which now carries
+     the "exact amount confirmed at enrollment" fact in its own hero (FBP-4, §A.31) and the Nicor Gas rate
+     figure in its "Good to Know" section (FBP-3, §A.28) — both previously stated only here. -->
 <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
 <div class="annot annot-green"><span class="annot-icon">✓</span> All plans shown immediately after LDC selection — no second gate, no reason to hide options from a user who has already qualified</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> Filter bar dynamically narrows the visible plan set — "See more" expand is a fallback for markets with larger catalogs, not a default truncation</div>
@@ -1981,7 +1899,7 @@
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Plan count per market — need final plan catalog from client to know when filter bar + "see more" trigger thresholds apply</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> GRE: MCF only — never therms (client-flagged error in current sitemap)</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> "Most Popular" badge: confirm enrollment volume data per market before publishing — CMS field, configurable without dev</div>
-<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Greener Life filter chip: confirm availability per market before enabling filter (PA, GRE, IL, IES all TBD)</div>
+<div class="annot annot-yellow"><span class="annot-icon">⚑</span> Greener Life filter chip: confirm availability per market before enabling filter (PA, GRE, IL all TBD)</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Contract Length filter: confirm whether 24-month plans exist in all markets — filter chip should hide if only 1 term length exists</div>
 <div class="annot annot-green"><span class="annot-icon">✓</span> Auto-renewal notice confirmed: ONG will mail 1–2 renewal notice(s) before contract expires — key point copy finalized for all fixed-rate plan cards (source: live ONG plans page, Apr 2026)</div>
 <div class="annot annot-yellow"><span class="annot-icon">⚑</span> Unit discrepancy: ONG live plans page (Enbridge Gas Ohio LDC, Apr 2026) shows all rates in Mcf — wireframe requirements say Ohio uses therms. Confirm whether this is LDC-specific (some Ohio utilities bill in Mcf, others in therms) or a requirements error before finalizing plan card unit labels</div>
@@ -2008,7 +1926,6 @@
 <span class="market-display" id="trust-state-pa">Pennsylvania</span>
 <span class="market-display" id="trust-state-gre">Michigan</span>
 <span class="market-display" id="trust-state-il">Illinois</span>
-<span class="market-display" id="trust-state-ies">Illinois</span>
             households
           </div>
 </div>
@@ -2018,7 +1935,6 @@
 <span class="market-display" id="trust-lic-pa">PA PUC<br/>Licensed</span>
 <span class="market-display" id="trust-lic-gre">MPSC<br/>Licensed</span>
 <span class="market-display" id="trust-lic-il">ICC<br/>Licensed</span>
-<span class="market-display" id="trust-lic-ies">ICC<br/>Licensed</span>
 </div>
 <div class="trust-label">State-certified<br/>natural gas supplier ↗</div>
 </div>
@@ -2318,8 +2234,8 @@
     ong: ['nav-standard','nav-fmb','nav-gl-ong','nav-search-std','nav-lc-area-ong','nav-lc-carbon-ong'],
     pa:  ['nav-standard','nav-search-std','nav-lc-area-pa'],
     gre: ['nav-standard','nav-fmb','nav-gl-gre','nav-search-std','nav-lc-area-gre','nav-lc-carbon-gre'],
-    il:  ['nav-standard','nav-fmb','nav-search-std','nav-lc-area-il'],
-    ies: ['nav-ies']
+    il:  ['nav-standard','nav-fmb','nav-search-std','nav-lc-area-il']
+    // ies removed (RP-18, §A.29, 2026-09-08) — no IES market view remains on this page.
   };
 
   function setMarket(market) {
@@ -2375,7 +2291,7 @@
   function toggleMobileNav() {
     const btn = document.getElementById('nav-hamburger-btn');
     const activeNav = document.querySelector('.nav-links.mobile-open') ||
-                      document.querySelector('#nav-standard.on, #nav-ies.on');
+                      document.querySelector('#nav-standard.on');
     if (!activeNav) return;
     const isOpen = activeNav.classList.contains('mobile-open');
     if (isOpen) { closeMobileNav(); return; }
@@ -2416,7 +2332,7 @@
    Re-wraps setMarket() so control-panel market switches keep links in sync. Skips
    aria-hidden="true" elements (ENR-36/37 reviewer-only legacy nav block — see PROTO-12). */
 (function() {
-  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il', 'ies'];
+  var VALID_MARKETS = ['ong', 'pa', 'gre', 'il']; // ies removed (RP-18, §A.29, 2026-09-08)
   var params = new URLSearchParams(window.location.search);
   var urlMarket = params.get('market');
   var urlState = params.get('state');
