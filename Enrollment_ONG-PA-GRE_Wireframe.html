@@ -316,6 +316,13 @@
 
   /* ENR-125: conditional referral reward line in plan summary */
   .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; }
+  /* ENR-265 (2026-09-15): badge/pill treatment for the reward line — placeholder styling,
+     exact color/shape/icon deferred to the design team. */
+  .reward-badge-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
 
   /* ENR-127/128: bordered inset box for fieldsets */
   .fieldset-box { border: 1px solid var(--line); border-radius: 6px; padding: 1.25rem; background: #fafbfc; margin-bottom: 1.25rem; }
@@ -988,11 +995,6 @@
 <span class="scenario-drop-lbl">ENR-114</span>
 <button onclick="event.stopPropagation(); setFlow('new'); setStep(1); var el=document.getElementById('multi-address-selector'); if(el){ el.style.display='block'; }">Toggle multi-address</button>
 </div>
-<div class="scenario-drop-row">
-<span class="scenario-drop-lbl">RAF state (ENR-152)</span>
-<button id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
-<button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
-</div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
 <div class="scenario-legend">
 <span class="legend-item"><span class="legend-dot" style="background:var(--ann-g-bg); border-color:var(--ann-g-bd);"></span> Confirmed</span>
@@ -1106,6 +1108,59 @@
 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
 <button class="btn btn-secondary" onclick="document.getElementById('bill-image-modal').hidden = true;">Close</button>
 </div>
+</div>
+</div>
+<!-- ENR-267 · Lightweight login gate for an existing, unauthenticated-this-session customer
+     (entry-existing-softnotice, ENR-183) who clicks "Join & get my code →" on the Confirmation RAF
+     teaser. Not the full My Account sign-in form — just enough to demonstrate the gate before
+     continuing to the RAF Dashboard. Reuses .leave-flow-modal (ENR-37). -->
+<div aria-labelledby="rlg-title" aria-modal="true" class="leave-flow-modal" hidden="" id="raf-login-gate-modal" role="dialog">
+<div class="leave-flow-modal__card">
+<h3 id="rlg-title" style="margin:0 0 10px;">Sign in to continue</h3>
+<p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Sign in to your My Account to join Refer-a-Friend and get your code.</p>
+<div class="field" style="margin-bottom:12px;">
+<label for="raf-gate-email"><span class="req">*</span>Email</label>
+<input autocomplete="email" id="raf-gate-email" type="email"/>
+</div>
+<div class="field" style="margin-bottom:14px;">
+<label for="raf-gate-password"><span class="req">*</span>Password</label>
+<input autocomplete="current-password" id="raf-gate-password" type="password"/>
+</div>
+<div style="display:flex; gap:10px; justify-content:flex-end;">
+<button class="btn btn-tertiary" onclick="closeRafLoginGateModal()">Cancel</button>
+<button class="btn" onclick="submitRafLoginGate()">Sign In &amp; Continue →</button>
+</div>
+</div>
+</div>
+<!-- ENR-268 · Interstitial for the deferred-password RAF-CTA case (new customer who hasn't set a
+     password yet, or hasn't decided). Reuses .leave-flow-modal (ENR-37) — new modal id, same
+     aria-modal/role/hidden pattern as the modals above, not a new pattern. Both the password option
+     and the magic-link option are exposed directly, no nested reveal (Allyson's decision). The email
+     read-back field is directly editable and shown UNMASKED — the point of the field is full
+     verifiability, unlike OTP's privacy-motivated masking — applied uniformly across all markets even
+     though OPG has no OTP step (ENR-269); editing it ties into ENRIL-505's scope, now extended to OPG. -->
+<div aria-labelledby="ram-title" aria-modal="true" class="leave-flow-modal" hidden="" id="raf-auth-modal" role="dialog">
+<div class="leave-flow-modal__card">
+<h3 id="ram-title" style="margin:0 0 10px;">One more step to join Refer-a-Friend</h3>
+<p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Set a password now, or we can email you a link to finish later.</p>
+<div class="field" style="margin-bottom:10px;">
+<label for="raf-auth-email"><span class="req">*</span>Email</label>
+<input autocomplete="email" id="raf-auth-email" type="email" value="jordan@example.com"/>
+<div class="ann ann-y" style="margin-top:4px; font-size:11px;"><strong>ENRIL-505 (extended to OPG, 2026-09-15):</strong> whether correcting this email promotes it to the account of record is unconfirmed.</div>
+</div>
+<div class="field" style="margin-bottom:12px;">
+<label for="raf-auth-password"><span class="req">*</span>Password <span class="req-lbl">8+ chars, mix of letters &amp; numbers</span></label>
+<div style="display:flex; gap:8px; align-items:center;">
+<input autocomplete="new-password" id="raf-auth-password" style="flex:1;" type="password"/>
+<button class="btn btn-tertiary" onclick="(function(){var el=document.getElementById('raf-auth-password'); el.type=(el.type==='password'?'text':'password');})();" style="padding:6px 10px; font-size:12px;" type="button">Show / hide</button>
+</div>
+</div>
+<div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+<button class="btn btn-tertiary" onclick="closeRafAuthModal()">Cancel</button>
+<button class="btn btn-secondary" onclick="submitRafAuthMagicLink()">Or, email me a magic link instead</button>
+<button class="btn" onclick="submitRafAuthPassword()">Set password →</button>
+</div>
+<div class="ann ann-y" style="margin-top:12px;"><strong>MA-133:</strong> Routing straight through after "Set password →" assumes PRIME auto-authenticates the session immediately on password-set — unconfirmed, pending Girish/David.</div>
 </div>
 </div>
 <!-- =========================================================================
@@ -1266,9 +1321,19 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 <div class="plan-summary-reward" style="display:none;">
 <div class="plan-summary-reward-label">Referral reward</div>
-<div class="plan-summary-reward-value">$25 Visa reward card</div>
+<div class="plan-summary-reward-value"><span class="reward-badge-pill">🎁 $25 Visa reward card</span></div>
 <div class="plan-summary-reward-code">Code: <span class="promo-code-display">—</span></div>
+<!-- ENR-270 (2026-09-15): eligibility copy folded into an expandable disclosure here (and again at the
+     Confirmation RAF teaser, ENR-266) instead of a standalone Visa Reward Card screen — copy sourced from
+     the client's live ONG COMEBACK promo walkthrough screenshots. Cross-ref ReferAFriend_Wireframe.html's
+     Open Item #2, which still marks the exact fulfillment timeline as unconfirmed program-wide; the 7-day
+     figure below reflects what the live site currently shows, not a newly confirmed program parameter. -->
+<details class="field-expander" style="margin-top:8px;">
+<summary>Reward eligibility details</summary>
+<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
+</details>
 <div class="ann ann-b">ENR-125 · Only renders when promo code entered and validated. Hidden by default (display:none). PRIME to confirm whether reward eligibility can be validated at code-entry time or only post-enrollment.</div>
+<div class="ann ann-b">ENR-265 · Badge/pill wrapper above is a placeholder — exact visual treatment (color, shape, icon) deferred to the design team. This only settles that the reward gets prominence via a badge on this existing slot, not a standalone screen (see ENR-270).</div>
 </div>
 </div>
 <style>
@@ -1935,7 +2000,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 </div>
 <!-- ENR-52 (2026-05-25): Account creation no longer surfaces inside the funnel.
-           PRIME auto-creates a passwordless My Account at submit using the OTP-verified email.
+           PRIME auto-creates a passwordless My Account at submit against the identity established by
+           Step 1's CustomerLookup (account# + last name + ZIP match, ENR-168) and Step 2's
+           double-entry-confirmed email (ENR-256). Fixed 2026-09-15 per ENR-269 — this previously
+           incorrectly said "using the OTP-verified email"; OPG has no OTP/email-verification step.
            Step 2 stays focused on enrollment-required PII + operational preferences. -->
 
 <!-- FTC disclosure removed from Step 2 per ENR-50 — subsumed by Step 3 etc-ack + T&C/LOA acceptance -->
@@ -2286,7 +2354,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 <!-- ENR-147 (2026-07-17): account-creation section moved ahead of RAF (reverses ENR-141's WTE→RAF→account-creation order, same day it was executed). ENR-141's callout-card position (after account creation) is unaffected. -->
 <!-- ENR-52 (2026-05-25): Set-your-password inline section.
-           PRIME auto-created a passwordless My Account at submit using the OTP-verified email.
+           PRIME auto-created a passwordless My Account at submit against the CustomerLookup-matched
+           identity + double-entry-confirmed email (ENR-168/ENR-256). Fixed 2026-09-15 per ENR-269 —
+           this previously incorrectly said "using the OTP-verified email"; OPG has no OTP step.
            This single-field UX completes the account; magic-link backup if the customer skips. -->
 <div id="set-password-confirmation" style="background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 6px; padding: 18px; margin: 18px 0;">
 <h3 style="margin: 0 0 6px; color: var(--accent); display: flex; align-items: center; gap: 10px;">
@@ -2303,7 +2373,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 </div>
 <div style="display: flex; gap: 12px; align-items: center;">
-<button class="btn" onclick="alert('Set-password submit — PRIME writes password to scaffolded account, status transitions to active.');">Set password →</button>
+<button class="btn" onclick="document.body.classList.add('pw-set'); alert('Set-password submit — PRIME writes password to scaffolded account, status transitions to active.');">Set password →</button>
 <a href="#" onclick="event.preventDefault(); document.getElementById('set-password-confirmation').style.display='none'; document.getElementById('set-password-deferred').style.display='block';" style="font-size: 13px;">Maybe later</a>
 </div>
 
@@ -2314,49 +2384,31 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 
 </div>
 <!-- RAF section: per ENR-147 (2026-07-17), renders after account creation, before the Questions/Natural Gas Basics callout cards. -->
-<!-- ENR-152 (2026-07-20): Replaces the old exposed-code + T&Cs-gates-share-buttons pattern with a three-state model —
-     participant / optin / pending — mirroring MA-109's My Account RAF Dashboard. A Referral Code can only be issued
-     after the referrer authenticates and explicitly clicks Agree (per the live ONG RAF T&Cs), and PRIME confirms
-     issuance is asynchronous — so no state can promise an inline code reveal at the moment of opting in.
-     Reviewer toggle: "RAF state (ENR-152)" in the Scenario drawer switches between the three states for QA.
-     Default = optin (not yet a participant) for both New and Existing flows; a brand-new customer can never start
-     on "Already participant" (no prior account), so that state is reachable only via the reviewer toggle here. -->
+<!-- ENR-266 (2026-09-15): Replaces ENR-152's three/two-state model (optin / participant) with a single,
+     always-compact teaser — no checkbox, no code display, no share buttons on this page. Resolves the
+     long-open ENR-4/B5 PRIME-feasibility question and addresses the client's repeated "Confirmation
+     feels busy" feedback (ENR-255). The full RAF experience (code, share channels, T&Cs opt-in) now
+     lives exclusively in the My Account RAF Dashboard (MA-109) — routeToRafDashboard() below decides
+     where "Join & get my code →" sends the customer; see ENR-267 for the four-case routing logic and
+     ENR-268 for the deferred-password interstitial it can open. setConfRafView() and the old
+     conf-raf-view-optin/participant state divs (and their reviewer toggle) are removed entirely, not
+     just hidden — same treatment as the removed code-display/share-button markup they contained. -->
 <div class="raf-block" id="raf-block-confirmation">
-
-<!-- ── STATE: NOT OPTED IN (teaser + join action) ── -->
-<div id="conf-raf-view-optin">
 <h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
-<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="ReferAFriendTerms_Wireframe.html">Program Terms</a></label>
+<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward when they enroll.</p>
 <div class="raf-channels">
-<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
+<button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
-<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-b">ENR-152 · "Learn more" is a placeholder dead link pending GLB-RAF-1 (standalone Refer-a-Friend page, not yet built/prioritized) — will repoint once that page exists, same as the nav's "Refer a Friend" item.</div>
-<div class="ann ann-y"><strong>§A.18 (2026-08-28) — GLB-RAF-2 dead-link fix:</strong> The "Program Terms" checkbox link above previously pointed to <code>#raf-program-terms</code>, an in-page anchor with no matching id anywhere in this file. Repointed to <code>ReferAFriendTerms_Wireframe.html</code> — the same not-yet-built placeholder destination <code>ReferAFriend_Wireframe.html</code> (NP-11) already uses for its own Program Terms link-outs. Still a placeholder page, not yet built.</div>
+<!-- ENR-270 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
+     above, repeated here per the row's own scope — pulled through so it reads consistently wherever
+     the reward is mentioned before My Account. -->
+<details class="field-expander" style="margin-top:10px;">
+<summary>Reward eligibility details</summary>
+<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
+</details>
 <div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
-</div>
-
-<!-- ENR-154 (2026-08-24, Claude Code): PENDING state removed — MA-115 confirmed referral-code issuance
-     is near-instantaneous once a customer agrees to the RAF T&Cs, so there's no real-world window where
-     a customer sits in a "your code is on its way" pending state. Join now resolves straight to Participant. -->
-
-<!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
-<div id="conf-raf-view-participant" style="display:none;">
-<h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
-<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-ong on">JORDAN-ONG-25</span><span class="mkt-inline mkt-pa">JORDAN-PE-25</span><span class="mkt-inline mkt-gre">JORDAN-GRE-25</span></span></div>
-<div class="raf-channels">
-<button class="raf-share-action">Email a friend</button>
-<button class="raf-share-action">Copy link</button>
-<button class="raf-share-action">Share on social</button>
-</div>
-<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-y">ENR-152 · Existing-customer (Plan-Change) only: whether PRIME can expose this "already a participant" flag at Plan-Change Confirmation is unconfirmed (extends ENR-4) — build assumes yes; falls back to Optin/Pending states only if PRIME says the flag isn't queryable here. Flagged for Girish/PRIME.</div>
-</div>
-
-<div class="ann ann-b">ENR-150 resolved 2026-07-20 → ENR-152: RAF stays on this page, but no longer exposes an unissued code. Full writeup: RAF_Confirmation_Proposal_2026-07-20.md.</div>
-
+<div class="ann ann-y"><strong>ENR-267 / MA-133:</strong> "Join & get my code →" routes to the My Account RAF Dashboard based on session/auth state — see <code>routeToRafDashboard()</code> below. The straight-through case for a new customer who set a password inline above assumes PRIME auto-authenticates the session immediately on password-set; unconfirmed, tracked at <code>MA-133</code>. Reviewer note: to demo that case, click "Set password →" in the account-creation block above before clicking this button.</div>
+<div class="ann ann-b">ENR-150 resolved 2026-07-20 → ENR-152 → ENR-266 (2026-09-15): RAF stays on this page as a teaser only; the full experience (code, share channels, opt-in) moved to the My Account RAF Dashboard. Full writeup: RAF_Confirmation_Proposal_2026-07-20.md.</div>
 </div>
 <!-- ENR-141 (2026-07-06): Questions/Natural Gas Basics callout cards — render below RAF/account-creation section. -->
 <div style="margin-top:28px; padding-top:20px; border-top:1px solid var(--line,#ddd); display:flex; gap:16px; flex-wrap:wrap;">
@@ -2981,29 +3033,68 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     if (db) db.classList.toggle('on', state === 'deferred');
   }
 
-  // ---------- ENR-152/ENR-154: Confirmation RAF two-state model (optin / participant) ----------
-  // Mirrors MA-115's My Account RAF Dashboard sub-states (pending state removed — instantaneous
-  // issuance). Default = optin for both New and Existing flows (a brand-new customer can never land
-  // on "participant" — no prior account — so that state is reachable here only via the reviewer
-  // toggle). Reviewer toggle: "RAF state (ENR-152)" in the Scenario drawer.
-  function setConfRafView(view) {
-    ['optin', 'participant'].forEach(function(v) {
-      var el = document.getElementById('conf-raf-view-' + v);
-      if (el) el.style.display = (v === view) ? '' : 'none';
-    });
-    var map = { optin: 'raf-btn-optin', participant: 'raf-btn-participant' };
-    Object.keys(map).forEach(function(v) {
-      var b = document.getElementById(map[v]);
-      if (b) b.classList.toggle('on', v === view);
-    });
-    // Reset the join checkbox/button when leaving the optin state via the reviewer toggle,
-    // so re-entering optin doesn't show a stale checked/enabled state.
-    if (view !== 'optin') {
-      var agree = document.getElementById('conf-raf-agree');
-      var join = document.getElementById('conf-raf-join');
-      if (agree) agree.checked = false;
-      if (join) join.disabled = true;
+  // ---------- ENR-267/ENRIL-591: RAF Confirmation teaser routing to My Account RAF Dashboard ----------
+  // This is a single-page wireframe with no real page loads between steps, so the entry-state body
+  // classes set by setEntryState() and the pw-set class added by the account-creation "Set password →"
+  // handlers persist all the way to Confirmation — used directly here rather than new state tracking.
+  function getCurrentMarket() {
+    return document.body.classList.contains('mkt-pa') ? 'pa'
+         : document.body.classList.contains('mkt-gre') ? 'gre'
+         : 'ong';
+  }
+  function goToRafDashboard() {
+    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=optin';
+  }
+  function routeToRafDashboard() {
+    if (document.body.classList.contains('flow-existing')) {
+      if (currentEntryState === 'existing-softnotice') {
+        openRafLoginGateModal(); // ENR-267 case (2): existing, unauthenticated this session
+      } else {
+        goToRafDashboard(); // ENR-267 case (1): existing, authenticated this session
+      }
+    } else if (document.body.classList.contains('pw-set')) {
+      goToRafDashboard(); // ENR-267 case (3): new customer, password set inline — contingent on MA-133
+    } else {
+      openRafAuthModal(); // ENR-267 case (4) / ENR-268: new customer, password deferred (or not yet decided)
     }
+  }
+  function openRafLoginGateModal() {
+    var modal = document.getElementById('raf-login-gate-modal');
+    if (modal) {
+      modal.hidden = false;
+      var firstInput = modal.querySelector('input');
+      if (firstInput) firstInput.focus();
+    }
+  }
+  function closeRafLoginGateModal() {
+    var modal = document.getElementById('raf-login-gate-modal');
+    if (modal) modal.hidden = true;
+  }
+  function submitRafLoginGate() {
+    closeRafLoginGateModal();
+    goToRafDashboard();
+  }
+  function openRafAuthModal() {
+    var modal = document.getElementById('raf-auth-modal');
+    if (modal) {
+      modal.hidden = false;
+      var firstInput = modal.querySelector('input');
+      if (firstInput) firstInput.focus();
+    }
+  }
+  function closeRafAuthModal() {
+    var modal = document.getElementById('raf-auth-modal');
+    if (modal) modal.hidden = true;
+  }
+  function submitRafAuthPassword() {
+    alert('Set-password submit — PRIME writes password to scaffolded account, status transitions to active. Routing straight through to the RAF Dashboard assumes this also authenticates the session (MA-133, unconfirmed).');
+    document.body.classList.add('pw-set');
+    closeRafAuthModal();
+    goToRafDashboard();
+  }
+  function submitRafAuthMagicLink() {
+    alert('Production behavior: PRIME emails a magic link to the address above. Wireframe demo — no actual email sent; the customer would follow the link to authenticate and continue to the RAF Dashboard.');
+    closeRafAuthModal();
   }
 
   // ---------- ENR-84: Scroll-to-unlock for Accept Contract T&C viewer ----------
@@ -3100,7 +3191,6 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   setMarket('ong');        // default to ONG (shows account-twice variant)
   setAnnMode('clean');     // default to clean view for presentations
   setStep(1);              // sets body.flow-step-1 so WTE panel + change-plan-link CSS rules fire correctly on load
-  setConfRafView('optin'); // ENR-152: default RAF state = not yet opted in, for both New and Existing flows
   validateStep1();
   validateStep2();
 

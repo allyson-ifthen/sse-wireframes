@@ -980,6 +980,13 @@
 
   /* ENRIL-586 (2026-09-15): Referral reward block wrapper — ported from OPG's equivalent rule (ENR-125's .plan-summary-reward) since this file had no prior instance to inherit styling from. */
   .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; }
+  /* ENRIL-589 (2026-09-15): badge/pill treatment for the reward line — mirrors OPG's ENR-265;
+     placeholder styling, exact color/shape/icon deferred to the design team. */
+  .reward-badge-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
 
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
   .plan-summary-current { display: none; }
@@ -1055,6 +1062,39 @@
 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
 <button class="btn btn-secondary" onclick="document.getElementById('bill-image-modal').hidden = true;">Close</button>
 </div>
+</div>
+</div>
+<!-- ENRIL-592 · Interstitial for the deferred-password RAF-CTA case (new customer, Scen A/C, who hasn't
+     set a password yet or hasn't decided). Mirrors OPG's ENR-268 — same modal pattern, own copy of the
+     component per this session's build guidance. Both the password option and the magic-link option are
+     exposed directly, no nested reveal. The email read-back field is directly editable and shown UNMASKED
+     — applied here too even though IL/IES already runs OTP (ENRIL-310 etc.) — Allyson's decision was
+     uniform application across all markets as an extra caution layer, not an OPG-only fix. Editing it ties
+     into this file's own already-open ENRIL-505 (whether OTP-corrected email should promote to the
+     account of record) — same open question, now also reachable from this new entry point. Modeled on
+     .leave-flow-modal (ported from OPG ENR-37 at the top of this file). -->
+<div aria-labelledby="ram-title" aria-modal="true" class="leave-flow-modal" hidden="" id="raf-auth-modal" role="dialog">
+<div class="leave-flow-modal__card">
+<h3 id="ram-title" style="margin:0 0 10px;">One more step to join Refer-a-Friend</h3>
+<p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Set a password now, or we can email you a link to finish later.</p>
+<div class="field" style="margin-bottom:10px;">
+<label for="raf-auth-email"><span class="req">*</span>Email</label>
+<input autocomplete="email" id="raf-auth-email" type="email" value="jane.doe@example.com"/>
+<div class="ann ann-y" style="margin-top:4px; font-size:11px;"><strong>ENRIL-505:</strong> whether correcting this email promotes it to the account of record is unconfirmed.</div>
+</div>
+<div class="field" style="margin-bottom:12px;">
+<label for="raf-auth-password"><span class="req">*</span>Password <span class="req-lbl">8+ chars, mix of letters &amp; numbers</span></label>
+<div style="display:flex; gap:8px; align-items:center;">
+<input autocomplete="new-password" id="raf-auth-password" style="flex:1;" type="password"/>
+<button class="btn btn-tertiary" onclick="(function(){var el=document.getElementById('raf-auth-password'); el.type=(el.type==='password'?'text':'password');})();" style="padding:6px 10px; font-size:12px;" type="button">Show / hide</button>
+</div>
+</div>
+<div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+<button class="btn btn-tertiary" onclick="closeRafAuthModal()">Cancel</button>
+<button class="btn btn-secondary" onclick="submitRafAuthMagicLink()">Or, email me a magic link instead</button>
+<button class="btn" onclick="submitRafAuthPassword()">Set password →</button>
+</div>
+<div class="ann ann-y" style="margin-top:12px;"><strong>MA-133:</strong> Routing straight through after "Set password →" assumes PRIME auto-authenticates the session immediately on password-set — unconfirmed, pending Girish/David.</div>
 </div>
 </div>
 <!-- =========================================================================
@@ -1170,12 +1210,6 @@
 <!-- ENRIL-325: Review submit-failure states now reviewer-togglable (were hidden until submit/timeout fired). -->
 <button id="err-btn-submit" onclick="setError('submit')">Submit fail</button>
 <button id="err-btn-timeout" onclick="setError('timeout')">Submit timeout</button>
-</div>
-<div class="scenario-drop-row">
-<!-- ENRIL-421 (2026-08-11): RAF three-state toggle, ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152 reviewer toggle. -->
-<span class="scenario-drop-lbl">RAF state (ENRIL-421)</span>
-<button class="on" id="raf-btn-optin" onclick="setConfRafView('optin')">Not opted in</button>
-<button id="raf-btn-participant" onclick="setConfRafView('participant')">Already participant</button>
 </div>
 <div style="border-top: 1px solid #3d4a55; margin: 2px 0;"></div>
 <div class="scenario-legend">
@@ -1461,9 +1495,20 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-586 (2026-09-15): Referral reward line item, matching OPG's plan-summary-reward treatment (ENR-125). Reward copy pulled from IL/IES's own established referral program (NP-11) — "$25 reward," not OPG's "$25 Visa reward card" — since the reward mechanisms differ by market. -->
 <div class="plan-summary-reward" style="display:none;">
 <div class="plan-summary-reward-label">Referral reward</div>
-<div class="plan-summary-reward-value">$25 reward</div>
+<div class="plan-summary-reward-value"><span class="reward-badge-pill">🎁 $25 reward</span></div>
 <div class="plan-summary-reward-code">Code: <span class="promo-code-display">—</span></div>
+<!-- ENRIL-593 (2026-09-15): eligibility copy folded into an expandable disclosure here (and again at the
+     Confirmation RAF teaser, ENRIL-590) instead of a standalone Visa Reward Card screen — mirrors OPG's
+     ENR-270, same source session (client's live ONG COMEBACK promo walkthrough screenshots). Cross-ref
+     ReferAFriend_Wireframe.html's Open Item #2, which still marks the exact fulfillment timeline as
+     unconfirmed program-wide; the 7-day figure below reflects what the live site currently shows, not a
+     newly confirmed program parameter. -->
+<details class="field-expander" style="margin-top:8px;">
+<summary>Reward eligibility details</summary>
+<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
+</details>
 <div class="ann ann-b">ENRIL-586 · Only renders when promo code entered and validated. Hidden by default (display:none). Reward amount inherits NP-11's already-open confirmation status (prior cycle was a $500 cap, expired 12/31/2025).</div>
+<div class="ann ann-b">ENRIL-589 · Badge/pill wrapper above is a placeholder — exact visual treatment (color, shape, icon) deferred to the design team. This only settles that the reward gets prominence via a badge on this existing slot, not a standalone screen (see ENRIL-593).</div>
 </div>
 </div>
 
@@ -3354,7 +3399,7 @@ Review and Submit
 </div>
 </div>
 <div style="display: flex; gap: 12px; align-items: center;">
-<button class="btn" onclick="alert('Set-password submit — PRIME writes password to scaffolded account; transitions to active.');">Set password →</button>
+<button class="btn" onclick="document.body.classList.add('pw-set'); alert('Set-password submit — PRIME writes password to scaffolded account; transitions to active.');">Set password →</button>
 <a href="#" onclick="event.preventDefault(); document.getElementById('set-password-step7').style.display='none'; document.getElementById('set-password-deferred-step7').style.display='block';">Maybe later</a>
 </div>
 
@@ -3380,42 +3425,33 @@ Review and Submit
 <div class="ann ann-y" style="margin-top: 12px;">ENRIL-495 · Open — placeholder/discussion prop only. Illinois doesn't offer paperless billing; GB autopay runs through either the customer's bank or Fiserv (likely requiring an off-flow redirect). Susan needs to confirm with Ashley how autopay is actually handled for GB before this is scoped further.</div>
 </div>
 
-<!-- ENRIL-421 (2026-08-11): RAF ("Refer a friend, earn rewards") tile, ported from Enrollment_ONG-PA-GRE_Wireframe.html's raf-block-confirmation (ENR-141/147/152) — extends ENRIL-416's RAF reversal (RAF confirmed available for IL/IES) to Confirmation. Renders after account creation, before the Questions/Natural Gas Basics callout cards, same order OPG settled on at ENR-147. Scope: all four scenarios (A/B/C/D) — step-confirmation isn't scenario-scoped, so this renders identically for all four. Carried-over open flag from OPG (ENR-152): whether PRIME can expose an "already a participant" flag at Plan-Change Confirmation is unconfirmed for Scen B/D — build assumes yes, falls back to Optin/Pending states only if PRIME says the flag isn't queryable here. -->
+<!-- ENRIL-590 (2026-09-15): Replaces ENRIL-421/531's two-state model (optin / participant) with a single,
+     always-compact teaser — no checkbox, no code display, no share buttons on this page. Mirrors OPG's
+     ENR-266, same source session and rationale (resolves the long-open ENR-4/B5 PRIME-feasibility question,
+     addresses the client's repeated "Confirmation feels busy" feedback). The full RAF experience (code,
+     share channels, T&Cs opt-in) now lives exclusively in the My Account RAF Dashboard (MA-109) —
+     routeToRafDashboard() below decides where "Join & get my code →" sends the customer; see ENRIL-591 for
+     the routing logic (adapted for this file's Scenario-based, not entry-state-based, existing-customer
+     model) and ENRIL-592 for the deferred-password interstitial it can open. setConfRafView() and the old
+     conf-raf-view-optin/participant state divs (and their reviewer toggle) are removed entirely, not just
+     hidden. Renders after account creation, before the Questions/Natural Gas Basics callout cards, same
+     order OPG settled on at ENR-147 — unchanged from ENRIL-421's original placement, all four scenarios
+     (A/B/C/D), since step-confirmation isn't scenario-scoped. -->
 <div class="raf-block" id="raf-block-confirmation">
-
-<!-- ── STATE: NOT OPTED IN (teaser + join action) ── -->
-<div id="conf-raf-view-optin">
 <h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 14px;">Invite friends and you could both get a $25 reward when they enroll. Join the program to get your referral code.</p>
-<label class="raf-tos-label"><input id="conf-raf-agree" onchange="document.getElementById('conf-raf-join').disabled = !this.checked;" type="checkbox"/> I agree to the Refer-A-Friend <a href="ReferAFriendTerms_Wireframe.html">Program Terms</a></label>
+<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward when they enroll.</p>
 <div class="raf-channels">
-<button class="raf-share-action" disabled="" id="conf-raf-join" onclick="setConfRafView('participant')">Join &amp; get my code →</button>
+<button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
-<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-b">ENRIL-421 · "Learn more" is a placeholder dead link, same as OPG's ENR-152 — will repoint once a standalone Refer-a-Friend page exists.</div>
-<div class="ann ann-y"><strong>§A.18 (2026-08-28) — GLB-RAF-2 dead-link fix:</strong> The "Program Terms" checkbox link above previously pointed to <code>#raf-program-terms</code>, an in-page anchor with no matching id anywhere in this file (same defect as OPG's equivalent checkbox). Repointed to <code>ReferAFriendTerms_Wireframe.html</code> — the same not-yet-built placeholder destination <code>ReferAFriend_Wireframe.html</code> (NP-11) already uses for its own Program Terms link-outs. Still a placeholder page, not yet built.</div>
+<!-- ENRIL-593 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
+     above, repeated here per the row's own scope. -->
+<details class="field-expander" style="margin-top:10px;">
+<summary>Reward eligibility details</summary>
+<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
+</details>
 <div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
-</div>
-
-<!-- ENRIL-531 (2026-08-24, Claude Code): "Just joined" (formerly pending) state removed — aligns with
-     ENR-154/MA-115's instantaneous-issuance model. Join now resolves straight to Participant, all 4 scenarios.
-     ENRIL-493's open feasibility question (inline code display vs. My Account redirect) carries forward
-     unchanged since the Participant state below already shows the code inline. -->
-
-<!-- ── STATE: ALREADY A PARTICIPANT (existing code, no new issuance) ── -->
-<div id="conf-raf-view-participant" style="display:none;">
-<h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 14px;">Share your unique code with friends and family. When they enroll, you both get rewarded.</p>
-<div>Your referral code: <span class="raf-code"><span class="mkt-inline mkt-il on">JORDAN-IL-25</span><span class="mkt-inline mkt-ies">JORDAN-IES-25</span></span></div>
-<div class="raf-channels">
-<button class="raf-share-action">Email a friend</button>
-<button class="raf-share-action">Copy link</button>
-<button class="raf-share-action">Share on social</button>
-</div>
-<p><a class="conf-raf-learn-more" href="#" onclick="event.preventDefault();">Learn more about the Refer-A-Friend program →</a></p>
-<div class="ann ann-y">ENRIL-421 · Existing-customer (Scen B/D) only: whether PRIME can expose this "already a participant" flag at Plan-Change Confirmation is unconfirmed — build assumes yes; falls back to Optin/Pending states only if PRIME says the flag isn't queryable here. Same open question as OPG's ENR-152.</div>
-</div>
-
+<div class="ann ann-y"><strong>ENRIL-591 · Routing adapted to this file's architecture:</strong> "Join & get my code →" routes to the My Account RAF Dashboard via <code>routeToRafDashboard()</code> below. This file has no "existing customer, unauthenticated this session" state to gate the way OPG's <code>entry-existing-softnotice</code> does — Scenario B/D customers only reach Confirmation after their own OTP identity check (ENRIL-310/489), so both existing-customer scenarios (B/D) route straight through, treated as OPG's case (1). New customer (Scen A/C) routing still branches on password state, same as OPG: straight through if they set a password inline above (contingent on <strong>MA-133</strong> — PRIME auto-authenticating the session on password-set, unconfirmed), otherwise the ENRIL-592 interstitial opens. Reviewer note: to demo the straight-through new-customer case, click "Set password →" in the account-creation block above before clicking this button. Flag for Girish/PRIME if OTP-only verification (Scen B/D) turns out not to be sufficient for a live RAF Dashboard session — that would reinstate a login-gate step here.</div>
+<div class="ann ann-b">ENRIL-421 resolved 2026-08-11 → ENRIL-590 (2026-09-15): RAF stays on this page as a teaser only; the full experience (code, share channels, opt-in) moved to the My Account RAF Dashboard, mirroring OPG's ENR-266.</div>
 </div>
 
 <!-- ENRIL-280: Replace "Need anything?" section with side-by-side callout cards -->
@@ -4037,22 +4073,49 @@ Review and Submit
   // Ported from Enrollment_ONG-PA-GRE_Wireframe.html's ENR-152/ENR-154. Default = optin for all scenarios
   // (a brand-new customer can never land on "participant" — no prior account — so that state is reachable
   // here only via the reviewer toggle). Reviewer toggle: "RAF state (ENRIL-421)" in the Scenario drawer.
-  function setConfRafView(view) {
-    ['optin', 'participant'].forEach(function(v) {
-      var el = document.getElementById('conf-raf-view-' + v);
-      if (el) el.style.display = (v === view) ? '' : 'none';
-    });
-    var map = { optin: 'raf-btn-optin', participant: 'raf-btn-participant' };
-    Object.keys(map).forEach(function(v) {
-      var b = document.getElementById(map[v]);
-      if (b) b.classList.toggle('on', v === view);
-    });
-    if (view !== 'optin') {
-      var agree = document.getElementById('conf-raf-agree');
-      var join = document.getElementById('conf-raf-join');
-      if (agree) agree.checked = false;
-      if (join) join.disabled = true;
+  // ---------- ENRIL-591: RAF Confirmation teaser routing to My Account RAF Dashboard ----------
+  // Mirrors OPG's ENR-267/routeToRafDashboard(), adapted for this file's Scenario-based (not
+  // entry-state-based) existing-customer model — see the dev note on raf-block-confirmation above for
+  // why Scen B/D always route straight through instead of branching on an authenticated/unauthenticated
+  // distinction. This is a single-page wireframe with no real page loads between steps, so the pw-set
+  // class added by the "Set password →" handlers persists all the way to Confirmation.
+  function getCurrentMarket() {
+    return document.body.classList.contains('mkt-ies') ? 'ies' : 'il';
+  }
+  function goToRafDashboard() {
+    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=optin';
+  }
+  function routeToRafDashboard() {
+    var scen = getScenario();
+    if (scen === 'b' || scen === 'd') {
+      goToRafDashboard(); // existing customer — already OTP-identity-checked to reach Confirmation
+    } else if (document.body.classList.contains('pw-set')) {
+      goToRafDashboard(); // new customer, password set inline
+    } else {
+      openRafAuthModal(); // new customer, password deferred (or not yet decided) — ENRIL-592
     }
+  }
+  function openRafAuthModal() {
+    var modal = document.getElementById('raf-auth-modal');
+    if (modal) {
+      modal.hidden = false;
+      var firstInput = modal.querySelector('input');
+      if (firstInput) firstInput.focus();
+    }
+  }
+  function closeRafAuthModal() {
+    var modal = document.getElementById('raf-auth-modal');
+    if (modal) modal.hidden = true;
+  }
+  function submitRafAuthPassword() {
+    alert('Set-password submit — PRIME writes password to scaffolded account; transitions to active. Routing straight through to the RAF Dashboard assumes this also authenticates the session (MA-133, unconfirmed).');
+    document.body.classList.add('pw-set');
+    closeRafAuthModal();
+    goToRafDashboard();
+  }
+  function submitRafAuthMagicLink() {
+    alert('Production behavior: PRIME emails a magic link to the address above. Wireframe demo — no actual email sent; the customer would follow the link to authenticate and continue to the RAF Dashboard.');
+    closeRafAuthModal();
   }
 
   // ---------- Initialize ----------
@@ -4068,7 +4131,6 @@ Review and Submit
   validateSelectPlan();
   validateAcctEntry('a'); // ENRIL-557
   validateAcctEntry('c'); // ENRIL-557
-  setConfRafView('optin'); // ENRIL-421: default RAF state = not yet opted in, for all scenarios
 
   // ---------- Scenario drawer toggle ----------
   function toggleScenario(e) {

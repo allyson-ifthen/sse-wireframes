@@ -3390,6 +3390,7 @@ document.addEventListener('click', function(e) {
   var params = new URLSearchParams(window.location.search);
   var urlMarket = params.get('market');
   var urlState = params.get('state');
+  var urlRafView = params.get('rafview');
 
   window.__protoMarket = (VALID_MARKETS.indexOf(urlMarket) !== -1) ? urlMarket : 'ong';
 
@@ -3425,6 +3426,13 @@ document.addEventListener('click', function(e) {
 
   if (urlState && typeof window.setState === 'function') {
     window.setState(urlState);
+  }
+  // ENR-267/ENRIL-591: lets the Enrollment Confirmation RAF teaser deep-link
+  // straight into the opt-in sub-view (?state=raf&rafview=optin), since a
+  // customer routed here hasn't joined RAF yet and the default raf state
+  // shows the participant view.
+  if (urlState === 'raf' && urlRafView && typeof window.setRafView === 'function') {
+    window.setRafView(urlRafView);
   }
 
   rewriteLinks();
