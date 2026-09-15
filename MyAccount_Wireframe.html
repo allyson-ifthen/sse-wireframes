@@ -1875,6 +1875,12 @@ body.reset-expired .reset-token-expired { display: block; }
 <!-- MA-90: autorenew-notice moved below plan-action-row -->
 <!-- Fixed plan meta (default) -->
 <div class="plan-meta-row plan-fixed-only">
+<!-- MA-125 Part 2 (2026-09-14): Effective Date carried through from the Pending state (MA-107)
+     once validation clears — previously disappeared entirely once a plan went Active. -->
+<div class="plan-meta-item">
+<span class="plan-meta-label">Effective Date</span>
+<span class="plan-meta-val">July 1, 2025</span>
+</div>
 <div class="plan-meta-item">
 <span class="plan-meta-label">Contract Ends</span>
 <span class="plan-meta-val">June 30, 2026</span>
@@ -1883,10 +1889,10 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="plan-meta-label">Renewal</span>
 <span class="plan-meta-val">Auto-renew</span>
 </div>
-<div class="plan-meta-item">
-<span class="plan-meta-label">ETC</span>
-<span class="plan-meta-val">$12.50/month remaining</span>
-</div>
+<!-- MA-126 (2026-09-14): ETC removed from the Dashboard's active Current Plan card — corrects
+     MA-125's original Part 1 finding (client's PQ-1 feedback was a complaint about ETC showing
+     passively on account access, not a request to keep it there); generalizes the MA-118 precedent
+     already applied to the Non-renewing state. See MA-128 for where ETC now lives instead (State H). -->
 </div>
 <!-- Variable plan meta (body.dash-variable) -->
 <div class="plan-meta-row plan-variable-only">
@@ -1894,10 +1900,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="plan-meta-label">Plan type</span>
 <span class="plan-meta-val">Month-to-month</span>
 </div>
-<div class="plan-meta-item">
-<span class="plan-meta-label">ETC</span>
-<span class="plan-meta-val">None</span>
-</div>
+<!-- MA-126 (2026-09-14): ETC ("None") removed — see fixed-plan note above. -->
 </div>
 <div class="plan-action-row">
 <button class="btn-out btn-sm" onclick="switchPlanFromDashboard()" type="button">Switch Plan</button>
@@ -1963,7 +1966,9 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="stage-marker">●</div>
 <div class="stage-content">
 <div class="stage-title">Utility validation</div>
-<div class="stage-subtext">In progress · typically 1–2 business days · We're confirming your account with your local utility.</div>
+<!-- MA-124 (2026-09-14): reassurance copy added per cfl-042 — echoes phrasing already used in both
+     Enrollment wireframes' Confirmation-page equivalent, made explicit about phone as well as email. -->
+<div class="stage-subtext">In progress · typically 1–2 business days · We're confirming your account with your local utility. If we run into an issue, we'll contact you by phone or email.</div>
 </div>
 </div>
 <div class="timeline-stage upcoming">
@@ -2349,7 +2354,17 @@ body.reset-expired .reset-token-expired { display: block; }
 <span class="cancel-plan-meta-label">Renewal</span>
 <span class="cancel-plan-meta-val">Auto-renewal</span>
 </div>
+<!-- MA-128 (2026-09-14): ETC Message added — the FTC ACR requirements doc scopes State H's
+     real-world equivalent ("Change Contract Page") to carry both a renewal message and an ETC
+     Message; this page had only the former. Reuses the cancel-plan-meta field pattern already
+     used both in this same card (above) and in the Cancel flow's own ETC row, rather than a new
+     prose/callout block. Directional copy, not final — flagged for Legal/Mollie confirmation. -->
+<div class="cancel-plan-meta-item">
+<span class="cancel-plan-meta-label">ETC if you cancel or switch today</span>
+<span class="cancel-plan-meta-val">$300 remaining</span>
 </div>
+</div>
+<div class="ann ann-y">MA-128 · Open — ETC Message copy/placement is directional only (per the FTC ACR requirements doc's template: "If you would like to start a new contract or cancel this contract today, you will be charged a %%customerEarlyTermChargeAmt%% early termination charge"). Needs Legal/Mollie confirmation before treating as final, same as this page's existing renewal-message copy.</div>
 </div>
 <!-- LDC return notice -->
 <div class="cancel-ldc-return" style="margin-top:16px;">

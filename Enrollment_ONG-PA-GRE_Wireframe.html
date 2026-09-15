@@ -525,6 +525,21 @@
   body.is-renewal .renewal-hidden { display: none; }
   .renewal-hidden-inline { display: inline; }
   body.is-renewal .renewal-hidden-inline { display: none; }
+  /* ENR-258/259 (2026-09-14) bug fix — QA'd in-browser: `body.is-fixed-plan .plan-fixed
+     { display:block }` (below) out-specifies both a plain `.flow-only-existing { display:none }`
+     AND a plain `.renewal-only { display:none }`/`.renewal-hidden { display:none }`, so the sticky
+     card's new-customer-gated ETC row showed for new customers, and BOTH the outside- and
+     inside-renewal-window ETC copy showed at once regardless of renewal state (same class of
+     CSS-collision bug as ENRIL-296 — a body.* reveal rule's display winning over an element's own
+     gating). Force the correct hide with !important, scoped to .plan-summary so nothing outside
+     the sticky card is affected. */
+  body:not(.flow-existing) .plan-summary .flow-only-existing { display: none !important; }
+  body:not(.is-renewal) .plan-summary .plan-fixed.renewal-only { display: none !important; }
+  body.is-renewal .plan-summary .plan-fixed.renewal-hidden { display: none !important; }
+  /* Same collision a third way: on plan-summary-new, `body.flow-existing .flow-only-existing
+     { display:block }` out-specifies plain `.plan-fixed { display:none }`, so a variable-plan
+     existing customer was still seeing the ETC row. */
+  body:not(.is-fixed-plan) .plan-summary .plan-fixed { display: none !important; }
 
   /* -- ENR-54 / ENR-42 · Current contract panel (PF-2) — green checkmark treatment (aligned to IL/IES per ENR-54) -- */
   .current-contract-panel {
@@ -990,8 +1005,10 @@
 <div aria-hidden="true" class="presentation-exit-hint">Press Esc to exit presentation mode</div>
 <!-- =========================================================================
      SIMPLIFIED NAV (ENR-36) — DEFAULT inside enrollment funnel.
-     Mirrors current production pattern: brand mark + customer-service phone only.
-     No main nav, no Search, no My Account icon. Promo pencil banner also suppressed.
+     Brand mark + customer-service phone only. No main nav, no Search.
+     ENR-257 (2026-09-13, ports GLB-SIMPNAV-AUTH): authenticated/existing-customer entry
+     (body.flow-existing) additionally shows a "My Account" nav-right element — new-customer
+     entry (Step 1-4) stays exactly as before, brand + phone only.
      Toggle wireframe control panel "Nav" group to compare with the legacy full nav.
      ========================================================================== -->
 <header class="topbar topbar-simplified nav-mode-simplified">
@@ -1001,6 +1018,11 @@
 <span class="mkt mkt-gre">Grand Rapids Energy</span>
 </button>
 <div class="nav-right">
+<!-- ENR-257 (2026-09-13): existing-customer/authenticated entry only (flow-only-existing, same
+     flow-state mechanism already gating .account-ref-display etc. above). Clicking triggers the
+     same leave-enrollment confirmation modal as the brand mark, per GLB-SIMPNAV-AUTH (confirmed
+     2026-09-11), then would navigate to My Account instead of home. -->
+<a class="flow-only-existing" href="#" onclick="myAccountClickInFunnel(event)" style="margin-right:14px;">👤 My Account</a>
 <span class="phone">
 <strong>Contact Us</strong> ·
       <span class="mkt mkt-ong on">1-888-466-4427</span>
@@ -1009,7 +1031,7 @@
       · 8 a.m. – 5 p.m. ET, Monday – Friday
     </span>
 </div>
-<div class="ann ann-b" style="position:absolute; top:8px; right:8px; font-size:10px; padding:4px 8px;">ENR-36 simplified nav</div>
+<div class="ann ann-b" style="position:absolute; top:8px; right:8px; font-size:10px; padding:4px 8px;">ENR-36 simplified nav · ENR-257 auth split</div>
 </header>
 <!-- =========================================================================
      LEGACY FULL NAV — kept available for side-by-side comparison via the
@@ -1078,7 +1100,7 @@
 <p style="margin:0; font-size:12px; color:var(--muted);">
 <span class="mkt mkt-ong on">For CenterPoint Energy: typically a 10–12 digit number in the upper right of your bill.</span>
 <span class="mkt mkt-pa">Varies by Gas Utility Company — may be labeled "Service Point ID" (SPID) for some providers.</span>
-<span class="mkt mkt-gre">Check the header section of your bill from Consumers Energy.</span>
+<span class="mkt mkt-gre">Check the header section of your bill from Consumers Energy or DTE Gas Company.</span>
 </p>
 </div>
 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
@@ -1111,8 +1133,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      ========================================================================== -->
 <!-- Variant A: New customer (default) — 3 chips + confirmation -->
 <div aria-label="Enrollment progress — new customer" class="stepper stepper-new" role="navigation">
-<button aria-label="Step 1: Verify your service (current)" class="step-chip current" id="chip-1" onclick="setStep(1)">
-<span class="num">1</span> Verify service
+<!-- ENR-213 (2026-09-09): "Verify service" → "Verify Your Utility" -->
+<button aria-label="Step 1: Verify Your Utility (current)" class="step-chip current" id="chip-1" onclick="setStep(1)">
+<span class="num">1</span> Verify Your Utility
   </button>
 <span aria-hidden="true" class="step-divider" id="div-1"></span>
 <button aria-label="Step 2: Your details" class="step-chip upcoming" id="chip-2" onclick="setStep(2)">
@@ -1123,12 +1146,14 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="num">3</span> Accept Contract
   </button>
 <span aria-hidden="true" class="step-divider" id="div-3"></span>
-<button aria-label="Step 4: Review" class="step-chip upcoming" id="chip-4" onclick="setStep(4)">
-<span class="num">4</span> Review
+<!-- ENR-234 (2026-09-09): "Review" → "Review and Submit" -->
+<button aria-label="Step 4: Review and Submit" class="step-chip upcoming" id="chip-4" onclick="setStep(4)">
+<span class="num">4</span> Review and Submit
   </button>
 <span aria-hidden="true" class="step-divider" id="div-4"></span>
-<button aria-label="Step 5: Confirm" class="step-chip upcoming" id="chip-conf" onclick="setStep('confirmation')">
-<span class="num">5</span> Confirm
+<!-- ENR-235 (2026-09-09): "Confirm" → "Confirmation" -->
+<button aria-label="Step 5: Confirmation" class="step-chip upcoming" id="chip-conf" onclick="setStep('confirmation')">
+<span class="num">5</span> Confirmation
   </button>
 </div>
 
@@ -1141,8 +1166,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="num">1</span> Confirm Plan
   </button>
 <span aria-hidden="true" class="step-divider"></span>
-<button aria-label="Step 2: Switch" class="step-chip upcoming" data-step="pf4" id="chip-pf4" onclick="setStep('pf4')">
-<span class="num">2</span> Switch
+<!-- ENR-245 (2026-09-09): "Switch" → "Confirm Switch" -->
+<button aria-label="Step 2: Confirm Switch" class="step-chip upcoming" data-step="pf4" id="chip-pf4" onclick="setStep('pf4')">
+<span class="num">2</span> Confirm Switch
   </button>
 <span aria-hidden="true" class="step-divider"></span>
 <button aria-label="Step 3: Your details" class="step-chip upcoming" data-step="2" id="chip-2-ex" onclick="setStep(2)">
@@ -1153,12 +1179,14 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="num">4</span> Accept Contract
   </button>
 <span aria-hidden="true" class="step-divider"></span>
-<button aria-label="Step 5: Review" class="step-chip upcoming" data-step="4" id="chip-4-ex" onclick="setStep(4)">
-<span class="num">5</span> Review
+<!-- ENR-252 (2026-09-09): mirrors ENR-234's rename — existing-customer stepper. -->
+<button aria-label="Step 5: Review and Submit" class="step-chip upcoming" data-step="4" id="chip-4-ex" onclick="setStep(4)">
+<span class="num">5</span> Review and Submit
   </button>
 <span aria-hidden="true" class="step-divider"></span>
-<button aria-label="Step 6: Confirm" class="step-chip upcoming" data-step="confirmation" id="chip-conf-ex" onclick="setStep('confirmation')">
-<span class="num">6</span> Confirm
+<!-- ENR-252 (2026-09-09): mirrors ENR-235's rename — existing-customer stepper. -->
+<button aria-label="Step 6: Confirmation" class="step-chip upcoming" data-step="confirmation" id="chip-conf-ex" onclick="setStep('confirmation')">
+<span class="num">6</span> Confirmation
   </button>
 </div>
 <div class="ann ann-b">
@@ -1185,23 +1213,20 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
         <small>/ <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></small>
 </div>
 <dl>
-<dt>Term</dt><dd><span class="plan-fixed-inline">12 months</span><span class="plan-variable-inline">Month-to-month</span></dd>
 <dt>Rate type</dt><dd><span class="plan-fixed-inline">Fixed</span><span class="plan-variable-inline">Variable</span></dd>
-<dt>Customer charge</dt><dd>$X.XX / mo</dd>
+<!-- ENR-209 (2026-09-09): Customer charge row removed — restates the per-ccf/mcf rate already in the card header. -->
+<!-- ENR-258 (2026-09-14): Term row removed — already conveyed by the plan name itself. -->
+<!-- ENR-211 (2026-09-14): Expires field — existing customers only; this block only ever renders for existing customers. -->
+<dt class="plan-fixed">Expires</dt><dd class="plan-fixed"><span class="mkt-inline mkt-ong on">Feb 28, 2027</span><span class="mkt-inline mkt-pa">Feb 28, 2027</span><span class="mkt-inline mkt-gre">Feb 28, 2027</span></dd>
 <!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
-<dt class="plan-fixed-row">Early Termination Charge</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
+<!-- ENR-258/ENR-212 (2026-09-14, reconciled): ETC reads as a field value, not a separate callout banner — dollar amount + explanation folded into the value outside the renewal window; swaps to no-fee copy inside it. Uses .plan-fixed rather than .plan-fixed-row so this row isn't caught by the renewal-window row-suppression rule below (ENR-96) — that rule is still correct for the other, unchanged, plan-fixed-row usages elsewhere in this file. -->
+<dt class="plan-fixed renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span> · applies if you cancel before the term ends</dd>
+<dt class="plan-fixed renewal-only">Early Termination Charge</dt><dd class="plan-fixed renewal-only">No early termination fee — your plan is expiring soon</dd>
+<!-- ENR-258 (2026-09-14): Auto-renewal — new field, net-new for the sticky card. -->
+<dt>Auto-renewal</dt><dd>Yes · plan continues at end of term—notice sent in advance</dd>
 </dl>
-<div class="ldc-row">
-<span>
-<span class="mkt-inline mkt-ong on">CenterPoint Energy</span>
-<span class="mkt-inline mkt-pa">Peoples Natural Gas</span>
-<span class="mkt-inline mkt-gre">Consumers Energy</span>
-</span>
-
-</div>
-<div class="ftc-callout plan-fixed">
-<strong>Fixed-term plan.</strong> Early Termination Fee applies if you cancel before the 12-month term ends.
-      </div>
+<!-- ENR-210 (2026-09-09): LDC/utility reference row removed — avoids confusing customers about who their plan is with. -->
+<!-- ENR-258 (2026-09-14): .ftc-callout banner removed — ETC now reads as a field only, above. -->
 
 <div class="plan-summary-promo-applied" style="margin-top:12px; padding:10px 12px; background: rgba(74,144,194,.10); border:1px solid var(--accent); border-radius:6px; font-size:13px;">
 <strong>Promo code applied:</strong> RAF25
@@ -1221,22 +1246,22 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
         <small>/ <span class="mkt-inline mkt-ong on">Ccf</span><span class="mkt-inline mkt-pa">Ccf</span><span class="mkt-inline mkt-gre">Mcf</span></small>
 </div>
 <dl>
-<dt>Term</dt><dd>12 months</dd>
 <dt>Rate type</dt><dd>Fixed</dd>
-<dt>Customer charge</dt><dd>$X.XX / mo</dd>
+<!-- ENR-209 (2026-09-09): Customer charge row removed — restates the per-ccf/mcf rate already in the card header. -->
+<!-- ENR-258 (2026-09-14): Term row removed — already conveyed by the plan name itself. -->
 <!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
-<dt class="plan-fixed-row">Early Termination Charge</dt><dd class="plan-fixed-row"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span></dd>
+<!-- ENR-258/ENR-212 (2026-09-14, reconciled): new customers never see ETC here at all (flow-only-existing gates it away entirely, per ENR-212's "remove all ETC language" for new customers); existing customers switching plans get the same field-not-banner treatment as plan-summary-current, including the renewal-window copy swap. .plan-fixed (not .plan-fixed-row) avoids the renewal-window row-suppression rule below (ENR-96). -->
+<dt class="plan-fixed flow-only-existing renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed flow-only-existing renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span> · applies if you cancel before the term ends</dd>
+<dt class="plan-fixed flow-only-existing renewal-only">Early Termination Charge</dt><dd class="plan-fixed flow-only-existing renewal-only">No early termination fee — your plan is expiring soon</dd>
+<!-- ENR-258 (2026-09-14): Auto-renewal — new field, net-new for the sticky card. -->
+<dt>Auto-renewal</dt><dd>Yes · plan continues at end of term—notice sent in advance</dd>
 </dl>
-<div class="ldc-row">
-<span>
-<span class="mkt-inline mkt-ong on">CenterPoint Energy</span>
-<span class="mkt-inline mkt-pa">Peoples Natural Gas</span>
-<span class="mkt-inline mkt-gre">Consumers Energy</span>
-</span>
+<!-- ENR-210 (2026-09-09): LDC/utility reference row removed — avoids confusing customers about who their plan is with. -->
+<!-- ENR-258 (2026-09-14): .ftc-callout banner removed — ETC now reads as a field only, above. -->
+<!-- ENR-208 (2026-09-09): promo-code-applied indicator — mirrors the plan-summary-current instance above (RAF code / Visa Reward Card use case). Conditionally shown via body.entry-deeplink, same gating pattern. -->
+<div class="plan-summary-promo-applied" style="margin-top:12px; padding:10px 12px; background: rgba(74,144,194,.10); border:1px solid var(--accent); border-radius:6px; font-size:13px;">
+<strong>Promo code applied:</strong> RAF25
 </div>
-<div class="ftc-callout plan-fixed">
-<strong>Fixed-term plan.</strong> Early Termination Fee applies if you cancel before the 24-month term ends.
-      </div>
 <div class="plan-summary-reward" style="display:none;">
 <div class="plan-summary-reward-label">Referral reward</div>
 <div class="plan-summary-reward-value">$25 Visa reward card</div>
@@ -1352,7 +1377,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ====== ENR-42 · PF-3 — Confirm / Change your plan (ENR-67: now first chip in existing-customer stepper) === -->
 <section aria-labelledby="pf3-title" class="step" id="step-pf3">
 <h2 id="pf3-title">Confirm / Change your plan</h2>
-<p class="step-intro">Review the plan you're enrolling in. If you'd like a different plan, choose from the options below. Your current plan stays in place until your new enrollment is confirmed.</p>
+<!-- ENR-238 (2026-09-09): intro copy replaced per client-reviewed OPG Review Draft. -->
+<p class="step-intro">Please review your current plan in the plan card. If you'd like to enroll in a different plan, choose one from the options below. You will remain on your current plan unless you confirm enrollment with a new plan.</p>
 <!-- ENR-183 (2026-08-24): Soft-notice card — new on-ramp into PF-3 for a customer who started the
      NEW-customer flow but whose Step 1 CustomerLookup (account# + last name + ZIP, ENR-162)
      matched an existing account. Visible only when body.entry-existing-softnotice is set (see the
@@ -1370,13 +1396,15 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 
 
 
-<h3 style="margin-top: 22px;">Plans available to switch to</h3>
-<p style="font-size: 13px; color: var(--muted); margin: -8px 0 12px;">Filtered to your market (<span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>) and Gas Utility Company (<span class="mkt-inline mkt-ong on">CenterPoint Energy</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy</span>).</p>
+<!-- ENR-240 (2026-09-09): "Plans available to switch to" → "Your available plans." -->
+<h3 style="margin-top: 22px;">Your available plans.</h3>
+<!-- ENR-241 (2026-09-09): "(Filtered to your market... Gas Utility Company...)" line removed entirely. -->
 <!-- ENR-180 (2026-08-24): promo-code entry field — mirrors Enrollment_IL-IES_Wireframe.html's
      equivalent (ENRIL-454) for cross-file consistency. Wireframe placeholder only, no real
      validation. -->
 <div class="field" style="max-width: 360px; margin: 0 0 18px;">
-<label for="pf3-promo-code">Or enter a promo code</label>
+<!-- ENR-242 (2026-09-09): "Or enter a promo code" → "Do you have a promo code?" -->
+<label for="pf3-promo-code">Do you have a promo code?</label>
 <div style="display: flex; gap: 8px;">
 <input id="pf3-promo-code" placeholder="Promo code" style="flex:1;" type="text"/>
 <button class="btn btn-secondary" onclick="alert('Apply promo code (wireframe placeholder)')" type="button">Apply</button>
@@ -1433,8 +1461,9 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </section>
 <!-- ====== ENR-42 · PF-4 — Confirm your switch ======================= -->
 <section aria-labelledby="pf4-title" class="step" id="step-pf4">
-<h2 id="pf4-title">Confirm your switch</h2>
-<p class="step-intro">Review the change before we continue to your enrollment details.</p>
+<!-- ENR-246/247 (2026-09-09): header + intro copy replaced per client-reviewed OPG Review Draft. -->
+<h2 id="pf4-title">Confirm Switch</h2>
+<p class="step-intro">Before we continue, please review all the changes to your plan before we continue to your enrollment details.</p>
 <div class="plan-switch-compare">
 <div class="plan-switch-compare-col from">
 <div class="plan-switch-compare-label">Switching from</div>
@@ -1486,15 +1515,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </section>
 <!-- ====== Step 1 — Verify your service (new-customer path only — gated by setStep guard for flow-existing mode) ===== -->
 <section aria-labelledby="s1-title" class="step on" id="step-1">
-<!-- ENR-199 (2026-08-25): banner added here — previously only existed inside #step-2, so editing
-     "Service & account" from Review (which routes to Step 1) showed no edit-in-progress banner at
-     all. Same markup/copy as the Step 2 banner. ENR-201 (2026-08-25): the old per-section
-     "Edit →" jump-with-focus links (and their now-fully-unreferenced openEditFor() function) were
-     removed once every Review section lost its Edit link — the stepper's own back-navigation is
-     now the only path back, and setStep()'s auto-banner (ENR-200) covers it. -->
-<div class="edit-return-banner">
-<div><strong>Editing your details.</strong> Changing this may affect the steps that follow — tap Continue to save your changes and confirm each remaining step.</div>
-</div>
+<!-- ENR-214 (2026-09-09): "Editing your details" warning removed from Step 1 per client-reviewed
+     OPG Review Draft. (Prior context: ENR-199 added this banner here so that editing "Service &
+     account" from Review — which routes back to Step 1 — showed an edit-in-progress notice; that
+     purpose is superseded by this decision. Step 2's own edit-return-banner is unaffected — not in
+     scope for this item.) -->
 <!-- ENR-67B (2026-05-27): Existing-account inline error state (hard-stop / forced-login-redirect demo).
      ENR-183 (2026-08-24): No longer the DEFAULT outcome for this detection path — CustomerLookup
      detecting an existing account during the new-customer flow now routes to a soft, non-blocking
@@ -1518,13 +1543,16 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 
 </div>
-<h2 id="s1-title">Verify your service</h2>
-<p class="step-have-ready">Have your gas account number, service address, and ZIP code ready.</p>
+<!-- ENR-213 (2026-09-09): "Verify service" → "Verify Your Utility" -->
+<h2 id="s1-title">Verify Your Utility</h2>
+<!-- ENR-215 (2026-09-09): instructional copy replaced per client-reviewed OPG Review Draft. -->
+<p class="step-have-ready">For a quicker and easier sign-up experience, please have your gas utility account number, service address, and ZIP code ready.</p>
 <!-- ENR-143: orphaned step-intro copy (leftover from WTE panel removal, ENR-116) removed -->
 
 <p class="field-legend"><span class="req">*</span> Required field</p>
 <div class="fieldset">
-<h3>Your utility</h3>
+<!-- ENR-216 (2026-09-09): "Your utility" → "Who is your gas utility?" -->
+<h3>Who is your gas utility?</h3>
 <div class="field">
 <label>Gas Utility Company</label>
 <!-- ENR-186 (2026-08-24): switched from ad hoc inline read-only styling to the shared
@@ -1534,10 +1562,15 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span>
 <span class="mkt mkt-ong on">CenterPoint Energy Ohio</span>
 <span class="mkt mkt-pa">Peoples Natural Gas</span>
-<span class="mkt mkt-gre">Consumers Energy (MI)</span>
+<span class="mkt mkt-gre">Consumers Energy or DTE Gas Company</span>
 </span>
 </div>
 <!-- ENR-143: "Wrong utility?" link removed — routed to the same destination as "back to plans" (supersedes ENR-119 de-emphasis) -->
+<!-- ENR-155/ENR-161 (2026-09-13): factual correction — GRE's utilities are Consumers Energy AND
+     DTE Gas Company, not just Consumers Energy (MI); single-utility display was wrong. Mirrors the
+     Step 1 account-number field's existing multi-LDC compromise pattern (see PA's placeholder
+     below) since there's no per-LDC selector here for PRIME to disambiguate. -->
+<div class="ann ann-y mkt mkt-gre" style="margin-top:8px;">ENR-161 · Per-LDC account-number label terminology still open — architecture decided (dynamic per-LDC labeling needed across ONG/GRE/PA), exact wording pending. This factual utility-name fix (ENR-155) is separate from that open question; account-number field labels below are unchanged.</div>
 
 </div>
 
@@ -1551,7 +1584,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="field">
 <label for="acct1-ong"><span class="req">*</span>Account number</label>
 <input aria-required="true" id="acct1-ong" placeholder="XXXXXXXXX" type="text"/>
-<div class="field-help">Mask: </div>
+<!-- ENR-218 (2026-09-09): "Mask:" placeholder text removed. -->
 </div>
 <div class="field">
 <label for="acct2-ong"><span class="req">*</span>Re-enter account number</label>
@@ -1560,8 +1593,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 </div>
 </div>
-<!-- PA: account number entered ONCE -->
+<!-- ENR-217 (2026-09-13): PA account number now entered TWICE, standardizing on ONG's existing
+     double-entry pattern (client-confirmed 2026-09-07). -->
 <div class="mkt mkt-pa">
+<div class="field-row">
 <div class="field">
 <label for="acct-pa"><span class="req">*</span>Account number / Service Point ID</label>
 <input aria-required="true" id="acct-pa" placeholder="XXXXXXXXX (PNG / UGI / PGW / Columbia PA)" type="text"/>
@@ -1570,15 +1605,28 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
               <br/>
 </div>
 </div>
+<div class="field">
+<label for="acct2-pa"><span class="req">*</span>Re-enter account number / Service Point ID</label>
+<input aria-required="true" id="acct2-pa" placeholder="XXXXXXXXX (PNG / UGI / PGW / Columbia PA)" type="text"/>
+<div class="field-help">Must match the field above before you can continue.</div>
 </div>
-<!-- GRE: account number once + heavier yellow annotation -->
+</div>
+</div>
+<!-- ENR-217 (2026-09-13): GRE account number now entered TWICE, same pattern. -->
 <div class="mkt mkt-gre">
+<div class="field-row">
 <div class="field">
 <label for="acct-gre"><span class="req">*</span>Account number</label>
-<input aria-required="true" id="acct-gre" placeholder="XXXXXXXXX (Consumers Energy)" type="text"/>
+<input aria-required="true" id="acct-gre" placeholder="XXXXXXXXX (Consumers Energy or DTE Gas Company)" type="text"/>
 <div class="field-help">
    — masks not enforced in MI today per §6.1 #6. Working assumption: redesign adds masks; timeline TBD (Susan/Lee/Girish).
             </div>
+</div>
+<div class="field">
+<label for="acct2-gre"><span class="req">*</span>Re-enter account number</label>
+<input aria-required="true" id="acct2-gre" placeholder="XXXXXXXXX (Consumers Energy or DTE Gas Company)" type="text"/>
+<div class="field-help">Must match the field above before you can continue.</div>
+</div>
 </div>
 
 </div>
@@ -1598,14 +1646,15 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 
 <!-- ENR-133: full-width fix — mkt-inline on phone spans so they render inline (not display:block) inside the paragraph -->
+<!-- ENR-219 (2026-09-09): "SSE" swapped for the market brand name via mkt-inline (both occurrences in this paragraph — templating only the parenthetical would leave a contradictory hardcoded "SSE" one sentence earlier). -->
 <p style="margin:12px 0 10px; font-size:12px; width:100%; max-width:none; display:block;">
-            Can't find your <span class="mkt-inline mkt-ong on">account number</span><span class="mkt-inline mkt-pa">account number / Service Point ID</span><span class="mkt-inline mkt-gre">account number</span>? Call SSE:
+            Can't find your <span class="mkt-inline mkt-ong on">account number</span><span class="mkt-inline mkt-pa">account number / Service Point ID</span><span class="mkt-inline mkt-gre">account number</span>? Call <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>:
             <strong>
 <span class="mkt-inline mkt-ong on">1-888-466-4427</span>
 <span class="mkt-inline mkt-pa">1-800-XXX-PENN</span>
 <span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span>
 </strong>
-            — we can help you locate it. (Do NOT call your Gas Utility Company for this — call SSE.)
+            — we can help you locate it. (Do NOT call your Gas Utility Company for this — call <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>.)
           </p>
 
 </div>
@@ -1641,9 +1690,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 
 </div>
 <!-- ENR-69 (2026-05-27): Existing-customer self-identification link — moved below Account Number fieldset -->
+<!-- ENR-220 (2026-09-09): "Already a Southstar customer? Existing customer? Log in" → "Already a [Market] customer? Log in here," market-name templated via mkt-inline. -->
 <div style="margin-top:16px; font-size:13px; color:var(--muted);">
-        Already a SouthStar customer?
-        <button class="link" onclick="window.location.href='MyAccount_Wireframe.html?market=ong&amp;state=login';" style="font-size:13px; color:var(--accent); background:transparent; border:none; cursor:pointer; padding:0; text-decoration:underline;" type="button">Existing customer? Log in →</button>
+        Already a <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span> customer?
+        <button class="link" onclick="window.location.href='MyAccount_Wireframe.html?market=ong&amp;state=login';" style="font-size:13px; color:var(--accent); background:transparent; border:none; cursor:pointer; padding:0; text-decoration:underline;" type="button">Log in here →</button>
 <span class="ann ann-b">ENR-69 — Routes to regular Log In screen (MyAccount_Wireframe.html login state), outside enrollment flow. Returns to PF-3 post-auth. Placed after account-number fieldset so returning customers recognize the moment to switch to existing-customer path.</span>
 </div>
 <!-- ENR-43: Account type toggle REMOVED. The customer's path (Residential Plans
@@ -1678,8 +1728,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="edit-return-banner">
 <div><strong>Editing your details.</strong> Changing this may affect the steps that follow — tap Continue to save your changes and confirm each remaining step.</div>
 </div>
-<h2 id="s2-title">Your details</h2>
-<p class="step-intro">Tell us a bit about you. We'll use this information to set up your enrollment.</p>
+<!-- ENR-221/ENR-250 (2026-09-09): "Your details" → "Your Account Details" (title case) — shared heading, both flows. -->
+<h2 id="s2-title">Your Account Details</h2>
+<!-- ENR-222 (2026-09-09): instructional copy replaced per client-reviewed OPG Review Draft. -->
+<p class="step-intro">We need to gather a little more information about you. We'll use this information to set up your account.</p>
 
 <!-- ENR-166 (2026-08-24): Account-confirmation summary card — folds test env's standalone
      "Please Confirm Your Account" modal into Step 2 itself (IL precedent: ENRIL-378/379/380 /
@@ -1694,15 +1746,12 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      content — the account number — is already shown in this card; gated to flow-only-existing so
      it still renders for the existing-customer path (ENR-120's own dev note: also applies there,
      value from PRIME/PF-3) but no longer duplicates this card for new customers. -->
-<div class="acct-confirm-card flow-only-new">
-<h4>Account confirmed</h4>
-<p class="step-intro" style="margin:0 0 12px; font-size:13px;">We found the following account. Please confirm this is correct before we continue.</p>
-<dl>
-<dt>Choice Service ID / Account number</dt><dd>[Account number]</dd>
-<dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
-<dt>Account Type</dt><dd>Residential</dd>
-</dl>
-<a href="#" onclick="event.preventDefault(); setStep(1);">Not you? Go back</a>
+<!-- ENR-223 (2026-09-09): "green box" acct-confirm-card replaced with the simpler read-only
+     account-number reference field already used for the existing-customer path
+     (.account-ref-display, ENR-120) — new customers no longer get the full confirmation card. -->
+<div class="account-ref-display flow-only-new">
+<span class="account-ref-label">Account number:</span>
+<span class="account-ref-number">[Account number]</span>
 </div>
 
 <!-- Email already in use error -->
@@ -1719,20 +1768,29 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <span class="account-ref-number">[Account number]</span>
 </div>
 <p class="field-legend"><span class="req">*</span> Required field</p>
-<div class="ann ann-b">ENR-120 · Read-only account reference. Value passed via session/state from Step 1; no PRIME call needed. <strong>ENR-166 update (2026-08-24):</strong> gated to flow-only-existing — new-customer path now shows the account number inside the acct-confirm-card above instead, avoiding duplication. Existing-customer flow (body.flow-existing) still shows it here, value from PRIME record (PF-3 / ENR-94), read-only.</div>
+<div class="ann ann-b">ENR-120 · Read-only account reference. Value passed via session/state from Step 1; no PRIME call needed. <strong>ENR-223 update (2026-09-09):</strong> new-customer path now uses its own .account-ref-display instance above (flow-only-new) instead of the retired acct-confirm-card — both flows now use the same simple reference-field pattern, just gated to their own flow. Existing-customer flow (body.flow-existing) still shows it here, value from PRIME record (PF-3 / ENR-94), read-only.</div>
 <div class="fieldset" id="sec-contact">
-<h3>Contact</h3>
+<!-- ENR-224 (2026-09-09): "Contact" → "Contact Information." -->
+<h3>Contact Information.</h3>
+<!-- ENR-259 (2026-09-14): existing customers only — Name has no self-service correction path
+     anywhere in the product (My Account's Personal Information section has no Name field at all),
+     so it's locked to read-only below; this note is the replacement safety net, matching ENR-33's
+     no-hard-block philosophy. Directional copy, not final. -->
+<div class="flow-only-existing" style="font-size: 13px; color: var(--muted); margin-bottom: 14px; padding: 10px 12px; background: rgba(0,0,0,0.03); border-radius: 6px;">This is the information on file with your utility. If it's not correct, call us at <span class="mkt-inline mkt-ong on">1-888-466-4427</span><span class="mkt-inline mkt-pa">1-800-XXX-PENN</span><span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span> before continuing.</div>
 <div class="field-row">
 <div class="field">
 <label for="fname"><span class="req">*</span>First name</label>
 <!-- ENR-94: Pre-filled placeholder shows PRIME data for existing customers.
      ENR-167 (2026-08-24): also pre-fills for the new-customer path (from Step 1's CustomerLookup)
      — no longer carries .flow-existing-prefilled, since it's no longer existing-customer-only. -->
-<input aria-required="true" id="fname" placeholder="Jane" type="text" value="Jane"/>
+<input aria-required="true" class="flow-only-new" id="fname" placeholder="Jane" type="text" value="Jane"/>
+<!-- ENR-259 (2026-09-14): existing customers see Name read-only, same .readonly-field pattern already used for State below. -->
+<div class="readonly-field flow-only-existing">Jane</div>
 </div>
 <div class="field">
 <label for="lname"><span class="req">*</span>Last name</label>
-<input aria-required="true" id="lname" placeholder="Doe" type="text" value="Doe"/>
+<input aria-required="true" class="flow-only-new" id="lname" placeholder="Doe" type="text" value="Doe"/>
+<div class="readonly-field flow-only-existing">Doe</div>
 </div>
 </div>
 <div class="field-row">
@@ -1741,34 +1799,83 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — Email genuinely stays manual-entry
      for new customers (not part of the lookup response), so it shouldn't render faded regardless of flow. -->
 <input aria-required="true" id="email" placeholder="jane.doe@example.com" type="email" value="jane.doe@example.com"/>
-<div class="field-help">Used for your SouthStar account login, your confirmation email, and billing notifications.</div>
+<!-- ENR-225 (2026-09-09): email use-copy replaced. -->
+<div class="field-help">We'll use this for your confirmation email, your account login, and billing notifications.</div>
 </div>
+<!-- ENR-256 (2026-09-13, reverses ENR-182): confirm-email field added — same double-entry pattern
+     as the account-number fields (ENR-217): paste blocked, must-match help text, match-check gates
+     Continue. Label kept sentence-case ("Confirm email address") to match this file's existing
+     field-label convention (First name / Last name / Email address), rather than the title-case
+     "Confirm Email Address" wording — judgment call, flagging per dispatch instructions. -->
+<div class="field">
+<label for="email-confirm"><span class="req">*</span>Confirm email address</label>
+<input aria-required="true" id="email-confirm" onpaste="return false;" placeholder="jane.doe@example.com" type="email"/>
+<div class="field-help">Must match the email address above.</div>
+<div class="field-help" id="email-mismatch-note" style="display:none; color:var(--bad);">Email addresses don't match.</div>
+</div>
+</div>
+<div class="field-row">
 <div class="field">
 <label for="phone"><span class="req">*</span>Phone</label>
 <!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — Phone genuinely stays manual-entry
      for new customers (not part of the lookup response), so it shouldn't render faded regardless of flow. -->
 <input aria-required="true" id="phone" placeholder="(614) 555-0147" type="tel" value="(614) 555-0147"/>
-<div class="field-help">Used for customer service communication.</div>
+<!-- ENR-226 (2026-09-09): phone use-copy replaced. -->
+<div class="field-help">We'll use this to contact you for customer service communications.</div>
 </div>
 </div>
+</div>
+<!-- ENR-227 (2026-09-09): "Your preferences" repositioned to sit just below email/phone (this
+     fieldset), renamed "Your communication preferences," copy replaced, per client-reviewed OPG
+     Review Draft — supersedes ENR-144's prior positioning (below Account Holder Authorization).
+     Default stays unchecked, per the project-wide no-pre-checked-consents rule (ENR-123).
+     ENR-228: PA-only Paperless Correspondence checkbox added as the 2nd item. ENR-251: identical
+     treatment applies to the existing-customer flow's own Step 2 — this section is shared by both
+     flows (single #step-2), so no separate edit is needed there. -->
+<div class="fieldset fieldset-box" id="sec-preferences" style="margin-top:16px;">
+<h3>Your communication preferences</h3>
+
+<div class="checkbox-row">
+<input id="consent-call" type="checkbox"/>
+<label for="consent-call">If you need to contact me about my enrollment or my account, you may contact me at the phone or text at the number I have provided.</label>
+</div>
+
+<!-- Paperless Correspondence: PA-only (ENR-228) -->
+<div class="mkt mkt-pa">
+<div class="checkbox-row">
+<input id="paperless" type="checkbox"/>
+<label for="paperless">Opt in to Paperless Correspondence? You will receive all copies of your contract, your initial contract and renewal contracts, in addition to notices of contract expiration, via email. Please note certain correspondence will still be mailed.</label>
+</div>
+</div>
+<!-- ENR-65 (2026-05-27): "Send me occasional emails" marketing opt-in removed from Details step -->
+
 </div>
 <div class="fieldset" id="sec-address">
 <h3>Service address</h3>
+<!-- ENR-259 (2026-09-14): existing customers only — corrects an inconsistency with the locked
+     MA-75 decision (Service address is utility-of-record data product-wide; changes route through
+     Mover Flow, not a text field). This note is the replacement safety net for the in-session
+     correction path this removes. Directional copy, not final. -->
+<div class="flow-only-existing" style="font-size: 13px; color: var(--muted); margin-bottom: 14px; padding: 10px 12px; background: rgba(0,0,0,0.03); border-radius: 6px;">This is the information on file with your utility. If it's not correct, call us at <span class="mkt-inline mkt-ong on">1-888-466-4427</span><span class="mkt-inline mkt-pa">1-800-XXX-PENN</span><span class="mkt-inline mkt-gre">1-800-XXX-GRMI</span> before continuing.</div>
 
 <div class="field">
 <label for="addr-street"><span class="req">*</span>Street address</label>
 <!-- ENR-94: Pre-filled placeholder for existing customers.
      ENR-167 (2026-08-24): also pre-fills for the new-customer path (from Step 1's CustomerLookup). -->
-<input aria-required="true" autocomplete="street-address" id="addr-street" placeholder="123 Maple Street" type="text" value="123 Maple Street"/>
+<input aria-required="true" autocomplete="street-address" class="flow-only-new" id="addr-street" placeholder="123 Maple Street" type="text" value="123 Maple Street"/>
+<!-- ENR-259 (2026-09-14): existing customers see Service address read-only, same .readonly-field pattern as State below. Mailing address (below) is explicitly NOT locked — see ENR-259 row in the change log. -->
+<div class="readonly-field flow-only-existing">123 Maple Street</div>
 </div>
 <div class="field">
 <label for="addr-street2">Apt / Unit / Suite</label>
-<input autocomplete="address-line2" id="addr-street2" placeholder="" type="text" value=""/>
+<input autocomplete="address-line2" class="flow-only-new" id="addr-street2" placeholder="" type="text" value=""/>
+<div class="readonly-field flow-only-existing">—</div>
 </div>
 <div class="field-row">
 <div class="field">
 <label for="addr-city"><span class="req">*</span>City</label>
-<input aria-required="true" autocomplete="address-level2" id="addr-city" placeholder="Columbus" type="text" value="Columbus"/>
+<input aria-required="true" autocomplete="address-level2" class="flow-only-new" id="addr-city" placeholder="Columbus" type="text" value="Columbus"/>
+<div class="readonly-field flow-only-existing">Columbus</div>
 </div>
 <div class="field">
 <label>State</label>
@@ -1782,7 +1889,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <label for="addr-zip"><span class="req">*</span>ZIP</label>
 <!-- ENR-189 (2026-08-24): .flow-existing-prefilled removed — ZIP is now collected directly at
      Step 1 for everyone (ENR-162), so it shouldn't render faded regardless of flow. -->
-<input aria-required="true" autocomplete="postal-code" id="addr-zip" inputmode="numeric" maxlength="5" placeholder="43215" type="text" value="43215"/>
+<input aria-required="true" autocomplete="postal-code" class="flow-only-new" id="addr-zip" inputmode="numeric" maxlength="5" placeholder="43215" type="text" value="43215"/>
+<div class="readonly-field flow-only-existing">43215</div>
 </div>
 </div>
 <h3 style="margin-top:18px;">Mailing address</h3>
@@ -1792,7 +1900,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <input checked="" id="same-as-service" onchange="toggleMailingAddress(this)" type="checkbox"/>
 <label for="same-as-service">Same as service address</label>
 </div>
-<div class="field-help">Uncheck if your bills should be sent somewhere else.</div>
+<!-- ENR-229 (2026-09-09): uncheck copy replaced. -->
+<div class="field-help">Uncheck this if your bills should be sent somewhere other than the service address above.</div>
 </div>
 <div id="mailing-address-fields" style="display:none;">
 <div class="field">
@@ -1827,50 +1936,31 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
            PRIME auto-creates a passwordless My Account at submit using the OTP-verified email.
            Step 2 stays focused on enrollment-required PII + operational preferences. -->
 
-<!-- ENR-145 (2026-07-17): required account-holder attestation structurally split out of "Your preferences" into its own section — mirrors the ENR-131 Supplier Authorization precedent. ENR-144 (2026-07-17): required section ordered above the optional preferences below. -->
-<div class="fieldset fieldset-box" id="sec-account-auth">
-<h3>Account Holder Authorization</h3>
-<!-- ENR-57 (2026-05-26): Required authorized-person attestation -->
-<div class="checkbox-row">
-<input id="consent-authorized-person" required="" type="checkbox"/>
-<label for="consent-authorized-person"><span class="req">*</span>I am the utility account holder or a person that has legal authorization to make decisions for this account.</label>
-</div>
-
-</div>
-<div class="fieldset fieldset-box" id="sec-preferences" style="margin-top:16px;">
-<h3>Your preferences</h3>
-
-<!-- Paperless: PA-only (ENR-10) -->
-<div class="mkt mkt-pa">
-<div class="checkbox-row">
-<input id="paperless" type="checkbox"/>
-<label for="paperless"><strong>Sign up for paperless billing</strong><br/>
-              Receive your bills by email instead of mail. You'll need to verify via the email link we send after enrollment.</label>
-</div>
-
-</div>
-<div class="mkt mkt-ong on">
-
-</div>
-<div class="mkt mkt-gre">
-
-</div>
-<!-- Consent to receive calls -->
-<div class="checkbox-row">
-<input id="consent-call" type="checkbox"/>
-<label for="consent-call">If you need to contact me about my enrollment, you may contact me at the phone number I have provided.</label>
-</div>
-<!-- ENR-65 (2026-05-27): "Send me occasional emails" marketing opt-in removed from Details step -->
-
-</div>
 <!-- FTC disclosure removed from Step 2 per ENR-50 — subsumed by Step 3 etc-ack + T&C/LOA acceptance -->
 
 <!-- ENR-30: Legal-requested fields 1 & 2 REMOVED per client review 2026-05-13.
            IL-specific legal fields will be handled in a separate IL wireframe. -->
 
-<!-- ENR-111: "How did you hear about us?" field.
-     ENR-192 (2026-08-24): moved to sit immediately above Refer a Friend, with nothing between them —
-     was previously right after Mailing address, ahead of Account Holder Authorization and Preferences. -->
+<!-- ENR-231 (2026-09-09): Refer a Friend / How did you hear about us? / Account Holder
+     Authorization reordered per client-reviewed OPG Review Draft — final sequence is
+     Refer a Friend → How did you hear about us? → Account Holder Authorization.
+     ENR-230: Refer a Friend copy replaced. Supersedes ENR-192's prior "immediately above
+     Refer a Friend" framing for "How did you hear about us?" — it now sits immediately
+     BELOW Refer a Friend instead. Also supersedes ENR-158's "moved... to the end of Step 2"
+     framing for Refer a Friend — Account Holder Authorization is now the final field. -->
+<hr style="border:none; border-top:1px solid var(--line,#ddd); margin:20px 0;"/>
+<div class="mkt mkt-ong mkt-pa mkt-gre flow-only-new" id="raf-promo-section">
+<div class="fieldset">
+<h3>Refer a Friend</h3>
+<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">Did a friend refer you to us? Enter their referral code below so they'll get rewarded. This step is optional and won't affect your enrollment.</p>
+<div class="field">
+<!-- ENR-156 (2026-08-24): removed stray required-field asterisk — field is optional per ENR-58/ENR-76 and the help text directly above it. -->
+<label for="raf-promo-code">Referral code</label>
+<input autocomplete="off" id="raf-promo-code" placeholder="e.g. JORDAN-ONG-25" type="text"/>
+</div>
+
+</div>
+</div>
 <div class="fieldset">
 <div class="field">
 <label for="hear-about-us">How did you hear about us?</label>
@@ -1885,20 +1975,15 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </div>
 
 </div>
-<!-- ENR-58 (2026-05-26): Optional RAF promo code field — ENR-76 suppressed for existing customers — ENR-86: extended to PA/GRE (2026-06-15).
-     ENR-158 (2026-08-24): moved from mid-form (between Mailing address and "How did you hear about us?") to the end of Step 2, per user-testing finding (P4: "referring a friend in the middle of setup is a little wonky"). -->
-<hr style="border:none; border-top:1px solid var(--line,#ddd); margin:20px 0;"/>
-<div class="mkt mkt-ong mkt-pa mkt-gre flow-only-new" id="raf-promo-section">
-<div class="fieldset">
-<h3>Refer a Friend</h3>
-<p style="font-size: 13px; color: var(--muted); margin: 0 0 14px;">If a friend referred you, enter their referral code below. This is optional and won't affect your enrollment.</p>
-<div class="field">
-<!-- ENR-156 (2026-08-24): removed stray required-field asterisk — field is optional per ENR-58/ENR-76 and the help text directly above it. -->
-<label for="raf-promo-code">Referral code</label>
-<input autocomplete="off" id="raf-promo-code" placeholder="e.g. JORDAN-ONG-25" type="text"/>
+<!-- ENR-145 (2026-07-17): required account-holder attestation structurally split out of "Your preferences" into its own section — mirrors the ENR-131 Supplier Authorization precedent. ENR-231 (2026-09-09): now positioned last in Step 2's field order — supersedes ENR-144's prior "ordered above the optional preferences" framing. -->
+<div class="fieldset fieldset-box" id="sec-account-auth">
+<h3>Account Holder Authorization</h3>
+<!-- ENR-57 (2026-05-26): Required authorized-person attestation -->
+<div class="checkbox-row">
+<input id="consent-authorized-person" required="" type="checkbox"/>
+<label for="consent-authorized-person"><span class="req">*</span>I am the utility account holder or a person that has legal authorization to make decisions for this account.</label>
 </div>
 
-</div>
 </div>
 
 <div class="btn-row">
@@ -1911,7 +1996,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ====== Step 3 — Accept Contract (RENAMED per ENR-84, formerly "Review Contract") ========= -->
 <section aria-labelledby="s3-title" class="step" id="step-3">
 <h2 id="s3-title">Accept Contract</h2>
-<p class="step-intro">Please read and accept the terms and conditions for your enrollment.</p>
+<!-- ENR-232/ENR-252 (2026-09-09): intro copy replaced — shared step, both flows. -->
+<p class="step-intro">You're almost done with your enrollment. But first, please read and accept the terms and conditions below.</p>
 <p class="field-legend"><span class="req">*</span> Required field</p>
 <!-- Required acknowledgments fieldset — consolidated regulatory authorization (ENR-50, ENR-70, ENR-77) -->
 <div class="fieldset">
@@ -1963,7 +2049,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <ul style="margin:0; padding-left:20px; font-size:11px; color:var(--muted);">
 <li><strong>ONG (CenterPoint Energy):</strong> [specific terms and disclosures per contract]</li>
 <li><strong>PA (Peoples Natural Gas, UGI, PGW, Columbia PA):</strong> [per-provider variants as applicable]</li>
-<li><strong>GRE (Consumers Energy):</strong> [specific terms and disclosures per contract]</li>
+<li><strong>GRE (Consumers Energy or DTE Gas Company):</strong> [specific terms and disclosures per contract]</li>
 </ul>
 </div>
 <!-- ENR-128: Consent checkboxes wrapped in bordered inset box -->
@@ -2009,7 +2095,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 </section><!-- /#step-3 -->
 <!-- ====== Step 4 — Review (formerly Step 3, renamed per ENR-71) ===== -->
 <section aria-labelledby="s4-title" class="step" id="step-4">
-<h2 id="s4-title">Review</h2>
+<!-- ENR-234/ENR-252 (2026-09-09): "Review" → "Review and Submit" — shared heading, both flows. -->
+<h2 id="s4-title">Review and Submit</h2>
 <!-- ENR-202 (2026-08-25): "Use the Edit link in any section to make changes" removed — stale
      since ENR-197/ENR-200/ENR-201 removed every section's Edit link; nothing left for it to
      reference. -->
@@ -2038,9 +2125,10 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      locks with no Edit link (ENRIL-238/239). To correct it, the customer goes back via the
      stepper and resubmits Step 1, which forces re-verification (ENR-198). -->
 <div class="review-section">
-<header><h4>Service &amp; account</h4></header>
+<!-- ENR-207 (2026-09-13): heading renamed "Service & account" → "Utility Account"; fields below unchanged. -->
+<header><h4>Utility Account</h4></header>
 <dl>
-<dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></dd>
+<dt>Gas Utility Company</dt><dd><span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy or DTE Gas Company</span></dd>
 <!-- ENR-175 (2026-08-24): unmasked — matches the IL/IES wireframe's equivalent, which also doesn't mask. -->
 <dt>Account number</dt><dd>123456789</dd>
 </dl>
@@ -2142,7 +2230,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-157 (2026-08-24, Claude Code): hero copy reframed per Allyson's final copy decision — does not reopen
      ENR-146's decision to drop a separate "what happens next" timeline component. -->
 <h2 id="conf-title">You're all set. We'll take it from here.</h2>
-<p style="margin:6px 0 0; color:var(--muted);">We're now confirming your switch with your utility, usually within 1–2 business days. We'll email you the moment it's official — or contact you if your account couldn't be verified.</p>
+<!-- ENR-236: hero heading — no change. -->
+<p class="flow-only-new" style="margin:6px 0 0; color:var(--muted);">We're now confirming your switch with your utility, usually within 1–2 business days. We'll email you the moment it's official — or contact you if your account couldn't be verified.</p>
+<!-- ENR-253 (2026-09-09): Existing Customer Flow confirmation copy — live-site language,
+     market-name templated via mkt-inline (same mechanism as ENR-219/ENR-220). -->
+<p class="flow-only-existing" style="margin:6px 0 0; color:var(--muted);">We are currently processing your new contract request with <span class="mkt-inline mkt-ong on">Ohio Natural Gas</span><span class="mkt-inline mkt-pa">Pennsylvania Energy</span><span class="mkt-inline mkt-gre">Grand Rapids Energy</span>. You will receive a confirmation email shortly. If there are any issues with your new contract, we will contact you to address them. Once your order is complete, you will receive your written agreement, including your Disclosure Statement and Terms and Conditions in the mail. Thank you for continuing to choose us as your natural gas supplier.</p>
 <!-- ENR-177 (2026-08-24): confirmation number simplified from a structured placeholder
      ("SSE-2026-051234") to a plain sequential number, plus a separate .conf-meta line — mirrors
      Enrollment_IL-IES_Wireframe.html's equivalent element (search "conf-num"/"conf-meta" there)
@@ -2162,7 +2254,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      address only with no mailing line to drop — the file actually carried a "Mailing address: Same as service
      address" line (see ENR-179 below, now removed). The same underlying decision (billing/mailing isn't part of
      what's being confirmed) applies regardless, so it's dropped here too, matching IL/IES. -->
-<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Account number 123456789 · Gas Utility Company <span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy (MI)</span></div>
+<div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Account number 123456789 · Gas Utility Company <span class="mkt-inline mkt-ong on">CenterPoint Energy Ohio</span><span class="mkt-inline mkt-pa">Peoples Natural Gas</span><span class="mkt-inline mkt-gre">Consumers Energy or DTE Gas Company</span></div>
 <div class="conf-meta" style="font-size: 12px; color: var(--muted); margin-top: 4px;">Service address: 123 Main Street, <span class="mkt-inline mkt-ong on">Columbus, OH 43210</span><span class="mkt-inline mkt-pa">Pittsburgh, PA 15201</span><span class="mkt-inline mkt-gre">Grand Rapids, MI 49503</span></div>
 <div class="conf-actions">
 <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
@@ -2427,6 +2519,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
         el.value = ''; // email / phone / addr-zip: not part of new-customer CustomerLookup, stay blank
       }
     }
+    // ENR-256 (2026-09-13): keep the confirm-email field in sync with whatever #email was just
+    // set to above — both flows share this one Step 2, so this demo prefill covers both.
+    var emailConfirmEl = document.getElementById('email-confirm');
+    var emailEl = document.getElementById('email');
+    if (emailConfirmEl) emailConfirmEl.value = emailEl ? emailEl.value : '';
   }
 
   // ENR-191 (2026-08-24) · Mailing address — reveal fields when "Same as service address" is unchecked
@@ -2659,7 +2756,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   // ENR-169 (2026-08-24): "Try Again" on the CustomerLookup name/ZIP mismatch banner clears the
   // account-number/last-name/ZIP fields and stays on Step 1 (no forced redirect).
   function clearLookupFields() {
-    ['acct1-ong','acct2-ong','acct-pa','acct-gre','lookup-lastname','lookup-zip'].forEach(function(id){
+    // ENR-217 (2026-09-13): acct2-pa/acct2-gre added so "Try Again" clears both entries for all 3 markets.
+    ['acct1-ong','acct2-ong','acct-pa','acct2-pa','acct-gre','acct2-gre','lookup-lastname','lookup-zip'].forEach(function(id){
       var el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -2755,7 +2853,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
       else el.value = state.fields[id];
     });
     setStep(state.step);
-    validateStep1(); validateStep2(); validateStep3();
+    validateStep1(); validateStep2();
   }
   function startOver() {
     document.getElementById('resume-modal').hidden = true;
@@ -2783,8 +2881,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     if (sb) sb.classList.toggle('on', mode === 'simplified');
     if (fb) fb.classList.toggle('on', mode === 'full');
   }
-  function brandClickInFunnel(e) {
-    e.preventDefault();
+  // ENR-257 (2026-09-13): leaveFlowTarget tracks which control opened the modal (brand mark vs.
+  // the new simplified-nav My Account element, existing-customer flow only) so leaveFlow() can
+  // send the wireframe-demo alert to the right destination on confirm.
+  var leaveFlowTarget = 'home';
+  function openLeaveFlowModal() {
     var modal = document.getElementById('leave-flow-modal');
     if (modal) {
       modal.hidden = false;
@@ -2793,14 +2894,30 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
       if (firstBtn) firstBtn.focus();
     }
   }
+  function brandClickInFunnel(e) {
+    e.preventDefault();
+    leaveFlowTarget = 'home';
+    openLeaveFlowModal();
+  }
+  // ENR-257: My Account click (simplified-nav, existing-customer flow only) — same exit-confirm
+  // modal as the brand mark, but destined for My Account rather than home on confirm.
+  function myAccountClickInFunnel(e) {
+    e.preventDefault();
+    leaveFlowTarget = 'myaccount';
+    openLeaveFlowModal();
+  }
   function closeLeaveFlowModal() {
     var modal = document.getElementById('leave-flow-modal');
     if (modal) modal.hidden = true;
   }
   function leaveFlow() {
-    // Wireframe-only: in production this would navigate to homepage.
+    // Wireframe-only: in production this would navigate to the destination that opened the modal.
     closeLeaveFlowModal();
-    alert('Production behavior: navigate to homepage (wireframe demo — no actual navigation).');
+    if (leaveFlowTarget === 'myaccount') {
+      alert('Production behavior: navigate to My Account (wireframe demo — no actual navigation).');
+    } else {
+      alert('Production behavior: navigate to homepage (wireframe demo — no actual navigation).');
+    }
   }
 
   // ---------- Scenario drawer toggle ----------
@@ -2926,15 +3043,21 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
     var market = document.body.classList.contains('mkt-ong') ? 'ong'
                : document.body.classList.contains('mkt-pa') ? 'pa'
                : 'gre';
+    // ENR-217 (2026-09-13): PA and GRE now also double-enter their account number, matching ONG —
+    // same match-check pattern (isFilled both + exact value match) extended to all three markets.
     var acct;
     if (market === 'ong') {
       var a1 = document.getElementById('acct1-ong');
       var a2 = document.getElementById('acct2-ong');
       acct = isFilled(a1) && isFilled(a2) && a1.value === a2.value;
     } else if (market === 'pa') {
-      acct = isFilled(document.getElementById('acct-pa'));
+      var p1 = document.getElementById('acct-pa');
+      var p2 = document.getElementById('acct2-pa');
+      acct = isFilled(p1) && isFilled(p2) && p1.value === p2.value;
     } else {
-      acct = isFilled(document.getElementById('acct-gre'));
+      var g1 = document.getElementById('acct-gre');
+      var g2 = document.getElementById('acct2-gre');
+      acct = isFilled(g1) && isFilled(g2) && g1.value === g2.value;
     }
     var lastNameZip = isFilled(document.getElementById('lookup-lastname')) && isFilled(document.getElementById('lookup-zip'));
     var btn = document.getElementById('s1-continue');
@@ -2943,21 +3066,23 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   function validateStep2() {
     // Required: name, email, phone, address (street/city/zip).
     // ENR-44: State is pre-filled from brand, not user input — not in required list.
-    var req = ['fname','lname','email','phone','addr-street','addr-city','addr-zip'];
+    // ENR-256 (2026-09-13, reverses ENR-182): email-confirm added to required list + match-check
+    // against #email, mirroring ENR-217's account-number double-entry validation.
+    var req = ['fname','lname','email','email-confirm','phone','addr-street','addr-city','addr-zip'];
     var ok = req.every(function(id){ return isFilled(document.getElementById(id)); });
+    var emailEl = document.getElementById('email');
+    var emailConfirmEl = document.getElementById('email-confirm');
+    var bothFilled = isFilled(emailEl) && isFilled(emailConfirmEl);
+    var emailsMatch = bothFilled && emailEl.value === emailConfirmEl.value;
+    var mismatchNote = document.getElementById('email-mismatch-note');
+    if (mismatchNote) mismatchNote.style.display = (bothFilled && !emailsMatch) ? 'block' : 'none';
     var btn = document.getElementById('s2-continue');
-    if (btn) btn.disabled = !ok;
+    if (btn) btn.disabled = !(ok && emailsMatch);
   }
-  function validateStep3() {
-    // ENR-85: ETC acknowledgement removed; T&C, consent-comms, and scroll-to-unlock matter now.
-    // Scroll-to-unlock is handled by setupScrollToUnlock() above.
-    // ENR-195: consent-comms added to this gate alongside tos-accept — previously only tos-accept was enforced.
-    var tos = document.getElementById('tos-accept');
-    var consentComms = document.getElementById('consent-comms');
-    var ok = tos && tos.checked && consentComms && consentComms.checked;
-    var btn = document.getElementById('s3-submit');
-    if (btn) btn.disabled = !ok;
-  }
+  // ENR-206 (2026-09-13): validateStep3() removed — it referenced #s3-submit, an id that doesn't
+  // exist anywhere in this file (real Step-3 Continue button is #s3-continue, correctly gated by
+  // checkScrollPosition()), so this function never actually did anything. Dead code deleted rather
+  // than repointed.
   // Wire up validation listeners
   document.addEventListener('input', function(e){
     if (e.target.closest('#step-1')) validateStep1();
@@ -2966,7 +3091,6 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   document.addEventListener('change', function(e){
     if (e.target.closest('#step-1')) validateStep1();
     if (e.target.closest('#step-2')) validateStep2();
-    if (e.target.closest('#step-3')) validateStep3();
   });
 
   // ---------- Initialize ----------
@@ -2977,7 +3101,6 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   setConfRafView('optin'); // ENR-152: default RAF state = not yet opted in, for both New and Existing flows
   validateStep1();
   validateStep2();
-  validateStep3();
 
   // ENR-39: check for saved session on load and offer resume prompt
   (function checkResumeOnLoad() {
