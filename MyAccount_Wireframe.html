@@ -1063,10 +1063,6 @@ body.dash-sub-billing .dash-main-view { display: none; }
 .dash-billing-view { display: none; }
 body.dash-sub-billing .dash-billing-view { display: block; }
 
-/* MA-101: premise switcher — conditional on multi-premise account */
-.multi-premise-switcher { display: none; }
-body.has-multi-premise .multi-premise-switcher { display: block; }
-
 /* ── RESET PASSWORD: Expired token state (body.reset-expired) ── */
 /* Normal reset form visible by default; expired token block hidden by default */
 .reset-form-normal { display: block; }
@@ -1098,7 +1094,7 @@ body.reset-expired .reset-token-expired { display: block; }
 .premise-card-status { display: inline-block; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(74,144,194,.12); border-radius: 4px; padding: 1px 6px; margin-top: 4px; }
 </style>
 </head>
-<body class="ann-mode-clean has-multi-premise">
+<body class="ann-mode-clean">
 <!-- ════════════════════════════════════
      WIREFRAME-ONLY CONTROL PANEL
 ═════════════════════════════════════ -->
@@ -1145,7 +1141,6 @@ body.reset-expired .reset-token-expired { display: block; }
 <button id="dash-btn-inwindow" onclick="setDashSub('inwindow')">D · New rate (inside window) · MA-122</button>
 <button id="dash-btn-ending" onclick="setDashSub('ending')">D · Non-renewing</button>
 <button id="dash-btn-billing" onclick="openBillingHistory()">D · Billing History (IL)</button>
-<button onclick="document.body.classList.toggle('has-multi-premise')">Toggle multi-premise</button>
 </div>
 <div class="group" id="ca-substep-group" style="display:none;">
 <span class="group-lbl">CA Sub-step</span>
@@ -1402,6 +1397,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="state" id="state-mover">
 <div class="state-divider"><strong>State M</strong> — Authenticated · Add a Service Address <span style="font-weight:400; color:var(--muted);">(ONG / PA / GRE — self-service; IL / IES — informational per MA-108)</span></div>
 <div style="max-width: 520px; margin: 48px auto;">
+<div class="ann ann-b" style="margin-bottom:16px;"><strong>MA-131 (2026-09-15) · Post-launch / dormant.</strong> Mover Flow is not supported for initial launch. Personal Information's "Moving to a new address? →" entry point is removed; Premise Select's "Add a service address" (MA-67) rides along as dormant too, since MA-129 already takes that whole screen out of the live path. Retained in the file for future reference only — does not resolve MA-104's still-open ONG/PA/GRE mover-flow feasibility question. Cross-ref MA-4, MA-66, MA-67, MA-69, MA-75, MA-104, MA-108, MA-129.</div>
 
 <!-- MA-108: Self-service verify/choose-plan mover flow — ONG / PA / GRE only. IL/IES suppressed (see informational block below). -->
 <div class="mkt mkt-ong mkt-pa mkt-gre on">
@@ -1476,6 +1472,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="state" id="state-premise">
 <div class="state-divider"><strong>State A2</strong> — Authenticated · Select Your Address</div>
 <div style="max-width: 520px; margin: 48px auto;">
+<div class="ann ann-b" style="margin-bottom:16px;"><strong>MA-129 (2026-09-15) · Post-launch / dormant.</strong> Client no longer supports account switching / multiple service addresses. This screen's live entry points are both gone — the Dashboard's "Switch address →" CTA (MA-101) is removed, and Personal Information's "Add a service address" link (MA-67) rides along as dormant per MA-131. Retained in the file for future reference only; not part of the launch build. Cross-ref MA-61, MA-101, MA-131.</div>
 <h2 style="margin: 0 0 6px;">Select your service address</h2>
 <p style="color: var(--muted); margin: 0 0 4px;">We found multiple addresses associated with your account. Select the address you'd like to manage.</p>
 
@@ -1811,12 +1808,9 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="layout dash-main-view">
 <!-- Standalone renewal banner removed per MA-29. Renewal state moved into the plan card below
          (.sc-renewing chip + .plan-renewal-line callout). -->
-<!-- MA-101: Premise switcher — conditional on PRIME returning multiple premises -->
-<div class="multi-premise-switcher" style="margin-bottom:16px; padding:10px 14px; background:var(--accent-soft,#f0f4ff); border:1px solid var(--line,#ddd); border-radius:4px; display:flex; align-items:center; justify-content:space-between; font-size:13px;">
-<span>📍 <strong>Service address:</strong> 123 Maple Street, Columbus, OH 43215</span>
-<a href="#" onclick="setState('premise'); return false;" style="font-size:13px; font-weight:600; color:var(--accent,#0057a8);">Switch address →</a>
-</div>
-<div class="ann ann-b" style="margin-bottom:12px;"><strong>MA-101 · Premise switcher:</strong> Conditional — only renders when PRIME returns multiple premises for the authenticated session (<code>body.has-multi-premise</code>). Single-premise customers never see this. Add wfctl toggle to demo on/off. Cross-ref ENR-114 (enrollment multi-address).</div>
+<!-- MA-129 (2026-09-15): "Switch address →" CTA / multi-premise switcher removed — client no longer supports
+     account switching / multiple service addresses. Formerly MA-101; see state-premise below for the
+     now-dormant screen this used to link to. -->
 <!-- Dashboard cards -->
 <div class="dash-grid">
 <!-- ACTIVE PLAN VIEW (MA-42 default) — wraps the existing Current Plan card -->
@@ -1971,13 +1965,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="stage-subtext">In progress · typically 1–2 business days · We're confirming your account with your local utility. If we run into an issue, we'll contact you by phone or email.</div>
 </div>
 </div>
-<div class="timeline-stage upcoming">
-<div class="stage-marker">○</div>
-<div class="stage-content">
-<div class="stage-title">Switch date</div>
-<div class="stage-subtext">Your effective date will be provided by your utility. Once provided, your effective date will be added to your account.</div>
-</div>
-</div>
+<!-- MA-130 (2026-09-15): "Switch date" stage removed — client-approved 2-stage timeline (Received → Utility validation). Cross-ref MA-42, MA-107. -->
 </div>
 <div class="enrollment-notify">
               We'll email you at <strong>j****@e****.com</strong> when your enrollment is confirmed.
@@ -2090,7 +2078,7 @@ body.reset-expired .reset-token-expired { display: block; }
 <div>
 <div class="info-label">Service address</div>
 <div class="info-val">123 Maple Street<br/>Columbus, OH 43215</div>
-<button class="link" onclick="setState('mover'); setMoverStep(1);" style="font-size:13px;" type="button">Moving to a new address? →</button>
+<!-- MA-131 (2026-09-15): "Moving to a new address? →" entry point removed — Mover Flow not supported for initial launch. Cross-ref MA-66, MA-75, MA-104 (still-open feasibility question, not resolved by this launch-scoping decision). -->
 </div>
 <div>
 <div class="info-label">Mailing address</div>
@@ -2124,13 +2112,7 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
-<div class="doc-row">
-<div>
-<div class="doc-title">⚖️ Terms &amp; Conditions</div>
-<div class="doc-meta">Current version</div>
-</div>
-<a class="link" href="#"><strong>↓ Download PDF</strong></a>
-</div>
+<!-- MA-132 (2026-09-15): Terms & Conditions row removed — My Documents narrowed to Enrollment Confirmation + Plan Contract. Cross-ref MA-2, MA-123. -->
 <!-- MA-123 — ACR renewal-letter row, inside-window only (dash-inwindow) -->
 <div class="doc-row doc-row-inwindow-only">
 <div>

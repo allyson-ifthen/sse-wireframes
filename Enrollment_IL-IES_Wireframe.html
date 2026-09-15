@@ -978,6 +978,9 @@
 
   /* ENRIL-300 (2026-07-06): "Change plan →" sidebar link removed from markup; ENRIL-166/282 rules that hid it (.plan-name-row a + orphaned .change-plan-link) deleted as dead code. */
 
+  /* ENRIL-586 (2026-09-15): Referral reward block wrapper — ported from OPG's equivalent rule (ENR-125's .plan-summary-reward) since this file had no prior instance to inherit styling from. */
+  .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; }
+
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
   .plan-summary-current { display: none; }
   body.flow-step-selectplan .plan-summary-current { display: block; }
@@ -1389,6 +1392,8 @@
 <span class="scen-only-d-inline">$XXX.XX <small>/ month (guaranteed)</small></span>
 </div>
 <dl>
+<!-- ENRIL-585 (2026-09-15): Rate Type field, net-new for parity with OPG's plan-summary-current equivalent (ENR-211's card). Card doesn't dynamically bind to the customer's actual current plan (pre-existing limitation — see plan-summary-new's Type field note above), so values are static per scenario: Scen B matches PriceGuard's Fixed-rate; Scen D matches this card's own plan name above (Guaranteed Bill / Fixed Bill). Flag: this file's plan-summary-new labels the equivalent field "Type," not "Rate Type" — label-parity question open, not resolved this session. -->
+<dt>Rate Type</dt><dd><span class="scen-only-b-inline">Fixed-rate</span><span class="scen-only-d-inline"><span class="mkt-inline mkt-il on">Guaranteed Bill</span><span class="mkt-inline mkt-ies">Fixed Bill</span></span></dd>
 <!-- ENRIL-583 (2026-09-14): Term row removed (Scen D was already termless per ENRIL-528) — term is conveyed by the plan name above, matching OPG's ENR-258. -->
 <dt>Expires</dt><dd>Feb 28, 2027</dd>
 <!-- ENRIL-583 (2026-09-14): wording matched to OPG's ENR-258 exactly — was a bare "Yes". -->
@@ -1453,6 +1458,13 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <dt>Auto-renewal</dt><dd>Yes · plan continues at end of term—notice sent in advance</dd>
 </dl>
 <!-- ENRIL-555 (2026-09-14, build-gap correction): .ldc-row removed — direct client feedback (ENR-210) applies uniformly across all markets, per Allyson's 2026-09-14 confirmation. -->
+<!-- ENRIL-586 (2026-09-15): Referral reward line item, matching OPG's plan-summary-reward treatment (ENR-125). Reward copy pulled from IL/IES's own established referral program (NP-11) — "$25 reward," not OPG's "$25 Visa reward card" — since the reward mechanisms differ by market. -->
+<div class="plan-summary-reward" style="display:none;">
+<div class="plan-summary-reward-label">Referral reward</div>
+<div class="plan-summary-reward-value">$25 reward</div>
+<div class="plan-summary-reward-code">Code: <span class="promo-code-display">—</span></div>
+<div class="ann ann-b">ENRIL-586 · Only renders when promo code entered and validated. Hidden by default (display:none). Reward amount inherits NP-11's already-open confirmation status (prior cycle was a $500 cap, expired 12/31/2025).</div>
+</div>
 </div>
 
 </aside>

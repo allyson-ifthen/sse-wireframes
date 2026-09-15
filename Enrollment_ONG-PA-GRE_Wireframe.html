@@ -1220,10 +1220,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <dt class="plan-fixed">Expires</dt><dd class="plan-fixed"><span class="mkt-inline mkt-ong on">Feb 28, 2027</span><span class="mkt-inline mkt-pa">Feb 28, 2027</span><span class="mkt-inline mkt-gre">Feb 28, 2027</span></dd>
 <!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
 <!-- ENR-258/ENR-212 (2026-09-14, reconciled): ETC reads as a field value, not a separate callout banner — dollar amount + explanation folded into the value outside the renewal window; swaps to no-fee copy inside it. Uses .plan-fixed rather than .plan-fixed-row so this row isn't caught by the renewal-window row-suppression rule below (ENR-96) — that rule is still correct for the other, unchanged, plan-fixed-row usages elsewhere in this file. -->
-<dt class="plan-fixed renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span> · applies if you cancel before the term ends</dd>
+<dt class="plan-fixed renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre">$XX.XX/mo</span> · applies if you cancel before the term ends</dd>
 <dt class="plan-fixed renewal-only">Early Termination Charge</dt><dd class="plan-fixed renewal-only">No early termination fee — your plan is expiring soon</dd>
 <!-- ENR-258 (2026-09-14): Auto-renewal — new field, net-new for the sticky card. -->
-<dt>Auto-renewal</dt><dd>Yes · plan continues at end of term—notice sent in advance</dd>
+<!-- ENR-260 (2026-09-15): variable plans get separate copy — month-to-month, no "end of term" to renew into. Wording directional, not final. -->
+<dt>Auto-renewal</dt><dd><span class="plan-fixed-inline">Yes · plan continues at end of term—notice sent in advance</span><span class="plan-variable-inline">N/A · variable plans are month-to-month, no fixed term</span></dd>
 </dl>
 <!-- ENR-210 (2026-09-09): LDC/utility reference row removed — avoids confusing customers about who their plan is with. -->
 <!-- ENR-258 (2026-09-14): .ftc-callout banner removed — ETC now reads as a field only, above. -->
@@ -1251,10 +1252,11 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <!-- ENR-258 (2026-09-14): Term row removed — already conveyed by the plan name itself. -->
 <!-- ENR-160 (2026-08-24): "ETC" spelled out in full on the sticky plan-card ("Early Termination Charge"); left abbreviated elsewhere in the flow per Allyson's direction. -->
 <!-- ENR-258/ENR-212 (2026-09-14, reconciled): new customers never see ETC here at all (flow-only-existing gates it away entirely, per ENR-212's "remove all ETC language" for new customers); existing customers switching plans get the same field-not-banner treatment as plan-summary-current, including the renewal-window copy swap. .plan-fixed (not .plan-fixed-row) avoids the renewal-window row-suppression rule below (ENR-96). -->
-<dt class="plan-fixed flow-only-existing renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed flow-only-existing renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre"></span> · applies if you cancel before the term ends</dd>
+<dt class="plan-fixed flow-only-existing renewal-hidden">Early Termination Charge</dt><dd class="plan-fixed flow-only-existing renewal-hidden"><span class="mkt-inline mkt-ong on">$12.50/mo</span><span class="mkt-inline mkt-pa">$10.00/mo</span><span class="mkt-inline mkt-gre">$XX.XX/mo</span> · applies if you cancel before the term ends</dd>
 <dt class="plan-fixed flow-only-existing renewal-only">Early Termination Charge</dt><dd class="plan-fixed flow-only-existing renewal-only">No early termination fee — your plan is expiring soon</dd>
 <!-- ENR-258 (2026-09-14): Auto-renewal — new field, net-new for the sticky card. -->
-<dt>Auto-renewal</dt><dd>Yes · plan continues at end of term—notice sent in advance</dd>
+<!-- ENR-260 (2026-09-15): variable branch added for parity with plan-summary-current, but unreachable here until ENR-262 (Rate type hardcoded "Fixed" on this card) is resolved. -->
+<dt>Auto-renewal</dt><dd><span class="plan-fixed-inline">Yes · plan continues at end of term—notice sent in advance</span><span class="plan-variable-inline">N/A · variable plans are month-to-month, no fixed term</span></dd>
 </dl>
 <!-- ENR-210 (2026-09-09): LDC/utility reference row removed — avoids confusing customers about who their plan is with. -->
 <!-- ENR-258 (2026-09-14): .ftc-callout banner removed — ETC now reads as a field only, above. -->
