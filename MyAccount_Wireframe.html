@@ -2710,13 +2710,10 @@ body.reset-expired .reset-token-expired { display: block; }
 </div>
 <div style="background:var(--chip,#f5f7fa); border:1px solid var(--line); border-radius:6px; padding:16px 18px; margin-top:14px;">
 <div class="raf-section-h">Join Refer a Friend</div>
-<label style="display:flex; gap:10px; align-items:flex-start; font-size:13px; margin:10px 0 14px;">
-<input id="raf-optin-agree" type="checkbox" onchange="document.getElementById('raf-optin-submit').disabled = !this.checked;"/>
-<span>I agree to the Refer-A-Friend <a href="#raf-program-terms">Terms &amp; Conditions</a>.</span>
-</label>
-<button class="btn" disabled="" id="raf-optin-submit" onclick="setRafView('participant')">Join &amp; get my code →</button>
+<button class="btn" id="raf-optin-submit" onclick="setRafView('participant')">Join &amp; get my code →</button>
+<div style="font-size:11px; color:var(--muted); margin-top:8px;">By clicking Join &amp; get my code, you agree to the <a href="#raf-program-terms">Refer-A-Friend Terms &amp; Conditions</a></div>
 </div>
-<div class="ann ann-b"><strong>MA-109/MA-115:</strong> Opt-in sub-state. Uses the same Agree-checkbox + submit mechanism as the Enrollment / Plan-Change Confirmation RAF opt-in (ENR-152). Referral-code issuance is near-instantaneous once the customer agrees to the RAF Terms &amp; Conditions (confirmed by client 2026-08-19), so submit resolves straight to the participant sub-state — the interim "pending" sub-state (code is on its way) was removed per MA-115. Cross-ref MA-80 (FAQ copy already assumes an authenticated context).</div>
+<div class="ann ann-b"><strong>MA-109/MA-115/MA-134:</strong> Opt-in sub-state. Consent is now captured implicitly via the "Join & get my code" click rather than a separate Agree-checkbox gate (MA-134 — explicit checkbox removed; consent copy sits directly under the button and links to the RAF Terms &amp; Conditions). Referral-code issuance is near-instantaneous once the customer clicks Join (confirmed by client 2026-08-19), so the click resolves straight to the participant sub-state — the interim "pending" sub-state (code is on its way) was removed per MA-115. Cross-ref MA-80 (FAQ copy already assumes an authenticated context).</div>
 </div>
 
 <!-- ─── HOW IT WORKS (MA-43: always-visible; replaces collapsible <details>) ─── -->

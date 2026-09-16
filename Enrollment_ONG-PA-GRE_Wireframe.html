@@ -374,6 +374,12 @@
     margin-top: 6px; padding: 12px;
     background: var(--accent-soft); border-radius: 3px; font-size: 12px;
   }
+  /* Finding, 2026-09-16 (same fix applied to the companion Enrollment_IL-IES_Wireframe.html alongside
+     ENRIL-597): native <details> is supposed to hide non-summary children when closed via the UA
+     stylesheet alone — at least one rendering engine used for this project's QA does not apply that
+     default. Explicit rule added so the collapse is deterministic across renderers; no effect on browsers
+     that already do this correctly. */
+  .field-expander:not([open]) > *:not(summary) { display: none; }
   .field-expander summary { cursor: pointer; font-weight: 500; color: var(--accent); }
   .field-expander[open] summary { margin-bottom: 8px; }
   .field-expander .placeholder-img {
@@ -2399,6 +2405,8 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="raf-channels">
 <button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
+<div style="margin-top:6px;"><span style="font-size:12px; color:var(--muted);">By clicking Join &amp; get my code, you agree to the <a href="#raf-program-terms">Refer-A-Friend Terms &amp; Conditions</a></span></div>
+<div class="ann ann-y" style="margin-top:4px; font-size:11px;"><strong>ENR-271:</strong> Anchor target unconfirmed — <code>#raf-program-terms</code> assumes it resolves on the destination My Account page; may need to point at the standalone ReferAFriendTerms_Wireframe.html placeholder (GLB-RAF-2) instead, since this button lives on a different page than the anchor. Confirm at build.</div>
 <!-- ENR-270 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
      above, repeated here per the row's own scope — pulled through so it reads consistently wherever
      the reward is mentioned before My Account. -->
@@ -3043,7 +3051,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
          : 'ong';
   }
   function goToRafDashboard() {
-    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=optin';
+    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=participant';
   }
   function routeToRafDashboard() {
     if (document.body.classList.contains('flow-existing')) {

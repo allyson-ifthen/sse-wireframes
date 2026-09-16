@@ -404,6 +404,14 @@
     margin-top: 6px; padding: 12px;
     background: var(--accent-soft); border-radius: 3px; font-size: 12px;
   }
+  /* Finding, this Execute pass (2026-09-16, alongside ENRIL-597): native <details> is supposed to hide
+     non-summary children when closed via the UA stylesheet alone, with no author CSS needed — but at least
+     one rendering engine used for this project's QA does not apply that default, so a closed <details
+     class="field-expander"> silently rendered its content anyway (only surfaced now because ENRIL-597 is
+     the first field-expander instance whose closed-by-default state visually matters). Explicit rule added
+     so the collapse is deterministic across renderers instead of relying on unverified UA defaults; no
+     effect on browsers that already do this correctly. */
+  .field-expander:not([open]) > *:not(summary) { display: none; }
   .field-expander summary { cursor: pointer; font-weight: 500; color: var(--accent); }
   .field-expander[open] summary { margin-bottom: 8px; }
   .field-expander .placeholder-img {
@@ -1027,6 +1035,13 @@
     .wf-meta, .wfctl, .legend, .dev-note, .ann, .ann-inline { display: none !important; }
     .step:not(#step-confirmation) { display: none !important; }
     #step-confirmation { display: block !important; }
+    /* ENRIL-597 (2026-09-16): the contract doc bundle is now inside a collapsed-by-default <details>;
+       native <details> hides its non-summary children when closed, including for window.print(), which
+       would otherwise silently drop the LOA/Plan Contract/ACR content from the Print button's output.
+       Force it open for print regardless of on-screen state so Print still captures the full bundle. */
+    .confirmation-docs details.field-expander { display: block !important; }
+    .confirmation-docs details.field-expander summary { display: none !important; }
+    .confirmation-docs details.field-expander > *:not(summary) { display: block !important; }
   }
   /* ENRIL-245: Inline contract doc bundle hidden by default on Confirmation step */
   /* ENRIL-506 (2026-08-17): reverses ENRIL-245 — with Review's own document preview removed in the same
@@ -1686,18 +1701,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      requested; Scenario D's Select Plan doesn't carry this disclosure at all (unconfirmed/not separately
      built) — whether D should get the same treatment, and in the same position, remains a related open
      question not addressed by this item. -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — client (Susan Hodge) confirmed this is regulator-mandated language that cannot be collapsed. Evidenced against IL test env + IGS Energy + Nordic Energy screenshots, all three showing this content as plain always-visible text, never an accordion. Still pending Legal confirmation of the exact minimum-required copy — same open flag already sitting on RP-7/RP-16. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-selectplan) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
-<div class="rate-disclosure-mandated scen-only-b" id="quote-rate-disclosure-b" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
-     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
-     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
-     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
-     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
-     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
-<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
-<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
-<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
-</div>
+<!-- ENRIL-595 (2026-09-16): ICC-mandated rate-disclosure paragraph removed — now lives on Residential/Commercial Plans (CP-9) and Fixed Bill Plan Hub (FBP-6) per client direction (Susan Hodge, 2026-09-16). Formerly #quote-rate-disclosure-b (Scenario B). -->
 <!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed — pointed at the plan-types fieldset removed above. -->
 <div class="ann ann-b"><strong>ENRIL-467 · Dev note — premise context.</strong> Select Plan is the entry point for the dominant already-authenticated existing-customer path (My Account "Switch Plan," per CL-010 — Pre-flow 1 is skipped entirely for this session). The active service premise is established upstream in My Account before enrollment begins — My Account auth fires the multi-premise selector (<code>MA-61</code>) when PRIME returns 2+ addresses for the authenticated session, and the enrollment flow inherits that active premise. No premise re-selection occurs within the enrollment flow. Cross-ref Enrollment_ONG-PA-GRE_Wireframe.html's own ENR-98 note (same reasoning, ONG/PA/GRE). Documents, not reverses, ENRIL-211's removal of the Account # step from Scenario B.</div>
 
@@ -1922,18 +1926,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <!-- ENRIL-354 (2026-07-21): inline rate line under the heading (Scen C only) — bridges the heading to the sidebar-only GB rate on desktop, addressing a discoverability gap (no inline plan card on Scen A/C). Placeholder rate per file convention. -->
 <p class="scen-only-c" style="font-size: 15px; margin: 0 0 8px;">Your monthly rate: <strong>$XX.XX</strong> — full details in the summary to the left ←</p>
 <!-- ENRIL-397 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen C. Same mechanism as Scen A (ENRIL-360/408) and same copy verbatim (Allyson, 2026-08-10: content is about the utility's regulatory comparison rate and SouthStar's full plan lineup, not specific to the customer's selected plan, so no GB-specific rewording needed). Lives in this combined Quote+Documents step per the Scen-C-only merge (ENRIL-399/405). -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-quote) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
-<div class="rate-disclosure-mandated scen-only-c" id="quote-rate-disclosure-c" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
-     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
-     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
-     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
-     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
-     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
-<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
-<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
-<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
-</div>
+<!-- ENRIL-595 (2026-09-16): ICC-mandated rate-disclosure paragraph removed — now lives on Residential/Commercial Plans (CP-9) and Fixed Bill Plan Hub (FBP-6) per client direction (Susan Hodge, 2026-09-16). Formerly #quote-rate-disclosure-c (Scenario C). -->
 <!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed (Scen C instance) — pointed at the plan-types fieldset removed above. -->
 <!-- ENRIL-277: helper copy suppressed for GB (Scen C/D) — account number already collected on Account# step; redundant here.
      ENRIL-309 (2026-07-06): scen-hide-gb → scen-only-a so it's also hidden for Scen B (existing customer, already authenticated). Now shows for brand-new customers (Scen A) only. -->
@@ -1946,18 +1939,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      was relayed after that agent completed its own batch). -->
 
 <!-- ENRIL-360 / ENRIL-408 (2026-08-10): abbreviated utility gas-rate disclosure line + accordion, Scen A. Test env surfaces multiple paragraphs of regulatory/rate-plan disclosure inline; rather than replicate the full block, an abbreviated line expands in place via accordion (ported from ResidentialPlans_Wireframe.html's FAQ pattern, ENRIL-408 — supersedes ENRIL-360's original anchor-link approach). Rate/date/utility are placeholders per file convention. Scen B/C/D: see ENRIL-397 for Scen C; B/D placement still deferred. -->
-<!-- ENRIL-541 (2026-09-02): accordion replaced with the full ICC-mandated disclosure paragraph, shown plainly and always visible — see the ENRIL-541 dev note on Scenario B's equivalent block (step-selectplan) for full rationale. Non-mandated plan-type/NGI-formula copy was relocated to the bottom of this step (#plan-type-info-quote) at the time; ENRIL-546 (2026-09-03) removed that block from Enrollment entirely — see below. -->
-<div class="rate-disclosure-mandated scen-only-a" id="quote-rate-disclosure-a" style="margin-bottom: 14px; padding: 12px 14px; background: #f5f8fc; border-left: 3px solid #888; border-radius: 3px; font-size: 12px; color: #444; line-height: 1.6;">
-<!-- ENRIL-545 (2026-09-03): Legal-approved copy applied (Allyson, 2026-09-03) — replaces the prior placeholder.
-     Confirmed for Nicor Gas only; North Shore/Peoples don't have real figures yet (see the ann-y note below).
-     Template is utility-name/rate/date-token based by design (only the 2nd paragraph's utility name, rate, and
-     dates vary) — ready to reuse once real North Shore/Peoples figures and a per-LDC selector exist; neither
-     exists anywhere else in this file today (every other utility reference in this file is also Nicor-only),
-     so this paragraph isn't creating a new inconsistency, just matching the file's existing scope. -->
-<p style="margin: 0 0 6px;"><span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>'s price may be higher than traditional utility service at any time during the term of your agreement. <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span> is not the same entity as your gas delivery company. You are not required to enroll with <span class="mkt-inline mkt-il on">Illinois Energy</span><span class="mkt-inline mkt-ies">Illinois Energy Solutions</span>.</p>
-<p style="margin: 0;">Beginning on 9/1/2026, Nicor Gas' gas supply cost rate per therm is <strong>$0.3300</strong>. The utility gas supply cost will expire on 9/30/2026. For more information go to the Illinois Commerce Commission's free website at <a href="https://www.icc.illinois.gov/ags/consumereducation.aspx" style="color:#5a8cbf; text-decoration:underline;">www.icc.illinois.gov/ags/consumereducation.aspx →</a></p>
-<div class="ann ann-y" style="margin-top: 8px;"><strong>ENRIL-545 · Open — North Shore/Peoples figures not yet provided.</strong> IL market has 3 possible utilities (Nicor / North Shore / Peoples, per the Select Plan step's own utility-filter copy); the rate/dates above are Nicor-specific only. No LDC-level selector exists in this file to conditionally swap them in — every other utility reference here (account examples, "Your utility" displays, confirmation docs) is also hardcoded to Nicor. Building real per-LDC differentiation is a separate, larger scope than this copy fix. Owner: Allyson/Legal for the real North Shore/Peoples figures.</div>
-</div>
+<!-- ENRIL-595 (2026-09-16): ICC-mandated rate-disclosure paragraph removed — now lives on Residential/Commercial Plans (CP-9) and Fixed Bill Plan Hub (FBP-6) per client direction (Susan Hodge, 2026-09-16). Formerly #quote-rate-disclosure-a (Scenario A). -->
 <!-- ENRIL-546 (2026-09-03): "Learn more" anchor link removed (Scen A instance) — pointed at the plan-types fieldset removed above. -->
 <!-- ENRIL-207: step-intro made scenario-aware; Scen A keeps original; Scen B/D get new intro; Scen C/GB keeps original -->
 <!-- ENRIL-228: Nest market spans inside scen-only class to fix CSS specificity bleed -->
@@ -2161,6 +2143,15 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 <input id="bundle-ack-c" onchange="validateQuote()" type="checkbox"/>
 <label for="bundle-ack-c"><span class="req">*</span> <strong>I have reviewed the sample contract documents (Preview only</strong> — your personalized version will be available after enrollment). </label>
 </div>
+<!-- ENRIL-596 (2026-09-16): ACR acknowledgment checkbox, Scen C instance — Scenario C never visits step-bundle
+     (its Quote+Documents are merged into this step), so it had no equivalent to step-bundle's bundle-acr-ack.
+     id suffixed -c to avoid DOM id collision with step-bundle's bundle-acr-ack instance, matching this
+     fieldset's existing bundle-ack/bundle-ack-c naming convention. Same copy as bundle-acr-ack. Gates
+     validateQuote()'s docsOk alongside bundle-ack-c + the scroll-to-bottom check — see validateQuote(). -->
+<div class="checkbox-row">
+<input id="bundle-acr-ack-c" onchange="validateQuote()" type="checkbox"/>
+<label for="bundle-acr-ack-c"><span class="req">*</span> <strong>I acknowledge my plan will automatically renew at the end of its term unless I opt out.</strong> <span style="color:var(--muted); font-weight:400;">[Placeholder — final copy pending legal review.]</span> </label>
+</div>
 </div>
 <!-- ENRIL-427 (2026-08-11): bundle-authorized-nonb-c removed entirely — test env has no equivalent checkbox at this point in the flow; resolves the open follow-up flagged at ENRIL-417 (this would have duplicated the fuller authorization language ENRIL-417 relocated to the Details step). -->
 </div>
@@ -2273,8 +2264,10 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      shows the same distinct ACR checkbox alongside bundle-authorized-nonb.
      ENRIL-521 (2026-08-17): "alongside bundle-authorized-nonb" is now historical — that checkbox relocated to
      step-quote (paired with q-continue-gb-d), so bundle-acr-ack is the only Documents checkbox for D now,
-     matching B. Copy still pending final legal review. -->
-<div class="checkbox-row scen-only-existing">
+     matching B. Copy still pending final legal review.
+     ENRIL-596 (2026-09-16): scen-only-existing scoping removed — this checkbox now renders unconditionally
+     for every scenario that visits step-bundle (A/B/D), not just existing-customer B/D. See validateBundle(). -->
+<div class="checkbox-row">
 <input id="bundle-acr-ack" onchange="validateBundle()" type="checkbox"/>
 <label for="bundle-acr-ack"><span class="req">*</span> <strong>I acknowledge my plan will automatically renew at the end of its term unless I opt out.</strong> <span style="color:var(--muted); font-weight:400;">[Placeholder — final copy pending legal review.]</span> </label>
 </div>
@@ -3337,8 +3330,13 @@ Review and Submit
      sections), so this in-page reader is the only place customers can read the full bundle before
      Print/Download, not just a reviewer-toggled demo extra. -->
 <div class="confirmation-docs">
-<h3 style="margin-top: 32px;">Your personalized contract documents</h3>
-
+<!-- ENRIL-597 (2026-09-16): document viewer collapsed by default — wraps the existing .doc-bundle content
+     (header, TOC, 3-section scrollable body) in a native <details class="field-expander"> disclosure,
+     matching the pattern already used for the adjacent RAF eligibility block (raf-block-confirmation, above).
+     No JS needed — <details> is native. ids, links, and personalized text (name/timestamp/auth code) inside
+     are unchanged; only the wrapper is new. Collapsed by default (no `open` attribute). -->
+<details class="field-expander" style="margin-top: 32px;">
+<summary>Your personalized contract documents</summary>
 
 <div class="doc-bundle">
 <div class="doc-bundle-header">
@@ -3377,6 +3375,7 @@ Review and Submit
 </div>
 </div>
 </div>
+</details>
 
 </div><!-- end .confirmation-docs (ENRIL-245/526) -->
 <!-- ENRIL-550 (2026-09-08): Print/Download buttons + "please save or print" copy that previously lived here
@@ -3443,6 +3442,8 @@ Review and Submit
 <div class="raf-channels">
 <button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
+<p style="margin:8px 0 0; font-size:12px; color:var(--muted);">By clicking Join &amp; get my code, you agree to the <a href="#raf-program-terms">Refer-A-Friend Terms &amp; Conditions</a></p>
+<div class="ann ann-y"><strong>ENRIL-594 · Anchor target unconfirmed —</strong> <code>#raf-program-terms</code> assumes it resolves on the destination My Account page; may need to point at the standalone ReferAFriendTerms_Wireframe.html placeholder (GLB-RAF-2) instead, since this button lives on a different page than the anchor. Confirm at build.</div>
 <!-- ENRIL-593 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
      above, repeated here per the row's own scope. -->
 <details class="field-expander" style="margin-top:10px;">
@@ -3892,10 +3893,12 @@ Review and Submit
     // bundle-ack-c checkbox and scroll-to-bottom of its own doc-bundle container.
     // ENRIL-444 (2026-08-12): bundle-authorized-nonb-c reference removed — that checkbox was removed
     // from the markup per ENRIL-427, so the lookup always returned null and the gate never passed.
+    // ENRIL-596 (2026-09-16): also require bundle-acr-ack-c (ACR acknowledgment, Scen C instance) checked.
     var docsOk = true;
     if (isScentC) {
       var bundleAckC = document.getElementById('bundle-ack-c');
-      docsOk = bundleAckC && bundleAckC.checked && isBundleScrolledToBottom('bundle-doc-scroll-c');
+      var bundleAcrAckC = document.getElementById('bundle-acr-ack-c');
+      docsOk = bundleAckC && bundleAckC.checked && bundleAcrAckC && bundleAcrAckC.checked && isBundleScrolledToBottom('bundle-doc-scroll-c');
     }
     // ENRIL-476 (2026-08-16): Scen B's bundle-authorized checkbox relocated here from Documents (step-bundle) — now gates Quote instead of validateBundle().
     var authOkB = true;
@@ -3933,14 +3936,11 @@ Review and Submit
     // q-continue-gb-d, now gates validateQuote() instead) — Documents gates on bundle-acr-ack only for D,
     // same as B.
     // ENRIL-333: also require scroll-to-bottom of the sample-contract container.
+    // ENRIL-596 (2026-09-16): bundle-acr-ack is no longer scoped to existing customers (B/D) — it now
+    // renders unconditionally on step-bundle (A/B/D), so it's required unconditionally here too.
     var ack = document.getElementById('bundle-ack');
-    var isScenB = document.body.classList.contains('scen-b');
-    var isScenD = document.body.classList.contains('scen-d');
     var acrAck = document.getElementById('bundle-acr-ack');
-    var authOk = true;
-    if (isScenB || isScenD) {
-      authOk = acrAck && acrAck.checked;
-    }
+    var authOk = acrAck && acrAck.checked;
     var enabled = ack && ack.checked && authOk && isBundleScrolledToBottom();
     // ENRIL-399/405 (2026-08-10): 'c' dropped — Scen C no longer has a separate step-bundle continue button.
     ['a','b','d'].forEach(function(s){
@@ -4083,7 +4083,7 @@ Review and Submit
     return document.body.classList.contains('mkt-ies') ? 'ies' : 'il';
   }
   function goToRafDashboard() {
-    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=optin';
+    window.location.href = 'MyAccount_Wireframe.html?market=' + getCurrentMarket() + '&state=raf&rafview=participant';
   }
   function routeToRafDashboard() {
     var scen = getScenario();
