@@ -315,13 +315,33 @@
   .field-legend { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem; }
 
   /* ENR-125: conditional referral reward line in plan summary */
-  .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; }
+  /* ENR-273 (2026-09-16): hardcoded display:none had no reviewer path — the only way to see this
+     slot before today was forcing it via devtools. body.raf-reward-demo (wfctl "Entry state" group,
+     independent toggle — not part of the unauth/signedin/deeplink/existing-softnotice radio set)
+     reveals it on demand. */
+  .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; display: none; }
+  body.raf-reward-demo .plan-summary-reward { display: block; }
   /* ENR-265 (2026-09-15): badge/pill treatment for the reward line — placeholder styling,
      exact color/shape/icon deferred to the design team. */
   .reward-badge-pill {
     display: inline-flex; align-items: center; gap: 4px;
     background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
     padding: 2px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  /* ENR-275 (2026-09-16): reward-eligibility disclosure is responsive — condensed inline copy above
+     880px (static sidebar has room to spare), the original <details> dropdown retained ≤880px where
+     the card drops to the top of a single-column stack and every added line pushes the form down.
+     Mirrors the .plan-summary/.layout breakpoint swap at line ~240 (same cutover value, no new one
+     introduced). First instance in this file where content, not just column layout, differs by
+     breakpoint — deliberate, not a quiet new precedent (flagged at Align, ENR-275). */
+  .plan-summary .reward-eligibility-inline { display: grid; margin: 6px 0 0; }
+  .plan-summary .reward-eligibility-details { display: none; }
+  @media (max-width: 880px) {
+    /* Higher specificity than `.plan-summary dl` (line ~264) is required here — a bare
+       `.reward-eligibility-inline { display:none }` loses to that rule's dl-tag selector and
+       silently fails to hide the inline copy, caught only by a real computed-style check. */
+    .plan-summary .reward-eligibility-inline { display: none; }
+    .plan-summary .reward-eligibility-details { display: block; }
   }
 
   /* ENR-127/128: bordered inset box for fieldsets */
@@ -967,6 +987,7 @@
 <button id="entry-btn-signedin" onclick="setEntryState('signedin')">Signed in → PF-3</button>
 <button id="entry-btn-deeplink" onclick="setEntryState('deeplink')">Promo deep-link → PF-3</button>
 <button id="entry-btn-existing-softnotice" onclick="setEntryState('existing-softnotice')">Existing acct found → PF-3 (soft notice)</button>
+<button id="entry-btn-reward-demo" onclick="toggleRafRewardDemo()">Show referral reward slot</button>
 </div>
 <div class="scenario-drop-row">
 <span class="scenario-drop-lbl">Error mode</span>
@@ -1325,7 +1346,7 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
 <div class="plan-summary-promo-applied" style="margin-top:12px; padding:10px 12px; background: rgba(74,144,194,.10); border:1px solid var(--accent); border-radius:6px; font-size:13px;">
 <strong>Promo code applied:</strong> RAF25
 </div>
-<div class="plan-summary-reward" style="display:none;">
+<div class="plan-summary-reward">
 <div class="plan-summary-reward-label">Referral reward</div>
 <div class="plan-summary-reward-value"><span class="reward-badge-pill">🎁 $25 Visa reward card</span></div>
 <div class="plan-summary-reward-code">Code: <span class="promo-code-display">—</span></div>
@@ -1333,12 +1354,18 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      Confirmation RAF teaser, ENR-266) instead of a standalone Visa Reward Card screen — copy sourced from
      the client's live ONG COMEBACK promo walkthrough screenshots. Cross-ref ReferAFriend_Wireframe.html's
      Open Item #2, which still marks the exact fulfillment timeline as unconfirmed program-wide; the 7-day
-     figure below reflects what the live site currently shows, not a newly confirmed program parameter. -->
-<details class="field-expander" style="margin-top:8px;">
+     figure below reflects what the live site currently shows, not a newly confirmed program parameter.
+     ENR-275 (2026-09-16): now responsive — condensed inline copy >880px, this same <details> dropdown
+     retained ≤880px only (see CSS, ENR-275). -->
+<dl class="reward-eligibility-inline">
+<dt>Eligibility</dt><dd>30 days' continuous service (you &amp; your friend)</dd>
+<dt>Issuance</dt><dd>Within 7 business days, to email on file</dd>
+</dl>
+<details class="field-expander reward-eligibility-details">
 <summary>Reward eligibility details</summary>
 <div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
 </details>
-<div class="ann ann-b">ENR-125 · Only renders when promo code entered and validated. Hidden by default (display:none). PRIME to confirm whether reward eligibility can be validated at code-entry time or only post-enrollment.</div>
+<div class="ann ann-b">ENR-125 · Only renders when promo code entered and validated. Hidden by default (display:none, toggled via wfctl "Show referral reward slot" per ENR-273). PRIME to confirm whether reward eligibility can be validated at code-entry time or only post-enrollment.</div>
 <div class="ann ann-b">ENR-265 · Badge/pill wrapper above is a placeholder — exact visual treatment (color, shape, icon) deferred to the design team. This only settles that the reward gets prominence via a badge on this existing slot, not a standalone screen (see ENR-270).</div>
 </div>
 </div>
@@ -2401,19 +2428,16 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
      just hidden — same treatment as the removed code-display/share-button markup they contained. -->
 <div class="raf-block" id="raf-block-confirmation">
 <h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward when they enroll.</p>
+<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward once they enroll and maintain service for 30 days.</p>
 <div class="raf-channels">
 <button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
 <div style="margin-top:6px;"><span style="font-size:12px; color:var(--muted);">By clicking Join &amp; get my code, you agree to the <a href="#raf-program-terms">Refer-A-Friend Terms &amp; Conditions</a></span></div>
+<!-- ENR-274 (2026-09-16): eligibility <details> dropdown removed at this location — flattened into
+     the headline above and the line below. Scope note: this is the Confirmation teaser only; the
+     sticky plan-card's own copy of this disclosure keeps its <details> dropdown ≤880px (ENR-275). -->
+<div style="margin-top:6px; font-size:12px; color:var(--muted);">Your reward card is sent to the email on file within 7 business days of the eligibility date.</div>
 <div class="ann ann-y" style="margin-top:4px; font-size:11px;"><strong>ENR-271:</strong> Anchor target unconfirmed — <code>#raf-program-terms</code> assumes it resolves on the destination My Account page; may need to point at the standalone ReferAFriendTerms_Wireframe.html placeholder (GLB-RAF-2) instead, since this button lives on a different page than the anchor. Confirm at build.</div>
-<!-- ENR-270 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
-     above, repeated here per the row's own scope — pulled through so it reads consistently wherever
-     the reward is mentioned before My Account. -->
-<details class="field-expander" style="margin-top:10px;">
-<summary>Reward eligibility details</summary>
-<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
-</details>
 <div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
 <div class="ann ann-y"><strong>ENR-267 / MA-133:</strong> "Join & get my code →" routes to the My Account RAF Dashboard based on session/auth state — see <code>routeToRafDashboard()</code> below. The straight-through case for a new customer who set a password inline above assumes PRIME auto-authenticates the session immediately on password-set; unconfirmed, tracked at <code>MA-133</code>. Reviewer note: to demo that case, click "Set password →" in the account-creation block above before clicking this button.</div>
 <div class="ann ann-b">ENR-150 resolved 2026-07-20 → ENR-152 → ENR-266 (2026-09-15): RAF stays on this page as a teaser only; the full experience (code, share channels, opt-in) moved to the My Account RAF Dashboard. Full writeup: RAF_Confirmation_Proposal_2026-07-20.md.</div>
@@ -2620,6 +2644,16 @@ Enroll in 12-Month Fixed Plan<small> — 12-month fixed rate</small></span>
   // — the same Current-vs-Selected view PF-3/PF-4 already render for the authenticated My Account
   // path. PRIME does not require a fully-authenticated session for this today (confirmed). This is
   // a second on-ramp into the existing PF-3 experience, not a new branch or new comparison UI.
+  // ENR-273 (2026-09-16): independent demo toggle for the sticky plan-card's Referral reward slot
+  // (.plan-summary-reward, ENR-125/208/265) — separate from the entry-state radio group above since
+  // any entry state can plausibly show the reward slot; toggling it doesn't imply a particular
+  // entry state or clear the others.
+  function toggleRafRewardDemo() {
+    var on = document.body.classList.toggle('raf-reward-demo');
+    var b = document.getElementById('entry-btn-reward-demo');
+    if (b) b.classList.toggle('on', on);
+  }
+
   var currentEntryState = 'unauth';
   function setEntryState(state) {
     currentEntryState = state;

@@ -987,13 +987,30 @@
   /* ENRIL-300 (2026-07-06): "Change plan →" sidebar link removed from markup; ENRIL-166/282 rules that hid it (.plan-name-row a + orphaned .change-plan-link) deleted as dead code. */
 
   /* ENRIL-586 (2026-09-15): Referral reward block wrapper — ported from OPG's equivalent rule (ENR-125's .plan-summary-reward) since this file had no prior instance to inherit styling from. */
-  .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; }
+  /* ENRIL-598 (2026-09-16): hardcoded display:none had no reviewer path — mirrors OPG's ENR-273.
+     body.raf-reward-demo (wfctl "Entry state" group, independent toggle) reveals it on demand. */
+  .plan-summary-reward { border-top: 1px solid var(--line); margin-top: 0.75rem; padding-top: 0.75rem; font-size: 0.875rem; display: none; }
+  body.raf-reward-demo .plan-summary-reward { display: block; }
   /* ENRIL-589 (2026-09-15): badge/pill treatment for the reward line — mirrors OPG's ENR-265;
      placeholder styling, exact color/shape/icon deferred to the design team. */
   .reward-badge-pill {
     display: inline-flex; align-items: center; gap: 4px;
     background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
     padding: 2px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  /* ENRIL-600 (2026-09-16): reward-eligibility disclosure is responsive — mirrors OPG's ENR-275.
+     Condensed inline copy above 880px, original <details> dropdown retained ≤880px, same breakpoint
+     confirmed identical in this file (line ~269). First instance in this file where content, not just
+     column layout, differs by breakpoint — deliberate, not a quiet new precedent. */
+  .plan-summary .reward-eligibility-inline { display: grid; margin: 6px 0 0; }
+  .plan-summary .reward-eligibility-details { display: none; }
+  @media (max-width: 880px) {
+    /* Higher specificity than `.plan-summary dl` (line ~264) is required here — a bare
+       `.reward-eligibility-inline { display:none }` loses to that rule's dl-tag selector and
+       silently fails to hide the inline copy, caught only by a real computed-style check
+       (mirrors the same fix in Enrollment_ONG-PA-GRE_Wireframe.html). */
+    .plan-summary .reward-eligibility-inline { display: none; }
+    .plan-summary .reward-eligibility-details { display: block; }
   }
 
   /* ENRIL-201: Current plan sidebar block — visible on Select Plan step only (ENR-93 pattern) */
@@ -1169,6 +1186,7 @@
 <button id="entry-btn-unauth" onclick="setEntryState('unauth')">Not signed in → preflow1 (ENRIL-76: removed path)</button>
 <button class="on" id="entry-btn-signedin" onclick="setEntryState('signedin')">Signed in → selectplan (default · ENRIL-201)</button>
 <button id="entry-btn-deeplink" onclick="setEntryState('deeplink')">Promo deep-link → selectplan</button>
+<button id="entry-btn-reward-demo" onclick="toggleRafRewardDemo()">Show referral reward slot</button>
 </div>
 <div class="scenario-drop-row">
 <span class="scenario-drop-lbl">Customer</span>
@@ -1508,7 +1526,7 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
 </dl>
 <!-- ENRIL-555 (2026-09-14, build-gap correction): .ldc-row removed — direct client feedback (ENR-210) applies uniformly across all markets, per Allyson's 2026-09-14 confirmation. -->
 <!-- ENRIL-586 (2026-09-15): Referral reward line item, matching OPG's plan-summary-reward treatment (ENR-125). Reward copy pulled from IL/IES's own established referral program (NP-11) — "$25 reward," not OPG's "$25 Visa reward card" — since the reward mechanisms differ by market. -->
-<div class="plan-summary-reward" style="display:none;">
+<div class="plan-summary-reward">
 <div class="plan-summary-reward-label">Referral reward</div>
 <div class="plan-summary-reward-value"><span class="reward-badge-pill">🎁 $25 reward</span></div>
 <div class="plan-summary-reward-code">Code: <span class="promo-code-display">—</span></div>
@@ -1517,12 +1535,18 @@ Building your custom quote&hellip; <span style="display:block; margin-top:2px;">
      ENR-270, same source session (client's live ONG COMEBACK promo walkthrough screenshots). Cross-ref
      ReferAFriend_Wireframe.html's Open Item #2, which still marks the exact fulfillment timeline as
      unconfirmed program-wide; the 7-day figure below reflects what the live site currently shows, not a
-     newly confirmed program parameter. -->
-<details class="field-expander" style="margin-top:8px;">
+     newly confirmed program parameter.
+     ENRIL-600 (2026-09-16): now responsive — condensed inline copy >880px, this same <details> dropdown
+     retained ≤880px only (see CSS, ENRIL-600). -->
+<dl class="reward-eligibility-inline">
+<dt>Eligibility</dt><dd>30 days' continuous service (you &amp; your friend)</dd>
+<dt>Issuance</dt><dd>Within 7 business days, to email on file</dd>
+</dl>
+<details class="field-expander reward-eligibility-details">
 <summary>Reward eligibility details</summary>
 <div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
 </details>
-<div class="ann ann-b">ENRIL-586 · Only renders when promo code entered and validated. Hidden by default (display:none). Reward amount inherits NP-11's already-open confirmation status (prior cycle was a $500 cap, expired 12/31/2025).</div>
+<div class="ann ann-b">ENRIL-586 · Only renders when promo code entered and validated. Hidden by default (display:none, toggled via wfctl "Show referral reward slot" per ENRIL-598). Reward amount inherits NP-11's already-open confirmation status (prior cycle was a $500 cap, expired 12/31/2025).</div>
 <div class="ann ann-b">ENRIL-589 · Badge/pill wrapper above is a placeholder — exact visual treatment (color, shape, icon) deferred to the design team. This only settles that the reward gets prominence via a badge on this existing slot, not a standalone screen (see ENRIL-593).</div>
 </div>
 </div>
@@ -3438,18 +3462,17 @@ Review and Submit
      (A/B/C/D), since step-confirmation isn't scenario-scoped. -->
 <div class="raf-block" id="raf-block-confirmation">
 <h3>Refer a friend, earn rewards</h3>
-<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward when they enroll.</p>
+<p style="margin:0 0 10px;">Invite friends and you could both get a $25 reward once they enroll and maintain service for 30 days.</p>
 <div class="raf-channels">
 <button class="raf-share-action" id="conf-raf-join" onclick="routeToRafDashboard()">Join &amp; get my code →</button>
 </div>
 <p style="margin:8px 0 0; font-size:12px; color:var(--muted);">By clicking Join &amp; get my code, you agree to the <a href="#raf-program-terms">Refer-A-Friend Terms &amp; Conditions</a></p>
+<!-- ENRIL-599 (2026-09-16): eligibility <details> dropdown removed at this location — flattened into
+     the headline above and the line below. Mirrors OPG's ENR-274. Scope note: this is the Confirmation
+     teaser only; the sticky plan-card's own copy of this disclosure keeps its <details> dropdown ≤880px
+     (ENRIL-600). -->
+<p style="margin:6px 0 0; font-size:12px; color:var(--muted);">Your reward card is sent to the email on file within 7 business days of the eligibility date.</p>
 <div class="ann ann-y"><strong>ENRIL-594 · Anchor target unconfirmed —</strong> <code>#raf-program-terms</code> assumes it resolves on the destination My Account page; may need to point at the standalone ReferAFriendTerms_Wireframe.html placeholder (GLB-RAF-2) instead, since this button lives on a different page than the anchor. Confirm at build.</div>
-<!-- ENRIL-593 (2026-09-15): same eligibility disclosure content as the sticky plan-card reward slot
-     above, repeated here per the row's own scope. -->
-<details class="field-expander" style="margin-top:10px;">
-<summary>Reward eligibility details</summary>
-<div>To receive your reward, you and your referred friend must both maintain continuous service for 30 days after your friend's enrollment date. Reward cards are issued within 7 business days of the eligibility date, sent to the email address on file — a valid email is required to receive it.</div>
-</details>
 <div class="ann ann-y"><strong>NP-11 Open Item #1:</strong> The $25 reward figure above is unconfirmed for the 2026 program cycle — reward amount, cap, and active dates are all TBD (the prior $500 cap/dates cycle expired 12/31/2025). Retained as directionally likely correct, not stated as settled fact.</div>
 <div class="ann ann-y"><strong>ENRIL-591 · Routing adapted to this file's architecture:</strong> "Join & get my code →" routes to the My Account RAF Dashboard via <code>routeToRafDashboard()</code> below. This file has no "existing customer, unauthenticated this session" state to gate the way OPG's <code>entry-existing-softnotice</code> does — Scenario B/D customers only reach Confirmation after their own OTP identity check (ENRIL-310/489), so both existing-customer scenarios (B/D) route straight through, treated as OPG's case (1). New customer (Scen A/C) routing still branches on password state, same as OPG: straight through if they set a password inline above (contingent on <strong>MA-133</strong> — PRIME auto-authenticating the session on password-set, unconfirmed), otherwise the ENRIL-592 interstitial opens. Reviewer note: to demo the straight-through new-customer case, click "Set password →" in the account-creation block above before clicking this button. Flag for Girish/PRIME if OTP-only verification (Scen B/D) turns out not to be sufficient for a live RAF Dashboard session — that would reinstate a login-gate step here.</div>
 <div class="ann ann-b">ENRIL-421 resolved 2026-08-11 → ENRIL-590 (2026-09-15): RAF stays on this page as a teaser only; the full experience (code, share channels, opt-in) moved to the My Account RAF Dashboard, mirroring OPG's ENR-266.</div>
@@ -3590,6 +3613,15 @@ Review and Submit
   // 'deeplink' — customer taps a promo deep-link while signed in → selectplan
   //              (with deep-linked plan pre-selected)
   // Only meaningful for Scen B/D; clicking it auto-switches to Scen B if currently on A or C.
+  // ENRIL-598 (2026-09-16): independent demo toggle for the sticky plan-card's Referral reward slot
+  // (.plan-summary-reward, ENRIL-586/589) — mirrors OPG's ENR-273. Separate from the entry-state radio
+  // group above since any entry state can plausibly show the reward slot.
+  function toggleRafRewardDemo() {
+    var on = document.body.classList.toggle('raf-reward-demo');
+    var b = document.getElementById('entry-btn-reward-demo');
+    if (b) b.classList.toggle('on', on);
+  }
+
   var currentEntryState = 'signedin';  // ENRIL-76 + ENRIL-201: default is signed-in → lands on selectplan (preflow2 removed from Scen B/D)
   function setEntryState(state) {
     currentEntryState = state;
