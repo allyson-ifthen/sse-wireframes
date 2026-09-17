@@ -2240,10 +2240,17 @@ body.reset-expired .reset-token-expired { display: block; }
 <div class="ann ann-y mkt mkt-il"><strong>Open (2026-08-13):</strong> Interstitial copy above is a first draft — not yet confirmed whether a formal "leaving SouthStar's site" disclosure is required here. Internal review (Allyson) only; not yet client-reviewed.</div>
 </div><!-- /layout: main dashboard -->
 <!-- ─────────────────────────────────────────────────────
-         BILLING HISTORY (MA-111 / MA-112, IL) — Dashboard sub-state, not a modal
+         BILLING HISTORY (MA-111 / MA-112, IL — reference corrected + row content revised by MA-135) — Dashboard sub-state, not a modal
          Reached from the Bill Pay card's "View billing history →" link.
-         Unlike current production (single "View My Bill" card, often "No bills available
-         for display" per live-site screenshot review), shows a full historical list.
+         MA-111's original comment here claimed current production shows "a single 'View My
+         Bill' card, often No bills available for display" — corrected 2026-09-16 (MA-135)
+         against a client-provided live-site screenshot: production is actually a standalone
+         page with a full chronological list of plain month links (no amount, no status, no
+         PDF icon, no pagination). The dashboard-sub-state consolidation itself is unchanged
+         (Allyson's call, MA-135) — only this description of production was wrong. Row content
+         below revised toward that simpler pattern per MA-135; MA-110's separate "no bills
+         available" claim is untouched by this screenshot (may describe a different account
+         state) and remains as originally noted.
          ──────────────────────────────────────────────────── -->
 <div class="dash-billing-view">
 <div class="layout">
@@ -2255,23 +2262,23 @@ body.reset-expired .reset-token-expired { display: block; }
 <div style="font-size:11px; color:var(--muted); margin:-8px 0 18px;">Illinois Energy · Billing managed by SouthStar</div>
 
 <div class="doc-row">
-<div><div class="doc-title">May 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $84.50 · Paid via external payment portal on May 12, 2026</div></div>
+<div class="doc-title">May 2026</div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
 <div class="doc-row">
-<div><div class="doc-title">Apr 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $82.10 · Paid via external payment portal on Apr 3, 2026</div></div>
+<div class="doc-title">April 2026</div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
 <div class="doc-row">
-<div><div class="doc-title">Mar 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $91.35 · Paid via external payment portal on Mar 10, 2026</div></div>
+<div class="doc-title">March 2026</div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
 <div class="doc-row">
-<div><div class="doc-title">Feb 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $103.20 · Paid via external payment portal on Feb 14, 2026</div></div>
+<div class="doc-title">February 2026</div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
 <div class="doc-row">
-<div><div class="doc-title">Jan 15, 2026 <span class="status-chip sc-active">● Paid</span></div><div class="doc-meta">Amount: $97.65 · Paid via external payment portal on Jan 15, 2026</div></div>
+<div class="doc-title">January 2026</div>
 <a class="link" href="#"><strong>↓ Download PDF</strong></a>
 </div>
 
@@ -2283,8 +2290,8 @@ body.reset-expired .reset-token-expired { display: block; }
 <button class="btn btn-out btn-sm" type="button">Next →</button>
 </div>
 
-<div class="ann ann-b" style="margin-top:20px;"><strong>MA-111:</strong> Redesign shows a full historical list (dates, amounts, downloadable statements, pagination) vs. current production's single bill-status card. Cross-ref MA-6, MA-112 (UI treatment — dashboard sub-state, not a modal, since a real list needs its own screen real estate).</div>
-<div class="ann ann-y"><strong>Open (2026-08-13):</strong> Row field set above (date, amount, paid-via-portal note, PDF download) is a draft — exact columns/format not yet confirmed with client. Internal review (Allyson) only.</div>
+<div class="ann ann-b" style="margin-top:20px;"><strong>MA-111 (corrected 2026-09-16, MA-135):</strong> Original note here claimed this list was a redesign upgrade over a single bill-status card in current production — a client-provided live-site screenshot shows production already has a full chronological list, just a plainer one (month links only, no amount/status/PDF/pagination). Redesign's real differentiator is now per-row PDF download + pagination, retained per MA-135 even though production doesn't paginate, to manage the list's real-world length (30+ months). Cross-ref MA-6, MA-112 (UI treatment — dashboard sub-state, not a modal, since a real list needs its own screen real estate).</div>
+<div class="ann ann-y"><strong>Open (2026-09-16, MA-135):</strong> Amount, paid status, and "paid via portal" note removed from each row per MA-135 (Option B — closer to production's plain list, PDF download + pagination retained). Row label switched from exact invoice date to Month Year to match production's link format; this specific label granularity is directional, not yet confirmed with client. Internal review (Allyson) only.</div>
 </div>
 </div>
 </div><!-- /dash-billing-view -->
