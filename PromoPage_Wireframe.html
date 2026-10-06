@@ -577,6 +577,47 @@
   .plan-card.plan-card--featured { border-color: #e8641a; border-width: 2px; }
   .plan-card.plan-card--promo { border-color: #e8641a; border-width: 2px; box-shadow: 0 2px 6px rgba(232,100,26,0.12); }
 
+  /* PROMO-38 / PC-2 · Greener Life display state: page switch, CSS only, works without JavaScript.
+     Both blocks are in the HTML; GL block is display:none at first paint (no flash, no layout shift). */
+  .plan-card__state-gl { display: none; }
+  .plan-card__state-gl .plan-card__head { background: #f1f8e9; border-bottom-color: #d6e8c5; }
+  .plan-card__state-gl .plan-card__rate { color: #2e7d32; }
+  .gl-scope:has(.gl-switch input:checked) .plan-card.has-gl { border-color: #4caf50; border-width: 1.5px; }
+  .gl-scope:has(.gl-switch input:checked) .plan-card__state-std { display: none; }
+  .gl-scope:has(.gl-switch input:checked) .plan-card__state-gl { display: block; }
+  .gl-scope:has(.gl-switch input:checked) .plan-card.ptype:not(.has-gl) { display: none; }
+  /* PROMO-40 / PROMO-41: Segment component + GL upgrade switch segment rules */
+  .seg-component { display: none; max-width: 520px; margin: 0 0 12px; }
+  body.seg-multi .seg-component { display: block; }
+  body[data-market="ies"] .seg-component, body[data-market="pa"] .seg-component { display: none !important; }
+  .seg-component__title { font-size: 12px; font-weight: 800; color: #1e3a5f; margin-bottom: 6px; }
+  .seg-component__row { display: flex; gap: 0; }
+  .seg-btn { flex: 1; font: inherit; font-size: 12px; font-weight: 700; padding: 8px 12px; background: #fff; color: #2a4a66; border: 1px solid #c5d4e2; cursor: pointer; }
+  .seg-btn:first-child { border-radius: 4px 0 0 4px; }
+  .seg-btn:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
+  .seg-btn.on { background: #2a4a66; color: #fff; border-color: #2a4a66; }
+  .seg-btn:focus-visible { outline: 2px solid #1e6fbd; outline-offset: 2px; }
+  .seg-display-com { display: none; }
+  body.seg-com .seg-display-res { display: none; }
+  body.seg-com .seg-display-com { display: inline; }
+  .seg-com-cta, .seg-com-txt { display: none; }
+  .seg-com-cta { font-size: 12px; font-weight: 700; color: #1e3a5f; background: #f4f8fc; border: 1px solid #c5d4e2; border-radius: 4px; padding: 10px 12px; text-align: center; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .seg-res-cta { display: none; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .seg-com-cta { display: block; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .seg-res-txt { display: none; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .seg-com-txt { display: inline; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .seg-res-only { display: none; }
+  body.seg-multi.seg-com:not([data-market="pa"]):not([data-market="ies"]) .gl-scope .plan-card.has-gl { border-width: 1px; }
+  .gl-divider { border: 0; border-top: 1px solid #e0dfd9; margin: 0 0 10px; }
+  .gl-switch-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 12px; }
+  .gl-switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 700; color: #2e7d32; position: relative; }
+  .gl-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .gl-switch-track { width: 38px; height: 22px; border-radius: 11px; background: #ccc; position: relative; transition: background 0.12s; flex-shrink: 0; }
+  .gl-switch-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left 0.12s; }
+  .gl-switch input:checked + .gl-switch-track { background: #2e7d32; }
+  .gl-switch input:checked + .gl-switch-track::after { left: 19px; }
+  .gl-switch input:focus-visible + .gl-switch-track { outline: 2px solid #1e6fbd; outline-offset: 2px; }
+  .tag--greener { background: #c8e6c9; color: #2e7d32; border: 1px solid #4caf50; }
   .plan-card__head { padding: 12px 14px 10px; background: #f7f7f5; border-bottom: 1px solid #ebebeb; }
   .plan-card.plan-card--promo .plan-card__head { background: #fff7ee; border-bottom-color: #ffd9b8; }
 
@@ -995,6 +1036,12 @@
 <button id="st-btn-3" onclick="setState('3')">State 3</button>
 </div>
 <div class="group">
+<span class="group-lbl">Segment (PROMO-40):</span>
+<button class="on" id="seg-btn-single" onclick="setSegmentMode('single')">Single-segment (no toggle)</button>
+<button id="seg-btn-res" onclick="setSegmentMode('res')">Res + Com · Residential</button>
+<button id="seg-btn-com" onclick="setSegmentMode('com')">Res + Com · Commercial</button>
+</div>
+<div class="group">
 <span class="group-lbl">Error mode:</span>
 <button class="on" id="err-btn-none" onclick="setErrorMode('none')">None</button>
 <button id="err-btn-invalid" onclick="setErrorMode('invalid')">Invalid/Expired Code</button>
@@ -1038,6 +1085,8 @@
 <li><strong>OQ-P5:</strong> Offer expiration display — should the promo page surface an expiration date/countdown? If so, where does this date come from (Prime API or static CMS field)?</li>
 <li><strong>OQ-P6 RESOLVED (PROMO-13, 2026-07-15):</strong> Brief explanatory state, not a silent redirect. The page renders a dedicated invalid/expired-code message with a link to Residential Plans — see the "Error mode" control-panel toggle. <code>promo_code_invalid</code> fires client-side first, preserving campaign-monitoring analytics regardless of what the visitor does next.</li>
 <li><strong>OQ-P7:</strong> For the secondary CTA "Compare All Plans" → should the Plans page suppress the promo strip's manual-entry toggle when arriving via this path (promo already confirmed), showing only the pinned promo card?</li>
+<li><strong>OQ-P9 (PROMO-40):</strong> PRIME rate-class check for a wrong-segment pick; per-segment code mapping for every promo type; shared Residential/Commercial end date.</li>
+<li><strong>OQ-P10 (PROMO-41):</strong> Final Greener Life upgrade switch copy (GLP-6 offset credentials) and compliance check on the environmental claim.</li>
 </ul>
 </div>
 <!-- ─────────────────────────────────────────────────────────────────
@@ -1186,7 +1235,7 @@
 <div class="ann ann-b" style="margin:10px 0 0;">Same single-match / multi-match / out-of-area sub-state pattern as Variant B State 1's ZIP fallback (PROMO-17) — collapsed here to a single representative row rather than duplicating all three sub-states, since the underlying pattern is already fully spec'd there.</div>
 <div class="zip-substate">
 <button class="zip-ldc-opt" onclick="setEntryMode('default')">Columbia Gas of Ohio</button>
-<button class="zip-ldc-opt" onclick="setEntryMode('nomatch')">Dominion Energy Ohio <span class="inel">— no active offer right now</span></button>
+<button class="zip-ldc-opt" onclick="setEntryMode('nomatch')">Enbridge Gas Ohio <span class="inel">— no active offer right now</span></button>
 </div>
 </div>
 </div>
@@ -1261,6 +1310,14 @@
 <span class="state-pill state-pill-success">Variant A</span>
         No LDC Identification Required — Single State · Rate confirmed on page load
       </div>
+<!-- PROMO-40 · Segment component: no LDC selector on this variant, so it sits directly above the plan card(s). CMS-conditional (more than one segment mapped). -->
+<div class="seg-component" role="radiogroup" aria-label="Rate class">
+<div class="seg-component__title">Is this for your home or your business?</div>
+<div class="seg-component__row">
+<button class="seg-btn on" data-seg="res" role="radio" onclick="setSegment('res')">Residential</button>
+<button class="seg-btn" data-seg="com" role="radio" onclick="setSegment('com')">Commercial</button>
+</div>
+</div>
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
 <!-- Variant A · FIXED · Rate-resolved promo card — unified .plan-card component, promo state per PC-D10 rev 2 -->
 <div class="plan-card plan-card--promo ptype ptype-fixed on" data-figma-component="PlanCard" data-figma-variant="promo" style="flex: 0 0 auto;">
@@ -1297,8 +1354,9 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
 </div>
 </div>
@@ -1338,8 +1396,9 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
 </div>
 </div>
@@ -1350,6 +1409,8 @@
         </div>
 <!-- Annotation column -->
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-40</strong> — Residential / Commercial segment component, generalized from the §3b RAF toggle to every variant. CMS-conditional: renders only when the promo maps more than one segment, so single-segment promos never show it (default control-panel state). Residential pre-selected. Placement: before the LDC selector on LDC-gated variants (the segment filters the utility list; the chosen utility persists on switch), directly above the card(s) on Variant A and Multi. Cards, hero copy (PROMO-24) and layout re-render for the segment; card terms follow the resolved underlying code. Commercial quote-only plans (and IL Commercial, no online enrollment) swap the card CTA for the Expanded Markets B2B number; the Simplified Nav phone stays the main customer service number. Hidden in IES (no Commercial) and PA (<code>GLB-UTILSEL-1</code>). Try it: Segment group in the control panel. Internal review (Allyson), not client-reviewed.</div>
+<div class="ann ann-y" style="margin-top:0;"><strong>PROMO-40 open</strong> — (1) PRIME rate-class check at enrollment for a wrong-segment pick (believed yes; confirm at dev meeting). (2) Can the PRIME promo record map one published code to a code per segment for every promo type, not just RAF? (3) Do Residential and Commercial codes under one published code always share an end date (PROMO-25 assumes one)?</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-15</strong> — Toggle <em>Plan type: Variable</em> in the control panel to see the variable-rate promo card. Intro-rate treatment adapted from the Residential Plans component (PC-D10) — 20%+ off the standard variable rate for the first 2 months, then reverts to standard variable, no contract. Built proactively per PROMO-15 (does not wait on the OQ-P2 promo matrix).</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-20</strong> — Variant A has no on-page eligibility check, so an ineligible visitor could reach "Start Enrollment" with nothing catching it until Prime's backend check. A soft, non-blocking disclosure line informs without a functional gate or extra step. Eligible-utility name is CMS-authored per promo (rejected: silent/no-disclosure, and a yes/no confirmation gate — too much friction for this majority-case promo type). <strong>Placement updated per PROMO-30 (2026-07-15):</strong> this line now lives once in the hero, not per-card — see the top of the page.</div>
 
@@ -1387,6 +1448,14 @@
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
 <div style="flex: 0 0 auto; max-width: 520px;">
 <!-- PROMO-31 · LDC selector moves above the rate-pending card(s) — the visitor resolves the blocking input before scrolling past cards that depend on it. Card(s) retained below for message continuity (PC-D11) rather than removed. -->
+<!-- PROMO-40 · Segment component sits BEFORE the LDC selector (matches current client behavior); segment filters the utility list. -->
+<div class="seg-component" role="radiogroup" aria-label="Rate class">
+<div class="seg-component__title">Is this for your home or your business?</div>
+<div class="seg-component__row">
+<button class="seg-btn on" data-seg="res" role="radio" onclick="setSegment('res')">Residential</button>
+<button class="seg-btn" data-seg="com" role="radio" onclick="setSegment('com')">Commercial</button>
+</div>
+</div>
 <!-- Inline LDC selector -->
 <div class="ldc-selector">
 <div class="ldc-selector__title">Which gas utility delivers to your home?</div>
@@ -1428,7 +1497,7 @@
 <div class="zip-substate-title">Result — Multiple Utilities Found (ZIP spans more than one territory)</div>
 <div style="font-size:11px; color:#555; margin-bottom:8px;">This ZIP is served by more than one utility. Which one is yours? The full, factual list is shown — not filtered to promo eligibility.</div>
 <button class="zip-ldc-opt" onclick="setState('2')"><span class="market-display active" id="zma-ong">Columbia Gas of Ohio</span><span class="market-display" id="zma-pa">UGI Utilities</span><span class="market-display" id="zma-gre">Consumers Energy</span><span class="market-display" id="zma-il">Nicor Gas</span><span class="market-display" id="zma-ies">Nicor Gas</span></button>
-<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="zmb-ong">Dominion Energy Ohio</span><span class="market-display" id="zmb-pa">Peoples Natural Gas</span><span class="market-display" id="zmb-gre">DTE Energy</span><span class="market-display" id="zmb-il">Peoples Gas</span><span class="market-display" id="zmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this offer</span></button>
+<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="zmb-ong">Enbridge Gas Ohio</span><span class="market-display" id="zmb-pa">Peoples Natural Gas</span><span class="market-display" id="zmb-gre">DTE Energy</span><span class="market-display" id="zmb-il">Peoples Gas</span><span class="market-display" id="zmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this offer</span></button>
 </div>
 <!-- Sub-state: out of area -->
 <div class="zip-substate">
@@ -1472,7 +1541,8 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<button class="seg-res-cta button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
 <div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
 </div>
 </div>
@@ -1511,8 +1581,10 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<button class="seg-res-cta button button--primary plan-card__cta is-disabled" disabled="">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
 <div style="font-size:10px; color:#888; text-align:center; font-style:italic;">CTA enables once utility is selected</div>
+</div>
 </div>
 </div>
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
@@ -1520,6 +1592,8 @@
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-21</strong> — Primary dropdown is filtered to promo-eligible utilities only (was: full market list with the ineligible choice routing to State 3). A "don't see your utility?" fallback link surfaces the no-match explanation so a genuinely ineligible customer isn't left thinking their utility is missing due to a data error. Depends on Prime exposing a per-promo eligible-utility list (ties to OQ-P2).</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-17</strong> — ZIP fallback adopts the Homepage/Residential Plans pattern wholesale (single-match / multi-match / out-of-area). Multi-match shows the FULL, factual set of LDCs for the ZIP (identification, not promo filtering) — differs from the primary dropdown by design; selecting an ineligible utility routes to State 3. Inherits the same open Prime ZIP-data dependency as those pages (not new).</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-15</strong> — Toggle <em>Plan type: Variable</em> to see the variable-rate rate-pending card here (and its resolved form in State 2).</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-40</strong> — Residential / Commercial segment component, generalized from the §3b RAF toggle to every variant. CMS-conditional: renders only when the promo maps more than one segment, so single-segment promos never show it (default control-panel state). Residential pre-selected. Placement: before the LDC selector on LDC-gated variants (the segment filters the utility list; the chosen utility persists on switch), directly above the card(s) on Variant A and Multi. Cards, hero copy (PROMO-24) and layout re-render for the segment; card terms follow the resolved underlying code. Commercial quote-only plans (and IL Commercial, no online enrollment) swap the card CTA for the Expanded Markets B2B number; the Simplified Nav phone stays the main customer service number. Hidden in IES (no Commercial) and PA (<code>GLB-UTILSEL-1</code>). Try it: Segment group in the control panel. Internal review (Allyson), not client-reviewed.</div>
+<div class="ann ann-y" style="margin-top:0;"><strong>PROMO-40 open</strong> — (1) PRIME rate-class check at enrollment for a wrong-segment pick (believed yes; confirm at dev meeting). (2) Can the PRIME promo record map one published code to a code per segment for every promo type, not just RAF? (3) Do Residential and Commercial codes under one published code always share an end date (PROMO-25 assumes one)?</div>
 </div>
 </div>
 </div><!-- /state-b-1 -->
@@ -1530,14 +1604,35 @@
         Post-LDC Match — Utility Confirmed, Rate Resolved · Enroll or Compare
       </div>
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:20px;">
-<div style="flex: 0 0 auto; max-width: 520px;">
+<div class="gl-scope" style="flex: 0 0 auto; max-width: 520px;">
+<!-- PROMO-40 · Segment component stays above the confirmed-utility row; LDC selection persists when the segment changes. -->
+<div class="seg-component" role="radiogroup" aria-label="Rate class">
+<div class="seg-component__title">Is this for your home or your business?</div>
+<div class="seg-component__row">
+<button class="seg-btn on" data-seg="res" role="radio" onclick="setSegment('res')">Residential</button>
+<button class="seg-btn" data-seg="com" role="radio" onclick="setSegment('com')">Commercial</button>
+</div>
+</div>
 <!-- LDC confirmed badge -->
 <div style="background:#e8f5e9; border:1px solid #4caf50; border-radius:4px; padding:8px 14px; font-size:12px; color:#2e7d32; font-weight:700; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
 <span>✓ Columbia Gas of Ohio confirmed — your rate is locked in</span>
 <span style="font-size:11px; font-weight:400; text-decoration:underline; cursor:pointer; color:#555;">Change</span>
 </div>
+<!-- PROMO-38 · Greener Life page switch (replaces the production GL upsell modal). Below the LDC confirmation row + divider, above the card(s), per Figma hi-fi node 3124:31047. Rendered only after an LDC is confirmed AND at least one displayed plan has a GL twin for that LDC (ONG/GRE only); otherwise suppressed entirely. -->
+<hr class="gl-divider seg-res-only"/>
+<div class="gl-switch-row seg-res-only">
+<label class="gl-switch">
+<input type="checkbox" id="gl-switch-promo" name="view" value="greener"/>
+<span class="gl-switch-track" aria-hidden="true"></span>
+<span class="gl-switch-label">🌱 Upgrade to Greener Life and offset your carbon [copy TBD]</span>
+</label>
+</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-38</strong> — Greener Life page switch replaces the production upsell modal (today, "Select Plan" on a promo with a PRIME GL twin, same code + "GL", opens a two-card "Upgrade to Greener Life" / "Continue with Selection" modal). No modal anywhere, consistent with Simplified Nav focus (PROMO-22). Isolate behavior, same as Residential Plans (RP-21): off by default; on = eligible cards swap to their GL version, plans without a GL twin are hidden. GL card shows its own rate only, no "+$X vs. standard" line. "Start Enrollment" passes whichever code is active; the Enrollment summary shows "Greener Life added" with a remove option (Enrollment item not yet logged). Multi-plan promo (PROMO-23): one switch controls all cards. Try it: the 12-Month Fixed card has a GL twin; toggle Plan type to Variable to see a card with none (hidden when the switch is on). ONG and GRE only. Crawlability not required on this page (expired promos 410/redirect), but reusing the PC-2 build means it comes for free. Internal review (Allyson), not client-reviewed.</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-41</strong> — Promo Page GL switch uses upgrade framing instead of "View Greener Life Plans only" (reverses PROMO-38's label reuse; Residential Plans label unchanged, so the shared PC-2 switch takes a per-page label). Standard and GL cards are never shown side by side (GL is typically more expensive). The promo discount applies to the GL version, which has its own promo-specific PRIME code; both codes share one expiry. Multi: enable the GL upgrade only when every plan has a GL twin. Hidden when Commercial is selected. New event <code>promo_gl_switch_toggled</code>.</div>
+<div class="ann ann-y" style="margin-top:0;"><strong>PROMO-41 open</strong> — Switch copy above is a placeholder: final wording is tied to the product's offset credentials (GLP-6) and needs a compliance check on the environmental claim.</div>
 <!-- State 2 · FIXED · Rate-resolved post-LDC card — same .plan-card component as Variant A, LDC context resolved -->
-<div class="plan-card plan-card--promo ptype ptype-fixed on" data-figma-component="PlanCard" data-figma-variant="promo">
+<div class="plan-card plan-card--promo ptype ptype-fixed on has-gl" data-figma-component="PlanCard" data-figma-variant="promo">
+<div class="plan-card__state-std">
 <div class="plan-card__head">
 <div class="plan-card__badge-row">
 <span class="tag tag--rate-fixed">● Fixed Rate</span>
@@ -1571,9 +1666,50 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
+
+</div>
+<!-- PC-2 · Greener Life block: separate PRIME product code (promo code + "GL"), own rate/terms/disclosures. Hidden by CSS until the page switch is on. -->
+<div class="plan-card__state-gl">
+<div class="plan-card__head">
+<div class="plan-card__badge-row">
+<span class="tag tag--rate-fixed">● Fixed Rate</span>
+<span class="tag tag--greener">🌱 Greener Life</span>
+<span class="tag tag--promo">Promo SAVE25GL</span>
+</div>
+<div class="plan-card__name">Greener Life® 12-Month Fixed Plan</div>
+</div>
+<div class="plan-card__body">
+<div class="plan-card__rate-row">
+<div class="plan-card__rate">$X.XXX</div>
+<div class="plan-card__rate-unit">/ <strong>therm</strong></div>
+<div class="plan-card__rate-was">was $X.XXX</div>
+</div>
+<div class="plan-card__expiry">⏱ Offer expires [MM/DD/YYYY] at 11:59 PM ET</div>
+<div class="plan-card__description">Your 12-month locked promotional rate with carbon-neutral gas, confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span>. Once enrolled, your rate holds for the full term.</div>
+<ul class="plan-card__points">
+<li>Rate locked for full 12-month term</li>
+<li>100% carbon-neutral gas supply</li>
+<li>No enrollment fee</li>
+<li>$12.50/month early termination fee if cancelled early</li>
+</ul>
+<div class="plan-card__expanded">
+<h5>Carbon offsets</h5>
+<p>Offsets cover combustion at point of consumption only, not lifecycle emissions from extraction, production, or delivery.</p>
+<h5>Promo eligibility &amp; terms</h5>
+<p>New residential customers only. Rate confirmed for <span class="dyn-ldc">Columbia Gas of Ohio</span> under promo code <strong>SAVE25GL</strong>. <a href="#promo-disclosure">See full offer terms ↓</a></p>
+</div>
+</div>
+<div class="plan-card__foot">
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
+<div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
+</div>
 </div>
 </div>
 <!-- PROMO-15 · State 2 · VARIABLE · Rate-resolved post-LDC intro-rate card -->
@@ -1612,8 +1748,9 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 <div class="plan-card__rate-updated">Rate last updated: Apr 2026</div>
 </div>
 </div>
@@ -1640,16 +1777,16 @@
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
 <div style="flex: 0 0 auto; max-width: 520px;">
 <div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
-            ✗ Dominion Energy Ohio selected
+            ✗ Enbridge Gas Ohio selected
           </div>
 <div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
-<div class="banner-alert__title">This offer isn't available for Dominion Energy customers</div>
+<div class="banner-alert__title">This offer isn't available for Enbridge Gas customers</div>
 <div class="banner-alert__body">
-              The <strong>SAVE25</strong> promotional offer is currently only available to Columbia Gas of Ohio customers. Your utility (Dominion Energy Ohio) is not eligible for this specific promotion at this time.
+              The <strong>SAVE25</strong> promotional offer is currently only available to Columbia Gas of Ohio customers. Your utility (Enbridge Gas Ohio) is not eligible for this specific promotion at this time.
             </div>
-<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
-<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
-<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin</div>
+<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Enbridge Gas customers:</div>
+<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Enbridge Gas →</div>
+<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Enbridge Gas pre-selected · No promo pin</div>
 </div>
 </div>
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
@@ -1679,6 +1816,14 @@
 <span class="state-pill state-pill-success">Multi</span>
         Multi-Plan Promo — 2–3 Plans Under One Code · Shown Inline, Side by Side
       </div>
+<!-- PROMO-40 · Segment component: no LDC selector on this variant, so it sits directly above the plan card(s). -->
+<div class="seg-component" role="radiogroup" aria-label="Rate class">
+<div class="seg-component__title">Is this for your home or your business?</div>
+<div class="seg-component__row">
+<button class="seg-btn on" data-seg="res" role="radio" onclick="setSegment('res')">Residential</button>
+<button class="seg-btn" data-seg="com" role="radio" onclick="setSegment('com')">Commercial</button>
+</div>
+</div>
 <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:stretch;">
 <!-- Multi · Card 1 — 12-Month Fixed -->
 <div class="plan-card plan-card--promo" data-figma-component="PlanCard" data-figma-variant="promo" style="flex:1 1 240px;">
@@ -1714,8 +1859,9 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 </div>
 </div>
 <!-- Multi · Card 2 — 6-Month Fixed (same promo rate, shorter term) -->
@@ -1752,13 +1898,19 @@
 </div>
 </div>
 <div class="plan-card__foot">
-<button class="button button--primary plan-card__cta">Start Enrollment →</button>
-<a class="button button--tertiary plan-card__secondary-link">View all plans →</a>
+<button class="seg-res-cta button button--primary plan-card__cta">Start Enrollment →</button>
+<div class="seg-com-cta">📞 Call [B2B number] for a quote</div>
+<a class="button button--tertiary plan-card__secondary-link"><span class="seg-res-txt">View all plans →</span><span class="seg-com-txt">View all commercial plans →</span></a>
 </div>
 </div>
 </div>
 <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-40</strong> — Residential / Commercial segment component, generalized from the §3b RAF toggle to every variant. CMS-conditional: renders only when the promo maps more than one segment, so single-segment promos never show it (default control-panel state). Residential pre-selected. Placement: before the LDC selector on LDC-gated variants (the segment filters the utility list; the chosen utility persists on switch), directly above the card(s) on Variant A and Multi. Cards, hero copy (PROMO-24) and layout re-render for the segment; card terms follow the resolved underlying code. Commercial quote-only plans (and IL Commercial, no online enrollment) swap the card CTA for the Expanded Markets B2B number; the Simplified Nav phone stays the main customer service number. Hidden in IES (no Commercial) and PA (<code>GLB-UTILSEL-1</code>). Try it: Segment group in the control panel. Internal review (Allyson), not client-reviewed.</div>
+<div class="ann ann-y" style="margin-top:0;"><strong>PROMO-40 open</strong> — (1) PRIME rate-class check at enrollment for a wrong-segment pick (believed yes; confirm at dev meeting). (2) Can the PRIME promo record map one published code to a code per segment for every promo type, not just RAF? (3) Do Residential and Commercial codes under one published code always share an end date (PROMO-25 assumes one)?</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-41</strong> — Promo Page GL switch uses upgrade framing instead of "View Greener Life Plans only" (reverses PROMO-38's label reuse; Residential Plans label unchanged, so the shared PC-2 switch takes a per-page label). Standard and GL cards are never shown side by side (GL is typically more expensive). The promo discount applies to the GL version, which has its own promo-specific PRIME code; both codes share one expiry. Multi: enable the GL upgrade only when every plan has a GL twin. Hidden when Commercial is selected. New event <code>promo_gl_switch_toggled</code>.</div>
+<div class="ann ann-y" style="margin-top:0;"><strong>PROMO-41 open</strong> — Switch copy above is a placeholder: final wording is tied to the product's offset credentials (GLP-6) and needs a compliance check on the environmental claim.</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-23</strong> — 2–3 promo-state plan cards shown inline, side by side, under one promo code (e.g., 12-month and 6-month fixed at the same rate; up to three plan types possible per code). Distinct from Variant A (single plan) and the RAF override (multi-plan but routes away to Plans Listing). Cards flex to stack on narrow viewports.</div>
+<div class="ann ann-b" style="margin-top:0;"><strong>PROMO-38</strong> — Greener Life: when this promo has GL twins for the confirmed utility, the same page switch appears above these cards (one switch controls all cards). Cards without a GL twin are hidden while it is on. Built on State 2; the Multi variant adopts the identical PC-2 markup.</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-24</strong> — With the Multi variant active, the page-hero subhead switches to "Select the plan that works best for you."</div>
 <div class="ann ann-b" style="margin-top:0;"><strong>PROMO-25</strong> — These cards omit a per-card expiry line on purpose: the page-level "Offer Expires" banner above the module is the single source of truth for the shared code's expiration.</div>
 </div>
@@ -1837,14 +1989,14 @@
 <div class="ldc-selector" style="background:#f4f8fc; border-color:#c5d4e2;">
 <div class="ldc-selector__title">Are you signing up for your home or your business?</div>
 <div class="ldc-selector__subhead">RAF25 resolves to a different underlying offer code per segment (Residential vs. Commercial).</div>
-<div class="ldc-selector__row" style="gap:8px;">
-<button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #2a4a66;">● Residential</button>
-<button class="button button--primary button--sm" style="flex:1; background:#fff; color:#2a4a66; border:1px solid #c5d4e2;">○ Commercial</button>
+<div class="ldc-selector__row" style="gap:0;" role="radiogroup" aria-label="Rate class">
+<button class="seg-btn on" data-seg="res" role="radio" onclick="setSegment('res')">Residential</button>
+<button class="seg-btn" data-seg="com" role="radio" onclick="setSegment('com')">Commercial</button>
 </div>
 </div>
 <!-- Inline LDC selector (same pattern as Variant B State 1) -->
 <div class="ldc-selector" style="margin-top:10px;">
-<div class="ldc-selector__title">Which gas utility delivers to your <span class="seg-display-res">home</span><span class="seg-display-com" style="display:none;">business</span>?</div>
+<div class="ldc-selector__title">Which gas utility delivers to your <span class="seg-display-res">home</span><span class="seg-display-com">business</span>?</div>
 <div class="ldc-selector__subhead">Your utility is listed on your gas bill — select yours to see the plans you're eligible for.</div>
 <div class="ldc-selector__row">
 <div class="ldc-selector__field">
@@ -1852,9 +2004,9 @@
 <select class="input input--select">
 <option disabled="" selected="">Select your utility…</option>
 <option class="market-display active" id="raf-ldc-opta-ong">Columbia Gas of Ohio</option>
-<option class="market-display active" id="raf-ldc-optb-ong">Dominion Energy Ohio</option>
+<option class="market-display active" id="raf-ldc-optb-ong">Enbridge Gas Ohio</option>
 <option class="market-display active" id="raf-ldc-optc-ong">Duke Energy Ohio</option>
-<option class="market-display active" id="raf-ldc-optd-ong">CenterPoint Energy</option>
+<option class="market-display active" id="raf-ldc-optd-ong">CenterPoint Energy Ohio</option>
 <option class="market-display" id="raf-ldc-opta-pa">UGI Utilities</option>
 <option class="market-display" id="raf-ldc-optb-pa">Peoples Natural Gas</option>
 <option class="market-display" id="raf-ldc-opta-gre">Consumers Energy</option>
@@ -1885,7 +2037,7 @@
 <div class="zip-substate-title">Result — Multiple Utilities Found (ZIP spans more than one territory)</div>
 <div style="font-size:11px; color:#555; margin-bottom:8px;">This ZIP is served by more than one utility. Which one is yours? The full, factual list is shown — not filtered to program eligibility.</div>
 <button class="zip-ldc-opt" onclick="setState('2')"><span class="market-display active" id="rzma-ong">Columbia Gas of Ohio</span><span class="market-display" id="rzma-pa">UGI Utilities</span><span class="market-display" id="rzma-gre">Consumers Energy</span><span class="market-display" id="rzma-il">Nicor Gas</span><span class="market-display" id="rzma-ies">Nicor Gas</span></button>
-<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="rzmb-ong">Dominion Energy Ohio</span><span class="market-display" id="rzmb-pa">Peoples Natural Gas</span><span class="market-display" id="rzmb-gre">DTE Energy</span><span class="market-display" id="rzmb-il">Peoples Gas</span><span class="market-display" id="rzmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this program</span></button>
+<button class="zip-ldc-opt" onclick="setState('3')"><span class="market-display active" id="rzmb-ong">Enbridge Gas Ohio</span><span class="market-display" id="rzmb-pa">Peoples Natural Gas</span><span class="market-display" id="rzmb-gre">DTE Energy</span><span class="market-display" id="rzmb-il">Peoples Gas</span><span class="market-display" id="rzmb-ies">Peoples Gas</span> <span class="inel">— not eligible for this program</span></button>
 </div>
 <div class="zip-substate">
 <div class="zip-substate-title">Result — Out of Area</div>
@@ -1954,16 +2106,16 @@
 <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
 <div style="flex: 0 0 auto; max-width: 520px;">
 <div style="background:#fce4ec; border:1px solid #c62828; border-radius:4px; padding:8px 14px; font-size:12px; color:#b71c1c; font-weight:700; margin-bottom:12px;">
-            ✗ Dominion Energy Ohio selected
+            ✗ Enbridge Gas Ohio selected
           </div>
 <div class="banner-alert banner-alert--error" data-figma-component="BannerAlert" data-figma-variant="error">
-<div class="banner-alert__title">RAF25 isn't available for Dominion Energy customers</div>
+<div class="banner-alert__title">RAF25 isn't available for Enbridge Gas customers</div>
 <div class="banner-alert__body">
-              The Refer-a-Friend program is currently only available to Columbia Gas of Ohio customers. Your utility (Dominion Energy Ohio) isn't eligible for this promotion at this time.
+              The Refer-a-Friend program is currently only available to Columbia Gas of Ohio customers. Your utility (Enbridge Gas Ohio) isn't eligible for this promotion at this time.
             </div>
-<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Dominion Energy customers:</div>
-<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Dominion Energy →</div>
-<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Dominion Energy pre-selected · No promo pin · No referral reward</div>
+<div style="font-size:12px; color:#555; margin-bottom:12px;">We still have great plans available for Enbridge Gas customers:</div>
+<div class="button button--primary" style="display:block; text-align:center; margin-bottom:8px;">View Plans for Enbridge Gas →</div>
+<div style="text-align:center; font-size:11px; color:#888; font-style:italic;">Opens Residential Plans page with Enbridge Gas pre-selected · No promo pin · No referral reward</div>
 </div>
 </div>
 <div style="flex: 1; min-width: 200px; display:flex; flex-direction:column; gap:8px;">
@@ -2157,7 +2309,8 @@
 <div class="wf-box" style="font-size:10px;"><strong>promo_page_view</strong><br/>Page load · params: market, promo_code (hashed), entry_path (url_param|homepage|direct), variant (no_ldc|ldc_required|filter_to_plans), segment (res|com|null)</div>
 <div class="wf-box" style="font-size:10px;"><strong>promo_code_validated</strong><br/>Code confirmed on load or after input · params: promo_code (hashed), valid (true|false), entry_path</div>
 <div class="wf-box" style="font-size:10px;"><strong>ldc_selected_on_promo</strong><br/>Utility selection submitted · params: ldc_name, promo_code (hashed), segment (res|com|null), result (match|no_match)</div>
-<div class="wf-box" style="font-size:10px;"><strong>promo_segment_selected</strong><br/>RAF override only — segment toggle clicked · params: promo_code (hashed), segment (res|com), resolved_underlying_code (hashed)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_gl_switch_toggled</strong><br/>PROMO-41 — Greener Life upgrade switch toggled · params: state (on|off), segment (res), ldc_name, promo_code (hashed)</div>
+<div class="wf-box" style="font-size:10px;"><strong>promo_segment_selected</strong><br/>Any variant where the segment component renders (PROMO-40; RAF override first) — segment toggle clicked · params: promo_code (hashed), segment (res|com), resolved_underlying_code (hashed)</div>
 <div class="wf-box" style="font-size:10px;"><strong>promo_enroll_click</strong><br/>Primary CTA click (Variants A/B) · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
 <div class="wf-box" style="font-size:10px;"><strong>promo_view_plans_click</strong><br/>RAF override only — "View Plans →" CTA · params: promo_code (hashed), segment, ldc_name, target (residential_plans|commercial_plans)</div>
 <div class="wf-box" style="font-size:10px;"><strong>promo_compare_click</strong><br/>Secondary CTA click · params: promo_code (hashed), plan_name, cta_location (offer_card|end_band), ldc_name</div>
@@ -2217,7 +2370,7 @@
 <p><strong>Savings claim basis.</strong> "was $0.799/therm" references the actually-published standard rate for the 12-month Fixed plan in effect at the time this offer was published. Was-price is sourced from the canonical standard-rate field — not an inflated MSRP anchor (regulatory rule per PC-D10 rev 2).</p>
 <p><strong>Expiration.</strong> This offer expires [MM/DD/YYYY] at 11:59 PM ET. Enrollments initiated after the expiration moment do not qualify for the promotional rate.</p>
 <p><strong>LDC-specific terms.</strong> If this promo is LDC-restricted, additional language specific to each eligible utility may apply — see your selected utility above. <span class="dyn-ldc">[LDC-specific copy resolved at render]</span></p>
-<p><strong>Segment-keyed promo resolution (PROMO-9).</strong> Some published promo codes (e.g., <code>RAF25</code>) resolve to two underlying offer codes by segment — Residential and Commercial — with separate terms and reward structures. The published code is the customer-facing string; the underlying code is the value passed to Prime at enrollment. Mapping is authored in CMS per promo (Residential: <code>STDRES&lt;market&gt;</code> · Commercial: <code>STDCOM&lt;market&gt;</code> pattern for RAF-family promos). Disclosure copy below applies to the resolved underlying code, not the published code.</p>
+<p><strong>Segment-keyed promo resolution (PROMO-9).</strong> Some published promo codes (e.g., <code>RAF25</code>) resolve to two underlying offer codes by segment — Residential and Commercial — with separate terms and reward structures. The published code is the customer-facing string; the underlying code is the value passed to Prime at enrollment. Mapping is authored in CMS per promo (Residential: <code>STDRES&lt;market&gt;</code> · Commercial: <code>STDCOM&lt;market&gt;</code> pattern for RAF-family promos). <strong>PROMO-40:</strong> generalized from RAF-only to any promo that maps more than one segment, on every variant; whether the PRIME promo record supports this for every promo type is open. Disclosure copy below applies to the resolved underlying code, not the published code.</p>
 <p><strong>Refer-a-Friend specifics (RAF override only).</strong> RAF program requires the referee to enter the referrer's unique Referral Code at enrollment. The Referral Code is independent of the promo code and is captured in the Enrollment flow (Step 1), not on this page. Reward amounts, maximum annual award ($500/person), and fulfillment timing (7-day digital Visa Reward Card delivery) are governed by the RAF Program terms linked above.</p>
 <div style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
 
@@ -2245,6 +2398,7 @@
     ong: ['ft-ngb'], pa: ['ft-ngb'], gre: ['ft-ngb'], il: ['ft-ngb'], ies: []
   };
   function setMarket(market) {
+    document.body.setAttribute('data-market', market);
     MARKETS.forEach(function(m) {
       var b = document.getElementById('mkt-btn-' + m);
       if (b) b.classList.toggle('on', m === market);
@@ -2327,6 +2481,33 @@
     });
   }
 
+
+  /* ────────────────────────────────────
+     Segment (PROMO-40) — Residential / Commercial component, CMS-conditional.
+     setSegmentMode: control panel (single = component hidden; res / com = shown).
+     setSegment: on-page toggle; every .seg-btn group stays in sync.
+  */
+  function setSegment(seg) {
+    document.body.classList.toggle('seg-com', seg === 'com');
+    document.querySelectorAll('.seg-btn').forEach(function(b) {
+      var on = b.getAttribute('data-seg') === seg;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    var glToggle = document.getElementById('gl-switch-promo');
+    if (seg === 'com' && glToggle) glToggle.checked = false;
+    ['res','com'].forEach(function(k) {
+      var cb = document.getElementById('seg-btn-' + k);
+      if (cb) cb.classList.toggle('on', document.body.classList.contains('seg-multi') && k === seg);
+    });
+  }
+  function setSegmentMode(mode) {
+    document.body.classList.toggle('seg-multi', mode !== 'single');
+    var sb = document.getElementById('seg-btn-single');
+    if (sb) sb.classList.toggle('on', mode === 'single');
+    setSegment(mode === 'com' ? 'com' : 'res');
+  }
+
   /* ────────────────────────────────────
      Annotation visibility mode (CLAUDE.md convention)
      all (default) · open (open Qs only) · clean (no annotations)
@@ -2404,6 +2585,7 @@
   setAnnMode('clean');
   setChrome('show');
   setEntryMode('default');
+  setSegmentMode('single');
   // Incoming "forgot the code" links from Homepage/Residential Plans land on #ldc-lookup — open the lookup screen directly.
   if (window.location.hash === '#ldc-lookup') setEntryMode('lookup');
 
