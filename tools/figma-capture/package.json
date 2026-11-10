@@ -1,0 +1,12 @@
+{
+  "name": "figma-capture",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Clean screenshots of every Error Pages wireframe state. Kept separate so puppeteer isn't a dependency of anything else.",
+  "scripts": {
+    "capture": "node capture.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}
