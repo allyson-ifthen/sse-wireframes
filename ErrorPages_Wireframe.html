@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Error Pages (404, 500, Maintenance) | Wireframe Sketch | 4037-25</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f0ed; color: #1a1a1a; }
+.toolbar { background: #1a1a1a; color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; font-size: 12px; gap: 12px; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.toolbar-title { font-weight: 700; font-size: 13px; }
+.toolbar-meta { color: #aaa; }
+.market-switcher, .page-switcher { display: flex; gap: 5px; flex-wrap: wrap; }
+.btn-market, .btn-page { background: #2a2a2a; border: 1px solid #444; color: #bbb; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+.btn-market:hover, .btn-market.active { background: #e8641a; border-color: #e8641a; color: #fff; }
+.btn-page:hover, .btn-page.active { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
+.vsw-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.legend { display: flex; gap: 12px; align-items: center; font-size: 10px; flex-shrink: 0; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 2px; }
+.dot-g { background: #4caf50; } .dot-y { background: #f5c842; } .dot-r { background: #e53935; } .dot-b { background: #c7d9f0; border: 1px solid #7aabda; }
+
+.canvas { max-width: 980px; margin: 20px auto; padding: 0 20px 80px; transition: max-width .15s; }
+body.is-vp-mobile .canvas { max-width: 430px; }
+.section { background: #fff; border: 1.5px solid #d0cfc9; margin-bottom: 5px; position: relative; }
+.sec-num { display: inline-block; background: #888; color: #fff; width: 17px; height: 17px; border-radius: 50%; text-align: center; line-height: 17px; font-size: 10px; font-weight: 700; }
+
+/* Annotations */
+.ann { display: block; padding: 6px 10px; border-radius: 3px; font-size: 11px; line-height: 1.45; margin: 6px 0; }
+.ann-g { background: #e8f5e9; border: 1.5px solid #4caf50; color: #2e7d32; }
+.ann-y { background: #fffde7; border: 1.5px solid #f5c842; color: #7a6000; }
+.ann-r { background: #fdecea; border: 1.5px solid #e53935; color: #7a0000; }
+.ann-b { background: #e3f2fd; border: 1.5px solid #7aabda; color: #1a3a5f; }
+.ann-wrap { padding: 10px 24px; background: #fafaf9; border-top: 1px dashed #ddd; }
+.oq-panel { background: #fffde7; border: 1.5px solid #f5c842; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; }
+.oq-panel h4 { font-size: 11px; font-weight: 800; color: #7a6000; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+.oq-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.oq-list li { font-size: 11px; color: #5a4500; line-height: 1.4; }
+.oq-list li::before { content: "\2691  "; color: #c9a000; }
+.oq-list li.resolved { color: #2e7d32; }
+.oq-list li.resolved::before { content: "\2713  "; color: #4caf50; }
+
+/* Market toggles */
+.mkt { display: none; } .mkt.on { display: block; }
+.mkt-inline { display: none; } .mkt-inline.on { display: inline; }
+.mkt-flex { display: none; } .mkt-flex.on { display: flex; }
+
+/* Page toggles (content classes pg-*; body modifiers is-page-*) */
+.pg { display: none; }
+body.is-page-404 .pg-404,
+body.is-page-500full .pg-500full,
+body.is-page-500fb .pg-500fb,
+body.is-page-maint .pg-maint { display: block; }
+.chrome-full, .chrome-static { display: none; }
+body.is-page-404 .chrome-full, body.is-page-500full .chrome-full { display: block; }
+body.is-page-500fb .chrome-static, body.is-page-maint .chrome-static { display: block; }
+
+/* Full nav */
+.nav-utility { background: #fafaf9; border-bottom: 1px solid #e8e8e4; padding: 8px 24px; display: flex; align-items: center; justify-content: flex-end; gap: 18px; font-size: 12px; }
+.nav-utility a { color: #555; text-decoration: none; font-weight: 600; cursor: pointer; }
+.nav-utility-phone { color: #666; font-weight: 700; }
+.nav-utility-hours { color: #999; font-size: 11px; }
+.nav-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 54px; gap: 16px; }
+.nav-logo { font-size: 14px; font-weight: 900; color: #1e3a5f; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.nav-logo-mark { width: 28px; height: 28px; background: #1e3a5f; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.nav-links { align-items: center; flex: 1; justify-content: center; gap: 4px; }
+.nav-link { font-size: 12px; font-weight: 600; color: #444; padding: 0 14px; height: 54px; display: inline-flex; align-items: center; text-decoration: none; white-space: nowrap; }
+.nav-right { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.nav-right a { color: #444; text-decoration: none; font-weight: 600; }
+.nav-burger { display: none; font-size: 18px; color: #1e3a5f; }
+body.is-vp-mobile .nav-links, body.is-vp-mobile .nav-right { display: none !important; }
+body.is-vp-mobile .nav-burger { display: inline-block; }
+body.is-vp-mobile .nav-utility { justify-content: center; flex-wrap: wrap; gap: 6px 12px; padding: 6px 12px; }
+body.is-vp-mobile .nav-header { padding: 0 16px; }
+
+/* Static fallback header */
+.static-header { background: #fff; border-bottom: 2px solid #1e3a5f; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; min-height: 54px; gap: 12px; flex-wrap: wrap; }
+.static-contact { text-align: right; font-size: 12px; color: #444; }
+.static-contact strong { display: block; font-size: 13px; color: #1e3a5f; }
+.static-contact span.hrs { color: #888; font-size: 11px; }
+body.is-vp-mobile .static-header { padding: 10px 16px; }
+body.is-vp-mobile .static-contact { text-align: left; }
+
+/* Error body */
+.err-body { padding: 72px 24px 80px; display: flex; gap: 40px; align-items: center; justify-content: center; }
+.err-copy { max-width: 460px; }
+.err-eyebrow { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+.h1 { font-size: 30px; font-weight: 900; color: #1e3a5f; line-height: 1.15; margin-bottom: 12px; }
+.err-text { font-size: 15px; color: #555; line-height: 1.55; margin-bottom: 24px; }
+.btn-primary { display: inline-block; background: #1e3a5f; color: #fff; font-size: 13px; font-weight: 700; padding: 12px 22px; border-radius: 4px; text-decoration: none; cursor: pointer; border: none; }
+.err-phone { margin-top: 18px; font-size: 13px; color: #444; }
+.err-phone strong { color: #1e3a5f; }
+.err-visual { width: 240px; height: 200px; flex-shrink: 0; border: 2px dashed #c9c9c2; border-radius: 6px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; color: #999; padding: 16px; background: repeating-linear-gradient(45deg, #fafaf9, #fafaf9 8px, #f3f3f0 8px, #f3f3f0 16px); }
+body.is-vp-mobile .err-body { flex-direction: column; padding: 40px 16px 48px; gap: 24px; align-items: flex-start; }
+body.is-vp-mobile .err-visual { width: 100%; height: 140px; }
+body.is-vp-mobile .h1 { font-size: 24px; }
+body.is-vp-mobile .btn-primary { display: block; text-align: center; width: 100%; }
+
+/* Footer */
+.site-footer { background: #1a1a1a; color: #ccc; }
+.footer-brand-strip { padding: 28px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 190px; gap: 32px; border-bottom: 1px solid #2a2a2a; }
+.footer-logo { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.footer-parent { font-size: 10px; color: #777; line-height: 1.5; }
+.footer-col-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #888; margin-bottom: 12px; }
+.footer-col-links { display: flex; flex-direction: column; gap: 9px; font-size: 11px; color: #aaa; }
+.footer-bottom { background: #111; padding: 10px 32px; font-size: 10px; color: #777; }
+.static-footer { background: #f7f7f5; border-top: 1px solid #e8e8e4; padding: 14px 24px; font-size: 10px; color: #888; }
+body.is-vp-mobile .footer-brand-strip { grid-template-columns: 1fr; padding: 24px 16px; gap: 20px; }
+
+.doc-footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; padding-top: 10px; border-top: 1px solid #ddd; }
+
+/* Annotation visibility modes */
+body.mode-ann-openq .ann-g, body.mode-ann-openq .ann-b { display: none !important; }
+body.mode-ann-clean .ann, body.mode-ann-clean .oq-panel, body.mode-ann-clean .ann-wrap, body.mode-ann-clean .sec-num { display: none !important; }
+
+/* Presentation mode */
+body.is-chrome-hidden .toolbar, body.is-chrome-hidden .ann, body.is-chrome-hidden .oq-panel, body.is-chrome-hidden .ann-wrap, body.is-chrome-hidden .sec-num, body.is-chrome-hidden .doc-footer { display: none !important; }
+#esc-hint { display: none; position: fixed; bottom: 16px; right: 16px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 7px 14px; border-radius: 4px; z-index: 2000; }
+
+@media (max-width: 860px) {
+  .footer-brand-strip { grid-template-columns: 1fr 1fr; }
+  .err-body { flex-direction: column; align-items: flex-start; }
+  .err-visual { width: 100%; height: 140px; }
+  .nav-links, .nav-right { display: none !important; }
+  .nav-burger { display: inline-block; }
+}
+@media print {
+  .toolbar, .ann, .oq-panel, .ann-wrap, .sec-num, #esc-hint { display: none !important; }
+}
+</style>
+</head>
+<body class="mkt-ong mode-ann-all is-page-404">
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+<div class="toolbar-left">
+<span class="toolbar-title">4037-25 · SouthStar Wireframe</span>
+<span class="toolbar-meta">Error Pages (404, 500, Maintenance) · Source: Dev-Grooming/ErrorPages_TemplateContextBrief_2026-11-10.md · Wireframe_ChangeLog_Active.md §A.35</span>
+<div>
+<div class="vsw-label">Page</div>
+<div class="page-switcher">
+<button class="btn-page active" id="pg-btn-404" onclick="setPage('404')">404</button>
+<button class="btn-page" id="pg-btn-500full" onclick="setPage('500full')">500 (full chrome)</button>
+<button class="btn-page" id="pg-btn-500fb" onclick="setPage('500fb')">500 (static fallback)</button>
+<button class="btn-page" id="pg-btn-maint" onclick="setPage('maint')">Maintenance</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Market</div>
+<div class="market-switcher">
+<button class="btn-market active" id="mkt-btn-ong" onclick="setMarket('ong')">ONG</button>
+<button class="btn-market" id="mkt-btn-pa" onclick="setMarket('pa')">PA</button>
+<button class="btn-market" id="mkt-btn-gre" onclick="setMarket('gre')">GRE</button>
+<button class="btn-market" id="mkt-btn-il" onclick="setMarket('il')">IL</button>
+<button class="btn-market" id="mkt-btn-ies" onclick="setMarket('ies')">IES</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Viewport</div>
+<div class="page-switcher">
+<button class="btn-page active" id="vp-btn-desktop" onclick="setViewport('desktop')">Desktop</button>
+<button class="btn-page" id="vp-btn-mobile" onclick="setViewport('mobile')">Mobile</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Annotations</div>
+<div class="page-switcher">
+<button class="btn-page active" id="ann-btn-all" onclick="setAnnMode('all')">All</button>
+<button class="btn-page" id="ann-btn-openq" onclick="setAnnMode('openq')">Open Qs only</button>
+<button class="btn-page" id="ann-btn-clean" onclick="setAnnMode('clean')">Clean</button>
+</div>
+</div>
+<div>
+<div class="vsw-label">Chrome</div>
+<div class="page-switcher">
+<button class="btn-page active" id="chrome-btn-show" onclick="setChrome('show')">Show</button>
+<button class="btn-page" id="chrome-btn-hide" onclick="setChrome('hide')">Hide</button>
+</div>
+</div>
+</div>
+<div class="legend">
+<span class="legend-item"><span class="dot dot-g"></span> Confirmed</span>
+<span class="legend-item"><span class="dot dot-y"></span> Open question</span>
+<span class="legend-item"><span class="dot dot-r"></span> Risk / blocker</span>
+<span class="legend-item"><span class="dot dot-b"></span> Dev / shared</span>
+</div>
+</div>
+<div id="esc-hint">Press Esc to exit presentation mode</div>
+
+<div class="canvas">
+
+<!-- OPEN QUESTIONS -->
+<div class="oq-panel">
+<h4>Open questions and status</h4>
+<ul class="oq-list">
+<li class="resolved">Draft, Internal review (Allyson), 2026-11-10. SouthStar has not seen this. Figma: not designed yet.</li>
+<li><strong>ERR-2 (dev):</strong> Will dev build a saved copy of the nav and footer into the site? If yes, the 500 page can always show full chrome and the static fallback becomes a last resort. Also confirm one static fallback per market domain.</li>
+<li><strong>ERR-3 (client and Legal):</strong> Should the gas emergency line appear on the Maintenance page? It probably points to the utility (LDC), not SouthStar.</li>
+<li><strong>ERR-4 (copy):</strong> All copy below is draft sample copy. Parked until an Error Pages content template exists.</li>
+</ul>
+</div>
+
+<!-- ══════════ FULL CHROME HEADER (404, 500 full) ══════════ -->
+<div class="section chrome-full">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">1</span>
+<div class="nav-utility">
+<a>Contact Us</a>
+<span class="nav-utility-phone mkt-inline on" id="uphone-ong">(888) 555-0001</span>
+<span class="nav-utility-phone mkt-inline" id="uphone-pa">(888) 555-0002</span>
+<span class="nav-utility-phone mkt-inline" id="uphone-gre">(888) 555-0003</span>
+<span class="nav-utility-phone mkt-inline" id="uphone-il">(888) 555-0004</span>
+<span class="nav-utility-phone mkt-inline" id="uphone-ies">(888) 555-0005</span>
+<span class="nav-utility-hours">[Market hours]</span>
+</div>
+<div class="nav-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span class="mkt-inline on" id="nav-logo-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="nav-logo-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="nav-logo-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="nav-logo-il">Illinois Energy</span>
+<span class="mkt-inline" id="nav-logo-ies">Illinois Energy Solutions</span>
+</div>
+<nav class="nav-links mkt-flex on" id="nav-standard" aria-label="Main">
+<a class="nav-link" href="ForMyHome_Wireframe.html">For My Home</a>
+<a class="nav-link" href="ForMyBusiness_Wireframe.html">For My Business</a>
+<a class="nav-link" href="LearningCenter_Wireframe.html">Natural Gas Basics</a>
+<a class="nav-link" href="#">About</a>
+</nav>
+<nav class="nav-links mkt-flex" id="nav-ies" aria-label="Main">
+<a class="nav-link" href="FixedBillPlanHub_Wireframe.html">Fixed Bill Plan</a>
+<a class="nav-link" href="#">About Us</a>
+</nav>
+<div class="nav-right">
+<a href="MyAccount_Wireframe.html">&#128100; My Account</a>
+<a href="SearchResults_Wireframe.html" id="nav-search" aria-label="Search">&#128269;</a>
+</div>
+<span class="nav-burger" aria-hidden="true">&#9776;</span>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Nav:</strong> Full nav, utility bar and footer, same as other Full nav templates. No pencil banner. IES uses its 2-item nav (Fixed Bill Plan, About Us) and no Search. Internal review (Allyson) 2026-11-10.</div>
+<div class="ann ann-b pg pg-500full"><strong>Dev:</strong> This version is for when the site can still draw the nav and footer (a single page or component failed). If the CMS or database is down, the nav and footer can't load, so the static fallback shows instead. Switch to "500 (static fallback)" to see it.</div>
+</div>
+</div>
+
+<!-- ══════════ STATIC FALLBACK HEADER (500 fallback, Maintenance) ══════════ -->
+<div class="section chrome-static">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">1</span>
+<div class="static-header">
+<div class="nav-logo">
+<div class="nav-logo-mark">S</div>
+<span class="mkt-inline on" id="st-logo-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="st-logo-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="st-logo-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="st-logo-il">Illinois Energy</span>
+<span class="mkt-inline" id="st-logo-ies">Illinois Energy Solutions</span>
+</div>
+<div class="static-contact">
+<strong>
+<span class="mkt-inline on" id="stphone-ong">(888) 555-0001</span>
+<span class="mkt-inline" id="stphone-pa">(888) 555-0002</span>
+<span class="mkt-inline" id="stphone-gre">(888) 555-0003</span>
+<span class="mkt-inline" id="stphone-il">(888) 555-0004</span>
+<span class="mkt-inline" id="stphone-ies">(888) 555-0005</span>
+</strong>
+<span class="hrs">[Market hours]</span>
+</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Static fallback chrome:</strong> Logo, phone and hours only. No nav links, no My Account, no Search, no footer links. Logo is not a link (the homepage may also be down). Hours are built into the page. Internal review (Allyson) 2026-11-10.</div>
+<div class="ann ann-b"><strong>Dev:</strong> Fully static page with no calls to the CMS or PRIME. Logo, phone and hours are hard-coded per market. Working assumption: each market domain serves its own fallback (confirm under ERR-2).</div>
+</div>
+</div>
+
+<!-- ══════════ ERROR BODY ══════════ -->
+<div class="section">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">2</span>
+
+<!-- 404 -->
+<div class="pg pg-404">
+<div class="err-body">
+<div class="err-copy">
+<div class="err-eyebrow">Error 404</div>
+<h1 class="h1">We can't find that page</h1>
+<p class="err-text">It may have moved or no longer exists.</p>
+<a class="btn-primary" href="Homepage_Wireframe.html">Go to Homepage</a>
+</div>
+<div class="err-visual">Optional evergreen visual<br/>(design team's call)</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Content:</strong> H1, one sentence, one primary button. No search, no link lists, no phone in the body (the utility bar already shows it). The "Error 404" eyebrow is optional; design team's call.</div>
+<div class="ann ann-y"><strong>ERR-4 · Copy:</strong> Draft sample copy. Parked until an Error Pages content template exists.</div>
+<div class="ann ann-b"><strong>Dev:</strong> Return a real 404 status (not a "soft 404"). Not indexed. Track 404 hits in analytics so missing redirects get caught after launch (many URLs are changing).</div>
+</div>
+</div>
+
+<!-- 500 full / 500 fallback share body content -->
+<div class="pg pg-500full">
+<div class="err-body">
+<div class="err-copy">
+<div class="err-eyebrow">Error 500</div>
+<h1 class="h1">Something went wrong on our end</h1>
+<p class="err-text">Please try again in a few minutes, or call us at
+<span class="mkt-inline on" id="b5phone-ong">(888) 555-0001</span><span class="mkt-inline" id="b5phone-pa">(888) 555-0002</span><span class="mkt-inline" id="b5phone-gre">(888) 555-0003</span><span class="mkt-inline" id="b5phone-il">(888) 555-0004</span><span class="mkt-inline" id="b5phone-ies">(888) 555-0005</span>.</p>
+<button class="btn-primary" type="button">Try Again</button>
+</div>
+<div class="err-visual">Optional evergreen visual<br/>(design team's call)</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Content:</strong> H1, one sentence with the phone, Try Again (reloads the page). No reference ID. Phone stays in the body because the nav may not be there on the fallback.</div>
+<div class="ann ann-y"><strong>ERR-4 · Copy:</strong> Draft sample copy. Parked until an Error Pages content template exists.</div>
+<div class="ann ann-b"><strong>Dev:</strong> Return a 500 status. Not indexed.</div>
+</div>
+</div>
+
+<div class="pg pg-500fb">
+<div class="err-body">
+<div class="err-copy">
+<div class="err-eyebrow">Error 500</div>
+<h1 class="h1">Something went wrong on our end</h1>
+<p class="err-text">Please try again in a few minutes, or call us at
+<span class="mkt-inline on" id="f5phone-ong">(888) 555-0001</span><span class="mkt-inline" id="f5phone-pa">(888) 555-0002</span><span class="mkt-inline" id="f5phone-gre">(888) 555-0003</span><span class="mkt-inline" id="f5phone-il">(888) 555-0004</span><span class="mkt-inline" id="f5phone-ies">(888) 555-0005</span>, [market hours].</p>
+<button class="btn-primary" type="button">Try Again</button>
+</div>
+<div class="err-visual">Optional evergreen visual<br/>(design team's call; must be a static asset)</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Content:</strong> Same as the full-chrome 500, plus hours in the body. Any visual must be bundled with the static page, not loaded from the CMS.</div>
+<div class="ann ann-y"><strong>ERR-2 · Dev:</strong> If dev builds a saved copy of the nav and footer into the site, this fallback becomes a last resort only.</div>
+<div class="ann ann-b"><strong>Dev:</strong> Return a 500 status. Not indexed.</div>
+</div>
+</div>
+
+<!-- Maintenance -->
+<div class="pg pg-maint">
+<div class="err-body">
+<div class="err-copy">
+<h1 class="h1">We're making some updates</h1>
+<p class="err-text">Our site is temporarily unavailable. We expect to be back by [time, day]. Need help now? Call
+<span class="mkt-inline on" id="mphone-ong">(888) 555-0001</span><span class="mkt-inline" id="mphone-pa">(888) 555-0002</span><span class="mkt-inline" id="mphone-gre">(888) 555-0003</span><span class="mkt-inline" id="mphone-il">(888) 555-0004</span><span class="mkt-inline" id="mphone-ies">(888) 555-0005</span>, [market hours].</p>
+</div>
+<div class="err-visual">Optional evergreen visual<br/>(design team's call; must be a static asset)</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1 · Content:</strong> H1, return time and phone with hours. No button (nothing to try). If the return time isn't known, drop the "We expect to be back" sentence.</div>
+<div class="ann ann-g"><strong>ERR-1 · Owner:</strong> The dev team turns this page on and off and sets the return time. SouthStar does not manage it.</div>
+<div class="ann ann-y"><strong>ERR-3 · Client and Legal:</strong> Should the gas emergency line appear here? It probably points to the utility (LDC), not SouthStar. If yes, add it below the phone line.</div>
+<div class="ann ann-y"><strong>ERR-4 · Copy:</strong> Draft sample copy. Parked until an Error Pages content template exists.</div>
+<div class="ann ann-b"><strong>Dev:</strong> Return a 503 status with a Retry-After header, so search engines keep indexed pages. Fully static, no calls to the CMS or PRIME.</div>
+</div>
+</div>
+</div>
+
+<!-- ══════════ FULL FOOTER (404, 500 full) ══════════ -->
+<div class="section chrome-full">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">3</span>
+<div class="site-footer">
+<div class="footer-brand-strip">
+<div>
+<div class="footer-logo">
+<span class="mkt-inline on" id="ft-ong">Ohio Natural Gas</span>
+<span class="mkt-inline" id="ft-pa">Pennsylvania Energy</span>
+<span class="mkt-inline" id="ft-gre">Grand Rapids Energy</span>
+<span class="mkt-inline" id="ft-il">Illinois Energy</span>
+<span class="mkt-inline" id="ft-ies">Illinois Energy Solutions</span>
+</div>
+<div class="footer-parent">A SouthStar Energy Services company</div>
+</div>
+<div><div class="footer-col-head">Legal</div><div class="footer-col-links"><span>Terms of Service</span><span>Privacy Policy</span><span>Your Rights as a Customer</span></div></div>
+<div><div class="footer-col-head">Quick Links</div><div class="footer-col-links"><span>Residential Plans</span><span>My Account</span><span>Contact Us</span></div></div>
+<div><div class="footer-col-head">Support</div><div class="footer-col-links">
+<span class="mkt-inline on" id="ftphone-ong">(888) 555-0001</span>
+<span class="mkt-inline" id="ftphone-pa">(888) 555-0002</span>
+<span class="mkt-inline" id="ftphone-gre">(888) 555-0003</span>
+<span class="mkt-inline" id="ftphone-il">(888) 555-0004</span>
+<span class="mkt-inline" id="ftphone-ies">(888) 555-0005</span>
+</div></div>
+</div>
+<div class="footer-bottom">&copy; 2026 SouthStar Energy Services LLC. All rights reserved.</div>
+</div>
+<div class="ann-wrap">
+<div class="ann ann-b"><strong>Shared component:</strong> Standard footer, unchanged. See the Footer DS context brief.</div>
+</div>
+</div>
+
+<!-- ══════════ STATIC FOOTER (500 fallback, Maintenance) ══════════ -->
+<div class="section chrome-static">
+<span class="sec-num" style="position:absolute; left:-24px; top:8px;">3</span>
+<div class="static-footer">&copy; 2026 SouthStar Energy Services LLC.</div>
+<div class="ann-wrap">
+<div class="ann ann-g"><strong>ERR-1:</strong> Copyright line only. No footer links (they would lead to pages that are also down).</div>
+</div>
+</div>
+
+<div class="doc-footer">
+4037-25 · SouthStar Expanded Markets Redesign · Error Pages Wireframe · IfThen Digital · November 2026<br/>
+For design guidance only, not production copy. Phone numbers are placeholders. Deep links: ?page=404|500full|500fb|maint &amp;market=ong|pa|gre|il|ies &amp;vp=desktop|mobile
+</div>
+
+</div>
+
+<script>
+var MARKETS = ['ong','pa','gre','il','ies'];
+var PAGES = ['404','500full','500fb','maint'];
+
+function setMarket(m) {
+  if (MARKETS.indexOf(m) === -1) return;
+  MARKETS.forEach(function(k) {
+    var b = document.getElementById('mkt-btn-' + k);
+    if (b) b.classList.toggle('active', k === m);
+  });
+  document.body.classList.remove('mkt-ong','mkt-pa','mkt-gre','mkt-il','mkt-ies');
+  document.body.classList.add('mkt-' + m);
+  document.querySelectorAll('.mkt-inline').forEach(function(el) { el.classList.remove('on'); });
+  document.querySelectorAll('.mkt-inline[id$="-' + m + '"]').forEach(function(el) { el.classList.add('on'); });
+  // IES: 2-item nav, no Search (IES nav exception, reverted 2026-08-31, §A.19)
+  var ies = m === 'ies';
+  document.getElementById('nav-standard').classList.toggle('on', !ies);
+  document.getElementById('nav-ies').classList.toggle('on', ies);
+  document.getElementById('nav-search').style.display = ies ? 'none' : '';
+}
+
+function setPage(p) {
+  if (PAGES.indexOf(p) === -1) return;
+  PAGES.forEach(function(k) {
+    document.body.classList.remove('is-page-' + k);
+    var b = document.getElementById('pg-btn-' + k);
+    if (b) b.classList.toggle('active', k === p);
+  });
+  document.body.classList.add('is-page-' + p);
+}
+
+function setViewport(v) {
+  var mob = v === 'mobile';
+  document.body.classList.toggle('is-vp-mobile', mob);
+  document.getElementById('vp-btn-desktop').classList.toggle('active', !mob);
+  document.getElementById('vp-btn-mobile').classList.toggle('active', mob);
+}
+
+function setAnnMode(mode) {
+  document.body.classList.remove('mode-ann-all','mode-ann-openq','mode-ann-clean');
+  document.body.classList.add('mode-ann-' + mode);
+  ['all','openq','clean'].forEach(function(k) {
+    var b = document.getElementById('ann-btn-' + k);
+    if (b) b.classList.toggle('active', k === mode);
+  });
+}
+
+function setChrome(state) {
+  var hidden = state === 'hide';
+  document.body.classList.toggle('is-chrome-hidden', hidden);
+  document.getElementById('esc-hint').style.display = hidden ? 'block' : 'none';
+  document.getElementById('chrome-btn-show').classList.toggle('active', !hidden);
+  document.getElementById('chrome-btn-hide').classList.toggle('active', hidden);
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') setChrome('show'); });
+
+// Init (supports deep links)
+(function() {
+  var q = new URLSearchParams(window.location.search);
+  setPage(q.get('page') || '404');
+  setMarket(q.get('market') || 'ong');
+  setViewport(q.get('vp') || 'desktop');
+  setAnnMode('all');
+  setChrome('show');
+})();
+</script>
+</body>
+</html>
